@@ -1,0 +1,42 @@
+########## addDescriptionAndCheck ##########
+
+
+addDescriptionAndCheck.alan
+
+   10.      Check this Is a
+=====>      1
+
+  *1*   241 E : A Description Check is already defined for class 'dc'. You
+                cannot add it. You can override it by subclassing from class
+                'dc'.
+
+   24.      Check this Is a
+=====>      1
+
+  *1*   241 E : A Description Check is already defined for class 'dcs'. You
+                cannot add it. You can override it by subclassing from class
+                'dcs'.
+
+   26.      Does Say x.
+=====>      1
+
+  *1*   241 E : A Description is already defined for class 'dcs'. You cannot
+                add it. You can override it by subclassing from class 'dcs'.
+
+   35.    Description
+=====>    1
+
+  *1*   241 E : A Description is already defined for class 'ds'. You cannot add
+                it. You can override it by subclassing from class 'ds'.
+
+   45.    Description
+=====>    1
+
+  *1*   241 E : A Description is already defined for class 'ds'. You cannot add
+                it. You can override it by subclassing from class 'ds'.
+
+
+        5 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -1,0 +1,39 @@
+The l Isa location
+End The l.
+
+The o1 Isa object At l
+End The o1.
+
+The c1 Isa object At l
+  Container
+End The c1.
+
+The o2 Isa object At l
+End The o2.
+
+The a1 Isa actor At l
+End The a1.
+
+The a2 Isa actor At l
+  Container
+End The a2.
+
+The i1 Isa object In c1
+End The i1.
+
+The i2 Isa object In a2
+End The i2.
+
+The i3 Isa object In c1
+End The i3.
+
+The i4 Isa object In a2
+End The i4.
+
+The i5 Isa object In c1
+End The i5.
+
+The i6 Isa object In a2
+End The i6.
+
+Start At l.

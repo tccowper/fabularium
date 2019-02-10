@@ -1,0 +1,36 @@
+########## scheduleExpression ##########
+
+
+scheduleExpression.alan
+
+    3.    Has l location.
+=====>          1
+
+  *1*   428 E : Attribute value in reference attribute declaration must refer
+                to an instance or event.
+
+   11.    Schedule x Of l After 0.
+=====>             1
+
+  *1*   315 E : Attribute not defined for 'l'.
+
+   12.    Cancel x Of l.
+=====>           1
+
+  *1*   315 E : Attribute not defined for 'l'.
+
+   17.    Schedule object After 0.
+=====>             1
+
+  *1*   319 E : Identifier 'object' is not of correct type for this context.
+
+   18.    Cancel object.
+=====>           1
+
+  *1*   319 E : Identifier 'object' is not of correct type for this context.
+
+
+        5 error(s).
+        No detected warnings.
+        1 informational message(s).
+

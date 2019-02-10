@@ -1,0 +1,116 @@
+########## robertfoo ##########
+Options
+  debug.
+  
+
+
+Add To Every object
+  Is
+    mtest  0.
+End Add To.
+
+Synonyms
+  k = 'choices'.
+  
+
+Syntax
+  'choices' = 'choices'.
+
+Verb 'choices'
+  Does
+    Look.
+End Verb.
+
+
+The case1 Isa location
+  Name 'James Farty'
+  
+  Description
+    "Intro 1. Mission. Description. Character Selection. Choices a, b, c."
+  
+  Exit a To case1a.
+  
+  Exit b To case1b.
+  
+  Exit c To case1c.
+  
+End The case1.
+
+The case1a Isa location
+  Name 'case 1a'
+  
+  Description
+    "Case 1a with choice z."
+    If Random 1 To 4 >2 Then
+      Say 
+      "$nmtest > 2".
+    Else 
+      Say 
+      "$nmtest < 2".
+    End If.
+  
+  Entered
+    Locate hero At case1b.
+End The case1a.
+
+The case1ab Isa location
+  Name 'case 1ab'
+  
+  Description
+    "Case 1ab with choices a,b"
+  
+  Exit a To case1
+    Does
+      If Random 1 To 2 >1 Then
+        Locate hero At case1.
+      Else 
+        Locate hero At case1b.
+      End If.
+  End Exit.
+  
+  Exit b To case1.
+  
+End The case1ab.
+
+The case1ac Isa location
+  Name 'case 1ac'
+  
+  Description
+    "case 1ac with choice a"
+  
+  Exit a To case1.
+  
+End The case1ac.
+
+The case1b Isa location
+  Name 'case 1b'
+  
+  Description
+    "case 1b with choice a"
+  
+  Exit a To case1.
+  
+End The case1b.
+
+The case1c Isa location
+  Name 'case 1c'
+  
+  Description
+    "case 1c with choice a"
+  
+  Exit a To case1.
+  
+End The case1c.
+
+The case2 Isa location
+  Name 'case 2'
+  
+  Description
+    "case 2"
+  
+  Exit a To case1b.
+  
+End The case2.
+
+Start At case1.
+  

@@ -1,0 +1,15 @@
+The e Isa entity
+End the e.
+
+The l Isa location
+  Has i e.
+End The l.
+
+The a Isa actor.
+End The a.
+
+Start At l.
+    Say i Of l.
+    Set i Of l To a.
+    Say i Of l.
+

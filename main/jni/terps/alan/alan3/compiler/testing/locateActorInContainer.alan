@@ -1,0 +1,26 @@
+The l Isa location
+End The l.
+
+Add To Every actor
+  Verb put_in
+    When i Does
+      Locate i In c.
+  End Verb.
+End Add.
+
+Every contObj Isa object
+  Container
+End Every contObj.
+
+The cont Isa contObj
+  Container
+End The cont.
+
+Syntax
+  put_in = put (i) 'in' (c)
+    Where c Isa contObj
+      Else "You can not put anything in that."
+    And i Isa actor
+      Else "You can only put actors into containers ;-)"
+
+Start At l.

@@ -1,0 +1,5 @@
+The l Isa location
+End The l.
+
+Start At l.
+  "You are at" Say Count At l. ".$p"

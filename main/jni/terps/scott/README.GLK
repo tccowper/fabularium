@@ -1,0 +1,28 @@
+To build against a Glk implementation, extract Glk to the directory
+containing the ScottFree sources, and (if necessary), build it.  For
+example, to use xglk, untar the xglk archive, creating an xglk
+directory.  Go into the xglk directory and run "make".
+
+Once this is done, build ScottFree as follows:
+
+make GLK=xglk
+
+GNU make is required, so on some systems, substitute "gmake" for "make".
+
+ScottFree can be built against Gargoyle with some effort.  Gargoyle must
+first be built, and then the follwing files must be copied into the
+existing "gargoyle" directory:
+build/<youros>.release/garglk/libgarglk.so
+build/<youros>.release/garglk/libgarglkmain.a
+garglk/glk.h
+garglk/glkstart.h
+
+A Makefile for Gargoyle already exists, so to build, just run:
+
+make GLK=gargoyle
+
+However, it's probably easier to just download Gargoyle, which already
+contains a copy of ScottFree.
+
+Chris Spiegel
+cspiegel@gmail.com

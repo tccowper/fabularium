@@ -1,0 +1,48 @@
+########## nested_visits ##########
+
+        No warnings or errors detected.
+
+
+
+Inner1
+You have visited outer 0 times before. You have visited inner1 0 times
+before.
+
+> n
+Inner2
+You have visited outer 1 times before. You have visited inner2 0 times
+before.
+
+> e
+Inner3
+You have visited outer 2 times before. You have visited inner3 0 times
+before.
+
+> w
+Inner1
+You have visited outer 3 times before. You have visited inner1 1 times
+before.
+
+> s
+Inner2
+You have visited outer 4 times before. You have visited inner2 1 times
+before.
+
+> n
+Inner3
+You have visited outer 5 times before. You have visited inner3 1 times
+before.
+
+> e
+Inner1
+You have visited outer 6 times before. You have visited inner1 2 times
+before.
+
+> w
+Inner2
+You have visited outer 7 times before. You have visited inner2 2 times
+before.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

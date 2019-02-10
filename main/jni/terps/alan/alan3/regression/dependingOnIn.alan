@@ -1,0 +1,18 @@
+The l Isa location
+End The l.
+
+The c Isa object At l
+  Container
+End The c.
+
+The o Isa object In c
+End The o.
+
+
+Start At l.
+  "O in c?"
+  Depending on o
+  In c Then "Yes, OK."
+  Else "No, *** ERROR ***"
+  End Depend.
+  

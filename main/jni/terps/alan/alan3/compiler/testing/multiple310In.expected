@@ -1,0 +1,17 @@
+########## multiple310In ##########
+
+
+multiple310In.alan
+
+   19.  The weather Isa topic In generalTopics
+=====>                        1  2
+
+  *1*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
+  *2*   310 E : Identifier 'generalTopics' not defined.
+
+
+        2 error(s).
+        No detected warnings.
+        2 informational message(s).
+

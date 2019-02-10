@@ -1,0 +1,65 @@
+########## multclass ##########
+
+Add To Every object
+  Is
+    takable.
+End Add To.
+
+Add To Every actor
+  Is
+    propernamed.
+End Add To.
+
+
+The hero Isa actor
+  
+  Is 
+    containedbya 
+    "nothing".
+End The hero.
+
+Synonyms
+  get = take.
+  
+
+Syntax
+  take = take (dobj)*
+    Where dobj Isa actor ****OR**** object
+      Else 
+        "This message shouldn't show up."
+  
+
+Verb take
+  Check dobj =object
+    Else 
+      If dobj Is propernamed Then
+        "You suspect"
+        Say dobj.
+        "wouldn't care for that."
+      Else 
+        "You suspect the"
+        Say dobj.
+        "wouldn't care for that."
+      End If.
+  And dobj Not In inventory
+    Else 
+      "You already did, remember?"
+  And dobj Is takable
+    Else 
+      "Leave the"
+      Say dobj.
+      "alone."
+  And containedbya Of hero =
+    "nothing"
+    Else 
+      "Not from the"
+      Say containedbya Of hero.
+      "you can't."
+  Does
+    Locate dobj In inventory.
+    "Taken."
+End Verb.
+
+
+Start Here.
+  

@@ -1,0 +1,14 @@
+diff -r agil111src_glk/agt2agx.c terps/agility/agt2agx.c
+8d7
+< 
+diff -r agil111src_glk/gamedata.c terps/agility/gamedata.c
+14d13
+< 
+diff -r agil111src_glk/os_glk.c terps/agility/os_glk.c
+5912a5913,5916
+> #ifdef GARGLK
+>   retfile = fopen(garglk_fileref_get_name(fileref), fdtype);
+> #else
+> 
+5954a5959
+> #endif /* GARGLK */

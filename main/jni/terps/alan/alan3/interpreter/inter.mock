@@ -1,0 +1,25 @@
+/* Mocking inter.c */
+#include "inter.h"
+
+#include "types.h"
+#include "stack.h"
+
+/* TYPES: */
+
+
+/* DATA: */
+
+bool stopAtNextLine;
+int currentLine;
+int recursionDepth;
+
+/* Global failure flag */
+bool fail;
+
+
+/* FUNCTIONS: */
+
+void setInterpreterMock(void (*mockp)(Aaddr adr)) { mock(mockp); }
+void setInterpreterStack(Stack stack) { mock((void *)stack); }
+void interpret(Aaddr adr) { mock(adr); }
+Aword evaluate(Aaddr adr) { return (Aword)mock(adr); }

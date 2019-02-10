@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2017 Tim Cadogan-Cowper.
+  ~
+  ~ This file is part of Fabularium.
+  ~
+  ~ Fabularium is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU General Public License
+  ~ as published by the Free Software Foundation; either version 2
+  ~ of the License, or (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Fabularium; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/glk_file_selector_cell"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginEnd="5sp"
+        android:layout_marginRight="5sp"
+        android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvGlkFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@color/white"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingLeft="5sp"
+        android:paddingRight="5sp"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvGlkFileDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@color/white"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingLeft="5sp"
+        android:paddingRight="5sp"
+        android:textColor="@color/grey_font"
+        android:textSize="12sp" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/GlkFileRename"
+        android:layout_width="30sp"
+        android:layout_height="30sp"
+        android:layout_gravity="center_vertical"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/renameGlkFile"
+        android:padding="5sp"
+        android:focusable="false"
+        android:src="@drawable/ic_mode_edit_white_24dp" />
+
+    <ImageButton
+        android:id="@+id/GlkFileDelete"
+        android:layout_width="30sp"
+        android:layout_height="30sp"
+        android:layout_gravity="center_vertical"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/deleteGLKFile"
+        android:focusable="false"
+        android:paddingLeft="5sp"
+        android:paddingStart="5sp"
+        android:src="@drawable/ic_delete_white_24dp" />
+
+</LinearLayout>

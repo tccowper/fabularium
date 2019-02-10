@@ -1,0 +1,9 @@
+Syntax v = v.
+The l Isa location
+  Verb v
+    Check "hello"
+    Does "again"
+  End Verb v.
+End The l.
+
+Start At l.

@@ -1,0 +1,231 @@
+########## uwe ##########
+Options
+  pack.
+  
+
+
+Add To Every object
+  Is
+    Not entnehmbar.
+    Not zu_öffnen.
+    Not zu_schliessen.
+    geschlossen.
+    Not verschliessbar.
+    verschlossen.
+End Add To.
+
+Synonyms
+  nord, norden = n.
+  süd, süden = s.
+  west, westen = w.
+  ost, osten = o.
+  hinauf, rauf = hoch.
+  hinunter, hinab = runter.
+  hinein, eintreten = rein.
+  hinaus, rausgehen = raus.
+  
+
+
+The wasweissich Isa location
+  
+  Exit n, s, o, w, hoch, runter, rein, raus To wasweissich.
+  
+End The wasweissich.
+Synonyms
+  der, die, das, den, dem = 'the'.
+  alle, alles = all.
+  ausser = but.
+  
+
+Verb 'ende'
+  Does
+    Quit.
+End Verb.
+
+Syntax
+  'ende' = 'ende'.
+
+Synonyms
+  bye, 'exit', 'quit' = ende.
+  
+
+Verb 'schau'
+  Does
+    Look.
+End Verb.
+
+Syntax
+  'schau' = 'schau'.
+
+Synonyms
+  sieh = schau.
+  
+
+Verb 'save'
+  Does
+    Save.
+End Verb.
+
+Syntax
+  'save' = 'save'.
+
+Verb 'load'
+  Does
+    Restore.
+End Verb.
+
+Syntax
+  'load' = 'load'.
+
+Verb inventar
+  Does
+    List inventory.
+End Verb.
+
+Syntax
+  inventar = 'inventar'.
+
+Synonyms
+  was, i = 'inventar'.
+  
+
+Verb weglegen, weglegen1, wegwerfen, hinlegen, hinlegen1
+  Check obj In inventory
+    Else 
+      "Du hast so was gar nicht."
+  Does
+    Locate obj Here.
+    "Weggelegt."
+End Verb.
+
+Syntax
+  weglegen = 'lege' (obj) 'weg'.
+  weglegen1 = 'leg' (obj) 'weg'.
+  wegwerfen = 'wirf' (obj) 'weg'.
+  hinlegen = 'leg' (obj) 'hin'.
+  hinlegen1 = 'lege' (obj) 'hin'.
+
+Verb nimm
+  Check obj Is entnehmbar
+    Else 
+      "Das kannst Du nicht nehmen."
+  And obj Not In inventory
+    Else 
+      "Du hast es bereits."
+  Does
+    Locate obj In inventory.
+    "Ich hab es genommen."
+End Verb.
+
+Syntax
+  nimm = nimm (obj)*
+    Where obj Isa object
+      Else 
+        "You kannst keine Personen nehmen!"
+  
+
+The inventory
+  Container
+    Limits
+      Count 20
+        Else
+          "$nDu kannst nichts mehr targen, es rutscht Dir aus den Händen."
+    Header
+      "Du trägst:"
+    Else
+      "Du stehst mit leeren Händen da."
+End The inventory.
+
+
+The limbo Isa location
+  
+  Exit pause To limbo.
+  
+End The limbo.
+Syntax
+  lies = lies (obj).
+
+"Ich verstehe nicht."
+"Ich verstehe nicht, was Du mit 'alles' meinst."
+"Ich vertsehe nicht, welches Du meinst."
+"Ich verstehe nicht, was Du mit 'sie' meinst."
+"Du kannst nicht auf mehrere Objekte mit '$v' beziehen."
+"Ich kann nicht rauskriegen, was Du mit '$v' willst."
+"Du mußt ein Ding angeben."
+"Es muß ein Ding nach 'aber' folgen."
+"Du kannst 'ausser' nur nach 'alles' benutzen. "
+"'$v' kannst Du nicht mit vielen Dingen machen.."
+"Ich weiß nicht, welches $1 Du meinst."
+"Weit und breit kein $1."
+"Dalang gehts nicht."
+"Das kannst Du nicht tun."
+"'$v d. $1' ist nicht möglich."
+"$v was? Hier gibt es nichts, was dazu geeignet ist."
+"Es gibt"
+"und"
+"hier."
+"ist hier."
+"enthält"
+"und"
+""
+"ist leer."
+"Punkte:"
+"von "
+"Dieses Wort kenne ich gar nicht."
+"<mehr>"
+"(noch mal)"
+"Dateiname zum Speichern"
+"Datei überschreiben?"
+"Sorry, SAVE ging nicht."
+"Sorry, ich kann die Datei nicht öffnen."
+"Sorry, die Datei wurde von einer anderen Version erzeugt."
+"Sorry, diese Datei enthält keinen Spielstand für dieses Adventure."
+"Dateiname zun einlesen"
+"ein"
+
+The bahnsteig Isa location
+  Name 'Bahnsteig von Elsenberg.  S: Bahnhof.'
+  
+  Description
+    "Der Bahnsteig besteht aus einem 2 Meter breiten betonierten Streifen,
+     an dessen Enden Brennesseln und Strauchwerk wachsen."
+  
+  Exit s To bahnhof.
+  
+End The bahnsteig.
+
+The beton Isa object
+  At bahnsteig 
+  Description
+    "Auch im Rißmuster des Betons haben sich bereits Pflanzen angesiedelt."
+  
+End The beton.
+
+The schild Isa object
+  At bahnsteig 
+  Description
+    "Die sonnenbeschienenen Gleise strömen den Geruch von altem Öl aus. Ein
+     Schild warnt vor dem Überschreiten der Gleise."
+  
+  Verb lies
+    Does
+      "$n ___________________________ $n / \ $n | Überschreiten der Gleise
+       | $n | streng verboten. | $n | | $n | Deutsche Reichsbahn | $n
+       \___________________________/"
+  End Verb.
+  
+End The schild.
+
+The bahnhof Isa location
+  Name 'Bahnhofsgebäude.  N: Bahnsteig, S: Straße, O: Telefonzelle, W: Bahnhofstoilette.'
+  
+  Description
+    "Eine flackernede Leuchtstofflampe erhellt das menschenleere Gebäude.
+     Die hölzernen Laden des Schalters sind herabgelassen."
+  
+  Exit n To bahnsteig.
+  
+End The bahnhof.
+
+Start At bahnsteig.
+  

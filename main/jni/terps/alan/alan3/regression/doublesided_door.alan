@@ -1,0 +1,34 @@
+Every doublesided_door Isa object
+  Is Not open.
+  Has otherside hallway_door.
+
+  Description
+    "There is a door here. It is"
+    If This Is Not open Then "closed." Else "open." End If.
+
+  Verb open
+    Does Only
+        Make This open.
+        Make otherside Of This open.
+  End Verb.
+End Every.
+
+The hallway Isa location
+  Exit w To front.
+End The hallway.
+
+The hallway_door Isa doublesided_door At hallway
+  Name door.
+  Has otherside front_door.
+End The hallway_door.
+
+The front Isa location
+  Exit e To hallway.
+End The front.
+
+The front_door Isa doublesided_door At front
+  Name door.
+  Has otherside hallway_door.
+End The front_door.
+
+Start At hallway.

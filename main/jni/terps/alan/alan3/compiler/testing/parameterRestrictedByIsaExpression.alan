@@ -1,0 +1,24 @@
+The l Isa location
+End The l.
+
+Syntax p = p (o) Where o Isa thing Else ""
+
+Add To Every location
+  Is Not lit.
+End Add.
+
+Add To Every thing
+  Verb p
+    Does
+      If o Isa location Then
+        If o Is Not lit Then
+          Make o lit. -- Ok, since restricted by Isa location
+        End If.
+        If o Is Not dark Then -- Error, attribute does not exist anywhere
+          Make o dark. -- Error, attribute does not exist anywhere
+        End If.
+      End If.
+    End Verb.
+End Add.
+
+Start At l.

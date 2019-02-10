@@ -1,0 +1,36 @@
+########## currentInstanceShouldBeResetAfterExtract ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+Bar
+There is a bartender here. The bartender is carrying a glass. A
+slow-moving, traditionally dressed waiter is here. The waiter is carrying 
+a menu.
+
+> take glass
+The bartender will not allow the hero to take anything.
+
+> l
+Bar
+There is a bartender here. The bartender is carrying a glass. A
+slow-moving, traditionally dressed waiter is here. The waiter is carrying 
+a menu. The waiter is annoyed by the presupposition of the bartender.
+
+> take menu
+The waiter is annoyed by the presupposition of the hero. The menu was
+taken by the hero.
+
+> l
+Bar
+There is a bartender here. The bartender is carrying a glass. A
+slow-moving, traditionally dressed waiter is here. The waiter is
+empty-handed. He is rather annoyed.
+
+> 
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

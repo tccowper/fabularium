@@ -1,0 +1,12 @@
+Every heavy_actor Isa actor
+  Has weight 100.
+End Every.
+
+The l Isa location
+End The l.
+
+The hero Isa heavy_actor
+End The hero.
+
+Start At l.
+  Say weight Of hero.

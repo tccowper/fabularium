@@ -1,0 +1,7 @@
+-- Importing itself
+import 'recursiveImports0.alan'.
+
+The l Isa location
+End The l.
+
+Start At l.

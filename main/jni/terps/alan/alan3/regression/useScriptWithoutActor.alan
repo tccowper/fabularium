@@ -1,0 +1,21 @@
+Every scripted_actor Isa actor
+  Script running Description Say The this. "is running."
+  Step ""
+  Initialize
+    Use Script running.
+End Every.
+
+The a1 Isa scripted_actor At l
+End The a1.
+
+The a2 Isa actor At l.
+  Script jumping Description "The a2 is jumping."
+  Step ""
+  Initialize
+    Use Script jumping.
+End The a2.
+
+The l isa location
+End The l.
+
+Start At l.

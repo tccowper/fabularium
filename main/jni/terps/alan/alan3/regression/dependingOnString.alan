@@ -1,0 +1,38 @@
+The l Isa location
+  Has namn "hero".
+End The l.
+
+Start At l.
+
+  Set namn of l To "adam".
+  Depending on namn Of l
+  = "adam" Then "adam"
+  = "bertil" Then "bertil"
+  = "cesar" Then "cesar"
+  = "david" Then "david"
+  End depend.
+
+  Set namn of l To "bertil".
+  Depending on namn Of l
+  = "adam" Then "adam"
+  = "bertil" Then "bertil"
+  = "cesar" Then "cesar"
+  = "david" Then "david"
+  End depend.
+
+  Set namn of l To "cesar".
+  Depending on namn Of l
+  = "adam" Then "adam"
+  = "bertil" Then "bertil"
+  = "cesar" Then "cesar"
+  = "david" Then "david"
+  End depend.
+
+  Set namn of l To "david".
+  Depending on namn Of l
+  = "adam" Then "adam"
+  = "bertil" Then "bertil"
+  = "cesar" Then "cesar"
+  = "david" Then "david"
+  End depend.
+

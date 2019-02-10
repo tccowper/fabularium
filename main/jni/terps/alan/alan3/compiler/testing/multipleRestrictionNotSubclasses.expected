@@ -1,0 +1,21 @@
+########## multipleRestrictionNotSubclasses ##########
+
+
+multipleRestrictionNotSubclasses.alan
+
+   15.    And o Isa takeable Else "Can only m takeables."
+=====>              1
+
+  *1*   427 W : A subsequent restriction for the same parameter ('o') should
+                restrict it further, to a subclass of 'moveable'.
+
+   16.    And o Isa manipulable Else "Can only m manipulables."
+=====>              1
+
+  *1*   427 W : A subsequent restriction for the same parameter ('o') should
+                restrict it further, to a subclass of 'takeable'.
+
+
+        No detected errors.
+        2 warning(s).
+

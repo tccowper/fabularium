@@ -1,0 +1,213 @@
+Introduction
+============
+
+This program grew, somewhat haphazardly, out of two things: I wanted
+to learn about GTK+, and I wanted a better GUI for the Unix version of
+Magnetic. My primary goals with GtkMagnetic is to support all of
+Magnetic's features (such as music, animations and on-line hints)
+while staying reasonably portable. Ideally it should work on all the
+same platforms as GTK+ 2.6, but that remains to be seen.
+
+Feature-wise GtkMagnetic is in pretty good shape, but there are still
+a number of minor cosmetic issues, and quite possibly some outright
+bugs and/or memory leaks that remain to be fixed.
+
+There are already several Magnetic GUIs that will run under Unix, but
+at the time I began working on mine Jeff Mitchell's XMagnetic was an
+"alpha alpha alpha release", Dave Lodge's gMagnetic was an "early
+Beta", and Simon Baldwin's GlkMagnetic hadn't even been released yet.
+
+At the time of writing GtkMagnetic probably has the best support for
+Magnetic 2.x's features, closely following by GlkMagnetic, while
+gMagnetic is the one with the most modern look-and-feel. I haven't
+looked at XMagnetic for a long time since it hasn't been updated for
+Magnetic 2.x yet.
+
+While I obviously prefer GtkMagnetic, you really should look at all of
+them and form your own opinion.
+
+Compiling
+=========
+
+Compiling under Unix should be pretty straightforward, though it will
+probably require some Makefile editing:
+
+   SOUND_SYSTEM indicates which backend will be used for playing the
+   title music. The Makefile lists them in my order of preference.
+
+   MAGNETIC should point to the Generic directory of the original
+   Magnetic source distribution. This is so that the build process
+   will be able to find defs.h and emu.c.
+
+From what I understand, there is an ongoing effort to port GTK+ to
+alternative platforms, e.g. Microsoft Windows. If anyone manages to
+compile GtkMagnetic for any of those, I'd like to hear about it.
+
+Sound backends
+==============
+
+   SMPEG
+
+   This backend uses Loki Software's SDL MPEG Player Library.
+
+   SDL_MIXER
+
+   This backend uses Loki Software's SDL_mixer library. This is
+   slightly silly, because at the time of writing SDL_mixer uses SMPEG
+   for MP3 playback.
+
+   XMMS
+
+   This backend uses the X Multimedia System, which is a WinAmp
+   lookalike for Unix. This is very silly.
+
+   NONE
+
+   This backend doesn't play sounds at all.
+
+For more information about SDL and related libraries, see
+<http://www.libsdl.org>.
+
+For more information about XMMS, see <http://www.xmms.org>.
+
+Performance considerations
+==========================
+
+On my system, GtkMagnetic typically uses less than 1% of the CPU most
+of the time. There really isn't any reason for it to use more than
+that, since it will spend most of the time idling while waiting for
+user input. Though this didn't stop gMagnetic from gobbling up 90+%
+CPU just to do nothing, and the GUI is still pretty sluggish! (Though
+to be fair, this is probably pretty easy to fix. Just turn off the
+main timer when it's not needed.)
+
+The main CPU hog in GtkMagnetic is the animations. This is no problem
+on my system, but here are a few hints which may improve performance
+on low-end systems:
+
+* Use a cheaper interpolation mode. In particular, stay away from the
+  "Hyperbolic" mode. You probably won't be able to tell its results
+  from "Bilinear" anyway.
+
+* Set the image scale factor to 1. That way it won't need to
+  interpolate the picture at all.
+
+* Increase the animation delay, or turn off the animations completely.
+
+Turning up compiler optimizations may help slightly, but probably not
+much. Most of the time-consuming stuff probably happens within the
+bowels of GdkPixbuf, and that should already be optimized.
+
+It may be possible to speed up the animation code a bit. Currently it
+will redraw the entire picture for every animation frame, rather than
+just the areas that change. It should be easy to fix, but I was afraid
+that the image scaling and interpolation would create visible
+artefacts unless the entire image was remade.
+
+Since CPU usage rarely exceeds 20-25% on my system, even with a scale
+factor of 2.0 and Bilinear interpolation, I don't think it's worth the
+bother.
+
+Special commands
+================
+
+In addition to the game's own commands, there are a few that are
+hard-wired into the interpreter:
+
+#UNDO           Undo the most recent command. This may fail in some
+                places, e.g. at "Are you sure?" prompts. It should,
+                however, work just fine at "You have died." prompts.
+
+#SCRIPTING ON   Begin a transcript to file. The transcript will
+#SCRIPT ON      contain both the commands you type and the game's
+                response.
+
+#SCRIPTING OFF  Ends the transcript to file.
+#SCRIPT OFF
+
+#SCRIPT         Toggles the transcripting on or off.
+
+#RECORDING ON   Begins recording your commands to a file. The
+#RECORD ON      recording can be played back later, which may be
+                useful for debugging. With the exception of #SEED,
+                special commands are not recorded.
+
+#RECORDING OFF  Ends the recording to file.
+#RECORD OFF
+
+#RECORD         Toggles the recording on or off.
+
+#REPLAYING ON   Plays back recorded commands.
+#REPLAY ON
+
+#REPLAYING OFF  Stops the playback. Since you won't be able to type
+#REPLAY OFF     any commands during playback, you won't be able to use
+                this command, though it could be inserted into a
+                replay script to terminate it.
+
+#REPLAY         Toggles the playback on or off.
+
+#SEED           Seeds the random number generator. This is useful for
+#SEED number    removing randomness when recording.
+
+Like the standard commands, all the special commands are
+case-insensitive.
+
+A few words on interpolation modes
+==================================
+
+GTK+ 2.x uses the gdk-pixbuf library which, to quote from the
+documentation, provides the following interpolation modes when scaling
+an image:
+
+   GDK_INTERP_NEAREST
+
+   Nearest neighbor sampling; this is the fastest and lowest quality
+   mode. Quality is normally unacceptable when scaling down, but may
+   be OK when scaling up.
+
+   GDK_INTERP_TILES
+
+   This is an accurate simulation of the PostScript image operator
+   without any interpolation enabled. Each pixel is rendered as a tiny
+   parallelogram of solid color, the edges of which are implemented
+   with antialiasing. It resembles nearest neighbor for enlargement,
+   and bilinear for reduction.
+
+   GDK_INTERP_BILINEAR
+
+   Best quality/speed balance; use this mode by default. Bilinear
+   interpolation. For enlargement, it is equivalent to point-sampling
+   the ideal bilinear-interpolated image. For reduction, it is
+   equivalent to laying down small tiles and integrating over the
+   coverage area.
+
+   GDK_INTERP_HYPER
+
+   This is the slowest and highest quality reconstruction function. It
+   is derived from the hyperbolic filters in Wolberg's "Digital Image
+   Warping", and is formally defined as the hyperbolic-filter sampling
+   the ideal hyperbolic-filter interpolated image (the filter is
+   designed to be idempotent for 1:1 pixel mapping).
+
+In reality it is unlikely that you will ever want to scale down the
+images, unless someone ports the interpreter to a hand-held computer,
+so "Nearest" and "Tiles" can be considered as equivalent. They will
+both provide a sharp, albeit slightly blocky, image when scaling up.
+
+"Bilinear" and "Hyperbolic" will produce a smoother, slightly blurry,
+image. I can't tell the difference between the two, so they can
+probably be considered equal as well.
+
+I prefer using the "Bilinear" mode, but on slow computers it may be
+prudent to use "Nearest" or "Tiles" in games with animated pictures.
+Read the section on performance considerations for some further
+elaboration on this.
+
+Changing colours
+================
+
+It is possible to specify the fore- and background colours of the text
+area and statusline, and the background colour of the picture area.
+
+Torbjörn Andersson <d91tan@Update.UU.SE>

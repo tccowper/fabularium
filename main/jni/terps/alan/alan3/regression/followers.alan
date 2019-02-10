@@ -1,0 +1,36 @@
+Every follower Isa actor
+	Has target actor.
+	Initialize
+		Use Script follow For This.
+	Script follow
+		Step
+			If This Not At target Of This Then
+				Say The This. ", searching for" Say The target Of this. ", leaves."
+				Locate This At target Of This.
+				Say The This. "suddenly appears, apparently following"
+				Say The target Of this. "here."
+			End If.
+			Use Script follow For This.
+End Every follower.
+
+The dog Isa follower At l1
+	Has target cat.
+End The dog.
+
+The cat Isa follower At l1
+	Has target mouse.
+End The cat.
+
+The mouse Isa follower At l1
+	Has target hero.
+End The mouse.
+
+The l1 Isa location
+	Exit w to l2.
+End The l1.
+
+The l2 Isa location
+	Exit e To l1.
+End The l2.
+
+Start At l1.

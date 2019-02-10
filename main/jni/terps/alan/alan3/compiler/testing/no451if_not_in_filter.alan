@@ -1,0 +1,11 @@
+The l Isa location
+End The l.
+
+The box Isa object At l
+  Container
+End The box.
+
+Start At l.
+  Locate Random In box Here.
+  For Each o In box Do "" End For.
+  If box In box Then "" End If.

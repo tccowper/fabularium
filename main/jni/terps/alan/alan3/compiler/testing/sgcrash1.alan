@@ -1,0 +1,40 @@
+-------------- Enclosure number 2 ----------------
+the point isa location
+end the point.
+
+the glasses isa object at oldbooks
+is wearable.
+article "some"
+end the glasses.
+
+the  radio isa object
+is switchable.
+end the radio.
+
+
+the glass isa object at oldbooks
+container
+
+verb examine,look_at
+does
+list glass.
+end verb.
+
+end the glass.
+
+the water isa object in glass
+is drinkable.
+article "some"
+
+end the water.
+
+
+the chocolate isa object in box
+is
+  edible.
+  weight 1.
+end the chocolate.
+
+
+-----------------------------------
+start at point.

@@ -1,0 +1,91 @@
+The nowhere Isa location
+    Exit e, w, s, n To nowhere.
+End The nowhere.
+
+The loc Isa location
+  Exit w To loc
+    Check hero Is small
+      Else "You must be small to go there (exit check)."
+  End Exit.
+
+  Exit e To nowhere
+    Check "You can't go there (unconditional exit check)."
+  End Exit e.
+
+End The.
+
+The hero Isa actor
+  Is Not small.
+  Container.
+End The hero.
+
+Syntax
+  take = take (o)*
+    Where o Isa object
+      Else "You can only take objects (syntax restriction)."
+
+Add To Every thing
+  Verb take
+    Check o Isa object
+      Else "You can only take objects (verb check)."
+    Does
+      Locate o In hero.
+      "Taken."
+  End Verb.
+End Add.
+
+
+Syntax
+  steal = steal (o)*
+    Where o Isa treasure
+      Else "You can only steal treasures (syntax restriction)."
+
+Add To Every thing
+  Verb steal
+    Check o Isa treasure
+      Else "You can only steal treasures (verb check)."
+    Does
+      Locate o In hero.
+      "Stolen."
+  End Verb.
+End Add.
+
+Every animal Isa object
+End Every animal.
+
+Syntax
+  pat = pat (o)*
+    Where o Isa animal
+      Else "You can only pat animals (syntax restriction)."
+
+Add To Every thing
+  Verb pat
+    Check o Isa animal
+      Else "You can only pat animals (verb check)."
+    Does
+      "Patted."
+  End Verb.
+End Add.
+
+
+The act Isa actor At loc
+  Container
+    Extract Check "You can't take it from the act (extract check)."
+End The act.
+
+Every treasure Isa object In act
+End Every treasure.
+
+The key Isa object At loc
+End The key.
+
+The coin Isa treasure
+End The coin.
+
+The chair Isa object At loc
+  Verb take
+    Check "You can't take the chair (verb check)."
+  End Verb.
+End The chair.
+
+Start At loc.

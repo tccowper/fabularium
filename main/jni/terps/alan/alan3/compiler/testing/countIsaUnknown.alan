@@ -1,0 +1,6 @@
+The l Isa location
+  Has i 0.
+End The l.
+
+Start At l.
+  Set i Of l To Count Isa x.

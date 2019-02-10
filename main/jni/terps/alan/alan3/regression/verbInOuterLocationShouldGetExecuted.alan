@@ -1,0 +1,21 @@
+Syntax x = x.
+
+The outer Isa location
+  Description
+    "The outer is described."
+  Verb x
+    Does
+      "This is x'ing the outer."
+  End Verb.
+End The outer.
+
+The inner Isa location At outer
+  Description
+    "The inner is described."
+  Verb x
+    Does
+      "This is x'ing the inner."
+  End Verb.
+End The inner.
+
+Start At inner.

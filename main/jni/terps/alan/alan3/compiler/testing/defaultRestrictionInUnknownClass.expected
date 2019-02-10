@@ -1,0 +1,15 @@
+########## defaultRestrictionInUnknownClass ##########
+
+
+defaultRestrictionInUnknownClass.alan
+
+    1.  The x Isa unknown
+=====>            1
+
+  *1*   310 E : Identifier 'unknown' not defined.
+
+
+        1 error(s).
+        No detected warnings.
+        2 informational message(s).
+

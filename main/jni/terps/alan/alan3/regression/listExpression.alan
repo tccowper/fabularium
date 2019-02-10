@@ -1,0 +1,16 @@
+The l Isa location
+End The l.
+
+Every cont Isa object
+  Container
+End Every cont.
+
+The c Isa cont
+End The c.
+
+The o Isa object In c
+  Has c c.
+End The o.
+
+Start At l.
+  List c Of o.

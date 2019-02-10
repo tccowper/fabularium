@@ -1,0 +1,26 @@
+########## outdoorItemsWithNestedInheritedLocations ##########
+
+        No warnings or errors detected.
+
+
+
+L1
+
+> x sky
+The sky
+
+> x ground
+The ground
+
+> e
+L2
+
+> x sky
+I can't see any sky here.
+
+> x ground
+I can't see any ground here.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

@@ -1,0 +1,19 @@
+Syntax x = x (c).
+
+Every coin Isa object
+  Name coin
+  Verb x
+    Does "You x" Say the c. "."
+  End Verb.
+End Every coin.
+
+The cent Isa coin At l
+End The cent.
+
+The dime Isa coin At l
+End The dime.
+
+The l Isa location
+End The l.
+
+Start At l.

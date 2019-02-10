@@ -1,0 +1,35 @@
+########## nestedEntered ##########
+
+        No warnings or errors detected.
+
+
+
+Other
+
+> w
+You are now entering the outer area. You are now entering the inner area.
+
+Inner
+
+> w
+You are now entering the outer area. You are now entering the second
+inner area.
+
+Second
+
+> e
+You are now entering the outer area. You are now entering the inner area.
+
+Inner
+
+> e
+Other
+
+> w
+You are now entering the outer area. You are now entering the inner area.
+
+Inner
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

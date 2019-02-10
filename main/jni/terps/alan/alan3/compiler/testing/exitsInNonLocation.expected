@@ -1,0 +1,24 @@
+########## exitsInNonLocation ##########
+
+
+exitsInNonLocation.alan
+
+    1.  The nonLocation
+=====>      1
+
+  *1*   429 E : No inheritance defined, everything must inherit from some
+                class.
+  *1*   352 E : Instance 'nonLocation' does not inherit from 'location', but
+                has EXITs, which can never be traversed.
+
+    5.  The anotherNonLocation Isa object
+=====>      1
+
+  *1*   352 E : Instance 'anotherNonLocation' does not inherit from 'location',
+                but has EXITs, which can never be traversed.
+
+
+        3 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -1,0 +1,23 @@
+The l Isa location
+End The l.
+
+Every cont Isa object
+  With Container
+End Every cont.
+
+The c Isa cont
+End The c.
+
+The o Isa object
+  Has ref l.
+  Has cref c.
+End The o.
+
+Start At l.
+  List unknown.
+  List o.
+  List l.
+  List unknown of unknown.
+  List unknown of o.
+  List ref Of o.
+  List cref Of o.

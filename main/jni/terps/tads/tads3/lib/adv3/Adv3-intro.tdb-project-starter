@@ -1,0 +1,12 @@
+name: Adv3 - Introductory
+sequence: 1
+desc: Create a game based on the Adv3 library, the standard TADS 3
+  foundation for Interactive Fiction. Use this project starter if
+  you're new to TADS 3 and you'd like to see some examples to help
+  you get started. Your new project will be set up with a starter
+  source file containing a fully working game scenario, with examples
+  of the common object types found in most IF games.
+source: samples\startI3.t $.t
+lib: adv3.tl
+define: LANGUAGE=en_us
+define: MESSAGESTYLE=neu

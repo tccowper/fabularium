@@ -1,0 +1,19 @@
+The l Isa location
+End The l.
+
+The cont1 Isa object At l
+  Container Taking object.
+End The cont1.
+
+The cont2 Isa object In cont1
+  Container Taking thing.
+End The cont2.
+
+Add To Every object
+  Has attr 42.
+End Add.
+
+Start At l.
+  For Each i In cont1 Do
+    Say attr Of i. -- i Is defined on objects, but a transitive IN will find thing:s inside cont2
+  End For.

@@ -1,0 +1,16 @@
+Every m Isa object
+  Mentioned "mentioned"
+End Every m.
+
+The nom Isa object At l
+  Name nam nam
+End The nom.
+
+The nm Isa m At l
+  Name nam nam
+End The nm.
+
+The l Isa location
+End The l.
+
+Start At l.

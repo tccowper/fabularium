@@ -1,0 +1,21 @@
+########## near ##########
+
+
+near.alan
+
+    9.    If e near l Then "" End If.
+=====>       1
+
+  *1*   428 E : The What clause of a Where expression must refer to an
+                instance.
+
+   10.    If l near e Then "" End If.
+=====>              1
+
+  *1*   428 E : Expression after AT or NEAR must refer to an instance.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

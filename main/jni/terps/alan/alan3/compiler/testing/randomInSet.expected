@@ -1,0 +1,35 @@
+########## randomInSet ##########
+
+
+randomInSet.alan
+
+   13.    Locate Random In i Of l At l. -- Can't locate integers
+=====>           1
+
+  *1*   428 E : What-clause in Locate statement must refer to an instance.
+
+   14.    Say Random In c Of l + 7. -- Not Ok
+=====>        1                2
+
+  *1*   330 E : Wrong type of expression in context of arithmetic. Must be of
+                integer or string type.
+  *2*   331 E : Incompatible types in expression.
+
+   15.    Say Random In l Of l + 7. -- Not Ok
+=====>        1                2
+
+  *1*   330 E : Wrong type of expression in context of arithmetic. Must be of
+                integer or string type.
+  *2*   331 E : Incompatible types in expression.
+
+   17.    Say Random Directly In c Of l. -- Not OK with directly on a Set
+=====>        1
+
+  *1*   422 E : Explicit transitivity 'Directly' not allowed for Random In
+                operating on a Set.
+
+
+        6 error(s).
+        No detected warnings.
+        1 informational message(s).
+

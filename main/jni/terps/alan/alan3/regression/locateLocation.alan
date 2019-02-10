@@ -1,0 +1,19 @@
+The region Isa location
+End The region.
+
+The stone Isa object At region
+  Verb x
+    Does "There is a stone here."
+  End Verb.
+End The stone.
+
+Syntax x = x (o).
+
+The place Isa location
+  Exit w To place
+    Does
+      Locate place At region.
+  End Exit.
+End The place.
+
+Start At place.

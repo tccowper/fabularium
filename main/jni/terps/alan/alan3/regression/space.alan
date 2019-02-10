@@ -1,0 +1,46 @@
+
+Add To Every thing
+  Is
+    clean.
+
+  Verb clean
+    Does Only
+      "You clean the"
+      If o Is clean Then
+        Say o.
+      Else 
+        Make o clean.
+        "dirty $o"
+      End If.
+      "enthusiastically."
+  End Verb.
+
+
+End Add To.
+
+
+The aaa Isa location
+  
+End The aaa.
+
+The gizmo Isa object
+  At aaa
+  Is 
+    Not clean.
+  Description
+    "There is a"
+    If gizmo Is Not clean Then
+      "dirty"
+    End If.
+    "gizmo here."
+  
+End The gizmo.
+
+Syntax clean = clean (o).
+
+Start At aaa.
+  "demonstration of spacing bug"
+  "$pa double-quoted string is not started with a space if it is printed
+   immediately after a double-quoted string that ended with a dollar-o or
+   dollar-1 (and other dollar-things perhaps?)"
+  "$p'clean gizmo' to see a missing space before word 'enthusiastically'"

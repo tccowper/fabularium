@@ -1,0 +1,16 @@
+Every roomWithDoors Isa location
+  Has doors 2.
+End Every roomWithDoors.
+
+The l Isa roomWithDoors
+  Has doors 4.
+End The l.
+
+The k Isa object
+  Has room l.
+End The k.
+
+Start At l.
+  Say doors Of l.
+  Set doors Of room Of k To 5.
+  Say doors Of l.

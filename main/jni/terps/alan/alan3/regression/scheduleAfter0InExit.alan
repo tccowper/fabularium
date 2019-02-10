@@ -1,0 +1,32 @@
+The bedroom Isa location
+  Exit down To garden.
+End The bedroom.
+
+The garden Isa location
+  EXIT up TO bedroom
+    CHECK ladder IS leaning
+	ELSE
+		  "You can't go that way."
+    DOES "You climb up the shaky ladder construction and reach the upstair window.
+           The window is easy to force open as the frame is rather decayed. However,
+           the rickety ladder gives in under you and collapses onto the ground.
+           You manage to grab the window sill just in time to pull yourself into the house."
+ 		   SCHEDULE welcome_message AT hero AFTER 0.
+    END EXIT.
+End The garden.
+
+The ladder Isa object At garden
+  Is Not leaning.
+  Verb lean
+    Does
+      Make This leaning.
+  End Verb.
+End The ladder.
+
+
+Event welcome_message
+  "Hello..."
+End Event.
+
+Start At garden.
+

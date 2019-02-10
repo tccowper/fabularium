@@ -1,0 +1,86 @@
+The garage Isa location
+End The garage.
+
+The parking_lot Isa location Name 'Large Parking Lot'
+End The parking_lot.
+
+The car Isa object Name little red sporty ferrari Name car
+	At garage
+	Is Not running.
+	Has position 0.
+
+	Verb enter
+		Does
+			Locate hero At inside_car.
+	End Verb enter.
+
+End The car.
+
+The inside_car Isa location Name 'Inside the Ferrari'
+	Description
+		"This sporty little red vehicle can really take you
+		places..."
+	Exit out TO inside_car
+		Check car Is Not running
+			Else "I think you should stop the car before getting
+			out..."
+		Does
+			Depending On position Of car
+				= 0 Then Locate hero At garage.
+				= 1 Then Locate hero At parking_lot.
+				--- Etc.
+			End Depend.
+	End Exit.
+	Verb drive
+		Check car Is Not running
+			Else "You are already driving it!"
+		Does
+			Make car running.
+                        If car At garage Then
+                        	Schedule drive1 After 0.
+                        Else
+                                Schedule drive2 After 0.
+                        End If.
+	End Verb drive.
+
+	Verb park
+		Check car Is running
+			Else "You are not driving it!"
+		Does
+			"You slow to a stop and turn the engine off."
+			Make car Not running.
+			Cancel drive1. Cancel drive2. --- Etc.
+	End Verb park.
+End The inside_car.
+
+Syntax drive = drive.
+Syntax park = park.
+
+Event drive1
+	"You drive out from your garage and approach a large
+		parking lot."
+	Set position Of car To 1.
+	Locate car At parking_lot.
+	Schedule drive2 After 1.
+End Event drive1.
+
+Event drive2
+	"You drive out from the parking lot and approach your own
+	 garage."
+	Set position Of car To 0.
+	Locate car At garage.
+	Schedule drive1 After 1.
+End Event drive2.
+
+
+Verb z
+  Does
+    "..."
+End Verb.
+
+Verb l
+  Does
+    Look.
+End Verb.
+
+Start At garage.

@@ -1,0 +1,17 @@
+########## loopVariableAttributes ##########
+
+
+loopVariableAttributes.alan
+
+   16.      Say a Of f.
+=====>          1
+
+  *1*   316 E : Attribute 'a' is not defined for variable 'f' since the class
+                it is guaranteed to be in this context ('thing') does not have
+                it.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

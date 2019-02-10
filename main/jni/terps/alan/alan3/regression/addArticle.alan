@@ -1,0 +1,28 @@
+The mr_andersson Isa actor
+  Name mr Andersson
+  At matrix.
+End The mr_andersson.
+
+The Neo Isa actor
+End The neo.
+
+The Matrix Isa location
+End The Matrix.
+
+Syntax ask_about = ask (act) about (subj)!
+   Where act Isa actor
+      Else "You can only ask people..."
+   And subj Isa entity
+      Else ""
+
+Add To Every actor
+  Definite Article ""
+  Indefinite Article ""
+  Verb ask_about
+    When act
+      Does
+        Say The act. "does not know anything about" Say The subj."."
+  End Verb.
+End Add To.
+
+Start At matrix.

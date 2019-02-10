@@ -1,0 +1,81 @@
+
+                Welcome to the
+            ALAN ADVENTURE LANGUAGE
+                  3.0beta5
+                 2015-06-23
+
+
+THE NEWS IN SHORT:
+
+Alan is a tool to create text adventure games, interactive fiction,
+text-based simulations for teaching or other similar types of
+interactive software.
+
+This is the third beta version (v3.0beta5) of Alan V3. Alan v3
+features many new enhancements especially object orientation.
+
+This package contains at least the compiler and the interpreter. It
+might also, depending on the distribution package, include the manual,
+the source for the Saviour game, a converter program which takes an
+Alan v2 source file and outputs a V3 version of the same source, the
+source and binary for a sample game. Read the particulars in the
+readme for your platform. If it does not you can find most of that at
+the Alan webspace:
+
+      http://www.alanif.se
+
+The changes between versions is described in the file CHANGES, which
+should also be included.
+
+
+
+THE LONG STORY:
+
+The Alan System is one of the most easy-to-use tools to create
+interactive fiction, aka. adventure games. The Alan System is based on
+a special purpose computer language designed to be easy to use for
+people more interested in authoring and designing games. The system
+consists of a compiler, which compiles Alan source to a compact and
+portable form, and an interpreter that interprets such a form to allow
+playing of the game.
+
+The Alan System is register-ware. To use Alan for authoring and
+distributing your games all you need to do is to register. Registration
+can be done with a simple email to thomas@alanif.se.
+
+Alan V3 has been evolving for a number of years and is now feature
+complete. It is stable enough to use for production type work, but
+will be released as a non-beta when enough beta test experience show
+that it is mature enough. You can help! Report any problem and
+suggestions. You can visit
+
+	http://wwww.alanif.se
+
+to find out more about Alan V3.
+
+You can also find the legacy v2.8 version there. It should now be
+considered completely obsolete and you should only look at it if are
+looking to run some old game. Otherwise you should *really* look at
+V3. Alan may also be found at
+
+	http://www.ifarchive.org
+
+and its mirrors.
+
+For complete copying conditions refer to the file COPYING in the
+distribution or the corresponding appendix in the manual.
+
+If you have any problems don't hesitate to contact the author at the
+following email address:
+
+	thomas@alanif.se
+
+Or join the Alan mailing list, which you can find at the Alan Home
+Pages
+
+	http://www.alanif.se
+
+All communication is welcome! Happy Authoring!
+
+Thomas Nilefalk
+thomas@alanif.se

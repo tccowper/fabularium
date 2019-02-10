@@ -1,0 +1,29 @@
+Syntax open = open (d).
+
+Every door Isa object
+  Name door
+  Is Not open.
+  Has otherside door.   
+                                    
+  Verb open 
+    Does
+      Make otherside Of This open.
+  End Verb.
+End Every.
+
+
+The hall Isa location
+End The hall.
+
+The porch Isa location
+End The porch.
+
+The outsideDoor Isa door At porch
+  Has otherside insideDoor.
+End The outsideDoor.
+
+The insideDoor Isa door At hall
+  Has otherside outsideDoor.
+End The insideDoor.
+
+Start At hall. 

@@ -1,0 +1,18 @@
+Add To Every object
+  Is attr.
+
+  Verb v
+    Does
+      "V"
+  End Verb.
+End Add.
+
+Syntax v = v (o)
+  Where o Isa object
+    Else If o Has attr Then "There should be an error here." End If.
+
+
+The l Isa location
+End The l.
+
+Start At l.

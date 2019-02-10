@@ -1,0 +1,91 @@
+#include <cgreen/mocks.h>
+
+#include "sym.h"
+
+/* USE: */
+#include "types.h"
+#include "elm.h"
+#include "lst.h"
+#include "id.h"
+#include "atr.h"
+#include "context.h"
+#include "scr.h"
+#include "util.h"
+
+/* DATA: */
+
+int frameLevel;
+
+int classCount;
+int instanceCount;
+int eventCount;
+int verbCount;
+
+Symbol *entitySymbol;
+Symbol *thingSymbol;
+Symbol *objectSymbol;
+Symbol *locationSymbol;
+Symbol *actorSymbol;
+Symbol *literalSymbol;
+Symbol *stringSymbol;
+Symbol *integerSymbol;
+Symbol *theHero;
+Symbol *nowhere;
+Symbol *messageVerbSymbolForInstance;
+Symbol *messageVerbSymbolFor2Instances;
+Symbol *messageVerbSymbolForString;
+Symbol *messageVerbSymbolFor2Strings;
+Symbol *messageVerbSymbolFor2Integers;
+
+
+/* FUNCTIONS: */
+
+void idRedefined(Id *id, Symbol *sym, Srcp previousDefinition) { mock(id, sym, &previousDefinition); }
+void initSymbols(void) {}
+void createMessageVerbs(void) {}
+
+Symbol *newSymbol(Id *id, SymbolKind kind) { Symbol *symbol = NEW(Symbol); symbol->string = id->string; symbol->kind = kind; return symbol; }
+Symbol *newInstanceSymbol(Id *id, Properties *props, Symbol *parent) { return (Symbol *)mock(id, props, parent); }
+Symbol *newClassSymbol(Id *id, Properties *props, Symbol *parent) { return (Symbol *)mock(id, props, parent); }
+Symbol *newVerbSymbol(Id *id) { return (Symbol *)mock(id); }
+Symbol *symcheck(Id *id, SymbolKind kind, Context *context) { return (Symbol *)mock(id, kind, context); }
+
+/* Lookup a symbol */
+Symbol *lookup(char idString[]) { return (Symbol *)mock(idString); }
+Script *lookupScript(Symbol *aSymbol, Id *scriptName) { return (Script *)mock(aSymbol, scriptName); }
+Symbol *lookupParameter(Id *parameterId, List *parameterSymbols) { return (Symbol *)mock(parameterId, parameterSymbols); }
+void instanceCheck(Id *id, char *what, char className[]) { mock(id, what, className); }
+Bool isClass(Symbol *symbol) { return (Bool)mock(symbol); }
+Bool isInstance(Symbol *symbol) { return (Bool)mock(symbol); }
+Bool symbolIsContainer(Symbol *symbol) { return (Bool)mock(symbol); }
+Bool symbolIsActor(Symbol *symbol) { return (Bool)mock(symbol); }
+Symbol *containerSymbolTakes(Symbol *symbol) { return (Symbol *)mock(symbol); }
+Symbol *containerMightContain(Symbol *symbol) { return (Symbol *)mock(symbol); }
+void newFrame(void) {}
+void deleteFrame(void) {}
+char *verbHasParametersMessage(Context *context) { return (char *)mock(context); }
+char *verbHasParametersOrNoneMessage(Context *context) { return (char *)mock(context); }
+Symbol *classOfSymbol(Symbol *symbol) { return (Symbol *)mock(symbol); }
+TypeKind basicTypeFromClassSymbol(Symbol *class) { return (TypeKind)mock(class); }
+TypeKind typeOfSymbol(Symbol *symbol) { return (TypeKind)mock(symbol); }
+
+/* Inheritance of a class */
+void setParent(Symbol *child, Symbol *parent) { mock(child, parent); }
+Symbol *parentOf(Symbol *child) { return (Symbol *)mock(child); }
+Bool inheritsFrom(Symbol *child, Symbol *ancestor) { return (Bool)mock(child, ancestor); }
+void inheritCheck(Id *id, char *what, char classOrInstance[], char className[]) { mock(id, what, classOrInstance, className); }
+
+void setParameters(Symbol *verb, List *parameters) { mock(verb, parameters); }
+
+TypeKind classToType(Symbol *symbol) { return mock(); }
+Symbol *definingSymbolOfAttribute(Symbol *symbol, Id *id) { return (Symbol *)mock(symbol, id); }
+Attribute *findInheritedAttribute(Symbol *symbol, Id *id) { return (Attribute *)mock(symbol, id); }
+void numberAllAttributes(void) {}
+void replicateInherited(void) {}
+
+Symbol *find_most_general_contained_class(void) { return (Symbol *)mock(); }
+
+void generateSymbol(Symbol *symbol) { mock(symbol); }
+
+void dumpSymbol(Symbol *symbol) { mock(symbol); }
+void dumpSymbols(void) {}

@@ -1,0 +1,23 @@
+########## containerLimit ##########
+
+        No warnings or errors detected.
+
+
+
+Aaa
+There is a jug, a o1 and a o2 here.
+
+> put o1 in jug
+
+> put o1 in o2
+You can only put things in containers
+
+> put jug in o1
+You can only put things in containers
+
+> put o2 in jug
+Too heavy
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

@@ -1,0 +1,27 @@
+########## stx ##########
+
+Syntax
+  v = 'verb' (o).
+  v2 = 'verb' (o).
+
+Verb v
+  Does
+    "v"
+End Verb.
+
+Verb v2
+  Does
+    "v2"
+End Verb.
+
+
+The o Isa object
+  At l 
+End The o.
+
+The l Isa location
+  
+End The l.
+
+Start At l.
+  

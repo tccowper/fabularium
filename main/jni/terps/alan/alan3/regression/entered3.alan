@@ -1,0 +1,77 @@
+----------------------------------------------------
+the startroom isa location
+description
+"You can follow the sunset to the west."
+
+entered 
+"'Entered' has been triggered:"
+say current actor. 
+"has entered the Startroom."
+
+exit west,w to room2.
+
+end the startroom.
+
+
+
+the room2 isa location
+description
+"You can go east."
+
+entered 
+"'Entered' has been triggered:"
+say current actor.
+"has entered the Room2."
+
+exit east,e to startroom.
+
+end the room2.
+
+
+
+the npc isa actor
+--    at room2
+end the npc.
+
+
+----------------------------------------------------
+syntax 'look' = 'look'.
+verb 'look'
+does
+look.
+if npc  here then
+"The npc doesn't like you looking so he scuttles off"
+if hero at startroom then
+locate npc at room2.
+else
+locate npc at startroom.
+end if. 
+end if.
+end verb 'look'.
+
+syntax shout = shout.
+verb shout
+does
+if npc  not here then
+"The npc comes looking, wondering what all the noise is for."
+locate npc here.
+end if.
+end verb shout.
+
+
+syntax 'quit' = 'quit'.
+verb 'quit'
+does
+quit.
+end verb 'quit'.
+
+--------------------------------------------
+the hero isa actor
+container
+is good.
+end the hero.
+
+
+----------------------------------------------------
+start at startroom.
+"'Look' to move the npc to other room, shout to bring him to current"

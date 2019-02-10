@@ -1,0 +1,9 @@
+#include <cgreen/mocks.h>
+
+#include "exp.h"
+
+#include "context.h"
+
+Symbol *classOfMembers(Expression *exp) { return (Symbol *)mock(exp); }
+void verifySetMember(Expression *theSet, Expression *theMember, char contextMessage[]) { mock(theSet, theMember, contextMessage); }
+void analyzeSetMembers(List *set, TypeKind *type, Symbol **class, Context *context) { mock(set, type, class, context); }

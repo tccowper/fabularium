@@ -1,0 +1,16 @@
+#include <cgreen/cgreen.h>
+#include <cgreen/mocks.h>
+#include "literal.h"
+
+/* DATA */
+int litCount;
+LiteralEntry *literals;
+
+
+/* FUNCTIONS */
+void createIntegerLiteral(int integerValue) { mock(); }
+void createStringLiteral(char *unquotedString) { mock(); }
+void freeLiterals(void) { mock(); }
+int literalFromInstance(int instance) { return (int)mock(); }
+int instanceFromLiteral(int literal) { return (int)mock(); }
+

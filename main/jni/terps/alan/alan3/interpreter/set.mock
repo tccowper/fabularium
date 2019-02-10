@@ -1,0 +1,19 @@
+#include <cgreen/cgreen.h>
+#include <cgreen/mocks.h>
+
+#include "set.h"
+
+
+/* FUNCTIONS: */
+Set *newSet(int size) { return (Set*)mock(); }
+void initSets(SetInitEntry *initTable) { mock(); }
+int setSize(Set *theSet) { return (int)mock(); }
+void clearSet(Set *theSet) { mock(); }
+Set *copySet(Set *theSet) { return (Set*)mock(); }
+Aword getSetMember(Set *theSet, Aint member) { return (Aword)mock(); }
+bool inSet(Set *theSet, Aword member) { return (bool)mock(); }
+void addToSet(Set *theSet, Aword newMember) { mock(); }
+void removeFromSet(Set *theSet, Aword member) { mock(); }
+Set *setUnion(Set *theSet, Set *other) { return (Set*)mock(); }
+bool equalSets(Set *theSet, Set *other) { return (bool)mock(); }
+void freeSet(Set *theSet) { mock(); }

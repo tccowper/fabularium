@@ -1,0 +1,20 @@
+The l Isa location
+  Has e e1.
+  Has l location.
+End The l.
+
+Event e1
+  "event"
+End Event.
+
+Start At l.
+  Schedule x Of l After 0.
+  Cancel x Of l.
+  Schedule l Of l After 0.
+  Cancel l Of l.
+  Schedule e Of l After 0.
+  Cancel e Of l.
+  Schedule object After 0.
+  Cancel object.
+
+

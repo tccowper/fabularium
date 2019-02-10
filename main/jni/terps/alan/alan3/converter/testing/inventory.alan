@@ -1,0 +1,65 @@
+OBJECT ATTRIBUTES
+    takeable.
+
+CONTAINER inventory
+    LIMITS
+	count 3 THEN "You can't pick up anything more."
+
+    HEADER
+	"You are carrying"
+
+    ELSE
+	"You are empty-handed."
+END CONTAINER inventory.
+
+VERB take, get, pick
+    CHECK OBJECT HERE
+        ELSE "I can't see any $o here!"
+    AND OBJECT NOT IN inventory
+	ELSE "You already have the $o."
+    AND OBJECT IS takeable
+	ELSE "You can't take the $o."
+    DOES
+        LOCATE OBJECT IN inventory.
+        "Taken."
+END VERB.
+
+
+VERB drop
+    CHECK OBJECT IN INVENTORY
+	ELSE "You don't have the $o!"
+    DOES
+        LOCATE OBJECT HERE.
+	"Dropped."
+END VERB.
+
+
+SYNTAX i = i.
+SYNONYMS invent = i.
+VERB i
+    DOES
+	LIST inventory.
+END VERB.
+
+
+LOCATION loc
+END LOCATION.
+
+OBJECT o1 At loc
+ARTICLE "an"
+END OBJECT.
+
+OBJECT o2 At loc
+ARTICLE "an"
+END OBJECT.
+
+OBJECT o3 At loc
+ARTICLE "an"
+END OBJECT.
+
+OBJECT o4 At loc
+ARTICLE "an"
+END OBJECT.
+
+
+START AT loc.

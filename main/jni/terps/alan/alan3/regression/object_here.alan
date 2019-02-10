@@ -1,0 +1,43 @@
+The l1 Isa location
+End The l1.
+
+The l2 Isa location
+  Exit w To l1.
+End The l2.
+
+The c1 Isa object At l1
+  Container
+End The c1.
+
+The c2 Isa object At l2
+  Container
+End The c2.
+
+The n1 Isa object In c1
+End The n1.
+
+The n2 Isa object In c2
+End The n2.
+
+The n3 Isa object At l1
+End The n3.
+
+The n4 Isa object At l2
+End The n4.
+
+Start At l1.
+  "N1 Here:" If n1 Here Then                       "Yes, ok."     Else "No, NOT ok" End If. "$n"
+  "N1 Directly Here:" If n1 Directly Here Then     "Yes, NOT ok." Else "No, ok" End If. "$n"
+  "N1 Indirectly Here:" If n1 Indirectly Here Then "Yes, ok."     Else "No, NOT ok" End If. "$n"
+
+  "N2 Here:" If n2 Here Then                       "Yes, NOT ok." Else "No, ok" End If. "$n"
+  "N2 Directly Here:" If n2 Directly Here Then     "Yes, NOT ok." Else "No, ok" End If. "$n"
+  "N2 Indirectly Here:" If n2 Indirectly Here Then "Yes, NOT ok." Else "No, ok" End If. "$n"
+  
+  "N3 Here:" If n3 Here Then                       "Yes, ok."     Else "No, NOT ok" End If. "$n"
+  "N3 Directly Here:" If n3 Directly Here Then     "Yes, ok."     Else "No, NOT ok" End If. "$n"
+  "N3 Indirectly Here:" If n3 Indirectly Here Then "Yes, NOT ok." Else "No, ok" End If. "$n"
+
+  "N4 Here:" If n4 Here Then                       "Yes, NOT ok." Else "No, ok" End If. "$n"
+  "N4 Directly Here:" If n4 Directly Here Then     "Yes, NOT ok." Else "No, ok" End If. "$n"
+  "N4 Indirectly Here:" If n4 Indirectly Here Then "Yes, NOT ok." Else "No, ok" End If. "$n"

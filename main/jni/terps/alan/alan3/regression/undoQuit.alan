@@ -1,0 +1,26 @@
+The loc Isa location
+  Is Not lit.
+  Description
+    If this Is lit Then "It is lit."
+    Else "It is not lit."
+    End If.
+End The loc.
+
+Syntax l = l.
+
+Verb l
+  Does
+    Look.
+End Verb.
+
+Verb q
+  Does
+    Quit.
+End Verb q.
+
+Verb light
+  Does
+    Make loc lit.
+End Verb light.
+
+Start At loc.

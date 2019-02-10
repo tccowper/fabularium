@@ -1,0 +1,30 @@
+########## pot ##########
+
+
+pot.alan
+
+   16.      Does
+=====>      1
+
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'plant', depending on the parameter
+                restrictions. You might want to use a WHEN clause to specify
+                for which parameter this alternative is to be run.
+
+
+        No detected errors.
+        1 warning(s).
+
+
+Try 'x' on the objects, then 'plant the pot plant in the plant pot'.
+
+
+L
+There is a pot plant and a plant pot here.
+
+> plant the pot plant in the plant pot
+Planted.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

@@ -1,0 +1,292 @@
+.TH INFORM "1" "2015-12-20" "Inform v6.33" "Inform v6.33 - interactive fiction story file compiler"
+.SH NAME
+inform \- compile Inform interactive fiction story files to Z-machine or Glulx bytecode
+.SH SYNOPSIS
+.BI "inform " "[options...] infile [outfile]"
+.SH DESCRIPTION
+\fBinform\fP compiles an Inform version 6 story file (usually with the
+extension \fB.inf\fP) into Z-machine or Glulx bytecode which can then be
+executed by a variety of Z-machine or Glulx emulators. If the output
+filename is not explicitly given on the command line, it will be
+constructed from the input filename.
+.PP
+\fBinform\fP's mode of operation can be controlled with switches (one- or
+two-character expressions preceded by a dash), path modifiers (starting with a
+plus sign) and memory strategy modifiers (starting with a dollar sign).
+.SS SWITCHES
+.TP
+.B -a
+trace assembly-language (without hex dumps; see \fB-t\fP)
+.TP
+.B -c
+more concise error messages
+.TP
+.B -d
+contract double spaces after full stops in text
+.TP
+.B -d2
+contract double spaces after exclamation and question marks, too
+.TP
+.B -e
+economy mode (slower): make use of declared abbreviations
+.TP
+.B -f
+frequencies mode: show how useful abbreviations are
+.TP
+.B -g
+traces calls to functions (except in the library)
+.TP
+.B -g2
+traces calls to all functions
+.TP
+.B -h, -h1, -h2
+print usage information
+.TP
+.B -i
+ignore default switches set within the file
+.TP
+.B -j
+list objects as constructed
+.TP
+.B -k
+output Infix debugging information to "gameinfo.dbg" (and switch \fB-D\fP on)
+.TP
+.B -l
+list every statement run through Inform
+.TP
+.B -m
+say how much memory has been allocated
+.TP
+.B -n
+print numbers of properties, attributes and actions
+.TP
+.B -o
+print offset addresses
+.TP
+.B -p
+give percentage breakdown of story file
+.TP
+.B -q
+keep quiet about obsolete usages
+.TP
+.B -r
+record all the text to "gametext.txt"
+.TP
+.B -s
+give statistics
+.TP
+.B -t
+trace assembly-language (with full hex dumps; see \fB-a\fP)
+.TP
+.B -u
+work out most useful abbreviations (very very slowly)
+.TP
+.B -v\fIn\fP
+compile to a specific Z-code version; the default is 5. Available versions are:
+.RS
+.TP
+.B 3
+version-3 ("Standard") story file
+.TP
+.B 4
+version-4 ("Plus") story file
+.TP
+.B 5
+version-5 ("Advanced") story file
+.TP
+.B 6
+version-6 (graphical) story file
+.TP
+.B 8
+version-8 (expanded "Advanced") story file
+.RE
+.TP
+.B -w
+disable warning messages
+.TP
+.B -x
+print # for every 100 lines compiled
+.TP
+.B -y
+trace linking system
+.TP
+.B -z
+print memory map of the Z-machine
+.TP
+.B -B
+use big memory model (for large version-6/version-7 files)
+.TP
+.B -C\fIn\fP
+select text character set (defaults to 1):
+.RS
+.TP
+.B 0
+plain ASCII only
+.TP
+.B 1
+ISO 8859-1 (Latin1)
+.TP
+.B 2
+ISO 8859-2 (Latin2)
+.TP
+.B 3
+ISO 8859-3 (Latin3)
+.TP
+.B 4
+ISO 8859-4 (Latin4)
+.TP
+.B 5
+ISO 8859-5 (Cyrillic)
+.TP
+.B 6
+ISO 8859-6 (Arabic)
+.TP
+.B 7
+ISO 8859-7 (Greek)
+.TP
+.B 8
+ISO 8859-8 (Hebrew)
+.TP
+.B 9
+ISO 8859-9 (Latin5)
+.RE
+.TP
+.B -D
+insert "Constant DEBUG;" automatically
+.TP
+.B -E\fIn\fP
+select error message style (default is Archimedes):
+.RS
+.TP
+.B 0
+Archimedes-style error messages
+.TP
+.B 1
+Microsoft-style error messages
+.TP
+.B 2
+Macintosh MPW-style error messages
+.RE
+.TP
+.B -F1
+use temporary files to reduce memory consumption
+.TP
+.B -G
+compile a Glulx game file
+.TP
+.B -H
+use Huffman encoding to compress Glulx strings
+.TP
+.B -M
+compile as a Module for future linking
+.TP
+.B -S
+compile strict error-checking at run-time (on by default)
+.TP
+.B -U
+insert "Constant USE_MODULES;" automatically
+.TP
+.B -W\fIn\fP
+header extension table is at least n words (n = 3 to 99)
+.TP
+.B -X
+compile with INFIX debugging facilities present
+.SS PATH MODIFIERS
+.TP
+.BI + dir
+set \fBInclude_Path\fP to this directory
+.TP
+.BI +PATH= dir
+change \fBPATH\fP to this directory
+.SS MEMORY STRATEGY MODIFIERS
+Note: it may be necessary to quote these parameters to prevent your shell
+from expanding them.
+.TP
+.B $small
+adjust memory settings to a small game
+.TP
+.B $large
+adjust memory settings to a large game
+.TP
+.B $huge
+adjust memory settings to a huge game (default)
+.TP
+.B $list
+list current memory allocation settings
+.TP
+.BI $? parameter
+explain memory setting \fIparameter\fP (see \fB$list\fP for available
+parameters)
+.TP
+.BI $ parameter = value
+manually set \fIparameter\fP
+
+.SH CAVEATS
+\fBinform\fP is not capable of creating story files conforming to
+versions 1 or 2 of the Z-Machine.
+.br
+Modules cannot be used with Glulx and are deprecated for Z-Machine.
+
+.SH DOCUMENTATION
+The canonical documentation for \fBInform6\fP is the
+\fBInform_Designer's Manual\fP.  This work can be browsed at
+.br
+.RI < http://inform-fiction.org/manual/html/contents.html >
+downloaded from
+.br
+.RI < http://inform-fiction.org/manual/DM4.pdf >
+and purchased in hardcopy at
+.br
+.RI < http://amazon.com/ >
+
+Another noteworthy and somewhat more up-to-date resource is the 
+\fBInform Beginner's Guide\fP.  This work can be downloaded at
+.br
+.RI < http://inform-fiction.org/manual/download_ibg.html >
+
+.SH SEE ALSO
+.IR zcode-interpreter (6)
+and the manuals and language reference which can be found online at
+.br
+.RI < http://inform-fiction.org/manual/ >
+.br
+and
+.br
+.RI < http://inform-fiction.org/inform6.html >.
+
+.SH AUTHOR
+The various iterations of the \fBInform\fP language were created by
+Graham Nelson in 1993.
+
+This manpage was written by Jan Nordholz <hesso@pool.math.tu-berlin.de>
+for the Debian Project and altered by David Griffith <dave@661.org>.
+
+.SH DISTRIBUTION
+The compiler and standard library for \fBInform6\fP are licensed under
+.IP 1)
+The traditional Inform license as described by the DM4, or
+.IP 2)
+The Artistic License 2.0 .
+
+.RE
+Here is the relevant bit from the Inform Designer's Manual, 4th edition:
+
+Copyright on Inform, the program and its source code, its example games 
+and documentation (including this book) is retained by Graham Nelson, 
+who asserts the moral right to be identified as the author under the 
+Copyrights, Designs and Patents Act 1988.  Having said this, I am happy 
+for it to be freely distributed to anybody who wants a copy, provided 
+that: (a) distributed copies are not substantially different from those 
+archived by the author, (b) this and other copyright messages are always 
+retained in full, and (c) no profit is involved.  (Exceptions to these 
+rules must be negotiated directly with the author.)  However, a story 
+file produced with the Inform compiler (and libraries) then belongs to 
+its author, and may be sold for profit if desired, provided that its 
+game banner contains the information that it was compiled by Inform, and 
+the Inform version number.
+
+The Artistic License 2.0 can be found at
+.br
+https://opensource.org/licenses/Artistic-2.0
+.br
+and the file \fBARTISTIC\fP in the \fBInform6\fP distribution archive.

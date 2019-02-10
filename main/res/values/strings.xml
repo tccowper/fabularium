@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2017 Tim Cadogan-Cowper.
+  ~
+  ~ This file is part of Fabularium.
+  ~
+  ~ Fabularium is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU General Public License
+  ~ as published by the Free Software Foundation; either version 2
+  ~ of the License, or (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Fabularium; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+  -->
+<resources>
+    <string name="app_name">Fabularium</string>
+
+    <string name="empty_game_list">Your game library is empty.\n\nSee \'help\' for info on how to download and add games.</string>
+    <string name="empty_project_list">Your project list is empty.\n\nSee \'help\' for info on how to make games.</string>
+    <string name="texteditor_name">Text Editor</string>
+
+    <string name="t3m_header">
+        # TADS 3 makefile\n
+        #\n
+        # Warning: this file was mechanically generated. You may edit this file\n
+        # manually, but your changes might be modified or discarded when\n
+        # you load this file into a TADS development tool. The TADS tools\n
+        # generally retain the comment at the start of this file and the\n
+        # comment marked "##sources" below, but other comments might be\n
+        # discarded, the formatting might be changed, and some option\n
+        # settings might be modified.\n
+    </string>
+
+    <string name="html_licences_path_EN">file:///android_asset/open_source_licences.html</string>
+    <string name="html_help_path_EN">file:///android_asset/help.html</string>
+
+    <string name="title_menu_game_sel_context">Game options</string>
+    <string name="menu_show_metadata">About</string>
+    <string name="menu_get_metadata">Get metadata</string>
+    <string name="menu_remove_from_game_library">Remove</string>
+
+    <string name="dialog_yes">Yes</string>
+    <string name="dialog_no">No</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_got_it">GOT IT</string>
+    <string name="dialog_close">Close</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_get_metadata">Get metadata</string>
+    <string name="dialog_reset_config">Reset config file</string>
+    <string name="dialog_reset_adrift">Reset Adrift 5 library</string>
+    <string name="dialog_sort_asc">Asc</string>
+    <string name="dialog_sort_desc">Desc</string>
+    <string name="dialog_licences_title">Licences and credits</string>
+    <string name="dialog_help_title">Help</string>
+    <string name="dialog_create_new_file_title">Create new file</string>
+    <string name="dialog_delete_file_title">Delete</string>
+    <string name="dialog_rename_file_title">Rename</string>
+    <string name="dialog_file_properties_title">Properties</string>
+    <string name="dialog_create_new_folder_title">Create new folder</string>
+    <string name="dialog_project_metadata_saved">Saved project metadata.</string>
+    <string name="dialog_project_metadata_not_saved">Could not save project metadata.</string>
+    <string name="dialog_prog_success_title">Success</string>
+    <string name="dialog_prog_failure_title">Error</string>
+    <string name="dialog_loading_large_file_title">Large file!</string>
+    <string name="dialog_msg_loading_large_file">
+        You are about to load a large (more than 500 kB) file into the text editor. The text editor
+        currently uses Android\'s stock EditText component, which is very sluggish when displaying
+        large files, potentially causing Application Not Responding (ANR) errors. Are you
+        really sure you want to proceed?
+    </string>
+    <string name="dialog_goToFolder_title">Go to folder</string>
+    <string name="dialog_remove_game_title">Remove game from library</string>
+
+    <string name="progress_spinner_title">Please wait</string>
+    <string name="progress_spinner_refresh_projdb">Refreshing project database</string>
+    <string name="progress_spinner_refresh_gamedb">Refreshing game database</string>
+    <string name="progress_spinner_copying_files">Copying items</string>
+    <string name="progress_spinner_copying_assets">Copying assets</string>
+    <string name="progress_spinner_deleting_files">Deleting items</string>
+    <string name="progress_spinner_unzipping_files">Unzipping items</string>
+    <string name="progress_spinner_renaming_files">Renaming items</string>
+    <string name="progress_spinner_default_files">Processing items</string>
+    <string name="progress_spinner_downloading_metadata">Downloading metadata</string>
+    <string name="progress_spinner_reading_files">Reading file(s)</string>
+
+    <string name="glk_exit_prompt">\n\u2014 Game over. Press any key to exit. \u2014</string>
+    <string name="glk_force_quit_title">Exit game</string>
+    <string name="glk_force_quit_message">
+        Are you sure you want to force this game to stop?
+        It\'s better to stop the game by typing \'quit\' as this
+        allows the game to close its resources properly.</string>
+
+    <string name="explore_msg_is_this_a_game">
+        According to your preferences, this is not a text file. If it is a game and you want to play it, please tick it then
+        choose \'add to game list (auto)\' or \'add to game list (manual)\' from the settings menu above. Then go to the
+        PLAY tab and tap on it there to run it. One day the app will allow you to play games directly from this screen.
+    </string>
+
+    <string name="ANDROID_SET_TEXT_BUG_EXPLANATION">
+        This app is running on Android 8 (O) and you want to show a file with more than 170,000 characters.
+        Unfortunately Android 8 has a bug that causes apps using Android text components (like this one)
+        to crash when viewing files of that size (issue #66394813). Google have said they won\'t fix it.
+        Please try to use a different version of Android. To ensure this app doesn\'t crash right now, I can
+        truncate the text. If this is the source code for a TADS 3 game, you
+        could also try splitting it into multiple, smaller files.</string>
+
+    <string name="game_icon">Story icon</string>
+
+    <string name="menu_settings">Settings</string>
+    <string name="menu_sortBy">Sort by</string>
+    <string name="menu_resetConfig">Reset config files</string>
+    <string name="menu_resetAdrift">Reset Adrift 5 library</string>
+    <string name="menu_help">Help</string>
+    <string name="menu_licenses">Licenses</string>
+    <string name="menu_add_to_game_list_auto">Add to Game List (auto)</string>
+    <string name="menu_add_to_game_list_manual">Add to Game List (manual)</string>
+    <string name="menu_refresh_db">Refresh</string>
+    <string name="menu_uncompress">Unzip</string>
+    <string name="menu_agt2agx">Agt2Agx</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_reloadMountPoints">Refresh</string>
+    <string name="menu_copy">Copy</string>
+    <string name="menu_move">Move</string>
+    <string name="menu_rename">Rename</string>
+    <string name="menu_properties">Properties</string>
+    <string name="menu_goToShortcuts">Go to shortcuts</string>
+    <string name="menu_goToStorage">Go to storage</string>
+    <string name="menu_goToDir">Go to folder</string>
+    <string name="menu_new_folder">New folder</string>
+    <string name="menu_new_file">New file</string>
+    <string name="menu_go_to_parent_folder">Go to parent</string>
+    <string name="menu_save_text_file">Save</string>
+    <string name="menu_search_text_file">Search</string>
+    <string name="menu_compile">Compile</string>
+    <string name="menu_go_to_line">Go to line</string>
+    <string name="menu_show_line_numbers">Show line numbers</string>
+    <string name="menu_run_project">Run</string>
+    <string name="menu_close_text_file">Close</string>
+
+    <string name="toolbar_button_paste">PASTE HERE</string>
+    <string name="toolbar_button_cancel">CANCEL</string>
+
+    <string name="unknown">Unknown</string>
+
+    <string name="primary_storage">"Primary shared storage"</string>
+    <string name="private_storage">"Private app storage"</string>
+    <string name="secondary_storage">"Secondary storage"</string>
+
+    <string name="ifid">IFID</string>
+    <string name="title">Title</string>
+    <string name="format">Format</string>
+    <string name="compiler">Compiler</string>
+    <string name="compiler_args">Compiler arguments</string>
+    <string name="output_file_path">Output file path</string>
+    <string name="output_format">Output format</string>
+
+    <string name="files">Files</string>
+    <string name="game_library">Game Library</string>
+    <string name="mount_points">Storage locations</string>
+    <string name="shortcuts">Shortcuts</string>
+
+    <string name="select_all">Select all</string>
+
+    <string name="renameGlkFile">Rename</string>
+    <string name="deleteGLKFile">Delete</string>
+
+    <string name="permission_rationale_extstorage">
+        I need your permission to access files in order
+        to run games, save / load progress, etc.</string>
+    <string name="permission_extstorage_denied_app_exit">
+        Cannot show game list or load games as app does not have
+        access to external storage (game data, save files, etc.).</string>
+
+    <!-- Spans within this text are applied to style composing regions
+   within an EditText widget. The text content is ignored and not used. -->
+    <string name="candidates_style" translatable="false"><u>candidates</u></string>
+
+    <!-- KeyboardView - accessibility support -->
+    <!-- Description of the Alt button in a KeyboardView. [CHAR LIMIT=NONE] -->
+    <string name="keyboardview_keycode_alt">Alt</string>
+    <!-- Description of the Cancel button in a KeyboardView. [CHAR LIMIT=NONE] -->
+    <string name="keyboardview_keycode_cancel">Cancel</string>
+    <!-- Description of the Delete button in a KeyboardView. [CHAR LIMIT=NONE] -->
+    <string name="keyboardview_keycode_delete">Delete</string>
+    <!-- Description of the Done button in a KeyboardView. [CHAR LIMIT=NONE] -->
+    <string name="keyboardview_keycode_done">Done</string>
+    <!-- Description of the Mode change button in a KeyboardView. [CHAR LIMIT=NONE] -->
+    <string name="keyboardview_keycode_mode_change">Mode change</string>
+    <!-- Description of the Shift button in a KeyboardView. [CHAR LIMIT=NONE] -->
+    <string name="keyboardview_keycode_shift">Shift</string>
+    <!-- Description of the Enter button in a KeyboardView. [CHAR LIMIT=NONE] -->
+    <string name="keyboardview_keycode_enter">Enter</string>
+
+</resources>

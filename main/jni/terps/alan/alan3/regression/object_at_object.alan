@@ -1,0 +1,88 @@
+The outer Isa location -- #2
+End The outer.
+
+The o Isa object At outer -- #3
+End The o.
+
+The inner1 Isa location At outer -- #4
+End The inner1.
+
+The o1 Isa object At inner1 -- #5
+End The o1.
+
+The inner2 Isa location At outer -- #6
+End The inner2.
+
+The o2 Isa object At inner2 -- #7
+End The o2.
+
+The innermost Isa location At inner1 -- #8
+End The innermost.
+
+The om Isa object At innermost -- #9
+End The om.
+
+Start At inner1.
+  "$n"
+  "o At o:"
+  If o At o Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o At o1:"
+  If o At o1 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o At o2:"
+  If o At o2 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o At om:"
+  If o At om Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o1 At o:"
+  If o1 At o Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o1 At o1:"
+  If o1 At o1 Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o1 At o2:"
+  If o1 At o2 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o1 At om:"
+  If o1 At om Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o2 At o:"
+  If o2 At o Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o2 At o1:"
+  If o2 At o1 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o2 At o2:"
+  If o2 At o2 Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o2 At om:"
+  If o2 At om Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "om At o:"
+  If om At o Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "om At o1:"
+  If om At o1 Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "om At o2:"
+  If om At o2 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "om At om"
+  If om At om Then "yes, ok" Else "no, *** error ***" End If.

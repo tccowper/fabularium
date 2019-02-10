@@ -1,0 +1,1050 @@
+# vi: set ts=2 shiftwidth=2 expandtab:
+#
+# Load and run a version 3.90 game.
+#
+# This script implements the shadowvault walkthrough for The Woods Are Dark.
+# This game has a tricksy "* ball *" task in it that failed with earlier
+# SCARE releases, which is what makes it a decent choice for the test suite.
+# It's also interesting in that it uses the first person, whereas most other
+# games use second person; this helps increase test coverage in general.
+#
+# In a few places the text needed to be changed slightly to, for example
+# correct spelling mistakes, presumed to be a result of the walkthrough not
+# being for the precise same game version as used here.  No game logic changes
+# were required, though.
+#
+
+~ game
+*The Woods Are Dark* Compiled "14 Sep 2003"* Version 3.90*
+
+~
+The Woods Are Dark
+
+Welcome to The Woods Are Dark a new text adventure from Cannibal. Thank you
+for downloading this game and supporting IF and Adrift.
+
+[*] Warning [*]
+
+This is a work of interactive fiction which features mature themes of a
+disturbing nature. If this is not to your taste, or if you are under the age
+of 15, then I suggest you quit now and proceed no further.
+
+Previous works from author Cannibal, including the fairly awful The Night
+That Dripped Blood, can be found at http://www.turntopage.com and downloaded
+for free.
+
+The superb Adrift Generator was crafted by Campbell Wild. His website and a
+thriving community of writers and creators can be found at
+http://www.adrfit.org.uk
+
+[[]MORE[]]
+
+The Woods Are Dark
+The Woods Are Dark
+
+A text adventure by Cannibal.
+
+MENU
+
+1 Play The Woods Are Dark (with full intro)
+
+2 Play The Woods Are Dark (with abridged intro)
+
+3 Play The Woods Are Dark (with no intro)
+
+> 1
+I was thirteen years old when Drew Doherty went crazy and murdered his family
+with a machete.
+
+I had spent the day at the Cliffs of Moher. It was a beautiful place north of
+Lahinch, along the western coast of Ireland and about twenty miles from our
+home town of Black Hill. My Da had invited along the Donnelly and McPhail
+families, which suited me fine, because their children, Stephen and Mary,
+were my best friends. It had been a fantastic day, watching the sea crash
+against the rugged, towering cliffs, flying kites and eating packed lunches,
+exploring and chasing through the Burren, a network of caves and catacombs
+with underground streams, flora and glistening limestone walls. It was one of
+the most charming, poetic and tranquil places in County Clare and it was a
+day that none of us had wanted to end. We had no idea what was happening back
+home. We had no idea of the tragedy that was unfolding.
+
+Our parents had banned us from setting foot in the woods after the murders. I
+remember losing my pocket money for two months and being sent to confession
+because I went up to see the cottage where the Dohertys had lived. Six of us
+had gone that day; Tommy Nesbitt, Catherine McLaughlin, Siobhan Kelly, Mary
+McPhail, Stephen Donnelly and me. Red Loomis, a local man, had caught us
+trying to break in, using a crowbar that Catherine had stolen from her Da's
+garage. Tommy and Siobhan had run off into the surrounding woods but the wily
+old man had caught the rest of us and had driven us back to town. Our parents
+had been furious. I couldn't sit down for a week. We never tried that
+again...
+
+There was something strange about that day because, when we got caught, and
+Tommy and Siobhan ran off, well, Siobhan must have kept running, because she
+never came back to town and we never saw her again. The Guardia were called
+in and asked all of us questions but even they gave up searching for her
+after several weeks. Siobhan had come from a poor home. Her Da, Peter, was in
+the big house for armed robbery and Mrs Kelly was always drunk and waking up
+in a stranger's bed. Rumours spread quickly in a place like Black Hill and
+the crack was that Siobhan had been carrying a wee one belonging to one of
+her mothers many lovers and that was why she had ran away. What was even
+stranger than Siobhan's disappearance was Tommy Nesbitt, who turned up two
+days later, his hair white, and his clothes muddy, shivering, cold and
+babbling nonsense. The priests claimed he was possessed and he was taken
+away. The remaining four of us - Catherine, Mary, Stephen and I - swore a
+pact that day that we would never return to the Doherty cottage.
+
+We kept that pact for five long years...
+
+"It'll be good crack," giggled Catherine, turning round in the passenger seat
+to face me.
+"Aye, so you reckon," I dismissed, sucking milkshake through a straw.
+"Besides, we swore never to go there again."
+"We were thirteen," reminded Stephen, biting into a burger. "We were wee
+stupid kids."
+"Aye, now we're big stupid adults," I added, laughing.
+Stephen grinned and shoveled fries into his mouth. The rain drummed loudly
+off the roof of the car. We were about five miles from Black Hill, parked
+along the coastline.
+"We should go tomorrow," suggested Catherine. "On the anniversary of the
+murders[?]"
+"And stay the night," added Stephen.
+"What[?]" I exclaimed, almost choking on my drink. "Are you some kind of
+eejits[?]"
+"Scared[?]" mocked Catherine. "Afraid Drew Doherty will come back from the
+dead...[?]"
+"Aye, up your hole, Catherine McLaughlin," I snapped.
+"You're scared, aren't you[?]"
+"Leave it, Catherine," cracked Mary, angry with the pair of them.
+"This is gonna be awesome," beamed Stephen, ignoring her. "On the anniversary
+of the Doherty killings."
+"What's the point[?]" I protested. "Why go to an empty old cottage where three
+innocent people were murdered[?]"
+"Aye," smirked Stephen, picking relish from his goatee. "Whatever..."
+"These were Black Hill people, you know," I pleaded. "These were people our
+parents knew."
+The rain continued to beat off the car. The windows had steamed up.
+"John Doherty used to shop at your Da's hardware shop, Stephen. Your Ma used
+to cut Mrs Doherty's hair, Catherine."
+"Aye," continued Mary. "And my wee sister went to school with Melissa
+Doherty. Have you not forgotten the wee girl was only ten years old[?]"
+The two of them turned and looked at the pair of us.
+"Have you forgotten about the wee lass Siobhan who never came home that day[?]"
+"Oh, God," groaned Catherine. "Not that old story again."
+"Everyone knows she was carrying Philip Dougan's bairn," added Stephen.
+"Aye, well, what about Tommy Nesbitt[?]" argued Mary. "Hair as white as snow at
+thirteen. What happened to him[?] What did he really see out there that day[?]"
+"People go missing here all the time," I continued. "And they are never
+found. No one talks about it. No one has any answers, not even the Guardia."
+They kept looking at me.
+"Why would you want to go there[?]"
+"For the crack," winked Catherine, lighting a cigarette.
+
+I phoned Mary around lunchtime.
+"They're not back," I said.
+"Aye, I know," said Mary.
+I looked out my bedroom window at the teeming rain.
+"What are we going to do[?]"
+"I don't know," she said, gently. "You did warn them not to go. You pleaded
+with them to stay away."
+"I should have stopped them," I said, pacing up and down. "I should have told
+the Guardia or someone."
+"Catch yourself on," admonished Mary. "Stephen and Catherine haven't broken
+any laws. They've just been damn stupid eejits, that's all."
+I felt desperate, almost frantic.
+"When we were young, Mary, everyone teased us about Drew Doherty, that he was
+Black Hill's boogeyman, the most feared and dangerous killer to ever walk
+County Clare."
+"Aye, stories, that's all," said Mary. "We were wee bairns then. You're not
+going to tell me you believe in that nonsense, now are you[?]"
+"I was thinking of going up there to see if they're both okay[?]"
+"No, don't do that. I really don't think that's a good idea..."
+She was right, but I went all the same?
+
+[[]MORE[]]
+
+*
+An hour later, I reached the bridge that spanned Black Hill river. The fast
+flowing water below looked grey and choppy, peppered with falling rain. The
+winding banks of the river, once well kept footpaths and grassy lawns, were
+now rampant with undergrowth and overhanging trees, choked with weeds, strewn
+with litter, abandoned, neglected, forgotten. The location of the bridge
+dated back to the 1720s when the first foundations of Black Hill had been
+laid in County Clare. The original bridge had been constructed of wood and
+had been built by a man named Michael Tanner who, so our Ma's and Da's told
+us, had rode the western coast of Ireland for a hundred days seeking a place
+to call home. One morning, Tanner had found a river and had spurred his horse
+along its banks until he reached deep woodland. He built a small house
+beneath the trees and then built the bridge and named it Black Hill. The
+bridge lost its identity through the passing years and was torn down many
+times but the name remained and that story had long since become the history
+of our town.
+
+The heavy rain continued to lash down from the grey sky and the wind howled
+banshee like through the swaying, groaning trees. A well driven road ran west
+through the woods and in the direction of the Doherty cottage.
+The road east led back to Black Hill but I had no intention of leaving until
+I had found Stephen and Catherine. I could head west.
+
+> verbose
+> notification off
+
+> w
+I headed west.
+*
+Torrential rain streaked across the rutted, potholed road. I was ankle
+deep in mud. The dense, heavily soaked trees cried out as the wind
+seared through them with a biting vengeance. Fear clamped an unrelenting
+hand around my throat, curled its fingers with malevolent delight,
+played and teased with my fears. I shuddered, held my cross tight and
+kept walking, collar turned up, shoulders hunched. Above, pegged from
+treetop to treetop, the sky was rippled sheets of grey and black, shades
+and colours overlapping, violently slashed with jagged arcs of lightning
+and sudden, unsettling crashes of thunder. I could head east towards
+Lark Fall bridge or north along a dirt track towards the Doherty cottage.
+
+> n
+I headed north.
+*
+The narrow dirt road was cut up with tyre tracks. The ground underfoot
+was soggy and mud splashed up my legs. The trees, dripping water,
+pressed in close and tight, shutting out the rumbling sky. Lightning
+shot through the clouds again, followed by another deafening peel of
+thunder. A dead feeling knotted my stomach. The Doherty cottage was
+ahead but there was no sign of Stephen's car. I could head north towards
+the cottage or south back to the road.
+
+> n
+I headed north.
+*
+Black and grey clouds scudded relentlessly above me and the booming
+thunder did nothing to relieve my growing fears. It was here, five years
+ago, that eighteen year old Drew Doherty had taken a machete to his
+family. He had butchered his kin without feeling or remorse and with
+shocking brutality and coldness. The locals had hunted him through the
+woods like a wild beast and when the Guardai arrived, Drew was dead, shot
+twice in the leg and crucified against an old tree.
+The cottage, abandoned since that tragic day, looked rundown and weather
+beaten, with its overgrown, untended front garden, dirt stained
+brickwork, grime smeared windows and sagging grey slate roof. The rain
+continued to pour down and the wind howled through the surrounding
+trees. I could head south along the dirt road, northwest around the side
+of the cottage or in through the front door.
+
+> x garden
+*
+I picked through the rampant weeds and uncut grass and spotted a half
+eaten chicken burger wrapped in a foil bag. I picked it up from the wet
+ground and opened the bag. The meat and bap were stone cold and soft
+from the rain but the food hadn't gone bad. I wondered if this had
+belonged to Stephen or Catherine and slipped it into my pocket.
+
+> nw
+I headed northwest.
+*
+I found myself on a cracked stone path lined with tangled bushes and
+groaning trees. The path curved round the cottage and lead to the front
+and back gardens. There was only one lower floor window on this side of
+the cottage. I could move northeast or southeast.
+
+> ne
+I headed northeast.
+*
+I found myself at the back of the cottage, standing on a paved back yard
+that was bordered with a low, dull grey concrete wall. Rain beat noisily
+off an iron corrugated roof and the wind howled through the surrounding
+trees.
+
+This is where the body of ten year old Melissa Doherty had been found on
+that fateful, tragic day...
+
+I could move southwest along the side of the cottage, east into an
+outhouse or in through the back door.
+
+> e
+I headed east.
+*
+A foul, musty smell lingered in the damp air and filled my nostrils. The
+unpainted brick walls of the outhouse glistened. Large puddles had
+formed on the uneven concrete floor and the sound of dripping water
+unsettled me. Several large oil drums, thick with rust and dirt, were
+standing in one corner, beneath a row of metal shelves. I could also see
+an old pram, covered in cobwebs. The only exit was west.
+
+> x shelves
+*
+I stretched and ran my hand along the top shelf and found an old paint
+brush, thick with dust.
+
+> x drums
+*
+The drums were empty and the smell coming from them forced me to cover
+my mouth and nose. I noticed that one of them had a strip of dull grey
+duct tape stuck to it.
+
+> get tape
+I picked up the strip of duct tape.
+
+> w
+I headed west.
+*
+I found myself at the back of the cottage, standing on a paved back yard
+that was bordered with a low, dull grey concrete wall. Rain beat noisily
+off an iron corrugated roof and the wind howled through the surrounding
+trees.
+
+This is where the body of ten year old Melissa Doherty had been found on
+that fateful, tragic day...
+
+I could move southwest along the side of the cottage, east into an
+outhouse or in through the back door.
+
+> in
+I stepped inside.
+*
+A terrible and musty smell lingered in the kitchen. Insects and spiders
+scuttled into dark corners. Beneath a narrow, dirt smeared window, was a
+stainless steel sink and draining board, thick with rust and grime. On
+the opposite wall was a rickety, cheap wooden unit, made up of shelves
+and drawers, the yellow paint cracked and breaking off in jagged flakes.
+In one corner was a large fridge, streaked with cobwebs. I could move
+out into the back yard or east into the front room.
+
+I could see a window key and a tin of paint.
+
+> get all
+I picked up the window key and the tin of paint.
+
+> open fridge
+*
+Gingerly, I pulled open the fridge door, half expecting a body to tumble
+out. I allowed myself a short laugh, quickly drowned out by an overhead
+crash of thunder. The fridge was empty and the shelves were stained and
+reeked. It was only when I closed the door that I noticed something had
+gotten wedged between the fridge and the wall. I crouched down and
+pulled out a dusty broom handle with no head. It would be a handy weapon
+- I decided to keep it.
+
+> x sink
+*
+I spotted a metal hook lying in the sink amongst the dirt and dust.
+
+> get hook
+I picked up the metal hook.
+
+> attach hook to handle
+It took a few seconds to tape the hook to the end of the broom handle. I
+allowed myself a small smile - what a cool invention.
+
+> e
+I headed east.
+*
+The damp and uneven walls were hung with faded and colourless paper. An old
+brick fireplace was against one wall, the chimney breast thick with dirt
+and grime. The only furniture remaining was a wooden rocking chair,
+covered in cobwebs. I could move north, west or out.
+
+> n
+I headed north.
+*
+The back hallway was cramped and a draught was whipping around my
+ankles. A narrow wooden staircase led upstairs. I could move south, east
+and up.
+
+> u
+I headed up.
+*
+The carpet had been torn up from the landing and the floorboards creaked
+with every step. Outside, the storm continued to rage and beat its ugly
+fists against the cottage. The roof groaned and the occasional sprinkle
+of dust fell from the ceiling. I could move north into Drew's bedroom,
+west into the bathroom, east along the landing or down to the hallway.
+
+> n
+I headed north.
+*
+I felt coldness in the pit of my stomach and a dull numbness in my mind
+as I found myself in the bedroom of killer Drew Doherty. A brutal,
+savage, cold blooded murderer had been spawned inside these walls.
+I looked around the damp smelling bedroom and shivered. Bare wooden
+floorboards streaked with light from a narrow, rain spattered window.
+Against one cracked and damp riddled wall was a heavy looking, wooden
+trunk. Outside, in the treetops, I could see a black cat, staring in at
+me. The only exit was south.
+
+> open window
+*
+I slotted the small key into the lock and with a gentle shove the
+window swung out and the rain tipped in. The black cat raised itself
+from the branch, stretched, and lept into the room, landing perfectly. A
+ferocious gust of wind blew in more rain so I closed the window. The cat
+stared at me with wary green eyes and pointed ears. It soon decided I
+was no threat and found itself a corner to curl up in.
+
+> open trunk
+*
+The wooden trunk was chipped and scarred. The lid creaked open slowly
+and I found inside a fresh bundle of firewood which I decided to take
+with me. There was nothing else but dust and dirt inside. I let the lid
+slam shut.
+
+> feed cat
+I crouched down infront of the cat and took the half eaten burger from
+my pocket. I tossed aside the soggy bap and broke the chicken into small
+pieces. The cat began to tuck in at once and gobbled it all down in no
+time. I smiled and stroked its head and it purred at me. I got to my
+feet and watched the cat slink off and trot downstairs.
+
+> s
+I headed south.
+*
+The carpet had been torn up from the landing and the floorboards creaked
+with every step. Outside, the storm continued to rage and beat its ugly
+fists against the cottage. The roof groaned and the occasional sprinkle
+of dust fell from the ceiling. I could move north into Drew's bedroom,
+west into the bathroom, east along the landing or down to the hallway.
+
+> e
+I headed east.
+*
+I was in the middle of the upstairs landing with a door either side of
+me. The door to John and Cheryl's bedroom was closed. I could move
+north, south, east or west.
+
+> e
+I headed east.
+*
+I found myself at the end of a narrow landing lined with several doors.
+In the ceiling was a wooden trap door with a dusty handle. It was way
+out of my reach. The only exit was west.
+
+> x trap door
+*
+I reached up with the broom and caught the handle on the trap door with
+the hook. I gave it several tugs and the trap door swung open. An
+aluminum ladder, fixed to the back of the trap door, slid down,
+offering easy access.
+
+> u
+Gingerly, I climbed the ladder and pulled myself into the attic.
+*
+Rain drummed against a large overhead window. The attic was gloomy and
+cramped, stacked high with dusty old suitcases and wooden packing
+crates. The only exit was down.
+
+> open suitcases
+*
+I unstrapped and unzipped the suitcases but, oddly, they were empty
+expect for a small collection of dolls house figures.
+
+> open crates
+*
+I prised open several of the crates but found them to contain little of
+interest. An old collection of household junk and not much else. The
+only thing that caught my eye was a framed picture of Cheryl Doherty.
+
+> get all
+I picked up the framed picture and the collection of figures.
+
+> d
+I climbed back down the ladder.
+*
+I found myself at the end of a narrow landing lined with several doors.
+The trap door in the ceiling was open and a narrow aluminium ladder
+offered access to the attic. I could move west or up.
+
+> w
+I headed west.
+*
+I was in the middle of the upstairs landing with a door either side of
+me. The door to John and Cheryl's bedroom was closed. I could move
+north, south, east or west.
+
+> n
+I headed north.
+*
+The rain continued to pelt down from the ragged sky and beat against the
+bedroom window that looked out across miles of woodland. The wallpaper
+that covered the walls, once new and bright, was now old and faded and
+filled the room with a strange, almost unbearable coldness. Once
+brightly shinning yellow was dull and dusty, galloping horses had become
+pale images, sparkling suns were little more than ghostly moons, green
+fields were barren landscapes. I felt an inner surge of sadness. Beneath
+the rain streaked window was a small dolls house. The only exit was south.
+
+> put figures in dolls house
+I crouched down and opened the front of the dolls house again. I
+carefully placed the five figures in different rooms of the house. I
+felt beads of sweat trickle down my face and I frowned. I could hear a
+sound...a thumping...almost...it was a ball...someone was bouncing a
+ball...the sound was growing louder...I got to my feet...and screamed.
+
+"Help me," whispered Catherine, holding out a trembling, blood stained
+hand, a rubber ball slipping from her grasp, striking the floor.
+
+I couldn't see her eyes. I couldn't make out her face but I knew it was
+her. Hair straight and brown, hanging down to her shoulders, matted with
+blood. Her naked body was criss crossed with dozens of open wounds. Her
+blood dripped onto the wooden floor with a deafening splash.
+
+I reeled away, tears in my eyes, shaking my head...
+
+"Why did you let us come here [?]" she barked, her voice dark, gnarled,
+aggressive. "You let us die. You let him take us. You should die as
+well. You should die as well. You should die..."
+
+I passed out...
+
+> l
+*
+The rain continued to pelt down from the ragged sky and beat against the
+bedroom window that looked out across miles of woodland. The wallpaper
+that covered the walls, once new and bright, was now old and faded and
+filled the room with a strange, almost unbearable coldness. Once
+brightly shinning yellow was dull and dusty, galloping horses had become
+pale images, sparkling suns were little more than ghostly moons, green
+fields were barren landscapes. I felt an inner surge of sadness. The
+dolls house had gone. The room was empty. The only exit was south.
+
+I could see a rubber ball.
+
+> get rubber ball
+I picked up the rubber ball.
+
+> s
+I headed south.
+*
+I was in the middle of the upstairs landing with a door either side of
+me. The door to John and Cheryl's bedroom was closed. I could move
+north, south, east or west.
+
+> w
+I headed west.
+*
+The carpet had been torn up from the landing and the floorboards creaked
+with every step. Outside, the storm continued to rage and beat its ugly
+fists against the cottage. The roof groaned and the occasional sprinkle
+of dust fell from the ceiling. I could move north into Drew's bedroom,
+west into the bathroom, east along the landing or down to the hallway.
+
+> d
+I headed down.
+*
+The back hallway was cramped and a draught was whipping around my
+ankles. A narrow wooden staircase led upstairs. I could move south, east
+and up.
+
+> e
+I headed east.
+*
+I swallowed hard as I found myself in the toilet. The bare brick walls
+were riddled with damp. The toilet was rimmed with dirt and cobwebs. I
+could move west. The black cat was behind the toilet, clawing and
+scratching at one of the bricks. The only exit was west.
+
+> x bricks
+*
+I became intrigued and crouched down next to the cat. She rubbed against
+my leg and purred. I ran my hand across the wall where she had been
+scratching and discovered one of the bricks was loose. I gave it a tug
+and revealed a small cubbyhole no bigger than a foot wide. I picked out
+a cheap disposable lighter and a damp packet of stale and old
+cigarettes. I quickly tossed the cigarettes away and slipped the lighter
+into my pocket. Perhaps John Doherty was an ex smoker or something and
+this had been his crafty hiding place for his cigarettes.
+
+"Good lassie," I joked, patting the cat, who bored quickly and slunk off
+out the room.
+
+> w
+I headed west.
+*
+The back hallway was cramped and a draught was whipping around my
+ankles. A narrow wooden staircase led upstairs. I could move south, east
+and up.
+
+> s
+I headed south.
+*
+The damp and uneven walls were hung with faded and colourless paper. An old
+brick fireplace was against one wall, the chimney breast thick with dirt
+and grime. The only furniture remaining was a wooden rocking chair,
+covered in cobwebs. I could move north, west or out.
+
+> light fire
+I crouched down and lay the wood in the hearth. I found some scraps and
+lit them with the lighter. It took a while to get the wood burning but
+soon the room began to fill with warmth.
+
+> sit on chair
+I eased myself into the chair and felt the warmth of the fire. The black
+cat trotted into the room, rolled onto its back and purred contently.
+The tension and fear began to slowly seep away. I rocked backwards and
+forwards, the chair creaking and groaning. This wasn't helping find
+Stephen and Catherine. I got to my feet, plagued with sudden feelings of
+guilt. I resolved to continue searching for my friends when...the front
+door began to creak open slowly?I could hear footsteps on the bare
+wooden floor?I held my breath?I felt my heart slam violently in my
+chest?I turned slowly?my head began to swim?my vision blurred?I couldn't
+see clearly?I couldn't think?I was shaking?I couldn't stop shaking?there
+was someone infront of me?no more than a shape, a shadow, a blur of
+darkness stolen from the dark sky, the screaming, Oh, dear God, the
+screaming, the ugly slap of machete against flesh, the spray of blood,
+the white face of John Doherty, contorted in pain, contorted in fear,
+reeling away from the blows, the blood soaked machete swinging violently
+through the air, hitting him again and again until his body was a mess
+of blood and ripped flesh?the front door slammed open?the wind howled
+through the room?I shielded my eyes?it seemed to last for an
+eternity?and then it stopped?the room was empty?there was no one
+here?the front door was closed?the fire had been reduced to ashes?the
+black cat was nowhere to be seen?the steady downpour of rain outside
+offered a calming hug of reassurance. I took a deep breath and wiped the
+sweat from my brow.
+
+> x fire
+*
+I crouched down and let my hand hover above the ash in the hearth. I
+couldn't feel any heat which was very strange indeed. Gingerly, I began
+to sift through the stone cold ash. I frowned as I caught hold of a
+badly burnt book. It looked like a diary. I pulled it from the hearth
+and brushed flakes of ash and dust from it.
+
+> read diary
+*
+I slowly turned the pages, the badly burnt leafs crumbling between my
+fingers. I choked back salty tears as I realised that the diary had
+belonged to ten year old Melissa Doherty. There was only one entry that
+I could read. It was last entry she had made.
+
+"Mummy and Daddy made dinner tonight. We had chicken. It was lovely. I
+helped Daddy wash up. We then made tea for Mummy and Drew. Drew is my
+special brother. He tells me I am his favourite sister. I make him laugh
+because I tell him he is my favourite brother. I am feeling tired now.
+Drew is going into town tomorrow to run an errand for Daddy. I am going
+to play ball in the backyard before I go and see Shannon. Shannon is my
+best friend.
+
+Night night Mummy Daddy Drew Frank Shannon xxxxx"
+
+I slipped the diary into my pocket and wiped the tears from my eyes.
+
+> w
+I headed west.
+*
+A terrible and musty smell lingered in the kitchen. Insects and spiders
+scuttled into dark corners. Beneath a narrow, dirt smeared window, was a
+stainless steel sink and draining board, thick with rust and grime. On
+the opposite wall was a rickety, cheap wooden unit, made up of shelves
+and drawers, the yellow paint cracked and breaking off in jagged flakes.
+In one corner was a large fridge, streaked with cobwebs. I could move
+out into the back yard or east into the front room.
+
+> out
+I stepped outside.
+*
+I found myself at the back of the cottage, standing on a paved back yard
+that was bordered with a low, dull grey concrete wall. Rain beat noisily
+off an iron corrugated roof and the wind howled through the surrounding
+trees.
+
+This is where the body of ten year old Melissa Doherty had been found on
+that fateful, tragic day...
+
+I could move southwest along the side of the cottage, east into an
+outhouse or in through the back door.
+
+> x rubber ball
+*
+I thought about what I had read in Melissa's burnt diary. I thought
+about how I had built the fire and seen John Doherty. I began to toss
+the rubber ball against the wall in the backyard, catching it in one
+hand, sometimes two. I keep looking over my shoulder, unsure what to expect.
+
+"That's my ball," came a little girl's voice.
+
+I caught the ball and held my breath. I turned slowly around and found
+myself staring down at a little girl. It was Melissa Doherty. Her face
+was deathly pale with dark rings around her dull eyes. Her hair was
+long, black and lank. Her clothes were dark and creased. She didn't look
+wounded. She didn't look hurt. She wasn't a ghost. I...I really didn't
+know what she was...but she was here...standing in the back yard...the
+rain drilling against the corrugated iron roof...staring at me with grey
+eyes and bloodless skin.
+
+"Can I have my ball back, please [?]"
+
+Gingerly, I held out the ball in my shaking hand. She reached up and
+took it from me. Her thin, colourless lips spread into a tiny smile. I
+felt a barrage of emotions rip through me. What was happening here [?]
+What the fuck was going on [?]
+
+"Have you painted my pram yet [?] My Da doesn't have any time to paint my
+pram."
+
+I stared at her, unable to speak.
+
+"If you paint my wee pram I'll give you something."
+
+"I'm looking for my friends," I choked. "Can you help me find them [?]"
+
+Melissa looked up at me with cold, sunken eyes. She was holding a doll.
+It was missing an eye. Its dress was stained with blood.
+
+"I need you to paint my wee pram," she said.
+
+"But I..."
+
+I cut myself short. She was gone. I was alone.
+
+> in
+I stepped inside.
+*
+A terrible and musty smell lingered in the kitchen. Insects and spiders
+scuttled into dark corners. Beneath a narrow, dirt smeared window, was a
+stainless steel sink and draining board, thick with rust and grime. On
+the opposite wall was a rickety, cheap wooden unit, made up of shelves
+and drawers, the yellow paint cracked and breaking off in jagged flakes.
+In one corner was a large fridge, streaked with cobwebs. I could move
+out into the back yard or east into the front room.
+
+> e
+I headed east.
+*
+The damp and uneven walls were hung with faded and colourless paper. An old
+brick fireplace was against one wall, the chimney breast thick with dirt
+and grime. The hearth was filled with ashes. The only furniture
+remaining was a wooden rocking chair, covered in cobwebs. I could move
+north, west or out.
+
+> n
+I headed north.
+*
+The back hallway was cramped and a draught was whipping around my
+ankles. A narrow wooden staircase led upstairs. I could move south, east
+and up.
+
+> u
+I headed up.
+*
+The carpet had been torn up from the landing and the floorboards creaked
+with every step. Outside, the storm continued to rage and beat its ugly
+fists against the cottage. The roof groaned and the occasional sprinkle
+of dust fell from the ceiling. I could move north into Drew's bedroom,
+west into the bathroom, east along the landing or down to the hallway.
+
+> w
+I headed west.
+*
+I found myself in a small, damp smelling bathroom, with bare, creaking
+wooden floorboards and darkly painted, dirt smeared walls. In the centre
+of the room was a large iron bath, thick with rust. The only exit was east.
+
+> x bath
+*
+A shiver danced violently along my spine as I looked at the bath.
+Knuckles whitened as I gripped my cross and spoke a prayer. Lightning
+ripped the sky and thunder boomed. I could feel the sweat trickling down
+my face and running from my armpits. I watched in horror as the taps
+turned and pumped freshly spilt innocent blood. I saw limbs thrusting
+from the bubbling surface...and the screams...chilling, gut wrenching
+screams...I called out in blind panic...taking out my cross, hands
+clammy, fingers trembling...oh, God...the screams...coiling from the
+darkness, seeping from a bubbling cesspit of human depravity; the abyss
+gaped open before me, the horror snaked out its ugly, grasping
+tentacles. I was shocked, revolted, disgusted, bombarded with every pain
+that had been inflicted in this place, every lie that had been told; the
+bell was tolling loud and clear, the awful sounds, the awful
+scenes[?]this was truly a place of abhorrent evil!
+
+I clamped my hands over my ears and screamed[?]
+
+My breath began to slow[?]
+
+I wiped the tears from my eyes and looked around. I could only hear the
+storm outside. The bath was empty. No running taps of blood. I took more
+deep breathes and it was only then I noticed something on the floor. It
+was a small model pram...
+
+> get pram
+I picked up the model pram.
+
+> paint pram
+I made the best I could of it. I lightly covered the model pram with a
+thin coat of pink paint. I sighed and wished I had paid more attention
+in art class.
+
+"Thank you," spoke Melissa.
+
+She was standing infront of me, staring at me with unblinking eyes.
+"Aye, no problem, wee lassie," I smiled.
+
+"I don't like being in this place. I don't want to be here anymore. I
+wish someone would find him so we can be free."
+
+I watched her reach into her pocket and take out a looking glass.
+
+"I hope this helps you find your friends. I wish you would find him.
+Then we could all go to sleep."
+
+"Him [?]" I frowned. "Who do you mean [?]"
+
+"The bad man," said Melissa, pacing up and down. "The bad man who killed
+my Ma and Da and who killed me and Drew."
+
+"What are you talking about [?] Your brother Drew murdered you, Melissa,
+and he can't hurt you anymore."
+
+"It wasn't Drew," she roared, the wounds appearing across her face.
+"That's why we're still here. The bad man killed us. He's been killing
+us forever."
+
+I screwed my eyes tight and screamed. I felt a rush of wind around my
+body, tightening, choking me, seeping in through my nose, my mouth, my
+ears, traveling through every single piece of me until it slammed me
+against the ground and was gone. I got to my feet, slowly, groggy,
+looking around for Melissa, trying to comprehend what she had told
+me...because...that was...no, that was too horrible to believe...that
+Drew Doherty was innocent...and died for nothing...and that...Oh, dear
+God...if he was innocent...then the real killer could still be out here !!
+
+> e
+I headed east.
+*
+The carpet had been torn up from the landing and the floorboards creaked
+with every step. Outside, the storm continued to rage and beat its ugly
+fists against the cottage. The roof groaned and the occasional sprinkle
+of dust fell from the ceiling. I could move north into Drew's bedroom,
+west into the bathroom, east along the landing or down to the hallway.
+
+> n
+I headed north.
+*
+I felt coldness in the pit of my stomach and a dull numbness in my mind
+as I found myself in the bedroom of killer Drew Doherty. A brutal,
+savage, cold blooded murderer had been spawned inside these walls.
+I looked around the damp smelling bedroom and shivered. Bare wooden
+floorboards streaked with light from a narrow, rain spattered window.
+Against one cracked and damp riddled wall was a heavy looking, wooden
+trunk. The only exit was south.
+
+> move trunk
+*
+I dragged the trunk along the wall and spotted a dark smudge behind it.
+I crouched down and realised it was about a dozen or so lines of tiny
+writing that was too small to read.
+
+> read writing
+*
+I took the looking glass from my pocket and held it over the tiny
+writing. There was nothing sinister about them. A harmless sonnet of
+love and devotion or something. It sounded familiar but I couldn't put
+my finger on it. I got to my feet, puzzled, and then it dawned on me; I
+snapped my fingers and smiled, it was an old folk song, written
+by....well, I was never that into folk music...but I recognised it as
+lyrics to an old folk song.
+
+> s
+I headed south.
+*
+The carpet had been torn up from the landing and the floorboards creaked
+with every step. Outside, the storm continued to rage and beat its ugly
+fists against the cottage. The roof groaned and the occasional sprinkle
+of dust fell from the ceiling. I could move north into Drew's bedroom,
+west into the bathroom, east along the landing or down to the hallway.
+
+> e
+I headed east.
+*
+I was in the middle of the upstairs landing with a door either side of
+me. The door to John and Cheryl's bedroom was closed. I could move
+north, south, east or west.
+
+> sing song
+I felt pretty stupid, singing aloud. I had a reasonable voice and I
+could carry a few notes, but I just felt like an idiot singing an old
+Irish folk song in a deserted cottage whilst a storm raged and Stephen
+and Catherine were missing. I sung each and every line and when I
+finished thunder cracked and the rain continued to fall. I scratched my
+head, wondering why I had bothered.
+
+"She used to sing that all the time," said a voice.
+
+I spun round but there was no one around.
+
+"I hated it."
+
+It was a man's voice...but young...Drew Doherty [?]
+
+"I really hated her," spoke the voice. "She was a whore."
+
+"Drew [?]"
+
+Silence.
+
+"Drew, is that you [?]"
+
+Nothing.
+
+"Where's Catherine and Stephen [?] What have you done with them [?]"
+
+> s
+I stepped into John and Cheryl's bedroom. The room beyond was empty. I
+stepped inside. The yellow painted walls were bare and the carpets had
+been removed. A broad window looked out onto the front garden and across
+miles of woodland. The day outside looked grey and the sky threatening.
+The only exit was north.
+
+> hang picture
+I stepped back from the picture and stared at it.
+
+"It's time," said Drew. "Aye, time you saw the truth about this wee town
+of ours."
+
+His young face was battered and bruised.
+
+"I didn't do this...I didn't hurt anyone....I've never hurt anyone in my
+life...look what they did to me [?]"
+
+Iron spikes had been driven through the palms of his hands. "LOOK WHAT
+HE MADE THEM DO TO ME !"
+
+I felt my head swimming, my vision became blurry. I staggered across the
+room and slammed into a wall. I slid to the ground and watched,
+helpless, as the door opened and Cheryl Doherty came into the room
+followed by another man. She quickly stripped off her kitchen apron and
+clothes and slipped naked into a large double bed. The dark haired man
+joined her. I tried to move but I had no strength. The scene was
+spinning out of control - the shapes became more vague - flesh slapped
+against flesh - there was laughter - muted shouting - then anger - the
+door opening - John Doherty storming into the room - shaking his head -
+sobbing - turning to flee - the dark haired man climbed from the bed and
+picked up a machete - oh, God, oh, dear God - it wasn't Drew - it had
+never been Drew - the dark haired man struck John Doherty first, hacking
+and slashing at him. He went out into the back yard and murdered
+Melissa. Cheryl Doherty came hurtling down the stairs, screaming, until
+her screams were silenced and her head was severed...and then
+Drew...poor Drew...coming through the front door...walking into the
+bloodbath...the dark haired man turned and grinned and lay the machete
+down on the floor...and slipped away from the cottage, into the dark,
+into the woods...I...where was I...where...I opened my eyes...
+
+*
+The black night sky was drenched with glittering stars. The wind had
+driven away the storm clouds and the clearing was bathed in silver
+moonlight. The ground, soft and damp from the rain, was strewn with
+fallen leaves and branches.
+
+There was a row of open graves in the centre of the clearing. A large
+broad shouldered man with dark hair was digging a third. He had his back
+to me and was wearing black denim and mud spattered black boots. Hanging
+from his belt was a machete, the blade caked with dried blood.
+
+I could see a long shovel on the ground in front of me.
+
+> get shovel
+He straightened up and turned to face me. Cold steel grey eyes burned
+into me. He grinned and pulled the machete from his belt.
+
+I could see past him and into the open graves. It was Stephen and
+Catherine, bodies twisted and brutalised, hacked and slashed.
+
+I grabbed the shovel from the ground and swung it wildly at the grinning
+maniac. He cut thin air with the machete as he stepped towards me. I
+lashed the side of his face with the shovel. He reeled backwards and I
+hit him a second time, across his skull, then a third, catching his
+throat...I hit him with an upper cut, slamming the shovel into his chin,
+the blow catapulting him into the air and tossing him to the ground...
+
+I heard movement and spun round to see an old, craggy faced man step
+from the trees, clutching a well oiled shotgun.
+
+"Aye," he nodded. "Back to hell with you, Michael Tanner."
+
+The old man nodded at me, then lowered the shotgun.
+
+"I told you when you was a wee bairn not to come into these woods and go
+near the Doherty cottage."
+
+"Drew was innocent," I shouted. "This man killed my friends. I'm certain
+he killed the Doherty family. I've seen things...I've seen things that..."
+
+"Aye, things," nodded the old man, steeping into the moonlight; it was
+then I saw it was Red Loomis. "We've all seen things at that cottage.
+We've seen...people...souls burning with hatred for the one that
+destroyed their lives. Aye, we've all seen things."
+
+"Michael Tanner !" I frowned. "Where do I know that name from [?] Aye, is
+he related to the original Michael Tanner, the man who founded Black Hill [?]"
+
+Red Loomis stared at me.
+
+"He is the original Michael Tanner who founded Black Hill...he's preyed
+on County Clare for hundreds of years now and..."
+
+It came spinning through the moonlight, hard and fast, the machete
+sinking into Red's chest, striking a killer blow, the blade splitting
+flesh and bone. Red stumbled to his knees, screaming, blood gushing from
+the open wound, the shotgun slipping from his grasp. Tanner ripped the
+machete from the old man's chest and used it on him a second time. Red's
+severed head rolled along the ground and stopped at my shoes. I screamed
+as Tanner began to stalk across the clearing towards me...
+
+> get head
+I grabbed the severed head and hurled it at Tanner. It struck him in the
+face and he lost his balance. I ran for the shotgun and snatched it from
+the ground. I spun round and hit him square in the chest. The shell
+lifted him off his feet. I cocked the pump action and fired again and
+again and again. The shells slammed into him one after the other and
+hurled him into the open grave. I stood over him and emptied a few more
+shells into his corpse...
+
+I don't remember how many hours passed before the woods were bathed in
+torchlight. I heard car engines and the beating blades of a helicopter
+overhead. It was all over. The pain and the misery. Black Hill had to
+face the truth of its past that an innocent young man had been murdered
+for crimes he had not committed. I sat at the graves of Stephen and
+Catherine, the empty shotgun across my lap and the blood stained machete
+between my legs. I sat and I sobbed and I waited for the Guardai and the
+locals to find me.
+
+"Hey, you there, put down the weapon."
+
+"I got him," I shouted, getting to my feet, dropping the shotgun. "He's
+dead. He killed my friends."
+
+The sound of the helicopter drowned out my cries. I was surrounded by
+uniforms and a babble of voices.
+
+"It's over," I exclaimed. "It's finished."
+
+I led them to the open grave where Tanner was lying dead, his body
+ripped with shotgun blasts.
+
+"He killed Stephen and Catherine. He killed the Doherty family five
+years ago."
+
+We all stared down into an empty grave...
+
+I'm still here with the Priests. They have looked after me for many
+years. I have my own room with a single window. There are bars on the
+windows but I am not a prisoner and this is not a prison. This is a
+place where we can all be helped. I can see the sunshine through the
+window. I can watch the flowers grow and watch the pigeons gather. The
+walls of my room are painted white. I have a bed and a bible and a cross.
+I've missed my family. I'm finding it hard to picture them now. I'm
+looking forward to seeing them again. I'm looking forward to seeing
+Mary, as well. It's been four years now since they found me cold and
+shivering in the woods, clutching a shotgun and a blood stained machete.
+No one believed I had killed Stephen and Catherine or Red Loomis but...I
+was obviously somewhat disturbed, somewhat troubled...I had babbled
+nonsense about visions and voices and ghosts and...and the Priests had
+thought it best I stay with them.
+
+The Priests have told me I can go home soon...
+
+The Woods Are Dark II...available 2003
+
+Thanks for playing. Cannibal
+
+~game
+*Completed*

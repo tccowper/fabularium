@@ -1,0 +1,16 @@
+########## inheritedAttributeTypeError ##########
+
+
+inheritedAttributeTypeError.alan
+
+    6.    Has open 5.
+=====>        1
+
+  *1*   332 E : Attribute is inherited from class 'door' but does not match the
+                original type (Boolean) which is required.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

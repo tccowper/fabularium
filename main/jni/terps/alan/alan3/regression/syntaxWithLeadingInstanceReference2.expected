@@ -1,0 +1,18 @@
+########## syntaxWithLeadingInstanceReference2 ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a apple here. There is a girl here.
+
+> girl walks north
+She walks, yes, she does...
+
+> girl takes apple
+Now she takes...
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

@@ -1,0 +1,58 @@
+import 'std.i'.
+
+The bedroom isa location
+  Description
+    "You are in your bedroom at your grandmother's house. There is a big comfortable bed here, a dresser, and a door to the north that leads to the hallway."
+  Exit north to hallwayw.
+End The bedroom.
+
+The hallwayw isa location
+   Name Hallway
+   Description
+     "You are in the west end of a west-east hallway. To your north is the Pantry, to the south is your bedroom."
+   Exit north to pantry.
+   Exit south to bedroom.
+   Exit east to hallwaym.
+End The hallwayw.
+
+The hallwaym isa location
+  Name Hallway
+  Description
+    "You are in the middle of an west-east hallway. To your east is the end of the hallway, to the west is the other end of the hallway. To the south is an unused bedroom."
+  Exit south to ubedroom.
+  Exit east to hallwaye.
+  Exit west to hallwayw.
+End The hallwaym.
+
+The ubedroom isa location
+   Name 'Unused Bedroom'
+   Description
+      "You are in a bedroom not currently in use. It has a big comfortable bed, like your room. There is also a dresser in this room."
+   Exit north to hallwaym.
+End The ubedroom.
+
+The hallwaye isa location
+  Name Hallway
+  Description
+     "You are at the east end of a west-east hallway. To the west is the middle of the hallway. To the south is your grandmother's bedroom."
+  Exit south to gbedroom.
+  Exit west to hallwaym.
+End The hallwaye.
+
+The gbedroom isa location
+   Name 'Grandma''s Bedroom'
+   Description
+      "You are in your grandma's bedroom. It has a big comfortable bed, like your room. There is also a dresser in this room."
+   Exit north to hallwaye.
+End The gbedroom.
+
+The pantry isa location
+  Description
+      "The pantry is full of canned foods. There is enough food here for several people to eat for years. To the north is the kitchen, there are hallways to both the south and east."
+  Exit north to ubedroom.
+  Exit south to hallwayw.
+End The pantry.
+
+
+
+Start At bedroom.

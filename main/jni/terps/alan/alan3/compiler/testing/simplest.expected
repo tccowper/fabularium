@@ -1,0 +1,33 @@
+########## simplest ##########
+
+
+simplest.alan
+
+    1.  start at darkroom.
+=====>           1
+
+  *1*   310 E : Identifier 'darkroom' not defined.
+
+    4.  location darkroom 
+=====>  1
+
+  *1*   102 E : Syntax error. Ignoring "location <identifier> name <identifier>
+                <identifier> ...".
+
+    8.        exit north to anotherroom.
+=====>        1
+
+  *1*   102 E : Syntax error. Ignoring "exit <identifier> to <identifier> .
+                ...".
+
+   16.        exit south to darkroom.
+=====>        1
+
+  *1*   102 E : Syntax error. Ignoring "exit <identifier> to <identifier> .
+                ...".
+
+
+        4 error(s).
+        No detected warnings.
+        4 informational message(s).
+

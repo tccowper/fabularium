@@ -1,0 +1,34 @@
+The dog Isa actor
+End The dog.
+
+The thief Isa actor
+End The thief.
+
+Event following
+  For Each act Isa actor Do
+    If act Not At hero Then
+      Locate act At hero.
+      Say The act. "is following you."
+    End If.
+  End For.
+  Schedule following At hero After 1.
+End Event.
+
+The l1 Isa location
+  Exit e To l2.
+End The l1.
+
+The l2 Isa location
+  Exit e To l3.
+End The l2.
+
+The l3 Isa location
+  Exit e To l4.
+End The l3.
+
+The l4 Isa location
+  Exit e To l1.
+End The l4.
+
+Start At l1.
+  Schedule following At hero After 1.

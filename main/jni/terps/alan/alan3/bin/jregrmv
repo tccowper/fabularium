@@ -1,0 +1,34 @@
+#!/bin/bash
+# Move the files with pattern $1 replacing it for the string $2
+if [ $# -ne 2 ] ; then
+  cat << EOF
+Usage: `basename $0` <string> <replacement>
+where
+    <string>      : the string that will be matched to existing filenames with *<string>*
+    <replacement> : the string with which to replace it in the file names
+
+`basename $0` is aimed to rename Jregr testcases, but in fact just
+does a replace of <string> with <replacement> in filenames in the
+current directory.
+
+A special twist is that if the file renamed is a Jregr .expected file
+then the replacement is also performed inside that file so that the
+case name changes in order for the test to pass directly even after
+the name change.
+
+If that is not a problem you can possibly use this to rename any set
+of files matching a string.
+EOF
+  exit
+fi
+
+# Do the replace for all files matching
+for f in *$1*
+do
+  if [[ $f == *.expected ]]
+  then
+    echo sed -i.bak -e s%$1%$2%g $f
+    sed -i.bak -e s%$1%$2%g $f
+  fi
+  git mv $f ${f//$1/$2}
+done

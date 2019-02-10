@@ -1,0 +1,15 @@
+The t Isa thing
+  Description
+    If t Is opaque Then "" End If.
+End The t.
+
+The c Isa object
+  Container
+  Description
+    If c Is opaque Then "" End If.
+End The c.
+
+The l Isa location
+End The l.
+
+Start At l.

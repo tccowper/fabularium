@@ -1,0 +1,41 @@
+The l1 Isa location
+End The l1.
+
+The l2 Isa location
+  Exit w to l1.
+End The l2.
+
+The l3 Isa location
+  Exit w to l2.
+End The l3.
+
+The l4 Isa location
+End The l4.
+
+The o1 Isa object At l1
+End The o1.
+
+The o2 Isa object At l2
+End The o2.
+
+The o3 Isa object At l3
+End The o3.
+
+The o4 Isa object At l4
+End The o4.
+
+Start At l1.
+  If o1 Nearby Then "o1 nearby (ERROR)$n" Else "o1 not nearby (OK)$n" End IF.
+  If o2 Nearby Then "o2 nearby (OK)$n" Else "o2 not nearby (ERROR)$n" End IF.
+  If o3 Nearby Then "o3 nearby (ERROR)$n" Else "o3 not nearby (OK)$n" End IF.
+  If o4 Nearby Then "o4 nearby (ERROR)$n" Else "o4 not nearby (OK)$n" End IF.
+  If l1 Nearby Then "l1 nearby (ERROR)$n" Else "l1 not nearby (OK)$n" End If.
+  If l2 Nearby Then "l2 nearby (OK)$n" Else "l2 not nearby (ERROR)$n" End If.
+
+  Locate hero At l2.
+  If o1 Nearby Then "o1 nearby (ERROR)$n" Else "o1 not nearby (OK)$n" End IF.
+  If o2 Nearby Then "o2 nearby (ERROR)$n" Else "o2 not nearby (OK)$n" End IF.
+  If o3 Nearby Then "o3 nearby (OK)$n" Else "o3 not nearby (ERROR)$n" End IF.
+  If o4 Nearby Then "o4 nearby (ERROR)$n" Else "o4 not nearby (OK)$n" End IF.
+  If l1 Nearby Then "l1 nearby (ERROR)$n" Else "l1 not nearby (OK)$n" End If.
+  If l2 Nearby Then "l2 nearby (ERROR)$n" Else "l2 not nearby (OK)$n" End If.

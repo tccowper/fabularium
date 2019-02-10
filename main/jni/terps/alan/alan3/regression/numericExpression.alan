@@ -1,0 +1,8 @@
+The l Isa location
+End The l.
+
+Start At l.
+  Say 1+1.
+  If 1+2 = 3 Then "1+2=3" End If.
+  If Count Isa object, At l = 8 Then "8" Else "Not 8" End If.
+

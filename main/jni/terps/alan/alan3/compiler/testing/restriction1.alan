@@ -1,0 +1,10 @@
+Syntax x = x (y)
+  Where y Isa object
+    Else Say p. "Should not exist."
+
+The l Isa location.
+  Verb x
+  End Verb x.
+End The l.
+
+Start At l.

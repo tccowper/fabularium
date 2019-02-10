@@ -1,0 +1,18 @@
+########## defaultRestriction ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a o here. There is a a here.
+
+> take o
+You take the o.
+
+> pat a
+That's impossible with the a.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

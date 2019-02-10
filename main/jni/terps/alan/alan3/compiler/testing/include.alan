@@ -1,0 +1,24 @@
+The l Isa location
+  Has nSet {3}.
+  Has iSet {l}.
+  Has emptySet {}.
+End The l.
+
+Every room Isa location
+End Every room.
+
+The r Isa room
+End The r.
+
+Start At l.
+  Include l In nSet Of l.
+  Include l In l.
+  Include r In l:iSet.
+  Include l In unknown of l.
+  Include l In unknown:unknown.
+  Include l In l:unknown.
+  Include 4 In iSet Of l.
+  Include hero In l:iSet.
+  Include 15 in l:iSet.
+  Include nSet Of l In iSet Of l.
+

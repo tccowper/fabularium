@@ -1,0 +1,10 @@
+The l Isa location
+  Is x.
+End The l.
+
+Event x
+  Say Current Actor.
+End Event.
+
+Start At l.
+  Say Current Actor.

@@ -1,0 +1,17 @@
+#!/bin/bash
+# Add the files of a new regression test case to the repository
+if [ $# -ne 2 ] ; then
+    cat <<EOF
+Usage: `basename $0` <original> <copy>
+where
+    <original> : name of the original test case
+    <copy>     : name of the copy
+
+Copy all existing and relevant files for one test case to another.
+At least the .alan file must exist.
+EOF
+  exit
+fi
+cp "$1".alan "$2".alan
+if [ -f "$1".expected ] ; then cp "$1".expected "$2".expected; fi
+if [ -f "$1".input ] ; then cp "$1".input "$2".input ; fi

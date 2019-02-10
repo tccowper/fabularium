@@ -1,0 +1,57 @@
+#
+# Partial Makefile to be included from top level Makefile on Linux
+#
+
+VERSION := $(shell cat NEXTRELEASE)
+
+PLATFORM = linux.i386                         # Since we only distribute 32bit versions
+
+PACKAGE = alan$(VERSION)$(BUILDVERSION).$(PLATFORM).tgz
+
+XPATH := xpath -q -e
+
+
+# Default target
+all : unit build
+
+
+# We need to define how to package on Linux
+packages: alan.readme.linux $(PACKAGE)
+
+$(PACKAGE): bin/alan bin/arun
+	cp bin/alan bin/arun .
+	tar zcvf $(PACKAGE) alan arun alan.readme.linux alan.readme COPYING CHANGES regression/saviour.alan games/adventv3/adventV3.alan
+	-rm alan arun
+
+###############
+# Distribution
+#
+distribution:
+	@if [[ -f BUILD_NUMBER ]] ; then \
+	  echo Should not upload a version with BUILD_NUMBER, remove it first ; \
+	  exit 1 ; \
+	fi
+	$(MAKE) distribution-build distribution-upload
+
+distribution-build:
+	$(MAKE) clean all package
+	$(MAKE) -C interpreter gararun
+
+distribution-upload:
+	alanupload $(PACKAGE) "sdks/linux/"
+	alanupload interpreter/gargoyle-alan3-$(VERSION)$(BUILDVERSION).linux.tgz interpreters/linux
+	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).linux.sh interpreters/linux
+
+
+##########
+# Snapshot
+#
+snapshot-build:
+	$(MAKE) BUILDNUMBER=$(BUILDNUMBER) BUILDVERSION=$(BUILDVERSION) clean all package
+	$(MAKE) -C interpreter BUILDNUMBER=$(BUILDNUMBER) gararun
+
+snapshot-upload:
+	alanupload $(PACKAGE) snapshots/$(BUILDNAME)/
+	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).linux.sh snapshots/$(BUILDNAME)/
+
+include Makefile.common

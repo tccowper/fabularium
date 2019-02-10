@@ -1,0 +1,18 @@
+The l Isa location
+End The l.
+
+The hero Isa actor
+  Container Taking thing.
+    Limits Count 0 Else "You are carrying to much."
+End The hero.
+
+The obj Isa object At l
+End The obj.
+
+Verb x
+  Does
+    Locate obj In hero.
+End Verb.
+
+Start At l.
+  

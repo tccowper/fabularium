@@ -1,0 +1,10 @@
+The l Isa location
+  Has size 42.
+End The l.
+
+Start At l.
+  Depending On size Of l
+  Else "else"
+  Between 1 and 3 Then "between 1 and 3"
+  End Depend.
+  

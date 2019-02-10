@@ -1,0 +1,23 @@
+The l Isa location
+End The l.
+
+Syntax
+  'save' = 'save'.
+
+Verb 'save'
+  Does
+    Save.
+    "Ok."
+End Verb.
+
+Syntax
+  'restore' = 'restore'.
+
+Verb 'restore'
+  Does
+    Restore.
+    "Done.$n"
+    Look.
+End Verb.
+
+Start At l.

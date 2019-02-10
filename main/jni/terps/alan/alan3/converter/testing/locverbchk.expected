@@ -1,0 +1,23 @@
+########## locverbchk ##########
+
+Syntax
+  jump = jump.
+
+Verb jump
+  Does
+    "Oooohiiiiiii!"
+End Verb.
+
+
+The somewhere Isa location
+  Name 'somewhere'
+  
+  Verb jump
+    Check 
+      "You can't do that here."
+  End Verb.
+  
+End The somewhere.
+
+Start At somewhere.
+  

@@ -1,0 +1,23 @@
+########## locationVerb ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+Throw the ball. Then go east to l2 and throw it there.
+
+
+L1
+
+> throw the ball
+You can not throw anything in here.
+
+> e
+L2
+
+> throw the ball
+You throw the ball.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

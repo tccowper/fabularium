@@ -1,0 +1,43 @@
+########## 301 ##########
+
+
+301.alan
+
+    1.  The l Isa location
+=====>      1
+
+  *1*   301 E : 'l' also declared as a Direction.
+
+    2.    Exit l To l.
+=====>              1
+
+  *1*   351 E : Target of an Exit must refer to an instance inheriting from
+                'location'.
+
+    4.    Verb l Does "" End Verb.
+=====>         1
+
+  *1*   301 E : 'l' also declared as a Direction.
+  *1*   232 W : Default syntax for this verb restricted the parameter to class
+                'location', which is probably not what you wanted. Suggest you
+                add an explicit syntax instead.
+
+    8.  Every l Isa location
+=====>        1
+
+  *1*   301 E : 'l' also declared as a Direction.
+
+   11.  Event l "" End Event.
+=====>        1
+
+  *1*   301 E : 'l' also declared as a Direction.
+
+
+
+        208 E : 'l' is not a VERB.
+
+
+        6 error(s).
+        1 warning(s).
+        6 informational message(s).
+

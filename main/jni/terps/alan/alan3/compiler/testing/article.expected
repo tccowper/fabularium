@@ -1,0 +1,25 @@
+########## article ##########
+
+
+article.alan
+
+    2.  Indefinite Article If x Is y Then "hej" End If.
+=====>                        1
+
+  *1*   310 E : Identifier 'x' not defined.
+
+    3.  Definite Article If x Is y Then "hej" End If.
+=====>                      1
+
+  *1*   310 E : Identifier 'x' not defined.
+
+    4.  Negative Article If x Is y Then "hej" End If.
+=====>                      1
+
+  *1*   310 E : Identifier 'x' not defined.
+
+
+        3 error(s).
+        No detected warnings.
+        1 informational message(s).
+

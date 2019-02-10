@@ -1,0 +1,41 @@
+########## undoQuit ##########
+
+        No warnings or errors detected.
+        2 informational message(s).
+
+
+
+Loc
+It is not lit.
+
+> light
+
+> l
+Loc
+It is lit.
+
+> undo
+'light' undone.
+
+> l
+Loc
+It is not lit.
+
+> light
+
+> l
+Loc
+It is lit.
+
+> q
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? undo
+'q' undone.
+
+> l
+Loc
+It is lit.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

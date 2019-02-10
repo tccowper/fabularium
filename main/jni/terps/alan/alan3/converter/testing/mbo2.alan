@@ -1,0 +1,77 @@
+--From MBO@ccphys.nsu.nsk.su Tue Sep 20 10:25:59 1994
+--From: "Konstantin Yu. Boyandin" <MBO@ccphys.nsu.nsk.su>
+--Organization:  Novosibirsk State University
+--To: thoni@softlab.se
+--Date:          Tue, 20 Sep 1994 13:58:52 NSK-7
+--Subject:       Another sample
+--Return-Receipt-To: "Konstantin Yu. Boyandin" <MBO@ccphys.nsu.nsk.su>
+--Priority: normal
+--X-Mailer:     Pegasus Mail v3.1 (R1a)
+--Content-Length: 1217
+--
+--
+-- Test adventure: compile and output problems
+--
+-- 1) Uncomment 'HAS attr4 0.' line in Test_Object to pass the compilation.
+-- 2) After the start, notice the way the description is printed.
+--    ('leads to' used to illustrate the problem).
+--
+
+OPTIONS
+    Language English.
+
+OBJECT ATTRIBUTES
+    bool1.
+    bool2.
+    bool3.
+    attr1 0.
+    attr2 0.
+    attr3 0.
+    attr4 0.
+
+LOCATION ATTRIBUTES
+    bool4.
+    bool5.
+    attr4 1.
+    attr5 0.
+
+ACTOR ATTRIBUTES
+    bool6.
+    bool7.
+    attr6 0.
+    attr7 0.
+
+SYNTAX
+    quit_verb = 'quit'.
+
+VERB quit_verb
+DOES
+    QUIT.
+END VERB quit_verb.
+
+LOCATION Nowhere
+EXIT east, west, north, south TO Nowhere.
+END LOCATION Nowhere.
+
+LOCATION Start_Location NAME 'Northern part of island'
+DESCRIPTION
+    "$p$tThis is northern part of the island.
+     A sandy beach leads to west and east from here."
+EXIT east, west TO Start_Location.
+END LOCATION Start_Location.
+
+OBJECT Test_Object AT Nowhere
+    IS bool8.
+    IS NOT bool9.
+    HAS attr4 0.
+    HAS attr8 0.
+    HAS attr9 1000.
+END OBJECT Test_Object.
+
+WHEN attr4 OF LOCATION > 0 =>
+    INCREASE attr4 OF Test_Object BY
+             attr4 OF LOCATION.
+    SET attr4 OF LOCATION TO 0.
+
+START AT Start_Location.
+

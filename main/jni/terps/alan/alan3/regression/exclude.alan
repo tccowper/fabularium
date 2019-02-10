@@ -1,0 +1,34 @@
+The l Isa location
+  Has nSet {3,7,9,11,44}.
+  Has iSet {t, hero}.
+End The l.
+
+The t Isa thing
+  Has size 44.
+End The t.
+
+Start At l.
+  If hero In iSet Of l Then "hero in iset, ok,$n" Else "Not ok,$n" End If.
+  If t In iSet Of l Then "t in iset, ok,$n" Else "Not ok,$n" End If.
+
+  Exclude t From iSet Of l.
+  If hero In iSet Of l Then "hero in iset, ok,$n" Else "Not ok,$n" End If.
+  If t In iSet Of l Then "t in iset, Not ok,$n" Else "ok,$n" End If.
+
+  Exclude hero from l:iSet.
+  If hero In iSet Of l Then "hero in iset, Not ok,$n" Else "ok,$n" End If.
+  If t In iSet Of l Then "t in iset, Not ok,$n" Else "ok,$n" End If.
+
+  Exclude hero from l:iSet.
+  If hero In iSet Of l Then "hero in iset, Not ok,$n" Else "ok,$n" End If.
+  If t In iSet Of l Then "t in iset, Not ok,$n" Else "ok,$n" End If.
+
+  Exclude 4 From nSet Of l.
+  Exclude size Of t From l:nSet.
+  If 3 In nSet of L Then "ok,$n" Else "Not ok,$n" End If.
+  If 4 In nSet of L Then "Not ok,$n" Else "ok,$n" End If.
+  If 7 In nSet of L Then "ok,$n" Else "Not ok,$n" End If.
+  If 9 In nSet of L Then "ok,$n" Else "Not ok,$n" End If.
+  If 11 In nSet of L Then "ok,$n" Else "Not ok,$n" End If.
+  If 44 In nSet of L Then "Not ok,$n" Else "ok,$n" End If.
+

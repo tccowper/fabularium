@@ -1,0 +1,52 @@
+The l Isa location
+End The l.
+
+Syntax x = x (p) Where p Isa thing Else "You can't x that"
+
+Add To Every thing
+  Verb x
+    Does
+      "Verb:" Say p. "End Verb."
+  End Verb.
+End Add To.
+
+Add To Every actor
+  Definite Article
+  Indefinite Article
+End Add.
+
+
+The mr_a Isa actor At l
+  Name mr a
+  Article "article"
+  Mentioned "mentioned Mr A"
+End The mr_a.
+
+The mr_b Isa actor At l
+  Name 'name' 'of' 'mr' 'B'
+  Name 'name' 'of' mr b
+  Article "article"
+End The mr_b.
+
+The t Isa object At l
+  Name blue thing
+  Article "article"
+  Mentioned "mentioned as t (blue thing)"
+End The t.
+
+Event e
+  "Event e:"
+  Say mr_a. say mr_b. Say t.
+  Describe mr_a. Describe t.
+  "End Event."
+End Event e.
+
+Event ll
+  "Event ll:"
+  Look.
+  "End Event."
+End Event ll.
+
+Start At l.
+  Schedule e After 1.
+  Schedule ll After 1.

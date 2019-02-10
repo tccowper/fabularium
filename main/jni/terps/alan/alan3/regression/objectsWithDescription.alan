@@ -1,0 +1,19 @@
+The l
+  Isa Location.
+End The l.
+
+The o
+  Isa object.
+  At l.
+  Description
+    "In the corner there is an object."
+End The o.
+
+The p
+  Isa object.
+  At l.
+  Mentioned
+    "an object called 'p'"
+End The p.
+
+Start At l.

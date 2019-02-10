@@ -1,0 +1,20 @@
+########## atrOfCurrent ##########
+
+        No warnings or errors detected.
+
+
+
+L1
+Hero 42 l1 42
+
+> w
+L2
+Hero 42 l2 42
+
+> e
+L1
+Hero 42 l1 42
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

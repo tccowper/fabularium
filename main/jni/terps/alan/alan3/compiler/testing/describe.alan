@@ -1,0 +1,33 @@
+The l Isa location
+  Exit w To l.
+End The l.
+
+Every cont Isa object
+  With Container
+End Every cont.
+
+The c Isa cont
+  Has l l.
+End The c.
+
+The o Isa object
+  Has ref l.
+  Has cref c.
+End The o.
+
+Event e
+  Describe Current Actor.
+End Event.
+
+
+Start At l.
+  Describe unknown.
+  Describe o.
+  Describe l.
+  Describe object.
+  Describe Current Actor.
+  Describe w.
+  Describe unknown of unknown.
+  Describe unknown of o.
+  Describe l Of ref Of o.
+  Describe l Of cref Of o.

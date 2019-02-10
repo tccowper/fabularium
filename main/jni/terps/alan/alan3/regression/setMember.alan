@@ -1,0 +1,14 @@
+The l Isa location
+  Has number {1,2,3}.
+  Has members {hero, l}.
+End The l.
+
+Start At l.
+  If hero In members Of l Then "hero in iset, ok." Else "Not ok." End If. "$n"
+  If l In members Of l Then "l in iset, ok." Else "Not ok." End If. "$p"
+
+  "0" If 0 In number of L Then "Not ok." Else "ok." End If. "$n"
+  "1" If 1 In number of L Then "ok." Else "Not ok." End If. "$n"
+  "2" If 2 In number of L Then "ok." Else "Not ok." End If. "$n"
+  "3" If 3 In number of L Then "ok." Else "Not ok." End If. "$n"
+  "4" If 4 In number of L Then "Not ok." Else "ok." End If. "$n"

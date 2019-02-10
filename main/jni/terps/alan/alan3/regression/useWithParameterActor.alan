@@ -1,0 +1,36 @@
+The school Isa location
+  Has janitor janitor.
+  Has teacher teacher.
+End The school.
+
+Every working_man Isa actor
+  Script work.
+    Description
+	Say The This. "is working."
+    Step Say this. "works."
+    Step Say this. "works."
+
+  Verb work
+    Does
+      Use Script work For a.
+  End Verb.
+End Every working_man.
+
+Syntax work = work (a)
+  Where a Isa working_man
+    Else "Only working men can work."
+
+The janitor Isa working_man
+  At school.
+End The janitor.
+
+The teacher Isa working_man
+  At school.
+End The teacher.
+
+Verb l
+  Does Look.
+End Verb.
+
+
+Start At school.

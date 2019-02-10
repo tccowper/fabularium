@@ -1,0 +1,4 @@
+bp=${2//:/__}
+echo break $bp > .cgreen-gdb-commands
+echo run $1 $2 >> .cgreen-gdb-commands
+cgdb -ex "set breakpoint pending on" cgreen-runner --command=.cgreen-gdb-commands

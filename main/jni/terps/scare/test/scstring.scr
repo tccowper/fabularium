@@ -1,0 +1,328 @@
+# vi: set ts=2 shiftwidth=2 expandtab:
+#
+# String operation tests.
+#
+# Covers more expression parsing and basic string primitives, including left,
+# right, mid, instr, len, val, and str.
+#
+# Unless otherwise noted, the input and responses in this script were created
+# from a transcript of the Adrift Runner, release 4.0.45 or 46.
+#
+
+~ game
+*Aimless* Compiled "08 Nov 2006"* Version 4.00*
+
+
+#
+# Verify the test primitives themselves first.
+#
+
+> set x 2147483647, set y -2147483648, set x y
+x = 2147483647 y = -2147483648 x = -2147483648
+
+> set x 2147483647, set y -2147483648, set y x
+x = 2147483647 y = -2147483648 y = 2147483647
+
+> set str hello world, set s str, set t str
+str = "hello world" s = "hello world" t = "hello world"
+
+> set s hello, set t world
+s = "hello" t = "world"
+
+> set str hello world, clear str
+str = "hello world" str = ""
+
+
+#
+# Test string concatenation.
+#
+
+> set s hello, set t ; world, concat s t
+s = "hello" t = "; world" str = "hello; world"
+
+> set s hello, set t ; world, concat_alternate s t
+s = "hello" t = "; world" str = "hello; world"
+
+> clear str, set s str, set t str, concat s t
+str = "" s = "" t = "" str = ""
+
+> clear str, set s "hello", set t str, concat s t
+str = "" s = ""hello"" t = "" str = ""hello""
+
+> clear str, set s hello, set t str, concat s t
+str = "" s = "hello" t = "" str = "hello"
+
+> clear str, set s str, set t world, concat s t
+str = "" s = "" t = "world" str = "world"
+
+
+#
+# Test string dissection.
+#
+
+> set s abcdefg, set x 3, left s x
+s = "abcdefg" x = 3 str = "abc"
+
+> set s abcdefg, set x 1, left s x
+s = "abcdefg" x = 1 str = "a"
+
+> set s abcdefg, set x 7, left s x
+s = "abcdefg" x = 7 str = "abcdefg"
+
+> set s abcdefg, set x 0, left s x
+s = "abcdefg" x = 0 str = ""
+
+> set s abcdefg, set x 8, left s x
+s = "abcdefg" x = 8 str = "abcdefg"
+
+> set s abcdefg, set x -1, left s x
+s = "abcdefg" x = -1
+# Adrift prints this too: ** ERROR - Invalid procedure call or argument! **
+str = "abcdefg"
+
+> set s abcdefg, set x 1000, left s x
+s = "abcdefg" x = 1000 str = "abcdefg"
+
+> clear str, set s str, set x 0. left s x
+str = "" s = "" x = 0 str = ""
+
+> clear str, set s str, set x 1000. left s x
+str = "" s = "" x = 1000 str = ""
+
+> set s abcdefg, set x 3, right s x
+s = "abcdefg" x = 3 str = "efg"
+
+> set s abcdefg, set x 1, right s x
+s = "abcdefg" x = 1 str = "g"
+
+> set s abcdefg, set x 7, right s x
+s = "abcdefg" x = 7 str = "abcdefg"
+
+> set s abcdefg, set x 0, right s x
+s = "abcdefg" x = 0 str = ""
+
+> set s abcdefg, set x 8, right s x
+s = "abcdefg" x = 8 str = "abcdefg"
+
+> set s abcdefg, set x -1, right s x
+s = "abcdefg" x = -1
+# Adrift prints this too: ** ERROR - Invalid procedure call or argument! **
+str = "abcdefg"
+
+> set s abcdefg, set x 1000, right s x
+s = "abcdefg" x = 1000 str = "abcdefg"
+
+> clear str, set s str, set x 0. right s x
+str = "" s = "" x = 0 str = ""
+
+> clear str, set s str, set x 1000. right s x
+str = "" s = "" x = 1000 str = ""
+
+> set s abcdefg, set x 3, set y 2, mid s x y
+s = "abcdefg" x = 3 y = 2 str = "cd"
+
+> set s abcdefg, set x 2, set y 3, mid s x y
+s = "abcdefg" x = 2 y = 3 str = "bcd"
+
+> set s abcdefg, set x 3, set y 3, mid s x y
+s = "abcdefg" x = 3 y = 3 str = "cde"
+
+> set s abcdefg, set x 4, set y 1, mid s x y
+s = "abcdefg" x = 4 y = 1 str = "d"
+
+> set s abcdefg, set x 4, set y 0, mid s x y
+s = "abcdefg" x = 4 y = 0 str = ""
+
+> set s abcdefg, set x 4, set y -1, mid s x y
+s = "abcdefg" x = 4 y = -1
+# Adrift prints this too: ** ERROR - Invalid procedure call or argument! **
+str = ""
+
+> set s abcdefg, set x 1, set y 7, mid s x y
+s = "abcdefg" x = 1 y = 7 str = "abcdefg"
+
+> set s abcdefg, set x 0, set y 7, mid s x y
+s = "abcdefg" x = 0 y = 7
+# Adrift prints this too: ** ERROR - Invalid procedure call or argument! **
+str = "abcdefg"
+
+> set s abcdefg, set x 1000, set y 7, mid s x y
+s = "abcdefg" x = 1000 y = 7 str = ""
+
+> set s abcdefg, set x 4, set y 7, mid s x y
+s = "abcdefg" x = 4 y = 7 str = "defg"
+
+> set s abcdefg, set x 7, set y 1, mid s x y
+s = "abcdefg" x = 7 y = 1 str = "g"
+
+> set s abcdefg, set x 1, set y 1, mid s x y
+s = "abcdefg" x = 1 y = 1 str = "a"
+
+> clear str, set s str, set x 0, set y 0, mid s x y
+str = "" s = "" x = 0 y = 0
+# Adrift prints this too: ** ERROR - Invalid procedure call or argument! **
+str = ""
+
+> clear str, set s str, set x 1, set y 1, mid s x y
+str = "" s = "" x = 1 y = 1 str = ""
+
+> clear str, set s str, set x 1, set y 2, mid s x y
+str = "" s = "" x = 1 y = 2 str = ""
+
+> clear str, set s str, set x 1, set y 1000, mid s x y
+str = "" s = "" x = 1 y = 1000 str = ""
+
+
+#
+# Test string case conversions.
+#
+
+> set s HeLlO WoRlD, ucase s
+s = "hello world" str = "HELLO WORLD"
+
+> set s hello world, upper s
+s = "hello world" str = "HELLO WORLD"
+
+> clear str, set s str, ucase s
+str = "" s = "" str = ""
+
+> clear str, set s str, upper s
+str = "" s = "" str = ""
+
+> set s hello world, lcase s
+s = "hello world" str = "hello world"
+
+> set s hello world, lower s
+s = "hello world" str = "hello world"
+
+> set s hello world, upper s, set s str, lcase s
+s = "hello world" str = "HELLO WORLD" s = "HELLO WORLD" str = "hello world"
+
+> set s hello world, upper s, set s str, lower s
+s = "hello world" str = "HELLO WORLD" s = "HELLO WORLD" str = "hello world"
+
+> clear str, set s str, lcase s
+str = "" s = "" str = ""
+
+> clear str, set s str, lower s
+str = "" s = "" str = ""
+
+> set s hello world, pcase s
+s = "hello world" str = "Hello World"
+
+> set s hello world, upper s, set s str, pcase s
+s = "hello world" str = "HELLO WORLD" s = "HELLO WORLD" str = "Hello World"
+
+> clear str, set s str, pcase s
+str = "" s = "" str = ""
+
+# Note -- Adrift produces a bad expression popup box for 'proper' calls,
+# suggesting it's not correctly implemented.  The expectations for the next
+# two tests have been edited to appear as they would if it did work okay.
+> set s hello world, proper s
+s = "hello world"
+# str = ""
+str = "Hello World"
+
+> set s hello world, upper s, set s str, proper s
+s = "hello world" str = "HELLO WORLD" s = "HELLO WORLD"
+# str = ""
+str = "Hello World"
+
+> clear str, set s str, proper s
+str = "" s = "" str = ""
+
+
+#
+# Test conversion between string and integer.
+#
+
+# Convert integer to string.
+> set x 12345, str x
+x = 12345 str = " 12345"
+
+> set x -12345, str x
+x = -12345 str = "-12345"
+
+> set x 2147483647, str x
+x = 2147483647 str = " 2147483647"
+
+> set x -2147483648, str x
+x = -2147483648 str = "-2147483648"
+
+# Convert strings to integers.
+> set s 0, val s
+s = "0" y = 0
+
+> set s 1, val s
+s = "1" y = 1
+
+> set s -1, val s
+s = "-1" y = -1
+
+> set s 2147483647, val s
+s = "2147483647" y = 2147483647
+
+> set s -2147483648, val s
+s = "-2147483648" y = -2147483648
+
+> set s -2147483648999999, val s
+s = "-2147483648999999"
+# Adrift prints this too: ** ERROR - Overflow! **
+# Note -- Adrift returns a 'y' value that we can't anticipate.
+y = *
+
+> set s hello world, val s
+s = "hello world" y = 0
+
+> clear str, set s str, val s
+str = "" s = "" y = 0
+
+
+#
+# Test string searches and string lengths.
+#
+
+# Search for string in string.
+> set s abcdefg, set t abc, instr s t
+s = "abcdefg" t = "abc" y = 1
+
+> set s abcdefg, set t efg, instr s t
+s = "abcdefg" t = "efg" y = 5
+
+> set s abcdefg, set t cde, instr s t
+s = "abcdefg" t = "cde" y = 3
+
+> set s abcdefg, set t efgh, instr s t
+s = "abcdefg" t = "efgh" y = 0
+
+> set s abcdefg, set t xyz, instr s t
+s = "abcdefg" t = "xyz" y = 0
+
+> clear str, set t str, set s abcdefg, instr s t
+str = "" t = "" s = "abcdefg" y = 1
+
+> clear str, set s str, set t abcdefg, instr s t
+str = "" s = "" t = "abcdefg" y = 0
+
+> clear str, set s str, set t str, instr s t
+str = "" s = "" t = "" y = 0
+
+# String lengths.
+> set s hello world, len s
+s = "hello world" y = 11
+
+> set s x, len s
+s = "x" y = 1
+
+> set s the quick brown fox jumps over the lazy dog, len s
+s = "the quick brown fox jumps over the lazy dog" y = 43
+
+> clear str, set s str, len s
+str = "" s = "" y = 0
+
+> clear str, set t str, set s "abcdefg", concat s t
+str = "" t = "" s = ""abcdefg"" str = ""abcdefg""
+
+> clear str, set s str, len s
+str = "" s = "" y = 0

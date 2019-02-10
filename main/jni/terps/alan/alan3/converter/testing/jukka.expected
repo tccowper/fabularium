@@ -1,0 +1,189 @@
+########## jukka ##########
+
+Add To Every object
+  Is
+    Not helpful.
+    Not giveable.
+    Not person.
+    Not opened.
+    Not openable.
+    takeable.
+End Add To.
+
+Syntax
+  give_to = give (obj1) 'to' (obj2).
+  take = take (obj)*.
+  talk_to = talk 'to' (obj).
+  'look' = 'look'.
+  'quit' = 'quit'.
+  list_i = 'list'.
+  read = read (obj).
+  clean = clean (obj).
+
+Verb take
+  Check obj Is takeable
+    Else 
+      "You can't take that!"
+  Does
+    Locate obj In inventory.
+    "You drop the $o in your purse with a greedy smile."
+End Verb.
+
+Verb 'quit'
+  Does
+    Quit.
+End Verb.
+
+Verb list_i
+  Does
+    List inventory.
+End Verb.
+
+Verb 'look'
+  Does
+    Look.
+End Verb.
+
+Verb give_to
+  Check obj1 In inventory
+    Else 
+      "You don't have it!"
+  And obj1 Is giveable
+    Else 
+      "You can't give it avay!"
+  And obj2 Is person
+    Else 
+      "You can't give something to a non person!"
+  Does
+    Locate obj1 In limbo.
+    Make obj2 helpful.
+    "The $o dissapears in the persons hand."
+End Verb.
+
+
+The hall Isa location
+  Name 'A big hall'
+  
+  Description
+    "A big hallway with a large gateway of dark almost black oaktree in the
+     eastern end."
+  
+  Exit west To mirror_room
+    Check mirror Is opened
+      Else 
+        "The mirrorworld is not opened for you."
+  End Exit.
+  
+End The hall.
+
+The mirror_room Isa location
+  Name 'A mirror image of the world."
+
+  
+  Description
+    "The mirror world you have just entered is as fetched from the
+     imagination of a mad artist. Boiling clay puddles spitt out gasses
+     smelling like rotten eggs"
+  
+  Exit east To hall.
+  
+End The mirror_room.
+
+The limbo Isa location
+  
+End The limbo.
+
+The man Isa object
+  At hall 
+  Is 
+    person.
+  Is 
+    talkeable.
+  Description
+    "There is a man here."
+    If man Is helpful Then
+      "He looks very helpful!"
+    Else 
+      "He doesn't look helpful."
+    End If.
+  
+  Verb talk_to
+    Does
+      If man Is helpful Then
+        "Go to the point located at this map. There you will find the key
+         to leave this world. He drops a map on the floor. He wasn't so
+         helpful in spite of all."
+        Locate map Here.
+      Else 
+        "He looks at you as if he seen a disturbing cockroach."
+      End If.
+  End Verb.
+  
+End The man.
+
+The map Isa object
+  At limbo 
+  Description
+    "A map. Drawn on old pergament."
+  
+  Verb read
+    Does
+      If map In inventory Then
+        "The map shows you the path to the nearby forrest and a large stone
+         underneath which there should be a coffin."
+      Else 
+        "You don't have the map."
+      End If.
+  End Verb.
+  
+End The map.
+
+The coin Isa object
+  At hall 
+  Is 
+    giveable.
+  Description
+    "A golden shimmering coin."
+  
+End The coin.
+
+The polish Isa object
+  At hall 
+  Description
+    "A cotton cloth and spray polish."
+  
+End The polish.
+
+The mirror Isa object
+  At hall 
+  Is 
+    openable.
+  Is 
+    Not takeable.
+  Description
+    "A magnificent mirror at the western end of the hall."
+    If mirror Is opened Then
+      "Staring back at you, you can see your own distorted face. But the
+       background is not the hallway but a nigthmarisch landscape."
+    Else 
+      "But the surface of the mirror is smerred with a fat oily substance."
+    End If.
+  
+  Verb clean
+    Does
+      If polish In inventory Then
+        "You spray on the polish and vipe it of the surface of the mirror.
+         But you see that the smerred surface of the mirror needs to be
+         polished several times. After some time you see the distorted image
+         of yourself glance back at you."
+        Make mirror opened.
+        Locate polish At limbo.
+      Else 
+        "You need something to polish with."
+      End If.
+  End Verb.
+  
+End The mirror.
+
+Start At hall.
+  

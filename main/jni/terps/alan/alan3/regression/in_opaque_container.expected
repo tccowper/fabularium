@@ -1,0 +1,23 @@
+########## in_opaque_container ##########
+
+        No warnings or errors detected.
+
+
+
+L
+
+> take stone
+You take the stone.
+
+> take coin
+I can't see any coin here.
+
+> take purse
+You take the purse.
+
+> take coin
+I can't see any coin here.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

@@ -1,0 +1,11 @@
+Add To Every actor
+  Container
+End Add.
+
+The o Isa object In Current Actor
+End The o.
+
+The l Isa location
+End The l.
+
+Start At l.

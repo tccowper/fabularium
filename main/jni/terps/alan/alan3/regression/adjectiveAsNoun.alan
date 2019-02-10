@@ -1,0 +1,14 @@
+The l Isa location
+End The l.
+
+The adjAndNoun Isa object At l
+  Name adjAndNoun adjAndNoun
+
+  Verb v
+    Does
+      "You v" Say The object. "."
+  End Verb.
+End The adjAndNoun.
+
+
+Start At l.

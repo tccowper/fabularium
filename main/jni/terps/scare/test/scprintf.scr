@@ -1,0 +1,208 @@
+# vi: set ts=2 shiftwidth=2 expandtab:
+#
+# Printfilter tests.
+#
+# Covers HTML-like tags, variable interpolation, ALR replacement, and input
+# synonyms.
+#
+# Unless otherwise noted, the input and responses in this script were created
+# from a transcript of the Adrift Runner, release 4.0.45 or 46.
+#
+
+~ game
+*Faceless* Compiled "13 Nov 2006"* Version 4.00*
+
+
+#
+# Check tag recognition.
+#
+
+# Run first without using extra tags debug printing.
+> tags
+italics
+bold
+underline
+color
+centre
+centerright
+font
+wait 1.2
+less=<, greater=>
+bgcolor
+bgcolor
+
+> unknown
+mumble
+tra la la
+spaced
+
+spaced italic
+spaces alone
+
+> waitkey
+Press a key to continue...
+Key pressed
+
+> clear screen
+
+> unterminated tag
+Here is a
+
+> unterminated var
+Here is a % with no close.
+
+# Now run using extra tags debug printing.
+#
+# Note -- This section of the script is edited to match SCARE output.  The
+# showtags and dontshowtags special commands trigger tag visibility in the
+# test harness.
+> showtags
+Tags visible<<Tag: id=0, argument="test tag">>
+
+> tags
+<<Tag: id=1, argument="">>italics<<Tag: id=2, argument="">>
+<<Tag: id=3, argument="">>bold<<Tag: id=4, argument="">>
+<<Tag: id=5, argument="">>underline<<Tag: id=6, argument="">>
+<<Tag: id=7, argument="">>color<<Tag: id=8, argument="">>
+<<Tag: id=12, argument="">>centre
+<<Tag: id=13, argument="">><<Tag: id=12, argument="">>center<<Tag:
+       id=13, argument="">><<Tag: id=14, argument="">>right
+                           <<Tag: id=15, argument="">><<Tag: id=9,
+  argument="face="Copperplate Gothic Light" size=14
+  colour="#008080"">>font<<Tag: id=10, argument="">>
+wait 1.2<<Tag: id=16, argument="1.2">>
+less=<, greater=>
+<<Tag: id=11,
+  argument="bgcolor="#008080"">>bgcolor<<Tag: id=16,
+    argument="1">><<Tag: id=11, argument="bgcolor=default">>
+<<Tag: id=11,
+  argument="bgcolour="#008080"">>bgcolor<<Tag: id=16,
+    argument="1">><<Tag: id=11, argument="bgcolour=default">>
+
+> unknown
+<<Tag: id=0, argument="mumble">>mumble<<Tag: id=0, argument="/mumble">>
+<<Tag: id=0, argument="tra la la">>tra la la<<Tag: id=0, argument="/tra la la">>
+<<Tag: id=0, argument=" spaced ">>spaced<<Tag: id=0, argument=" spaced ">>
+<<Tag: id=0, argument=" i ">>spaced italic<<Tag: id=0, argument=" /i ">>
+spaces alone<<Tag: id=0, argument="/ ">>
+
+> waitkey
+Press a key to continue...<<Tag: id=17, argument="">>
+Key pressed
+
+> clear screen
+<<Tag: id=18, argument="">>
+
+> unterminated tag
+Here is a <<Tag: id=0, argument=" with no close. ">>
+
+> unterminated var
+Here is a % with no close.
+
+> dontshowtags
+Tags hidden
+
+
+#
+# Check synonym replacement in input strings.
+#
+# Note -- SCARE echos synonym replacements, so we need to add a '*' ahead of
+# the acceptance patterns below that involve synonyms.
+#
+
+> word word word
+Synonym target ran.
+
+> word word syn1
+*
+Synonym target ran.
+
+> word syn1 word
+*
+Synonym target ran.
+
+> word syn1 syn1
+*
+Synonym target ran.
+
+> syn1 word word
+*
+Synonym target ran.
+
+> syn1 syn1 word
+*
+Synonym target ran.
+
+> syn1 syn1 syn1
+*
+Synonym target ran.
+
+> syn1 syn1 syn2
+*
+Synonym target ran.
+
+> syn1 syn2 syn2
+*
+Synonym target ran.
+
+> syn2 syn2 syn2
+*
+Synonym target ran.
+
+> syn2 syn2 word
+*
+Synonym target ran.
+
+> syn2 word word
+*
+Synonym target ran.
+
+> syn1
+*
+I don't understand what you mean!
+
+> syn1 syn1
+*
+I don't understand what you mean!
+
+> w
+*
+Synonym target ran.
+
+> a b c
+*
+Synonym target ran.
+
+> $
+*
+I don't understand what you mean!
+
+> $ $ $
+*
+Synonym target ran.
+
+> $$ $ $
+*
+I don't understand what you mean!
+
+
+#
+# Check ALR replacement, variable interpolation, and combinations.
+#
+
+> flat alrs
+ALR1: alr one
+ALR2: alr two
+ALR3: alr three
+
+Word boundaries: xalr onex, xalr twox, xalr threex
+
+> recursive alrs
+ALRR: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z (end)
+
+> recursive vars
+VARR: A B C D (end)
+
+> mixed
+VALR: PCa A B C D (end)
+VARE: PCa A B C D (end)

@@ -1,0 +1,21 @@
+########## doublesided_door ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+Hallway
+There is a door here. It is closed.
+
+> open door
+
+> w
+Front
+There is a door here. It is open.
+
+> 
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

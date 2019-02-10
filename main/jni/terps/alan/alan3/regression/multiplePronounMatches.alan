@@ -1,0 +1,20 @@
+The t1 Isa object At l
+End The t1.
+
+The t2 Isa object At l
+End The t2.
+
+Syntax v = v (o1) (o2).
+
+Add To Every object
+  Verb v
+    Does
+      "You v" Say The o1. "and" Say The o2. "."
+  End Verb.
+End Add.
+
+
+The l Isa location
+End The l.
+
+Start At l.

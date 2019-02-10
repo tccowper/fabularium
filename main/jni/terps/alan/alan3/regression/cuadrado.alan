@@ -1,0 +1,28 @@
+syntax
+poner = poner el (o) en el (c)
+where c isa container else
+"el" say o. "no es un contenedor!"
+poner = poner (o) en el (c).
+poner = poner el (o) en (c).
+poner = poner (o) en (c).
+
+add to every object
+verb poner
+when o does
+"Listo."
+locate o in c.
+end verb.
+end add.
+
+the cuadrado isa object
+at casa
+end the.
+
+the triangulo isa object
+at casa
+end the.
+
+the casa isa location
+end the.
+
+start at casa.

@@ -1,0 +1,17 @@
+########## explicitIndirectly ##########
+
+
+explicitIndirectly.alan
+
+   11.      Say attr Of f.
+=====>          1
+
+  *1*   316 E : Attribute 'attr' is not defined for variable 'f' since the
+                class it is guaranteed to be in this context ('object') does
+                not have it.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -1,0 +1,29 @@
+########## mixedFilters ##########
+
+
+mixedFilters.alan
+
+    5.    For i Between 1 And 12, Isa location Do
+=====>                          1 2
+
+  *1*   102 E : Syntax error. Ignoring ",".
+  *2*   434 E : 'ISA' can only be applied to instance valued expressions.
+  *2*   330 E : Wrong type of expression in context of 'BETWEEN'. Must be of
+                integer type.
+
+    9.    For i Isa location, Between 1 And 12, Is x Do
+=====>                        1               2    3
+
+  *1*   103 E : Syntax error. Replacing "between Integer and Integer" with
+                "here".
+  *2*   441 E : Incompatible filter. All filters must enumerate instances or
+                values which are compatible, such as subclasses or compatible
+                types.
+  *3*   316 E : Attribute 'x' is not defined for instances iterated over using
+                'EACH statement' since its class ('location') does not have it.
+
+
+        6 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -1,0 +1,15 @@
+########## isaExpression ##########
+
+
+isaExpression.alan
+
+   23.    If hero:tired Isa menu Then  -- Not OK
+=====>                  1
+
+  *1*   434 E : 'ISA' can only be applied to instance valued expressions.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

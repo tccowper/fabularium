@@ -1,0 +1,51 @@
+Every dc Isa object
+  Is b.
+  Description
+    Check this Is b
+      Else "Say x."
+End Every dc.
+
+Add To Every dc
+  Description
+    Check this Is a
+      Else Say x.
+End Add To.
+
+Every dcs Isa object
+  Is b.
+  Description
+    Check this Is b
+      Else "Say x."
+    Does "Say x."
+End Every dcs.
+
+Add To Every dcs
+  Description
+    Check this Is a
+      Else Say x.
+    Does Say x.
+End Add To.
+
+Every ds Isa object
+  Description
+    "Say x."
+End Every ds.
+
+Add To Every ds
+  Description
+    Say x.
+End Add To.
+
+Every d Isa object
+  Description
+    "Say x."
+End Every d.
+
+Add To Every ds
+  Description
+End Add To.
+
+The l Isa location
+End The l.
+
+Start At l.

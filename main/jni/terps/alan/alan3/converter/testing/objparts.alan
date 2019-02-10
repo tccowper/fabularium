@@ -1,0 +1,32 @@
+Object free_order
+
+  Description
+    "First description."
+
+  Verb x
+  End Verb x.
+
+  Container
+
+  Mentioned "free order"
+
+  Is large.
+
+  Mentioned "Nothing."
+
+  Container
+
+  Description "Second description."
+
+  Article "a"
+
+  Has light.
+
+  Article ""
+
+End Object.
+
+Location nowhere
+End Location nowhere.
+
+Start At nowhere.

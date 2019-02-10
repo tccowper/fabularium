@@ -1,0 +1,11 @@
+The outer Isa location
+  Description
+    "The outer is described."
+End The outer.
+
+The inner Isa location At outer
+  Description
+    "The inner is described."
+End The inner.
+
+Start At inner.

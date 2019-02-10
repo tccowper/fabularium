@@ -1,0 +1,16 @@
+The l Isa location
+  Has members {l}.
+End The l.
+
+Start At l.
+  Each i In unknown Of l Do
+    Say i.
+  End Each.
+
+  Each i In members Of l Do
+    Say i.
+  End Each.
+
+  Each i Directly In l Do
+    Say i.
+  End Each.

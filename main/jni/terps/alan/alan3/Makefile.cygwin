@@ -1,0 +1,171 @@
+#######################################################################
+# This Makefile is the top level for building the Alan System.
+# It only works on ThoNi's machine.
+#######################################################################
+
+VERSION	:= `venum alan -print '$$v_$$r{s$$s|_}$$c' | tr -d '\n\r'`
+DISTDIR	:= ~/Utveckling/Alan/alanweb/downloads
+
+PLATFORM = win32.i386               # Since we only distribute windows 32-bit exe's
+
+# Location of Inno Setup Compiler
+INNODIR = /cygdrive/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
+
+XPATH = xpath -q -e
+
+default: unit build
+
+.PHONY: all
+all: unit build documentation tests
+
+.PHONY:tests
+tests: test cygwintests
+
+.PHONY: cygwintests
+cygwintests:
+	@java -jar bin/jregr.jar -bin bin -dir regression/winalan $(JREGROUTPUT)
+	@java -jar bin/jregr.jar -bin bin -dir regression/versions/interpreter $(JREGROUTPUT)
+
+.PHONY: release
+release:
+	@if ! git --no-pager diff --exit-code --quiet ; then \
+		echo "Commit changes before making a release" ; \
+		exit 1 ; \
+	else if ! git --no-pager diff --exit-code --quiet --cached ; then \
+		echo "Commit cached changes before making a release" ; \
+		exit 1 ; \
+	else if ! [[ -z `git rev-list @{upstream}.. -n 1` ]] ; then \
+		echo "Push all local changes before making a release" ; \
+		exit 1 ; \
+	fi fi fi
+	$(MAKE) -f Makefile.thoni releasebuild
+	$(MAKE) -f Makefile.thoni test
+	$(MAKE) -f Makefile.thoni documentation
+	$(MAKE) -f Makefile.thoni zip setup gargoyle
+	$(MAKE) -f Makefile.thoni tags
+	$(MAKE) -f Makefile.thoni release-upload
+
+
+.PHONY: snapshot-build
+snapshot-build:
+	@echo "ERROR: Don't build snapshots on thoni, that should be done using Jenkins"
+	exit 2
+
+
+.PHONY: snapshot-upload
+snapshot-upload: buildnumbers
+	ssh alanif.se "mkdir /www/downloads/snapshots/$(BUILDNAME)"
+	alanupload alan$(VERSION)$(BUILDVERSION).win32.x86.zip snapshots/$(BUILDNAME)/
+	alanupload alan$(VERSION)$(BUILDVERSION).win32.x86.setup.exe snapshots/$(BUILDNAME)/
+	alanupload winarun$(VERSION)$(BUILDVERSION).win32.x86.setup.exe snapshots/$(BUILDNAME)/
+	alanupload doc/manual/manual.pdf snapshots/$(BUILDNAME)/
+	alanupload doc/manual/conversion.pdf snapshots/$(BUILDNAME)/
+	alanupload doc/manual/writing.pdf snapshots/$(BUILDNAME)/
+	ssh alanif.se ls -td /www/downloads/snapshots/Build* | tail -1 | xargs ssh alanif.se rm -r
+
+.PHONY: release-upload
+release-upload:
+	alanupload alan$(VERSION).win32.x86.zip sdks/windows
+	alanupload alan$(VERSION).win32.x86.setup.exe sdks/windows
+	alanupload winarun$(VERSION).win32.x86.setup.exe interpreters/windows
+	alanupload interpreter/gargoyle-alan3-$(VERSION).win32.x86.setup.exe interpreters/windows
+	alanupload interpreter/gargoyle-alan3-$(VERSION).win32.x86.zip interpreters/windows
+	alanupload doc/manual/manual.pdf documentation
+	alanupload doc/manual/conversion.pdf documentation
+	#alanupload doc/manual/writing.pdf documentation
+
+
+# Create pdf from odt
+.PHONY: documentation
+documentation:
+	@echo "******** Target: $@ ***********"
+	$(MAKE) -C doc/manual
+
+
+.PHONY: releasebuild
+releasebuild:
+	$(MAKE) -C compiler release
+	$(MAKE) -C interpreter release
+	$(MAKE) -C converter release
+
+include Makefile.common
+
+.PHONY: tags
+tags: last-release
+	git tag -f v$(VERSION)_$(OS)
+	@echo "If you are satisfied with the result, and on thoni's machine, do a 'venum alan correction', at least"
+
+.PHONY: last-release
+last-release:
+	echo -n $(VERSION) > LASTRELEASE
+
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# Create all source for porting, should be done in an exported directory
+#
+.PHONY: srcdist
+srcdist:
+	@if test -d .git; then \
+		echo Do not do this in your working directory, export first ; \
+		exit 1 ; \
+	fi
+	venum -write always -all alan
+	cp version.h alan.version.[ch] compiler
+	cp version.h alan.version.[ch] interpreter
+	cp compiler/spa.* interpreter
+	-rm -r regression/pre3 regression/special
+	/usr/bin/find . -name \* -exec chmod u+w \{\} \;
+	/usr/bin/find . -name Makefile\* -exec dos2unix \{\} \;
+	/usr/bin/find . -name \*.\[ch\] -exec dos2unix \{\} \;
+	tar zcvf alansrc$(VERSION).tgz compiler interpreter converter regression COPYING bin/regr bin/jregr bin/jregr.jar
+	-rm $(DISTDIR)/Source/alansrc*.*
+	cp alansrc$(VERSION).tgz $(DISTDIR)/Source
+
+.PHONY: newVersion
+newVersion:
+	venum alan
+	cvs commit -m 'New Version' alan.version
+
+#################################################################################
+
+.PHONY: packages
+packages: zip setup
+
+.PHONY: zip
+zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme.txt CHANGES.txt alan.readme.windows.txt games/adventv3/adventV3.a3c regression/saviour.alan regression/logo.png COPYING
+	@echo "******** Target: $@ ***********"
+	-rm alan*.zip
+	zip -j alan$(VERSION)$(BUILDVERSION).$(PLATFORM).zip $^
+
+.PHONY: setup
+setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter/a2a3.readme.txt
+	@echo "******** Target: $@ ***********"
+	-rm winarun*setup.exe
+	sed -e s/VERSION/$(VERSION)$(BUILDVERSION)/ winarun.iss > winarun_tmp.iss
+	$(INNODIR)/iscc winarun_tmp.iss
+	-rm winarun_tmp.iss
+	-rm alan*setup.exe
+	sed -e s/VERSION/$(VERSION)$(BUILDVERSION)/ alan.iss > alan_tmp.iss
+	$(INNODIR)/iscc alan_tmp.iss
+	-rm alan_tmp.iss
+	-rm COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter/a2a3.readme.txt
+
+games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan bin/alan
+	cd games/adventv3; ../../bin/alan adventv3
+
+COPYING.txt: COPYING
+	unix2dos >$@ <$<
+
+CHANGES.txt: CHANGES
+	unix2dos >$@ <$<
+
+alan.readme.txt: alan.readme
+	unix2dos >$@ <$<
+
+alan.readme.windows.txt: alan.readme.windows
+	unix2dos >$@ <$<
+
+converter/a2a3.readme.txt: converter/a2a3.readme
+	unix2dos >$@ <$<

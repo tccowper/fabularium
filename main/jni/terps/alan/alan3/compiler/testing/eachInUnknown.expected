@@ -1,0 +1,15 @@
+########## eachInUnknown ##########
+
+
+eachInUnknown.alan
+
+    5.    Each i In unknown Do
+=====>              1
+
+  *1*   310 E : Identifier 'unknown' not defined.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

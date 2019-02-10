@@ -1,0 +1,196 @@
+# vi: set ts=2 shiftwidth=2 expandtab:
+#
+# Simple task restriction tests.
+#
+# Covers tasks restrictions.  Only a simple test of sequentially AND'ed
+# restriction is performed here, and the test uses referenced text and number
+# but no real variables.
+#
+# Note that this test is far from exhaustive, and really only scratches the
+# surface.  The combinatorial explosion of possibilities makes complete testing
+# problematic.
+#
+# Unless otherwise noted, the input and responses in this script were created
+# from a transcript of the Adrift Runner, release 4.0.45 or 46.
+#
+
+~ game
+*Barrierless* Compiled "09 Dec 2006"* Version 4.00*
+
+> verbose
+
+
+#
+# Try first a few ways to perform the main task's prerequisite task.
+#
+
+> prerequisite 0
+You're not in the same room as the janitor.
+
+> east
+You move east.
+Clean Room
+As bland as the Activity Room, but somehow cleaner.  There's a sign on the
+wall that proclaims "No food or drink, please."  The janitor is here.  You
+can only move west.
+
+> prerequisite 0
+You are not lying on the floor.
+
+> lie down
+You lie down on the ground.
+
+> prerequisite 0
+Number must be anything but 0.
+
+> prerequisite 1
+Prerequisite completed.
+
+
+#
+# Now test each restriction on the main task.
+#
+
+> attempt 0
+There's nothing in the activity room.
+
+> west
+(Standing up first)
+You move west.
+Activity Room
+Sparsely furnished, the walls are white and unadorned, and the carpet is a
+bland shade of grey. Frankly, very little promise here for diversionary
+activity.  Also here is a pinewood cupboard, a pinewood table and a chair.
+You can only move east.
+
+> open cupboard, take book, drop book
+You open the pinewood cupboard.  Inside the pinewood cupboard is a book, a
+tray, a bag, a sandwich, a jelly and a floppy hat.
+
+You take the book from the pinewood cupboard.
+
+You drop the book.
+
+> attempt 0
+You're not holding the book.
+
+> take book
+# Note -- minor SCARE difference here...
+#You take the book.
+You pick up the book.
+
+> east
+You move east.
+Clean Room
+As bland as the Activity Room, but somehow cleaner.  There's a sign on the
+wall that proclaims "No food or drink, please."  The janitor is here.  You
+can only move west.
+
+> attempt 0
+There's nothing in the activity room.
+
+> drop book
+You drop the book.
+
+> attempt 0
+There's something in the clean room.
+
+> take book
+# Note -- minor SCARE difference here...
+#You take the book.
+You pick up the book.
+
+> west
+You move west.
+Activity Room
+Sparsely furnished, the walls are white and unadorned, and the carpet is a
+bland shade of grey. Frankly, very little promise here for diversionary
+activity.  Also here is a pinewood cupboard, a pinewood table and a chair.
+You can only move east.
+
+> attempt 0
+There's nothing in the activity room.
+
+> take tray, drop tray
+You take the tray from the pinewood cupboard.
+You drop the tray.
+
+> attempt 0
+The bag is not on the tray.
+
+> take bag, put bag on tray
+You take the bag from the pinewood cupboard.
+You put the bag onto the tray.
+
+> attempt 0
+The tray is not in the cupboard.
+
+> take tray, put tray in cupboard
+# Note -- minor SCARE difference here...
+#You take the tray.
+You pick up the tray.
+You put the tray inside the pinewood cupboard.
+
+> attempt 0
+There's nothing in the activity room.
+
+> take sandwich, drop sandwich
+You take the sandwich from the pinewood cupboard.
+You drop the sandwich.
+
+> attempt 0
+The bag is not open.
+
+> take bag, open bag, drop bag
+You take the bag from the tray.
+You open the bag.
+You drop the bag.
+
+> attempt 0
+The bag is not on the tray.
+
+> take bag, put bag on tray
+# Note -- minor SCARE difference here...
+#You take the bag.
+You pick up the bag.
+You put the bag onto the tray.
+
+> attempt 0
+You're not sitting on the chair.
+
+> sit on chair
+You sit down on the chair.
+
+> attempt 0
+The password is 12345.
+
+> east
+(Getting off the chair first)
+You move east.
+Clean Room
+As bland as the Activity Room, but somehow cleaner.  There's a sign on the
+wall that proclaims "No food or drink, please."  The janitor is here.
+You can only move west.
+
+> attempt 0
+You're in the same room as the janitor.
+
+> west
+You move west.
+Activity Room
+Sparsely furnished, the walls are white and unadorned, and the carpet is a
+bland shade of grey. Frankly, very little promise here for diversionary
+activity.  Also here is a pinewood cupboard, a sandwich, a pinewood table
+and a chair.  You can only move east.
+
+> attempt 0
+You're not sitting on the chair.
+
+> attempt 12345
+You're not sitting on the chair.
+
+> sit on the chair
+You sit down on the chair.
+
+> attempt 12345
+Attempt successful.

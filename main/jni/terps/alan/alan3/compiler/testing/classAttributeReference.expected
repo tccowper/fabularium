@@ -1,0 +1,15 @@
+########## classAttributeReference ##########
+
+
+classAttributeReference.alan
+
+    9.    If x Is y Then "X is Y" End If.
+=====>       1
+
+  *1*   319 E : Identifier 'x' is not of correct type for this context.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

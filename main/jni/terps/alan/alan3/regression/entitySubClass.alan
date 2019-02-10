@@ -1,0 +1,25 @@
+Add To every entity
+  Verb x
+    Does "x" Say the entity. "."
+  End Verb.
+End Add To.
+
+Every e Isa entity
+End Every e.
+
+The e1 Isa e
+End The e1.
+
+The purse Isa object At l1
+  Container
+End The purse.
+
+The l1 Isa location
+  Exit w to l2.
+End The l1.
+
+The l2 Isa location
+End The l2.
+
+Start At l1.
+  List purse.

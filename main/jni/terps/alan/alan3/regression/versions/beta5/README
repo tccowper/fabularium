@@ -1,0 +1,10 @@
+This directory is for testing backwards compatibility of the
+interpreter between beta4 and beta5. In beta4 INDIRECTLY was
+introduced to mean the default transitivity. This changed in beta5
+when INDIRECTLY was changed to actually mean the complement to
+DIRECLTY, i.e. not including what's DIRECTLY in.
+
+Here we need to ensure that a beta4 compiled version of the
+versions.alan exists. Do this with 'make'. The actual test will be to
+run the development version of the interpreter on that to ensure that
+it counts as beta4 was defined to do, namely include the DIRECTLY.

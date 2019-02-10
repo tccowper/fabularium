@@ -1,0 +1,21 @@
+Syntax v1 = v (p1) Where p1 Isa object Else ""
+
+Syntax v2 = v (p1) 'with' (p2) Where p1 Isa object Else "" And p2 Isa object Else ""
+
+Add To Every object
+  Verb v1
+  Does ""
+  End Verb.
+
+  Verb v2
+  When p1 Does ""
+  End Verb.
+End Add To.
+
+The o Isa object At l
+End The o.
+
+The l Isa location
+End The l.
+
+Start At l.

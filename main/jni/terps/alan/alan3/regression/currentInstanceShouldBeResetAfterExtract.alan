@@ -1,0 +1,62 @@
+Verb l
+  Does
+    Look.
+End Verb.
+
+The bar Isa location
+End The bar.
+
+The bartender Isa actor
+  At bar.
+  Initialize
+    Use Script stealing For This.
+  Container
+    Header "The bartender is carrying"
+    Else "The bartender is not carrying anything."
+    Extract Check Current Actor = this
+            Else Say The This. "will not allow" Say The Current Actor. "to take anything."
+  Script stealing
+    Step
+      Locate menu In This.
+      Locate menu In waiter.
+End The bartender.
+
+The waiter Isa actor
+  At bar.
+  Is Not annoyed.
+  Description
+    "A slow-moving, traditionally dressed waiter is here."
+    List waiter.
+    If waiter Is annoyed Then
+      "He is rather annoyed."
+    End If.
+  Container
+    Header "The waiter is carrying"
+    Else "The waiter is empty-handed."
+    Extract Does Say The This. "is annoyed by the presupposition of" Say The Current Actor. "."
+		 Make This annoyed.
+End The waiter.
+
+The glass Isa object In bartender
+End The glass.
+
+The menu Isa object
+  In waiter.
+End The menu.
+
+
+Syntax take = take (o).
+
+Add To Every object
+  Verb take
+    Does
+      Locate o In hero.
+      Say The This. "was taken by" Say The Current Actor. "."
+  End Verb.
+End Add To.
+
+The hero Isa actor
+  With Container
+End The hero.
+
+Start At bar.

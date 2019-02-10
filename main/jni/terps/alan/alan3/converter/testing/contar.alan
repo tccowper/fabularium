@@ -1,0 +1,91 @@
+OBJECT ATTRIBUTES
+    weight 2.
+    size 2.
+
+CONTAINER inventory
+    LIMITS
+	COUNT 2 THEN "Your hands are full."
+	weight 5 THEN "It is much to heavy."
+
+    HEADER "You are carrying"		-- Default "The $o contains"
+    ELSE  "You are empty-handed."	-- Default "The $o is empty."
+END CONTAINER.
+
+
+OBJECT box AT somewhere
+CONTAINER
+    LIMITS
+	COUNT 1 THEN "There is not room for any more in the box."
+	size 7 THEN "It is much to heavy to put in the box."
+
+    HAS
+	weight 10.
+
+END OBJECT.
+
+
+OBJECT ball AT somewhere
+END OBJECT.
+
+
+OBJECT paper AT somewhere
+    HAS weight 1.
+END OBJECT.
+
+
+LOCATION somewhere
+END LOCATION.
+
+
+SYNTAX put_in = 'put' (o)* 'in' (c)
+  WHERE c ISA CONTAINER
+    ELSE "The $2 is not a container."
+
+VERB put_in
+    CHECK o <> c
+        ELSE "It would be a good trick to put the $1 inside the $2, if you could do it!!"
+    DOES
+	LOCATE OBJECT IN box.
+	"Ok!"
+	LIST box.
+END VERB.
+
+
+SYNTAX take = 'take' (o)*.
+VERB take
+    DOES
+	LOCATE o IN inventory.
+	"Taken."
+END VERB.
+
+
+SYNTAX drop = 'drop' (o)*.
+VERB drop
+    CHECK OBJECT IN inventory
+	ELSE "You don't have the $o."
+    DOES
+	LOCATE OBJECT HERE.
+END VERB.
+
+
+SYNTAX l = 'l'.
+
+VERB l
+    DOES
+	LOOK.
+	LIST inventory.
+END VERB.
+
+
+SYNTAX 'list' = 'list' (o)*
+  WHERE o ISA CONTAINER
+   ELSE "The $1 is not a container."
+
+VERB 'list'
+    DOES
+	LIST o.
+END VERB.
+
+START AT somewhere.
+  "$pTry: $i'take (o)*'$i'drop (o)*'$i'list (o)*'$i'put (o)* in (c)'$nand$i'l'"
+

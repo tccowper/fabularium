@@ -1,0 +1,1034 @@
+%%OPTIONS
+
+	Prefix 'pm';
+	Listerprefix 'lm';
+	List Grammar, Statistics;
+--	List Grammar, Statistics, Items;
+	StackLimit 64;
+	Pack RDS;
+	Line;
+--	Debug;
+	No Resolve;
+
+%%IMPORT
+
+#include "srcp.h"
+#include "smScan.h"
+#include "token.h"
+#include "lmList.h"
+#include "a2a3.h"
+#include "util.h"
+
+%%SCANNER
+    smScan(lexContext, token);
+
+%%INSERTSYMBOL
+{
+  static int idno = 1;
+    /* Make the requested token */
+    token->code = code;
+    if (token->code == sm_MAIN_IDENT_Token) {
+      sprintf(token->chars, "$genid#%d", idno++);
+      strcat(insStr, " ('");
+      strcat(insStr, token->chars);
+      strcat(insStr, "')");
+    } else
+      strcpy(token->chars, symString);
+}
+%%DECLARATIONS
+
+static int level = 0;
+static void newline()
+{
+  int i;
+  fprintf(outFile, "\n");
+  if (level < 0) printf("Level = %d", level);
+  for (i = 0; i < level; i++)
+    fprintf(outFile, "  ");
+}
+
+static void indent()
+{
+  level++;
+}
+
+static void outdent()
+{
+  level--;
+}
+
+
+static char *(v3Keywords[]) = {"to", "is", "at", "in", "an", "by",
+"if", "on", "do", "or", "of", "end", "not", "and", "isa", "add",
+"the", "are", "has", "say", "set", "for", "use", "max", "min", "sum",
+"verb", "does", "exit", "when", "else", "form", "name", "with",
+"then", "step", "wait", "here", "list", "show", "from", "make",
+"last", "word", "into", "each", "stop", "quit", "look", "save",
+"this", "only", "event", "start", "check", "where", "every", "count",
+"after", "until", "empty", "strip", "first", "words", "elsif",
+"score", "actor", "syntax", "script", "option", "opaque", "taking",
+"limits", "header", "nearby", "locate", "cancel", "depend", "visits",
+"system", "random", "before", "options", "message", "article",
+"entered", "extract", "include", "exclude", "restore", "restart",
+"between", "current", "synonyms", "definite", "describe", "schedule",
+"increase", "decrease", "contains", "location", "container",
+"mentioned", "character", "depending", "attributes", "indefinite",
+"characters", "description", NULL};
+
+static void print(char string[])
+{
+  fprintf(outFile, "%s", string);
+}
+
+static void idPrint(char id[])
+{
+  int wordIndex = 0;
+
+  while (v3Keywords[wordIndex] != NULL && strcmp(id, v3Keywords[wordIndex]) != 0)
+    wordIndex++;
+  if (v3Keywords[wordIndex] != NULL) fprintf(outFile, "'%s'", id);
+  else fprintf(outFile, "%s", id);
+}
+
+static void stringPrint(char string[])
+{
+  int ch, i;
+  int endOfLine;
+  char *remaining = string;
+  Bool printed = FALSE;
+
+  newline();
+  onlyOneSpace(string);
+
+  endOfLine = 75-level*2;
+  while (endOfLine < strlen(remaining)) {
+    while(remaining[endOfLine] != ' ' && remaining[endOfLine] != '\0' && endOfLine > 0) endOfLine--;
+    ch = remaining[endOfLine];
+    remaining[endOfLine] = '\0';
+    for (i = 0; i < endOfLine; i++) if (remaining[i] == '\n') remaining[i] = ' ';
+    if (printed) print(" ");
+    print(remaining);
+    remaining[endOfLine] = ch;
+    remaining = &remaining[endOfLine];
+    while(*remaining == ' ' || *remaining == '\n') remaining++;
+    newline();
+    printed = TRUE;
+    endOfLine = 75-level*2;
+  }
+  if (printed) print(" ");
+  for (i = 0; i < strlen(remaining); i++)
+    if (remaining[i] == '\n')
+      remaining[i] = ' ';
+  print(remaining);
+}
+
+
+%%ATTRIBUTES
+	string %% char *%1%%,
+	val %% int %1%%;
+%%TERMINALS
+    IDENT = 2,1,1 => 'Identifier';
+%%RECOVERY
+    Fiducial('VERB', 'DOES', 'EXIT', 'ACTOR', 'EVENT', 'START', 'OBJECT',
+		'SYNTAX', 'SCRIPT', 'LOCATION', 'SYNONYMS', 'CONTAINER',
+		'MENTIONED', 'ATTRIBUTES', 'DESCRIPTION', 'END', 'CHECK');
+    Separator(',');
+    Skip(IDENT, Integer, '.');
+%%RULES
+
+--> ADVENTURE
+<adventure>
+    = <optional_options> <units> <start>
+      %% newline(); %%
+    ;
+
+---> OPTIONS
+<optional_options>
+    =
+    ! 'OPTIONS' 
+	%% print("Options"); indent(); newline(); %%
+	<options>
+	%% outdent(); newline(); newline(); %%
+	%+('MESSAGE', 'DEFAULT')
+    ;
+<options>
+    = <option> %% newline(); %% 
+    ! <options> <option>
+    ;
+<option>
+    = ID '.'
+    %%
+	idPrint(%ID.string); print(".");
+    %%
+    ! ID ID '.'
+    %%
+	idPrint(%1ID.string); print(" "); idPrint(%2ID.string); printf(".");
+    %%
+    ! ID Integer '.'
+    %%
+	idPrint(%ID.string); print(" "); print(%Integer.chars); print(".");
+    %%
+    ;
+
+---> UNITS
+<units>
+    = <unit>
+    ! <units> <unit>
+    ;
+<unit>
+    = <default>
+    ! <object_default>
+    ! <location_default>
+    ! <actor_default>
+    ! <synonyms>
+    ! <messages>
+    ! <syntax>
+    ! <verb>
+    ! <location>
+    ! <object>
+    ! <event>
+    ! <container>
+    ! <actor>
+    ! <rule>
+    ;
+
+----> DEFAULTS
+<default>
+    = 'DEFAULT' 
+    %%
+	newline();
+	print("Add To Every thing");
+	indent();
+	newline();
+	print("Is");
+	indent();
+    %%
+	'ATTRIBUTES' <attributes>
+    %%
+	outdent();
+	outdent();
+	newline();
+	print("End Add To.");
+	newline();
+    %%
+	%+('MESSAGE', 'DEFAULT')
+    ;
+
+<location_default>
+    = 'LOCATION'
+    %%
+	newline();
+	print("Add To Every location");
+	indent();
+	newline();
+	print("Is");
+	indent();
+    %%
+	'ATTRIBUTES' <attributes>
+    %%
+	outdent();
+	outdent();
+	newline();
+	print("End Add To.");
+	newline();
+    %%
+	%+('MESSAGE', 'DEFAULT')
+    ;
+
+<object_default>
+    = 'OBJECT'
+    %%
+	newline();
+	print("Add To Every object");
+	indent();
+	newline();
+	print("Is");
+	indent();
+    %%
+	'ATTRIBUTES' <attributes>
+    %%
+	outdent();
+	outdent();
+	newline();
+	print("End Add To.");
+	newline();
+    %%
+	%+('MESSAGE', 'DEFAULT')
+    ;
+
+<actor_default>
+    = 'ACTOR'
+    %%
+	newline();
+	print("Add To Every actor");
+	indent();
+	newline();
+	print("Is");
+	indent();
+    %%
+	'ATTRIBUTES' <attributes>
+    %%
+	outdent();
+	outdent();
+	newline();
+	print("End Add To.");
+	newline();
+    %%
+	%+('MESSAGE', 'DEFAULT')
+    ;
+
+----> ATTRIBUTES
+<attributes>
+    = <attribute> '.' %% print("."); %%
+    ! <attributes> <attribute> '.' %% print("."); %%
+    ;
+
+<attribute>
+    = ID %% newline(); idPrint(%ID.string); %%
+    ! 'NOT' ID %% newline(); print("Not "); idPrint(%ID.string); %%
+    ! ID <optional_minus> Integer %% newline(); idPrint(%ID.string); print(" "); print(%<optional_minus>.string); print(" "); print(%Integer.chars); %%
+    ! ID STRING %% newline(); idPrint(%ID.string); print(" "); stringPrint(%STRING.chars); %%
+    ;
+
+---> <SYNONYMS>
+<synonyms>
+    = 'SYNONYMS' %% newline(); print("Synonyms"); indent(); newline(); %%
+	<synonym_list>	%% outdent(); newline(); %% %+('MESSAGE', 'DEFAULT')
+    ;
+<synonym_list>
+    = <synonym>
+    ! <synonym_list> <synonym>
+    ;
+<synonym>
+    = <id_list> '=' ID '.' %% print(" = "); idPrint(%ID.string); print("."); newline(); %%
+    ;
+
+---> <MESSAGES>
+<messages>
+    = 'MESSAGE' <message_list>				%+('MESSAGE', 'DEFAULT')
+    ;
+<message_list>
+    = <message>
+    ! <message_list> <message>
+    ;
+<message>
+    = ID ':' <statements>			%-('QUIT', 'SAVE', 'RESTART', 'RESTORE')
+    ;
+
+---> <SYNTAX>
+<syntax>
+    = 'SYNTAX' %% newline(); print("Syntax"); indent(); %%
+	<syntax_list> %% outdent(); newline(); %% 		%+('MESSAGE', 'DEFAULT')
+    ;
+<syntax_list>
+    = <syntax_item>
+    ! <syntax_list> <syntax_item>
+    ;
+<syntax_item>
+    = <syntax_item1> <syntax_item2>
+    ;
+<syntax_item1>
+    = ID '=' %% newline(); idPrint(%ID.string); print(" ="); %%
+    ;
+<syntax_item2>
+    = <syntax_elements> <optional_class_restrictions>
+    ;
+<syntax_elements>
+    = <syntax_element>
+    ! <syntax_elements> <syntax_element>
+    ;
+<syntax_element>
+    = ID %% print(" "); idPrint(%ID.string); %%
+    ! '(' ID ')' <optional_indicators> %% print(" ("); idPrint(%ID.string); print(")"); print(%<optional_indicators>.string); %%
+    ;
+<optional_indicators>
+    = %% %<optional_indicators>.string = malloc(1); strcpy(%<optional_indicators>.string, ""); %%
+    ! <optional_indicators> <indicator>
+	%%
+	    %<optional_indicators>.string = realloc(%<optional_indicators>.string,
+		strlen(%<optional_indicators>.string) + strlen(%<indicator>.string) + 1);
+	    strcat(%<optional_indicators>.string, %<indicator>.string);
+	%%
+    ;
+<indicator>
+    = '*' %% %<indicator>.string = "*"; %%
+    ! '!' %% %<indicator>.string = "!"; %%
+    ;
+
+<optional_class_restrictions>
+    = '.' %% print("."); %%
+    ! 'WHERE' %% indent(); newline(); print("Where "); indent(); %% <class_restrictions>
+    %% outdent(); outdent(); newline(); %%
+    ;
+
+<class_restrictions>
+    = <class_restriction>
+    ! <class_restrictions> 'AND' %% outdent(); newline(); print("And "); indent(); %% <class_restriction>
+    ;
+
+<class_restriction>
+    = <class_restriction1> <class_restriction2> %% outdent(); %%
+    ;
+
+<class_restriction1>
+    = ID 'ISA' %% idPrint(%ID.string); print(" Isa "); %%
+    ;
+
+<class_restriction2> 
+    = <classes>	'ELSE' %% newline(); print("Else "); indent(); %%<statements> 	%-('QUIT', 'SAVE', 'RESTORE', 'EMPTY', 'RESTART')
+    ;
+
+<classes>
+    = <class_identifier> %% print(%<class_identifier>.string); %%
+    ! <classes> 'OR' <class_identifier> %% print(" ****OR**** "); idPrint(%<class_identifier>.string); %%
+    ;
+
+<class_identifier>
+    = 'OBJECT' %% %<class_identifier>.string = "object"; %%
+    ! 'ACTOR' %% %<class_identifier>.string = "actor"; %%
+    ! 'CONTAINER'  %% %<class_identifier>.string = "container"; %%
+    ! 'CONTAINER' 'OBJECT'  %% %<class_identifier>.string = "**** container object ****"; %%
+    ! 'CONTAINER' 'ACTOR'  %% %<class_identifier>.string = "**** container actor ****"; %%
+    ! 'INTEGER'  %% %<class_identifier>.string = "integer"; %%
+    ! 'STRING'  %% %<class_identifier>.string = "string"; %%
+    ;
+
+---> VERBS
+<optional_verbs>
+    =
+    ! <optional_verbs> <verb>
+    ;
+<verb>
+    = <verb_header> <verb_body> <verb_tail>
+    ;
+<verb_header>
+    = 'VERB' %% newline(); print("Verb "); %% <id_list> %% indent(); %%
+    ;
+<verb_body>
+    = <simple_verb_body>
+    ! <verb_alternatives>
+    ;
+<verb_alternatives>
+    = <verb_alternative>
+    ! <verb_alternatives> <verb_alternative>
+    ;
+<verb_alternative>
+    = <verb_alternative1> <simple_verb_body> %% outdent(); %%
+    ;
+<verb_alternative1>
+    = 'WHEN' ID %% newline(); print("When "); idPrint(%ID.string); indent(); %%
+    ;
+<simple_verb_body>
+    = <optional_checks> <optional_does>
+    ;
+<verb_tail>
+    = 'END' 'VERB' %% outdent(); newline(); print("End Verb"); %% <optional_id> '.' %% print("."); newline(); %%
+    ;
+
+----> CHECKS
+<optional_checks>
+    =
+    ! <check1> <statements> %% outdent(); %%
+    ! <check1> <check_list> %% outdent(); %%
+    ;
+
+<check1>
+    = 'CHECK' %% newline(); print("Check "); indent(); %%;
+
+<check_list>
+    = <check>
+    ! <check_list> 'AND' %% outdent(); newline(); print("And "); indent(); %% <check>
+    ;
+<check>
+    = <expression> 'ELSE' %% newline(); print("Else "); indent(); %% <statements> %% outdent(); %%
+    ;
+
+----> DOES
+<optional_does>
+    =
+    ! <does>
+    -- Propagate!
+    ;
+<does>
+    = 'DOES' %% newline(); print("Does"); indent(); %% <optional_qual> <statements> %% outdent(); %%
+    ;
+
+---> LOCATION
+<location>
+    = <location_header> <location_body> <location_tail> %% idPrint(%<location_header>.string); print("."); %%
+    ;
+
+<location_header>
+    = <location_id> <optional_name>
+    %% %<location_header>.string = %<location_id>.string; %%
+    ;
+
+<location_id>
+    = 'LOCATION' ID
+    %%
+	newline(); newline();
+	print("The "); idPrint(%ID.string); print(" Isa location");
+	indent(); newline();
+	%<location_id>.string = %ID.string;
+    %%
+    ;
+
+<location_body>
+    =
+    ! <location_body> <location_body_part>
+    ;
+
+<location_body_part>
+    = %% newline(); %% <is> %% indent(); %% <attributes> %% outdent(); %%				%+('EXIT')
+    ! <description>
+    ! <location_does>
+    ! <exit>
+    ! <verb>
+    ;
+
+<location_does>
+    = 'DOES' %% newline(); print("Entered"); indent(); %% <optional_qual> <statements> %% outdent(); %%
+    ;
+
+<location_tail>
+    = 'END' 'LOCATION' <optional_id> '.'
+	%% outdent(); newline(); print("End The "); %%
+    ;
+
+----> EXITS
+<optional_exits>
+    =
+    ! <optional_exits> <exit>
+    ;
+<exit>
+    = 'EXIT' %% newline(); print("Exit "); %% <id_list> <to_id> <optional_exit_body> '.'
+    %% print("."); newline(); %%
+    ;
+<to_id>
+    = 'TO' ID %% print(" To "); idPrint(%ID.string); %%
+    ;
+<optional_exit_body>
+    =
+    ! %% indent(); %% <optional_checks> <optional_does> 'END' 'EXIT' <optional_id>
+    %% outdent(); newline(); print("End Exit"); if (%<optional_id>.string[0] != '\0') {print(" "); idPrint(%<optional_id>.string); } %%
+    ;
+
+---> OBJECTS
+<object>
+    = <object_header> <object_body> <object_tail>
+	%% idPrint(%<object_header>.string); print("."); %%
+    ;
+
+<object_header>
+    = <object_id> <optional_where> <optional_names> <optional_where>
+	%% %<object_header>.string = %<object_id>.string;%%
+    ;
+
+<object_id>
+    = 'OBJECT' ID
+    %%
+	newline(); newline(); print("The "); idPrint(%ID.string); print(" Isa object");
+	indent(); newline();
+	%<object_id>.string = %ID.string;
+    %%
+    ;
+
+<object_body>
+    = 
+    ! <object_body> <object_body_part>
+    ;
+
+<object_body_part>
+    = <properties>
+    ! %% newline(); %% <is> %% indent(); %% <attributes> %% outdent(); %%					%+('ARTICLE')
+    ! <description>
+    ! <mentioned>
+    ! <article>
+    ! <verb>
+    ;
+
+<object_tail>
+    = 'END' 'OBJECT' <optional_id> '.'
+	%% outdent(); newline(); print("End The "); %%
+    ;
+
+--
+-- Attributes
+--
+<optional_attributes>
+    =
+    ! <optional_attributes> <is> %% indent(); newline(); %% <attributes> %% outdent(); %%			%+('ARTICLE')
+    ;
+<is>
+    = 'IS' %% print("Is "); %%
+    ! 'ARE' %% print("Are "); %%
+    ! 'HAS' %% print("Has "); %%
+    ;
+<optional_description>
+    =
+    ! <description> 
+    -- Propagate!
+    ;
+<description>
+    = 'DESCRIPTION' %% newline(); print("Description"); newline(); %%
+    ! 'DESCRIPTION' %% newline(); print("Description"); indent(); %% <statements> %% outdent(); newline(); %%
+    ;
+<article>
+    = 'ARTICLE'
+    ! 'ARTICLE' %% newline(); print("Article"); indent(); %% <statements> %% outdent(); newline(); %%
+    ;
+<mentioned>
+    = 'MENTIONED' %% newline(); print("Mentioned"); indent(); %% <statements> %% outdent(); newline(); %%
+    ;
+<optional_name>
+    =
+    ! <name>
+    ;
+<optional_names>
+    =
+    ! <optional_names> <name>
+    ;
+<name>
+    = 'NAME' %% print("Name "); %% <ids> %% newline(); %%					%+('ARTICLE', 'IN', 'EXIT')
+    ;
+
+---> CONTAINERS
+<properties>
+    = 'CONTAINER' %% newline(); print("With Container"); indent(); %% <container_body> %% outdent(); %%
+    ;
+<container>
+    = <container_header> <container_body> <container_tail>
+	%% idPrint(%<container_header>.string); print("."); newline(); %%
+    ;
+<container_header>
+    = 'CONTAINER' ID %% newline(); print("The "); idPrint(%ID.string);
+			indent(); newline();
+			print("Container");
+			%<container_header>.string = %ID.string; indent(); %%
+    ;
+<container_body>
+    =  <optional_limits> <optional_header> <optional_empty>
+    ;
+<container_tail>
+    = 'END' 'CONTAINER' <optional_id> '.'
+	%% outdent(); outdent(); newline(); print("End The "); %%
+    ;
+<optional_limits>
+    =
+    ! 'LIMITS' %% newline(); print("Limits"); indent(); %% <limits> %% outdent(); %%					%+('ARTICLE')
+    ;
+<limits>
+    = <limit>
+    ! <limits> <limit>
+    ;
+<limit>
+    = <limit_attribute> 'THEN' %% indent(); newline(); print("Else"); indent(); %%<statements> %% outdent(); outdent(); %%			%-('QUIT', 'SAVE', 'RESTORE', 'EMPTY', 'RESTART')
+    ;
+<limit_attribute>
+    = <attribute>
+    ! 'COUNT' Integer %% newline(); print("Count "); print(%Integer.chars); %%
+    ;
+<optional_header>
+    =
+    ! 'HEADER' %% newline(); print("Header"); indent(); %% <statements> %% outdent(); %%
+    ;
+<optional_empty>
+    =
+    ! 'ELSE' %% newline(); print("Else"); indent(); %% <statements> %% outdent(); %%
+    ;
+
+---> EVENTS
+<event>
+    = <event_header> %% indent(); %% <statements> <event_tail> %% idPrint(%<event_header>.string); print("."); newline(); %%
+    ;
+<event_header>
+    ='EVENT' ID
+    %% newline(); print("Event "); idPrint(%ID.string);
+	%<event_header>.string = %ID.string; %%
+    ;
+<event_tail>
+    = 'END' 'EVENT' <optional_id> '.'
+     %% outdent(); newline(); print("End Event "); %%
+    ;
+
+---> ACTORS
+<actor>
+    = <actor_header> <actor_body> <actor_tail>
+	%% idPrint(%<actor_header>.string); print("."); newline(); %%
+    ;
+
+<actor_header>
+    = <actor_id> <optional_where> <optional_names> <optional_where>
+	%% %<actor_header>.string = %<actor_id>.string; %%
+    ;
+
+<actor_id>
+    = 'ACTOR' ID
+    %%
+	newline(); newline(); print("The "); idPrint(%ID.string); print(" Isa actor");
+	indent(); newline();
+	%<actor_id>.string = %ID.string;
+    %%
+    ;
+
+<actor_body>
+    = 
+    ! <actor_body> <actor_body_part>
+    ;
+
+<actor_body_part>
+    = <properties>
+    ! %% newline(); %% <is> %% indent(); %% <attributes> %% outdent(); %%
+    ! <description>
+    ! <verb>
+    ! <script>
+    ;
+<actor_tail>
+    = 'END' 'ACTOR' <optional_id> '.'
+	%% outdent(); newline(); print("End The "); %%
+    ;
+
+----> SCRIPTS
+<optional_actor_script>
+    = 
+    ! <optional_actor_script> <script>
+    ;
+
+<script>
+    = <script1> <script2>
+    ;
+
+<script1>
+    = 'SCRIPT' <integer_or_id> '.'
+    %% newline(); print("Script "); print(%<integer_or_id>.string); print("."); indent(); %%
+    ;
+
+<script2>
+    = <optional_description> <step_list> %% outdent(); %%
+    ;
+
+<step_list>
+    = <step>
+    ! <step_list> <step>
+    ;
+
+<step>
+    = 'STEP' %% newline(); print("Step"); indent(); %% <statements> %% outdent(); %%
+    ! <step_after_integer> <statements> %% outdent(); %%
+    ! 'STEP' 'WAIT' 'UNTIL' %% newline(); print("Step Wait Until "); indent(); %% <expression> <statements> %% outdent(); %%
+    ;
+
+<step_after_integer>
+    = 'STEP' 'AFTER' Integer %% newline(); print("Step After "); print(%Integer.chars); indent(); %%
+    ;
+
+----> RULES
+<rule>
+    = 'WHEN' %% newline(); print("When "); %% <expression> '=>' %% print(" Then"); indent(); %% <statements> %% outdent(); newline(); %%
+    ;
+
+---> START
+<start>
+    = 'START'  %% newline(); newline(); print("Start "); %% <where> '.' %% print("."); indent(); %% <optional_statements>
+    ;
+
+---> STATEMENTS
+<optional_statements>
+    =
+    ! <statements>
+    ;
+
+<statements>
+    = <statement>
+    ! <statements> <statement>
+    ;
+
+<statement>
+    = <output_statement>
+    ! <manipulation_statement>
+    ! <assignment_statement>
+    ! <comparison_statement>
+    ! <actor_statement>
+    ! <event_statement>
+    ! <special_statement>
+    ;
+
+<fullstop>
+    = '.' %% print("."); %%
+    ;
+
+----> Output Statements
+<output_statement>
+    = STRING %% stringPrint(%STRING.chars); %%
+    ! 'DESCRIBE' %% newline(); print("Describe "); %% <what> <fullstop>
+    ! 'SAY' %% newline(); print("Say "); %% <expression> <fullstop>
+    ! 'LIST' %% newline(); print("List "); %% <what> <fullstop>
+    ;
+
+<special_statement>
+    = 'QUIT' '.' %% newline(); print("Quit."); %%
+    ! 'LOOK' '.' %% newline(); print("Look."); %%
+    ! 'SAVE' '.' %% newline(); print("Save."); %%
+    ! 'RESTORE' '.' %% newline(); print("Restore."); %%
+    ! 'RESTART' '.' %% newline(); print("Restart."); %%
+    ! 'SCORE' %% newline(); print("Score "); %% <optional_integer> '.'  %% print("."); %%
+    ! 'VISITS' Integer '.' %% newline(); print("Visits "); print(%Integer.chars); print("."); %%
+    ! 'SYSTEM' STRING '.' %% newline(); print("****System**** "); stringPrint(%STRING.chars); %%
+    ;
+	
+
+----> Manipulation Statements
+<manipulation_statement>
+    = 'EMPTY' %% newline(); print("Empty "); %% <what> %% print(" "); %% <optional_where> <fullstop>
+    ! 'LOCATE' %% newline(); print("Locate "); %% <what> %% print(" "); %% <where> <fullstop>
+    ;
+
+----> Event Statements
+<event_statement>
+    = <schedule1> <optional_where> 'AFTER' %% print("After "); %% <expression> <fullstop>
+    ! 'CANCEL' ID '.'
+    %% newline(); print("Cancel "); idPrint(%ID.string); print("."); %%
+    ;
+
+<schedule1>
+    = 'SCHEDULE' ID %% newline(); print("Schedule "); idPrint(%ID.string); print(" "); %%
+    ;
+
+----> Assignment Statements
+<assignment_statement>
+    = 'MAKE' %% newline(); print("Make "); %% <what> %% print(" "); %% <something> <fullstop>
+    ! 'SET' %% newline(); print("Set "); %% <attribute_reference> 'TO' %% print(" To "); %% <expression> <fullstop>
+    ! 'INCREASE' %% newline(); print("Increase "); %% <attribute_reference> <optional_by_clause> <fullstop>
+    ! 'DECREASE' %% newline(); print("Decrease "); %% <attribute_reference> <optional_by_clause> <fullstop>
+    ;
+
+<optional_by_clause>
+    =
+    ! 'BY' %% print(" By "); %% <expression>
+    ;
+
+----> Comparison Statements
+<comparison_statement>
+    = <if_statement>
+    ! <depending_statement>
+    ;
+
+<if_statement>
+    = 'IF' %% newline(); print("If "); %%
+	<expression> 'THEN' %% print(" Then"); indent(); %%
+	<statements> <optional_elsif_list> <optional_else_part>
+	'END' 'IF' '.' %% outdent(); newline(); print("End If."); %%
+    ;
+
+<optional_elsif_list>
+    =
+    ! <elsif_list>
+    ;
+    
+<elsif_list>
+    = <elsif>
+    ! <elsif_list> <elsif>
+    ;
+
+<elsif>
+    = 'ELSIF' %% outdent(); newline(); print("Elsif "); %%
+	<expression> 'THEN' %% print(" Then "); indent(); %%
+	<statements>
+    ;
+
+<optional_else_part>
+    =
+    ! 'ELSE' %% outdent(); newline(); print("Else "); indent(); %%
+	<statements>
+    ;
+
+<depending_statement>
+    = 'DEPENDING' 'ON' %% newline(); print("Depending On "); %%
+	<primary> %% indent(); newline(); %%
+	<depend_cases>
+      'END' 'DEPEND' '.' %% outdent(); newline(); print("End Depend."); %%
+    ;
+
+<depend_cases>
+    = <depend_case>
+    ! <depend_cases> %% newline(); %% <depend_case>
+    ;
+
+<depend_case>
+    = <right_hand_side> ':' %% print(" Then "); indent(); %% <statements> %% outdent(); %%
+    ! 'ELSE' %% print("Else "); indent(); %% <statements> %% outdent(); %%
+    ;
+
+----> Actor statement
+<actor_statement>
+    = 'USE' 'SCRIPT' %% newline(); print("Use Script "); %% <script_reference> <optional_for_actor> <fullstop>
+    ;
+
+<script_reference>
+    = <integer_or_id> %% print(%<integer_or_id>.string); %% 
+    ;
+
+<optional_for_actor>
+    =
+    ! 'FOR' ID %% print(" For "); idPrint(%ID.string); %%
+    ;
+
+---> EXPRESSIONS
+<expression>
+    = <term>
+    ! <expression> 'OR' %% print(" Or "); %% <term>
+    ;
+
+<term>
+    = <factor>
+    ! <term> 'AND' %% print(" And "); %% <factor>
+    ;
+
+<factor>
+    = <primary>
+    ! <primary> %% print(" "); %% <right_hand_side>
+    ;
+
+<right_hand_side>
+    = <binop> <primary>
+    ! <optional_not> <relop> <primary>
+    ! <optional_not> <where>
+    ! <is> <something>
+    ! <optional_not> 'BETWEEN' %% print(" Between "); %% <factor> 'AND' %% print(" And "); %% <factor>
+    ! <optional_not> 'CONTAINS' %% print(" Contains "); %% <factor>
+    ;
+
+<primary>
+    = '(' %% print("("); %% <expression> ')' %% print(")"); %%
+    ! <optional_minus> Integer %% print(%<optional_minus>.string); print(%Integer.chars); %%
+    ! STRING %% stringPrint(%STRING.chars); %%
+    ! <what>
+    ! <attribute_reference>
+    ! <aggregate> %% print("Isa object, "); %% <where>
+    ! 'RANDOM' %% print("Random "); %% <primary> 'TO' %% print(" To "); %% <primary>
+    ! 'SCORE' %% print("Score"); %%
+    ;
+
+<aggregate>
+    = 'SUM' 'OF' ID %% print(" (Sum Of "); idPrint(%ID.string); %%
+    ! 'MAX' 'OF' ID %% print(" (Max Of "); idPrint(%ID.string); %%
+    ! 'COUNT' %% print(" Count "); %%
+    ;
+
+---> MISCELLANEOUS
+<something>
+    = <optional_not> ID %% idPrint(%ID.string); %%
+    ;
+
+<what>
+    = 'OBJECT' %% print("object"); %%
+    ! 'LOCATION' %% print("Current Location"); %%
+    ! 'ACTOR' %% print("Current Actor"); %%
+    ! ID %% idPrint(%ID.string); %%
+    ;
+
+<optional_where>
+    =					%-('HERE', 'NEARBY', 'AT', 'IN')
+    ! <where>
+    %% print(" "); %%
+    ;
+
+<where>
+    = 'HERE' %% print("Here"); %%
+    ! 'NEARBY' %% print("Nearby"); %%
+    ! 'AT' %% print("At "); %% <what> 
+    ! 'IN' %% print("In "); %% <what>
+    ;
+
+<binop>
+    = '+' %% print("+"); %%
+    ! '-' %% print("-"); %%
+    ! '*' %% print("*"); %%
+    ! '/' %% print("/"); %%
+    ;
+
+<relop>
+    = '<>' %% print("<>"); %%
+    ! '=' %% print("="); %%
+    ! '==' %% print("=="); %%
+    ! '>=' %% print(">="); %%
+    ! '<=' %% print("<="); %%
+    ! '>' %% print(">"); %%
+    ! '<' %% print("<"); %%
+    ;
+
+<optional_qual>
+    =
+    ! 'BEFORE' %% print(" Before"); %%
+    ! 'AFTER' %% print(" After"); %%
+    ! 'ONLY' %% print(" Only"); %%
+    ;
+
+<optional_not>
+    =
+    ! 'NOT' %% print("Not "); %%
+    ;
+
+<optional_id>
+    = %% %<optional_id>.string = ""; %%
+    ! ID %% %<optional_id>.string = %ID.string; %%
+    ;
+
+<ids>
+    = ID %% idPrint(%ID.string); %%
+    ! <ids> ID %% print(" "); idPrint(%ID.string); %%
+    ;
+
+<id_list>
+    = ID %% idPrint(%ID.string); %%
+    ! <id_list> ',' ID %% print(", "); idPrint(%ID.string); %%
+    ;
+
+<optional_integer>
+    =
+    ! Integer %% print(%Integer.chars); %%
+    ;
+
+<optional_minus>
+    = %% %<optional_minus>.string = ""; %%
+    ! '-' %% %<optional_minus>.string = "-"; %%
+    ;
+
+<attribute_reference>
+    = <id_of> <what> 
+    ;
+
+<id_of>
+    = ID 'OF' %% idPrint(%ID.string); print(" Of "); %%
+    ;
+
+<integer_or_id>
+    = Integer %% %<integer_or_id>.string = malloc(strlen(%Integer.chars)+2);
+		sprintf(%<integer_or_id>.string, "s`%s", %Integer.chars); %%
+    ! ID %% %<integer_or_id>.string = %ID.string; %%
+    ;
+
+ID
+    = IDENT %% %ID.string = %IDENT.chars; %%
+    ! 'DEFAULT' %% %ID.string = "default"; %%
+    ! 'ARTICLE' %% %ID.string = "article"; %%
+    ! 'MESSAGE' %% %ID.string = "message"; %%
+    ! 'QUIT' %% %ID.string = "quit"; %%
+    ! 'SAVE' %% %ID.string = "save"; %%
+    ! 'RESTORE' %% %ID.string = "restore"; %%
+    ! 'RESTART' %% %ID.string = "restart"; %%
+    ! 'WAIT' %% %ID.string = "wait"; %%
+    ! 'BETWEEN' %% %ID.string = "between"; %%
+    ! 'CONTAINS' %% %ID.string = "contains"; %%
+    ! 'ON' %% %ID.string = "on"; %%
+    ! 'IN' %% %ID.string = "in"; %%
+    ! 'AFTER' %% %ID.string = "after"; %%
+    ! 'BEFORE' %% %ID.string = "before"; %%
+    ! 'CHECK' %% %ID.string = "check"; %%
+    ! 'DEPEND' %% %ID.string = "depend"; %%
+    ! 'EXIT' %% %ID.string = "exit"; %%
+    ! 'FOR' %% %ID.string = "for"; %%
+    ! 'INTEGER' %% %ID.string = "integer"; %%
+    ! 'ISA' %% %ID.string = "isa"; %%
+    ! 'LIMITS' %% %ID.string = "limits"; %%
+    ;

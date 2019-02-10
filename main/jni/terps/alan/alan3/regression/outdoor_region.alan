@@ -1,0 +1,22 @@
+The outdoor_region Isa location
+End The outdoor_region.
+
+The park Isa location At outdoor_region
+  Exit n,e,s,w To entrance.
+End The park.
+
+The entrance Isa location
+  Exit n,e,s,w To park.
+End The entrance.
+
+The air Isa object At outdoor_region End The air.
+The sky Isa object At outdoor_region End The sky.
+
+Syntax examine = examine (o).
+Add To Every object
+  Verb examine
+    Does "There is nothing special with" Say The o. "."
+  End Verb.
+End Add To.
+
+Start At entrance.

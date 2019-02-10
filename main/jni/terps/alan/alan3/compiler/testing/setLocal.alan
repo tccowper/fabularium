@@ -1,0 +1,29 @@
+Add To Every location
+  Is lit.
+End Add.
+
+The room
+  Isa location.
+  Description
+    "This is a room."
+    "It is" If this Is Not lit THen "not" End If. "lit."
+  Exit w To room.
+  Exit e To other_room.
+End The room.
+
+The other_room
+  Isa location.
+  Description "It is" If this Is Not lit THen "not" End If. "lit."
+  Exit e To other_room.
+  Exit w To room.
+End The other_room.
+
+The obj Isa object
+End The obj.
+
+Start At room.
+  For Each l Isa Location Do
+    Set l To 4.
+  End For.
+
+

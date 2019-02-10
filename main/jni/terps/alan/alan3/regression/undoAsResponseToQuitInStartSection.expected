@@ -1,0 +1,17 @@
+########## undoAsResponseToQuitInStartSection ##########
+
+        No warnings or errors detected.
+        3 informational message(s).
+
+
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? undo
+Nothing to undo.
+
+> l
+Loc
+It is not changed.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

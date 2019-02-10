@@ -1,0 +1,16 @@
+The c Isa object
+End The c.
+
+The l Isa location
+  Has c {c}.
+  Has l {l}.
+  Has i {1}.
+End The l.
+
+Start At l.
+  Locate Random In c Of l At l. -- Should locate c At l
+  Say Random In c Of l. -- Should say c
+  If Count Isa entity, in i Of l > 0 Then
+    Say Random In i Of l + 7. -- Should say 8
+  End If.
+

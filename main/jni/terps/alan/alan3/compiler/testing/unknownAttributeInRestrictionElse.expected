@@ -1,0 +1,17 @@
+########## unknownAttributeInRestrictionElse ##########
+
+
+unknownAttributeInRestrictionElse.alan
+
+   12.      Else If o Has attr Then "There should be an error here." End If.
+=====>                    1
+
+  *1*   316 E : Attribute 'attr' is not defined for parameter 'o' since the
+                class it is guaranteed to be in this context ('entity') does
+                not have it.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

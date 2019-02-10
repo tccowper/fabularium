@@ -1,0 +1,37 @@
+The bar Isa location
+End The bar.
+
+The waiter Isa actor
+  At bar.
+  Is Not annoyed.
+  Description
+    "A slow-moving, traditionally dressed waiter is here."
+    If This Is annoyed Then
+      "He is rather annoyed."
+    End If.
+  Container
+    Header "The waiter is carrying"
+    Else "The waiter is empty-handed."
+    Extract Does Only "The waiter is annoyed by your presupposition."
+		 Make This annoyed.
+End The waiter.
+
+The menu Isa object
+  In waiter.
+End The menu.
+
+
+Syntax take = take (o).
+
+Add To Every object
+  Verb take
+    Does
+      Locate o In hero.
+  End Verb.
+End Add To.
+
+The hero Isa actor
+  With Container
+End The hero.
+
+Start At bar.

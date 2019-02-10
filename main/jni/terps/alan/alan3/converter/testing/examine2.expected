@@ -1,0 +1,54 @@
+########## examine2 ##########
+
+Add To Every object
+  Is
+    openable.
+    closed.
+End Add To.
+
+Syntax
+  examine = examine (obj)
+    Where obj Isa object ****OR**** 'actor'
+      Else 
+        "JJJ"
+  
+
+Verb examine
+  Does
+    "xxx"
+    If object Is openable Then
+      "yyy"
+      "$p"
+      If object Is closed Then
+        "The $o is closed."
+      Else 
+        "zzz"
+        List obj.
+      End If.
+    End If.
+End Verb.
+
+
+The a Isa actor
+  At l1 
+End The a.
+
+
+The o Isa object
+  At l1 
+End The o.
+
+The l1 Isa location
+  
+  Exit n To l2.
+  
+End The l1.
+
+The l2 Isa location
+  
+  Exit s To l1.
+  
+End The l2.
+
+Start At l1.
+  

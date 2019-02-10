@@ -1,0 +1,52 @@
+options
+  debug.
+  pack.
+
+The l Isa location
+  exit w to l.
+End The l.
+
+The limbo Isa location
+End The limbo.
+
+The kalle Isa actor
+  Name stor liten kalle
+  Definite Article ""
+  At l
+  Is large.
+  Is age 42.
+End The kalle.
+
+Syntax examine = examine (a)
+  Where a Isa Actor
+    Else "You can't do that to that."
+
+The hero Isa actor
+  Name me
+  Verb examine
+    Does
+      "$1 is here.!@#"
+  End Verb.
+End The hero.
+
+Event e1
+  "Event 1." If kalle Is large Then "He is large." End If.
+  "He is" Say age Of kalle.
+  Locate kalle At limbo.
+End Event.
+
+When kalle At hero =>
+	 Schedule e2 At hero After 0.
+
+Event e2
+  "Kalle is here."
+End Event.
+
+Event e3
+  Locate kalle At hero.
+End Event.
+
+Start At l.
+  Schedule e1 After 2.
+  Schedule e3 After 4.
+  "Examine Kalle & yourself."

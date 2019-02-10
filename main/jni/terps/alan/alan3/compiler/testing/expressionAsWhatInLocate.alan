@@ -1,0 +1,8 @@
+The l Isa location
+  Has ref1 ref1.
+  Has ref2 l.
+End The l.
+
+Start At l.
+  Locate ref1 Of l Here.
+  Locate ref2 Of l Here.

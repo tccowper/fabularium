@@ -1,0 +1,13 @@
+#include <cgreen/cgreen.h>
+#include <cgreen/mocks.h>
+
+#include "term.h"
+
+
+/* DATA */
+bool onStatusLine;
+
+
+/* FUNCTIONS */
+void getPageSize(void) { mock(); }
+void statusline(void) { mock(); }

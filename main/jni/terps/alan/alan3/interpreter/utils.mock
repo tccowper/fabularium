@@ -1,0 +1,14 @@
+/* Mocking utils.c */
+#include "utils.h"
+
+/* IMPORTS: */
+#include "types.h"
+
+
+/* TYPES: */
+
+
+/* FUNCTIONS: */
+void terminate(int code) { mock(code); }
+void usage(char *programName);
+void printVersion(int buildNumber);

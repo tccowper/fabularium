@@ -1,0 +1,13 @@
+Add To Every entity
+  Has Not alive.
+End Add To.
+
+The l Isa location
+End The l.
+
+Start At l.
+  If l Is alive Then
+    "Alive."
+  Else
+    "Not alive."
+  End If.

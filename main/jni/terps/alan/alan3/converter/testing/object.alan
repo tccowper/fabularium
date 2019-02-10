@@ -1,0 +1,57 @@
+SYNTAX take = 'take' (o)*.
+VERB take
+    DOES
+	LOCATE o IN inventory.
+	"Taken."
+END VERB.
+
+
+SYNTAX drop = 'drop' (o)*.
+VERB drop
+    CHECK OBJECT IN inventory
+	ELSE "You don't have the $o."
+    DOES
+	LOCATE OBJECT HERE.
+END VERB.
+
+
+SYNTAX l = 'l'.
+VERB l
+    DOES
+	LOOK.
+END VERB.
+
+
+SYNTAX i = 'i'.
+VERB i
+  DOES
+    LIST inventory.
+END VERB i.
+
+
+SYNTAX q = 'q'.
+VERB q
+  DOES
+    QUIT.
+END VERB q.
+
+
+SYNTAX z = 'z'.
+VERB z
+  DOES
+    ""
+END VERB z.
+Event e1
+  Locate Object Here.
+  Describe Object.
+End Event e1.
+
+Location l1
+  Description
+    Locate Object Here.
+    Describe Object.
+End Location l1.
+
+Start At l1.
+  Locate Object Here.
+  Describe Object.

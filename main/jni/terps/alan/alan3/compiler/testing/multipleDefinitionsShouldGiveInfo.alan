@@ -1,0 +1,15 @@
+The coin Isa object
+End The coin.
+
+The coin Isa object
+End The coin.
+
+The l Isa location
+End The l.
+
+Start At l.  "This test should show both an error for the second coin
+      declaration but also an informational message for the
+      first. However, there is no easy way to make jregr use -infos
+      for just this test case so the expected output will only show
+      the count of informational messages as 2 (No Adventure generated
+      + Previous declaration)."

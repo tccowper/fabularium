@@ -1,0 +1,82 @@
+# --------------------------------------------------------------------------
+# Unix Makefile
+#
+# Before trying to build, make sure you do the following:
+# 	sh
+# 	for file in `ls`
+# 	do
+#	  dos2unix $file $file
+#	done
+#	exit
+# Otherwise, the line endings will be wrong and you will get weird errors.
+#
+# After you've done that, edit this file, and type 'make'.
+#
+# --------------------------------------------------------------------------
+
+# -- Your C compiler.
+
+CC = gcc
+
+# -- Base C compiler options.
+
+CCDEBUG = -g
+CCOPTIM = -O
+
+# -- Operating-system specific defines.
+
+#OSDEFS = -D__solarisX__ 
+
+# --------------------------------------------------------------------------
+# Glk results in a nicer-looking display and consistency with other
+# interfaces.
+#
+# If you don't have a Glk library installed, leave this section alone.
+# Otherwise, uncomment the appropriate section.
+# --------------------------------------------------------------------------
+
+# -- Uncomment these to enable Glk support.
+#
+#GLKDEFS = -DGLK
+#GLKOBJS = glkstart.o glkio.o
+
+# -- If you want to use GlkTerm (recommended), uncomment the line below.
+#
+#GLKLIBS = -lcurses -lglkterm
+
+# -- If you want to use CheapGlk, uncomment the line below.
+#
+#GLKLIBS = - lcheapglk
+
+# --------------------------------------------------------------------------
+# Don't change anything beyond this point.
+# --------------------------------------------------------------------------
+
+CFLAGS = $(CCDEBUG) $(CCOPTIM) -D__XXunix__ $(OSDEFS) $(GLKDEFS)
+LIBS = $(GLKLIBS)
+
+ALANOBJS = arun.o \
+	debug.o \
+	args.o \
+	exe.o \
+	inter.o \
+	parse.o \
+	rules.o \
+	stack.o \
+	decode.o \
+	term.o \
+	reverse.o \
+	params.o \
+	sysdep.o \
+	alan.version.o \
+	main.o \
+	readline.o
+
+OBJECTS = $(ALANOBJS) $(GLKOBJS)
+
+arun: $(OBJECTS)
+	$(CC) $(LIBS) -o arun $(OBJECTS)
+
+strip:
+	strip arun
+

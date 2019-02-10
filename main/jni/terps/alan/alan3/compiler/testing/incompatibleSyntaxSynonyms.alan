@@ -1,0 +1,34 @@
+Syntax give_to = give (o) 'to' (a)
+    Where a Isa actor Else "Only actors will appreciate gifts."
+
+Syntax give_to = give (b) (o).
+
+
+Add To object
+  Verb give_to
+    When o Does
+	"Give" Say a. Say o. "."
+	"Give" Say o. "to" Say a. "."
+  End Verb.
+End Add.
+
+Add To actor
+  Verb give_to
+    When a Does
+	"Give" Say a. Say o. "."
+	"Give" Say o. "to" Say a. "."
+  End Verb.
+End Add.
+
+The l Isa location
+End The l.
+
+The ball Isa object At l
+End The ball.
+
+The policeman Isa actor At l
+End The policeman.
+
+Start At l.
+
+

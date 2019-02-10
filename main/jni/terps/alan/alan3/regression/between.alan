@@ -1,0 +1,17 @@
+The l isa location
+End The l.
+
+Start At l.
+  If 1 Between 1 And 3 Then
+    "1 is between 1 and 3."
+  End If.
+  If 2 Between 1 And 3 Then
+    "2 is between 1 and 3."
+  End If.
+  If 3 Between 1 And 3 Then
+    "3 is between 1 and 3."
+  End If.
+  If 4 Not Between 1 And 3 Then
+    "4 is not between 1 and 3."
+  End If.
+  

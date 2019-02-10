@@ -1,0 +1,17 @@
+########## show ##########
+
+
+show.alan
+
+    5.    Show unknown.
+=====>         1
+
+  *1*   801 W : Resource type not recognized. File name extension must indicate
+                resource type.
+  *1*   153 E : Resource file missing.
+
+
+        1 error(s).
+        1 warning(s).
+        1 informational message(s).
+

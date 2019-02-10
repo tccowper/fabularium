@@ -1,0 +1,24 @@
+########## instanceFirstInSyntax ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a o here. There is a a here.
+
+> o take o
+You can't.
+
+> a take o
+Ok
+
+> a take a
+That's impossible with the a.
+
+> hero take o
+You can't do that.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

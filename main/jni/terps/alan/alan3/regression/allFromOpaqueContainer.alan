@@ -1,0 +1,20 @@
+The box Isa object At l
+  Opaque Container
+End The box.
+
+The scissors Isa object In box
+End The scissors.
+
+Syntax x = x (o)* Where o Isa object Else "You can't do that."
+
+Add To Every object
+  Verb x
+    Does
+      "You x" Say The o. "."
+  End Verb.
+End Add.
+
+The l Isa location
+End The l.
+
+Start At l.

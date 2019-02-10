@@ -1,0 +1,20 @@
+Synonyms und = 'and'. alles = 'all'. ohne = 'except'.
+
+The l Isa location
+End The l.
+
+Syntax take = take (object)*.
+
+Add To Every object
+  Verb take
+    Does "You take" Say The object. "."
+  End Verb.
+End Add.
+
+The t1 Isa object At l
+End The t1.
+
+The t2 Isa object At l
+End The t2.
+
+Start At l.

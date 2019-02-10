@@ -1,0 +1,242 @@
+########## lists ##########
+
+        No warnings or errors detected.
+        9 informational message(s).
+
+<Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
+
+adbg> x
+
+
+Welcome to the game of SAVIOUR!
+
+In this game your mission is to salvage the last copy of the famous
+ADVENTURE game. Legends have it that somewhere inside an ancient building
+the last copy of this game is still spinning on some old disks.
+
+If you need help just type 'help'.
+
+So go forth and be the salvaging hero of all Adventurers!
+
+
+This game was produced with the ALAN Adventure Development System and is
+brought to you by ThoNi&GorFo Adventure Factories. 
+    Visit the Alan Home Pages at: 
+
+
+    http://www.alanif.se
+
+
+Outside The Tall Building
+To the north is a tall ancient building with a large entrance. On the top
+there is a clock tower. Most of the windows in the building are broken,
+and a sign with three oval objects are hanging lose from the wall.
+
+> n
+Hall
+Inside the entrance is a hallway full of dust and pieces of the ceiling
+has fallen to the floor. At the west end is a staircase, and to the south
+is the exit. To the east is a folding door. It is closed.
+
+> w
+Stairs
+You are at the landing of an old staircase. It seem steady enough to walk
+in, but be careful if you are going to use it. There is a passage leading
+up, and another leading down into a dark cellar. To the east is the
+hallway. A strange smell emerges from below.
+
+> up
+First Floor
+The landing on the first floor is as dirty as all the others. Meters and
+meters of old cables are laying around, leading into a room to the east.
+The stairs leads up and down. They still seem alright. Through the dirty
+windows the barren field outside the building can be seen. Almost
+completely covered by dust, there is an old book laying on the floor here.
+
+> take book
+Taken.
+
+> debug
+adbg> classes
+Classes: 
+      1: entity 
+          2: location, Isa entity [1] 
+          3: thing, Isa entity [1] 
+              4: object, Isa thing [3] 
+              5: actor, Isa thing [3] 
+          6: literal, Isa entity [1] 
+              7: integer, Isa literal [6] 
+              8: string, Isa literal [6] Instances: 
+    [1] #nowhere ("#nowhere") 
+    [2] pseudowords ("pseudowords") (container), at [1] #nowhere ("
+#nowhere") 
+    [3] nowhere ("nowhere") 
+    [4] outside ("Outside The Tall Building") 
+    [5] Hall ("Hall") 
+    [6] door ("door"), at [5] Hall ("Hall") 
+    [7] stairs ("Stairs") 
+    [8] cellar ("cellar") 
+    [9] rats ("rats"), at [8] cellar ("cellar") 
+    [10] store ("store") 
+    [11] tape ("spool of computer tape"), at [10] store ("store") 
+    [12] first_floor ("First Floor") 
+    [13] book ("old book"), carried by [39] hero ("hero"), at [12]
+first_floor ("First Floor") 
+    [14] office ("office") 
+    [15] ladder ("3 metre long ladder"), at [14] office ("office") 
+    [16] second ("Second Floor") 
+    [17] terminal_room ("Terminal Room") 
+    [18] terminal ("rather heavy computer terminal"), at [17]
+terminal_room ("Terminal Room") 
+    [19] coin ("small coin"), at [1] #nowhere ("#nowhere") 
+    [20] third ("Third Floor") 
+    [21] fourth ("Fourth Floor") 
+    [22] holeroom ("Windy Room") 
+    [23] walless ("Walless Room") 
+    [24] nest ("birds nest"), at [23] walless ("Walless Room") 
+    [25] keys ("set of rusty keys"), at [1] #nowhere ("#nowhere") 
+    [26] fifth ("Fifth Floor") 
+    [27] clockroom ("Clock Room") 
+    [28] clock ("clock"), at [27] clockroom ("Clock Room") 
+    [29] corr ("Corridor") 
+    [30] deskroom ("Small Office") 
+    [31] drawer ("drawer"), at [30] deskroom ("Small Office") 
+    [32] desk ("desk"), at [30] deskroom ("Small Office") 
+    [33] manual ("dirty manual"), at [1] #nowhere ("#nowhere") 
+    [34] computer_room ("Computer Room") 
+    [35] computer ("computer"), at [34] computer_room ("Computer Room") 
+    [36] cafe ("cafe") 
+    [37] machine ("vending machine"), at [36] cafe ("cafe") 
+    [38] candy ("old mouldy candy bar"), at [1] #nowhere ("#nowhere") 
+    [39] hero ("hero") (container), at [12] first_floor ("First Floor") 
+    [40] #literal ("#literal"), at [1] #nowhere ("#nowhere")
+adbg> class 5
+  actor [5], Isa thing [3]
+adbg> instances
+Instances: 
+    [1] #nowhere ("#nowhere") 
+    [2] pseudowords ("pseudowords") (container), at [1] #nowhere ("
+#nowhere") 
+    [3] nowhere ("nowhere") 
+    [4] outside ("Outside The Tall Building") 
+    [5] Hall ("Hall") 
+    [6] door ("door"), at [5] Hall ("Hall") 
+    [7] stairs ("Stairs") 
+    [8] cellar ("cellar") 
+    [9] rats ("rats"), at [8] cellar ("cellar") 
+    [10] store ("store") 
+    [11] tape ("spool of computer tape"), at [10] store ("store") 
+    [12] first_floor ("First Floor") 
+    [13] book ("old book"), carried by [39] hero ("hero"), at [12]
+first_floor ("First Floor") 
+    [14] office ("office") 
+    [15] ladder ("3 metre long ladder"), at [14] office ("office") 
+    [16] second ("Second Floor") 
+    [17] terminal_room ("Terminal Room") 
+    [18] terminal ("rather heavy computer terminal"), at [17]
+terminal_room ("Terminal Room") 
+    [19] coin ("small coin"), at [1] #nowhere ("#nowhere") 
+    [20] third ("Third Floor") 
+    [21] fourth ("Fourth Floor") 
+    [22] holeroom ("Windy Room") 
+    [23] walless ("Walless Room") 
+    [24] nest ("birds nest"), at [23] walless ("Walless Room") 
+    [25] keys ("set of rusty keys"), at [1] #nowhere ("#nowhere") 
+    [26] fifth ("Fifth Floor") 
+    [27] clockroom ("Clock Room") 
+    [28] clock ("clock"), at [27] clockroom ("Clock Room") 
+    [29] corr ("Corridor") 
+    [30] deskroom ("Small Office") 
+    [31] drawer ("drawer"), at [30] deskroom ("Small Office") 
+    [32] desk ("desk"), at [30] deskroom ("Small Office") 
+    [33] manual ("dirty manual"), at [1] #nowhere ("#nowhere") 
+    [34] computer_room ("Computer Room") 
+    [35] computer ("computer"), at [34] computer_room ("Computer Room") 
+    [36] cafe ("cafe") 
+    [37] machine ("vending machine"), at [36] cafe ("cafe") 
+    [38] candy ("old mouldy candy bar"), at [1] #nowhere ("#nowhere") 
+    [39] hero ("hero") (container), at [12] first_floor ("First Floor") 
+    [40] #literal ("#literal"), at [1] #nowhere ("#nowhere")
+adbg> instance 5
+The [5] Hall ("Hall") Isa location[2] 
+    Attributes: 
+        visits[1] = 1
+adbg> objects
+Objects: 
+    [6] door ("door"), at [5] Hall ("Hall") 
+    [9] rats ("rats"), at [8] cellar ("cellar") 
+    [11] tape ("spool of computer tape"), at [10] store ("store") 
+    [13] book ("old book"), carried by [39] hero ("hero"), at [12]
+first_floor ("First Floor") 
+    [15] ladder ("3 metre long ladder"), at [14] office ("office") 
+    [18] terminal ("rather heavy computer terminal"), at [17]
+terminal_room ("Terminal Room") 
+    [19] coin ("small coin"), at [1] #nowhere ("#nowhere") 
+    [24] nest ("birds nest"), at [23] walless ("Walless Room") 
+    [25] keys ("set of rusty keys"), at [1] #nowhere ("#nowhere") 
+    [28] clock ("clock"), at [27] clockroom ("Clock Room") 
+    [31] drawer ("drawer"), at [30] deskroom ("Small Office") 
+    [32] desk ("desk"), at [30] deskroom ("Small Office") 
+    [33] manual ("dirty manual"), at [1] #nowhere ("#nowhere") 
+    [35] computer ("computer"), at [34] computer_room ("Computer Room") 
+    [37] machine ("vending machine"), at [36] cafe ("cafe") 
+    [38] candy ("old mouldy candy bar"), at [1] #nowhere ("#nowhere")
+adbg> object 1
+Instance 1 is not an object
+adbg> object 6
+The [6] door ("door") Isa object[4] 
+    Location: at [5] Hall ("Hall") 
+    Attributes: 
+        takeable[2] = 0 
+        readable[3] = 1 
+        openable[4] = 1 
+        startable[5] = 0 
+        examinable[6] = 1 
+        closed[9] = 1 
+        locked[10] = 1
+adbg> locations
+Locations: 
+    [1] #nowhere ("#nowhere") 
+    [3] nowhere ("nowhere") 
+    [4] outside ("Outside The Tall Building") 
+    [5] Hall ("Hall") 
+    [7] stairs ("Stairs") 
+    [8] cellar ("cellar") 
+    [10] store ("store") 
+    [12] first_floor ("First Floor") 
+    [14] office ("office") 
+    [16] second ("Second Floor") 
+    [17] terminal_room ("Terminal Room") 
+    [20] third ("Third Floor") 
+    [21] fourth ("Fourth Floor") 
+    [22] holeroom ("Windy Room") 
+    [23] walless ("Walless Room") 
+    [26] fifth ("Fifth Floor") 
+    [27] clockroom ("Clock Room") 
+    [29] corr ("Corridor") 
+    [30] deskroom ("Small Office") 
+    [34] computer_room ("Computer Room") 
+    [36] cafe ("cafe")
+adbg> location 19
+Instance 19 is not a location.
+adbg> location 20
+The Third Floor (20) Isa location : 
+    Attributes = 
+        visits[1] = 0
+adbg> actors
+Actors: 
+    [39] hero ("hero") (container), at [12] first_floor ("First Floor")
+adbg> actor 1
+Instance 1 is not an actor.
+adbg> actor 39
+The [39] hero ("hero") Isa actor[5] 
+    Location: at [12] first_floor ("First Floor") 
+    Attributes: 
+        opaque[1] = 0 
+        opaque[1] = 0 
+    Contains: 
+        old book [13] 
+    Is idle
+adbg> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

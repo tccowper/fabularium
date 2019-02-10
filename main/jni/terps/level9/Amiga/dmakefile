@@ -1,0 +1,13 @@
+SRCS = level9.c amiga.c generic.c
+OBJS = $(SRCS:"*.c":"*.o")
+
+all : Level9 Level9StdIO
+
+Level9 : level9.o amiga.o
+    dcc %(right) -o %(left)
+
+Level9StdIO : level9.o generic.o
+    dcc %(right) -o %(left)
+
+$(OBJS) : $(SRCS)
+    dcc -DNO_SCAN_GRAPHICS -c %(right) -o %(left)

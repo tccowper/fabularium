@@ -1,0 +1,28 @@
+########## which_alternative_bodies_are_run ##########
+
+
+which_alternative_bodies_are_run.alan
+
+    8.      Does "The body of o1."
+=====>      1
+
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'v', depending on the parameter restrictions.
+                You might want to use a WHEN clause to specify for which
+                parameter this alternative is to be run.
+
+
+        No detected errors.
+        1 warning(s).
+
+
+
+L
+There is a o1 here.
+
+> v o1 o1 o1
+The body of o1. The body of o1. The body of o1.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

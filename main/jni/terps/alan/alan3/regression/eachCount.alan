@@ -1,0 +1,33 @@
+The l Isa location
+  Has c 0.
+End The l.
+
+Add To Every object
+  Has y 2.
+End Add.
+
+The c Isa thing In c
+  Container Taking thing.
+End The c.
+
+The o1 Isa object In c
+  Has y 1.
+End The o1.
+The o2 Isa object At l
+  Has y 2.
+End The o2.
+The o3 Isa object At l
+  Has y 3.
+End The o3.
+The o4 Isa object In c
+  Has y 4.
+End The o4.
+
+Start At l.
+  Set c Of l To 0.
+  For Each o Isa object, Indirectly In c Do
+    Increase c Of l.
+  End For.
+
+  If Count Isa object, Indirectly In c = l:c Then "Ok" Else "not ok" End If.
+  If Count Isa object, Indirectly In c = 2 Then "Ok" Else "not ok" End If.

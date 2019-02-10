@@ -1,0 +1,6 @@
+#!/bin/sh
+f=${1%%\.}
+f="${f%.output}"
+f="${f%.}"
+less $f.output
+

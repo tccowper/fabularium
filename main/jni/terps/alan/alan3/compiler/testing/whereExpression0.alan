@@ -1,0 +1,16 @@
+The l Isa location
+  Has l l.
+  Has c c.
+End The l.
+
+The co Isa object
+  Container
+End The co.
+
+The ct Isa thing
+  Container Taking thing.
+End The ct.
+
+
+Start At l.
+  If l In l Then "l in l" End If.

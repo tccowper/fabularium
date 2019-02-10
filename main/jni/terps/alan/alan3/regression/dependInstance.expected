@@ -1,0 +1,22 @@
+########## dependInstance ##########
+
+        No warnings or errors detected.
+
+
+
+Bar
+There is a bartender here.
+
+> ask bartender about drink
+The bartender replies "You can't order from the bar. You'll have to order
+a drink from your waitress."
+
+> ask bartender about hero
+The bartender takes her towel and works on cleaning the bar.
+
+> ask bartender about bartender
+The bartender replies "I enjoy working here. Great fringe benefits!"
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

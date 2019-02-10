@@ -1,0 +1,10 @@
+The l1 Isa location
+  Exit w To l2
+    Check "You can't go there."
+  End Exit.
+End The l1.
+
+The l2 Isa location
+End The l2.
+
+Start At l1.

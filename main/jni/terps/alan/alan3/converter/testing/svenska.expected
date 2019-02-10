@@ -1,0 +1,40 @@
+########## svenska ##########
+Options
+  language swedish.
+  
+
+
+
+The l Isa location
+  
+  Description
+    "ÄÅÖäåö[]\{}|"
+  
+End The l.
+Syntax
+  ä = 'ä'.
+
+Verb Ä
+  Does
+    "Ä - A diaresis"
+End Verb.
+
+Syntax
+  Å = 'å'.
+
+Verb Å
+  Does
+    "Å - A ring"
+End Verb.
+
+Syntax
+  Ö = 'ö'.
+
+Verb Ö
+  Does
+    "Ö - O diaresis"
+End Verb.
+
+
+Start At l.
+  

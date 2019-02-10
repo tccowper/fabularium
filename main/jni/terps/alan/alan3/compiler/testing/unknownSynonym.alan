@@ -1,0 +1,9 @@
+Synonyms
+   e = east.
+
+The waiting_room Isa Location
+   Exit south To waiting_room.
+End The waiting_room.
+
+Start At waiting_room.
+

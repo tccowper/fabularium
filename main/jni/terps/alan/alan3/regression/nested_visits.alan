@@ -1,0 +1,22 @@
+Add To Every location
+  Description
+    "You have visited outer" Say visits Of outer. "times before."
+    "You have visited" Say This. Say visits Of This. "times before."
+End Add.
+
+The outer Isa location
+End The outer.
+
+The inner1 Isa location At outer
+  Exit n,e,w,s To inner2.
+End The inner1.
+
+The inner2 Isa location At outer
+  Exit n,e,w,s To inner3.
+End The inner2.
+
+The inner3 Isa location At outer
+  Exit n,e,w,s To inner1.
+End The inner3.
+
+Start At inner1.

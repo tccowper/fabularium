@@ -1,0 +1,23 @@
+The loc Isa location
+  Is Not changed.
+  Description
+    "It is" If This Is Not changed Then "not" End If. "changed."
+End The loc.
+
+Verb q
+  Does
+    Quit.
+End Verb q.
+
+Verb l
+  Does
+    Look.
+End Verb l.
+
+Verb change
+  Does
+    Make loc changed.
+End Verb change.
+
+Start At loc.
+  Quit.

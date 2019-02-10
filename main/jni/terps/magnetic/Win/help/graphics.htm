@@ -1,0 +1,36 @@
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <link rel="stylesheet" type="text/css" href="Magnetic.css">
+ </head>
+ <body>
+<h1>Graphics Files</h1>
+The Magnetic Scrolls adventures were as well known for the quality of their graphics as of their text.
+The Magnetic interpreter supports graphics files (".gfx") which can be created from the Amiga releases.
+The graphics files can be obtained from the Internet, from
+Stefan Meier's <a href="http://www.if-legends.org/">Magnetic Scrolls Memorial</a>.
+<p>
+The format of Magnetic's graphics files differs between the original and Magnetic Windows ("Wonderland"
+and "Collection Volume 1") releases, therefore a story file created from an original release cannot be
+used with a graphics file from a Magnetic Windows release, and vice versa.
+<p>
+Included with the interpreter are <b>GfxLink</b> and <b>GfxLink2</b>, tools to build graphics files from the original
+Amiga releases of the Magnetic Scrolls games. <b>GfxLink</b> and <b>GfxLink2</b> (discussed below) are Win32 console
+programs, so must be run from an MS-DOS prompt under Windows. To use <b>GfxLink</b>, supply as arguments the
+directory containing the Amiga files and the output graphics file name, e.g.
+<pre>
+    GfxLink C:\UAE\Games\ThePawn Pawn.gfx
+</pre>
+The graphics files needed for "Wonderland" and the games in "Collection Volume 1" are somewhat different
+from those produced by <b>GfxLink</b>; instead <b>GfxLink2</b> must be used. Firstly, you need an Amiga hard-drive
+installation of the game, and during installation must have selected the option to expand the compacted
+graphics files. If you choose this option, two extra files ("user.rsc" and "user.rdf") are created by
+the installer. Then to use <b>GfxLink2</b>, supply as an argument the full path to the "user.rsc" file, e.g.
+<pre>
+    GfxLink2 C:\UAE\Games\Wonder\user.rsc
+</pre>
+If <b>GfxLink2</b> detects "Wonderland", the file "wonder.gfx" will be created; if "Collection Volume 1" is
+detected, the files "corrupt.gfx", "fish.gfx" and "guild.gfx" will be created.
+ </body>
+</html>
+

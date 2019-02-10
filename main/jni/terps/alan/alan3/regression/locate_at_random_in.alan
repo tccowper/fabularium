@@ -1,0 +1,10 @@
+The npc Isa actor
+  Has locations {l}.
+End The npc.
+
+The l Isa location
+End The l.
+
+Start At l.
+  Locate npc At Random In locations Of npc.
+  "NPC should show up at l."

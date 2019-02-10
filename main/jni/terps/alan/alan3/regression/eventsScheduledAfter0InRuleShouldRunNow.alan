@@ -1,0 +1,35 @@
+The l1 Isa location
+  Is trigger.
+End The l1.
+
+The l2 Isa location
+  Is Not trigger.
+End The l2.
+
+Event e1
+  "This is event e1 running."
+  Make l1 Not trigger.
+  Make l2 trigger.
+End Event.
+
+Event e2
+  "This is event e2 running."
+  Make l2 Not trigger.
+End Event.
+
+When l1 Is trigger =>
+  Schedule e1 At hero After 0.
+End When.
+
+When l2 Is trigger =>
+  Schedule e2 At hero After 0.
+End When.
+
+Syntax trigger = trigger.
+
+Verb trigger
+  Does
+    Make l1 trigger.
+End Verb.
+
+Start At l1.

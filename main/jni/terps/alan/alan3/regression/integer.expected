@@ -1,0 +1,23 @@
+########## integer ##########
+
+        No warnings or errors detected.
+
+
+
+L
+
+> int hero
+You can only int integers.
+
+> int "asd"
+You can only int integers.
+
+> int 3
+Int: 3
+
+> int 123456789
+Int: 123456789
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

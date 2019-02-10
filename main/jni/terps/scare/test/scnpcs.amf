@@ -1,0 +1,308 @@
+#
+# ADRIFT Module
+# Exported 28-Nov-2006
+#
+
+# Author: A.N. Onymous
+
+Version 4.00 Release 46
+
+DEFINE Room "Room1"
+   SHORTDESC = "Centre"
+   LONGDESC = "Centre room."
+   NORTH = "Room4"
+   EAST = "Room2"
+   SOUTH = "Room5" IF OBJECT "Object2" IS "Open"
+   WEST = "Room3"
+   UP = "Room10" IF TASK "Task10" IS Completed
+   NORTHEAST = "Room7"
+   SOUTHEAST = "Room9"
+   SOUTHWEST = "Room8"
+   NORTHWEST = "Room6"
+END Room
+
+DEFINE Room "Room2"
+   SHORTDESC = "East"
+   LONGDESC = "East room."
+   NORTH = "Room7"
+   SOUTH = "Room9"
+   WEST = "Room1"
+END Room
+
+DEFINE Room "Room3"
+   SHORTDESC = "West"
+   LONGDESC = "West room."
+   NORTH = "Room6"
+   EAST = "Room1"
+   SOUTH = "Room8"
+END Room
+
+DEFINE Room "Room4"
+   SHORTDESC = "North"
+   LONGDESC = "North room."
+   EAST = "Room7"
+   SOUTH = "Room1"
+   WEST = "Room6"
+END Room
+
+DEFINE Room "Room5"
+   SHORTDESC = "South"
+   LONGDESC = "South room."
+   NORTH = "Room1" IF OBJECT "Object2" IS "Open"
+   EAST = "Room9"
+   WEST = "Room8"
+END Room
+
+DEFINE Room "Room6"
+   SHORTDESC = "Northwest"
+   LONGDESC = "Northwest room."
+   EAST = "Room4"
+   SOUTH = "Room3"
+   SOUTHEAST = "Room1"
+END Room
+
+DEFINE Room "Room7"
+   SHORTDESC = "Northeast"
+   LONGDESC = "Northeast room."
+   SOUTH = "Room2"
+   WEST = "Room4"
+   SOUTHWEST = "Room1"
+END Room
+
+DEFINE Room "Room8"
+   SHORTDESC = "Southwest"
+   LONGDESC = "Southwest room."
+   NORTH = "Room3"
+   EAST = "Room5"
+   NORTHEAST = "Room1"
+END Room
+
+DEFINE Room "Room9"
+   SHORTDESC = "Southeast"
+   LONGDESC = "Southeast room."
+   NORTH = "Room2"
+   WEST = "Room5"
+   NORTHWEST = "Room1"
+END Room
+
+DEFINE Room "Room10"
+   SHORTDESC = "Up"
+   LONGDESC = "Up room."
+   DOWN = "Room1" IF TASK "Task10" IS Not Completed
+END Room
+
+DEFINE Object "Object1"
+   PREFIX = "a"
+   NAME = "thing"
+   DESCRIPTION = "Generic object."
+   LOCATION = "Room1"
+   TYPE = Dynamic
+   SIZE = Normal
+   WEIGHT = Normal
+END Object
+
+DEFINE Object "Object2"
+   PREFIX = "a"
+   NAME = "door"
+   DESCRIPTION = "Basic door."
+   LOCATION = "Room1", "Room5"
+   TYPE = Static
+   STATES = "Closed|Open"
+   STARTSTATE = "Closed"
+   SHOWSTATE = True
+END Object
+
+DEFINE Task "Task1"
+   COMMAND "modify circler"
+   WHERE = All Rooms
+   MESSAGE = "Circler modified."
+   REVERSIBLE = True
+   REPEATABLE = True
+   REVCOMMAND "unmodify circler"
+   REVERSETEXT = "Circler unmodified."
+END Task
+
+DEFINE Task "Task2"
+   COMMAND "start circler"
+   WHERE = All Rooms
+   MESSAGE = "Circler started."
+   REVERSIBLE = True
+   REPEATABLE = True
+   REVCOMMAND "unstart circler"
+   REVERSETEXT = "Circler unstarted."
+END Task
+
+DEFINE Task "Task3"
+   COMMAND "start follower"
+   WHERE = All Rooms
+   MESSAGE = "Follower started."
+   REVERSIBLE = True
+   REPEATABLE = True
+   REVCOMMAND "unstart follower"
+   REVERSETEXT = "Follower unstarted."
+END Task
+
+DEFINE Task "Task4"
+   COMMAND "stop follower"
+   WHERE = All Rooms
+   MESSAGE = "Follower stopped."
+   REVERSIBLE = True
+   REPEATABLE = True
+   REVCOMMAND "unstop follower"
+   REVERSETEXT = "Follower unstopped."
+END Task
+
+DEFINE Task "Task5"
+   COMMAND "start meanderer"
+   WHERE = All Rooms
+   MESSAGE = "Meanderer started."
+   REVERSIBLE = True
+   REPEATABLE = True
+   REVCOMMAND "unstart meanderer"
+   REVERSETEXT = "Meanderer unstarted."
+END Task
+
+DEFINE Task "Task6"
+   COMMAND "#follower meets circler"
+   WHERE = All Rooms
+   MESSAGE = "Follower meets circler."
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task7"
+   COMMAND "#circler meets follower"
+   WHERE = All Rooms
+   MESSAGE = "Circler meets follower."
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task8"
+   COMMAND "#circler meets object"
+   WHERE = All Rooms
+   MESSAGE = "Circler meets object."
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task9"
+   COMMAND "#circler meets player"
+   WHERE = All Rooms
+   MESSAGE = "Circler meets player."
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task10"
+   COMMAND "allow up"
+   WHERE = All Rooms
+   MESSAGE = "Up allowed."
+   REVERSIBLE = True
+   REPEATABLE = True
+   REVCOMMAND "allow down"
+   REVERSETEXT = "Down allowed."
+END Task
+
+DEFINE Task "Task11"
+   COMMAND "open door"
+   WHERE = "Room1", "Room5"
+   MESSAGE = "Door opened."
+   RESTRICTION State of Object "Object2" must be "Closed"
+      ELSESHOW "Already open."
+   ACTION Change State of "Object2" to "Open"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task12"
+   COMMAND "close door"
+   WHERE = "Room1", "Room5"
+   MESSAGE = "Door closed."
+   RESTRICTION State of Object "Object2" must be "Open"
+      ELSESHOW "Already closed."
+   ACTION Change State of "Object2" to "Closed"
+   REPEATABLE = True
+END Task
+
+DEFINE Character "Char1"
+   NAME = "Circler"
+   PREFIX = ""
+   LOCATION = Hidden
+   DESCRIPTION = "Basic circler."
+   GENDER = Male
+   TEXTHERE = "Circler is in the room."
+   SHOWMOVE = True
+   ENTERTEXT = "drops in"
+   EXITTEXT = "drops out"
+   WALK
+      STARTTASK = "Task2"
+      STEP "Room4", 1
+      STEP "Room6", 1
+      STEP "Room3", 1
+      STEP "Room8", 1
+      STEP "Room5", 1
+      STEP "Room9", 1
+      STEP "Room2", 1
+      STEP "Room7", 1
+      LOOP = True
+      IFFINDOBJECT "Object1" THENRUN "Task8"
+      IFFINDCHAR Player THENRUN "Task9"
+   END WALK
+END Character
+
+DEFINE Character "Char2"
+   NAME = "Meanderer"
+   PREFIX = ""
+   LOCATION = Hidden
+   DESCRIPTION = "Basic meanderer."
+   GENDER = Male
+   TEXTHERE = "Meanderer is here."
+   SHOWMOVE = True
+   ENTERTEXT = "enters"
+   EXITTEXT = "exits"
+   WALK
+      STARTTASK = "Task5"
+      STEP "Group1", 1
+      LOOP = True
+   END WALK
+END Character
+
+DEFINE Character "Char3"
+   NAME = "Follower"
+   PREFIX = ""
+   LOCATION = "Room1"
+   DESCRIPTION = "Basic follower."
+   GENDER = Male
+   TEXTHERE = "Follower is here."
+   SHOWMOVE = True
+   ENTERTEXT = "enters"
+   EXITTEXT = "exits"
+   WALK
+      STARTTASK = "Task3"
+      STEP Follow Player, 1
+      LOOP = True
+      IFFINDCHAR "Char1" THENRUN "Task6"
+      NEWTEXTHERE = "Stalker is following you."
+      ENDTASK = "Task4"
+   END WALK
+END Character
+
+DEFINE Roomgroup "Group1"
+   NAME = "Room group 1"
+   ROOMS = "Room1", "Room6", "Room7", "Room8", "Room9"
+END Roomgroup
+
+DEFINE Introduction
+   MESSAGE = ""
+   STARTROOM = "Room1"
+   SHOWFIRST = True
+END Introduction
+
+DEFINE Winning
+   MESSAGE = ""
+END Winning
+
+DEFINE Player
+   NAME = "Ted Swippet"
+   GENDER = Male
+   DESCRIPTION = ""
+   INITIALPOSITION = Standing
+   MAXBULK = 10 Normal Objects
+   MAXWEIGHT = 10 Normal Objects
+END Player

@@ -1,0 +1,28 @@
+########## containerAccessToContextRestrictedParameter ##########
+
+
+containerAccessToContextRestrictedParameter.alan
+
+    7.                  List o. -- Error, since the parameter is only restricte
+        d to thing
+=====>                       1
+
+  *1*   312 E : Parameter 'o' is not guaranteed to be a Container, because it
+                is not restricted to Container, or to a class which has the
+                Container property in the Syntax or using surrounding If
+                statements.
+
+   21.                       List o. -- Error, here the parameter is known only
+         to *not* be an object => entity
+=====>                            1
+
+  *1*   312 E : Parameter 'o' is not guaranteed to be a Container, because it
+                is not restricted to Container, or to a class which has the
+                Container property in the Syntax or using surrounding If
+                statements.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

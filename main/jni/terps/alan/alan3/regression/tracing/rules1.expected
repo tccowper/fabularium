@@ -1,0 +1,22 @@
+########## rules1 ##########
+
+        No warnings or errors detected.
+
+<Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
+
+<START:>
+
+<CURRENT LOCATION:>
+L
+
+<RULE 1 (at #nowhere[1]), Evaluating to true, Executing:>
+
+<RULE 2 (at #nowhere[1]), Evaluating to false:>
+
+<RULE 1 (at #nowhere[1]), Evaluating to true:>
+
+<RULE 2 (at #nowhere[1]), Evaluating to false:>
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

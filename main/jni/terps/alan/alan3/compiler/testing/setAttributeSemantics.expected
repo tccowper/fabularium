@@ -1,0 +1,32 @@
+########## setAttributeSemantics ##########
+
+
+setAttributeSemantics.alan
+
+    2.    Has intString {1,"hej"}.
+=====>                     1
+
+  *1*   408 E : Expressions in a Set must be of the same type.
+
+    3.    Has intRef {1,l}.
+=====>                  1
+
+  *1*   408 E : Expressions in a Set must be of the same type.
+
+    4.    Has unknownRef {l, x}.
+=====>                       1
+
+  *1*   310 E : Identifier 'x' not defined.
+
+    6.    Has emptySet {}.
+=====>        1
+
+  *1*   413 E : Empty Sets are not allowed unless the attribute is inherited.
+                At least one member is necessary to infer the type and class of
+                members.
+
+
+        4 error(s).
+        No detected warnings.
+        1 informational message(s).
+

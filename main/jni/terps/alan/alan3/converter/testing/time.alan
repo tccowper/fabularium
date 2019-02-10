@@ -1,0 +1,94 @@
+--+++++++++++++++++++++++++++++++++++++++++++++++++
+-- Hej, du!
+-- Den här gången kanske jag har ett riktigt problem åt dig.
+-- Om du prövar kommandosekvensen
+-- >time; >put o1 in oc; >time; >put o2 in oc; >time
+-- så kanske du blir förvånad.
+-- (Jag kan inte inse att jag skulle ha lyckats skriva mitt
+-- ALAN-program så.)
+--
+-- Hur fungerar det med regler och annat när man plötsligt avbryter
+-- pga limits i CONTAINER?
+--
+--	/g
+
+OPTIONS Debug.
+
+OBJECT o_clock NAME Simulated realtime clock
+    HAS day 1.
+    HAS hour 21.
+    HAS minute 30.
+    HAS tick 2.
+END OBJECT.
+
+EVENT e_tick
+    Increase minute OF o_clock By tick OF o_clock.
+    Schedule e_tick After 1.
+END EVENT.
+
+WHEN minute OF o_clock > 59
+    =>
+    Decrease minute OF o_clock By 60.
+    Increase hour OF o_clock.
+
+WHEN hour OF o_clock > 23
+    =>
+    Decrease hour OF o_clock By 24.
+    Increase day OF o_clock.
+
+SYNTAX
+    v_xtime = time.
+    v_xday  = date.
+    v_wait = 'wait'.
+
+
+SYNONYMS
+    Z = 'wait'.
+
+VERB v_wait DOES
+    "Time passes..."
+    SET minute OF o_clock TO minute OF o_clock + 10.
+END VERB.
+
+Verb v_xtime Does
+    "The time is now"
+    Say hour Of o_clock. ":"
+    Say minute Of o_clock.
+End Verb.
+
+Verb v_xday Does
+    "It is now day number"
+    Say day Of o_clock.
+End Verb.
+
+-----------------------------------------------
+Object o1 At l
+End Object.
+
+Object o2 At l
+End Object.
+
+Object oc At l
+    Container
+        Limits Count 1
+            Then "Too much!"
+End Object.
+
+Syntax
+    pi = put (obj) 'in' (cont)
+            Where obj Isa Object
+                Else "Not an object."
+            And cont Isa Container
+                Else "Not a container."
+
+Verb pi Does
+    Locate obj In cont.
+    "OK"
+End Verb.
+
+Location l
+End Location.
+
+Start at l.
+Schedule e_tick After 1.
+

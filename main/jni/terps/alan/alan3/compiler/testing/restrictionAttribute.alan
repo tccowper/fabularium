@@ -1,0 +1,17 @@
+Add To Every object
+  Has
+    Size 7.
+  Verb give When o Does "You give..." End Verb.
+End Add To.
+
+Syntax give = give (o) 'to' (a)
+  Where o Isa object
+    Else
+      If size Of o > 5 Then
+        "You can not give that big thing..."
+      End If.
+
+The l Isa location.
+End The l.
+
+Start AT l.

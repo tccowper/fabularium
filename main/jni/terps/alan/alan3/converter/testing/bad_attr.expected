@@ -1,0 +1,64 @@
+########## bad_attr ##########
+
+Add To Every thing
+  Is
+    named.
+End Add To.
+
+Syntax
+  put_in = put (obj1) 'in' (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't put that anywhere."
+    And obj2 Isa **** container object **** ****OR**** **** container actor ****
+      Else 
+        "You can't put anything in"
+        If obj2 Is named Then
+          Say obj2.
+        Else 
+          "the $2"
+        End If.
+        "$$."
+  
+
+Syntax
+  throw_in = throw (obj1) 'in' (obj2)
+    Where obj1 Isa object
+      Else 
+        "Don't be silly."
+    And obj2 Isa container
+      Else 
+        "You can't put anything in"
+        If obj2 Is named Then
+          Say obj2.
+        Else 
+          "the $2"
+        End If.
+        "$$."
+  
+
+Verb put_in, throw_in
+  Check obj1 In inventory
+    Else 
+      "You haven't got"
+      If obj1 Is named Then
+        Say obj1.
+      Else 
+        "the $1"
+      End If.
+      "!"
+  And obj1 <>obj2
+    Else 
+      "Now, that would be a good trick!"
+  Does
+    Locate obj1 In obj2.
+    "Done."
+End Verb.
+
+
+The aaa Isa location
+  
+End The aaa.
+
+Start At aaa.
+  

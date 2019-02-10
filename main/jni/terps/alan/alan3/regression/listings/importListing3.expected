@@ -1,0 +1,38 @@
+########## importListing3 ##########
+
+
+importListing3.alan
+
+    1.  import 'importListing2a.i'.
+
+
+importListing2a.i
+
+    1.1 -- Line from importListing2a
+    2.1 import 'importListing2b.i'.
+
+
+importListing2b.i
+
+    1.2 -- Line from importListing2b
+    2.2 
+
+
+
+importListing2a.i
+
+    3.1 
+
+
+
+importListing3.alan
+
+    2.  
+    3.  The l Isa location
+    4.  End The l.
+    5.  
+    6.  Start At l.
+    7.  
+
+        No warnings or errors detected.
+

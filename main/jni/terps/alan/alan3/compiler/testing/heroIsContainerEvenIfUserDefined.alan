@@ -1,0 +1,12 @@
+The hero Isa actor
+  Description "This is a user defined hero."
+End The hero.
+
+The stone Isa object In hero
+End The stone.
+
+The l Isa location
+End The l.
+
+Start At l.
+      

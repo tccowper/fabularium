@@ -1,0 +1,2348 @@
+# vi: set ts=2 shiftwidth=2 expandtab:
+#
+# Core world model tests.
+#
+# Covers the game introduction, basic object manipulations, containers and
+# surfaces, taking/dropping/wearing, examining, NPCs (not walks) and NPC
+# conversations, default responses and malformed commands, multiple commands
+# on one line, save, restore, restart, undo, and quit.
+#
+# Unless otherwise noted, the input and responses in this script were created
+# from a transcript of the Adrift Runner, release 4.0.45 or 46.
+#
+
+~ game
+*Pointless* Compiled "29 Oct 2006"* Version 4.00*
+
+
+#
+# Verify game introductory text.
+#
+
+~
+Pointless
+It's not the despair that destroys, it's the hope...
+
+Activity Room
+Sparsely furnished, the walls are white and unadorned, and the carpet is a
+bland shade of grey. Frankly, very little promise here for diversionary
+activity.
+
+Also here is a pinewood cupboard, a pinewood table and a chair.
+
+There is an exit east.
+
+> verbose
+> notification off
+
+
+#
+# Basic tests of player positions and parent objects.
+#
+
+> x me
+You are as well as can be expected, considering the circumstances.
+
+> ex me
+You are as well as can be expected, considering the circumstances.
+
+> exam me
+You are as well as can be expected, considering the circumstances.
+
+> examine me
+You are as well as can be expected, considering the circumstances.
+
+> x self
+You are as well as can be expected, considering the circumstances.
+
+> x myself
+You are as well as can be expected, considering the circumstances.
+
+> look at myself
+You are as well as can be expected, considering the circumstances.
+
+> x all
+Please examine one object at a time.
+
+> ex all
+Please examine one object at a time.
+
+> exam all
+Please examine one object at a time.
+
+> examine all
+Please examine one object at a time.
+
+> sit
+You sit down on the ground.
+
+> x me
+You are as well as can be expected, considering the circumstances.  You are
+sitting down.
+
+> lie
+You lie down on the ground.
+
+> x me
+You are as well as can be expected, considering the circumstances.  You are
+lying down.
+
+> sit
+You sit up on the ground.
+
+> x me
+You are as well as can be expected, considering the circumstances.  You are
+sitting down.
+
+> stand
+You stand up.
+
+> x me
+You are as well as can be expected, considering the circumstances.
+
+> lie
+You lie down on the ground.
+
+> x me
+You are as well as can be expected, considering the circumstances.  You are
+lying down.
+
+> stand
+You stand up.
+
+> x me
+You are as well as can be expected, considering the circumstances.
+
+> sit on chair
+You sit down on the chair.
+
+> x me
+You are as well as can be expected, considering the circumstances.  You are
+sitting down on the chair.
+
+> stand on chair
+You stand on the chair.
+
+> x me
+You are as well as can be expected, considering the circumstances.  You are
+standing on the chair.
+
+> stand on chair
+You are already standing on the chair.
+
+> sit on chair
+You sit down on the chair.
+
+> x me
+You are as well as can be expected, considering the circumstances.  You are
+sitting down on the chair.
+
+> stand
+You stand up from the chair.
+
+> sit in chair
+You sit down on the chair.
+
+> x me
+You are as well as can be expected, considering the circumstances.  You are
+sitting down on the chair.
+
+> stand
+You stand up from the chair.
+
+> x me
+You are as well as can be expected, considering the circumstances.
+
+> lie on chair
+You can't lie on the chair.
+
+> sit on table
+You sit down on the pinewood table.
+
+> x me
+You are as well as can be expected, considering the circumstances.  You are
+sitting down on the pinewood table.
+
+> lie on table
+You lie down on the pinewood table.
+
+> x me
+You are as well as can be expected, considering the circumstances.  You are
+lying down on the pinewood table.
+
+> sit on table
+You sit up on the pinewood table.
+
+> x me
+You are as well as can be expected, considering the circumstances.  You are
+sitting down on the pinewood table.
+
+> stand on table
+You stand on the pinewood table.
+
+> x me
+You are as well as can be expected, considering the circumstances.  You are
+standing on the pinewood table.
+
+> sit on table
+You sit down on the pinewood table.
+
+> x me
+You are as well as can be expected, considering the circumstances.  You are
+sitting down on the pinewood table.
+
+> stand
+You stand up from the pinewood table.
+
+> sit on table
+You sit down on the pinewood table.
+
+> x me
+You are as well as can be expected, considering the circumstances.  You are
+sitting down on the pinewood table.
+
+> get off chair
+# TODO This isn't directly tested, though it's reported that the Runner
+# responds with "...standing on..." here.  Because SCARE uses "get off" to
+# including moving from sitting on an object, it omits "standing" here.
+#You are not standing on the chair!
+You are not on the chair!
+
+> get off table
+You get off the pinewood table.
+
+> sit on table
+You sit down on the pinewood table.
+
+> x me
+You are as well as can be expected, considering the circumstances.  You are
+sitting down on the pinewood table.
+
+> get off
+You get off the pinewood table.
+
+> x me
+You are as well as can be expected, considering the circumstances.
+
+> get off
+# TODO Not directly tested; added speculatively to SCARE as a result of other
+# work on "get off object".  The Runner's response here is unknown...
+You are not on anything!
+
+> sit on cupboard
+You can't sit on the pinewood cupboard.
+
+> stand on cupboard
+You can't stand on the pinewood cupboard.
+
+> lie on cupboard
+You can't lie on the pinewood cupboard.
+
+
+#
+# Examining objects, and general world model manipulations..
+#
+
+> x cupboard
+Large and, well, very woody. It looks a bit like something built from an MFI
+kit. Perhaps by a one-handed blind man with a drink problem.  The pinewood
+cupboard is closed.
+
+> ex cupboard
+Large and, well, very woody. *
+
+> exam cupboard
+Large and, well, very woody. *
+
+> examine cupboard
+Large and, well, very woody. *
+
+> look at cupboard
+Large and, well, very woody. *
+
+> look in cupboard
+Large and, well, very woody. *
+
+> x tallboy
+Large and, well, very woody. *
+
+> x dresser
+Large and, well, very woody. *
+
+> x bookcase
+Large and, well, very woody. *
+
+> x armoire
+Large and, well, very woody. *
+
+> x chair
+Strategically placed right by the desk. Very handy for sitting on when doing
+desk-related things, then.
+
+> x table
+Somewhat sturdier than the cupboard, at any rate. The table looks a bit the
+worse for wear -- it's probably come from some charity shop. Not likely to
+collapse if you were to climb on it, though.
+
+> open table
+You can't open the pinewood table!
+
+> open cupboard
+You open the pinewood cupboard.  Inside the pinewood cupboard is a book, a
+tray, a bag, a sandwich, a jelly and a floppy hat.
+
+> open cupboard
+The pinewood cupboard is already open!
+
+> x cupboard
+Large and, well, very woody. It looks a bit like something built from an MFI
+kit. Perhaps by a one-handed blind man with a drink problem.  The pinewood
+cupboard is open.  Inside the pinewood cupboard is a book, a tray, a bag, a
+sandwich, a jelly and a floppy hat.
+
+> take book from cupboard
+You take the book from the pinewood cupboard.
+
+> x bookcase
+Large and, well, very woody. It looks a bit like something built from an MFI
+kit. Perhaps by a one-handed blind man with a drink problem.  The pinewood
+cupboard is open.  Inside the pinewood cupboard is a tray, a bag, a
+sandwich, a jelly and a floppy hat.
+
+> x book
+A copy, apparently, of the Adrift manual. Version 4.00 no less. It looks like
+it might be almost new; the dust cover still wraps nicely around it.
+
+> x tome
+A copy, apparently, of the Adrift manual. Version 4.00 no less. *
+
+> x manual
+A copy, apparently, of the Adrift manual. Version 4.00 no less. *
+
+> x guide
+A copy, apparently, of the Adrift manual. Version 4.00 no less. *
+
+> x pamphlet
+A copy, apparently, of the Adrift manual. Version 4.00 no less. *
+
+> x article
+A copy, apparently, of the Adrift manual. Version 4.00 no less. *
+
+> x magazine
+A copy, apparently, of the Adrift manual. Version 4.00 no less. *
+
+> read book
+"Background: When I was at school back in 1989, I was introduced to a text
+adventure..."
+
+All very interesting in its own way, I suppose, but oddly mute on some of
+the more esoteric actions that the Adrift Runner is capable of.
+
+> x cupboard
+Large and, well, very woody. It looks a bit like something built from an MFI
+kit. Perhaps by a one-handed blind man with a drink problem.  The pinewood
+cupboard is open.  Inside the pinewood cupboard is a tray, a bag, a
+sandwich, a jelly and a floppy hat.
+
+> put book in cupboard
+The book can't fit inside the pinewood cupboard at the moment.
+
+> inventory
+You are carrying a book.
+
+> inv
+You are carrying a book.
+
+> i
+You are carrying a book.
+
+> take all from cupboard
+You take the tray, the bag, the sandwich, the jelly and the floppy hat from
+the pinewood cupboard.
+
+> take all from cupboard
+There is nothing inside the pinewood cupboard.
+
+> inventory
+You are carrying a book, a tray, a bag, a sandwich, a jelly and a floppy hat.
+
+> drop all
+You drop the book, the tray, the bag, the sandwich, the jelly and the floppy
+hat.
+
+> inventory
+You are carrying nothing.
+
+> take all
+# TODO The Runner lists ordinary objects moved to the player inventory first,
+# and those handled by game tasks later.  SCARE lists them the other way
+# round, and there's no easy way to reverse this.  For now, alter this test
+# case to match SCARE.  It's unlikely that this difference will have any
+# significant effect on any game's playability.
+#You pick up the book, the tray, the bag, the sandwich and the floppy hat.  The
+#jelly slips through your fingers. Apparently not enough gelatine in the mix.
+#That's probably related to BSE.
+The jelly slips through your fingers. Apparently not enough gelatine in the
+mix. That's probably related to BSE. You pick up the book, the tray, the bag,
+the sandwich and the floppy hat.
+
+> inventory
+You are carrying a book, a tray, a bag, a sandwich and a floppy hat.
+
+> x tray
+Decorated with purple flowers of some kind. It could be worse, though.
+Kittens nestling in lace-lined baskets, for example.
+
+> x bag
+This looks like the carpetbag from "To Hell in a Hamper."  How on earth did
+this get here[?]  The bag is closed.
+
+> x carpetbag
+This looks like the carpetbag from "To Hell in a Hamper." *
+
+> x sandwich
+Jam -- strawberry, by the look of it.  No peanut butter, and made that much
+more appetizing by the lack thereof.
+
+> x snack
+Jam -- strawberry, by the look of it. *
+
+> x hat
+Tatty and somewhat faded, this is one of those hats that only someone
+style-challenged could possibly wear. Someone like you, perhaps.
+
+> x cupboard
+Large and, well, very woody. It looks a bit like something built from an MFI
+kit. Perhaps by a one-handed blind man with a drink problem.  The pinewood
+cupboard is open.
+
+> look
+Activity Room
+Sparsely furnished, the walls are white and unadorned, and the carpet is a
+bland shade of grey. Frankly, very little promise here for diversionary
+activity.  Also here is a pinewood cupboard, a pinewood table, a chair and a
+jelly.  You can only move east.
+
+> look at the room
+Activity Room Sparsely furnished, the walls are white and unadorned, and *
+
+> examine the location
+Activity Room Sparsely furnished, the walls are white and unadorned, and *
+
+> wear sandwich
+You can't wear the sandwich.
+
+# Consume an edible object, and make sure it disappears from inventory.
+> eat sandwich
+You eat the sandwich.  Not bad, but it could do with a pinch of salt!
+
+> eat hat
+You can't eat the floppy hat.
+
+> eat mumble
+I don't understand what you are trying to eat.
+
+> wear hat
+You put on the floppy hat.
+
+> inventory
+You are wearing a floppy hat, and you are carrying a book, a tray and a bag.
+
+> put book on tray
+You put the book onto the tray.
+
+> inventory
+You are wearing a floppy hat, and you are carrying a tray and a bag.  A book
+is on the tray.
+
+> x tray
+Decorated with purple flowers of some kind. It could be worse, though.
+Kittens nestling in lace-lined baskets, for example.  A book is on the tray.
+
+> take book
+You take the book from the tray.
+
+> put book in bag
+The bag is closed!
+
+> open bag
+You open the bag.
+
+> put book in bag
+You put the book inside the bag.
+
+> x bag
+This looks like the carpetbag from "To Hell in a Hamper."  How on earth did
+this get here[?]  The bag is open.  A book is inside the bag.
+
+> close bag
+You close the bag.
+
+> close bag
+The bag is already closed!
+
+> x bag
+This looks like the carpetbag from "To Hell in a Hamper."  How on earth did
+this get here[?]  The bag is closed.
+
+> put bag on tray
+You put the bag onto the tray.
+
+> inventory
+You are wearing a floppy hat, and you are carrying a tray.  A bag is on the
+tray.
+
+> take bag
+You take the bag from the tray.
+
+> open it
+*
+You open the bag.  A book is inside the bag.
+
+> take book
+You take the book from the bag.
+
+> put book on tray
+You put the book onto the tray.
+
+> put tray in bag
+You put the tray inside the bag.
+
+> x bag
+This looks like the carpetbag from "To Hell in a Hamper."  How on earth did
+this get here[?]  The bag is open.  A tray is inside the bag.
+
+> take tray
+You take the tray from the bag.
+
+> inventory
+You are wearing a floppy hat, and you are carrying a tray and a bag.  A book
+is on the tray.
+
+> take chair
+You can't take the chair!
+
+> take cupboard
+You can't take the pinewood cupboard!
+
+> take table
+You can't take the pinewood table!
+
+> take book
+You take the book from the tray.
+
+> drop tray
+You drop the tray.
+
+> drop bag
+You drop the bag.
+
+> look
+Activity Room
+Sparsely furnished, the walls are white and unadorned, and the carpet is a
+bland shade of grey. Frankly, very little promise here for diversionary
+activity.  Also here is a pinewood cupboard, a tray, a bag, a pinewood
+table, a chair and a jelly.  You can only move east.
+
+> inventory
+You are wearing a floppy hat, and you are carrying a book.
+
+> drop book
+You drop the book.
+
+> inventory
+You are wearing a floppy hat, and you are carrying nothing.
+
+> take book
+You pick up the book.
+
+
+#
+# Move to the second room, and ensure that movement is confirmed and that the
+# room's description appears.  Exercise conversation features.
+#
+
+> east
+You move east.
+Clean Room
+As bland as the Activity Room, but somehow cleaner.  There's a sign on the
+wall that proclaims "No food or drink, please."  The janitor is here.  You
+can only move west.
+
+> x janitor
+Dressed head to toe in standard janitorial coveralls, this man appears to be
+the very model of efficiency.  No sign at all of sloppiness or laziness here.
+
+Also, not much sign of movement, it has to be said.
+
+> ex janitor
+Dressed head to toe in standard janitorial coveralls, *
+
+> exam janitor
+Dressed head to toe in standard janitorial coveralls, *
+
+> examine janitor
+Dressed head to toe in standard janitorial coveralls, *
+
+> look at janitor
+Dressed head to toe in standard janitorial coveralls, *
+
+> x cleaner
+Dressed head to toe in standard janitorial coveralls, *
+
+> x attendant
+Dressed head to toe in standard janitorial coveralls, *
+
+> x handyman
+Dressed head to toe in standard janitorial coveralls, *
+
+> ask janitor about sandwich
+I can't be letting that in here, I'm afraid. It's more than my job's worth.
+
+> ask janitor about jelly
+I can't be letting that in here, I'm afraid. It's more than my job's worth.
+
+> ask janitor about book
+A bit of a dusty tome, if you ask me. Can't say I've ever read it myself,
+though.  Too much cleaning to do.
+
+> ask janitor about hat
+The janitor does not respond to your question.
+
+> ask
+Use the format "ask ?character? about ?subject?".
+
+> ask janitor
+Use the format "ask the janitor about ?subject?".
+
+> ask janitor about mumble
+The janitor does not respond to your question.
+
+> ask janitor something
+Use the format "ask the janitor about ?subject?".
+
+> take janitor
+I don't think the janitor would appreciate being handled.
+
+> give book to janitor
+The janitor doesn't seem interested in the book.
+
+> give book
+# Surely this should be "to whom?"...
+Give the book to who[?]
+
+> drop all
+You drop the book.
+
+> give book to janitor
+You don't have the book!
+
+> give book
+You don't have the book!
+
+> look
+Clean Room
+As bland as the Activity Room, but somehow cleaner.  There's a sign on the
+wall that proclaims "No food or drink, please."  Also here is a book.  The
+janitor is here.  You can only move west.
+
+
+#
+# Move back to the first room, and try out a selection of meaningless verbs
+# and actions, using the hat as an object target where required.
+#
+
+> west
+You move west.
+Activity Room
+Sparsely furnished, the walls are white and unadorned, and the carpet is a
+bland shade of grey. Frankly, very little promise here for diversionary
+activity.  Also here is a pinewood cupboard, a tray, a bag, a pinewood
+table, a chair and a jelly.  You can only move east.
+
+> look
+Activity Room
+Sparsely furnished, the walls are white and unadorned, and the carpet is a
+bland shade of grey. Frankly, very little promise here for diversionary
+activity.  Also here is a pinewood cupboard, a tray, a bag, a pinewood
+table, a chair and a jelly.  You can only move east.
+
+> ask hat about hat
+You get no reply from the floppy hat.
+
+> attack
+I don't understand what you mean!
+
+> attack hat
+I don't understand what you want me to do with the floppy hat.
+
+> block hat
+You can't block the floppy hat.
+
+> break hat
+You might need the floppy hat.
+
+> buy hat
+I don't think the floppy hat is for sale.
+
+> buy
+Buy what[?]
+
+> break
+Break what[?]
+
+> block
+Block what[?]
+
+> chop
+# TODO This looks like an incorrectly implemented verb in the Adrift Runner.
+# For now, suppress the test.
+#You can't block that.
+
+> chop hat
+# TODO This looks like an incorrectly implemented verb in the Adrift Runner.
+# For now, suppress the test.
+#I don't understand what you want me to do with the floppy hat.
+
+> clean
+Clean what[?]
+
+> clean hat
+You can't clean the floppy hat.
+
+> clear
+Screen cleared.
+
+> climb
+Climb what[?]
+
+> climb hat
+You can't climb the floppy hat.
+
+> close
+You can't close that.
+
+> close hat
+You can't close the floppy hat!
+
+> cry
+There's no need for that!
+
+> cp
+This isn't Unix you know!
+
+> cut hat
+You can't cut the floppy hat.
+
+> cut
+Cut what[?]
+
+> drink hat
+You can't drink the floppy hat.
+
+> drink
+Drink what[?]
+
+> dance
+You do a little dance.
+
+> destroy hat
+You might need the floppy hat.
+
+> dir
+This isn't Dos you know!
+
+> directions
+You can only move east.
+
+> empty hat
+You can't take anything from the floppy hat.
+
+> empty
+I don't understand what you mean!
+
+> exits
+You can only move east.
+
+> feed hat
+There is nothing worth feeding here.
+
+> feel hat
+You feel nothing out of the ordinary.
+
+> fight hat
+There is nothing worth fighting here.
+
+> fight
+There is nothing worth fighting here.
+
+> fix hat
+I don't think you can fix the floppy hat.
+
+> fly
+You can't fly.
+
+> hit hat
+You hit the floppy hat, but nothing happens.
+
+> hit mumble
+You hit, but nothing happens.
+
+> hum
+You hum a little tune.
+
+> jump
+Wheee-boinng.
+
+> kick hat
+You kick the floppy hat, but nothing happens.
+
+> kick mumble
+You kick, but nothing happens.
+
+> kick
+Kick what[?]
+
+> kill
+Now that isn't very nice.
+
+> kill hat
+Now that isn't very nice.
+
+> kiss
+I'm not sure it would appreciate that.
+
+> kiss hat
+I'm not sure the floppy hat would appreciate that.
+
+> leave
+I don't understand what you mean!
+
+> leave hat
+I don't understand what you want me to do with the floppy hat.
+
+> lift hat
+You can't lift the floppy hat.
+
+> light hat
+You can't light the floppy hat.
+
+# TODO The Adrift Runner seems to view "take object" as equivalent to "remove
+# object" for objects that are currently worn.  Is that right?  For now, to
+# meet future script expectations, we'll replace this with "remove hat".
+#> take hat
+#You take the floppy hat.
+> remove hat
+
+> listen
+You hear nothing out of the ordinary.
+
+> listen to hat
+You hear nothing out of the ordinary.
+
+> listen mumble mumble
+You hear nothing out of the ordinary.
+
+> press
+Press what[?]
+
+> press hat
+You press the floppy hat, but nothing happens.
+
+> press mumble
+You press, but nothing happens.
+
+> pull
+Pull what[?]
+
+> pull hat
+You pull the floppy hat, but nothing happens.
+
+> punch
+Who do you think you are, Mike Tyson[?]
+
+> punch hat
+Who do you think you are, Mike Tyson[?]
+
+> push
+Push what[?]
+
+> push hat
+You push the floppy hat, but nothing happens.
+
+> read
+You see no such thing.
+
+> read hat
+You can't read the floppy hat!
+
+> rub
+Rub what[?]
+
+> rub hat
+You can't rub the floppy hat.
+
+> rub mumble
+You can't rub that.
+
+> run
+Why would you want to run[?]
+
+> sit on mumble
+You can't sit on that.
+
+> sit in mumble
+# TODO The Runner differentiates failing "sit in" from "sit on"; SCARE doesn't.
+#You can't sit in that.
+You can't sit on that.
+
+> smash
+Smash what[?]
+
+> smash hat
+You might need the floppy hat.
+
+> smell
+That smells normal.
+
+> smell hat
+The floppy hat smells normal.
+
+> stab
+I don't understand what you mean!
+
+> stab hat
+I don't understand what you want me to do with the floppy hat.
+
+> talk
+No-one listens to your rabblings.
+
+> thank
+You're welcome.
+
+> west
+# Adrift and SCARE differ here; the reason is unclear.  For now, this test
+# is edited to match SCARE.
+#You can only move east.
+You can't go in that direction, but you can move east.
+
+> wait
+Time passes...
+
+> wash
+Wash what[?]
+
+> wash hat
+You can't wash the floppy hat.
+
+> where
+You can only move east.
+
+> whistle
+You whistle a little tune.
+
+> yes
+That's interesting, but it doesn't mean much.
+
+> no
+That's interesting, but it doesn't mean much.
+
+> east
+You move east.
+Clean Room
+As bland as the Activity Room, but somehow cleaner.  There's a sign on the
+wall that proclaims "No food or drink, please."  Also here is a book.  The
+janitor is here.  You can only move west.
+
+> ask
+Use the format "ask ?character? about ?subject?".
+
+> ask janitor
+Use the format "ask the janitor about ?subject?".
+
+> ask janitor about mumble
+The janitor does not respond to your question.
+
+> ask janitor something
+Use the format "ask the janitor about ?subject?".
+
+> attach janitor
+I don't understand what you want to do with the janitor.
+
+> attack janitor
+The janitor avoids your feeble attempts.
+
+> break janitor
+You might need that.
+
+> buy janitor
+I don't think that is for sale.
+
+> chop janitor
+I don't understand what you want to do with the janitor.
+
+> clean janitor
+You can't clean that.
+
+> feed janitor
+There is nothing worth feeding here.
+
+> fight janitor
+There is nothing worth fighting here.
+
+> kick janitor
+The janitor avoids your feeble attempts.
+
+> kill janitor
+Now that isn't very nice.
+
+> kiss janitor
+I'm not sure he would appreciate that!
+
+> listen to janitor
+You hear nothing out of the ordinary.
+
+> please
+Your kindness gets you nowhere.
+
+> pull janitor
+You pull, but nothing happens.
+
+> punch janitor
+Who do you think you are, Mike Tyson[?]
+
+> push janitor
+You push, but nothing happens.
+
+> sell hat
+No-one is interested in buying the floppy hat.
+
+> sell mumble
+No-one is interested in buying that.
+
+> sell
+Sell what[?]
+
+> shake hat
+You shake the floppy hat, but nothing happens.
+
+> shake janitor
+You shake, but nothing happens.
+
+> shake
+Shake what[?]
+
+> shoot janitor
+# TODO This looks like an incorrectly implemented verb in the Adrift Runner.
+# For now, suppress the test.
+#You shake, but nothing happens.
+
+> shoot hat
+I don't understand what you want me to do with the floppy hat.
+
+> shout
+Aaarrrrgggghhhhhh!
+
+> sing
+You sing a little song.
+
+> slap hat
+I don't understand what you want me to do with the floppy hat.
+
+> slap janitor
+I don't understand what you want to do with the janitor.
+
+> sleep
+Zzzzz.  Bored are you[?]
+
+> smash janitor
+You might need that.
+
+> smell janitor
+That smells normal.
+
+> stab janitor
+I don't understand what you want to do with the janitor.
+
+> suck hat
+You can't suck the floppy hat.
+
+> suck janitor
+You can't suck that.
+
+> stop
+Stop what[?]
+
+> stop hat
+You can't stop the floppy hat.
+
+> stop mumble
+You can't stop that.
+
+> throw hat
+I don't understand what you want me to do with the floppy hat.
+
+> throw janitor
+I don't understand what you want to do with the janitor.
+
+> touch hat
+You can't touch the floppy hat.
+
+> touch janitor
+You can't touch that.
+
+> unlock
+Unlock what[?]
+
+> unlock mumble
+You can't unlock that.
+
+> bugger
+I really don't think there's any need for language like that!
+
+
+#
+# Assorted administrative commands and conveniences.
+#
+# Note -- SCARE doesn't confirm repeats in (...) brackets like the Adrift
+# Runner. It's also smarter about repeating only the prior successful line
+# element (the Adrift Runner repeats the entire prior line, even if it was
+# "!", in which case it fails parsing!).  Because of the way SCARE breaks up
+# command lines, then, confirming in (...) would look strange, so we have to
+# suppress those expectations below by commenting them out.
+#
+
+> num
+Size:    You have 9.  The most you can hold is 90.
+Weight:  You have 9.  The most you can hold is 90.
+
+> count
+Size:    You have 9.  The most you can hold is 90.
+Weight:  You have 9.  The most you can hold is 90.
+
+> score
+Your score is 0 out of a maximum of 0.  (0%)
+
+> !
+#(score)
+Your score is 0 out of a maximum of 0.  (0%)
+
+> score
+Your score is 0 out of a maximum of 0.  (0%)
+
+> !!
+#(score)
+Your score is 0 out of a maximum of 0.  (0%)
+
+> inventory
+You are carrying a floppy hat.
+
+> !
+#(inventory)
+You are carrying a floppy hat.
+
+> inventory
+You are carrying a floppy hat.
+
+> !!
+#(inventory)
+You are carrying a floppy hat.
+
+> inventory
+You are carrying a floppy hat.
+
+> again
+#(inventory)
+You are carrying a floppy hat.
+
+> inventory
+You are carrying a floppy hat.
+
+> g
+#(inventory)
+You are carrying a floppy hat.
+
+> xyzzy
+I'm sorry, but XYZZY doesn't do anything special in this game!
+
+> campbell
+#Campbell wrote this Adventure Runner.  It's pretty good huh!
+# Not this one, he didn't.
+No comment.
+
+
+#
+# Randomized standard responses to rhetorical questions.  We can't get them
+# all...
+#
+# Note -- this portion of the script was not created from a transcript of the
+# Adrift Runner, but instead from the output of SCARE itself.  It is a
+# functionality and regression test, not a compatibility test.
+#
+
+~ random 12345
+
+> why
+Let me just check my memory banks...
+
+> when
+Who cares.
+
+> what
+Let me think about that one...
+
+> can
+I could tell you, but then I'd have to kill you.
+
+> how
+Someday I'll know the answer to that one.
+
+> why
+Why do you want to know[?]
+
+> when
+I'm not going to tell you.
+
+> what
+Because that's just the way it is.
+
+> can
+Someday I'll know the answer to that one.
+
+> how
+Do I ask you all sorts of awkward questions[?]
+
+> why
+Ha, as if I'd tell you!
+
+> when
+I don't know - could you ask anyone else[?]
+
+> what
+Interesting question.
+
+> can
+Err, yes[?]![?]
+
+> how
+Ha, as if I'd tell you!
+
+> why
+I haven't a clue!
+
+> when
+Let me think about that one...
+
+> what
+I could tell you, but then I'd have to kill you.
+
+> can
+Questions, questions...
+
+> how
+Let me just check my memory banks...
+
+> why
+All these questions are hurting my head.
+
+> when
+Let me just check my memory banks...
+
+> what
+Who cares.
+
+> can
+Because that's just the way it is.
+
+> how
+I haven't a clue!
+
+> why
+Who cares.
+
+> when
+Why do you want to know[?]
+
+> what
+Why do you want to know[?]
+
+> can
+Ha, as if I'd tell you!
+
+> how
+Questions, questions...
+
+
+~ random 54321
+
+> say hello
+Wow!  That achieved a lot.
+
+> say hello
+That's the most interesting thing I've ever heard!
+
+> say hello
+Uh huh, yes, very interesting.
+
+> say hello
+Wow!  That achieved a lot.
+
+> say hello
+Gosh, that was very impressive.
+
+> say hello
+Not surprisingly, no-one takes any notice of you.
+
+> say hello
+Uh huh, yes, very interesting.
+
+> say hello
+Uh huh, yes, very interesting.
+
+> say hello
+Wow!  That achieved a lot.
+
+
+#
+# Locate objects and NPCs (limited).
+#
+# SCARE's version of 'locate/where is/find' differs considerably from the
+# Runner in its responses.  This section tests SCARE's specific actions to
+# this command, which may or may not match the Runner.  It's only a minimal
+# test, since it cannot test a number of conditions with this simple game.
+#
+# Note -- this portion of the script was not created from a transcript of the
+# Adrift Runner, but instead from the output of SCARE itself.  It is a
+# functionality and regression test, not a compatibility test.
+#
+
+> restart
+> locate cupboard
+The pinewood cupboard -- Activity Room.
+
+> locate hat
+I don't know where that is.
+
+> locate janitor
+You haven't seen the janitor yet!
+
+> open cupboard
+> locate hat
+The floppy hat is inside the pinewood cupboard.
+
+> take hat
+> locate hat
+You are carrying the floppy hat!
+
+> east
+> locate bag
+The bag is inside the pinewood cupboard.
+
+> locate cupboard
+The pinewood cupboard -- Activity Room.
+
+> locate janitor
+The janitor -- Clean Room.
+
+> locate
+I don't know where that is!
+
+> locate mumble
+I don't know where that is!
+
+
+#
+# Multiple commands on a single line.
+#
+# Note -- this portion of the script was not created from a transcript of the
+# Adrift Runner, but instead from the output of SCARE itself.  It is a
+# functionality and regression test, not a compatibility test.
+#
+
+> x me, x me
+You are as well as can be expected, considering the circumstances.*
+You are as well as can be expected, considering the circumstances.*
+
+> x me. x me
+You are as well as can be expected, considering the circumstances.*
+You are as well as can be expected, considering the circumstances.*
+
+> x me, x me,
+You are as well as can be expected, considering the circumstances.*
+You are as well as can be expected, considering the circumstances.*
+
+> x me, x me ,
+You are as well as can be expected, considering the circumstances.*
+You are as well as can be expected, considering the circumstances.*
+
+> x me, x me, ,
+You are as well as can be expected, considering the circumstances.*
+You are as well as can be expected, considering the circumstances.*
+I don't understand what you mean!
+
+> x me, x me,,
+You are as well as can be expected, considering the circumstances.*
+You are as well as can be expected, considering the circumstances.*
+I don't understand what you mean!
+
+> x me, , x me
+You are as well as can be expected, considering the circumstances.*
+I don't understand what you mean!
+
+> x me,, x me
+You are as well as can be expected, considering the circumstances.*
+I don't understand what you mean!
+
+> , ,x me, x me
+I don't understand what you mean!
+
+> ,,x me, x me
+I don't understand what you mean!
+
+> , x me, x me
+You are as well as can be expected, considering the circumstances.*
+You are as well as can be expected, considering the circumstances.*
+
+> x me.x me,x me.x me,x me.x me,x me.x me
+You are as well as can be expected, considering the circumstances.*
+You are as well as can be expected, considering the circumstances.*
+You are as well as can be expected, considering the circumstances.*
+You are as well as can be expected, considering the circumstances.*
+You are as well as can be expected, considering the circumstances.*
+You are as well as can be expected, considering the circumstances.*
+You are as well as can be expected, considering the circumstances.*
+You are as well as can be expected, considering the circumstances.*
+
+
+#
+# Extended and multiple object parsing.
+#
+# Note -- this portion of the script was not created from a transcript of the
+# Adrift Runner, but instead from the output of SCARE itself.  It is a
+# functionality and regression test, not a compatibility test.
+#
+
+# Take all.
+> restart
+> take all
+There is nothing to pick up here.
+> take hat
+Take what[?]
+> take mumble
+Take what[?]
+> open cupboard, take all from cupboard, drop all
+> take all
+The jelly slips through your fingers.  Apparently not enough gelatine in the
+mix.  That's probably related to BSE.  You pick up the book, the tray, the
+bag, the sandwich and the floppy hat.
+
+# Take individual and multiple.
+> restart
+> open cupboard, take all from cupboard
+> open bag, put jelly in bag, close bag, drop all
+> take hat
+You pick up the floppy hat.
+> take book and mumble
+I only understood you as far as wanting to take the book.
+> take book and jelly
+I only understood you as far as wanting to take the book.
+> take book and sandwich
+You pick up the book and the sandwich.
+> take hat
+You've already got the floppy hat!
+> take hat and book and sandwich and book
+I only understood you as far as wanting to take the sandwich.
+> take hat and book and sandwich
+You've already got the book, the sandwich and the floppy hat!
+
+# Take all except individual and multiple.
+> restart
+> open cupboard, take all from cupboard
+> open bag, put jelly in bag, close bag, drop all
+> take all except mumble
+Take what[?]
+> take all except jelly
+Take what[?]
+> take all except hat
+You pick up the book, the tray, the bag and the sandwich.
+> drop all
+> take all except hat and mumble
+I only understood you as far as wanting to leave the floppy hat.
+> take all except hat and jelly
+I only understood you as far as wanting to leave the floppy hat.
+> take all except book and sandwich
+You pick up the tray, the bag and the floppy hat.
+> take all except book and sandwich
+There is nothing else to pick up here.
+> take all except hat and sandwich and hat
+I only understood you as far as wanting to leave the sandwich.
+> take all except hat and sandwich
+You pick up the book.  You've already got the floppy hat!
+
+# Drop all.
+> restart
+> drop all
+You're not carrying anything.
+> open cupboard, take all from cupboard
+> drop all
+You drop the book, the tray, the bag, the sandwich, the jelly and the
+floppy hat.
+
+# Drop individual and multiple.
+> restart
+> open cupboard, take all from cupboard
+> drop mumble
+Drop what[?]
+> drop jelly
+You drop the jelly.
+> drop hat
+> drop hat
+You are not holding the floppy hat.
+> drop book and mumble
+I only understood you as far as wanting to drop the book.
+> drop book and jelly
+You drop the book.  You are not holding the jelly.
+> drop hat and book and sandwich and book
+I only understood you as far as wanting to drop the sandwich.
+> drop hat and book and sandwich
+You drop the sandwich.  You are not holding the book or the floppy hat.
+
+# Drop all except individual and multiple.
+> restart
+> open cupboard, take all from cupboard
+> open bag, put jelly in bag, close bag
+> drop all except mumble
+Drop what[?]
+> drop all except jelly
+Drop what[?]
+> drop all except hat
+You drop the book, the tray, the bag and the sandwich.
+> take all
+> drop all except hat and mumble
+I only understood you as far as wanting to retain the floppy hat.
+> drop all except hat and jelly
+I only understood you as far as wanting to retain the floppy hat.
+> drop all except book and sandwich
+You drop the tray, the bag and the floppy hat.
+> drop all except book and sandwich
+You are not holding anything else.
+> drop all except hat and sandwich and hat
+I only understood you as far as wanting to retain the sandwich.
+> drop all except hat and sandwich
+You drop the book.  You are not holding the floppy hat.
+
+# Wear and remove.
+> restart
+> open cupboard, take all from cupboard, put jelly in cupboard, close cupboard
+> wear mumble
+Wear what[?]
+> wear jelly
+Wear what[?]
+> remove mumble
+Remove what[?]
+> remove jelly
+Remove what[?]
+> wear all
+You put on the floppy hat.
+> wear all
+You're not carrying anything that can be worn.
+> remove all
+You remove the floppy hat.
+> remove all
+You're not wearing anything that can be removed.
+> wear hat
+You put on the floppy hat.
+> strip
+You remove the floppy hat.
+> wear hat
+You put on the floppy hat.
+> wear hat
+You are already wearing the floppy hat.
+> remove hat
+You remove the floppy hat.
+> remove hat
+You are not wearing the floppy hat!
+> wear hat and mumble
+I only understood you as far as wanting to wear the floppy hat.
+> wear hat and jelly
+I only understood you as far as wanting to wear the floppy hat.
+> wear hat and book and hat
+I only understood you as far as wanting to wear the book.
+> wear hat and book
+You put on the floppy hat.  You can't wear the book.
+> wear hat and book
+You are already wearing the floppy hat.  You can't wear the book.
+> remove hat and mumble
+I only understood you as far as wanting to remove the floppy hat.
+> remove hat and book and hat
+I only understood you as far as wanting to remove the book.
+> remove hat and book
+You remove the floppy hat.  You are not wearing the book!
+> remove hat and book
+You are not wearing the book or the floppy hat!
+> drop hat
+> wear hat
+You are not holding the floppy hat.
+> take hat
+> wear all except hat
+You are not holding anything else that can be worn.
+> wear all except book
+You put on the floppy hat.  You can't wear the book.
+> wear all except hat and book
+You are already wearing the floppy hat.  You can't wear the book.
+> remove hat
+> wear all except hat and book
+You can't wear the book.
+> wear all except hat and book and mumble
+I only understood you as far as wanting to retain the book.
+> remove all except hat
+You are not wearing the floppy hat!
+> wear hat
+> remove all except hat
+You are not wearing anything else that can be removed.
+> remove all except book
+You remove the floppy hat.  You are not wearing the book!
+> wear hat
+> remove all except hat and book
+You are not wearing the book!
+> remove all except hat and book and mumble
+I only understood you as far as wanting to retain the book.
+
+# Take all from.
+> restart
+> take all from mumble
+Take what[?]
+> take all from chair
+You can't take anything from the chair.
+> take all from bag
+Take what[?]
+> take all from cupboard
+The pinewood cupboard is closed.
+> open cupboard
+> take all from cupboard
+You take the book, the tray, the bag, the sandwich, the jelly and the
+floppy hat from the pinewood cupboard.
+
+# Take individual and multiple from.
+> restart
+> open cupboard, take jelly, open bag, put jelly in bag, close bag
+> take hat from mumble
+Take what[?]
+> take hat from jelly
+You can't take anything from the jelly.
+> take hat from chair
+You can't take anything from the chair.
+> take mumble from cupboard
+Take what[?]
+> take cupboard from cupboard
+The pinewood cupboard is not in the pinewood cupboard.
+> take jelly from cupboard
+You take the jelly from the pinewood cupboard.
+> take hat from cupboard
+You take the floppy hat from the pinewood cupboard.
+> take book and mumble from cupboard
+I only understood you as far as wanting to take the book.
+> take book and jelly from cupboard
+You take the book from the pinewood cupboard.  You've already got the jelly!
+> take book and sandwich from cupboard
+You take the sandwich from the pinewood cupboard.  You've already got the book!
+> take hat from cupboard
+You've already got the floppy hat!
+> drop hat
+> take hat and book and sandwich and book and bag from cupboard
+I only understood you as far as wanting to take the sandwich.
+> take hat and book and sandwich and bag from cupboard
+You take the bag from the pinewood cupboard.  The floppy hat is not in
+the pinewood cupboard.  You've already got the book and the sandwich!
+
+# Take all except individual and multiple from.
+> restart
+> open cupboard, take jelly, open bag, put jelly in bag, close bag
+> take all except mumble from cupboard
+Take what[?]
+> take all except jelly from cupboard
+You take the book, the tray, the bag, the sandwich and the floppy hat
+from the pinewood cupboard.
+> take all except hat from cupboard
+You take the jelly from the pinewood cupboard.  You've already got the
+floppy hat!
+> restart
+> open cupboard, take jelly, open bag, put jelly in bag, close bag
+> take all except hat and mumble from cupboard
+I only understood you as far as wanting to leave the floppy hat.
+> take all except hat and jelly from cupboard
+You take the book, the tray, the bag and the sandwich from the
+pinewood cupboard.
+> restart
+> open cupboard, take jelly, open bag, put jelly in bag, close bag
+> take all except book and sandwich from cupboard
+You take the tray, the bag, the jelly and the floppy hat from the
+pinewood cupboard.
+> take all except book and sandwich from cupboard
+There is nothing else inside the pinewood cupboard.
+> take all except hat and sandwich and hat from cupboard
+I only understood you as far as wanting to leave the sandwich.
+> take all except hat and sandwich from cupboard
+You take the book from the pinewood cupboard.  You've already got the
+floppy hat!
+> take all except sandwich and cupboard from cupboard
+I only understood you as far as wanting to leave the pinewood cupboard.
+
+# Take from surface, and from more than one associate.
+> restart
+> open cupboard, take sandwich, open bag, put sandwich in bag
+> take book, take hat, put hat on tray, put book on tray
+> take book from tray
+You take the book from the tray.
+> put book on tray
+> take all from tray
+You take the book and the floppy hat from the tray.
+> put book on tray, put hat on tray
+> take all except hat from tray
+You take the book from the tray.
+> put book on tray, take tray, drop tray
+> take hat and sandwich and book and bag and tray
+You pick up the tray.  You take the bag from the pinewood cupboard.   You
+take the book and the floppy hat from the tray.  You take the sandwich
+from the bag.
+
+# Put all in.
+> restart
+> put all in mumble
+I don't understand what you mean!
+> put all in chair
+You can't put anything inside the chair!
+> take all from bag
+Take what[?]
+> put all in cupboard
+The pinewood cupboard is closed!
+> open cupboard
+> put all in cupboard
+You're not carrying anything.
+> take all from cupboard
+> put all in cupboard
+You put the book, the tray, the bag, the sandwich and the jelly inside the
+pinewood cupboard.  The floppy hat can't fit inside the pinewood cupboard at
+the moment.
+
+# Put in individual and multiple.
+> restart
+> open cupboard, take all from cupboard
+> put mumble in cupboard
+I don't understand what you want me to do with the pinewood cupboard.
+> put hat in chair
+You can't put anything inside the chair!
+> put jelly in cupboard
+You put the jelly inside the pinewood cupboard.
+> put hat in cupboard
+> put hat in cupboard
+You are not holding the floppy hat.
+> put book and mumble in cupboard
+I only understood you as far as wanting to move the book.
+> put book and jelly in cupboard
+You put the book inside the pinewood cupboard.  You are not holding the jelly.
+> put hat and book and sandwich and book in cupboard
+I only understood you as far as wanting to move the sandwich.
+> put hat and book and sandwich in cupboard
+You put the sandwich inside the pinewood cupboard.  You are not holding the
+book or the floppy hat.
+
+# Put in all except individual and multiple.
+> restart
+> open cupboard, take all from cupboard
+> open bag, put jelly in bag, close bag
+> put all except mumble in cupboard
+I don't understand what you want me to do with the pinewood cupboard.
+> put all except jelly in cupboard
+I don't understand what you mean!
+> put all except hat in chair
+You can't put anything inside the chair!
+> put all except hat in cupboard
+You put the book, the tray, the bag and the sandwich inside the pinewood
+cupboard.
+> take all from cupboard
+> put all except hat and mumble in cupboard
+I only understood you as far as wanting to retain the floppy hat.
+> put all except hat and jelly in cupboard
+I only understood you as far as wanting to retain the floppy hat.
+> put all except book and sandwich in cupboard
+You put the tray, the bag and the floppy hat inside the pinewood cupboard.
+> put all except book and sandwich in cupboard
+You are not holding anything else.
+> put all except hat and sandwich and hat in cupboard
+I only understood you as far as wanting to retain the sandwich.
+> put all except hat and sandwich in cupboard
+You put the book inside the pinewood cupboard.  You are not holding the
+floppy hat.
+> put all except sandwich and cupboard in cupboard
+I only understood you as far as wanting to retain the pinewood cupboard.
+
+# Put all on.
+> restart
+> put all on mumble
+I don't understand what you mean!
+> put all on chair
+You can't put anything on the chair!
+> take all from bag
+Take what[?]
+> put all on table
+You're not carrying anything.
+> open cupboard, take all from cupboard
+> put all on table
+You put the book, the tray, the bag, the sandwich, the jelly and the
+floppy hat onto the pinewood table.
+
+# Put on individual and multiple.
+> restart
+> open cupboard, take all from cupboard
+> put mumble on table
+I don't understand what you want me to do with the pinewood table.
+> put hat on chair
+You can't put anything on the chair!
+> put jelly on table
+> You put the jelly onto the pinewood table.
+> put hat on table
+> put hat on table
+You are not holding the floppy hat.
+> put book and mumble on table
+I only understood you as far as wanting to move the book.
+> put book and jelly on table
+You put the book onto the pinewood table.  You are not holding the jelly.
+> put hat and book and sandwich and book on table
+I only understood you as far as wanting to move the sandwich.
+> put hat and book and sandwich on table
+You put the sandwich onto the pinewood table.  You are not holding the
+book or the floppy hat.
+
+# Put on all except individual and multiple.
+> restart
+> open cupboard, take all from cupboard
+> open bag, put jelly in bag, close bag
+> put all except mumble on table
+I don't understand what you want me to do with the pinewood table.
+> put all except jelly on table
+I don't understand what you mean!
+> put all except hat on chair
+You can't put anything on the chair!
+> put all except hat on table
+You put the book, the tray, the bag and the sandwich onto the pinewood
+table.
+> take all from table
+> put all except hat and mumble on table
+I only understood you as far as wanting to retain the floppy hat.
+> put all except hat and jelly on table
+I only understood you as far as wanting to retain the floppy hat.
+> put all except book and sandwich on table
+You put the tray, the bag and the floppy hat onto the pinewood table.
+> put all except book and sandwich on table
+You are not holding anything else.
+> put all except hat and sandwich and hat on table
+I only understood you as far as wanting to retain the sandwich.
+> put all except hat and sandwich on table
+You put the book onto the pinewood table.  You are not holding the
+floppy hat.
+> put all except sandwich and table on table
+I only understood you as far as wanting to retain the pinewood table.
+
+# Recursion tests.
+> restart
+> open cupboard, take bag, open bag, take tray
+> put bag in bag
+You can't put an object inside itself!
+> put tray on tray
+You can't put an object onto itself!
+> put tray in bag
+> put bag on tray
+You can't put an object onto one it's on or in!
+> take tray from bag, put bag on tray
+> put tray in bag
+You can't put an object inside one it's on or in!
+
+# Take all from NPC (limited).
+> restart
+> east
+> take all from janitor
+The janitor is not carrying anything!
+
+# Take individual and multiple from NPC (limited).
+> restart
+> open cupboard, take all from cupboard
+> east
+> take hat from mumble
+Take what[?]
+> take mumble from janitor
+Take what[?]
+> take hat from janitor
+The janitor is not carrying the floppy hat!
+> take hat and jelly from janitor
+The janitor is not carrying the jelly or the floppy hat!
+> take hat and mumble from janitor
+I only understood you as far as wanting to take the floppy hat.
+> drop sandwich
+> take hat and jelly and sandwich from janitor
+The janitor is not carrying the sandwich, the jelly or the floppy hat!
+> drop hat and jelly
+> take hat and jelly from janitor
+The janitor is not carrying the jelly or the floppy hat!
+
+# Take all except individual and multiple from NPC (limited).
+> restart
+> open cupboard, take all from cupboard
+> east
+> take all except mumble from janitor
+Take what[?]
+> take all except hat from janitor
+The janitor is not carrying the floppy hat!
+> take all except hat and jelly from janitor
+The janitor is not carrying the jelly or the floppy hat!
+> take all except hat and mumble from janitor
+I only understood you as far as wanting to leave the floppy hat.
+> drop sandwich
+> take all except hat and jelly and sandwich from janitor
+The janitor is not carrying the sandwich, the jelly or the floppy hat!
+> drop hat and jelly
+> take hat and jelly from janitor
+The janitor is not carrying the jelly or the floppy hat!
+
+
+#
+# Go to named locations.
+#
+# Note -- this portion of the script was not created from a transcript of the
+# Adrift Runner, but instead from the output of SCARE itself.  It is a
+# functionality and regression test, not a compatibility test.
+#
+
+> restart
+> go to the activity room
+You are already there!
+
+> go to activity room
+You are already there!
+
+> go activity room
+You are already there!
+
+> go mumble
+I don't know how to get there from here.  You can only move east.
+
+> go clean room
+You move east.
+Clean Room
+As bland as the Activity Room, but somehow cleaner.  There's a sign on the
+wall that proclaims "No food or drink, please."  The janitor is here.  You
+can only move west.
+
+> go clean room
+You are already there!
+
+> go activity room
+You move west.
+Activity Room
+Sparsely furnished, the walls are white and unadorned, and the carpet is a
+bland shade of grey. Frankly, very little promise here for diversionary
+activity.  Also here is a pinewood cupboard, a pinewood table and a chair.
+You can only move east.
+
+
+#
+# Commands special to SCARE.
+#
+# Note -- this portion of the script was not created from a transcript of the
+# Adrift Runner, but instead from the output of SCARE itself.  It is a
+# functionality and regression test, not a compatibility test.
+#
+
+> restart
+> hint
+There are no hints available for this adventure.
+You're just going to have to work it out for yourself...
+
+> help
+These are some of the typical commands used in this adventure: *
+
+> brief
+The game is now in its brief mode, which gives long descriptions of places
+never before visited and short descriptions otherwise.
+> verbose
+The game is now in its verbose mode, which always gives long descriptions of
+locations (even if you've been there before).
+
+> notify
+Game score change notification is off, and the game will be silent on
+changes in the score.
+> notify on
+Game score change notification is now on, and the game will tell you of any
+changes in the score.
+> notify
+Game score change notification is on, and the game will tell you of any
+changes in the score.
+> notify off
+Game score change notification is now off, and the game will be silent on
+changes in the score.
+> notify
+Game score change notification is off, and the game will be silent on
+changes in the score.
+> notify mumble
+Use 'notify on' or 'notify off' to control game score notification.
+
+> license
+SCARE is Copyright (C) 2003-20[0-9][0-9] *
+> gpl
+SCARE is Copyright (C) 2003-20[0-9][0-9] *
+
+> version
+SCARE version * [[]Adrift 4.00.4[4-6] compatible[]], Generator version 4.00.
+
+> info
+"Pointless", 29 Oct 2006, A.N. Onymous.
+> information
+"Pointless", 29 Oct 2006, A.N. Onymous.
+> about
+"Pointless", 29 Oct 2006, A.N. Onymous.
+> author
+"Pointless", 29 Oct 2006, A.N. Onymous.
+
+> status
+Activity Room | Score: 0
+> statusline
+Activity Room | Score: 0
+
+> restart
+> turns
+You have taken 0 turns so far.
+> wait, turns
+Time passes...
+You have taken 3 turns so far.
+> wait 1
+The game will now wait 1 turn for each 'wait' command you enter.
+> wait, turns
+(1 turn) Time passes...
+You have taken 4 turns so far.
+> restart
+> wait 1
+The game will now wait 1 turn for each 'wait' command you enter.
+> wait, turns
+(1 turn) Time passes...
+You have taken 1 turn so far.
+> wait 0
+You can only wait between 1 and 20 turns.
+> wait 21
+You can only wait between 1 and 20 turns.
+> wait -1
+You can only wait between 1 and 20 turns.
+> wait 100
+You can only wait between 1 and 20 turns.
+
+
+#
+# Save and restore.
+#
+# Note -- this portion of the script was not created from a transcript of the
+# Adrift Runner, but instead from the output of SCARE itself.  It is a
+# functionality and regression test, not a compatibility test.
+#
+
+# Expect a restore with no preceding save to fail.
+> restore
+Restore failed.
+
+# Ensure we're in the start room, no matter where we are when we get here.
+# Done by "east, west", rather than a restart (that comes later).
+> east
+> west
+~ player
+*In Room 0 "Activity Room"* Standing*
+> look
+Activity Room
+*
+
+# Save while in the Activity Room.
+> save
+Ok.
+
+# Move to the Clean Room, then restore and see if we're back where we were
+# when we saved.
+> east
+> sit
+~ player
+*In Room 1 "Clean Room"* Sitting*
+> look
+Clean Room
+*
+
+> restore
+Ok.
+
+~ player
+*In Room 0 "Activity Room"* Standing*
+> look
+Activity Room
+*
+
+# Expect a restore with no pending save to fail.
+> restore
+Restore failed.
+
+
+#
+# Time, restart, and single undo.
+#
+# Note -- this portion of the script was not created from a transcript of the
+# Adrift Runner, but instead from the output of SCARE itself.  It is a
+# functionality and regression test, not a compatibility test.
+#
+
+# Adrift uses 'time' to report wall-clock time; we use it to report the time
+# spent running this game.
+> time
+You have been running the game for [0-9]m [0-9][0-9]s.
+
+# Adrift uses 'date' to report system date; we're just smart-alec here.
+> date
+Maybe we should just be good friends.
+
+# Restart, and verify the game introduction is reprinted.
+> restart
+Pointless
+It's not the despair that destroys, it's the hope...
+*
+
+# Single-level simple undo test.
+> look
+Activity Room
+*
+
+> east
+You move east.
+Clean Room
+*
+
+> undo
+Activity Room
+[[]The previous turn has been undone.[]]
+
+
+#
+# Command history.
+#
+# Note -- this portion of the script was not created from a transcript of the
+# Adrift Runner, but instead from the output of SCARE itself.  It is a
+# functionality and regression test, not a compatibility test.
+#
+
+# Bulk history out to ensure that we're in the 3-digit range for sequences.
+# In practice, we probably are already, but just in case this test moves...
+> what, what, what, what, what, what, what, what, what, what, what, what
+> what, what, what, what, what, what, what, what, what, what, what, what
+> what, what, what, what, what, what, what, what, what, what, what, what
+> what, what, what, what, what, what, what, what, what, what, what, what
+> what, what, what, what, what, what, what, what, what, what, what, what
+> what, what, what, what, what, what, what, what, what, what, what, what
+> what, what, what, what, what, what, what, what, what, what, what, what
+> what, what, what, what, what, what, what, what, what, what, what, what
+> what, what, what, what
+
+# The history is 64 entries, so start by filling it with verifiable contents.
+> restart
+> wait, wait, wait, wait, wait, wait, wait, wait, wait, wait, wait, wait
+> wait, wait, wait, wait, wait, wait, wait, wait, wait, wait, wait, wait
+> wait, wait, wait, wait, wait, wait, wait, wait, wait, wait, wait, wait
+> wait, wait, wait, wait, wait, wait, wait, wait, wait, wait, wait, wait
+> wait, wait, wait, wait, wait, wait, wait, wait, wait, wait, wait, wait
+> wait, wait, wait
+
+> history
+These are your most recent game commands:
+[0-9][0-9][0-9] -- Time [0-9]m [0-9][0-9]s, turn 0 : wait
+*
+[0-9][0-9][0-9] -- Time [0-9]m [0-9][0-9]s, turn 186 : wait
+[0-9][0-9][0-9] -- Time [0-9]m [0-9][0-9]s, turn 189 : [[]history[]]
+
+> history 3
+These are your most recent game commands:
+[0-9][0-9][0-9] -- Time [0-9]m [0-9][0-9]s, turn 186 : wait
+[0-9][0-9][0-9] -- Time [0-9]m [0-9][0-9]s, turn 189 : history
+[0-9][0-9][0-9] -- Time [0-9]m [0-9][0-9]s, turn 189 : [[]history[]]
+
+> history 0
+That's not a valid history length.
+> history -1
+That's not a valid history length.
+
+# Try backing up an invalid number of commands, and searching for things
+# that aren't present.
+> !-65
+No matching entry found in the command history.
+
+> !0
+No matching entry found in the command history.
+
+> !9999
+No matching entry found in the command history.
+
+> !mumble
+No matching entry found in the command history.
+
+> !?mumble
+No matching entry found in the command history.
+
+> !?
+No matching entry found in the command history.
+
+# Inject something other than wait, and move it up a turn.  Then check that
+# -1 is the prior command, -3 the injected command (was -2, but is moved up
+# by the -1 test), and find the injected command by string searches as well
+# as by number.
+> x me, wait
+
+> !-1
+Time passes...
+
+> !-3
+You are as well as can be expected, considering the circumstances.
+
+> !-3
+Time passes...
+
+> !x
+You are as well as can be expected, considering the circumstances.
+
+> !?me
+You are as well as can be expected, considering the circumstances.
+
+
+#
+# Multi-level undo.
+#
+# Note -- this portion of the script was not created from a transcript of the
+# Adrift Runner, but instead from the output of SCARE itself.  It is a
+# functionality and regression test, not a compatibility test.
+#
+
+# Undo supports 17 entries, so start by filling it with verifiable contents.
+> restart
+> wait, wait, wait, wait, wait, wait, wait, wait, wait, wait, wait, wait, wait
+> wait, wait, wait, wait
+> turns
+You have taken 51 turns so far.
+
+# Save now, so we can restore later and go further on.
+> save
+Ok.
+
+# Now undo each and verify that turns rewinds.
+> undo
+* [[]The previous turn has been undone.[]]
+> turns
+You have taken 48 turns so far.
+
+> undo
+* [[]The previous turn has been undone.[]]
+> turns
+You have taken 45 turns so far.
+
+> undo
+* [[]The previous turn has been undone.[]]
+> turns
+You have taken 42 turns so far.
+
+> undo
+* [[]The previous turn has been undone.[]]
+> turns
+You have taken 39 turns so far.
+
+> undo
+* [[]The previous turn has been undone.[]]
+> turns
+You have taken 36 turns so far.
+
+> undo
+* [[]The previous turn has been undone.[]]
+> turns
+You have taken 33 turns so far.
+
+> undo
+* [[]The previous turn has been undone.[]]
+> turns
+You have taken 30 turns so far.
+
+> undo
+* [[]The previous turn has been undone.[]]
+> turns
+You have taken 27 turns so far.
+
+> undo
+* [[]The previous turn has been undone.[]]
+> turns
+You have taken 24 turns so far.
+
+> undo
+* [[]The previous turn has been undone.[]]
+> turns
+You have taken 21 turns so far.
+
+> undo
+* [[]The previous turn has been undone.[]]
+> turns
+You have taken 18 turns so far.
+
+> undo
+* [[]The previous turn has been undone.[]]
+> turns
+You have taken 15 turns so far.
+
+> undo
+* [[]The previous turn has been undone.[]]
+> turns
+You have taken 12 turns so far.
+
+> undo
+* [[]The previous turn has been undone.[]]
+> turns
+You have taken 9 turns so far.
+
+> undo
+* [[]The previous turn has been undone.[]]
+> turns
+You have taken 6 turns so far.
+
+> undo
+* [[]The previous turn has been undone.[]]
+> turns
+You have taken 3 turns so far.
+
+> undo
+* [[]The previous turn has been undone.[]]
+> turns
+You have taken 0 turns so far.
+
+# Check that we can't get past the game start.
+> undo
+You can't undo what hasn't been done.
+
+# The undo buffers are now empty; restore, and then verify that a further
+# undo attempt meets with the message indicating undo buffers exhausted.
+> restore
+Ok.
+
+> undo
+Sorry, no more undo is available.
+
+
+#
+# Quit.
+#
+# Note -- this portion of the script was not created from a transcript of the
+# Adrift Runner, but instead from the output of SCARE itself.  It is a
+# functionality and regression test, not a compatibility test.
+#
+
+# Confirm "quit" ends the game run.
+~ game
+*Running*
+
+> quit
+
+~ game
+*Not running*

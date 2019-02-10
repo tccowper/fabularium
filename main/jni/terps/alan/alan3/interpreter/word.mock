@@ -1,0 +1,21 @@
+#include <cgreen/cgreen.h>
+#include <cgreen/mocks.h>
+
+#include "word.h"
+
+/* DATA */
+
+Word *playerWords;	/* List of Parsed Word */
+int currentWordIndex;		/* and an index into it */
+int firstWord;
+int lastWord;
+
+int verbWord;
+int verbWordCode;
+
+
+
+/* FUNCTIONS */
+void ensureSpaceForPlayerWords(int count) { mock(); }
+char *playerWordsAsCommandString(void) { return (char*)mock(); }
+void clearWordList(Word *list) { mock(); }

@@ -1,0 +1,28 @@
+########## useRestrictingToActor ##########
+
+
+useRestrictingToActor.alan
+
+   15.        Use Script s For i. -- Error, i not guaranteed to be an actor.
+=====>                         1
+
+  *1*   351 E : USE statement must refer to an instance inheriting from
+                'actor'.
+
+   16.        Stop i. -- Error, dito
+=====>             1
+
+  *1*   351 E : STOP statement must refer to an instance inheriting from
+                'actor'.
+
+   18.          Use Script s For i. -- Error, i is an actor, but script not def
+        ined
+=====>                     1
+
+  *1*   400 E : Script 's' not defined for class 'actor'.
+
+
+        3 error(s).
+        No detected warnings.
+        1 informational message(s).
+

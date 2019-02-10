@@ -1,0 +1,85 @@
+####################################################################
+# This file is included from Makefile. It includes special settings
+# to build Alan Interpreter(s) on Darwin. Common rules are in
+# Makefile.common
+
+# We are aiming for the same as on Cygwin
+VERSION := $(shell cat ../NEXTRELEASE)
+
+
+# Define the program name
+PROGNAME=-DPROGNAME=\"arun\"
+
+ARUNOPTS = $(PROGNAME) $(GLK)
+
+COMPILER = gcc
+COMPILEFLAGS = -g -Wall -funsigned-char -fPIC
+
+LINKER = gcc
+LINKFLAGS = -g $(ARUNOPTS)
+
+LIBS = $(GLKLIB) $(LINKLIBS)
+
+
+# Enable Cgreen for unit test and mocking
+CGREEN = yes
+CGREENROOT = /usr/local
+CGREENINCLUDE = -I$(CGREENROOT)/include
+
+# -- Cgreen unit test framework settings
+CGREENLIBDIR=$(CGREENROOT)/lib64
+CGREENBINDIR=$(CGREENROOT)/bin/
+CGREENLIB = -L$(CGREENLIBDIR) -lcgreen -lm
+
+
+###################################################################
+#
+# Default target on Linux
+#
+.PHONY: default
+default all: unit arun
+
+
+##################################################################
+.PHONY: release
+release: EXTRA_COMPILER_FLAGS = -O4
+release: DEPENDENCY =
+release: all
+
+
+#############################################################
+# GARARUN: a Gargoyle drop-in alan interpreter
+#
+# Gargoyle sources should be installed at GARGOYLE_DIR and have
+# terps/alan3 linked to alan/interpreter. All required libraries, including
+# libgarglk.dylib need to be built to binary form before making it from here.
+# It is built with jam, so "alan3", the resulting Alan interpreter drop-in,
+# will be available as $(GARGOYLE_DIR)/build/<arch>.release/alan3/alan3
+
+GARGOYLE_DIR=../../garglk-current-alan3
+gararun: gararun-zip gararun-sh
+
+gararun-zip: alan3
+	tar zcvf gargoyle-alan3-$(VERSION)$(BUILDVERSION).linux.tgz alan3 gargoyle.alan3-slot-in.readme
+
+gararun-sh: alan3
+	mkdir -p gargoyle-alan3-updater
+	cp alan3 gargoyle-alan3-updater
+	makeself --base64 gargoyle-alan3-updater gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).linux.sh "Alan v3 Gargoyle updater" sudo cp alan3 /usr/lib/gargoyle
+	rm -rf gargoyle-alan3-updater
+
+alan3:
+	cd $(GARGOYLE_DIR); jam STATIC=1 alan3
+	cp $(GARGOYLE_DIR)/build/linux.release/alan3/alan3 .
+
+
+#######################################################################
+#
+# Misc programs:
+#
+# Dump Acode file into text format
+#
+DUMPACDOBJECTS = dumpacd.o reverse.o lists.o sysdep.o compatibility.o ../compiler/spa.o
+dumpacd: $(DUMPACDOBJECTS)
+	$(LINK) -Wall -o dumpacd -ggdb $(PLATFORM) $(DUMPACDOBJECTS)
+	cp $@ ../bin/

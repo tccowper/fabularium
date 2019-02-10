@@ -1,0 +1,5 @@
+../../bin/alan save3
+../../bin/arun -n save3 < save3.input1
+../../bin/alan save3
+../../bin/arun -n save3 < save3.input2
+rm save3.sav

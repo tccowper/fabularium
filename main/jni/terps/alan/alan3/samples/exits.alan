@@ -1,0 +1,34 @@
+syntax exits = exits.
+
+verb exits
+does "Exit list not available for this location."
+end verb exits.
+
+the Room1 isa location
+description
+"You are in a small empty room. The only way out is
+an archway leading north."
+
+exit north to Room2.
+
+exit south, east, west to room1
+check
+"You can't go that way. Available exits : north"
+end exit.
+
+verb exits
+does only "Available exits : north"
+end verb exits.
+
+end the Room1.
+
+the Room2 isa location
+description
+"Another boring room. You can go south from here
+through an archway."
+
+exit south to Room1.
+
+end the Room2.
+
+start at Room1.

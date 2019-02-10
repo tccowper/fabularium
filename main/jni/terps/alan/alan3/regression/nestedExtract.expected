@@ -1,0 +1,19 @@
+########## nestedExtract ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a big box here. The big box contains a small box and a medium box
+. The medium box contains a thing1. The small box contains a thing2.
+
+> take thing1
+You can't extract anything from the medium box.
+
+> take thing2
+You can't extract anything from the big box.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

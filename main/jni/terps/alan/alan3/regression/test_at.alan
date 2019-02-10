@@ -1,0 +1,24 @@
+The loc1 Isa location
+End The loc1.
+
+Add To Every object
+  Verb test
+    Does
+      IF object AT loc1 THEN SAY THE object. " is at loc1." END IF.
+      IF object INDIRECTLY AT loc1 THEN SAY THE object. "IS INDIRECTLY at loc1." END IF.
+      IF object DIRECTLY AT loc1 THEN SAY THE object. "IS DIRECTLY at loc1." END IF.
+  END VERB.
+END ADD.
+
+The jacket Isa object At loc1
+  Container
+End The jacket.
+
+The wallet Isa object In jacket
+  Container
+End The wallet.
+
+The coin Isa object in wallet
+End The coin.
+
+Start At loc1.

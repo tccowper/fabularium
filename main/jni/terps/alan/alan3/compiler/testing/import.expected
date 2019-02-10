@@ -1,0 +1,45 @@
+########## import ##########
+
+
+import.alan
+
+    1.  import 'abcd'.
+=====>         1
+
+  *1*   199 F : Adventure source file (abcd) not found.
+
+    2.  import 'abcd'
+=====>         1
+
+  *1*   109 E : Syntax error in import statement, expected terminating '.'.
+  *1*   199 F : Adventure source file (abcd) not found.
+
+    4.  options
+=====>  1
+
+  *1*   102 E : Syntax error. Ignoring "options".
+
+    5.    import 'options'.
+=====>           1
+
+  *1*   199 F : Adventure source file (options) not found.
+
+    9.    import 'body'.
+=====>    1      2
+
+  *1*   102 E : Syntax error. Ignoring "import".
+  *2*   199 F : Adventure source file (body) not found.
+
+   13.  import 'ejrh'
+=====>  1      2    3
+
+  *1*   102 E : Syntax error. Ignoring "import".
+  *2*   109 E : Syntax error in import statement, expected terminating '.'.
+  *2*   199 F : Adventure source file (ejrh) not found.
+  *3*   102 F : Syntax error. Ignoring "Unknown Token".
+
+
+        11 error(s).
+        No detected warnings.
+        1 informational message(s).
+

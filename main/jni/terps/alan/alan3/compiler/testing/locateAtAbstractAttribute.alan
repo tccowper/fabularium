@@ -1,0 +1,13 @@
+The l Isa location
+End The l.
+
+Every o Isa object
+  Has loc location.
+  Initialize
+    Locate This At loc Of This.
+End Every o.
+
+The anO Isa object
+End The anO.
+
+Start At l.

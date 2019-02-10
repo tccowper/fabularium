@@ -1,0 +1,19 @@
+########## defaultSyntaxOnSubclass ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+L
+There is a car1 and a bus1 here.
+
+> drive bus1
+You can't do that.
+
+> drive car1
+Yoooohooooo!
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

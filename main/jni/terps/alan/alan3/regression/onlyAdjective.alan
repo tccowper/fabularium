@@ -1,0 +1,26 @@
+The l Isa location
+    Name outside 'the' house
+End The l.
+
+Syntax 'look' = 'look' (o) Where o Isa entity Else ""
+
+Syntax 'x' = 'x' (o) Where o Isa object Else ""
+
+Add To Every object
+  Verb 'look'
+    Does
+      ""
+  End Verb.
+
+  Verb x
+    Does
+      ""
+  End Verb.
+End Add.
+
+
+The pepper Isa object At l
+  Name pepper dispenser
+End The.
+
+Start At l.

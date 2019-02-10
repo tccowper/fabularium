@@ -1,0 +1,19 @@
+########## eventsScheduledAfter0InRuleShouldRunNow ##########
+
+        No warnings or errors detected.
+
+
+
+L1
+This is event e1 running. This is event e2 running.
+
+> 
+
+> trigger
+This is event e1 running. This is event e2 running.
+
+> 
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

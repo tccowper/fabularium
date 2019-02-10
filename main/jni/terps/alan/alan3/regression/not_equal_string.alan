@@ -1,0 +1,11 @@
+The l Isa location
+End The l.
+
+Start At l.
+  "The strings are"
+  If "" <> "" Then
+    "not equal."
+  Else
+    "equal."
+  End If.
+

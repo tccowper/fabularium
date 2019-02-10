@@ -1,0 +1,36 @@
+########## extractAbortsCommand ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+Bar
+There is a bartender here. The bartender is carrying a glass. A
+slow-moving, traditionally dressed waiter is here. The waiter is carrying 
+a menu.
+
+> take glass
+The bartender will not allow you to take anything.
+
+> l
+Bar
+There is a bartender here. The bartender is carrying a glass. A
+slow-moving, traditionally dressed waiter is here. The waiter is carrying 
+a menu.
+
+> take menu
+The waiter is annoyed by your presupposition. Taken.
+
+> l
+Bar
+There is a bartender here. The bartender is carrying a glass. A
+slow-moving, traditionally dressed waiter is here. The waiter is
+empty-handed. He is rather annoyed.
+
+> i
+The hero carries a menu.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

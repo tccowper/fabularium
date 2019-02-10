@@ -1,0 +1,11 @@
+The startRoom Isa location
+  Entered
+    "Entered"
+  Exit w To otherRoom.
+End The startRoom.
+
+The otherRoom Isa location
+  Exit e To startRoom.
+End The otherRoom.
+
+Start At startRoom.

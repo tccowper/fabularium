@@ -1,0 +1,28 @@
+########## actor_at_object_in_cont ##########
+Options
+  debug.
+  
+
+
+
+The obj Isa object
+  In cont 
+End The obj.
+
+The cont Isa object
+  At l 
+  With Container
+End The cont.
+
+The l Isa location
+  
+End The l.
+
+The loc Isa location
+  
+End The loc.
+
+Start At loc.
+  "Locating hero at obj which is in container, should end up at L."
+  Locate hero At obj.
+  

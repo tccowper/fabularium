@@ -1,0 +1,17 @@
+The outer Isa location
+End The outer.
+
+The inner Isa location
+End The inner.
+
+Start At outer.
+  -- Give an inner location at an outer
+  Locate inner At outer.
+
+  -- When filtered for locations At the outer location
+  "Locations at outer: "
+  For Each x Isa location, At outer Do
+    Say x. "$n"
+  End For.
+  -- Then the inner should be found
+

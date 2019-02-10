@@ -1,0 +1,18 @@
+Verb x
+  Does
+    Increase v Of l.
+End Verb.
+
+Verb l
+  Does
+    Look.
+End Verb.
+
+The l Isa location
+  Is v 0.
+  Description
+    "You have x:ed" Say v Of this. "times before."
+End The l.
+
+Start At l.
+

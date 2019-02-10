@@ -1,0 +1,458 @@
+########## Linux ##########
+
+
+Welcome to the game of SAVIOUR!
+
+In this game your mission is to salvage the last copy of the famous
+ADVENTURE game. Legends have it that somewhere inside an ancient building
+the last copy of this game is still spinning on some old disks.
+
+If you need help just type 'help'.
+
+So go forth and be the salvaging hero of all Adventurers!
+
+
+This game was produced with the ALAN Adventure Development System and is
+brought to you by ThoNi&GorFo Adventure Factories. 
+    Visit the Alan Home Pages at: 
+
+
+    http://www.alanif.se
+
+
+Outside The Tall Building
+To the north is a tall ancient building with a large entrance. On the top
+there is a clock tower. Most of the windows in the building are broken,
+and a sign with three oval objects are hanging lose from the wall.
+
+> 
+
+> x
+I don't know the word 'x'.
+
+> 
+
+> i
+You are empty-handed.
+
+> north
+Hall
+Inside the entrance is a hallway full of dust and pieces of the ceiling
+has fallen to the floor. At the west end is a staircase, and to the south
+is the exit. To the east is a folding door. It is closed.
+
+> west
+Stairs
+You are at the landing of an old staircase. It seem steady enough to walk
+in, but be careful if you are going to use it. There is a passage leading
+up, and another leading down into a dark cellar. To the east is the
+hallway. A strange smell emerges from below.
+
+> up
+First Floor
+The landing on the first floor is as dirty as all the others. Meters and
+meters of old cables are laying around, leading into a room to the east.
+The stairs leads up and down. They still seem alright. Through the dirty
+windows the barren field outside the building can be seen. Almost
+completely covered by dust, there is an old book laying on the floor here.
+
+> take all
+(old book) Taken.
+
+> read the book
+As you carefully try to open the book it falls apart into dust and falls
+to the floor through your fingers.
+
+> east
+Office
+In front of you is a deserted office area. Desks and chairs are piled up
+in one corner. The ventilation system has partly fallen to the floor,
+tearing part of the ceiling down with it. Under the twisted tubing a
+couple of old coffee makers are crushed to pieces. One shelf, having some
+kind of lettering, no longer readable, is thrown to one side, and another
+is still standing in a corner, full of dust. There is a ladder laying on
+the floor here.
+
+> take ladder
+Taken.
+
+> west
+First Floor (again)
+
+> up
+Second Floor
+The second landing of the stairs is well kept through the ages. Some rust
+has gotten a grip on the fence but it is still rock steady. The window
+glass is still present in the frames, altough covered with dust so that
+the sunlight can barely be seen through them. There is a doorway to the
+east.
+
+> east
+Terminal Room
+This must be the old terminal room. Old and dusty, most of them cracked
+and broken, off-white computer terminals are standing on desks that once
+were called 'ergonomic'. Nowhere can any connections for the terminals be
+seen. A doorway to the west leads out to the stairs. One of the terminals
+seems in much better shape than the others.
+
+> take terminal
+Taken. OH! There was a coin under it!
+
+> take coin
+Taken.
+
+> west
+Second Floor (again)
+
+> up
+Third Floor
+On the wall here it says 'THIRD FLOOR'. The fence around the stairs is
+probably not to be trusted any longer and the stairs themselves are
+getting weaker. A puddle of water on the floor shows that the weather has
+free access through the empty window frames. A whissle by the wind is all
+that can be heared. Foremerly there was an entrance to the east which is
+now totally blocked.
+
+> up
+Fourth Floor
+Even this high up the stairs are intact but the fence and railings are
+gone. Small pieces of glass and rusty metal covers the stairs that leads
+up and down. Be careful where you put your feet! There are doors to the
+east and to the north.
+
+> east
+Computer Room
+A room of old computers, cables, disk drives, tape stations and floppy
+disks are spread out all over the floor. The exit is to the west. An
+ancient computer is standing in the centre of the room.
+
+> i
+You are carrying a small coin, a rather heavy computer terminal and a 3
+metre long ladder.
+
+> connect terminal
+The terminal is now connected to the nearby computer.
+
+> kick computer
+Surprisingly, the old computer starts to whirr, the front panel lights
+begins to twinkle frantically, and the computer starts up. The connected
+terminal displays the message 'Please login. Enter USERID:'
+
+> type "nilgu"
+'ERROR: Wrong USERID.
+Please login. Enter USERID:'
+
+> west
+Fourth Floor (again)
+
+> north
+Windy Room
+In the middle of the room is a light spot on the floor. The light is
+comming from a hole in the ceiling. A strong wind can be felt comming
+through the hole. Bricks and stones covers the floor. The remains of bird
+nests can be seen, but there are no birds anywhere. Perhaps your entrance
+scared them off.
+
+> raise ladder
+The ladder is just long enough to reach up through the hole in the
+ceiling, where it now is standing.
+
+> climb it
+The steps of the ladder feels a bit weak, some more than others, but you
+manage to climb all the way without falling down.
+
+Walless Room
+Through the hole in the floor the end of a ladder is extending. Three of
+the walls in this room are missing and the wind is strong in your hair
+and clothes. Piles of bricks and wood are everywhere. Far, far below you
+the field surrounding the building can be seen. In one corner, near the
+remains of one of the walls, a crow has built it's nest.
+
+> examine nest
+As you turn the nest over for examination, a set of keys falls out.
+Otherwise there is nothing special about the nest.
+
+> take keys
+Taken.
+
+> down
+Windy Room
+In the middle of the room is a light spot on the floor. The light is
+comming from a hole in the ceiling. A strong wind can be felt comming
+through the hole. Bricks and stones covers the floor. The remains of bird
+nests can be seen, but there are no birds anywhere. Perhaps your entrance
+scared them off. A ladder is raised in the middle of the room, extending
+through the hole in the ceiling.
+
+> south
+Fourth Floor (again)
+
+> up
+Fifth Floor
+This must be the top of the top landing of the staircase. With a pounding
+heart and breath you look around and see two doorways. A small one to the
+south, and to the east a long corridor.
+
+> south
+Clock Room
+The room is so small and low that you can't stand straight. In one of the
+walls an elaborate clockwork is mounted. It is in very good shape it
+seems.
+
+> wind clock
+With a deafening BING BANG the clock begins to chime. From the corridor
+in the south a loud flapping of wings is heard.
+
+> north
+Fifth Floor (again)
+
+> east
+Corridor
+A long east-west corridor extends in both directions. There are exits in
+both ends. In the ceiling there are markings from claws (BIG CLAWS!!) and
+the floor is covered with litter from bats.
+
+> east
+Small Office
+This looks like a small office. Near the window there is a large desk. 
+There is a drawer in the desk. A small window lets some light in. The
+wallpaper has nearly all fallen to the floor and the chair is only a pile
+of broken sticks in one corner. Once the room had a balcony but I don't
+recommend using it now since the floor is gone. Anyway, it is not
+possible to get out there anymore.
+
+> examine desk
+It is an old desk, made from oak. The top is completely covered by dust 
+where your fingers leave markings. The desk has one remaining drawer.
+
+> examine desk
+It is an old desk, made from oak. The top is completely covered by dust 
+that shows markings from fingers. The desk has one remaining drawer.
+
+> open drawer
+Pulling out the drawer a manual falls to the floor.
+
+> take manual
+Taken.
+
+> read it
+The text inside the manual reads:
+    'You login by typing your Userid, and...'
+    '... command is executed by typing it's name.' and
+    'The INFO command lists available commands.'
+
+The rest is unfortunately completely illegible.
+
+OOH! There is a hand written remark in the margin here, it says 'OscSv'.
+
+> west
+Corridor (again)
+
+> west
+Fifth Floor (again)
+
+> down
+Fourth Floor
+Even this high up the stairs are intact but the fence and railings are
+gone. Small pieces of glass and rusty metal covers the stairs that leads
+up and down. Be careful where you put your feet! There are doors to the
+east and to the north.
+
+> down
+Third Floor (again)
+
+> down
+Second Floor (again)
+
+> down
+First Floor (again)
+
+> down
+Stairs (again)
+
+> east
+Hall (again)
+To the east is a folding door. It is closed.
+
+> unlock the door with the keys then open the door
+The key clicks in the lock as the door unlocks.
+
+The door opens, revealing the entrance to a dusty old cafeteria.
+
+> east
+Cafe
+This is the entrance to the old cafeteria. The kitchen and all the
+furniture is long gone, but there is still some paper boxes and old
+plates here. In one corner of the cafeteria there is a vending machine.
+It seems to be working. At least the little light inside is on, showing
+some candy.
+
+> insert coin into machine
+A clinking sound is heared from the machine and a candy bar falls out on
+the floor.
+
+> take candy bar
+Taken.
+
+> west
+Hall (again)
+To the east is a folding door. It is open revealing the entrance to a
+cafeteria.
+
+> west
+Stairs (again)
+
+> down
+Cellar
+In front of you is a dark cellar. To the west is a doorway into a dark
+room. The stairs lead up. A thin beam of light has found its way all the
+way down here. In the light from the sun some rats can be seen.
+
+> drop candy bar
+Dropped. The rats throw themselves at the candy devouring it furiously,
+nearly killing each other. When every little bit is gone they all fall
+asleep in the sunshine.
+
+> west
+Silently sneaking past the sleeping rats, you enter the dark room to the
+west.
+
+Store
+This must be an old storage room. There seems to be any amount of old
+crap here. Keytops from ancient keyboards are scattered all over the
+place, and keyboard overlays can be seen laying around here and there. I
+guess they all came out of date long ago. There is also a shelf with old
+program listings. One of the binders is marked with 'DCM V7 891012'. On
+another shelf there is a spool of computer tape.
+
+> take tape
+Taken.
+
+> east
+Cellar
+In front of you is a dark cellar. To the west is a doorway into a dark
+room. The stairs lead up. A thin beam of light has found its way all the
+way down here. In the light from the sun some rats can be seen. They are
+all sleeping.
+
+> up
+Stairs
+You are at the landing of an old staircase. It seem steady enough to walk
+in, but be careful if you are going to use it. There is a passage leading
+up, and another leading down into a dark cellar. To the east is the
+hallway. A strange smell emerges from below.
+
+> up
+First Floor
+The landing on the first floor is as dirty as all the others. Meters and
+meters of old cables are laying around, leading into a room to the east.
+The stairs leads up and down. They still seem alright. Through the dirty
+windows the barren field outside the building can be seen.
+
+> up
+Second Floor
+The second landing of the stairs is well kept through the ages. Some rust
+has gotten a grip on the fence but it is still rock steady. The window
+glass is still present in the frames, altough covered with dust so that
+the sunlight can barely be seen through them. There is a doorway to the
+east.
+
+> up
+Third Floor (again)
+
+> up
+Fourth Floor (again)
+
+> east
+Computer Room
+A room of old computers, cables, disk drives, tape stations and floppy
+disks are spread out all over the floor. The exit is to the west. A worn
+old terminal is standing here. An ancient computer is standing in the
+centre of the room. It's powered up and running.
+
+> mount tape
+The tape is now securely mounted on the tape drive.
+
+> read manual
+The text inside the manual reads:
+    'You login by typing your Userid, and...'
+    '... command is executed by typing it's name.' and
+    'The INFO command lists available commands.'
+
+The rest is unfortunately completely illegible.
+
+OOH! There is a hand written remark in the margin here, it says 'OscSv'.
+
+> type "nilgu"
+'ERROR: Wrong USERID.
+Please login. Enter USERID:'
+
+> type "oscsv"
+'Welcome OscSv!
+
+Enter command:'
+
+> type "svegr"
+'ERROR: Unknown command.
+Enter command:'
+
+> type "backup"
+The tape starts to spin and after a few moments it stops. Then it starts
+to rewind itself. FLAP, FLAP, and then it stops completely. The terminal
+displays:
+
+'Backup finished.
+Enter command:'
+
+> take tape
+Taken.
+
+> type "adventure"
+'Welcome to adventure!!
+
+You are standing at the end of a road before a small brick building.
+Around you is a forest. A small stream flows out of the building and down 
+a gully.'
+
+With a loud POP! the computer stops suddenly and the terminal turns blank.
+
+> west
+Fourth Floor (again)
+
+> down
+Third Floor
+On the wall here it says 'THIRD FLOOR'. The fence around the stairs is
+probably not to be trusted any longer and the stairs themselves are
+getting weaker. A puddle of water on the floor shows that the weather has
+free access through the empty window frames. A whissle by the wind is all
+that can be heared. Foremerly there was an entrance to the east which is
+now totally blocked.
+
+> down
+Second Floor (again)
+
+> down
+First Floor (again)
+
+> down
+Stairs (again)
+
+> east
+Hall
+Inside the entrance is a hallway full of dust and pieces of the ceiling
+has fallen to the floor. At the west end is a staircase, and to the south
+is the exit. To the east is a folding door. It is open revealing the
+entrance to a cafeteria.
+
+> i
+You are carrying a dirty manual, a set of rusty keys and a spool of
+computer tape.
+
+> south
+As you walk out through the door the large building collapses in a huge
+pile of bricks and stones. The cloud of dust will not settle for days.
+You should count yourself lucky that you got out in time.
+
+CONGRATULATIONS!! You managed to save the last copy of the ADVENTURE game.
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

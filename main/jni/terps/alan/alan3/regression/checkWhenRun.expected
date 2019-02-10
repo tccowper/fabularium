@@ -1,0 +1,28 @@
+########## checkWhenRun ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a o1 and a o2 here.
+
+> v o1 o2
+O2 as p2.
+
+> flip
+
+> v o1 o2
+Can't use o1 as p1.
+
+> v o2 o1
+Can't use o1 as p2.
+
+> flip
+
+> v o2 o1
+O1 as p2.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

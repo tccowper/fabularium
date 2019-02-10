@@ -1,0 +1,7 @@
+name: Plain T3
+sequence: 5
+desc: Create a project using only the core T3 system, without any IF
+  libraries included.  This gives you maximum customization; use this
+  if you're creating a non-game program or you want to build your own
+  replacement game library.
+source: samples\startB3.t $.t

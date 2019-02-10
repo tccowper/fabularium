@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2017 Tim Cadogan-Cowper.
+  ~
+  ~ This file is part of Fabularium.
+  ~
+  ~ Fabularium is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU General Public License
+  ~ as published by the Free Software Foundation; either version 2
+  ~ of the License, or (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Fabularium; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+  -->
+<resources>
+    <string-array name="byteOrderNames">
+        <item>Autodetect</item>
+        <item>Big Endian</item>
+        <item>Little Endian</item>
+    </string-array>
+
+    <string-array name="byteOrderVals">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="gradientOrientNames">
+        <item>Bottom-left to Top-right</item>
+        <item>Bottom to Top</item>
+        <item>Bottom-right to Top-left</item>
+        <item>Left to Right</item>
+        <item>Right to Left</item>
+        <item>Top-left to Bottom-right</item>
+        <item>Top to Bottom</item>
+        <item>Top-right to Bottom-left</item>
+    </string-array>
+
+    <string-array name="gradientOrientVals">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+
+    <string-array name="borderStyleNames">
+        <item>Always show borders</item>
+        <item>Never show borders</item>
+        <item>Show borders unless game asks not to</item>
+    </string-array>
+
+    <string-array name="borderStyleVals">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="sort_array">
+        <item>Format</item>
+        <item>BAFN</item>
+        <item>Title</item>
+        <item>Author</item>
+        <item>Published</item>
+        <item>Genre</item>
+        <item>Forgiveness</item>
+        <item>Language</item>
+        <item>Series</item>
+        <item>Rating</item>
+        <item>RatingCount</item>
+    </string-array>
+
+    <integer-array name="sort_array_index">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>12</item>
+        <item>13</item>
+        <item>15</item>
+        <item>16</item>
+    </integer-array>
+
+    <string-array name="validGameFormats">
+        <item>adrift</item>
+        <item>advsys</item>
+        <item>agt</item>
+        <item>alan</item>
+        <item>glulx</item>
+        <item>html</item>
+        <item>hugo</item>
+        <item>level9</item>
+        <item>magscrolls</item>
+        <item>scott</item>
+        <item>tads2</item>
+        <item>tads3</item>
+        <item>zcode</item>
+    </string-array>
+
+    <string-array name="validCompilerOutputFormats">
+        <item>glulx</item>
+        <item>zcode</item>
+        <item>tads3</item>
+    </string-array>
+
+    <string-array name="validCompilers">
+        <item>inform</item>
+        <item>t3make</item>
+    </string-array>
+
+</resources>

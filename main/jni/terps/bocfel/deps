@@ -1,0 +1,29 @@
+# DO NOT DELETE
+
+blorb.o: blorb.h io.h iff.h
+branch.o: branch.h memory.h util.h meta.h zterp.h process.h stack.h io.h
+dict.o: dict.h memory.h util.h meta.h zterp.h process.h unicode.h
+iff.o: iff.h io.h
+io.o: io.h osdep.h unicode.h
+math.o: math.h branch.h process.h stack.h io.h util.h zterp.h
+meta.o: meta.h memory.h util.h zterp.h objects.h process.h screen.h stack.h
+meta.o: io.h unicode.h
+memory.o: memory.h util.h meta.h zterp.h branch.h process.h screen.h
+objects.o: objects.h branch.h memory.h util.h meta.h zterp.h process.h
+objects.o: screen.h
+osdep.o: osdep.h screen.h
+patches.o: patches.h memory.h util.h meta.h zterp.h
+process.o: process.h branch.h dict.h math.h memory.h util.h meta.h zterp.h
+process.o: objects.h random.h screen.h sound.h stack.h io.h zoom.h
+random.o: random.h process.h util.h zterp.h
+screen.o: screen.h branch.h dict.h io.h meta.h memory.h util.h zterp.h
+screen.o: objects.h osdep.h process.h stack.h unicode.h
+sound.o: sound.h process.h zterp.h
+stack.o: stack.h io.h branch.h iff.h memory.h util.h meta.h zterp.h process.h
+stack.o: screen.h
+unicode.o: unicode.h memory.h util.h meta.h zterp.h
+util.o: util.h process.h screen.h unicode.h zterp.h help.h
+zoom.o: zoom.h screen.h zterp.h
+zterp.o: zterp.h blorb.h io.h branch.h memory.h util.h meta.h osdep.h
+zterp.o: patches.h process.h random.h screen.h sound.h stack.h unicode.h
+glkstart.o: util.h zterp.h help.h

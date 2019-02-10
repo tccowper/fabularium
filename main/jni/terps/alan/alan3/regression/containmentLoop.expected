@@ -1,0 +1,24 @@
+########## containmentLoop ##########
+
+        No warnings or errors detected.
+
+
+
+Loc1
+There is a box here. The box contains a ball and a bottle.
+
+> empty box in box
+You empty the box into the box. The box contains a ball and a bottle.
+
+> empty box in bottle
+Putting the bottle in itself is impossible.
+
+> put box in box
+Putting the box in itself is impossible.
+
+> put bottle in bottle
+Putting the bottle in itself is impossible.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

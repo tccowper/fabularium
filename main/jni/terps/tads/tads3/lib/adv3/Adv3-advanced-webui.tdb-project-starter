@@ -1,0 +1,12 @@
+name: Adv3 - Advanced - Web UI
+sequence: 4
+desc: Create a game based on the Adv3 library for play in a Web
+  browser, with a skeleton source file containing the minimal 
+  required definitions.
+source: samples\startA3.t $.t
+lib: adv3web.tl
+sysfile: webui.tl
+sysfile: tadsnet.t
+define: TADS_INCLUDE_NET
+define: LANGUAGE=en_us
+define: MESSAGESTYLE=neu

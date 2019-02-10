@@ -1,0 +1,21 @@
+The l Isa location
+  Exit e To l.
+  Exit w To l.
+End The l.
+
+The book Isa object At l
+  Is Not read.
+  Is Not taken.
+  Verb take
+    Does
+      "You take the book."
+      Make this taken.
+  End Verb.
+  Verb read
+    Does
+      "You read the book."
+      Make this read.
+  End Verb.
+End The book.
+
+Start At l.

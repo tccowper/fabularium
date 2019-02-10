@@ -1,0 +1,15 @@
+The l Isa location
+End The l.
+
+Add To Every object
+  Is y 2.
+  Has members {l}.
+End Add.
+
+The o Isa object
+End The o.
+
+Start At l.
+  If Max Of y Isa object, Has unknown = 9 = 7 Then "" End If.
+  If Max Of y Isa object, Has y = 9 = 7 Then "" End If.
+

@@ -1,0 +1,53 @@
+########## unlock ##########
+
+Add To Every object
+  Is
+    openable.
+End Add To.
+
+Syntax
+  unlock_with = 'unlock' (o) 'with' (k).
+
+Verb unlock_with
+  Check o Is openable
+    Else 
+      "There is no way to $v the $o."
+End Verb.
+
+Syntax
+  unlock = unlock (o).
+
+Verb unlock
+  Check object Is openable
+    Else 
+      "There is no way to $v the $o."
+  Does
+    "With what?"
+End Verb.
+
+
+The obj Isa object
+  At l 
+  Verb unlock_with
+    Does
+      If k In inventory Then
+        "Unlocked!"
+      Else 
+        "You don't have the"
+        Say k.
+        "$$."
+      End If.
+  End Verb.
+  
+End The obj.
+
+The k Isa object
+  At l 
+End The k.
+
+The l Isa location
+  
+End The l.
+
+Start At l.
+  

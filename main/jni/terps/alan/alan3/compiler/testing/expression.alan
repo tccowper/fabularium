@@ -1,0 +1,6 @@
+The l Isa location
+End The l.
+
+Start At l.
+  If dark Of This Not = 1 Then "It is pitch dark 1." End If.
+  If object Not In hero Then "" End If.

@@ -1,0 +1,75 @@
+----------------------------------------------------
+-- A Little Test to demo 'recursive look' 
+--    by sjg but now Public Domain      
+----------------------------------------------------
+the testroom isa location
+      description
+            if hero is good then
+                  "Lucky for you, you're alright, Jack."
+            else
+                  "Sadly you have died."
+                  locate hero at pearlygates.
+            end if.
+            "To the west you can follow the setting sun"
+
+      exit west,w to sunset.
+
+      end the testroom.
+
+
+the sunset isa location
+      description
+            "You can go east."
+
+      exit east,e to testroom.
+
+      end the sunset.
+
+
+the pearlygates isa location
+      end the pearlygates. 
+----------------------------------------------------
+syntax 'look' = 'look'.
+verb 'look'
+      does
+            look.
+      end verb 'look'.
+
+
+syntax 'quit' = 'quit'.
+verb 'quit'
+      does
+            quit.
+      end verb 'quit'.
+
+
+syntax take = take (obj).
+add to every thing
+      verb take
+            does 
+                  locate obj in hero.
+                  "You took it!"
+            end verb take.
+      end add to. 
+----------------------------------------------------
+the hero isa actor
+      container
+      is good.
+      end the hero.
+
+
+the apple isa object
+      at testroom
+
+      verb take
+            does
+                  make hero not good.
+                  "Tsk, tsk. You shouldn't steal other people's fruit."
+            end verb take.
+
+      end the apple.
+----------------------------------------------------
+start at testroom.
+      "A Little Test
+      $NTry taking the apple and then doing a 'look' to see if 
+      anything's changed (snigger.)"

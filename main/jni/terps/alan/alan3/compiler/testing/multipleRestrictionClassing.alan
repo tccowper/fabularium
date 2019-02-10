@@ -1,0 +1,20 @@
+Syntax s = s (p)
+  Where p Isa object
+    Else "Not an object"
+
+Syntax s = t (p).
+
+Add To Every object
+  Has oatr 3.
+End Add.
+
+The o Isa object
+  Verb s
+    Does Say oatr Of p. -- This should be OK!!
+  End Verb.
+End The o.
+
+The l Isa location
+End The l.
+
+Start At l.

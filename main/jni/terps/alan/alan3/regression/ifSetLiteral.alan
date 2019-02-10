@@ -1,0 +1,13 @@
+The l1 Isa location
+End The l1.
+The l2 Isa location
+End The l2.
+The l3 Isa location
+End The l3.
+
+Start At l1.
+  If l1 In {} Then "Not ok$n" Else "ok$n" End If.
+  If l1 In {l1} Then "ok$n" Else "Not ok$n" End If.
+  If l1 In {l2, l3} Then "Not ok$n" Else "ok$n" End If.
+  If l1 In {l2, l3, l1} Then "ok$n" Else "Not ok$n" End If.
+

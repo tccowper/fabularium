@@ -1,0 +1,3007 @@
+
+LOCATION ATTRIBUTES
+     NOT Locked_Door.
+
+OBJECT ATTRIBUTES
+     Not Movable.
+     Not usable.
+     Not cuttable.
+     Not takeable.
+     NOT openable.
+     NOT closable.
+     closed.
+     NOT lockable.
+     locked.
+     NOT edible.
+     NOT drinkable.
+     NOT switchable.
+     Not shootable.
+     on.
+     Not throwable.
+ACTOR ATTRIBUTES
+
+male.
+propername.
+
+CONTAINER inventory
+HEADER "You are carrying:"
+ELSE "You are carrying nothing."
+END CONTAINER.
+     
+SYNONYMS
+     north = n.
+     south = s.
+     east  = e.
+     west  = w.
+     up = u.
+     down  = d.
+     northeast = ne.
+     southeast = se.
+     northwest = nw.
+     southwest = sw.
+     load = 'restore'.
+     q = 'quit'.
+     i = 'inventory'.
+     shout, yell = scream.
+     l = 'look'.
+     h = help.
+     t, get, grab, lift, obtain = take.
+     shut = close.
+     x, inspect, investigate, see, view, search = examine.
+     dump, cast = throw.
+     kill, fight, hit, stab = attack.
+     place, 'locate' = put.
+     'make', invent = create.
+     fire = shoot.
+     connect = tie.
+     move = push.
+     break, sever,chop, slice = cut.
+     using = 'with'.
+     onto = 'on'.
+     inside, into = 'in'.
+     below, underneath = under.
+     rub = scoop.
+     goto = enter.
+     inhale = breathe.
+     leap, hop = jump.
+     contact = signal.
+     wash, wipe = clean.     
+     liquid, waters, H2O = water.
+     wave = waves.
+     Man = Professor.
+     big, huge, giant, gigantic, tall = large.
+     bumpy = rocky.
+     path, road = trail.
+     trees = tree.
+     jungle, woods = forest.
+     dim, shadowy, black = dark.
+     leaves = leaf.
+     panel = machine.
+     mountain = hill.
+     tiny, petite = small.
+     stone = rock.
+     passage = tunnel.
+     falls, waterfalls = waterfall.
+     coast = coastline.
+     dino, dinosaurs = dinosaur.
+     weird, odd = strange.
+     filthy = dirty.
+     hole, ditch = pit.
+     shore = shoreline.
+     branches, twig = branch.
+     bush = bushes.
+     electronic = electric.
+     vines = vine.
+     egg = eggs.
+     reflect = aim.
+     hinge, hinges, chest, 'container' = box.
+     ancient = old.
+     can = cans.
+     nutrition, meat = food.
+     driftwood = wood.
+     boat = raft.
+     swallow = eat.
+     rex = tyranosaurus.
+     substance = grease.
+     over = across.
+     
+SYNTAX
+
+     'quit' = 'quit'.
+     take_inventory = 'inventory'.
+     scream = scream.
+     'wait' = 'wait'.
+     'score' = 'score'.
+     'look' = 'look'.
+      kill_yourself = attack yourself.
+      die = die.
+     'save' = 'save'.
+      sail = sail (obj).
+     'restore' = 'restore'.
+     enter = enter (obj).
+     breathe = breathe (obj).
+     help = help.
+     signal = signal (obj).
+     signal_with = signal (obj1) with (obj2).
+     climb_on = climb 'on' (obj).
+     run_in = run 'in' (obj).
+     look_at = 'look' 'at' (obj).
+     Look_on = 'look' 'on' (obj).
+     Look_under = 'look' under (obj).
+     Look_into = 'look' 'in' (obj).
+     breathe_in = breathe 'in' (obj).
+     jump_into = jump 'in' (obj).
+     jump_across = jump across (obj).
+     jump_from = Jump From (obj).
+     climb_up = climb u (obj).
+     Take_with = take (obj1)* 'with' (obj2).
+     climb_down = climb d (obj).
+     scoop_up = scoop u (obj)*.
+     scoop_up_with = scoop u (obj1)* 'with' (obj2).
+     pick_up_with = pick u (obj1)* 'with' (obj2).
+     aim = aim (obj).
+     shine = shine (obj).
+     clean = clean (obj).
+     clean_with = clean (obj1) 'with' (obj2).
+     clean_in = clean (obj1) 'in' (obj2).
+     scoop_on = scoop (obj1) 'on' (obj2).
+     give_to = give (obj1) 'to' (obj2).
+     climb = climb (obj).
+     cross = cross (obj).
+     create = create (obj).
+     taste = taste (obj).
+     swing_across = swing across (obj).
+     swing_on = swing 'on' (obj).
+     lick = lick (obj).
+     use_on = 'use' (obj1) 'on' (obj2).
+     sit_in = sit 'in' (obj).
+     tie_with = tie (obj1) 'with' (obj2).
+     
+     oil_with = oil (obj1) 'with' (obj2).
+     
+     cut_with = cut (obj1)* 'with' (obj2).
+     
+     fill_with = fill (obj1) 'with' (obj2).
+     
+     oil = oil (obj).
+     
+     plant = plant (obj). 
+      
+     fill = fill (obj).
+     
+     drop = drop (obj) *.
+     
+     pick_up = pick u (obj) *
+         where obj isa object
+         else "You can't take people with you!"
+     
+     take = take (obj) *
+          WHERE obj ISA OBJECT
+               ELSE "You can't take people with you!"
+
+     open = open (obj)
+          WHERE obj ISA OBJECT
+               ELSE "You can't open people."
+
+     close = close (obj)
+          WHERE obj ISA OBJECT
+               ELSE "You can't close people."
+
+     examine = examine (obj)
+          WHERE obj ISA OBJECT OR ACTOR
+             ELSE "You can't examine that."
+     
+     tie = tie (obj)
+     where obj isa object
+     else "You can't tie that."     
+
+     cut = cut (obj) *
+     where obj isa object
+     else "You can't cut that."
+     
+     read = read (obj)
+          WHERE obj ISA OBJECT
+               ELSE "You can't read people."
+
+     ask = ask (act)
+          WHERE act ISA ACTOR
+               ELSE "You don't expect a response, do you?"
+
+     ask_about = ask (act) about (obj)
+          WHERE act ISA ACTOR
+               ELSE "You don't expect a response, do you?"
+
+     talk = 'talk' 'to' (act)
+          WHERE act ISA ACTOR
+               ELSE "You don't expect a response, do you?"
+
+     talk_about = 'talk to' (act) about (obj)
+          WHERE act ISA ACTOR
+               ELSE "You don't expect a response, do you?"
+
+     tell = tell (act)
+          WHERE act ISA ACTOR
+               ELSE "You don't expect a response, do you?"
+
+     tell_about = tell (act) about (obj)
+          WHERE act ISA ACTOR
+               ELSE "You don't expect a response, do you?"
+
+      throw = throw (obj) *
+          WHERE obj ISA OBJECT
+               ELSE "You can't throw people about. It isn't nice."
+
+      throw_at = throw (obj1) 'at' (obj2)
+          WHERE obj1 ISA OBJECT
+               ELSE "You can't throw people about. It isn't nice."
+          AND obj2 ISA OBJECT OR ACTOR
+               ELSE "You can't throw anything at that."
+
+      throw_to = throw (obj1) 'to' (obj2)
+          WHERE obj1 ISA OBJECT
+               ELSE "You can't throw people about. It isn't nice."
+          AND obj2 ISA OBJECT OR ACTOR
+               ELSE "You can't throw anything at that."
+
+      throw_in = throw (obj1)* 'in' (obj2)
+          WHERE obj1 ISA OBJECT
+               ELSE "You can't throw people about. It isn't nice."
+             AND obj2 ISA CONTAINER
+                ELSE "You would rather not throw that."
+
+        attack = attack (act)
+          WHERE act ISA ACTOR
+               ELSE "You should not attack the $o."
+
+        attack_with = attack (act) 'with' (obj)
+          WHERE act ISA ACTOR
+               ELSE "You should not attack the $o."
+
+        open_with = open (obj1) 'with' (obj2)
+          WHERE obj1 ISA OBJECT
+               ELSE "You can't open that."
+          AND obj2 ISA OBJECT
+               ELSE "You can't close anything with that."
+
+        close_with = close (obj1) 'with' (obj2)
+          WHERE obj1 ISA OBJECT
+               ELSE "You can't close that."
+          AND obj2 ISA OBJECT
+               ELSE "You can't close anything with that."
+
+        lock = lock (obj)
+          WHERE obj ISA OBJECT
+               ELSE "You can't lock that."
+
+        unlock = unlock (obj)
+          WHERE obj ISA OBJECT
+               ELSE "You can't lock that."
+
+        eat = eat (obj)
+          WHERE obj ISA OBJECT
+               ELSE "You can't eat that."
+
+        drink = drink (obj)
+          WHERE obj ISA OBJECT
+               ELSE "You can't drink that."
+
+        put = put (obj) *
+          WHERE obj ISA OBJECT
+               ELSE "You can't put that anywhere."
+
+        push_in = push (obj1) * 'in' (obj2).
+
+        put_in = put (obj1) * 'in' (obj2).
+
+        put_with = put (obj1) 'with' (obj2)
+          WHERE obj1 ISA OBJECT
+               ELSE "You can't put that."
+                AND obj2 ISA OBJECT
+                      ELSE "You can't put anything with the $2."
+
+        put_near = put (obj1) near (obj2)
+          WHERE obj1 ISA OBJECT
+               ELSE "You can't put that."
+                AND obj2 ISA OBJECT
+                      ELSE "You can't put anything near the $2."
+
+        put_behind = put (obj1) behind (obj2)
+          WHERE obj1 ISA OBJECT
+               ELSE "You can't put that."
+                AND obj2 ISA OBJECT
+                      ELSE "You can't put anything behind the $2."
+
+        put_on = put (obj1) 'on' (obj2)
+          WHERE obj1 ISA OBJECT
+               ELSE "You can't put that."
+                AND obj2 ISA OBJECT
+                      ELSE "You can't put anything on the $2."
+
+        put_under = put (obj1) under (obj2)
+          WHERE obj1 ISA OBJECT
+               ELSE "You can't put that."
+                AND obj2 ISA OBJECT
+                      ELSE "You can't put anything under the $2."
+
+      scoop = scoop (obj).       
+       
+       
+       'use' = 'use' (obj)
+        where obj isa object
+        else "You can't use that."
+ 
+        push = push (obj)
+          WHERE obj ISA OBJECT
+               ELSE "You can't push that."
+
+        push_with = push (obj1) 'with' (obj2)
+          WHERE obj1 ISA OBJECT
+               ELSE "You can't push that."
+          AND obj2 ISA OBJECT
+               ELSE "You can't use a $2 to push anything."
+
+        turn_on = Turn on (obj)
+          WHERE obj ISA OBJECT
+               ELSE "You can't turn that on."
+
+        turn_off = Turn off (obj)
+          WHERE obj ISA OBJECT
+               ELSE "You can't turn that off."
+
+        pull = pull (obj)
+          WHERE obj ISA OBJECT
+               ELSE "You can't pull that."
+
+        play = play (obj)
+          WHERE obj ISA OBJECT
+               ELSE "You can't play that."
+
+        play2 = play 'with' (obj)
+          WHERE obj ISA OBJECT
+               ELSE "You can't play with that."
+
+        light = light (obj)
+          WHERE obj ISA OBJECT
+               ELSE "You can't light that."
+
+        extinguish = extinguish (obj)
+          WHERE obj ISA OBJECT
+               ELSE "You can't extinguish that."
+
+        extinguish2 = put out (obj)
+          WHERE obj ISA OBJECT
+               ELSE "You can't put that out."
+
+        shoot = shoot (obj)
+          WHERE obj ISA OBJECT OR ACTOR
+               ELSE "You can't turn that off."
+
+        shoot_at = shoot (obj) 'at' (act)
+          WHERE obj ISA OBJECT
+               ELSE "You can't turn that off."
+          AND act ISA OBJECT OR ACTOR
+               ELSE "You can't shoot that."
+
+        shoot_with = shoot (act) 'with' (obj)
+          WHERE obj ISA OBJECT
+               ELSE "You can't turn that off."
+          AND  act ISA OBJECT OR ACTOR
+               ELSE "You can't shoot that."
+
+        wear = wear (obj)
+          WHERE obj ISA OBJECT
+               ELSE "You can't wear that."
+
+        put_on2 = 'put' 'on' (obj)
+          WHERE obj ISA OBJECT
+               ELSE "You can't put that on."
+
+        'remove' = 'remove' (obj)
+          WHERE obj ISA OBJECT
+               ELSE "You can't remove that."
+
+        take_off = take 'off' (obj)
+          WHERE obj ISA OBJECT
+               ELSE "You can't take that off."
+
+
+VERB 'quit' DOES
+     QUIT.
+END VERB.
+
+
+
+VERB take_inventory DOES
+     LIST inventory.
+END VERB.
+
+Verb 'score' does
+"There is no score used in this game." 
+end verb.
+
+VERB scream DOES
+     "You let out a primal scream, which accomplishes nothing.
+      Although you do feel a little better."
+END VERB.
+
+
+
+VERB 'wait' DOES
+     "Time passes..."
+END VERB.
+
+
+
+VERB 'look' DOES
+     LOOK.
+END VERB.
+
+
+
+VERB 'save' DOES
+     "Saving..."
+     SAVE.
+     "Done."
+END VERB.
+
+
+
+VERB 'restore' DOES
+     "Restoring..."
+     RESTORE.
+     "Done.$n"
+     LOOK.
+END VERB.
+
+
+
+VERB help DOES
+     "Sorry, but you're on your own."
+END VERB.
+
+
+VERB drop, throw, put does
+     if obj not IN inventory
+          then "You haven't got that."
+     else
+     "You would rather hold onto it for now."
+     end if. 
+END VERB.
+
+
+VERB take, pick_up does
+     if obj IS not takeable
+          then "You can't take that!"
+     elsif obj IN inventory
+          then "You've already got that." 
+     else
+          LOCATE obj IN inventory.
+          "Taken."
+     end if.     
+END VERB.
+
+
+Verb 'use' does
+    if obj is not usable then
+         "You can not use that."
+        else "You use the $o."
+end if.
+END VERB.       
+        
+
+
+
+VERB cut does
+    if obj is not cuttable then
+          "You can not cut that."
+         else "You cut the $o."
+         end if.
+END VERB.
+
+
+VERB open does
+     if obj IS not openable then
+           "You can't open that!"
+     elsif obj IS not closed then
+          "It's already open."
+     else
+          MAKE obj NOT closed.
+          "The $o is now open."
+end if.
+END VERB.
+
+
+
+VERB close does
+     if obj IS not closable then
+           "You can't close that."
+     elsif obj IS closed then
+           "It is not open."
+     else
+          MAKE obj closed.
+          "The $o is now closed."
+end if.
+END VERB.
+
+verb look_on, look_at does
+"There is nothing special about the $o."
+end verb.
+
+
+verb look_into does
+"There is nothing special inside the $o."
+end verb.
+
+verb look_under does
+"There is nothing special under the $o."
+end verb.
+
+VERB examine DOES
+     "There's nothing special about the $o."
+END VERB.
+
+verb lick does
+"Don't lick that. You don't know where it has been."
+end verb.
+
+VERB read DOES
+     "There's nothing to read here."
+END VERB.
+
+
+VERB ask DOES
+     IF act IS NOT ProperName THEN
+          "The $o ignores your question."
+     ELSE
+          "$o ignores your question."
+     END IF.
+END VERB.
+
+
+
+VERB ask_about DOES
+     IF act IS NOT ProperName THEN
+          "The $1 ignores your question."
+     ELSE
+          "$1 ignores your question."
+     END IF.
+END VERB.
+
+
+
+VERB tell DOES
+     IF act IS NOT ProperName THEN
+          "The $o is not impressed."
+     ELSE
+          "$o is not impressed."
+     END IF.
+END VERB.
+
+
+
+VERB tell_about DOES
+     IF act IS NOT ProperName THEN
+          "The $1 is not impressed."
+     ELSE
+          "$1 is not impressed."
+     END IF.
+END VERB. 
+
+
+
+VERB talk DOES
+     IF act IS NOT ProperName THEN
+          "The $o does not seem to want to talk."
+     ELSE
+          "$o does not seem to want to talk."
+     END IF.
+END VERB.
+
+verb Kill_yourself, die does
+"That would not be healthy."
+end verb.
+
+VERB talk_about DOES
+     IF act IS NOT ProperName THEN
+          "The $1 does not seem to want to talk."
+     ELSE
+          "$1 does not seem to want to talk."
+     END IF.
+END VERB.
+
+
+
+VERB throw_at, throw_to does
+      if obj1 is throwable then
+      if obj1  not IN inventory then
+            "You haven't got that!"
+      elsif obj2  not HERE AND obj2  IN inventory then
+           "I don't see any $2 here."
+      else
+           "The $1 bounces harmlessly off the $2.$n"
+           LOCATE obj1 HERE.
+           "Dropped."
+end if.
+else
+"You would rather not throw the $1."
+end if.
+END VERB.
+
+Verb create does
+"You can't create a $o."
+end verb.
+
+VERB throw_in, put_in does
+      if obj1 is throwable then 
+      if obj1 not in inventory then
+           "You haven't got that!"
+      elsif obj2  not HERE AND obj2 IN inventory then
+           "I don't see any $2 here."
+      elsif obj1 = obj2 then
+           "Now, that would be a good trick!"
+      else
+           LOCATE obj1 IN obj2.
+           "Done."
+end if.
+else
+"You would rather not drop the $1 at this time."
+end if.
+END VERB.
+
+
+
+VERB attack does
+      if act  not HERE then
+           "I don't see that person here."
+     else
+          "There is no need for violence at this time."
+end if.
+END VERB.
+
+
+
+VERB attack_with does
+     if act  not HERE then
+          "I don't see that person here."
+     elsif obj  not IN inventory then
+          "You don't have that object to attack with."
+     else
+          "There is no need for violence at this time."
+end if.
+END VERB.
+
+
+
+VERB open_with does
+     if obj1  not HERE then
+          "I don't see any $1 to open."
+     elsif obj2  not IN inventory then
+           "You don't have the $2."
+     else
+          "You can't open the $1 with the $2."
+end if.
+END VERB.
+
+
+
+VERB close_with does
+     if obj1  not HERE then
+          "I don't see any $1 to close."
+     elsif obj2  not IN inventory then
+          "You don't have the $2."
+     else
+          "You can't close the $1 with the $2."
+end if.
+END VERB.
+
+
+
+VERB lock does
+     if obj is not lockable then
+           "You can't lock that!"
+     elsif obj  not HERE then
+           "I don't see what you wish to lock."
+     elsif obj IS locked then
+          "It's already locked."
+     else
+          MAKE obj locked.
+          "The $o is now locked."
+end if.
+END VERB.
+
+
+
+VERB unlock does
+     if obj IS not lockable then
+          "You can't unlock that!"
+     elsif obj  not HERE then
+          "I don't see what you wish to unlock."
+     elsif obj IS not locked then
+          "It's already unlocked."
+     else
+          MAKE obj NOT locked.
+          "The $o is now unlocked."
+end if.
+END VERB.
+
+
+VERB eat does
+     if obj IS not edible then
+          "That is not edible."
+     elsif obj not HERE then
+          "I don't see what you want to eat."
+     else
+          LOCATE obj IN Nowhere.
+          "You eat the $o. Yum, that was delicious!"
+end if.
+END VERB.
+
+
+
+VERB drink does
+     if obj IS not drinkable then
+          "That is not drinkable."
+     elsif obj  not HERE then
+          "I don't see what you want to drink."
+     else
+          LOCATE obj IN Nowhere.
+          "You drink the $o. It is quite refreshing."
+end if.
+END VERB.
+
+
+
+VERB put_with, put_near, put_behind, put_on, put_under does 
+      if obj1  not IN inventory then
+           "You haven't got that!"
+      elsif obj2  not HERE AND obj2  IN inventory then
+           "I don't see any $2 here."
+      else
+      "You can't do that."
+      end if.
+END VERB.
+
+
+
+VERB push does
+     if obj  not HERE then
+          "I don't see what you want to push."
+     else
+          "You can't push it."
+end if.
+END VERB.
+
+
+
+VERB push_with does
+     if obj1  not HERE then
+           "I don't see what you want to push."
+     elsif obj2  not HERE then
+           "You don't have any $2."
+     else
+          "Your action has no noticeable effect."
+end if.
+END VERB.
+
+
+
+VERB turn_on does
+     if obj IS not switchable then
+           "You can't turn that on."
+     elsif obj  not HERE then
+          "I don't see what you want to turn on."
+     elsif obj IS on then
+          "It's already on."
+     else
+          MAKE obj on.
+          "Ok, the $o is now on."
+end if.
+END VERB.
+
+
+
+VERB turn_off does
+     if obj IS not switchable then
+          "You can't turn that off."
+     elsif obj IS not on then
+          "It's already off."
+     elsif obj  not HERE then
+          "I don't see what you want to turn off."
+     else
+          MAKE obj NOT on.
+          "Ok, the $o is now off."
+end if.
+END VERB.
+
+
+
+VERB pull does
+     if obj  not HERE then
+           "I don't see what you want to pull here."
+     else
+          "You can't pull that."
+end if.
+END VERB.
+
+
+
+VERB play, play2 does
+     if obj  not HERE then
+          "I don't see what you want to play here."
+     else
+          "You can't play that."
+end if.
+END VERB.
+
+
+
+VERB light does
+     if obj  not HERE then
+          "I don't see the object you want to light."
+     else
+          "You can't light that object."
+end if.
+END VERB.
+
+
+
+VERB extinguish, extinguish2 does
+     if obj  not HERE then
+          "I don't see the object you want to extinguish."
+     else
+          "You can't extinguish that object."
+end if.
+END VERB.
+
+
+
+VERB shoot does
+     if obj  not HERE then
+          "I don't see what you want to shoot."
+     
+     else
+          "You would rather not do that."
+end if.
+END VERB.
+
+
+
+VERB shoot_at does
+     if obj is not shootable then
+     "You can't do that."
+     else
+     if obj not IN inventory then
+           "You don't have that object."
+     elsif act  not HERE then
+          "I don't see what you want to shoot."
+     else
+          "You would rather not do that."
+end if.
+end if.
+END VERB.
+
+
+
+VERB shoot_with does
+     if obj is not shootable then
+     "You can't do that."
+     else
+     if obj not IN inventory then
+          "You don't have that object."
+     elsif act  not HERE then
+          "I don't see what you want to shoot."
+     else
+          "You can't do that."
+end if.
+end if.
+END VERB.
+
+
+
+VERB wear, put_on2 does
+     if obj  not IN inventory then
+           "You don't have that object."
+     else
+          "You can't put that on."
+end if.
+END VERB.
+
+
+
+VERB remove, take_off does
+     if obj  not IN inventory then
+          "You don't have that object."
+     else
+          "You can't remove that."
+end if.
+END VERB.
+
+
+
+Location Clearings
+
+Description
+if timemachine is not visited then
+"You decide that it is too dangerous for Clarisse and quickly position
+yourself in the machine. You nervously start the controls and hope
+for the best. Tha machine begins to shake and you notice a strange
+grinding sound eminating from the machine. You also notice that
+your field of view appears to be shrinking, and your vision is
+getting blurry. You close your eyes for a few seconds and after opening 
+them you find yourself in a small clearing.  You are still sitting inside
+the time machine. After regaining your composure you decide to have a 
+look about."
+make timemachine visited.
+end if.
+
+"There appears to be a trail leading to the north and to the east. Towards
+the north it seems to be rocky and to the east you think you hear some
+type of river. You can see large tracks to the east. Other than this
+trail there seems to be no other exits. You are surrounded by forests.
+$n
+The time machine is located here."
+locate forest1 here.
+exit n to Trail.
+exit e to River.
+
+End Location.
+
+
+Location Trail
+
+Description
+
+"You are heading north on a trail leading to some hills and mountains.
+The view is very lovely. You look about the area, but you do not
+see any animal life nearby. You wonder where the Professor could be.
+If he took this path you would have noticed footprints. He could have
+wandered into the forest or took the other path. 
+$n $n
+
+You can see a trail leading to a small opening in the trees."
+
+exit w to Forest.
+exit n to Hill.
+exit s to clearings.
+End Location.
+
+Location Forest
+Description
+"You are standing in the jungle. Little light is shining through the
+leaves and the air is very thick. A trail leads to the east and west."
+exit e to Trail.
+exit w to swamp.
+End Location.
+
+Location Hill
+Description
+"You are standing in front of a large hill. There is a small cave within
+sight. You can see a path leading to the top of the hill. There is less
+plant life located here."
+exit s to Trail.
+exit u to hilltop.
+exit n to Cave.
+end location.
+
+Location Hilltop
+Description
+"You are standing on top of the hill. You can see smoke in the far distance
+to your southeast. Since it doesn't appear cloudy you doubt lightning
+stuck and it doesn't seem a likely place for a brush fire. You think it
+may be the Professor. To the east is a small protruding piece of rock. You
+could get a better view if you could get on it. However, it does look a
+bit dangerous."
+
+exit d to Hill.
+exit e to ledge.
+
+
+End Location.
+
+Location Ledge
+
+Description
+"You try to carefully step on the piece of rock. It is a bit unstable.
+You can see much better from here and are almost positive it is a signal
+from the Professor. Too bad it won't do you much good.
+$n $n
+Just as you were trying to get back on safe ground the rock broke. You
+fell quite a distance. At least you died quickly..."
+quit.
+
+End Location.
+
+Location Cave
+
+Description
+
+"You are standing in a small, damp cave. To the east is a dark tunnel."
+exit s to Hill.
+exit e to tunnel
+check lamp at Cave
+else
+"It is too dark to safely travel in that direction."
+end exit.
+
+End Location.
+
+
+Location Tunnel
+
+Description
+
+"You are standing in a small tunnel.  The tunnel is quite short and
+ ends abruptly. The ground is quite sticky with a strange mud-like
+ substance. The only exit is to the west."
+
+exit w to Cave.
+
+End Location.
+
+Location Deadtunnel
+Description
+
+"You stumble around trying to see where you are going. Carefully you
+manage to step over the rock in front of you. Unfortunately, you hit your
+head on a large piece of rock overhead. You fall to the ground and die."
+quit.
+End Location.
+
+Location River
+Description
+
+"You are standing on a dirt path. Directly before you is a waterfall that
+is moving very fast. At the bottom of the falls you can make out
+a river with a long coastline.
+$n $n
+There are also several large tracks to the north leading behind some trees 
+and bushes. "
+
+exit w to clearings.
+exit n to Bushes.
+
+End Location.
+
+Location Bushes
+
+Description
+"You follow the tracks to some nearby bushes. As you do so, you hear
+a strange sound from the other side. You can see the large head of a
+Tyranosaurus Rex peeking over the branches. Your scientific interest 
+overcomes your fear as view this creature. He has slaughtered
+a small dinosaur and is in the process of devouring it. Exits lead
+north and south."
+exit s to River.
+exit n to Eaten.
+end location.
+
+
+
+
+
+Location Rivercrossing
+Description
+"You take a large, flat piece of wood and try to go down the falls. As you
+head down the falls, you are certain you will drown. Miraculously you
+manage to hang onto the wood and stay afloat. You begin to float down
+the river when the large head of some sort of dinosaur starts to rise
+out of the water. You stand up on the piece of wood with the hope of diving 
+into the water and escaping. Unfortunately, you do not make it as the 
+creature slowly eats you."
+quit.
+End Location.
+
+Location Eaten
+Description
+"You watch as this fascinating creature walks toward you. You see his
+magnificent features clearly. You watch as this incredible creature
+swallows you whole..."
+quit.
+End Location.
+
+
+location Drowning
+
+description
+
+"You push the raft out onto the water and hope for the best. You quickly
+go over the falls, and as you do so, you feel the raft begin to break
+apart. You desparately cling to a large piece of wood, but it is of
+no avail. The current pulls you under, and you drown..."
+quit.
+
+end location.
+
+
+location Lost
+Description
+"You travel down the falls on your raft. It holds together surprisingly
+well. The river takes you downstream farther than you had wished. You
+are not sure where the Professor could be, so you remain on the raft
+hoping to spot him on the shore. Unfortunately, by waiting so long,
+the raft begins to break up. You struggle to stay afloat, but it is
+of no use. You drown..."
+quit.
+end location.
+
+Location Shore
+Description
+if Raft at Shore then
+"You travel down the falls on your raft. It holds together surprisingly
+well. The river takes you downstream farther than you had wished. Your raft
+is heading for a a number of dangerous rocks along the coastline. You
+dive off of your raft, just as it smashes into the rocks. Your
+possessions fall into the river. You manage to swim ashore, a moderate
+distance downstream. You look around the area as you walk 
+several feet up the shore. It looks quite foreboding.
+It seems you can either follow the shoreline to the north, or go
+into the jungle to the east."
+locate axe at nowhere.
+locate cans at nowhere.
+locate vines at nowhere.
+locate wood at nowhere.
+locate raft at nowhere.
+locate Metal at nowhere.
+else
+"You are standing at the shore. Exits lead north and east."
+locate sand here.
+locate waves here.
+locate shorewater here.
+end if.
+exit n to Shore2.
+exit e to jungle2x.
+
+end location.
+
+
+
+Location Shore2
+Description
+"You are standing on a clear shoreline. The white sand glistens as
+the waves slowly roll over its surface. Exits lead north and south."
+locate waves here.
+locate shorewater here.
+locate sand here.
+Exit s To shore.
+exit n to shoreline.
+
+End Location.
+
+
+
+Location Shoreline
+
+Description
+
+"You are standing on the shoreline. There are several large dinosaurs
+walking about here. They appear to have some type of
+duck bill. A herd of these creatures are currently blocking your path.
+To the east is a dark path into the jungle. To the south is the
+shoreline."
+locate sand here.
+locate shorewater here.
+locate waves here.
+exit e to jungle4x.
+exit s to shore2.
+End Location.
+
+
+
+Location Win_Game
+Description
+"You drop the eggs close to the dinosaurs. The herd of dinosaurs quickly
+approach the eggs and begin to devour them. You make the most of this
+opportunity and quickly run past the creatures to the shoreline.
+You manage to get back on your path heading towards the fire. You 
+walk until you are within close sight of the smoke. You think you spot
+a figure lying on the groundand you run 
+to investigate. Several feet from the fire you
+see the Professor. He is lying on the ground, apparently hurt. He looks
+both surprised and happy when he sees you.
+$n $n
+""Thank God, you found me!"", he exclaims. ""I know I'm an old fool for trying
+this experiment. Clarisse must have been terribly worried.""
+$n $n
+You look over the Professor to make sure he is okay. He has a few scrapes
+and bruises, but is generally in good shape. He tells you what happened, how 
+the time machine malfunctioned and brought him to this time. As he was 
+exploring the area, he got lost. He set up camp here, on the beach hoping 
+you would come and find him. 
+$n $n
+You then proceed to tell him what happened to Dr. Evers and how he is
+a suspect in the murder. He is shocked that Professor Evers was killed.
+$n $n
+""You know that Dr. Evers and I had our disagreements, but you know I would 
+never do anything to harm him.""
+""Of course not."", you answer.
+$n $n
+You both start off looking for a way back to the time machine. The Professor
+had been working on several components to the time machine, hoping to fix
+them. He says they may be able to take us back to the present time.
+You manage to follow a back way around the river back to the clearing where
+the time machine is located. The Professor installs the time components
+and you both sit down in the machine. As you start the controls you say
+a short prayer and hope you will return home. The machine begins to shake
+and you black out for a few seconds before you arrive back in the lab.   
+The control panel begins to short circuit as you reach your destination. You
+see Clarisse running towards you with a wide smile on her face. She grabs her
+father and gives him a big hug.
+$n $n
+""I'm so glad you are okay!"", she exclaims. 
+$n $n
+As you exit the time machine, you hear someone in the next room walking
+towards the lab. Several policemen enter the room and proceed to arrest
+the Professor. They say they have found evidence linking Professor
+Adams to the murder. They take out a small test tube with a sample of
+dried blood. 
+$n $n
+""This is the blood of Dr. Evers. We found a small amount of dried blood
+in your sink. You tried to wash off the evidence of your crime, Professor,
+but it didn't work."", a burly police man states in a gruff voice.
+$n $n
+The Professor looks shocked, and says he has no idea where the blood came
+from.
+$n $n
+Just then, a teary eyed Clarisse walks up to the police and says she
+killed Dr. Evers.
+$n $n
+At first the Professor and the police think she is trying to take the blame 
+for her father. However, she eventually convinces them of her guilt as she
+goes into her room and comes back with a small gun. She then describes the 
+murder in detail. 
+$n $n
+""I sneaked into Dr. Evers lab to sabatoge his time travelling machine.
+After what he has done to father, I felt it wasn't fair if he received
+the government funding. As I was looking at his machine, Dr. Evers walked
+into the lab. He was surprised at first, and then he became furious.
+He said he was going to call the police and have me arrested. He also
+said that the government would now give him the funding, after this incident
+became public. I tried to escape, but he grabbed me, trying to push me
+to the ground.  
+$n $n
+The gun accidently went off, killing him.""
+$n $n 
+All of you are completely shocked as she tells her story. You can see how
+the Professor is hurt by this news. The police take Clarisse away,
+and you and the Professor follow to the police station. After a
+trial, Clarisse is sentenced to 15 years imprisonment for manslaughter.
+Her father is broken hearted and enters into a lethargic state. You wish you could do something
+to help them, as they are both close friends. If there was some way you
+could change what has transpired.
+$n $n
+Then you remember. You do have a time machine.
+$n $n
+But that is another story...
+$n $n
+Congratulations, you have finished the game."
+
+End Location.
+
+
+
+Location Jungle4x
+Description
+"The jungle is quite dark and foreboding. A large pit is located here,
+blocking further passage into the jungle."
+locate forest1 here.
+Exit w To shoreline.
+exit d to shoreline
+check "There is no safe way down the pit."
+end exit.
+End Location.
+
+Location jungle2x
+
+Description
+"You are in the jungle. It is very gloomy. A small path to the east 
+leads further into the jungle. To the west is the shore."
+locate forest1 here.
+exit w to Shore.
+exit e to Jungle_Pit.
+End Location.
+
+
+Location Jungle_Pit
+Description
+"You are standing before a large pit blocking passage
+to the east. Several large trees are standing here.
+Exits lead west and northwest."
+locate forest1 here.
+Exit w To jungle2x.
+exit nw to jungle4x.
+exit d to jungle2x
+check "There is no safe way down the pit."
+end exit.
+exit u to TreeTop.
+
+End Location.
+
+
+Location TreeTop
+Description
+"You are located in a tall tree. Long branches spread out in several
+directions."
+locate forest1 here.
+Exit d To Jungle_pit.
+exit e to Branch.
+End Location.
+
+
+
+Location Branch
+Description
+"You are situated on top of a long tree branch. You are directly
+over the large pit below."
+locate forest1 here.
+Exit w To TreeTop.
+
+End Location.
+
+
+Location jungle3x
+Description
+"You continue on into the jungle. You do not see any tracks. 
+You stumble upon what looks like a nest. There
+are several very large eggs located there. To your left are a few
+large bushes, in which you hear strange sounds eminating.
+The pit is located directly behind you. The only exit is to the 
+northwest."
+locate forest1 here.
+exit nw to jungle5x.
+
+
+End Location.
+
+
+Location jungle5x
+Description
+"You are standing in a relatively clear section of this jungle.
+You hear a few strange sounds in the distance. Exits lead southeast
+and west."
+locate forest1 here.
+
+Exit se To jungle3x.
+exit w to jungle6x.
+
+End Location.
+
+
+
+Location jungle6x
+Description
+"You are standing before a few large dinosaurs walking about
+the jungle. They have strange beaks and seem occupied looking for 
+food. You can spot the shore through a break in the plant
+growth, and see several other dinosaurs gathered there."
+locate forest1 here.
+Exit e To jungle5x.
+
+End Location.
+
+Location Swamp
+
+Description
+"You are standing in a swampy area. Vines are hanging down from the trees.
+The air is very humid and moist. A large tree is standing before you."
+exit e to Forest.
+exit u to tree.
+End Location.
+
+Location Tree
+Description
+"You are located up in a tree. You can see down around you for quite a
+distance. Swampy land surrounds this area blocking further travel.
+You can spot a hill to your Northeast. Leaves and vines block a full view
+of the surrounding lands."
+exit d to swamp.
+
+end location.
+
+
+
+Location Hidden
+Description
+
+
+End Location.
+
+Location Killed
+Description
+quit.
+End Location.
+
+
+Location Nowhere
+
+
+Description
+
+End Location.
+
+
+
+Object shorewater Name water AT nowhere
+
+Description
+
+End Object.
+
+Object waves Name waves  AT nowhere
+
+Description
+
+End Object.
+
+Object sand Name white sand  AT nowhere
+
+Description
+
+End Object.
+
+
+Object Fakeprofessor  Name lost professor  AT hilltop
+
+Description
+
+Verb examine, look_at, look_on, look_into does only
+"You can't see the Professor from here."
+
+End Verb.
+
+verb signal does only
+"How would you like to signal him?"
+end verb.
+
+verb signal_with does only
+if obj1<>fakeprofessor then 
+"You can't do that."
+else
+if obj2<>Metal then
+"You can't signal him with the $o."
+else
+if Metal not in inventory then
+"You don't have any metal."
+else
+if Metal is cleaned then
+"You aim the metal at the sun, trying to create a signal that
+the Professor can see. The shiny metal reflects the sunlight quite
+well. After about ten minutes, you start to see a similar signal
+in the far distance, across the river along the shoreline. It must
+be the Professor. You now have an approximate idea of where he is."
+make Metal used.
+else
+"You can't signal the Professor with that."
+end if.
+end if.
+end if.
+end if.
+end verb.
+End Object.
+
+Object treetop1  Name large tree  AT treetop
+Description
+
+Verb climb_down does only
+"You climb down the tree."
+locate hero at jungle_pit.
+
+End Verb.
+
+End Object.
+
+
+Object trail1 Name Rocky trail AT clearings
+Description
+End Object.
+
+
+Object forest1 Name forest  AT clearings
+Description
+End Object.
+
+
+Object trail2 Name rocky trail AT Trail
+Description
+End Object.
+
+
+Object forest2  Name Forest  AT Trail
+Description
+End Object.
+
+
+Object trail3 Name rocky trail  AT Forest
+Description
+End Object.
+
+
+Object forest3 Name Dark forest  AT Forest
+Description
+End Object.
+
+
+Object leaves2 Name Green leaf  AT Forest
+Description
+End Object.
+
+
+Object trail4 Name rocky trail  AT hill
+Description
+End Object.
+
+
+Object hill1 Name Large Hill  AT Hill
+description
+
+Verb climb, climb_on, climb_up does only
+"You climb up the hillside."
+locate hero at hilltop.
+end verb.
+
+End Object.
+
+
+
+Object hill2 Name large hill  AT hilltop
+Description
+
+
+Verb climb_down does only
+"You climb down the hill."
+locate hero at hill.
+
+End Verb.
+
+End Object.
+
+Object cave1 Name small cave  AT hill
+Description
+
+
+Verb enter, run_in does only
+locate hero at cave.
+End Verb.
+
+End Object.
+
+
+
+
+Object smoke Name dark smoke  AT hilltop
+
+Description
+
+
+Verb Examine, look_at, look_on does only
+"It doesn't appear to be coming from a natural fire."
+
+End Verb.
+
+verb Breathe, Breathe_in does only
+"Your lungs are not quite powerful enough to suck the smoke in from
+this distance. I'm not really sure why you would want to anyway."
+end verb.
+
+End Object.
+
+
+
+Object rock1 Name  Protruding rock  AT hilltop
+
+description
+
+
+Verb examine, look_at, Look_on does only
+"It looks very unstable."
+
+End Verb.
+
+verb climb_on, climb_up does only
+locate hero at ledge.
+end verb.
+
+End Object.
+
+
+Object cave2 Name Dark cave AT cave
+
+Description
+
+
+End Object.
+
+
+Object tunnel1 Name dark tunnel  AT cave
+
+description
+
+Verb run_in does only
+if lamp at cave then
+locate hero at tunnel.
+else
+locate hero at deadtunnel.
+end if.
+End Verb.
+
+End Object.
+
+
+
+Object Waterfall Name waterfall AT river
+
+Description
+
+
+Verb jump_into, enter does only
+locate hero at rivercrossing.
+
+End Verb.
+
+End Object.
+
+
+Object river1 Name river AT river
+
+Description
+
+verb jump_into, enter does only
+locate hero at rivercrossing.
+end verb.
+End Object.
+
+
+Object coast1 Name coastline AT river
+
+Description
+
+
+Verb examine, look_at, look_on does only
+"You are too far away to make out any details."
+
+End Verb.
+
+End Object.
+
+
+
+Object dinosaur5  Name Large Tyranosaurus AT bushes
+
+Description
+
+
+Verb examine, look_at, look_on does only
+locate hero at eaten.
+End Verb.
+
+verb attack does only
+"That would be suicide."
+end verb.
+
+verb enter does only
+"You decide to examine the dinosaur at a much closer distance by
+entering his body. The Tyranosaurus swallows you in one
+bite, killing you instantly."
+locate hero at killed.
+end verb.
+End Object.
+
+
+Object dinosaur6 Name small dead Dinosaur  AT bushes
+
+Description
+
+
+Verb examine, look_at, look_on does only
+"That may be your fate if you are not careful."
+
+End Verb.
+
+End Object.
+
+
+Object smoke2 Name smoke AT shoreline
+
+Description
+
+
+Verb examine, look_at, look_on does only
+"It looks like it is coming from very nearby."
+
+End Verb.
+
+verb breathe, breathe_in does only
+"You would rather not."
+end verb.
+End Object.
+
+
+Object dinosaur7 Name strange Dinosaur AT jungle6x
+
+Description
+
+
+verb attack does only
+"That would be too dangerous."
+end verb.
+
+Verb examine, look_at, look_on does only
+"They are currently blocking your path in their direction."
+
+End Verb.
+
+verb give_to does only
+if obj1 <> eggs then
+"You would rather not do that."
+else
+
+if obj2<> dinosaur7 then
+"There is no need to do that."
+else
+if eggs in inventory then
+locate eggs at nowhere.
+locate hero at win_game.
+
+else
+"You do not have a dinosaur egg."
+end if.
+end if.
+end if.
+end verb.
+
+End Object.
+
+
+
+
+Object pit1  Name large pit AT jungle4x
+
+Description
+
+
+Verb examine, look_into, look_on does only
+"It is too deep to safely cross."
+
+End Verb.
+
+verb enter, cross, jump_into, jump_across does only
+"You can not do this and still survive."
+end verb.
+
+End Object.
+
+
+Object tree9 Name large tree AT swamp
+
+Description
+
+verb examine, look_at, look_on does only
+"It is covered with vines."
+end verb.
+
+
+Verb climb, Climb_up, climb_on does only
+"You climb up the large tree."
+locate hero at tree.
+
+End Verb.
+
+End Object.
+
+
+Object dirtywater Name dirty water AT swamp
+
+Description
+
+
+Verb examine, look_at, look_on, look_into does only
+"The water is not very clear."
+
+
+End Verb.
+
+verb drink, taste does only
+"You don't think this water would be safe to use."
+end verb.
+
+End Object.
+
+
+Object tree8 Name large tree  AT tree
+
+Description
+
+verb examine, look_at, look_on does only
+"The tree is covered with vines."
+end verb.
+
+verb climb_down does only
+"You climb down the tree."
+locate hero at swamp.
+end verb.
+
+End Object.
+
+
+Object pit2 Name large pit AT jungle_pit
+
+Description
+
+
+Verb examine, look_at, look_on does only
+"It is too deep to safely cross."
+
+End Verb.
+
+verb enter, cross, jump_into, jump_across does only
+"You can not do this and still survive."
+end verb.
+
+End Object.
+
+
+
+Object pit3 Name large pit AT jungle3x
+
+Description
+
+
+Verb examine, look_at, look_on does only
+"There does not appear to be a way to cross the pit from here."
+
+End Verb.
+
+verb cross, jump_into, jump_across, enter does only
+"You can not do this and still survive."
+end verb.
+
+End Object.
+
+
+
+
+Object pit4 Name large pit  AT branch
+
+Description
+
+
+Verb examine, look_at, look_on does only
+"You are located directly over it. It is quite large and deep."
+
+
+End Verb.
+
+
+verb enter, jump_into does only
+"That would not be wise."
+end verb.
+
+verb jump_across, swing_across, swing_on does only
+"You go far as you dare on the long branch. You then grab hold
+of the branch and swing yourself over the pit. You just manage
+to clear it, landing in a few bushes. You are a bit
+scratched, but nothing more."
+locate hero at jungle3x.
+end verb.
+End Object.
+
+
+
+Object tree2 Name large tree AT jungle_pit
+
+Description
+
+verb climb, climb_up, climb_on does only
+"You climb up the tree."
+locate hero at treetop.
+end verb.
+
+End Object.
+
+
+Object nest Name large nest  AT jungle3x
+
+Description
+
+
+Verb examine, look_at, look_on does only
+"There are several large eggs located within it."
+
+End Verb.
+
+End Object.
+
+
+Object shore7 Name shoreline  AT jungle6x
+
+Description
+
+
+Verb examine, look_at, look_on does only
+"You can just make out the shoreline through the plant growth.
+The large dinosaurs here are blocking further passage to the shore."
+
+End Verb.
+
+End Object.
+
+
+
+Object branch2  Name sturdy branch  AT treetop
+
+Description
+
+
+Verb examine does only
+"To your direct east is a large, strudy branch."
+
+End Verb.
+
+verb climb_on, enter, climb_up, climb does only
+locate hero at branch.
+end verb.
+
+End Object.
+
+
+Object branch1  Name sturdy branch  AT Branch
+
+Description
+
+
+Verb Examine, Look_at, Look_on does only
+"It is long and quite sturdy. It extends out over the pit below."
+
+End Verb.
+
+verb Jump_from does only
+"You go far as you dare on the long branch. You then grab hold
+of the branch and swing yourself over the pit. You just manage
+to clear it, landing in a few bushes. You are a bit
+scratched, but nothing more."
+locate hero at jungle3x.
+end verb.
+End Object.
+
+
+
+Object water Name blue water  AT river
+
+Description
+
+
+Verb Examine, Look_at, Look_on does only
+"It is quite wet."
+end verb.
+
+
+
+verb Take, pick_up, scoop_up does only
+"You reach into the fast flowing water and wash off."
+end verb.
+End Object.
+
+Object dinosaur2  Name large Dinosaur  AT Hidden
+
+Description
+
+
+Verb Examine, Look_at, Look_on does only
+"You are not sure if it is a dinosaur."
+
+End Verb.
+
+End Object.
+
+Object dinosaurs  Name strange herd 'of' large Dinosaur AT shoreline
+mentioned
+"herd of large dinosaurs"
+
+
+Verb Examine, Look_at, Look_on does only
+"They appear to have large beaks."
+End Verb.
+
+verb attack does only
+"That would be too dangerous."
+end verb.
+End Object.
+
+
+
+Object bushes1  Name green bushes  AT jungle3x
+
+Description
+
+verb Examine, Look_at, Look_on does only
+if dinosaur2 at hidden then
+"You are not sure, but you think you can see something moving
+behind them."
+else
+"You can't see anything moving behind them any longer."
+end if.
+
+End Verb.
+
+End Object.
+
+
+Object Fakevines  Name green vine  AT nowhere
+
+Description
+
+
+Verb Take, Cut, Pick_up does only
+"You do not need any more vines."
+
+End Verb.
+
+End Object.
+
+
+Object Fakeleaf Name Large green leaf  AT nowhere
+
+Description
+
+
+Verb Take, Pick_up, cut does only
+"You do not need any more leaves."
+
+End Verb.
+
+End Object.
+
+
+Object fakemud  Name dark sticky mud AT nowhere
+
+Description
+
+
+Verb examine does only
+"The mud is quite thick and sticky."
+
+End Verb.
+
+verb take, pick_up, scoop_up does only
+"You don't need any more mud."
+end verb.
+
+End Object.
+
+
+Object mud  Name dark sticky mud  AT tunnel
+description
+
+
+Verb Examine, Look_at, Look_on does only
+"The mud is quite thick and sticky."
+
+End Verb.
+
+
+
+Verb 'use' does only
+"How would you like to use the mud?"
+End Verb.
+
+verb drop does only
+if mud in inventory then
+"You would rather keep the mud for now."
+else
+"You don't have any mud."
+end if.
+end verb.
+
+verb Take, pick_up, scoop_up does only
+if mud in inventory or raft is safe then
+"You already have all the mud you could possibly need."
+else
+"What would you like to put the mud in?"
+end if.
+end verb.
+
+verb put_in, scoop_up_with, pick_up_with, take_with, push_in does only
+if obj1<>mud then
+"You would rather not do that."
+else
+if obj2<>cans then
+"You would rather not do that."
+else
+if mud in inventory or raft is safe then
+"You have all the mud you could possibly need."
+else
+if cans in inventory then
+locate mud in inventory.
+"You fill the cans up with mud."
+else
+"You have nothing to hold the mud in."
+end if.
+end if.
+end if.
+end if.
+end verb.
+
+
+verb use_on, put_on does only
+if obj1<>mud then
+"You can not do that."
+else
+if obj2=raft or obj2=wood or obj2=vines then 
+if hero at river then
+if raft at river then
+"You rub the mud onto the vines and wood. You wait a short while for
+the mud to dry. It quickly does so, creating a stronger bond. "
+locate fakeraft at nowhere.
+locate mud at nowhere.
+locate fakemud at tunnel.
+make raft safe.
+else
+"You have no need to use the mud at this time."
+end if.
+else 
+"There is nothing here to use the mud on."
+end if.
+else 
+"You have no need to do that."
+end if.
+end if.
+end verb.
+
+End Object.
+
+
+
+
+Object lamp Name electric lamp AT nowhere
+
+Description
+
+
+Verb Examine, Look_at, Look_on DOES ONLY
+"It is currently on."
+
+End Verb.
+
+verb Take, pick_up DOES ONLY
+"You would rather leave it here."
+end verb.
+
+verb turn_off DOES ONLY
+"You would rather leave it on."
+end verb.
+
+end object.
+
+Object Vines name green vine at tree
+description
+
+verb Take, pick_up does only
+if vines in inventory then
+"You already have them."
+else
+"They are too hard to break with your bare hands."
+end if.
+end verb.
+
+
+verb drop does only
+if vines in inventory then
+"You would rather hold onto the vines for now."
+else
+"You do not have them."
+end if.
+end verb.
+
+verb cut_with, Take_with DOES only
+if obj1<>vines then
+"You can't do that."
+else
+if obj2<>axe then
+"You can't do that."
+else
+if axe not in inventory then
+
+"You have nothing to cut them with."
+else
+if vines in inventory then
+"You already have them."
+else
+if raft not at River then
+
+"You cut down the vines."
+locate vines in inventory.
+else 
+"You have no need for any more vines."
+end if.
+end if.
+end if.
+end if.
+end if.
+End verb.
+
+verb cut does only
+"What would you like to cut them with?"
+end verb.
+
+
+verb examine, Look_at, Look_on DOES ONLY
+"The vines appear to be strong."
+End verb.
+
+
+verb 'use' does only
+"How would you like to use them?"
+end verb.
+
+verb tie does only
+"What would you like to tie them to?"
+end verb.
+
+
+verb use_on DOES ONLY 
+if obj1<>vines then
+"You can not do that."
+else
+if obj2<>wood then
+"You have no need to tie that."
+else
+if hero at River then
+if wood is cut then
+"You tie the wood together using the vines. You now have a small
+raft."
+locate raft at River.
+locate fakeraft at nowhere.
+locate vines at nowhere.
+locate fakevines at tree.
+else
+"The wood is too large to tie up."
+end if.
+else
+"There is nothing here to tie."
+end if.
+end if.
+end if.
+end verb.
+End Object.
+
+
+
+object eggs name large eggs at jungle3x
+description
+
+verb eat DOES ONLY
+"The eggs are a bit large for you to swallow."
+end verb.
+
+
+verb Take, pick_up DOES ONLY
+if eggs in inventory then
+"You can't hold any more eggs."
+else
+if dinosaur2 at hidden then
+"You start to take a dinosaur egg. Just as you are picking it up, a large
+dinosaur pops up from behind the bushes. It must be the mother. She attacks
+you wildly and kills you."
+locate hero at Killed.
+else
+"You quickly take a few of the large dinosaur eggs."
+locate eggs in inventory.
+end if.
+end if.
+End verb.
+
+verb examine, Look_at, Look_on DOES ONLY
+"The eggs are very large."
+End verb.
+
+
+
+Verb drop does only
+if hero at jungle6x then
+locate eggs at nowhere.
+locate hero at win_game.
+else
+"There is no need to drop them here."
+end if.
+
+
+End Verb.
+
+End Object.
+
+
+
+Object Metal Name rusted shiny metal AT nowhere
+is takeable.
+is not cleaned.
+is not used.
+Mentioned
+If Metal is cleaned then
+"piece of shiny metal"
+else
+"piece of rusted metal"
+end if.
+
+verb examine, Look_at, Look_on does only
+if Metal is cleaned then
+"The metal is quite shiny and reflective."
+else
+"The metal is a rusty and dirty."
+end if.
+end verb.
+
+verb drop does only
+if Metal in inventory then
+"You would rather hold onto the metal for now."
+else
+"You are not holding the piece of metal."
+end if.
+end verb.
+
+ 
+verb clean does only
+if hero at river then
+"You clean off the piece of metal using the nearby water."
+make Metal cleaned.
+else
+"There is nothing here to clean it with."
+end if.
+end verb.
+
+verb clean_in, clean_with does only
+if obj1<>metal then
+"You can't do that."
+else
+if obj2=river1 or obj2=waterfall or obj2=water then
+"You clean off the metal using the nearby water."
+make metal cleaned.
+else
+"You can't clean the piece of metal using that."
+
+end if.
+end if.
+end verb.
+
+verb shine, aim does only
+if hero at hilltop then
+"You aim the metal at the sun, trying to create a signal that
+the Professor can see. The shiny metal reflects the sunlight quite
+well. After about ten minutes, you start to see a similar signal
+in the far distance, across the river along the shoreline. It must
+be the Professor. You now have an approximate idea of where he is."
+make Metal used.
+else
+"There is no need to do that here."
+end if.
+end verb.
+
+
+End Object.
+
+
+
+OBJECT box NAME old iron box at Cave
+is not open.
+is not greased.
+
+
+Description
+"There is an old iron box here."
+
+verb examine, Look_at, Look_on DOES ONLY
+"It is a large box. The hinges appear to be very rusty. This box is
+proof the Professor must have been here."
+End verb.
+
+verb Take, pick_up DOES ONLY
+"The box is too heavy to easily carry around."
+End verb.
+
+verb open DOES ONLY
+if box is open then
+"It is already open."
+else
+if box is greased then
+
+make box open.
+"You manage to lift the rusty lid of the box. It seems that rust
+had been holding the box together, as it seems to fall into pieces
+as the oily substance flows over it.
+
+There are some basic supplies here.
+There is some canned food, a small axe and an electronic lamp. 
+You set the lamp up, illuminating the cave."
+locate food1 at Cave.
+locate lamp at Cave.
+locate axe at Cave.
+locate box at nowhere.
+locate Metal at cave.
+else
+"You try to open the lid, but it is stuck from rust."
+end if.
+end if.
+end verb.
+
+verb close does only
+if box is open then
+"You would rather leave it open."
+else
+"It is already closed."
+end if.
+end verb.
+
+verb oil_with does only
+if obj1<>box then
+"You do not need to oil that."
+else
+if obj2<>grease then
+"You can't do that."
+else
+if grease in inventory then
+"You put the oily substance on the hinges of the box."
+
+make box greased.
+locate grease at nowhere.
+locate leaf at nowhere.
+locate fakeleaf at tree.
+else
+"You have nothing to oil it with."
+end if.
+end if.
+end if. 
+
+end verb.
+
+verb oil does only
+if grease in inventory then
+"You put the oily substance on the hinges of the box."
+make box greased.
+locate grease at nowhere.
+locate leaf at nowhere.
+locate fakeleaf at tree.
+else
+"You have nothing to oil it with."
+end if.
+end verb.
+
+
+End Object.
+
+
+Object food1  Name Canned food  AT nowhere
+is takeable.
+
+Mentioned
+"selection of canned food"
+
+verb lick does only
+"Don't just lick it. Get a nice mouthful."
+end verb.
+
+Verb eat, open does only
+"You open the cans of food and dig in. The food isn't exactly
+delicious, but it is edible."
+locate food1 at nowhere.
+locate cans in inventory.
+End Verb.
+
+End Object.
+
+
+Object cans Name  old cans  AT nowhere
+is takeable.
+mentioned
+"few cans"
+
+Verb open does only
+"They are already open."
+
+
+End Verb.
+
+verb close does only
+"You can't close them."
+end verb.
+
+verb fill_with does only
+if obj1<>cans then
+"You do not need to fill that."
+else
+if obj2<>mud then
+"You do not need to do that."
+else
+if mud in inventory or raft is safe then
+"You do not need any more mud."
+else
+"You fill the cans with mud."
+locate mud in inventory.
+end if.
+end if.
+end if.
+end verb.
+
+verb fill does only
+if mud in inventory or raft is safe then
+if hero at tunnel then
+"You fill the cans with the mud."
+locate mud in inventory.
+else
+"You have no need to do this."
+end if.
+end if.
+end verb.
+
+verb drop does only
+"You would rather hold onto the cans for now."
+end verb.
+
+End Object.
+
+
+
+OBJECT axe NAME  small axe at nowhere
+is takeable.
+
+Description
+"There is an axe here."
+
+verb examine, Look_at, Look_on DOES ONLY
+"It is a small axe. The blade is very sharp, however."
+End verb.
+
+
+verb lick does only
+"Hmm, it just might not be safe to lick a sharp axe. Using your better
+judgement, you decide against it."
+end verb.
+
+verb use_on DOES ONLY
+if obj1<>axe then
+"You can't do that."
+else
+if hero at river then
+if obj2=wood then
+"You cut the wood into smaller pieces."
+make wood cut.
+else
+"You can not cut that."
+end if.
+else
+if hero at tree then
+if obj2=vines then
+"You chop down some of the vines, which you take."
+locate vines in inventory.
+else
+"You can't cut that."
+end if.
+else
+"You can't cut that."
+end if.
+end if.
+end if.
+end verb.
+
+verb 'use' does only
+"What would you like to use it on?"
+end verb.
+
+End Object.
+OBJECT wood NAME drift wood at River
+is not cut.
+Description
+if raft not at river then
+if wood is cut then
+"There are several pieces of cut wood here."
+else
+"There are several large pieces of wood here."
+end if.
+end if.
+
+verb examine, Look_at, Look_on DOES ONLY
+if wood is cut then
+"They are simply cut pieces of driftwood."
+else
+"They are large pieces of driftwood."
+end if.
+End verb.
+
+verb Take, pick_up DOES ONLY
+"They would be too awkward to walk around with."
+End verb.
+
+verb tie does only
+"Please state what you would like to tie it with."
+end verb.
+
+verb tie_with DOES ONLY
+if obj1<>wood then
+"You can't do that."
+else
+if wood is cut then
+if obj2=vines then
+if vines in inventory then
+"You tie the wood together using the vines. A small raft is now
+located here."
+locate raft at River.
+locate fakeraft at nowhere.
+locate vines at nowhere.
+locate fakevines at tree.
+else
+"You have nothing to tie them with."
+end if.
+else
+"You can't tie the vines with that."
+end if.
+else
+"The wood is too large to tie up."
+end if.
+end if.
+end verb.
+
+verb cut does only
+if wood is cut then
+"It is already cut."
+else
+"What would you like to cut it with?"
+end if.
+end verb.
+
+verb cut_with does only
+if obj1<>wood then
+"You can't do that."
+else
+if obj2=axe then
+if axe in inventory then
+if wood is cut then
+"It is already cut."
+else
+"You cut the wood into smaller pieces."
+make wood cut.
+end if.
+else
+"You do not have an axe."
+end if.
+else
+"You can not cut the wood with that."
+end if.
+end if.
+end verb. 
+
+
+End Object.
+
+
+
+Object Fakeraft Name wooden raft  AT river
+
+Description
+
+
+Verb create does only
+
+If wood is not cut then
+"The wood is too large to use."
+else
+if vines in inventory then
+"You tie the wood and create a small raft."
+if mud in inventory then
+"You use the mud to create a stronger bond between the vines and the
+wood."
+make raft safe.
+locate fakeraft at nowhere.
+locate raft at river.
+locate vines at nowhere.
+locate fakevines at tree.
+locate mud at nowhere.
+locate fakemud at tunnel.
+end if.
+else
+"You don't have enough equipment."
+end if.
+end if.
+End Verb.
+
+End Object.
+
+
+OBJECT raft NAME simple wooden raft at nowhere
+is not safe.
+
+Description
+"There is a raft here."
+
+verb examine, Look_at, Look_on DOES ONLY
+"It looks a bit unsturdy, but it may do the job."
+
+End verb.
+verb Take, pick_up DOES ONLY
+"The raft is too large to carry."
+End verb.
+
+verb put_in, push_in does only
+if obj1<>raft then
+"You can't do that."
+else
+if obj2=river1 or obj2=waterfall or obj2=water then
+if raft is safe then
+if Metal is used then
+locate raft at shore.
+locate hero at shore.
+else
+locate hero at lost.
+end if.
+else 
+locate hero at drowning.
+end if.
+else
+"You can't put the raft in that."
+end if.
+end if.
+end verb.
+
+
+verb 'use', push, sail DOES ONLY
+
+if raft is safe then
+if Metal is used then
+locate raft at Shore.
+locate hero at Shore.
+else
+locate hero at lost.
+end if.
+
+else
+locate hero at drowning.
+end if.
+end verb.
+
+
+End Object.
+
+object stone name small brown rock at Shoreline
+is takeable.
+is throwable.
+description
+"There is a small rock here."
+
+verb eat DOES ONLY
+if stone in inventory then
+"You swallow the rock in order to get your minerals for the day.
+Almost immediately after hitting your stomach you feel an urge
+to vomit, and you do so. The stone pops up and you put it 
+back into your pocket."
+else
+"You must really be hungry to have an urge to eat rocks.
+Unfortunately, none are currently in your possesion."
+end if.
+end verb.
+
+verb throw_at does only
+if obj1<>stone then
+"You can't throw that."
+else
+if hero at jungle3x then
+if obj2=bushes1 or obj2=dinosaur2 then
+"You throw the stone over the nearby bushes. You hear a rumble
+as you see a large dinosaur move toward the thrown rock."
+locate dinosaur2 at nowhere.
+locate stone at nowhere.
+else
+"You have no need to throw it at that."
+end if.
+else
+"There is no need to throw the rock here."
+end if. 
+end if.
+end verb.
+
+verb throw does only
+if stone in inventory then
+"What would you like to throw it at?"
+else
+"You are not holding a rock."
+end if.
+end verb.
+
+End Object.
+
+OBJECT timemachine NAME time machine at clearings
+
+is not visited.
+is greasy.
+
+Description
+
+
+verb examine, Look_at, Look_on DOES ONLY
+"The time machine is in generally good working order. Several of the manual
+controls are not present, but the Professor should hopefully be able
+to fix them. That is, if you ever find him."
+if timemachine is greasy then
+
+"There appears to be an greasy substance around the control panel."
+locate grease at clearings.
+end if.
+End verb.
+
+
+verb enter, 'use', sit_in DOES ONLY
+"It is currently overheated and unsafe to use. You better wait a 
+little while."
+end verb.
+
+
+End Object.
+
+OBJECT grease NAME grease at nowhere
+
+mentioned 
+"greasy substance"
+
+verb examine, Look_at, Look_on DOES ONLY
+"It looks unpleasant."
+End verb.
+
+verb Take_with, pick_up_with, scoop_up_with does only
+if obj1<>grease or obj2<>leaf then
+"You can't do that."
+else
+if grease in inventory then
+"You already have it."
+else
+if leaf in inventory then
+"You scoop out some of the substance onto a leaf."
+locate grease in inventory.
+make timemachine not greasy.
+else
+"You do not have anything to hold it with."
+end if.
+end if.
+end if.
+end verb.
+
+verb Take, pick_up, scoop_up DOES ONLY
+if grease in inventory then
+ 
+"You already have it."
+else
+"Please state how you will pick it up."
+end if.
+End verb.
+
+
+verb 'use', scoop does only
+"What would you like to use it on?"
+end verb.
+
+verb put_on, 'use_on', scoop_on DOES ONLY
+if obj1<>grease then
+"You have no need to do that."
+else
+if obj2=leaf then
+if leaf in inventory then
+"You scoop out some of the substance onto a leaf."
+locate grease in inventory.
+make timemachine not greasy.
+else
+"You do not have a leaf."
+end if.
+
+else
+
+if obj2<>box then
+"There is no need to do that."
+else
+if hero at Cave then
+
+"You put the oily substance on the hinges of the box."
+make box greased.
+locate leaf at nowhere.
+locate fakeleaf at tree.
+locate grease at nowhere.
+else
+"You have no need to do that."
+end if.
+end if.
+end if.
+end if.
+end verb.
+
+End Object.
+
+OBJECT leaf name large green leaf at tree
+is takeable.
+Description
+
+
+
+
+verb drop does only
+if leaf in inventory then
+"You would rather keep the leaf."
+else
+"You do not have it."
+end if.
+end verb.
+
+verb examine, Look_at, Look_on DOES ONLY
+If grease in inventory then
+
+"The leaf is full of grease."
+else
+"It is a large green leaf."
+end if.
+End verb.
+
+verb plant DOES ONLY
+"This leaf will never grow again."
+end verb.
+End Object.
+
+
+
+Start At clearings.
+
+" A Matter of Time $n $n An Introductory Adventure $n $n (C) 1995 Michael 
+Zerbo $n Created using ALAN Version 2.5 $n $n
+You are a research physicist named Jonathan Stone. You are standing in the
+Professor's laboratory. It is the year 2150. You are about to embark on a
+great journey, a journey into the unknown. In front of you is the
+Professor's time machine. The control panel is apparently missing. However,
+the dials are locked on a specific date. A date seventy-five
+million years into the past. This will be your destination, searching for
+your mentor and friend...
+$n $n
+Your story began several days ago as Dr. Joseph Adams and Dr. Karl Evers, 
+bitter rivals, were each working on their version of a machine which
+would travel in time. They were working towards a deadline for government 
+funding. Only one would receive it, the other left out in the cold.
+You worked for Professor Adams as an assistant. His daughter Clarisse also
+helped out when she could.  
+$n $n
+You knew Professor Adams was coming close to a breakthrough with his work,
+although you had no idea how close he was to actually creating a working 
+time machine. 
+$n $n
+This morning Dr. Evers was found dead in his laboratory, apparently murdered.
+Two bullet holes were found in his head. The police visited you a short while
+ago, requesting the presence of Dr. Adams for questioning. To your
+surprise he was nowhere to be found. The police automatically began a hunt
+for Dr. Adams, who became their prime suspect. Just now, as you carefully
+look over the Professor's laboratory do you discover where the Professor
+went...
+$n $n
+The time machine is missing...
+$n $n $n
+
+You begin a search for any information the Professor may have left behind.
+A small note sticking out from one of the Professor's notebooks, catches your
+eye. You quickly remove it.
+$n $n $n
+
+It reads as follows:
+$n $n
+I am going alone. It is too dangerous to risk other lives. I will attempt
+to go as far back as we had planned, to the brink of oblivion, when time
+began. I will search for what man has searched for his entire existance,
+the proof of God. I will return on the day you are reading this note.
+$n $n
+                - Professor Adams
+$n $n
+You call Clarisse into the room and show her what you found. You both
+can not believe that the Professor was involved in the murder. It must
+be just a coincidence that the Professor tested his machine this morning. 
+You did not think the machine was ready for use, but obviously you had
+been mistaken.
+$n $n
+Just then, with a flash of light, the time machine reappears in the
+laboratory. However, it is empty. You remember a safety device inside
+the machine which could be set to return it to the present time in case
+of a problem. Unfortunately, that is what must have happened.
+$n $n
+""I am going after him"", you hear Clarisse saying.
+You know you will have to find him if he is still alive. However, you
+are not sure about bringing Clarisse along. Also, you know you must hurry."
+
+
+
+

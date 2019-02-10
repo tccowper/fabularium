@@ -1,0 +1,13 @@
+#include <cgreen/mocks.h>
+
+#include "srcp_x.h"
+
+/* DATA: */
+Srcp nulsrcp;
+
+
+/* FUNCTIONS: */
+Bool equalSrcp(Srcp srcp1, Srcp srcp2) {return (Bool)mock(&srcp1, &srcp2);}
+void generateSrcp(Srcp srcp) {}
+Aaddr generateSrcps(void) {return (Aaddr)mock();}
+void dumpSrcp(Srcp srcp) {}

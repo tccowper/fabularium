@@ -1,0 +1,23 @@
+########## adjverb ##########
+
+        No warnings or errors detected.
+        2 informational message(s).
+
+
+Test the use of the same words as an adjective and a verb. Try
+    mail letter
+    x mail box
+
+
+L
+There is a letter and a mail box here.
+
+> mail letter
+Mailing...
+
+> x mail box
+This is a mail box.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

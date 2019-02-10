@@ -1,0 +1,17 @@
+########## multipleMatchesForMultipleReferences ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a first book and a first vase here.
+
+> take the book and the vase
+(first book) first book taken.
+
+(first vase) first vase taken.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

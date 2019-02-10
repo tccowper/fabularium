@@ -1,0 +1,22 @@
+Add To Every object
+  Verb take
+    Does "Take" Say object. "."
+  End Verb take.
+End Add.
+
+Every takeable Isa object
+  Verb take
+    Does "Take" Say object. "."
+  End Verb take.
+End Every.
+
+The l Isa location
+End The l.
+
+The o Isa object At l
+End The o.
+
+The t Isa takeable At l
+End The o.
+
+Start At l.

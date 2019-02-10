@@ -1,0 +1,55 @@
+SYNTAX
+  look_at = 'look' 'at' (obj)
+    Where obj Isa Actor
+      Else "AT: requires an actor"
+
+  take = 'take' (obj).
+
+  look_on = 'look' 'on' (obj)
+    Where obj Isa String
+      Else "ON: requires a string"
+
+  'look' = 'look'.
+
+  look_behind = 'look' 'behind' (obj)
+    Where obj Isa Object
+      Else "BEHIND: requires an object"
+
+  take = 'take' (obj).
+
+  take = 'take' (obj).
+
+
+Verb take
+  Does
+    Locate obj in inventory.
+End Verb take.
+
+Verb 'look'
+  Does
+    Look.
+End Verb.
+
+Location l
+End Location.
+
+Object obj At l
+
+  Verb look_at
+    Does
+      "At:" Say obj.
+  End Verb.
+
+  Verb look_on
+    Does
+      "On:" Say obj.
+  End Verb.
+
+  Verb look_behind
+    Does
+      "Behind:" Say obj.
+  End Verb.
+
+End Object obj.
+
+Start At l.

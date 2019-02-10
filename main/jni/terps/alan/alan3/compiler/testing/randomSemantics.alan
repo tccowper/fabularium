@@ -1,0 +1,10 @@
+The l Isa location
+  Is b.
+  Has a 3.
+End The l.
+
+Start At l.
+  Set b Of l To Random 1 to 3.
+  Set a Of l To Random b Of l To 7.
+  Set a Of l To Random 1 To b Of l.
+  Set a Of l To Random b Of l To b Of l.

@@ -1,0 +1,18 @@
+The l Isa location
+End The l.
+
+Add To Every object
+  Is z.
+End Add.
+
+Start At l.
+  If Max Of y = 9 Then "" End If.
+  If Max Of y Here, At l = 9 Then "" End If.
+  If Max Of y At l =at 9 Then "" End If.
+  If Max Of y Is x Then "" End If.
+  If Max Of y Isa x = 7 Then "" End If.
+  If Max Of y Isa l = 7 Then "" End If.
+  If Max Of y Isa object = 12 Then "" End If.
+  If Max Of y Isa object, Isa thing = 12 Then "" End If.
+  If Max Of y Isa object, Is z Then "" End If.
+--  If Max Of y Isa object, Has w 3 Then "" End If.

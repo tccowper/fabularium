@@ -1,0 +1,4539 @@
+
+Add To Every location
+  Is
+    Not locked_door.
+End Add To.
+
+Add To Every object
+  Is
+    Not movable.
+    Not usable.
+    Not cuttable.
+    Not takeable.
+    Not openable.
+    Not closable.
+    closed.
+    Not lockable.
+    locked.
+    Not edible.
+    Not drinkable.
+    Not switchable.
+    Not shootable.
+    on.
+    Not throwable.
+End Add To.
+
+Add To Every actor
+  Is
+    male.
+    propername.
+End Add To.
+
+The inventory
+  Container
+    Header
+      "You are carrying:"
+    Else
+      "You are carrying nothing."
+End The inventory.
+
+Synonyms
+  north = n.
+  south = s.
+  east = e.
+  west = w.
+  up = u.
+  down = d.
+  northeast = ne.
+  southeast = se.
+  northwest = nw.
+  southwest = sw.
+  q = 'quit'.
+  i = inventory.
+  outside = outer.
+  shout, yell = scream.
+  l = 'look'.
+  garbage = basket.
+  h = help.
+  t, get, lift, obtain = take.
+  shut = close.
+  x, inspect, investigate, see, view, search = examine.
+  dump, cast = throw.
+  kill, fight, hit, stab = attack.
+  'locate', stick = put.
+  'make', invent = create.
+  fire = shoot.
+  connect = tie.
+  question, query = ask.
+  move = push.
+  break, sever, chop, slice = cut.
+  using = 'with'.
+  onto = on.
+  bottle, booze, alcohol = whisky.
+  inside, into = 'in'.
+  below, underneath = under.
+  rub = scoop.
+  goto = enter.
+  inhale = breathe.
+  leap, hop = jump.
+  contact = signal.
+  wash, wipe = clean.
+  liquid, waters, h2o = water.
+  wave = waves.
+  big, huge, giant, gigantic, tall = large.
+  bumpy = rocky.
+  path, road = trail.
+  phone = telephone.
+  trees = tree.
+  jungle, woods = forest.
+  dim, shadowy, black = dark.
+  leaves = leaf.
+  panel = machine.
+  mountain = hill.
+  tiny, petite = small.
+  stone = rock.
+  passage = tunnel.
+  falls, waterfalls = waterfall.
+  coast = coastline.
+  weird, odd = strange.
+  filthy = dirty.
+  hole, ditch = pit.
+  shore = shoreline.
+  branches, twig = branch.
+  bush = bushes.
+  electronic = electric.
+  vines = vine.
+  egg = eggs.
+  reflect = aim.
+  hinge, hinges, chest, 'container' = box.
+  ancient = old.
+  can = cans.
+  nutrition, meat = food.
+  driftwood = wood.
+  boat = raft.
+  swallow = eat.
+  over = across.
+  girl, lady, woman, julie, female, assistant = secretary.
+  revolver, pistol = gun.
+  keys = key.
+  shell, shells, bullet = bullets.
+  seat = chair.
+  purchase, barter = buy.
+  hanger, rack, hangers = racks.
+  
+
+Syntax
+  'say' = 'say' (str).
+  'quit' = 'quit'.
+  take_inventory = inventory.
+  scream = scream.
+  'wait' = 'wait'.
+  'score' = 'score'.
+  raise = raise (obj).
+  sit = sit (obj).
+  sit_on = sit on (obj).
+  grow = grow (obj).
+  load = load (obj).
+  'look' = 'look'.
+  kill_yourself = attack yourself.
+  listen_to = listen 'to' (obj).
+  hear = hear (obj).
+  die = die.
+  'save' = 'save'.
+  sail = sail (obj).
+  spend = spend (obj).
+  'restore' = 'restore'.
+  enter = enter (obj).
+  breathe = breathe (obj).
+  help = help.
+  signal = signal (obj).
+  signal_with = signal (obj1) 'with' (obj2).
+  climb_on = climb on (obj).
+  grab = pull.
+  run_in = run 'in' (obj).
+  look_at = 'look' 'at' (obj)
+    Where obj Isa object -- ****OR**** actor
+      Else 
+        "You can't look at that."
+  
+  look_on = 'look' on (obj).
+  look_under = 'look' under (obj).
+  look_into = 'look' 'in' (obj).
+  knock = knock (obj).
+  knock_on = knock on (obj).
+  stand_on = stand on (obj).
+  breathe_in = breathe 'in' (obj).
+  jump_into = jump 'in' (obj).
+  play_with = play 'with' (obj).
+  jump_across = jump across (obj).
+  honk = honk (obj).
+  jump_from = jump from (obj).
+  climb_up = climb u (obj).
+  take_with = take (obj1)* 'with' (obj2).
+  climb_down = climb d (obj).
+  scoop_up = scoop u (obj)*.
+  scoop_up_with = scoop u (obj1)* 'with' (obj2).
+  pick_up_with = pick u (obj1)* 'with' (obj2).
+  dial = dial (obj).
+  call_on = call on (obj).
+  pickup = pick u (obj).
+  aim = aim (obj).
+  look_through = 'look' through (obj).
+  shine = shine (obj).
+  switch = switch (obj).
+  press = press (obj).
+  clean = clean (obj).
+  clean_with = clean (obj1) 'with' (obj2).
+  clean_in = clean (obj1) 'in' (obj2).
+  scoop_on = scoop (obj1) on (obj2).
+  give_to = give (obj1) 'to' (act)
+    Where act Isa actor
+      Else 
+        "You can't do that."
+  
+  show_to = 'show' (obj1) 'to' (act)
+    Where act Isa actor
+      Else 
+        "You can't do that."
+  
+  sell_to = sell (obj1) 'to' (act)
+    Where act Isa actor
+      Else 
+        "You can't do that."
+  
+  climb = climb (obj).
+  give = give (obj).
+  'show' = 'show' (obj).
+  sell = sell (obj).
+  cross = cross (obj).
+  create = create (obj).
+  taste = taste (obj).
+  swing_across = swing across (obj).
+  swing_on = swing on (obj).
+  lick = lick (obj).
+  use_on = 'use' (obj1) on (obj2).
+  sit_down = sit d.
+  'empty' = 'empty' (obj).
+  sit_down_in = sit d 'in' (obj).
+  sit_in = sit 'in' (obj).
+  sit_on = sit on (obj).
+  buy = buy (obj).
+  drive = drive (obj).
+  stand_up = stand u.
+  get_up = stand u.
+  leave = leave (obj).
+  stand_up_from = stand u from (obj).
+  tie_with = tie (obj1) 'with' (obj2).
+  oil_with = oil (obj1) 'with' (obj2).
+  cut_with = cut (obj1)* 'with' (obj2).
+  fill_with = fill (obj1) 'with' (obj2).
+  oil = oil (obj).
+  plant = plant (obj).
+  fill = fill (obj).
+  drop = drop (obj)*.
+  pick_up = pick u (obj)*
+    Where obj Isa object
+      Else 
+        "You can't take people with you!"
+  
+  take = take (obj)*
+    Where obj Isa object
+      Else 
+        "You can't take people with you!"
+  
+  buy = buy (obj)*
+    Where obj Isa object
+      Else 
+        "People are not for sale!"
+  
+  open = open (obj)
+    Where obj Isa object
+      Else 
+        "You can't open people."
+  
+  close = close (obj)
+    Where obj Isa object
+      Else 
+        "You can't close people."
+  
+  examine = examine (obj)
+    Where obj Isa object -- ****OR**** actor
+      Else 
+        "You can't examine that."
+  
+  tie = tie (obj)
+    Where obj Isa object
+      Else 
+        "You can't tie that."
+  
+  cut = cut (obj)*
+    Where obj Isa object
+      Else 
+        "You can't cut that."
+  
+  read = read (obj)
+    Where obj Isa object
+      Else 
+        "You can't read people."
+  
+  ask = ask (act)
+    Where act Isa actor
+      Else 
+        "You don't expect a response, do you?"
+  
+  ask_about = ask (act) about (obj)
+    Where act Isa actor
+      Else 
+        "You don't expect a response, do you?"
+  
+  ask_for = ask (act) 'for' (obj)
+    Where act Isa actor
+      Else 
+        "You don't expect a response, do you?"
+  
+  talk = talk 'to' (act)
+    Where act Isa actor
+      Else 
+        "You don't expect a response, do you?"
+  
+  talk_about = talk 'to' (act) about (obj)
+    Where act Isa actor
+      Else 
+        "You don't expect a response, do you?"
+  
+  tell = tell (act)
+    Where act Isa actor
+      Else 
+        "You don't expect a response, do you?"
+  
+  tell_about = tell (act) about (obj)
+    Where act Isa actor
+      Else 
+        "You don't expect a response, do you?"
+  
+  throw = throw (obj)*
+    Where obj Isa object
+      Else 
+        "You can't throw people about. It isn't nice."
+  
+  throw_at = throw (obj1) 'at' (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't throw people about. It isn't nice."
+    And obj2 Isa object -- ****OR**** actor
+      Else 
+        "You can't throw anything at that."
+  
+  throw_to = throw (obj1) 'to' (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't throw people about. It isn't nice."
+    And obj2 Isa object -- ****OR**** actor
+      Else 
+        "You can't throw anything at that."
+  
+  throw_in = throw (obj1)* 'in' (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't throw people about. It isn't nice."
+    And obj2 Isa container
+      Else 
+        "You would rather not throw that."
+  
+  attacko = attack (obj).
+  attack = attack (act).
+  attack_with = attack (act) 'with' (obj)
+    Where act Isa actor
+      Else 
+        "You should not attack the $o."
+  
+  open_with = open (obj1) 'with' (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't open that."
+    And obj2 Isa object
+      Else 
+        "You can't close anything with that."
+  
+  close_with = close (obj1) 'with' (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't close that."
+    And obj2 Isa object
+      Else 
+        "You can't close anything with that."
+  
+  lock = lock (obj)
+    Where obj Isa object
+      Else 
+        "You can't lock that."
+  
+  unlock = unlock (obj)
+    Where obj Isa object
+      Else 
+        "You can't lock that."
+  
+  eat = eat (obj)
+    Where obj Isa object
+      Else 
+        "You can't eat that."
+  
+  drink = drink (obj)
+    Where obj Isa object
+      Else 
+        "You can't drink that."
+  
+  put = put (obj)*
+    Where obj Isa object
+      Else 
+        "You can't put that anywhere."
+  
+  push_in = push (obj1)* 'in' (obj2).
+  put_in = put (obj1)* 'in' (obj2).
+  put_with = put (obj1) 'with' (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't put that."
+    And obj2 Isa object
+      Else 
+        "You can't put anything with the $2."
+  
+  put_near = put (obj1) near (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't put that."
+    And obj2 Isa object
+      Else 
+        "You can't put anything near the $2."
+  
+  put_behind = put (obj1) behind (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't put that."
+    And obj2 Isa object
+      Else 
+        "You can't put anything behind the $2."
+  
+  put_on = put (obj1) on (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't put that."
+    And obj2 Isa object
+      Else 
+        "You can't put anything on the $2."
+  
+  put_under = put (obj1) under (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't put that."
+    And obj2 Isa object
+      Else 
+        "You can't put anything under the $2."
+  
+  scoop = scoop (obj).
+  'use' = 'use' (obj).
+  push = push (obj)
+    Where obj Isa object
+      Else 
+        "You can't push that."
+  
+  push_with = push (obj1) 'with' (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't push that."
+    And obj2 Isa object
+      Else 
+        "You can't use a $2 to push anything."
+  
+  turn_fan_on = turn (obj) on
+    Where obj Isa object
+      Else 
+        "You can't turn that on."
+  
+  turn_fan_off = turn (obj) off
+    Where obj Isa object
+      Else 
+        "You can't turn that off."
+  
+  turn_on = turn on (obj)
+    Where obj Isa object
+      Else 
+        "You can't turn that on."
+  
+  turn_off = turn off (obj)
+    Where obj Isa object
+      Else 
+        "You can't turn that off."
+  
+  pull = pull (obj)
+    Where obj Isa object
+      Else 
+        "You can't pull that."
+  
+  play = play (obj)
+    Where obj Isa object
+      Else 
+        "You can't play that."
+  
+  play2 = play 'with' (obj)
+    Where obj Isa object
+      Else 
+        "You can't play with that."
+  
+  light = light (obj)
+    Where obj Isa object
+      Else 
+        "You can't light that."
+  
+  extinguish = extinguish (obj)
+    Where obj Isa object
+      Else 
+        "You can't extinguish that."
+  
+  extinguish2 = put out (obj)
+    Where obj Isa object
+      Else 
+        "You can't put that out."
+  
+  shoot = shoot (obj)
+    Where obj Isa object -- ****OR**** actor
+      Else 
+        "You can't shoot that."
+  
+  shoot_at = shoot (obj) 'at' (act)
+    Where obj Isa object
+      Else 
+        "You can't turn that off."
+    And act Isa object -- ****OR**** actor
+      Else 
+        "You can't shoot that."
+  
+  shoot_with = shoot (act) 'with' (obj)
+    Where obj Isa object
+      Else 
+        "You can't turn that off."
+    And act Isa object -- ****OR**** actor
+      Else 
+        "You can't shoot that."
+  
+  wear = wear (obj)
+    Where obj Isa object
+      Else 
+        "You can't wear that."
+  
+  put_on2 = put on (obj)
+    Where obj Isa object
+      Else 
+        "You can't put that on."
+  
+  remove = remove (obj)
+    Where obj Isa object
+      Else 
+        "You can't remove that."
+  
+  take_off = take off (obj)
+    Where obj Isa object
+      Else 
+        "You can't take that off."
+  
+  take_thing_off = take (obj) off
+    Where obj Isa object
+      Else 
+        "You can't take that off."
+  
+
+Verb 'quit'
+  Does
+    Quit.
+End Verb.
+
+Verb take_inventory
+  Does
+    Say inventory.
+End Verb.
+
+Verb 'score'
+  Does
+    "There is no score used in this game."
+End Verb.
+
+Verb scream
+  Does
+    "You let out a primal scream, which accomplishes nothing.      
+     Although you do feel a little better."
+End Verb.
+
+Verb 'wait'
+  Does
+    "Time passes..."
+End Verb.
+
+Verb sit_down
+  Does
+    If hero At office Then
+      If chair Is used Then
+        "You are already sitting down!"
+      Else 
+        "You sit down in the chair."
+        Make chair used.
+      End If.
+    Else 
+      "You can't sit down here."
+    End If.
+End Verb.
+
+Verb stand_up, get_up
+  Does
+    If hero At office Then
+      If chair Is used Then
+        "You stand up."
+        Make chair Not used.
+      Else 
+        "You are already standing up."
+      End If.
+    Else 
+      "You are already standing up."
+    End If.
+End Verb.
+
+Verb 'look'
+  Does
+    Quit.
+End Verb.
+
+Verb 'save'
+  Does
+    "Saving..."
+    Quit.
+    "Done."
+End Verb.
+
+Verb 'restore'
+  Does
+    "Restoring..."
+    Quit.
+    "Done.$n"
+    Quit.
+End Verb.
+
+Verb help
+  Does
+    "Sorry, but you're on your own."
+End Verb.
+
+Verb drop, throw, put
+  Does
+    If obj Not In inventory Then
+      "You haven't got that."
+    Else 
+      "You would rather hold onto it for now."
+    End If.
+End Verb.
+
+Verb take, pick_up
+  Does
+    If obj Is Not takeable Then
+      "You can't take that!"
+    Elsif obj In inventory Then 
+      "You've already got that."
+    Else 
+      Locate obj In inventory.
+      "Taken."
+    End If.
+End Verb.
+
+Verb 'say'
+  Does
+    "Nothing happens."
+End Verb.
+
+Verb 'use'
+  Does
+    If obj Is Not usable Then
+      "You can not use that."
+    Else 
+      "You use the $o."
+    End If.
+End Verb.
+
+Verb cut
+  Does
+    If obj Is Not cuttable Then
+      "You can not cut that."
+    Else 
+      "You cut the $o."
+    End If.
+End Verb.
+
+Verb open
+  Does
+    If obj Is Not openable Then
+      "You can't open that!"
+    Elsif obj Is Not closed Then 
+      "It's already open."
+    Else 
+      Make obj Not closed.
+      "The $o is now open."
+    End If.
+End Verb.
+
+Verb close
+  Does
+    If obj Is Not closable Then
+      "You can't close that."
+    Elsif obj Is closed Then 
+      "It is not open."
+    Else 
+      Make obj closed.
+      "The $o is now closed."
+    End If.
+End Verb.
+
+Verb look_on, look_at
+  Does
+    "There is nothing special about the $o."
+End Verb.
+
+Verb look_into
+  Does
+    "There is nothing special inside the $o."
+End Verb.
+
+Verb look_under
+  Does
+    "There is nothing special under the $o."
+End Verb.
+
+Verb examine
+  Does
+    "There's nothing special about the $o."
+End Verb.
+
+Verb lick
+  Does
+    "Don't lick that. You don't know where it has been."
+End Verb.
+
+Verb read
+  Does
+    "There's nothing to read here."
+End Verb.
+
+Verb ask
+  Does
+    If act Is Not propername Then
+      "The $o ignores your question."
+    Else 
+      "$o ignores your question."
+    End If.
+End Verb.
+
+Verb ask_about
+  Does
+    If act Is Not propername Then
+      "The $1 ignores your question."
+    Else 
+      "$1 ignores your question."
+    End If.
+End Verb.
+
+Verb tell
+  Does
+    If act Is Not propername Then
+      "The $o is not impressed."
+    Else 
+      "$o is not impressed."
+    End If.
+End Verb.
+
+Verb tell_about
+  Does
+    If act Is Not propername Then
+      "The $1 is not impressed."
+    Else 
+      "$1 is not impressed."
+    End If.
+End Verb.
+
+Verb talk
+  Does
+    If act Is Not propername Then
+      "The $o does not seem to want to talk."
+    Else 
+      "$o does not seem to want to talk."
+    End If.
+End Verb.
+
+Verb kill_yourself, die
+  Does
+    "That would not be healthy."
+End Verb.
+
+Verb talk_about
+  Does
+    If act Is Not propername Then
+      "The $1 does not seem to want to talk."
+    Else 
+      "$1 does not seem to want to talk."
+    End If.
+End Verb.
+
+Verb throw_at, throw_to
+  Does
+    If obj1 Is throwable Then
+      If obj1 Not In inventory Then
+        "You haven't got that!"
+      Elsif obj2 Not Here And obj2 In inventory Then 
+        "I don't see any $2 here."
+      Else 
+        "The $1 bounces harmlessly off the $2.$n"
+        Locate obj1 Here.
+        "Dropped."
+      End If.
+    Else 
+      "You would rather not throw the $1."
+    End If.
+End Verb.
+
+Verb create
+  Does
+    "You can't create a $o."
+End Verb.
+
+Verb throw_in, put_in
+  Does
+    If obj1 Is throwable Then
+      If obj1 Not In inventory Then
+        "You haven't got that!"
+      Elsif obj2 Not Here And obj2 In inventory Then 
+        "I don't see any $2 here."
+      Elsif obj1 =obj2 Then 
+        "Now, that would be a good trick!"
+      Else 
+        Locate obj1 In obj2.
+        "Done."
+      End If.
+    Else 
+      "You would rather not drop the $1 at this time."
+    End If.
+End Verb.
+
+Verb attack
+  Does
+    If act Not Here Then
+      "I don't see that person here."
+    Else 
+      "There is no need for violence at this time."
+    End If.
+End Verb.
+
+Verb attack_with
+  Does
+    If act Not Here Then
+      "I don't see that person here."
+    Elsif obj Not In inventory Then 
+      "You don't have that object to attack with."
+    Else 
+      "There is no need for violence at this time."
+    End If.
+End Verb.
+
+Verb open_with
+  Does
+    If obj1 Not Here Then
+      "I don't see any $1 to open."
+    Elsif obj2 Not In inventory Then 
+      "You don't have the $2."
+    Else 
+      "You can't open the $1 with the $2."
+    End If.
+End Verb.
+
+Verb close_with
+  Does
+    If obj1 Not Here Then
+      "I don't see any $1 to close."
+    Elsif obj2 Not In inventory Then 
+      "You don't have the $2."
+    Else 
+      "You can't close the $1 with the $2."
+    End If.
+End Verb.
+
+Verb lock
+  Does
+    If obj Is Not lockable Then
+      "You can't lock that!"
+    Elsif obj Not Here Then 
+      "I don't see what you wish to lock."
+    Elsif obj Is locked Then 
+      "It's already locked."
+    Else 
+      Make obj locked.
+      "The $o is now locked."
+    End If.
+End Verb.
+
+Verb unlock
+  Does
+    If obj Is Not lockable Then
+      "You can't unlock that!"
+    Elsif obj Not Here Then 
+      "I don't see what you wish to unlock."
+    Elsif obj Is Not locked Then 
+      "It's already unlocked."
+    Else 
+      Make obj Not locked.
+      "The $o is now unlocked."
+    End If.
+End Verb.
+
+Verb eat
+  Does
+    If obj Is Not edible Then
+      "That is not edible."
+    Elsif obj Not Here Then 
+      "I don't see what you want to eat."
+    Else 
+      Locate obj In nowhere.
+      "You eat the $o. Yum, that was delicious!"
+    End If.
+End Verb.
+
+Verb drink
+  Does
+    If obj Is Not drinkable Then
+      "That is not drinkable."
+    Elsif obj Not Here Then 
+      "I don't see what you want to drink."
+    Else 
+      Locate obj In nowhere.
+      "You drink the $o. It is quite refreshing."
+    End If.
+End Verb.
+
+Verb put_with, put_near, put_behind, put_on, put_under
+  Does
+    If obj1 Not In inventory Then
+      "You haven't got that!"
+    Elsif obj2 Not Here And obj2 In inventory Then 
+      "I don't see any $2 here."
+    Else 
+      "You can't do that."
+    End If.
+End Verb.
+
+Verb push
+  Does
+    If obj Not Here Then
+      "I don't see what you want to push."
+    Else 
+      "You can't push it."
+    End If.
+End Verb.
+
+Verb push_with
+  Does
+    If obj1 Not Here Then
+      "I don't see what you want to push."
+    Elsif obj2 Not Here Then 
+      "You don't have any $2."
+    Else 
+      "Your action has no noticeable effect."
+    End If.
+End Verb.
+
+Verb turn_on
+  Does
+    If obj Is Not switchable Then
+      "You can't turn that on."
+    Elsif obj Not Here Then 
+      "I don't see what you want to turn on."
+    Elsif obj Is on Then 
+      "It's already on."
+    Else 
+      Make obj on.
+      "Ok, the $o is now on."
+    End If.
+End Verb.
+
+Verb turn_off
+  Does
+    If obj Is Not switchable Then
+      "You can't turn that off."
+    Elsif obj Is Not on Then 
+      "It's already off."
+    Elsif obj Not Here Then 
+      "I don't see what you want to turn off."
+    Else 
+      Make obj Not on.
+      "Ok, the $o is now off."
+    End If.
+End Verb.
+
+Verb pull
+  Does
+    If obj Not Here Then
+      "I don't see what you want to pull here."
+    Else 
+      "You can't pull that."
+    End If.
+End Verb.
+
+Verb play, play2
+  Does
+    If obj Not Here Then
+      "I don't see what you want to play here."
+    Else 
+      "You can't play that."
+    End If.
+End Verb.
+
+Verb light
+  Does
+    If obj Not Here Then
+      "I don't see the object you want to light."
+    Else 
+      "You can't light that object."
+    End If.
+End Verb.
+
+Verb extinguish, extinguish2
+  Does
+    If obj Not Here Then
+      "I don't see the object you want to extinguish."
+    Else 
+      "You can't extinguish that object."
+    End If.
+End Verb.
+
+Verb shoot
+  Does
+    If obj Not Here Then
+      "I don't see what you want to shoot."
+    Else 
+      "You would rather not do that."
+    End If.
+End Verb.
+
+Verb shoot_at
+  Does
+    If obj Is Not shootable Then
+      "You can't do that."
+    Else 
+      If obj Not In inventory Then
+        "You don't have that object."
+      Elsif act Not Here Then 
+        "I don't see what you want to shoot."
+      Else 
+        "You would rather not do that."
+      End If.
+    End If.
+End Verb.
+
+Verb shoot_with
+  Does
+    If obj Is Not shootable Then
+      "You can't do that."
+    Else 
+      If obj Not In inventory Then
+        "You don't have that object."
+      Elsif act Not Here Then 
+        "I don't see what you want to shoot."
+      Else 
+        "You can't do that."
+      End If.
+    End If.
+End Verb.
+
+Verb wear, put_on2
+  Does
+    If obj Not In inventory Then
+      "You don't have that object."
+    Else 
+      "You can't put that on."
+    End If.
+End Verb.
+
+Verb remove, take_off
+  Does
+    If obj Not In inventory Then
+      "You don't have that object."
+    Else 
+      "You can't remove that."
+    End If.
+End Verb.
+
+
+The office Isa location
+  
+  Description
+    If chair Is used Then
+      "You are sitting in your office on a hot summer day. It's early in
+       the"
+    Else 
+      "You are standing in your office on a hot summer day. It's early in
+       the"
+    End If.
+    "morning and the heat is already getting to you. Beads of sweat
+     trickle down your face. A small fan is sitting on a nearby table,"
+    If fan Is on Then
+      "barely creating a breeze. A radio is sitting next to it."
+    Else 
+      "which is currently turned off. A radio is sitting next to it."
+    End If.
+    "Your old desk is standing directly before you, with an assortment of
+     papers scattered across its surface. To your  left is a file cabinet
+     and to your right is an overfilled waste paper basket.  $n  $n Hanging
+     from your walls are a few landscapes, mostly painted by yourself. They
+     are nothing special, but they do give the room a somewhat brighter
+     look."
+    Locate door1 At office.
+    If door1 Is open Then
+      "To the north is your secretary's office. To your south is an open
+       window."
+    Else 
+      "To the north is a closed door. To your south is an open window."
+    End If.
+  
+  Exit s To office2
+    Check 
+      "You rather not jump out of your window at this time. Perhaps later
+       you'll give it a try."
+  End Exit.
+  Exit n To office2
+    Check door1 Is open
+      Else 
+        "You need to first open your door."
+    Does
+      "You walk into your secretary's office."
+  End Exit.
+End The office.
+
+The basket Isa object
+  Name waste paper basket
+  At office
+  With Container
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "It is a small wicker basket currently overflowing with wadded
+       up paper."
+  End Verb.
+  
+  Verb look_into
+    Does Only
+      "You look into the basket hoping to find something of use. A
+       small business card catches your eye."
+      Locate card In basket.
+  End Verb.
+  
+  Verb clean, 'empty'
+    Does Only
+      "You would rather have your secretary dump your garbage. You
+       have better things to do, like taking a nap."
+  End Verb.
+  
+End The basket.
+
+The radio Isa object
+  Name old radio
+  At office
+  Is 
+    Not on.
+  Is 
+    Not used.
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      If radio Is on Then
+        "The radio is currently turned on."
+      Else 
+        "The radio is currently turned off."
+      End If.
+  End Verb.
+  
+  Verb listen_to, hear
+    Does Only
+      If radio Is Not on Then
+        "You listen to the radio for a few minutes, but quickly lose
+         interest. This may be due to the fact that it is not turned on."
+      Else 
+        "You listen to a radio newscast, but it is nothing special."
+      End If.
+  End Verb.
+  
+  Verb turn_on
+    Does Only
+      If radio Is on Then
+        "It is already on!"
+      Else 
+        If radio Is Not used Then
+          "You turn the radio on. A brief newscast about the McCarthy
+           hearings  precedes a selection of classical music. You have never
+           been involved in politics before, but you really can't stand that
+           McCarthy fellow."
+          Make radio on.
+          Make radio used.
+        Else 
+          Make radio on.
+          "You turn on the radio and listen to some Gershwin."
+        End If.
+      End If.
+  End Verb.
+  
+  Verb turn_off
+    Does Only
+      If radio Is on Then
+        "You switch off the radio."
+        Make radio Not on.
+      Else 
+        "It is already off!"
+      End If.
+  End Verb.
+  
+  Verb 'use'
+    Does Only
+      If radio Is on Then
+        "You switch off the radio."
+        Make radio Not on.
+      Else 
+        "You switch on the radio."
+        Make radio on.
+      End If.
+  End Verb.
+  
+End The radio.
+
+The card Isa object
+  Name business card
+  At nowhere
+  Is 
+    Not read.
+  Is 
+    takeable.
+  Description
+  
+  Verb examine, look_at, read
+    Does Only
+      If card In inventory Then
+        If glasses Is worn Then
+          "The card reads: $n Franklin Office Supplies$n  $n ""Your only
+           stop for your general office needs"" $n $n    15 Locust Avenue
+           $n  Los Angeles, CA 11382 $n (202) 757-3838  $n $n "
+          If card Is Not read Then
+            Make card read.
+            "On the back of the card is the name, Thea Harbou, with the
+             message, ""Please call - urgent"" $n $n  Now you remember where
+             the card came from. Two days ago, while in Sammy's, the local
+             drinking hole, your remember a dame handing you this card,
+             asking for you to call back. It is a shame you can't
+             remember too much about that evening, simply that you came back
+             home to sleep it off.  You think back, but can't get a clear
+             picture of her. Perhaps, she was hitting on you. You can hope,
+             anyway... $n $n Maybe you should give her a call.$n $n"
+          End If.
+        Else 
+          "You can't quite make out what the card says without your reading
+           glasses. The print is very small. Either that, or your eyes are
+           getting worse."
+        End If.
+      Else 
+        "You are not holding the business card."
+      End If.
+  End Verb.
+  
+  Verb 'show'
+    Does Only
+      "You have no need to do that."
+  End Verb.
+  
+  Verb give
+    Does Only
+      "You have no need to do that."
+  End Verb.
+  
+End The card.
+
+The chair Isa object
+  Name office chair
+  At office
+  Is 
+    used.
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "It is a nice leather chair. A few small rips are present, but
+       otherwise it is in good condition. More importantly, it is quite
+       comfortable."
+  End Verb.
+  
+  Verb sit_down_in, sit_in, sit_on, 'use'
+    Does Only
+      If chair Is used Then
+        "You are already sitting down."
+      Else 
+        "You sit down in your chair."
+        Make chair used.
+      End If.
+  End Verb.
+  
+  Verb stand_up_from, leave
+    Does Only
+      If chair Is used Then
+        "You stand up."
+        Make chair Not used.
+      Else 
+        "You are already standing up."
+      End If.
+  End Verb.
+  
+End The chair.
+
+The gun1 Isa object
+  Name snub nose gun
+  At office
+  Is 
+    Not loaded.
+  Is 
+    saftey.
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "This blue steeled beauty has saved your life a number of times."
+      If gun1 Is loaded Then
+        "It is currently loaded."
+      Else 
+        "The revolver is currently empty."
+        If gun1 Is Not loaded Then
+          "You remember that you are out of shells, and will try to pick
+           some up on your way home today."
+        End If.
+      End If.
+  End Verb.
+  
+  Verb shoot
+    Does Only
+      If gun1 Is Not loaded Then
+        "Your gun is currently not loaded."
+      Else 
+        "You have no need to shoot your gun at this time."
+      End If.
+  End Verb.
+  
+  Verb 'use'
+    Does Only
+      If gun1 Is Not loaded Then
+        "Your gun is currently not loaded."
+      Else 
+        "You have no need to shoot your gun at this time."
+      End If.
+  End Verb.
+  
+  Verb take
+    Does Only
+      If gun1 In inventory Then
+        "You already are holding your revolver!"
+      Else 
+        "You pick up your revolver."
+        Locate gun1 In inventory.
+      End If.
+  End Verb.
+  
+  Verb load
+    Does Only
+      If gun1 Is loaded Then
+        "It is already loaded!"
+      Else 
+        If bullets In inventory Then
+          "You quickly load your gun."
+          Make gun1 loaded.
+        Else 
+          "You don't have any bullets!"
+        End If.
+      End If.
+  End Verb.
+  
+End The gun1.
+
+The desk Isa object
+  Name old messy desk
+  At office
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "Your desk is quite a mess. A few loose papers are located on top of
+       it. Your phone is buried somewhere under them."
+      If gun1 At office Then
+        "Your snub-nose revolver is sitting on top of your desk."
+      End If.
+      If drawer Is open Then
+        "Your desk drawer is currently open."
+      Else 
+        "Your desk drawer is closed."
+      End If.
+  End Verb.
+  
+  Verb open
+    Does Only
+      "You can't open a desk. Try opening the drawer instead."
+  End Verb.
+  
+End The desk.
+
+The deskkey Isa object
+  Name desk key
+  At nowhere
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "It is the key to your desk drawer."
+  End Verb.
+  
+  Verb drop
+    Does Only
+      "You would rather hold onto it for now."
+  End Verb.
+  
+  Verb use_on
+    Does Only
+      If obj1 <>deskkey Then
+        "You can't do that."
+      Else 
+        If obj2 =drawer Then
+          "You unlock the drawer using the key."
+          Make drawer unlocked.
+        Else 
+          "You have no need to do that."
+        End If.
+      End If.
+  End Verb.
+  
+  Verb 'use'
+    Does Only
+      "What would you like to use it on?"
+  End Verb.
+  
+End The deskkey.
+
+The glasses Isa object
+  Name pair of reading glasses
+  In fakedrawer
+  Is 
+    takeable.
+  Is 
+    Not worn.
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "They are your reading glasses. A sign of middle age, you guess."
+  End Verb.
+  
+  Verb 'use', wear
+    Does Only
+      If glasses In inventory Then
+        If glasses Is worn Then
+          "They are already on! Perhaps senility is also setting in."
+        Else 
+          "You put the glasses on."
+          Make glasses worn.
+        End If.
+      Else 
+        "You do not have your glasses."
+      End If.
+  End Verb.
+  
+  Verb take_off, remove, take_thing_off
+    Does Only
+      If glasses In inventory Then
+        If glasses Is worn Then
+          "You take off your glasses."
+          Make glasses Not worn.
+        Else 
+          "You are not wearing your glasses!"
+        End If.
+      Else 
+        "You do not have your glasses."
+      End If.
+  End Verb.
+  
+End The glasses.
+
+The phone Isa object
+  Name telephone
+  At office
+  Is 
+    Not used.
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "It is your regular telephone."
+  End Verb.
+  
+  Verb 'use', pickup, dial, call_on
+    Does Only
+      If card Is Not read And phone Is Not used Then
+        "You don't have anyone to call at the moment."
+      Else 
+        "You pick up the phone and give Thea a call. A soft spoken
+         woman answers. After a few minutes of conversation, you
+         discover that she wants to hire you to find her husband. You ask
+         her to stop by the office. $n $n"
+        "After waiting for about half an hour, Julie shows your
+         potential client in. She appears to be in her early 30's, slender,
+         tall , and with long black hair. She is wearing a tight fitting
+         black dress,  which shows off her hourglass figure.  You ask her to
+         sit down, and she gracefully moves into a nearby seat. $n $n She
+         hands you a black and white photo. ""That is my husband, the tall
+         one with the mustache."", she says with an German accent. ""Me and
+         my Joseph came over to America as soon as the war ended. Four years
+         ago he disappeared, no trace, nothing. I looked endlessly for him,
+         to no avail. I just happened to run across this photo  in a film
+         magazine. It seems my Joseph has gotten himself some sort of job in
+         Hollywood, in the movies."" $n $n You nod knowingly. You have had
+         plenty of cases of husbands  leaving wives in the past. Some just
+         get tired of their wives, some just want a new life. You explain
+         that if you do manage to find him, he likely will not want to come
+         back.$n $n ""Perhaps"", Thea says. ""One thing though, before he
+         left he didn't know I was pregnant. We now have a five year old
+         son."" ""That does change things"", you tell her. She hands you a
+         few other doucuments relating to her husband, and a small bracelet.
+         ""This is all I can pay you for now, I don't have much money. After
+         you find my husband, I'll get more for you.""  $n $n Normally you
+         don't barter your services. However, being that both of you seem
+         desparate, you agree. $n  ""I'll get back to you as soon as I find
+         out anything."" You see Thea out of the office."
+        Make phone used.
+        Locate documents In inventory.
+        Locate photo In inventory.
+        Locate bracelet In inventory.
+      End If.
+  End Verb.
+  
+End The phone.
+
+The documents Isa object
+  Name 'set' of documents
+  At nowhere
+  Is 
+    Not read.
+  Is 
+    Not translated.
+  Description
+  
+  Verb examine, look_at, read
+    Does Only
+      If documents Is Not read Then
+        If documents Is Not translated Then
+          "The documents date back before the war, all the way back to the
+           early thirties. The print is in German, so you don't know what to
+           make of it. "
+        Else 
+          "The old man has translated a few paragraphs for you. There are
+           some old pictures of Joesph Harbou, one next to some German Dame,
+           a filmmaker of some sort, Leni Riefenstahl. From reading over the
+           papers, it looks as if Harbou was involved with some Nazi
+           propaganda films in the early thirties. Once the war started, he
+           and his wife left the country and came to the United States.
+           That's about all you can figure out from them."
+          Make documents read.
+        End If.
+      Else 
+        "There is nothing else in them of any use to you."
+      End If.
+  End Verb.
+  
+  Verb 'show', give
+    Does Only
+      "Please state who you sish to show them to."
+  End Verb.
+  
+  Verb show_to, give_to
+    Does Only
+      If act =broker Then
+        If documents Is Not translated Then
+          "You hand the documents to the old man. ""Well let's see here."",
+           he mumbles out. ""I know a bit of German, not a whole lot
+           though."". He takes out a pen and starts scribbling away. After a
+           few minutes he hands the papers back to you. ""That's all I can
+           translate, friend. Hope it is of some help."
+          Make documents translated.
+        Else 
+          "There is no need to do that."
+        End If.
+      End If.
+  End Verb.
+  
+End The documents.
+
+The bracelet Isa object
+  Name bracelet
+  At nowhere
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "It is quite nice. Not sure of it's value, but it looks like it is
+       worth something."
+  End Verb.
+  
+  Verb give, sell
+    Does Only
+      "Who do you wish to give it to?"
+  End Verb.
+  
+  Verb give_to, sell_to
+    Does Only
+      If act =broker Then
+        "You hand the bracelet to the broker, hoping to get decent money
+         for it. ""I'll give you ten dollars"", the man says. ""I'm being
+         generous too."". You accept the offer and take the money."
+        Locate bracelet At nowhere.
+        Locate cash In inventory.
+      Else 
+        "You don't want to do that."
+      End If.
+  End Verb.
+  
+  Verb wear
+    Does Only
+      "It's not quite your style."
+  End Verb.
+  
+End The bracelet.
+
+The coins Isa object
+  Name few coins
+  In inventory
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "They are simply a few loose coins, nothing special."
+  End Verb.
+  
+  Verb give
+    Does Only
+      If hero At sidewalk Then
+        "Don't just give away your coins, buy something."
+      Else 
+        "No one wants your meager riches."
+      End If.
+  End Verb.
+  
+End The coins.
+
+The photo Isa object
+  Name photo
+  At nowhere
+  Is 
+    Not identified.
+  Is 
+    Not named.
+  Is 
+    Not perfect.
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "It's a pretty good picture of Joseph Harbou, a tall man with a thin
+       mustache. He appears to be in his early forties, at least when the
+       picture was taken."
+      If photo Is Not identified Then
+        "You can't quite remember which film this photo is from. It
+         looks familiar, though."
+      End If.
+  End Verb.
+  
+  Verb show_to, give_to
+    Does Only
+      If photo Is identified Or photo Is named Then
+        "There is no need to show the photo at this moment."
+      Else 
+        If hero At office2 Then
+          "You ask Julie to take a look at the photo. She's always reading
+           those movie magazines, maybe she knows the name of the film. $n
+           $n ""Let's see, it's one of those crime films. Not 'Crime city',
+           hmm, I know, it's from 'The Postman always rings twice', with
+           John Garfield. That's him in the foreground. Don't tell me you
+           have Garfield as a client, bigshot."" ""No, no, just the fellow
+           in the back, the one with the mustache."", you tell her. $n ""No
+           idea who he is, just some extra it looks like"", Julie replies.
+           $n You thank her for the help. Hmm, not a bad film if
+           you remember. Can't quite remember the studio though."
+          Make photo named.
+        Else 
+          "No one wants to look at you photo."
+        End If.
+      End If.
+  End Verb.
+  
+End The photo.
+
+The drink1 Isa object
+  Name half a quart of whisky
+  In fakedrawer
+  Has 
+    drunk 0.
+  Is 
+    takeable.
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      If drunk Of drink1 >2 Then
+        "A quarter full bottle of whisky."
+      Else 
+        "A half full bottle of whisky."
+      End If.
+  End Verb.
+  
+  Verb drink
+    Does Only
+      If drunk Of drink1 >3 Then
+        "You have had enough to drink."
+      Else 
+        If drunk Of drink1 >2 Then
+          "You have another drink. You find yourself singing an old
+           Bing Crosby song, and although unintelligble to most listeners,
+           you think is sounds quite good. As you finish the song, you
+           decide you've had more than enough to drink."
+          Set drunk Of drink1 To drunk Of drink1 +1.
+        Else 
+          If drunk Of drink1 >1 Then
+            "You quickly throw down another drink. You are starting to feel
+             a bit woozy. Perhaps you should cut down on the drinking."
+            Set drunk Of drink1 To drunk Of drink1 +1.
+          Else 
+            "You gulp down a quick blast. It sure hits the spot."
+            Set drunk Of drink1 To drunk Of drink1 +1.
+          End If.
+        End If.
+      End If.
+  End Verb.
+  
+End The drink1.
+
+The fakedrawer Isa object
+  Name fakedrawer1
+  At nowhere
+  With Container
+  Description
+  
+End The fakedrawer.
+
+The drawer Isa object
+  Name top desk drawer
+  At office
+  With Container
+  Is 
+    Not unlocked.
+  Is 
+    Not open.
+  Description
+  
+  Verb examine, look_at, look_into
+    Does Only
+      If drawer Is open Then
+        "Your desk drawer is currently open."
+        Say drawer.
+      Else 
+        "Your desk drawer is currently closed."
+      End If.
+  End Verb.
+  
+  Verb open
+    Does Only
+      If drawer Is open Then
+        "It is already open."
+      Else 
+        If drawer Is Not unlocked Then
+          "You need to unlock it first."
+        Else 
+          "You open the desk drawer."
+          Empty fakedrawer In drawer.
+          Make drawer open.
+        End If.
+      End If.
+  End Verb.
+  
+  Verb close
+    Does Only
+      If drawer Is open Then
+        "You close the desk drawer."
+        Empty drawer In fakedrawer.
+        Make drawer Not open.
+      Else 
+        "The drawer is already closed."
+      End If.
+  End Verb.
+  
+  Verb lock
+    Does Only
+      If deskkey In inventory Then
+        If drawer Is Not unlocked Then
+          "It is already locked."
+        Else 
+          If drawer Is Not open Then
+            "You lock the desk drawer."
+            Make drawer Not unlocked.
+          Else 
+            "You need to close the drawer first."
+          End If.
+        End If.
+      Else 
+        "You don't have the desk key."
+      End If.
+  End Verb.
+  
+  Verb unlock
+    Does Only
+      If drawer Is Not unlocked Then
+        If deskkey In inventory Then
+          "You unlock the desk drawer."
+          Make drawer unlocked.
+        Else 
+          "You don't have the key to the drawer."
+        End If.
+      Else 
+        "It is already unlocked."
+      End If.
+  End Verb.
+  
+End The drawer.
+
+The cabinet1 Isa object
+  Name file cabinet
+  At office
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "It contains tons of useless facts about previous cases."
+  End Verb.
+  
+  Verb open
+    Does Only
+      "There is nothing of importance in your file cabinet. If you want to
+       check any data, you may wish to ask your secretary."
+  End Verb.
+  
+End The cabinet1.
+
+The pictures1 Isa object
+  Name painted pictures
+  At office
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "The pictures are nothing special. At least you had fun painting
+       them."
+  End Verb.
+  
+  Verb take
+    Does Only
+      "Leave the pictures where they are."
+  End Verb.
+  
+End The pictures1.
+
+The papers Isa object
+  Name pile of loose papers
+  At office
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "They are just scraps of paper from earlier cases. None are
+       of importance now."
+  End Verb.
+  
+  Verb take
+    Does Only
+      "You have no need for the papers."
+  End Verb.
+  
+End The papers.
+
+The window Isa object
+  Name office window
+  At office
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "It is letting some fresh air."
+  End Verb.
+  
+  Verb close
+    Does Only
+      "You would rather leave it open."
+  End Verb.
+  
+End The window.
+
+The fan Isa object
+  Name old fan
+  At office
+  Is 
+    on.
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      If fan Is on Then
+        "It is blowing gently in your direction."
+      Else 
+        "The fan is currently turned off."
+      End If.
+  End Verb.
+  
+  Verb turn_on, turn_fan_on
+    Does Only
+      If fan Is on Then
+        "It is already on!"
+      Else 
+        "You turn on the fan."
+        Make fan on.
+      End If.
+  End Verb.
+  
+  Verb turn_off, turn_fan_off
+    Does Only
+      If fan Is on Then
+        "You turn off the fan."
+        Make fan Not on.
+      Else 
+        "It is already off."
+      End If.
+  End Verb.
+  
+  Verb switch, press
+    Does Only
+      If fan Is on Then
+        "You turn the fan off."
+        Make fan Not on.
+      Else 
+        "You turn the fan on."
+        Make fan on.
+      End If.
+  End Verb.
+  
+End The fan.
+
+The table Isa object
+  Name small old table
+  At office
+  Description
+  
+  Verb push
+    Does Only
+      "You like the table where it is."
+  End Verb.
+  
+End The table.
+
+The door1 Isa object
+  Name your office door
+  At office
+  Is 
+    Not open.
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      If door1 Is open Then
+        "Your door is currently open."
+      Else 
+        "Your door is currently closed."
+      End If.
+  End Verb.
+  
+  Verb open
+    Does Only
+      If door1 Is open Then
+        "It is already open."
+      Else 
+        "You open the door."
+        Make door1 open.
+      End If.
+  End Verb.
+  
+  Verb close
+    Does Only
+      If door1 Is open Then
+        "You close the door."
+        Make door1 Not open.
+      Else 
+        "The door is already closed."
+      End If.
+  End Verb.
+  
+End The door1.
+
+The office2 Isa location
+  
+  Description
+    "You are standing in your secretary's office."
+    If secretary Is Not visited Then
+      "Julie is currently sitting  at her desk typing away. ""Hello Jim."",
+       she says as she gives you a quick glance.  $n $n You give her a smile
+       and tell her to go on with her work. $n $n"
+      Make secretary visited.
+    End If.
+    If secretary Is Not glassed And glasses Is worn Then
+      """Hello, four eyes, Julie says with a smirk."" You ignore
+       the comment."
+      Make secretary glassed.
+    End If.
+    "The room is quite small, and can barely be called an office. It
+     is more of an reception area for potential clients. Besides a small
+     desk which your secretary is working at, there are a set of chairs
+     against the far wall, and a file cabinet to your direct right.  $n
+     $n There are a couple of pictures hanging here, none of which are
+     your landscapes. Julie decorated this room, and it actually looks a lot
+     better than your own office."
+    Locate door2 At office2.
+    Locate door1 At office2.
+    If door2 Is open Then
+      "Your office is to the direct south. To the west is a open door."
+    Else 
+      "Your office is to the direct south. To the west is a closed door."
+    End If.
+  
+  Exit s To office
+    Check door1 Is open
+      Else 
+        "You need to open your office door first."
+    Does
+      "You walk into your office."
+  End Exit.
+  Exit w To hallway
+    Check door2 Is open
+      Else 
+        "You need to open the door first."
+    Does
+      "You walk into the hallway."
+  End Exit.
+End The office2.
+
+The door2 Isa object
+  Name outer office door
+  At office2
+  Is 
+    Not open.
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "The office door contains your name painted onto the glass, Jim
+       Novak, Private Investigator. A small crack travels along  the edge of
+       the glass, a reminder of one bad day when you slammed the door a bit
+       too hard.$n $n"
+      If door2 Is open Then
+        "The office door is currently open."
+      Else 
+        "The office door is currently closed."
+      End If.
+  End Verb.
+  
+  Verb open
+    Does Only
+      If door2 Is open Then
+        "It is already open!"
+      Else 
+        "You open the office door."
+        Make door2 open.
+      End If.
+  End Verb.
+  
+  Verb close
+    Does Only
+      If door2 Is open Then
+        "You close the office door."
+        Make door2 Not open.
+      Else 
+        "It is already closed!"
+      End If.
+  End Verb.
+  
+End The door2.
+
+The case Isa object
+  Name case
+  At office2
+  Is 
+    Not done.
+  Description
+  
+End The case.
+
+The drawer2 Isa object
+  Name desk drawer
+  At office2
+  Description
+  
+End The drawer2.
+
+The keys2 Isa object
+  Name desk key
+  At office2
+  Description
+  
+End The keys2.
+
+The secretary Isa actor
+  Name pretty secretary
+  At office2
+  Is 
+    Not visited.
+  Is 
+    Not glassed.
+  Is 
+    Not shot.
+  Description
+  
+  Verb shoot
+    Does Only
+      If gun1 In inventory Then
+        If secretary Is Not shot Then
+          "You raise your gun at Julie. Julie yells, ""Hey, put that thing
+           away. You never know when it could go off!"". You oblige,
+           apologizing for your stupid joke. It was a joke, wasn't it? It
+           almost seems as though someone else was controling your
+           actions..."
+          Make secretary shot.
+        Else 
+          "Julie wasn't fond of your attempt earlier. I wouldn't advise it
+           again."
+        End If.
+      Else 
+        "You aren't carrying your gun."
+      End If.
+  End Verb.
+  
+  Verb examine, look_at
+    Does Only
+      "Julie is quite pretty and unfortunately a bit young for you. She has
+       short blond hair and blue eyes. She is currently typing away."
+  End Verb.
+  
+  Verb ask_for, talk_about, ask_about
+    Does Only
+      If obj =desk2 Or obj =keys2 Or obj =drawer2 Then
+        If deskkey In inventory Then
+          """I already gave you my key. If you've lost that one you're in
+           trouble."""
+        Else 
+          """Lost your key again? Here's my copy. Don't lose it again,
+           or you'll be locked out forever."", Julie replies."
+          Locate deskkey In inventory.
+        End If.
+      Else 
+        If obj =secretary Then
+          """You know everything you need to know about me, Jim."",
+           Julie answers with a smile."
+        Else 
+          If obj =case Then
+            """You don't have any cases at the moment, something you should
+             be used to by now."", Julie says with a smile."
+          Else 
+            If obj =photo Then
+              If photo Is named Then
+                """I don't know anything more about the photo."""
+              Else 
+                """Give it to me and let me take a good look at it."""
+              End If.
+            Else 
+              """I don't know anything about that."""
+            End If.
+          End If.
+        End If.
+      End If.
+  End Verb.
+  
+End The secretary.
+
+The desk2 Isa object
+  Name small desk
+  At office2
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "You bend over Julie's desk to take a look. ""Hey buddy."", she
+       snaps at you. ""If you want something, just ask. It's hard enough
+       doing this work without your big nose stuck in my face."" $n $n You
+       apologize and look in another direction."
+  End Verb.
+  
+End The desk2.
+
+The pictures Isa object
+  Name painted pictures
+  At office2
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "You don't recognize the artist, but they're generally pretty good."
+  End Verb.
+  
+  Verb take
+    Does Only
+      "Julie wouldn't like that."
+  End Verb.
+  
+End The pictures.
+
+The cabinet Isa object
+  Name file cabinet
+  At office2
+  Description
+  
+  Verb examine, look_at, open
+    Does Only
+      "You do not currently need anything from the file cabinet."
+  End Verb.
+  
+End The cabinet.
+
+The hallway Isa location
+  
+  Description
+    "You are standing in a hallway directly outside of your office. You
+     have the only office on this floor of the building, which is a bit
+     rundown. The wallpaper, which seems to be barely clinging to  the walls
+     is a dark grey, and the light grey carpet is quite worn.  A set of
+     stairs are to your south. The hallway continues to the north, and your
+     office is to the east."
+    Locate door2 At hallway.
+  
+  Exit e To office2
+    Check door2 Is open
+      Else 
+        "You need to open your office door first."
+    Does
+      "You walk into the office."
+  End Exit.
+  Exit s To stairway
+    Check gun1 In inventory
+      Else 
+        "You don't like leaving the building without your trusty gun."
+    Does
+      "You walk over to the stairway."
+  End Exit.
+  Exit n To hallway2.
+End The hallway.
+
+The wallpaper Isa object
+  Name wallpaper
+  At hallway
+  Description
+  
+  Verb look_at, examine
+    Does Only
+      "It is similar to the wallpaper in your apartment, a nice dingy
+       grey."
+  End Verb.
+  
+End The wallpaper.
+
+The carpet Isa object
+  Name carpet
+  At hallway
+  Description
+  
+End The carpet.
+
+The hallway2 Isa location
+  
+  Description
+    "You are standing in the hallway in front of a partially painted
+     over window. It is sealed shut, although a slight breeze can be
+     felt through a small crack near its' top. Through the window you
+     can see the alley below. The only exit is to the south."
+  
+  Exit s To hallway.
+End The hallway2.
+
+The window2 Isa object
+  Name sealed window
+  At hallway2
+  Description
+  
+  Verb examine, look_at, open
+    Does Only
+      "The window is sealed shut."
+  End Verb.
+  
+  Verb look_through, look_into
+    Does Only
+      "All you can see is the dirty alley below."
+  End Verb.
+  
+End The window2.
+
+The stairway Isa location
+  
+  Description
+    "You are standing before a stairwell leading to the ground floor.
+     Your office is to the north."
+  
+  Exit n To hallway.
+  Exit s To stairs.
+End The stairway.
+
+The crack Isa object
+  Name small crack
+  At hallway2
+  Description
+  
+End The crack.
+
+The stairs15 Isa object
+  Name stairs
+  At stairway
+  Description
+  
+  Verb 'use'
+    Does Only
+      "You walk down the stairs."
+      Locate hero At stairs.
+  End Verb.
+  
+End The stairs15.
+
+The stairs Isa location
+  
+  Description
+    "The stairs lead down to the street level. You can hear the hustle and
+     bustle of everyday life as the sounds of the outside world make their
+     way into the building. Exits lead down and north. "
+  
+  Exit n To stairway.
+  Exit d To street.
+End The stairs.
+
+The stairs1 Isa object
+  Name stairs
+  At stairs
+  Description
+  
+  Verb 'use'
+    Does Only
+      "You walk up the stairs."
+      Locate hero At stairway.
+  End Verb.
+  
+End The stairs1.
+
+The sounds Isa object
+  Name sounds
+  At stairs
+  Description
+  
+  Verb listen_to, hear
+    Does Only
+      "They are just normal sounds."
+  End Verb.
+  
+End The sounds.
+
+The street Isa location
+  
+  Description
+    "You are standing outside the building which houses your office. This
+     area of town is generally quite busy, at least during business hours. A
+     few people brush across you as they walk by in a hurry. $n $n Exits
+     lead up to your office  and east and west along the sidewalk."
+  
+  Exit u To stairs.
+  Exit e To sidewalk.
+  Exit w To sidewalk2.
+End The street.
+
+The people Isa object
+  Name people
+  At street
+  Description
+  
+End The people.
+
+The sidewalk22 Isa object
+  Name sidewalk
+  At street
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "Boy, is it dirty."
+  End Verb.
+  
+End The sidewalk22.
+
+The sidewalk2 Isa location
+  
+  Description
+    "You are standing before an old pawn shop. The barred windows protect
+     the gathered riches of the poor and downtrodden of the neighborhood.
+     Visible exits lead east and north."
+  
+  Exit e To street.
+  Exit n To shop
+    Check case Is Not done
+      Else 
+        "The store is currently closed."
+  End Exit.
+End The sidewalk2.
+
+The sidewalk24 Isa object
+  Name sidewalk
+  At sidewalk2
+  Description
+  
+End The sidewalk24.
+
+The windows Isa object
+  Name barred windows
+  At sidewalk2
+  Description
+  
+  Verb open
+    Does Only
+      "You wouldn't want to do that."
+  End Verb.
+  
+  Verb look_into
+    Does Only
+      "There is an assortment of goods located inside."
+  End Verb.
+  
+End The windows.
+
+The bars Isa object
+  Name bars
+  At sidewalk2
+  Description
+  
+End The bars.
+
+The shop Isa location
+  
+  Description
+    "You are standing inside a pawn shop. It is cluttered with
+     various goods. An old man, most likely the owner, is sitting behind
+     the counter. "
+  
+  Exit s To sidewalk2.
+End The shop.
+
+The store Isa object
+  Name store
+  At shop
+  Description
+  
+End The store.
+
+The objects Isa object
+  Name objects
+  At shop
+  Description
+  
+End The objects.
+
+The broker Isa actor
+  Name old broker
+  At shop
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "The owner is an old man, probably about seventy. He is thin as a
+       rail and has a shock of white hair. His suit hangs from his frame
+       as though it was two sizes too big. The old man's face is wrinkled
+       as a prune and his eyes are locked into a fixed gaze staring
+       across the store, as though he his mentally cataloging every item
+       within. ""Can I help you Sir?, the old man asks. He has a slight
+       European accent, although you can't exactly place it."
+  End Verb.
+  
+  Verb talk
+    Does Only
+      """What would you like to talk about, young man?"", the owner asks."
+  End Verb.
+  
+  Verb ask_about, talk_about
+    Does Only
+      If obj =documents Then
+        """Well, let me take a look at 'em."""
+      Else 
+        If obj =bracelet Then
+          """That's a nice look'n piece of jewerly. I'll offer you ten
+           bucks for it."""
+        Else 
+          If obj =store Then
+            """I've owned this store for thirty years. Yep, me and this
+             place go back a long time. Seen good times and bad. Take a look
+             about. If there's anything you want here, just let me know."""
+          Else 
+            """I don't reckon I know anything important about that."""
+          End If.
+        End If.
+      End If.
+  End Verb.
+  
+End The broker.
+
+The counter Isa object
+  Name counter
+  At shop
+  Description
+  
+End The counter.
+
+The goods Isa object
+  Name items
+  At shop
+  Description
+  
+End The goods.
+
+The sidewalk Isa location
+  
+  Description
+    "You are standing in front of Harold's newstand, your favorite place to
+     check out the local gossip. Harold is standing behind his stand reading
+     a newspaper. $n $n The only exit is to the west."
+    If case Is done Then
+      "As you look about, you notice a large headline on one of the
+       newspapers."
+    End If.
+  
+  Exit w To street
+    Check case Is Not done
+      Else 
+        "You should check the newspaper headline before leaving, it could
+         be important."
+  End Exit.
+End The sidewalk.
+
+The haroldman Isa actor
+  Name harold
+  At sidewalk
+  Is 
+    Not shot.
+  Description
+  
+  Verb shoot
+    Does Only
+      If haroldman Is Not shot Then
+        "You raise your gun, as to shoot Harold. He backs up, a bit
+         nervously, and stutters out, ""Quick foolin' Jim."". You pull the
+         trigger, click, click. The gun is not loaded. Thank God. Harold
+         looks at you like you are crazy and says sarcastically, ""Nice
+         Joke."" He goes about his work, although he seems to be watching
+         you out in a careful manner. What made you do it? It almost seems
+         as if someone else was controlling your actions. Ordering you about
+         with commands..."
+        Make haroldman shot.
+      Else 
+        "You already tried it once. Not again..."
+      End If.
+  End Verb.
+  
+  Verb examine, look_at
+    Does Only
+      "Harold is standing next to the newsstand. He is an ordinary
+       looking man, nothing special about him."
+  End Verb.
+  
+  Verb talk
+    Does Only
+      """What's going on?"", you ask Harold. He simply answers,
+       ""Nothing much""."
+  End Verb.
+  
+  Verb talk_about, ask_about
+    Does Only
+      """I know nothin' about nothin'."", Harold answers. Whatever that
+       means."
+  End Verb.
+  
+End The haroldman.
+
+The newsstand1 Isa object
+  Name newsstand
+  At sidewalk
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "Piles of newspapers, magazines and pulp digests are lined up in neat
+       rows. Harold is standing next to the stand, looking over a magazine."
+  End Verb.
+  
+End The newsstand1.
+
+The newspaper1 Isa object
+  Name newspaper
+  At sidewalk
+  Description
+  
+  Verb examine, read, look_at
+    Does Only
+      "You can't read the newspaper from here. You need to buy one."
+  End Verb.
+  
+  Verb take, pick_up
+    Does Only
+      "That would be stealing!"
+  End Verb.
+  
+  Verb buy
+    Does Only
+      If case Is done Then
+        "You buy one of the newspapers and look over the first page. In
+         glaring letters, Top Director Killed in Accidental Fire. Samuel
+         Cranston's trailer 'accidently' caught on fire last night. They
+         didn't find a body, but they really didn't expect to. The trailer
+         was burnt to a cinder. $n $n You never expected Haswell to go this
+         far. You guess he decided his one star, Sarah Cooper was worth
+         anything to protect. Even the murder of her husband. $n $n You
+         decide to take action. You call your police buddy, Larry Kohler, to
+         set up a meeting. You head over to Sammy's Bar, waiting to meet
+         him."
+        Locate hero At bar.
+      Else 
+        "You've already read today's newspaper. Nothing special, a day like
+         any other day."
+      End If.
+  End Verb.
+  
+End The newspaper1.
+
+The magazine Isa object
+  Name film magazine
+  At sidewalk
+  Description
+  
+  Verb take, pick_up
+    Does Only
+      If magazine Not In inventory Then
+        "That would be stealing!"
+      Else 
+        "You already have a magazine."
+      End If.
+  End Verb.
+  
+  Verb buy
+    Does Only
+      If magazine In inventory Then
+        "You don't need any more magazines."
+      Else 
+        If photo Is named Then
+          If coins Not In inventory Then
+            "You don't have any money to buy a magazine."
+          Else 
+            "You buy one of the film magazines."
+            Locate magazine In inventory.
+          End If.
+        Else 
+          "You don't need any magazines at the moment."
+        End If.
+      End If.
+  End Verb.
+  
+  Verb read, open
+    Does Only
+      If magazine In inventory Then
+        If photo Is named Then
+          "You flip through the film magazine looking for any references to
+           the film 'The Postman always rings twice'. With luck, you manage
+           to find a small article with the information you need. The film
+           was produced by M-G-M, and their studio is not too far from
+           here."
+          Make photo perfect.
+        Else 
+          "You look through the magazine. You spot a few interesting film
+           ads, but nothing important."
+        End If.
+      Else 
+        "You pick up a magazine and start leafing through it. ""Hey
+         fella"". Harold barks, ""This ain't a lendin' library"". You
+         quickly put the magazine back down."
+      End If.
+  End Verb.
+  
+End The magazine.
+
+The car1a Isa object
+  Name car
+  At sidewalk
+  Description
+    "Your car is parked here."
+  
+  Verb enter, open, drive, 'use'
+    Does Only
+      If case Is done Then
+        "You have nowhere to go at the moment."
+      Else 
+        If photo Is perfect Then
+          If documents Is Not read Then
+            "You first want to understand a little more about this
+             case before searching for Harbou. If you could only understand
+             a little more about the documents you were given."
+          Else 
+            "You get into your car and head out over to M-G-M, a short
+             drive away. As you head up to the studio gates, you try to
+             think of an excuse to get in."
+            Locate hero At guardbooth.
+          End If.
+        Else 
+          "You have no need to drive anywhere at the moment."
+        End If.
+      End If.
+  End Verb.
+  
+End The car1a.
+
+The doorc1 Isa object
+  Name car door
+  At sidewalk
+  Description
+  
+  Verb 'use', open
+    Does Only
+      "If you wish to drive your car, simply state so."
+  End Verb.
+  
+End The doorc1.
+
+The bar Isa location
+  
+  Description
+    "You are standing inside a dirty nightclub with the monicker,
+     Sammy's. It is pretty quiet for the time of day. You spot one or two
+     regulars sitting at the bar."
+  
+  Exit s To estate
+    Check 
+      "You would rather not leave so soon."
+  End Exit.
+End The bar.
+
+The bar1 Isa object
+  Name bar
+  At bar
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "There is nothing special about it. Just your ordinary, run
+       down establishment. Maybe that's why you like it so much."
+  End Verb.
+  
+End The bar1.
+
+The stool1 Isa object
+  At bar
+  Description
+  
+  Verb sit, 'use', sit_on
+    Does Only
+      If car_lot Is ready Then
+        "You are sitting at the bar. An old gentleman is serving drinks
+         with a blank expression on his face. Sitting to your left is a
+         young woman, face heavily made up, nursing a drink. $n $n You ask
+         the bartender for a whisky, straight up. There is nothing like good
+         whisky, unlike the rotgut you usually drink. After few shots you
+         feel much better. You think over the case and come to the
+         conclusion that a trip out to Independent Studios could spread a
+         little light on the situation.  You borrow a phone from the
+         bartender and quickly call information for Independent's
+         address. It's not that far away, and the way you drive (fast), it
+         shouldn't take more than 45 minutes."
+        Locate hero At station.
+      Else 
+        "You sit down on a nearby bar stool and order a drink. A whisky,
+         straight up, just the way you like it. By your third drink Larry
+         finally shows up. ""Hey buddy, got any news for me?"", Larry asks.
+         You inform him about the entire case, and what has
+         transpired during the last 24 hours. Larry looks very interested,
+         and makes a  quick call to the station. ""I'll have a couple cops
+         go out to Mr. Haswell's home. In the meantime, take it easy and
+         keep your eyes open."" As Larry gets up, you mention that perhaps
+         you will take a quick ride out there. You follow behind the police
+         to a large house. The police enter, then quickly leave. No luck, he
+         isn't home. You don't give up so easilly, though. After the police
+         drive away, you walk up to the house. Haswell may or may not be
+         home, but at least you would like to get some clues."
+        Locate hero At house4.
+      End If.
+  End Verb.
+  
+End The stool1.
+
+The house4 Isa location
+  
+  Description
+    "You are standing outside a posh two story house. The grounds appear
+     well maintained, with a long row of neatly manicured shrubs located
+     along the edge of the property. The porch is to the north, and a small
+     gate is to your east."
+  
+  Exit n To porch.
+  Exit e To gate.
+End The house4.
+
+The house1 Isa object
+  Name large house
+  At house4
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "It looks like a very nice house."
+  End Verb.
+  
+End The house1.
+
+The grounds Isa object
+  Name green shrubs
+  At house4
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "You think they must have a crew of groundskeepers maintaining  their
+       yard."
+  End Verb.
+  
+End The grounds.
+
+The porch Isa location
+  
+  Description
+    "You are standing on the porch in front of a closed door. A
+     large wicker chair is standing to your direct right. The only exit is
+     to the south."
+  
+  Exit s To house4.
+  Exit n To inside_hallway
+    Does
+      "You walk through the front door into the house."
+  End Exit.
+End The porch.
+
+The chairp Isa object
+  Name wicker chair
+  At porch
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "It is simply a white wicker chair."
+  End Verb.
+  
+  Verb sit_in, sit_on
+    Does Only
+      "You would rather not rest at this time."
+  End Verb.
+  
+End The chairp.
+
+The porch2 Isa object
+  Name porch
+  At porch
+  Description
+  
+  Verb stand_on
+    Does Only
+      "You already are!"
+  End Verb.
+  
+End The porch2.
+
+The frontdoor Isa object
+  Name front door
+  At porch
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "The front door is currently closed."
+  End Verb.
+  
+  Verb knock_on, knock, open
+    Does Only
+      "That would not be wise, as even if Haswell was home, he wouldn't
+       let you in."
+  End Verb.
+  
+End The frontdoor.
+
+The gate Isa location
+  
+  Description
+    "A small wooden gate is located here. To your south you can see a
+     large back yard."
+    If gate3 Is open Then
+      "The gate is currently open. Exits lead south and west."
+    Else 
+      "The gate is currently closed. The only exit is to the west."
+    End If.
+  
+  Exit w To house4.
+  Exit n To backyard
+    Check gate3 Is open
+      Else 
+        "You can't, as the gate is closed."
+  End Exit.
+End The gate.
+
+The gate3 Isa object
+  Name wooden gate
+  At gate
+  Is 
+    open.
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "It is a simple, wooden gate."
+      If gate3 Is open Then
+        "The gate is currently open."
+      Else 
+        "The gate is currently closed."
+      End If.
+  End Verb.
+  
+  Verb open, unlock
+    Does Only
+      If gate3 Is open Then
+        "It is already open."
+      Else 
+        "You open the gate."
+        Make gate3 open.
+      End If.
+  End Verb.
+  
+  Verb close, lock
+    Does Only
+      If gate3 Is open Then
+        "You close the gate."
+        Make gate3 Not open.
+      Else 
+        "It is already closed!"
+      End If.
+  End Verb.
+  
+End The gate3.
+
+The backyard Isa location
+  
+  Description
+    "You are standing in the backyard of the Haswell estate. It is  quite
+     large. A set of lawn furniture is visible to your left, and a row of
+     shrubs is to your right. To the west is a patio and to the south is a
+     tennis court. A closed gate is to your direct north."
+  
+  Exit w To patio.
+  Exit n To court.
+  Exit s To gate.
+  Exit e To patio
+    Check 
+      "You look a bit foolish as you try to walk through the shrubs, as the
+       branches tear at you clothes and scratch your face. You manage to
+       make your way through one of the smaller shrubs when you come face to
+       face with a large man holding a set of hedge trimmers. ""Are you some
+       kind of nut, the man exclaims. I have to fix that now!"" You feel
+       like an idiot walking through the Haswell's shrubs, and quickly try
+       to think of something to tell the man.  ""I was looking for clues,
+       you nervously sputter out. I'm an investigator working on a case for
+       the Haswell's.""  The man looks at you oddly and says, ""Well, I
+       don't know what kind of clues you will find back here. Being an
+       investigator you should have noticed you could have just walked
+       around the shrubs instead of through them. Maybe you oughta go back
+       to detective school or  somethin'.""  He then goes back to his work
+       cutting the shrubs, as you decide to walk around to the other side. "
+  End Exit.
+End The backyard.
+
+The furniture Isa object
+  Name lawn furniture
+  At backyard
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "There is nothing special about the lawn furniture."
+  End Verb.
+  
+End The furniture.
+
+The shrubs2 Isa object
+  Name green shrubs
+  At backyard
+  Description
+  
+  Verb climb
+    Does Only
+      "That would be unwise."
+  End Verb.
+  
+End The shrubs2.
+
+The court Isa location
+  
+  Description
+    "You are standing on on a tennis court located behind the
+     Haswell's house. The court appears to have been recently used, as a few
+     tennis  balls are lying about. The court seems to be in decent shape,
+     except for a few small cracks located close to the net. Behind the
+     court, to its direct right, is a small metal shed. The only exits are
+     east and south."
+  
+  Exit s To backyard.
+  Exit e To shed.
+End The court.
+
+The court1 Isa object
+  Name tennis court
+  At court
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "You notice a small duffel bag located at the edge of the court."
+      Locate duffel_bag Here.
+  End Verb.
+  
+End The court1.
+
+The net Isa object
+  Name tennis net
+  At court
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "The net seems to be relatively new."
+  End Verb.
+  
+End The net.
+
+The cracks Isa object
+  Name cracks
+  At court
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "There is nothing special about them."
+  End Verb.
+  
+End The cracks.
+
+The balls Isa object
+  Name tennis balls
+  At court
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "They are ordinary tennis balls."
+  End Verb.
+  
+  Verb play_with
+    Does Only
+      "You don't have time to play any tennis."
+  End Verb.
+  
+End The balls.
+
+The duffel_bag Isa object
+  Name duffel bag
+  At nowhere
+  Description
+  
+  Verb open
+    Does Only
+      "You need to pick up the bag first."
+  End Verb.
+  
+  Verb take, pick_up
+    Does Only
+      "You pick up the canvas bag and search through it. The bag
+       contains nothing of interest except a small flashlight. You remove
+       the light, and put the bag back down."
+      Locate flashlight In inventory.
+  End Verb.
+  
+End The duffel_bag.
+
+The shed Isa location
+  
+  Description
+    "You are standing before a small metal shed. Overgrown weeds and
+     bushes surround its sides. The rusted shed door is closed. The only
+     exit is to the west."
+  
+  Exit w To court.
+End The shed.
+
+The shed1 Isa object
+  Name shed
+  At shed
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "It is an old and unused building."
+  End Verb.
+  
+  Verb enter
+    Does Only
+      "Try opening the shed door first."
+  End Verb.
+  
+End The shed1.
+
+The shed_door Isa object
+  Name rusty shed door
+  At shed
+  Is 
+    Not used.
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "The shed door is currently closed."
+  End Verb.
+  
+  Verb open, 'use'
+    Does Only
+      If shed_door Is used Then
+        "There is no need to go back in there."
+      Else 
+        If flashlight Not In inventory Then
+          "You open the door and enter the shed. You look about, but it
+           is too dark to see anything, so you leave."
+        Else 
+          "You open the door and enter the shed. You turn on your
+           flashlight and look about. The shed is filled mostly with debris
+           and garbage. You find a small can of oil, which you take. You
+           also notice some old rags and empty gasoline cans sitting in
+           the corner of the shed, however. Hmm, you wonder if Haswell used
+           these to burn Cranston to death. You exit the shed, a bit more
+           certain Haswell committed the murder."
+          Locate oil1 In inventory.
+        End If.
+        Make shed_door used.
+      End If.
+  End Verb.
+  
+End The shed_door.
+
+The flashlight Isa object
+  Name flashlight
+  At nowhere
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "It is an ordinary flashlight. It is rather small, but should
+       still provide decent light."
+  End Verb.
+  
+  Verb 'use', turn_on
+    Does Only
+      "You would rather not waste the batteries at this time."
+  End Verb.
+  
+End The flashlight.
+
+The inside_hallway Isa location
+  
+  Description
+    "You are standing in a small hallway. To your north is the
+     livingroom. To the south is the porch and a staircase is to the east."
+  
+  Exit n To livingroom.
+  Exit s To porch.
+  Exit e To staircase.
+End The inside_hallway.
+
+The hallway6a Isa object
+  Name hallway
+  At inside_hallway
+  Description
+  
+End The hallway6a.
+
+The livingroom Isa location
+  
+  Description
+    "You are standing in a large, well furnished living room. There are
+     a set of sofas to your left, with a large coffee table directly in
+     front of them. In the corner of the room is a glass case, holding a
+     collection of guns.  A large portrait is hanging above the
+     fireplace. Across the room to your direct right is a partially closed
+     window. The back door is located  to the northeast.  A staircase is
+     located to the west. Other exits lead north and south."
+  
+  Exit s To inside_hallway.
+  Exit w To staircase.
+  Exit n To patio
+    Does
+      "You climb out through the window onto the patio."
+  End Exit.
+  Exit ne To patio
+    Check 
+      "You start to walk over to the back door, but hear someone walking
+       about nearby. You spot a maid in the hallway, close to the door. You
+       decide it would be safer not to approach this area."
+  End Exit.
+End The livingroom.
+
+The gcase Isa object
+  Name gun case
+  At livingroom
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "It is a glass case holding a small collection of fire arms. It seems
+       Haswell is fond of guns. You must remember to be careful if you ever
+       run into him."
+  End Verb.
+  
+  Verb open
+    Does Only
+      "It is locked shut."
+  End Verb.
+  
+End The gcase.
+
+The window2a Isa object
+  Name window
+  At livingroom
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "It is the window you crawled through to enter the house."
+  End Verb.
+  
+  Verb 'use', open
+    Does Only
+      "You climb through the window onto the patio."
+      Locate hero At patio.
+  End Verb.
+  
+End The window2a.
+
+The sofas Isa object
+  Name soft sofas
+  At livingroom
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "You notice nothing special about the furniture."
+  End Verb.
+  
+  Verb sit_on, 'use'
+    Does Only
+      "No sitting on the job for you."
+  End Verb.
+  
+End The sofas.
+
+The portrait Isa object
+  Name large portrait
+  At livingroom
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "It is a portrait of Mr. Haswell. It appears to be have made when he
+       was a bit younger, or perhaps the artist was just being kind."
+  End Verb.
+  
+End The portrait.
+
+The firep Isa object
+  Name fireplace
+  At livingroom
+  Description
+  
+End The firep.
+
+The staircase Isa location
+  
+  Description
+    "You are standing in front of a set of stairs. The livingroom is to
+     the east, while a hallway leads north."
+  
+  Exit u To hallway3.
+  Exit e To livingroom.
+  Exit n To hallway2
+    Check 
+      "You hear a servant walking about the hallway, so you turn back. You
+       would hate to get thrown out."
+  End Exit.
+End The staircase.
+
+The stairsh Isa object
+  Name stairs
+  At stairway
+  Description
+  
+  Verb climb_up, climb, enter, 'use'
+    Does Only
+      "You walk up the stairs."
+      Locate hero At hallway3.
+  End Verb.
+  
+End The stairsh.
+
+The hallway3 Isa location
+  
+  Description
+    "You are standing at the top of the staircase. Exits lead north, and
+     down."
+  
+  Exit d To staircase.
+  Exit n To hallway4.
+End The hallway3.
+
+The stairs2 Isa object
+  Name stairs
+  At hallway3
+  Description
+  
+  Verb climb_down
+    Does Only
+      "You walk down the stairs."
+      Locate hero At stairway.
+  End Verb.
+  
+End The stairs2.
+
+The hallway4 Isa location
+  
+  Description
+    "You are standing in the hallway before two rooms opposite  one
+     another. Exits lead south, east and west."
+  
+  Exit s To hallway3.
+  Exit e To maidroom.
+  Exit w To den.
+End The hallway4.
+
+The hall4 Isa object
+  Name hallway
+  At hallway4
+  Description
+  
+End The hall4.
+
+The maidroom Isa location
+  
+  Description
+    "You are standing in what appears to be the maid's quarters. A
+     small desk is standing to your direct left, and the bed is next to
+     it. The room is sparcely furnished and decorated minimially. The only
+     exit is to the west."
+  
+  Exit w To hallway4.
+End The maidroom.
+
+The den Isa location
+  
+  Description
+    "You are standing in the den. It appears to have been recently  used,
+     as several papers and articles are lying about on the desk. A leather
+     chair is next to the desk, and a small sofa is across from it. It the
+     corner of the room is a small statue of a Roman soldier. There are
+     several paintings of landscapes hanging on the wall. The only exit is
+     to the east."
+  
+  Exit e To hallway4.
+End The den.
+
+The desk3 Isa object
+  Name desk
+  At den
+  Is 
+    Not searched.
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "You look over the papers on the desk, and come across an
+       interesting note. It simply reads, Important matter to discuss at my
+       home, Meet me today, Sarah Cooper. The letterhead gives the address
+       1081 Vancouver Lane, Los Angeles. You quickly (and silently) leave
+       the house and drive out to the address written down. You pull up to a
+       large estate."
+      Make desk3 searched.
+      Locate hero At estate.
+  End Verb.
+  
+End The desk3.
+
+The patio Isa location
+  
+  Description
+    "You are standing on a large patio. The back door to the house
+     is currently closed. A small window is located here, and is open
+     slightly. The only exit is to the east, leading to the backyard."
+  
+  Exit e To backyard.
+End The patio.
+
+The back_door Isa object
+  Name back door
+  At patio
+  Description
+  
+  Verb examine, look_at, open
+    Does Only
+      "The door is currently locked."
+  End Verb.
+  
+End The back_door.
+
+The oil1 Isa object
+  Name can
+  At nowhere
+  Description
+  
+  Verb 'use'
+    Does Only
+      "What would you like to use it on?"
+  End Verb.
+  
+  Verb put_on
+    Does Only
+      If obj2 =window Then
+        "You carefully oil the window."
+        Locate oil1 At nowhere.
+        Make back_window oiled.
+      Else 
+        "You have no need to oil that."
+      End If.
+  End Verb.
+  
+  Verb drink
+    Does Only
+      "You take a quick swallow of the oil. Before it hits the back of
+       your throat, you gag and spit it out. What were you thinking? You're
+       not the tin man."
+  End Verb.
+  
+End The oil1.
+
+The back_window Isa object
+  Name small window
+  At patio
+  Is 
+    Not oiled.
+  Description
+  
+  Verb enter, open, 'use', raise
+    Does Only
+      If back_window Is oiled Then
+        "You silently raise the window, creating an opening big enough to
+         climb through. You lift yourself up and through the opening into
+         the house. You close the window after entering."
+        Locate hero At living_room.
+      Else 
+        "You start to lift up the window, but it begins to make a
+         loud, creaking sound. You stop, as you are afraid of creating
+         attention to yourself."
+      End If.
+  End Verb.
+  
+  Verb oil
+    Does Only
+      If back_window Is oiled Then
+        "It is already oiled!"
+      Else 
+        If oil1 In inventory Then
+          "You carefully oil the window."
+          Make back_window oiled.
+          Locate oil1 At nowhere.
+        End If.
+      End If.
+  End Verb.
+  
+End The back_window.
+
+The car2 Isa object
+  Name car
+  At estate
+  Description
+  
+  Verb 'use', enter, open, drive
+    Does Only
+      "You shouldn't chicken out and leave now. See the case through."
+  End Verb.
+  
+End The car2.
+
+The doorc2 Isa object
+  Name car door
+  At estate
+  Description
+  
+  Verb open, 'use'
+    Does Only
+      "If you would like to drive the car, simply state so."
+  End Verb.
+  
+End The doorc2.
+
+The estate Isa location
+  
+  Description
+    "You are standing outside a large house. The gardens and
+     surrounding land are very well mantained. The front door is directly
+     before you. Your car is parked here."
+  
+  Exit n To hallway1a
+    Does
+      "You knock on the front door, with no response. You slowly turn
+       the handle, and it is unlocked. As you enter the house you
+       quickly notice that all the lights are off."
+  End Exit.
+End The estate.
+
+The gardens Isa object
+  Name gardens
+  At estate
+  Description
+  
+End The gardens.
+
+The house1a Isa object
+  Name majestic house
+  At estate
+  Description
+  
+End The house1a.
+
+The door8 Isa object
+  Name front door
+  At estate
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "It is currently closed."
+  End Verb.
+  
+  Verb open, 'use'
+    Does Only
+      "You knock on the front door with no response. You slowly turn
+       the handle, and it is unlocked. As you enter the house you
+       quickly notice that all the lights are off."
+      Locate hero At hallway1a.
+  End Verb.
+  
+End The door8.
+
+The hallway1a Isa location
+  
+  Description
+    "You are standing inside the house of Sarah Cooper. The lights are
+     currently turned off, although since it is twilight outside, you can
+     sort of make out where everything is. Exits lead north and south."
+  
+  Exit n To dining_room.
+  Exit s To estate
+    Check 
+      "You think you should take a look about the house before leaving."
+  End Exit.
+End The hallway1a.
+
+The lights Isa object
+  Name house lights
+  At hallway
+  Description
+  
+  Verb turn_on, 'use'
+    Does Only
+      "You try to turn them on, but it seems the power has been cut."
+  End Verb.
+  
+End The lights.
+
+The dining_room Isa location
+  
+  Description
+    "You are standing in the dining room. There is a dining table set with
+     fine china directly before you. A large fireplace is located directly
+     behind the table.  Exits lead north and South."
+  
+  Exit n To living_room.
+  Exit s To hallway1a.
+End The dining_room.
+
+The table1 Isa object
+  Name table
+  At dining_room
+  Description
+  
+End The table1.
+
+The fplace Isa object
+  Name fireplace
+  At dining_room
+  Description
+  
+End The fplace.
+
+The living_room Isa location
+  
+  Description
+    "You are standing in the living room. A love seat and coffee table are
+     in front of you. A bookcase is to your direct right."
+    If couch Is Not visited Then
+      "A couch is sitting in the corner, and it appears that two people
+       are sitting in it. It is quite dark, however, and you can't be sure."
+    Else 
+      "On the couch are sitting the dead bodies of Sarah Cooper and Frank
+       Haswell. Their throats have both been slit, and their blood has
+       soaked into the couch."
+    End If.
+    "To your east is a sliding glass door and the hallway is to the south."
+  
+  Exit s To dining_room.
+  Exit e To back_patio.
+End The living_room.
+
+The couch Isa object
+  Name couch
+  At living_room
+  Is 
+    Not visited.
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      If couch Is Not visited Then
+        "As you approach the couch you realize who is sitting there,
+         (laying there might be a better term). Both Sarah Cooper and Frank
+         Haswell are laid out with their throats slit wide open. Blood has
+         soaked into the couch creating a dark red stain.  You take a step
+         back, trying to comprehend what has happened. Obviously Haswell did
+         murder Sarah and himself, but then who...?"
+        Make couch visited.
+      Else 
+        "The couch is soaked red from the dripping blood."
+      End If.
+  End Verb.
+  
+  Verb sit, sit_on
+    Does Only
+      "You carefully move the dead bodies over, trying to find a good
+       spot to sit. Unfortunately, the blood has soaked all over the couch
+       and there  does not appear to be a dry spot. Anyway, you would rather
+       not sit next to dead bodies. They give you the creeps."
+  End Verb.
+  
+End The couch.
+
+The blood Isa object
+  Name blood
+  At living_room
+  Description
+  
+End The blood.
+
+The bodies Isa object
+  Name frank haswell
+  At living_room
+  Is 
+    Not searched.
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "He is dead as a doornail. You look through his jacket for clues, but
+       do not find any."
+      If bodies Is Not searched Then
+        "You do discover a small box of bullets in his pocket. The box is
+         ripped open, leading you to believe he tried to use them before he
+         died. You remove the bullets and take them."
+        Make bodies searched.
+        Locate bullets At hero.
+      End If.
+  End Verb.
+  
+End The bodies.
+
+The bullets Isa object
+  Name bullets
+  At nowhere
+  Description
+  
+  Verb 'use', load
+    Does Only
+      If gun1 Is loaded Then
+        "Your gun is already loaded!"
+      Else 
+        "You load your gun."
+        Make gun1 loaded.
+      End If.
+  End Verb.
+  
+  Verb put_in
+    Does Only
+      If gun1 Is loaded Then
+        "Your gun is already loaded!"
+      Else 
+        "You load your gun."
+        Make gun1 loaded.
+      End If.
+  End Verb.
+  
+End The bullets.
+
+The bodies2 Isa object
+  Name sarah cooper
+  At living_room
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "She is beautiful, even dead. Although the large slit in her throat
+       doesn't help her looks any. You do not find any clues."
+  End Verb.
+  
+End The bodies2.
+
+The bodies3 Isa object
+  Name bodies
+  At living_room
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "Please state which body you wisk to examine."
+  End Verb.
+  
+End The bodies3.
+
+The furn Isa object
+  Name coffee table
+  At living_room
+  Description
+  
+End The furn.
+
+The seat2 Isa object
+  Name love chair
+  At living_room
+  Description
+  
+End The seat2.
+
+The back_patio Isa location
+  
+  Description
+    "You are standing on the patio. The sun is setting and the sky is lit
+     with a crimson haze. Lawn furniture is scattered about here, as
+     though a fight took place. Drops of blood are smeared on the cement. A
+     large pool is to your east and a glass door is to the west."
+  
+  Exit e To pool.
+  Exit w To living_room.
+End The back_patio.
+
+The patio1 Isa object
+  Name patio
+  At back_patio
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "The patio is a mess."
+  End Verb.
+  
+End The patio1.
+
+The lawn Isa object
+  Name furniture
+  At back_patio
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "The lawn furniture is scattered randomly about."
+  End Verb.
+  
+End The lawn.
+
+The blood2 Isa object
+  Name drops of blood
+  At back_patio
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "They lead away from the house."
+  End Verb.
+  
+End The blood2.
+
+The door11 Isa object
+  Name glass door
+  At living_room
+  Description
+  
+  Verb open, 'use', examine, look_at
+    Does Only
+      "It is open."
+  End Verb.
+  
+  Verb close
+    Does Only
+      "You would rather leave it open at this time."
+  End Verb.
+  
+End The door11.
+
+The pool Isa location
+  
+  Description
+    "You are standing before a large pool. It is presently empty,
+     needing to be refilled. To your direct right are a set of bushes. You
+     are not sure, but you think you see something moving behind them."
+  
+  Exit w To back_patio.
+End The pool.
+
+The pool2 Isa object
+  Name large pool
+  At pool
+  Description
+  
+  Verb examine, look_at, enter
+    Does Only
+      "The pool is empty. You try not to get too close, as if you fell in,
+       it could be very dangerous."
+  End Verb.
+  
+End The pool2.
+
+The bushes2 Isa object
+  Name bushes
+  At pool
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "You carefully look about the bushes next to the pool. You think you
+       spot something, and unfortunately your suspicions are confirmed. A
+       man pops up from behind, holding a large knife. Just the sort of
+       knife which slit the throats of Sarah Cooper and Frank Haswell. The
+       man is horribly deformed, with scars are burns all over his face. At
+       first you have trouble recognizing the man, but after a few seconds
+       it comes to you. That is Samuel Cranston, or whatever he calls
+       himself now. He must have escaped the fire, most likely set by
+       Haswell, and is now seeking revenge. You are his next target.
+       Cranston swings the knife across your chest, just missing you.
+       You immediately pull out your trusty gun and aim at his chest. You
+       get ready to shoot when Cranston leaps at you and slits"
+      If gun1 Is loaded Then
+        "your right arm. You pull your arm back and shoot, hitting him in
+         the left leg. He leaps at you like some mad animal, knocking your
+         gun away. You fall backwards, losing your balance and slipping over
+         the side of the empty swimming pool. You hang on for dear life,
+         with nothing but cement below you. "
+        Locate hero At poolside.
+      Else 
+        "your right arm. You pull your arm back and shoot, click, click
+         ... How stupid! You forgot to load your gun! Cranston takes his
+         knife and slowly slits your throat. You feel your blood ooze over
+         your body, and you feel as though you are losing consciousness. The
+         last thing you remember is Cranston standing over you with a wide
+         smile on his face. Then you die."
+      End If.
+  End Verb.
+  
+End The bushes2.
+
+The poolside Isa location
+  
+  Description
+    "You are hanging over the edge of a large, empty pool. Nothing but hard
+     cement is below you. Standing directly above is the deformed Cranston,
+     smiling gleefully. He is stepping on your left hand, causing you
+     extreme pain. You have an immediate urge to let go, but doing so would
+     mean falling. There are no visible exits."
+  
+End The poolside.
+
+The cranston Isa actor
+  Name samuel cranston
+  At poolside
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "He is not a pretty sight."
+  End Verb.
+  
+  Verb attack
+    Does Only
+      "You can't hit him and still hang on."
+  End Verb.
+  
+End The cranston.
+
+The leg Isa object
+  Name left leg
+  At poolside
+  Description
+  
+  Verb pull
+    Does Only
+      "You reach up with your hand and grab Cranston's left leg,
+       directly where is was shot. He screams in agony, and tries to remove
+       your hand. You pull harder, and his leg gives out. He falls over
+       the side of the pool, smashing his head on the hard cement. Blood
+       seeps out from his crushed skull, and he appears to be dead. $n
+       $n You pull yourself up and onto firm ground. Looking down into the
+       pool, you see what is left of Cranston. His body is a mangled clump,
+       with his brains splattered on the cement below. The police must have
+       heard your gunshot, as they arrive about five minutes later. Your
+       buddy Larry, arrives with them. You explain what has happened, and
+       your theory on the murders. After examining the scene, Larry says it
+       all seems to check out. After a few days of recuperation, you decide
+       to finish the case by seeing Thea. She has already heard the news,
+       and actually made out pretty well on the deal. It seems since she was
+       still the legal wife of Cranston, she is entitled to receive his full
+       estate and savings, which is quite a sum. Thea is now a rich woman.
+       She gives you a large payment for your services and thanks you
+       enormously. It seems at least some good came out of this case, one
+       which you will never forget..."
+  End Verb.
+  
+End The leg.
+
+The guardbooth Isa location
+  
+  Description
+    "You are parked at the gates outside M-G-M. A small security booth is
+     to your direct left. A tall, husky man is standing there, looking at
+     you with a suspicous eye. ""Can I help you, buddy?"", the guard
+     asks. The security gate is currently lowered, blocking further
+     passage into the studio. The road back to your office is to your
+     direct south."
+  
+  Exit s To sidewalk
+    Does
+      "You decide to turn around and head back to the office. Perhaps it
+       will give you some time to think of a way into the studio."
+  End Exit.
+End The guardbooth.
+
+The gates Isa object
+  Name gates
+  At guardbooth
+  Description
+  
+  Verb open, 'use'
+    Does Only
+      "I don't think the guard would allow that."
+  End Verb.
+  
+End The gates.
+
+The cash Isa object
+  Name wad of bills
+  At nowhere
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "You have ten dollars."
+  End Verb.
+  
+  Verb give
+    Does Only
+      "Who do you wish to give it to?"
+  End Verb.
+  
+  Verb give_to
+    Does Only
+      If act =guard Then
+        "You hand the guard ten dollars, with the idea of gaining
+         entrance to the studio. The guard looks at the money and for an
+         instant you think he will throw you out. He glances about, and
+         quickly waves you by. ""Don't cause any problems, and be quick."",
+         the guard advises. You thank him and go on your way."
+        Locate cash At nowhere.
+        Locate hero At lot.
+      Else 
+        "Don't give away your money. You may eventually need it."
+      End If.
+  End Verb.
+  
+End The cash.
+
+The guard Isa actor
+  Name security guard
+  At guardbooth
+  Description
+  
+  Verb ask_about, ask_for, talk_about
+    Does Only
+      If obj =gates Then
+        """I can't let you in unless you have a good reason."""
+      Else 
+        """I don't know anything about $o""."
+      End If.
+  End Verb.
+  
+End The guard.
+
+The car_lot Isa object
+  Name car
+  At lot
+  Is 
+    Not ready.
+  Description
+  
+  Verb 'use', enter, drive
+    Does Only
+      If suit1 Is Not fixed Then
+        "You have things to do here before you leave."
+      Else 
+        If suit1 Is Not ready Then
+          "You have a few items that don't belong to you."
+        Else 
+          "You enter your car and drive out to Sammy's bar."
+          Locate hero At bar.
+        End If.
+      End If.
+  End Verb.
+  
+End The car_lot.
+
+The lot Isa location
+  
+  Description
+    If suit1 Is Not used Then
+      "You are standing in front of a large administration building. You
+       imagine the head honchos should be in  there. Further to your east is
+       another  huge building. Your car is parked here."
+    Else 
+      Make suit1 Not used.
+      "You tilt your head downwards and in you best ""fake"" voice ask to
+       see Mr. Peterson. You explain that you are an important producer for
+       Universal and have an appointment. She looks at you strangely for a
+       moment, then nervously looks through an appointment book. As she does
+       so, you quickly slip into Peterson's office. $n $n ""What are you
+       doing in here!"", Peterson yells. Standing before you is Mr.
+       Peterson, buck naked accept for a pair of boxer shorts. His
+       ""secretary"", a young, well endowed blond, is lying on a nearby
+       couch. As soon as she sees you, she frantically trys to cover her
+       nude body (and a fine body it is). She quickly covers up and makes a
+       mad dash out of the office. Peterson leaves the room for a second,
+       holding his business suit. He arrives back in after a minuet or so,
+       fully dressed. ""Miss Stevens, I thought I told you no visitors!"",
+       Mr. Peterson bellows. The receptionist explains how you sneaked in
+       wearing a disguise and she tried to stop you. Mr. Peterson quickly
+       grabs the phone and states firmly that he is calling the police. He
+       changes his tone once you tell him you are a private investigator.
+       ""My God, Stella must have caught on. Whatever, she's paying you to
+       spy on me, I'll double it."", Peterson sputters out. You assume
+       Stella is his wife and decide to play along. ""Well maybe I won't
+       have to make a report back to Stella, as long as you help me out
+       here."", you try to say in a convincing manner. You walk over to the
+       desk and inquire about Joseph Harbou. You take out the photo you have
+       of him.$n $n ""I don't know who Joseph Harbou is, but the man in the
+       picture is Samuel Cranston, one of the big directors for Independent
+       Studios. I remember he was in 'Postman' as an extra when he was just
+       starting out. He's big now, married to Sarah Cooper."" Mr. Peterson
+       looks confused, as though he is trying to figure out what Cranston
+       has to do with his girl chasing. You quickly thank him for his help
+       before he gets too curious. Peterson nervously opens his wallet, and
+       pulls out a few loose bills. ""I only have a few bucks on me, but I
+       can get more at the bank. What is Stella paying you, 200 hundred?
+       300?"" You take a buck, figuring it will do for gas money coming out
+       here. ""No need, you've helped me enough"", you tell him, and quickly
+       leave the building. In the distance you hear Peterson yell out,
+       ""Remember, not a word to Stella."". $n $n Sarah Cooper, she's one of
+       the biggest dames in Hollywood. She's a screen idol, and he's married
+       to her. Something strange is going on here, and you plan to get to
+       the bottom of it. A little lubricating oil for the brain is what you
+       need, and Sammy's bar isn't too far from here."
+      Locate buck In inventory.
+      Make car_lot ready.
+    End If.
+  
+  Exit n To administration
+    Check suit1 Is Not fixed
+      Else 
+        "You have no need to go back in there."
+  End Exit.
+  Exit e To walk1.
+End The lot.
+
+The administration Isa location
+  
+  Description
+    "The inside of this building is as impressive as the outside. A large
+     reception desk is located to your direct left. Portraits of the studio
+     heads are hanging from the walls surrounding you, and a large bust of
+     Louis B. Mayer is located on a pedistal to your direct right.  The wall
+     to your left is ordained with framed film posters, all hits from
+     M-G-M.  $n $n The floor is carpeted with deep plush and the walls are
+     painted a solid white. The only visible exit is to the south."
+  
+  Exit s To lot.
+End The administration.
+
+The receptionist Isa actor
+  Name receptionist
+  At administration
+  Is 
+    Not visited.
+  Description
+    "There is a young receptionist sitting here. ""Can I help you, Sir?"",
+     she asks."
+  
+  Verb examine, look_at
+    Does Only
+      "She appears to be in her early thirties, and had curly brown hair
+       and a ruddish complexion."
+  End Verb.
+  
+  Verb talk
+    Does Only
+      If receptionist Is visited Then
+        If suit1 Is worn And mustache Is worn And glasses Is worn Then
+          Make suit1 used.
+          Make suit1 fixed.
+          Locate hero At lot.
+        Else 
+          "There doesn't seem to be much point in trying to talk to her. At
+           least, not at this time."
+        End If.
+      Else 
+        "You express your interest in seeing someone in charge regarding a
+         case you are working on. ""Oh, you're in the police!"",
+         the receptionist says as her face lights up. She seems to lose
+         interest when you tell her that you're just a
+         private investigator. ""Well, Mr. Peterson is busy at the moment
+         sir. If you would like to make an appointment, perhaps you could
+         see him at a later date."" You thank her, but decline to make an
+         appointment. You can't wait forever, you've got to see him today."
+        Make receptionist visited.
+      End If.
+  End Verb.
+  
+  Verb ask_for, talk_about
+    Does Only
+      If obj =receptionist Then
+        """I'm too busy right now to chat, sir."""
+      Else 
+        "You can't do that."
+      End If.
+  End Verb.
+  
+End The receptionist.
+
+The station Isa location
+  
+  Description
+    If car3 Is Not ready Then
+      "You arrive at the studio in good time and manage to get an
+       appointment with Frank Haswell, head of Independent Studios.
+       Independent isn't as nearly elaborate as M-G-M, but it is still
+       pretty big. They put out a few films a year, most of them with their
+       star, Sarah Cooper. You are taken to a backstage studio and told to
+       wait a few minutes. Mr. Haswell should see you shortly. It appears
+       they are setting up a shot for a film they are working on. To your
+       far right, a few extras are walking about. You spot Sarah Cooper in
+       the far distance preparing for a scene. After waiting a few minutes,
+       Mr. Haswell shows up. He is wearing a dark suit, apparently trying to
+       hide his massive girth. He waddles over to you with a strange grin on
+       his face, as though he is making fun of you. ""Well, I hear you're a
+       private eye. We did a couple of detective flicks a few years back.
+       They did okay, no hits though."" He rambles on for a few minutes,
+       before you interrupt him with an inquiry about Frank Haswell. His
+       face immediately loses that grin. ""I don't know what you're getting
+       at fella, but I don't like it. Frank is a  good American. Just
+       because he's a success, married to Sarah Cooper, all the lowlifes
+       come showing up trying to make a fast buck. Well it won't work fella,
+       not this time."" He motions for a guard to  escort you off the lot.
+       You quickly show the documents and photo of Frank proving to Haswell
+       that you have proof of his past marriage and his past life. His face
+       turns white. He now tries a different tactic. ""Look buddy, we don't
+       want any trouble, right? It won't look good for the husband of Sarah
+       Cooper to be both a bigamist and an ex-Nazi. How much do you want,
+       how 'bout five grand?"" Now that's more money than you ever seen at
+       one time. You do have your morals though. You turn down the offer and
+       leave the set. You decide to let him think a bit about information
+       and get back to him later. You've basically solved the case for Thea,
+       although you are not sure how she will react. You leave the studio
+       and head for home. You stop at a nearby gas station, as you are
+       running low."
+      Make car3 ready.
+    Else 
+      "You are located at a gas station. An attendant is standing in
+       the far distance talking with a customer. You are getting impatient."
+    End If.
+  
+End The station.
+
+The car3 Isa object
+  Name car
+  At station
+  Is 
+    Not ready.
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "It is running low on fuel. You are currently parked."
+  End Verb.
+  
+  Verb 'use', drive, leave
+    Does Only
+      "Wait until you get gas first."
+  End Verb.
+  
+End The car3.
+
+The door5 Isa object
+  Name car door
+  At station
+  Description
+  
+  Verb 'use', open
+    Does Only
+      "Don't leave your car, the attendant will fill it up. Eventually..."
+  End Verb.
+  
+End The door5.
+
+The radio2 Isa object
+  Name car radio
+  At station
+  Description
+  
+  Verb 'use', turn_on
+    Does Only
+      "It is busted."
+  End Verb.
+  
+End The radio2.
+
+The horn Isa object
+  Name car horn
+  At station
+  Description
+  
+  Verb 'use', honk
+    Does Only
+      "You honk for the attendant, who finally decides to service your
+       car. He quickly fills it up and after paying him a buck, you are on
+       your way. You arrive at your apartment about eleven, and are bushed
+       after a good day's work. You hit the sack and wake up early, (at
+       least early for you) at about 9:00. You head out for the office to
+       start a new day, and hopefully close the case."
+      Locate buck At nowhere.
+      Locate hero At sidewalk.
+  End Verb.
+  
+End The horn.
+
+The walk1 Isa location
+  
+  Description
+    "You are standing before a huge grey building. A few palm trees are
+     planted along side its entrance. To your east is another guard booth,
+     and to the west is the administration building."
+  
+  Exit w To lot.
+  Exit n To wardrobe.
+  Exit e To lot
+    Check 
+      "You would rather not risk anther encounter with a guard. You don't
+       have any more money, for one thing..."
+  End Exit.
+End The walk1.
+
+The ptrees Isa object
+  Name palm tree
+  At walk1
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "You watch as they sway back and forth."
+  End Verb.
+  
+  Verb climb
+    Does Only
+      "You are not a monkey."
+  End Verb.
+  
+End The ptrees.
+
+The gbuilding Isa object
+  Name grey building
+  At walk1
+  Description
+  
+  Verb look_at, examine
+    Does Only
+      "It is impressive."
+  End Verb.
+  
+  Verb enter
+    Does Only
+      "You walk into the building."
+      Locate hero At lot.
+  End Verb.
+  
+End The gbuilding.
+
+The wardrobe Isa location
+  
+  Description
+    "You are standing inside the warddrobe building. Hangers upon
+     hangers of costumes, dresses and various clothes are located here. A
+     few busy workers are scurrying about taking racks of clothes to
+     different areas of the building. $n $n"
+    If suit1 Is fixed And suit1 Is Not ready Then
+      "You place the suit and other items back where you got them from."
+      Locate suit1 At wardrobe.
+      Locate mustache At nowhere.
+      Locate glasses2 At nowhere.
+      Locate pocket1 At wardrobe.
+      Make suit1 ready.
+    End If.
+  
+  Exit s To walk1.
+End The wardrobe.
+
+The workers Isa object
+  Name worker
+  At wardrobe
+  Description
+  
+End The workers.
+
+The racks Isa object
+  Name clothes racks
+  At wardrobe
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "You look over the racks of clothes"
+      If receptionist Is visited Then
+        If suit1 Not In inventory Then
+          "spotting a nice grey suit hanging nearby. It looks like it will
+           fit you, as well. Hmm.."
+        Else 
+          ", not finding anything of interest."
+        End If.
+      Else 
+        ",not finding anything of interest. There are a few nice suits,
+         etc., but nothing of importance at the moment."
+      End If.
+  End Verb.
+  
+End The racks.
+
+The suit1 Isa object
+  Name business suit
+  At wardrobe
+  Is 
+    Not worn.
+  Is 
+    Not used.
+  Is 
+    Not fixed.
+  Is 
+    Not ready.
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "It is a grey flannel business suit, quite nice."
+  End Verb.
+  
+  Verb wear
+    Does Only
+      If suit1 In inventory Then
+        "You are already wearing it."
+      Else 
+        "You need to take it first."
+      End If.
+  End Verb.
+  
+  Verb take
+    Does Only
+      If suit1 Is fixed Or suit1 Is worn Then
+        "You do not need a suit."
+      Else 
+        "You take the suit and try it on. Not a perfect fit, but good
+         enough. You think you'll ""borrow"" this suit for a while."
+        Locate suit1 In inventory.
+        Make suit1 worn.
+        Locate pocket1 In inventory.
+      End If.
+  End Verb.
+  
+End The suit1.
+
+The pocket1 Isa object
+  Name pocket
+  At wardrobe
+  With Container
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      If suit1 In inventory Then
+        "You look inside the pocket's of the jacket. A pair of dark
+         glasses and a fake mustache are inside."
+        Locate glasses2 In inventory.
+        Locate mustache In inventory.
+      Else 
+        "You need to take the suit to look inside the pockets."
+      End If.
+  End Verb.
+  
+End The pocket1.
+
+The glasses2 Isa object
+  Name dark glasses
+  At nowhere
+  Is 
+    Not worn.
+  Description
+  
+  Verb examine, look_at
+    Does Only
+      "They are simple, dark glasses."
+  End Verb.
+  
+  Verb wear, 'use'
+    Does Only
+      If glasses Is worn Then
+        "You raise the dark glasses to your head and try to put them
+         on. but they won't fit for some reason. You really are becoming
+         senile, you are still wearing your reading glasses."
+      Else 
+        If glasses2 Is worn Then
+          "You already have them on."
+        Else 
+          "You put on the glasses."
+          Make glasses2 worn.
+        End If.
+      End If.
+  End Verb.
+  
+  Verb remove, take_off
+    Does Only
+      If glasses2 Is worn Then
+        "You remove the glasses."
+        Make glasses2 Not worn.
+      Else 
+        "You are not wearing any glasses!"
+      End If.
+  End Verb.
+  
+End The glasses2.
+
+The mustache Isa object
+  Name fake mustache
+  At nowhere
+  Is 
+    Not worn.
+  Description
+  
+  Verb grow
+    Does Only
+      "You concentrate for a few minutes on facial hair growth, but
+       nothing happens."
+  End Verb.
+  
+  Verb examine, look_at
+    Does Only
+      "It is one of those fake mustaches worn in the movies."
+  End Verb.
+  
+  Verb wear, 'use'
+    Does Only
+      If mustache Is worn Then
+        "It is already on!"
+      Else 
+        "You stick on the fake mustache. There is still enough glue on
+         it to make it stick."
+        Make mustache worn.
+      End If.
+  End Verb.
+  
+  Verb remove, take_off
+    Does Only
+      If mustache Is worn Then
+        "You take off the mustache. It stings a bit."
+        Make mustache Not worn.
+      Else 
+        "You are not wearing a mustache!"
+      End If.
+  End Verb.
+  
+End The mustache.
+
+The buck Isa object
+  Name buck
+  At nowhere
+  Description
+  
+  Verb spend, give, 'use'
+    Does Only
+      "There is no need to spend your money right now."
+  End Verb.
+  
+End The buck.
+
+The nowhere Isa location
+  
+  Description
+  
+End The nowhere.
+
+Start At office.
+  
+  " The Hollywood Murders $n  An Interactive Mystery $n $n  Written by
+   Michael Zerbo $n   $n $n $n Your name is Jim Novak, a private
+   investigator living in a suburb of Los Angeles. You have a small rented
+   office located in a run down part of the neighborhood, an old jalopy and
+   a few dollars to your name.  You haven't had much of a caseload recently,
+   or actually anytime that you can remember. You've managed to scratch out
+   a living in this line of work, but just barely. Maybe your luck will
+   change.  It actually can't get much worse. Or so you think... "

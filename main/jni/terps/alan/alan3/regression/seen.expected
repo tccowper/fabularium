@@ -1,0 +1,25 @@
+########## seen ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+Place
+This place has smooth walls. Particularly the south wall.
+
+> take all
+I don't know what you mean by 'all'.
+
+> take switch
+You have not seen that anywhere.
+
+> examine wall
+You find something.
+
+> take all
+(switch) Taken.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

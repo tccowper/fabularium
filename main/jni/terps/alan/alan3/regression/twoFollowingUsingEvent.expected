@@ -1,0 +1,39 @@
+########## twoFollowingUsingEvent ##########
+
+        No warnings or errors detected.
+
+
+
+L1
+
+> e
+L2
+The dog is following you. The thief is following you.
+
+> e
+L3
+The dog is following you. The thief is following you.
+
+> e
+L4
+The dog is following you. The thief is following you.
+
+> e
+L1
+The dog is following you. The thief is following you.
+
+> e
+L2
+The dog is following you. The thief is following you.
+
+> e
+L3
+The dog is following you. The thief is following you.
+
+> e
+L4
+The dog is following you. The thief is following you.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

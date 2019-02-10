@@ -1,0 +1,17 @@
+########## addDescriptionCheck ##########
+
+
+addDescriptionCheck.alan
+
+    6.    Description Check ""
+=====>                1
+
+  *1*   241 E : A Description Check is already defined for class 'th'. You
+                cannot add it. You can override it by subclassing from class
+                'th'.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

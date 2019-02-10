@@ -1,0 +1,17 @@
+########## attributeOfStringParameter ##########
+
+
+attributeOfStringParameter.alan
+
+    7.        "You s" Say x Of s.
+=====>                    1
+
+  *1*   316 E : Attribute 'x' is not defined for parameter 's' since the class
+                it is guaranteed to be in this context ('string') does not have
+                it.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

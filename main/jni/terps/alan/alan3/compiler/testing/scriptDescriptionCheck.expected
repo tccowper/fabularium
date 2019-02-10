@@ -1,0 +1,15 @@
+########## scriptDescriptionCheck ##########
+
+
+scriptDescriptionCheck.alan
+
+    8.        Check l Is a
+=====>        1
+
+  *1*   228 E : Check not allowed in Description for Script.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

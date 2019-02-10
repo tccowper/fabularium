@@ -1,0 +1,12 @@
+Syntax v1 = v (p1) Where p1 Isa object Else ""
+
+The o Isa object At l
+End The o.
+
+The l Isa location
+  Verb v1
+    Does ""
+  End Verb.
+End The l.
+
+Start At l.

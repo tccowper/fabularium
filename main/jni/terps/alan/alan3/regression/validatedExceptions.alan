@@ -1,0 +1,30 @@
+The l1 Isa location
+End The l1.
+
+The l2 Isa location
+End The l2.
+
+The t1 Isa object At l1
+End The t1.
+
+The t2 Isa object At l2
+End The t2.
+
+Syntax takep = takep (o)*.
+Syntax taked = taked (o)*!.
+
+Add To Every object
+  Verb takep
+    Does
+      "Taken."
+  End Verb.
+  Verb taked
+    Does
+      "Taken."
+  End Verb.
+End Add.
+
+Start At l1.
+  "There are two t's, t1 is present and t2 is not.$n
+   > takep everything except t2.$n
+   > taked everything except t2"

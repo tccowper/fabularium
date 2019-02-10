@@ -1,0 +1,20 @@
+########## expAtReferenceAttribute ##########
+
+
+expAtReferenceAttribute.alan
+
+   12.    If o At unknownRef Of l Then "" End If.
+=====>            1
+
+  *1*   315 E : Attribute not defined for 'l'.
+
+   14.    If o At i Of l Then "" End If.
+=====>              1
+
+  *1*   428 E : Expression after AT or NEAR must refer to an instance.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

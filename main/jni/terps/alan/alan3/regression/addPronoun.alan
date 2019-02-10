@@ -1,0 +1,14 @@
+Add To Every entity
+  Pronoun that.
+End Add.
+
+The o Isa object At l
+  Verb x
+    Does "You x" Say the object.
+  End Verb.
+End The o.
+
+The l Isa location
+End The l.
+
+Start At l.

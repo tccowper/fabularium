@@ -1,0 +1,20 @@
+/*======================================================================*\
+
+  xxxTest.c
+
+  Unit tests for XXX node in the Alan compiler
+
+\*======================================================================*/
+
+#include "xxx.c"
+
+void testInitXxx()
+{
+}
+
+
+void registerXxxUnitTests()
+{
+  registerUnitTest(testInitXxx);
+}
+

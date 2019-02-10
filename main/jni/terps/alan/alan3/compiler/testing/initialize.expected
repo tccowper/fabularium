@@ -1,0 +1,21 @@
+########## initialize ##########
+
+
+initialize.alan
+
+    3.      Say unknown.
+=====>          1
+
+  *1*   310 E : Identifier 'unknown' not defined.
+
+    4.    Initialize
+=====>    1
+
+  *1*   204 E : Multiple use of INITIALIZE property clause in this
+                class/instance.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

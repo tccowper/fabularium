@@ -1,0 +1,20 @@
+About the Alan distribution for Linux:
+
+This distribution does not contain anything apart from the executable
+compiler and interpreter. As of now there are only command line
+versions available of them for Linux from this source. There is
+however the Gargoyle (https://code.google.com/p/garglk/downloads/list)
+initiative which aims to unify most (if not all) interpreters under
+the same hood. (You might need to install an update of the Alan3
+interpreter which you can find on the Alan website.)
+
+You can use any text editor to write you Alan game. A recommended GUI
+to create new games is the AlanIDE, available from
+
+	http://www.alanif.se.
+
+There you also can find documentation, an extensive standard library
+as well as some sample code.
+
+This port was made on Ubuntu 15.04 in VirtualBox on a Win7 PC by
+Thomas Nilefalk (thomas@alanif.se).

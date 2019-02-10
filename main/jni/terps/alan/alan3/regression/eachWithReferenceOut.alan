@@ -1,0 +1,9 @@
+The l Isa location
+End The l.
+
+Start At l.
+  Each x Do
+    Each y Isa location Do
+      If x = y Then "x = y =" Say x. End If.
+    End Each.
+  End Each.

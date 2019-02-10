@@ -1,0 +1,9 @@
+#include <cgreen/cgreen.h>
+#include <cgreen/mocks.h>
+
+#include "save.h"
+
+
+/* Functions: */
+void save(void) { mock(); }
+void restore(void) { mock(); }

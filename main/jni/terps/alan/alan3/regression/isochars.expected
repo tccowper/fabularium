@@ -1,0 +1,31 @@
+########## isochars ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+Place
+There is a ö, a Ä and a ñ here.
+
+> x å
+I don't know the word 'å'.
+
+> x Å
+I don't know the word 'Å'.
+
+> x ö
+You x the ö
+
+> x Ö
+You x the ö
+
+> x ñ
+You x the ñ
+
+> x Ñ
+You x the ñ
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

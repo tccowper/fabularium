@@ -1,0 +1,12 @@
+The l Isa location
+  Is Not lit.
+  Is Not flagged.
+End The l.
+
+When l Is Not lit =>
+  Make l Not flagged.
+
+When l Is lit =>
+  Make l flagged.
+
+Start At l.

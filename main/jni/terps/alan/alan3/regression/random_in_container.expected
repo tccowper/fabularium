@@ -1,0 +1,17 @@
+########## random_in_container ##########
+
+        No warnings or errors detected.
+
+
+X1 
+
+As you enter the twilight zone of Adventures, you stumble and fall to
+your knees. In front of you, you can vaguely see the outlines of an
+Adventure that never was.
+
+APPLICATION ERROR: Index not in container in 'containerMember()'
+
+<If you are playing this piece of Interactive Fiction, please help the
+author to debug this programming error. Send an exact transcript of the
+commands that led to this error to the author. Thank you! If you *are*
+the author, then you have to figure this out before releasing the game.>

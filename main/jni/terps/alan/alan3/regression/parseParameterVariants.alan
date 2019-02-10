@@ -1,0 +1,38 @@
+Syntax v = v (o)*.
+
+Add To Every object
+  Verb v
+    Does
+      "You $v $+1."
+  End Verb.
+End Add.
+
+The o1 Isa object At l
+  Name first object
+End The o1.
+
+The o2 Isa object At l
+  Name second object
+End The o2.
+
+The o3 Isa object At l
+  Name third object
+End The o3.
+
+The o4 Isa object At l
+  Name fourth object
+End The o4.
+
+The o5 Isa object At l
+  Name fifth object
+End The o5.
+
+The o6 Isa object At l
+  Name sixth object
+End The o6.
+
+The l Isa location
+End The l.
+
+
+Start At l.

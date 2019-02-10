@@ -1,0 +1,909 @@
+.Dd December 6, 2017
+.Dt BOCFEL 6
+.Os
+.Sh NAME
+.Nm bocfel
+.Nd Z\-machine interpreter
+.Aq Lk http://bocfel.org/
+.Sh SYNOPSIS
+.Nm
+.Op Fl cCdDefgGhkmprstUxXyY
+.Op Fl a Ar eval_stack_size
+.Op Fl A Ar call_stack_size
+.Op Fl E Ar escape_string
+.Op Fl l Ar username
+.Op Fl n Ar number
+.Op Fl N Ar version
+.Op Fl R Ar replay_filename
+.Op Fl S Ar record_filename
+.Op Fl T Ar transcript_filename
+.Op Fl u Ar slots
+.Op Fl z Ar seed
+.Op Fl Z Ar device
+.Ar file
+.Nm
+.Fl i
+.Ar file
+.Nm
+.Fl v
+.Sh DESCRIPTION
+.Nm
+is a Z\-machine interpreter.  It fully supports versions 1\-5, 7, and 8
+of the Z\-machine, with extremely limited support for version 6.  It can
+read stories stored in Blorb files, but has no support for associated
+graphics, if any exist.
+.Pp
+The following options are available:
+.Bl -tag -width indent
+.It Fl a Ar eval_stack_size
+The Z\-machine contains an evaluation stack which games use as a sort of
+scratch space when performing calculations.  By default the size of this
+stack is set at 16384, which should be sufficient for any game.  The
+entire stack is allocated at once, so if you are on a system with a
+small amount of memory, setting this to a smaller value will cause less
+memory to be allocated.
+.Pp
+The maximum value is limited only by system memory.  Each evaluation
+stack entry takes two bytes.  If you ever encounter a
+.Dq stack overflow
+message with the default size, please let me know.
+.It Fl A Ar call_stack_size
+The Z\-machine allows games to call routines in order to get work done;
+these routines can call other routines, and so on.  Information about
+these routines is placed onto the call stack, which by default has a
+size of 1024.  This means that no more than 1024 routines can be active
+at any single time.  This value should be much more than sufficient for
+any game.  As with the evaluation stack, memory for the call stack is
+allocated at one time, so machines with small amounts of memory can
+reduce this value to reduce memory consumption.
+.Pp
+The maximum value allowable by the Z-machine is 65535.  Each call stack
+entry takes between 40 and 50 bytes.
+.It Fl c
+If the Glk implementation being used is Gargoyle, or if Glk is not being
+used at all, support for colors is provided.  This option disables color
+support entirely.
+.It Fl C
+Do not read the configuration file
+.Pa $HOME/.bocfelrc .
+Settings in the configuration file take precedence over those specified
+on the command line, so if you want to override the configuration file,
+use this option.
+.It Fl d
+Many Glk implementations allow timed input as used by games such as
+.Em Border Zone .
+This option disables timed input and informs games that timed input is
+not available.
+.It Fl D
+If Gargoyle is being used, sound effects are supported.  This option
+disables sound effects and informs games that sound effects are not
+available.
+.It Fl e
+Turn on ANSI escapes in the transcript. If this option is enabled, all
+user input in the transcript can be decorated with ANSI escape sequences
+so it stands out.  See the
+.Fl E
+option.
+.It Fl E Ar escape_string
+If the
+.Fl e
+option is used, this sets the escape string that will be used when
+highlighting user input in the transcript.  ^[[ is written, then
+.Ar escape_string ,
+then ^[[0m.  By default
+.Dq 1m
+is used as the
+escape string, providing bold text.
+.It Fl f
+Many Glk implementations allow a fixed\-width font to be selected. This
+option disables fixed\-width fonts and informs games that fixed\-width
+fonts are not available. The game might still be displayed using a
+fixed\-width font (e.g.\& if you are playing in a terminal), but the
+game has no way of knowing this.
+.It Fl F
+Glk does not allow the mixing of text styles, so it is not possible to
+request, for example, both fixed\-width and reverse video.  If both
+styles are requested, fixed\-width takes precedence.  However, if
+.Nm
+is being run in a terminal (with, for example, the glktermw Glk
+implementation), the font will be fixed at all times.  The
+.Fl F
+flag tells
+.Nm
+to assume that the current font is always fixed, allowing other styles
+to be applied simultaneously.  See the puzzle pieces in Graham Nelson's
+.Em Jigsaw
+for an example of how this can be useful.
+.Pp
+See also the
+.Sx STYLES
+section.  Note that Gargoyle does allow the mixing of styles, so this
+option does nothing under Gargoyle.
+.It Fl g
+Disable the character graphics font. See the
+.Sx CHARACTER GRAPHICS FONT
+section below.
+.It Fl G
+Select an alternative style of box drawing characters.
+.Pp
+Most characters in the graphics font map fairly well to Unicode
+equivalents, but a few box drawing characters do not.  Two methods for
+drawing the missing characters are provided, each with pros and cons.  A
+description of the differences is not sufficient, so it is recommended
+that you try
+.Em Beyond Zork
+both with and without this option, paying attention to the map
+connections.  See also the
+.Sx CHARACTER GRAPHICS FONT
+section below.
+.It Fl h
+Display a short help message then exit.
+.It Fl i
+Print out the ID of the specified game and exit. This ID is used to
+uniquely identify a game and is adapted from the Treaty of Babel
+standard.  Game IDs can be used in the configuration file to set options
+for specific games. See the
+.Sx CONFIGURATION FILE
+section for more information.
+.It Fl k
+The Z\-machine has a concept of
+.Dq terminating keys .
+When enabled, these keys, in addition to Enter, terminate input
+immedately.
+.Em Beyond Zork ,
+for example, uses this so that F1 automatically executes
+.Dq look around ,
+F2 does
+.Dq inventory ,
+and so on.  However,
+.Em Beyond Zork
+also claims the up arrow, which means that history browsing, in Glk
+implementations that support it, might not be able to be initiated with
+the up arrow.  This option disables the use of terminating keys.  Note
+that not all Glk implementations support terminating keys.
+.It Fl l Ar username
+Set the username by writing up to 8 bytes to the location
+.Sy 0x38
+in the story file. This is not officially part of the Z-machine, but is
+at least used by
+.Em Hollywood Hijinx ,
+where a username starting with either
+.Dq DA
+or
+.Dq TOMAS
+enables the debugging command
+.Dq flush 33
+which moves you to a junction room which leads to various other
+locations, allowing puzzles to be bypassed.
+.It Fl m
+Disable meta commands.  See
+.Sx META COMMANDS
+below for more information.
+.It Fl n Ar number
+Z\-machine interpreters are able to inform games what platform they are
+running on by setting an interpreter number in the range 1 to 11.  The
+following are the valid values (taken from Graham Nelson's
+.Em Z\-Machine Standards Document
+1.0):
+.Pp
+.Bl -enum -offset indent -compact
+.It
+DECSystem\-20
+.It
+Apple IIe
+.It
+Macintosh
+.It
+Amiga
+.It
+Atari ST
+.It
+IBM PC
+.It
+Commodore 128
+.It
+Commodore 64
+.It
+Apple IIc
+.It
+Apple IIgs
+.It
+Tandy Color
+.El
+.Pp
+By and large this value is meaningless.  Some Infocom games do make
+small use of this information:
+.Em Trinity ,
+for example, has a
+.Dq print emphasized
+routine that is used to print emphasized (which generally means
+italicized) text; on any machine but the Atari, however, this routine
+makes sure not to print punctuation in italics.
+.Em Beyond Zork
+makes what is probably the most visible use of the interpreter number,
+using it to decide how to deal with character graphics. See section 16
+of the
+.Em Z\-Machine Standards Document
+1.0 for more information.  By default, the interpreter version is set to
+1 becuase this causes
+.Em Beyond Zork
+to prompt the user about the machine he is using, allowing him to select
+whether or not character graphics are used.
+.Pp
+I do not recommend setting this to 11.  At least
+.Em Beyond Zork
+assumes that the largest it will be is 10, and setting it to 11 can
+cause an out\-of\-bounds memory access. The instance I have seen of this
+is not fatal, but there may be other instances that are.
+.It Fl N Ar version
+Even more meaningless than the interpreter number is the interpreter
+version. This, as far as has been determined, is never used except when
+the user asks a game to either report its version or to verify its disk
+image. In these cases, the version is simply printed out, nothing more.
+This is a single character and there is no real reason to change it. The
+default is C.
+.It Fl p
+.Nm
+includes patches to work around some known bugs in games.  This flag
+disables such patches.
+.It Fl r
+Play back a command record (see
+.Fl s )
+as soon as the game begins.  Some games provide a way to play back a
+record (typically through the REPLAY verb in Inform\-based games, and
+#comm in some Infocom games), but this option is useful to start
+playback before you have an opportunity to call REPLAY, or if the game
+provides no way to play back such a record.
+.Pp
+Command records must be UTF-8.
+.Pp
+See also the
+.Sx META COMMANDS
+section.
+.It Fl R Ar replay_filename
+When command\-record playback is enabled, you will be prompted for a
+filename. This prompt can be bypassed by providing a filename here.
+.It Fl s
+Turn on command recording. This records every keystroke the player
+makes, and (hopefully) creates a record that is suitable for playback
+either by using
+.Fl r
+or through a game command.  Some games provide this functionality
+themselves (typically through the RECORDING verb in Inform\-based games,
+and #reco in some Infocom games), but this option is useful to start
+recording before you have an opportunity to call RECORDING, or if the
+game provides no way to start such a record.
+.Pp
+Command records are always written in UTF-8.
+.Pp
+See also the
+.Sx META COMMANDS
+section.
+.It Fl S Ar record_filename
+When command recording is enabled, you will be prompted for a filename.
+This prompt can be bypassed by providing a filename here.
+.It Fl t
+Turn on transcripting. This records both the output of the game and user
+input. If the chosen transcript file exists, it will be appended to, not
+overwritten. This way you can easily continue a transcript every time
+you come back to a game.
+.Pp
+Transcripts are always written in UTF-8.
+.Pp
+See also the
+.Fl y
+option and the
+.Sx META COMMANDS
+section.
+.It Fl T Ar transcript_filename
+When transcripting is enabled, you will be prompted for a filename. This
+prompt can be bypassed by providing a filename here.
+.It Fl u Ar slots
+Some games provide the ability to undo a turn. In fact, some games allow
+multiple turns to be undone. This option controls how many save slots
+are available. Unlike the stacks (see
+.Fl a
+and
+.Fl A ) ,
+save slots are dynamic, meaning that unless a game provides support
+for undo, no memory will be used.  However, games that do support undo
+will typically take a snapshot each turn, causing memory to be
+allocated.  The size of each snapshot depends on the game and the
+current state of play. Memory usage is minimized as much as possible: at
+the beginning of
+.Em Anchorhead ,
+for example, each slot takes up roughly 900 bytes.  As the game
+progresses, though, the size of a save slot inevitably will increase:
+near the end of
+.Em Anchorhead ,
+my save slots were taking up roughly 4500 bytes.
+.Pp
+Note that Inform\-based games (at least by default) do not support
+multiple undo; two non\-V6 Infocom games, to my knowledge, do:
+.Em Sherlock
+and
+.Em Beyond Zork .
+However,
+.Nm
+includes the ability to perform multiple undo regardless of whether
+the game provides support for it.  See the
+.Sx META COMMANDS
+section for more information.
+.Pp
+The default value is 100. A value of zero disables undo, and a negative
+value provides unlimited undo. This is probably a bad idea.
+.It Fl U
+One of the ways that undo slots (see
+.Fl u )
+save memory is to use compression. On modern machines the compression
+time is minuscule and not noticeable. On slower systems, however, it is
+possible that the compression will be noticeable. This option disables
+compression, but be aware that without compression, the size really
+balloons: save slots in
+.Em Anchorhead ,
+with compression, take up about 900 bytes on game startup.  Without
+compression they take up over 40000 bytes.
+.It Fl v
+Display version information and show which compile\-time options are
+set.
+.It Fl x
+Many games include abbreviations for commonly\-used commands: x for
+EXAMINE, g for AGAIN, z for WAIT, and o for OOPS. Some early Infocom
+games, however, do not provide these.  For these Infocom games, x, g, z,
+and o are mapped to their respective commands, providing convenient
+shortcuts for games that don't provide them.  If a game requires one of
+these letters for its own use, these abbreviations can be turned off
+with
+.Fl x .
+.It Fl X
+The Tandy corporation licensed some Infocom games, but apparently
+.Em The Witness
+was too scary for them, so some words were changed so as not to offend
+their ridiculously delicate sensibilities. If you want to laugh at
+Tandy's insecurities, this flag will turn on their censorship. In
+addition to the mangling of
+.Em The Witness ,
+a few other games unnecessarily add mention of Tandy in the output of
+the VERSION command.
+.It Fl y
+When transcripting is turned on and an existing file is selected, that
+file is appended to rather than overwritten. This option causes the file
+to be overwritten.
+.It Fl Y
+In almost all games, either the game's UNDO command or the
+.Sy /undo
+meta command will work.  However, if you encounter a game where undo
+appears broken, try using this option.  It will instruct
+.Nm
+to ignore the game's undo code, instead using only its own undo
+handling.  This might work if the game's undo handling is subpar, either
+by design or by accident.  Note that if this option is active,
+.Sy /undo
+must be used instead of the game's UNDO command.
+.It Fl z Ar seed
+Provide a seed to the pseudo\-random number generator, causing it to
+yield predictable values. This option is probably only of use to game
+authors who are doing testing.
+.It Fl Z Ar device
+Provide a device from which a seed for the pseudo\-random number
+generator is read.  This is meant to be used with special files such as
+.Pa /dev/urandom ,
+although it can be used with any file from which at
+least 32 bits can be read.  The
+.Fl z
+option overrides this option.
+.El
+.Sh CONFIGURATION FILE
+.Nm
+allows to you control its behavior through a configuration file. This
+obviates the need to provide command\-line arguments each time you start
+a game, as well as allowing customization based on which game is being
+played.
+.Pp
+The configuration file is located in
+.Pa $HOME/.bocfelrc ,
+and a general outline is as follows:
+.Bd -literal -offset indent
+enable_escape = 1
+disable_color = 1
+
+[1\-990831\-d8b4]
+disable_color = 0
+
+[57\-871221]
+int_number = 1
+.Ed
+.Pp
+The first lines are general, and apply to all games.  The bracketed
+lines start a new group based on the ID contained in the brackets (see
+the
+.Fl i
+option).  Thus disable_color is set to zero only for
+.Ar 1\-990831\-d8b4 ,
+and int_number is set to 1 only for
+.Ar 57\-871221 .
+Comments begin with a # and continue to the end of the
+line. Trailing whitespace is ignored.
+.Pp
+The following are all the possible options, which are hopefully
+self\-explanatory:
+.Pp
+.Bl -item -offset indent -compact
+.It
+eval_stack_size (n)
+.It
+call_stack_size (n)
+.It
+disable_color (b)
+.It
+disable_timed (b)
+.It
+enable_escape (b)
+.It
+escape_string (s)
+.It
+disable_fixed (b)
+.It
+assume_fixed (b)
+.It
+disable_graphics_font (b)
+.It
+enable_alt_graphics (b)
+.It
+disable_term_keys (b)
+.It
+username (s)
+.It
+disable_meta_commands (b)
+.It
+max_saves (n)
+.It
+disable_undo_compression (b)
+.It
+int_number (n)
+.It
+int_version (c)
+.It
+disable_patches (b)
+.It
+replay_on (b)
+.It
+replay_name (s)
+.It
+record_on (b)
+.It
+record_name (s)
+.It
+transcript_on (b)
+.It
+transcript_name (s)
+.It
+disable_abbreviations (b)
+.It
+enable_censorship (b)
+.It
+overwrite_transcript (b)
+.It
+override_undo (b)
+.It
+random_seed (n)
+.It
+random_device (s)
+.El
+.Pp
+The parenthesized character describes the type of argument: b is a
+boolean (1 is true, 0 is false), c is a character, n is a number, and s
+is a string.  These all correspond to possible command\-line arguments.
+.Pp
+In addition to analogs to the command\-line arguments, there are a
+couple of other options that can be set through the configuration file.
+One is
+.Dq cheat :
+see the
+.Sx CHEATING
+section below.  The other is fine\-grained control over colors in
+Gargoyle; this does not apply to any other build types.
+.Pp
+At the most basic, there are 8 colors that the Z\-machine can use,
+corresponding to ANSI colors: black, red, green, yellow, blue, magenta,
+cyan, and white.  The syntax for setting these is:
+.Bd -literal -offset indent
+color_red = 0xc23621
+.Ed
+.Pp
+The color is specified as a 24\-bit RGB value, 8 bits per color.  The
+above is thus 0xc2 red, 0x36 green, and 0x21 blue.  The value must be
+specified in hexadecimal, with an optional leading 0x.
+.Sh STYLES
+The Z\-machine allows for different text styles to be selected: these
+are emphasized (typically italicized or underlined), bold, and reverse
+video.  In addition, a fixed\-width font can be selected.  Glk does not
+guarantee the appearance of styles; it only allows you to select from a
+list of uses, rather than appearances.  The following Glk styles are how
+.Nm
+maps the Z-machine's text styles:
+.Pp
+Italic (or emphasized) uses the Emphasized style.  Bold uses the
+Subheader style.  Reverse video uses the Alert style.  Fixed\-width uses
+the Preformatted style.
+.Pp
+These were chosen because they map appropriately in the glktermw Glk
+implementation.  If your Glk implementation does not render these styles
+in a manner you like, consult its documentation to see if it is possible
+to change the appearance of the various Glk styles.
+.Pp
+Gargoyle, although a Glk implementation, does not have these issues.
+The combination of styles is possible, and the appearance of styles can
+be guaranteed.
+.Sh CHARACTER GRAPHICS FONT
+.Em Beyond Zork
+can make use of a character graphics font. This font is used for drawing
+the interactive map, arrows, and runes. Most of the runes and arrows
+have Unicode equivalents and can be displayed if you have a font that
+contains these characters. Unicode also includes box\-drawing characters
+which can be used to approximate the map in
+.Em Beyond Zork .
+These are not perfect, but they are not terrible.
+.Pp
+The
+.Fl g
+option disables the character graphics font, but unfortunately the
+ability to tell a game that a particular font is unavailable postdates
+Infocom, so this flag will not prevent
+.Em Beyond Zork
+from trying to use it. Instead,
+.Em Beyond Zork
+makes use of the interpreter number (see
+.Fl n )
+to decide whether to use character graphics. If
+you are using a font that does not provide the necessary Unicode
+characters, you will want to run
+.Em Beyond Zork
+without the character graphics font. This is easily accomplished by
+answering
+.Dq \&No
+when the game asks you if you are using a VT\-220 (this only happens
+when the interpreter number is set to 1, which is the default).
+.Pp
+If the character font is disabled with
+.Fl g
+and a game tries to use it anyway (as is the case with
+.Em Beyond Zork ) ,
+the output will appear garbled, but only for that font. Anything the
+game prints out in a normal font will look fine.
+.Pp
+See section 16 of the
+.Em Z\-Machine Standards Document
+1.0 for more information.
+.Sh META COMMANDS
+.Nm
+includes support for
+.Dq meta commands ,
+which are commands interpreted by
+.Nm
+itself instead of the game.  These are introduced with a slash
+.Pq Sq Sy / ,
+chosen in an attempt to not clash with game commands.  These meta
+commands can be entered at any point the game requests user input,
+e.g.\& on each turn.  They are as follows, and are case sensitive:
+.Bl -tag -offset indent -width "/scriptoff"
+.It Sy /undo
+Undo a turn.  This is similar to the UNDO command some games provide,
+but has two distinct advantages: it works even in games that do not
+provide undo, and it provides multiple undo even in games which do not
+support multiple undo.
+.It Sy /scripton
+Start a transcript.
+.It Sy /scriptoff
+Stop a transcript.
+.It Sy /recon
+Start a command record.
+.It Sy /recoff
+Stop a command record.
+.It Sy /replay
+Replay a command record.
+.It Sy /save
+Save the game.  This creates save files that are incompatible with those
+created by SAVE, so they should only be restored with
+.Sy /restore .
+.Nm
+has built-in protection to prevent a file saved with a normal SAVE
+command from being confused with one saved by
+.Sy /save ,
+and vice versa.
+.Pp
+Because it creates non-standard save files, this command should be
+avoided unless it is absoulutely necessary, e.g.\& if the game has
+disabled saving.  It was added to
+.Nm
+solely for the case of such anti-social games.
+.It Sy /restore
+Restore a game saved by
+.Sy /save .
+Do not attempt to use
+.Sy /restore
+to restore games saved with a normal SAVE command.
+.It Sy /ps
+Push a save state onto the in-memory stack.
+.Pp
+This is meant to serve as an alternative to on-disk save files for when
+you are trying something dangerous in a game.  In such a case, there is
+generally no need for a save file to be stored on the disk because the
+save state is not meant to be persistent: it only needs to last long
+enough to be restored in the same session.
+.Pp
+Because a stack is used,
+.Sy /ps
+can be used multiple times, allowing you to jump backward as many times
+as there are states.  The maximum number of states stored is 25.  Once
+this number of states is reached, each new state causes the oldest state
+to be dropped.
+.It Sy /ps [description]
+Identical to
+.Sy /ps ,
+except that when the save state is displayed by
+.Sy /ls ,
+the supplied description is shown rather than the time of the save.
+.Pp
+Please note that at the current time, any characters which are not
+printable ASCII characters will be replaced with a question mark.
+.It Sy /pop
+Restore the last-stored in-memory save state, as created by
+.Sy /ps ,
+removing it from the stack.
+.It Sy /pop [slot]
+Restore the specified in-memory save slot.  [slot] must correspond to
+one of the slot numbers shown by
+.Sy /ls .
+The specified save, as well as any newer saves, will be removed from the
+stack.
+.It Sy /drop
+Drop the last-stored in-memory save state, as created by
+.Sy /ps ,
+removing it from the stack.
+.It Sy /drop [slot]
+Drop the specified in-memory save slot.  [slot] must correspond to one
+of the slot numbers shown by
+.Sy /ls .
+The specified save, as well as any newer saves, will be removed from the
+stack.
+.It Sy /drop all
+Drop all in-memory save slots, removing them from the stack.
+.It Sy /ls
+List all available in-memory save states.  Each state is shown either as
+a string representing the time when the state was saved, or, if it was
+supplied, the description passed to
+.Sy /ps .
+The last-listed state, which is marked with an asterisk, is the default
+state which will be restored with
+.Sy /pop .
+.It Sy /status
+Display the status line.  This only works for V1, V2, and V3 games, and
+is meant to be used either in non-Glk mode, or if the Glk
+implementation being used does not support windows (e.g.\& cheapglk).
+.It Sy /disable
+Disable meta commands for the remainder of the session.  This is useful
+if the game itself expects input to start with a slash character.
+.It Sy /say [command]
+Pretend like [command] was typed.  As with
+.Sy /disable ,
+this is meant for games which expect input to start with a slash
+character.
+.It Sy /debug [...]
+Perform a debugging operation; see
+.Sx META DEBUG COMMANDS .
+.El
+.Pp
+Please note that
+.Sy /save
+and
+.Sy /restore
+are experimental.
+.Pp
+Mixing in-memory saves with undo can have odd effects.  For example, if
+a save state is pushed, and undo is then called multiple times,
+returning to a point which occurred before the
+.Sy /ps
+call, popping the save state will still jump to the
+.Sy /ps
+save position, effectively cancelling the undo calls.  The undo states
+will not be recreated.  Similarly, if undo is called right after
+.Sy /pop ,
+it will succeed, but will not undo the
+.Sy /pop
+call.  Instead, the effect is the same as if undo had been called on the
+turn
+.Em before
+.Sy /pop
+was called.  This is because meta commands are not considered game
+commands and thus do not cause undo states to be stored.
+.Sh META DEBUG COMMANDS
+The
+.Sy /debug
+command starts a debugging operation.  For some debugging operations, an
+address is expected.  This is either an absolute address, specified in
+hexadecimal with an optional leading
+.Sy 0x ,
+or it is a global variable.  Global variables have the syntax
+.Sy Gxx ,
+where
+.Sy xx
+is a hexadecimal value in the range [00, ef], corresponding to global
+variables 0 to 239.
+.Pp
+The debug commands are as follows:
+.Bl -tag -offset indent -width "/scriptoff"
+.It Sy change start
+Begin a
+.Dq change
+operation.  This tracks word-sized memory addresses, allowing you to see
+if the values at any addresses have increased or decreased since the
+last check.  This is primarily useful for cheating (see
+.Sx CHEATING ) ,
+helping, for example, to determine which memory address is used to
+track hunger or thirst.
+.It Sy change dec
+Display a list of all memory addresses which have decreased since the
+last change operation (either a
+.Sy change start ,
+.Sy change inc ,
+or
+.Sy change dec .
+Values are treated as signed words, so a change from 0 to 65535 is
+considered a decrease from 0 to -1.
+.It Sy change inc
+Display a list of all memory addresses which have decreased since the
+last change operation.
+.It Sy scan start
+Begin a
+.Dq scan
+operation.  This tracks word-sized memory addresses, checking if
+particular addresses have specific values over time.  As with
+.Dq change
+operations, this is useful mainly for cheating.  An example would be
+tracking which memory address holds the amount of money being carried.
+If you have $50, you can scan all addresses for the value 50.  After
+spending $5, scan all addresses for 45.  Repeat until only one address
+matches and that is likely where the money count is being stored.
+.It Sy scan [N]
+Scan all memory addresses for the value
+.Sy N ,
+which is a signed decimal integer (hexadecimal if a leading 0x is used,
+octal if a leading 0 is used).  The total number of matching addresses
+(constrained by previous
+.Sy scan
+operations) is then printed.
+.It Sy scan show
+Display all addresses matching all previous
+.Sy scan
+criteria.  This is a separate operation because initial scans will
+potentially match thousands of addresses.
+.It Sy print [address]
+Print the word (as both signed decimal and unsigned hexadecimal) at
+.Sy address .
+.It Sy freeze [address] [value]
+Freeze a 16-bit value in memory; this is analogous to the
+.Sy freeze
+configuration variable (see
+.Sx CHEATING ) .
+.Sy address
+is the address to freeze, and
+.Sy value
+is the value it should be frozen to.
+.Sy value
+can be decimal, hexadecimal, or octal, with a leading
+.Sy 0x
+signifying hexadecimal and a leading
+.Sy 0
+signifying octal.
+.Pp
+Please note that it is possible for
+.Nm
+to be built without cheating support, so this and related commands might
+not work.
+.It Sy unfreeze [address]
+Unfreeze the 16-bit value which is frozen at
+.Sy address ;
+the address is parsed identically as for
+.Sy freeze .
+It is not an error to unfreeze an unfrozen value.
+.It Sy show_freeze
+Display all frozen values.
+.It Sy watch [address]
+Report any changes to the 16-bit word at
+.Sy address .
+.Pp
+Please note that it is possible for
+.Nm
+to be built without watch support, so this and related commands might
+not work.
+.It Sy watch all
+Watch every address for changes.  This will likely produce a lot of
+output.
+.It Sy unwatch [address]
+Stop watching
+.Sy address
+for changes.  It is not an error to stop watching an address which is
+not being watched.
+.It Sy unwatch all
+Stop watching all addresses which are currently being watched.
+.It Sy show_watch
+Display all watched-for values.
+.El
+.Sh SOUND EFFECTS
+Currently, sound effects are only available when Gargoyle is used as the
+Glk implementation.  The sound effects should be bundled in a Blorb
+file.  If the story file itself is stored in a Blorb file, that file is
+used to find the sound effects.  Otherwise, a separate Blorb file must
+exist and be named as follows: if the story file is
+.Pa /foo/bar/sherlock.z5 ,
+then the Blorb file must be
+.Pa /foo/bar/sherlock.blb .
+Sound effect support is experimental and does not currently conform
+fully to the Z\-machine standard.  Bleeps are not supported, nor is
+section 9.4.4, nor is the hack regarding
+.Em The Lurking Horror
+mentioned in the Remarks section.
+.Sh CHEATING
+There is extremely rudimentary support for
+.Dq cheating .
+.Nm
+is able to freeze certain areas of memory so that they always report the
+same value. The idea behind this is to prevent hunger and thirst
+counters from forcing you to eat and drink.
+.Pp
+Cheating is available through the configuration file as well as through
+meta debug commands (see
+.Sx META DEBUG COMMANDS
+for information on using meta debug commands to cheat).
+.Pp
+When the configuration file is used, cheats are treated like any other
+configuration variable.  The syntax is as follows:
+.Pf freeze: Sy address : Ns Sy value .
+.Pp
+This causes the word (an unsigned 16\-bit value) at address
+.Sy address
+to always contain the value
+.Sy value ;
+.Sy value
+can be decimal, hexadecimal, or octal, with a leading
+.Sy 0x
+signifying hexadecimal and a leading
+.Sy 0
+signifying octal.
+.Pp
+Example:
+.Bd -literal -offset indent
+cheat = freeze:0xabcd:0
+cheat = freeze:G00:0
+.Ed
+.Pp
+Visit
+.Lk http://bocfel.org/cheats/
+for a list of a few cheats for some Infocom games.  More cheats are
+potentially discoverable using meta debug commands (see the
+.Sx META DEBUG COMMANDS
+section).  A more detailed explanation of how to figure out cheats is
+beyond the scope of this document.
+.Pp
+Please note that it is possible for
+.Nm
+to be built without support for cheating, in which case these cheats
+will silently do nothing.  The
+.Fl v
+option can be used to determine whether this is the case.
+.Sh SEE ALSO
+.Xr iconv 1 ,
+.Xr fizmo 6 ,
+.Xr frotz 6 ,
+.Xr nitfol 6
+.Sh STANDARDS
+.Nm
+is believed to comply fully with version 1.1 of
+.Em The Z\-machine Standards Document ;
+see
+.Lk http://www.inform-fiction.org/zmachine/standards/z1point0/index.html
+and
+.Lk http://ifarchive.org/if-archive/infocom/interpreters/specification/ZSpec11.txt .
+.Sh AUTHORS
+.An "Chris Spiegel" Aq cspiegel@gmail.com

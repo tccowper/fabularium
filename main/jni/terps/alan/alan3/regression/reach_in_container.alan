@@ -1,0 +1,35 @@
+The l Isa location
+End The l.
+
+The c Isa object At l
+  Container
+End The c.
+
+The d Isa object In c
+  Container
+End The d.
+
+The e Isa object In d
+  Opaque Container
+End The e.
+
+The o1 Isa object In c
+End The o1.
+
+The o2 Isa object In d
+End The o2.
+
+The o3 Isa object In e
+End The o3.
+
+Syntax reach = reach (o).
+
+Add To every object
+  Verb reach
+    Does
+      "You reach" Say the o. "."
+  End Verb.
+End Add.
+
+Start At l.
+

@@ -1,0 +1,3084 @@
+########## time1 ##########
+
+Add To Every location
+  Is
+    Not locked_door.
+End Add To.
+
+Add To Every object
+  Is
+    Not movable.
+    Not usable.
+    Not cuttable.
+    Not takeable.
+    Not openable.
+    Not closable.
+    closed.
+    Not lockable.
+    locked.
+    Not edible.
+    Not drinkable.
+    Not switchable.
+    Not shootable.
+    'on'.
+    Not throwable.
+End Add To.
+
+Add To Every actor
+  Is
+    male.
+    propername.
+End Add To.
+
+The inventory
+  Container
+    Header
+      "You are carrying:"
+    Else
+      "You are carrying nothing."
+End The inventory.
+
+Synonyms
+  north = n.
+  south = s.
+  east = e.
+  west = w.
+  up = u.
+  down = d.
+  northeast = ne.
+  southeast = se.
+  northwest = nw.
+  southwest = sw.
+  load = 'restore'.
+  q = 'quit'.
+  i = 'inventory'.
+  shout, yell = scream.
+  l = 'look'.
+  h = help.
+  t, get, grab, lift, obtain = take.
+  shut = close.
+  x, inspect, investigate, see, view, search = examine.
+  dump, cast = throw.
+  kill, fight, hit, stab = attack.
+  place, 'locate' = put.
+  'make', invent = create.
+  fire = shoot.
+  connect = tie.
+  move = push.
+  break, sever, chop, slice = cut.
+  using = 'with'.
+  onto = 'on'.
+  inside, 'into' = 'in'.
+  below, underneath = under.
+  rub = scoop.
+  goto = enter.
+  inhale = breathe.
+  leap, hop = jump.
+  contact = signal.
+  wash, wipe = clean.
+  liquid, waters, h2o = water.
+  wave = waves.
+  man = professor.
+  big, huge, giant, gigantic, tall = large.
+  bumpy = rocky.
+  path, road = trail.
+  trees = tree.
+  jungle, woods = forest.
+  dim, shadowy, black = dark.
+  leaves = leaf.
+  panel = machine.
+  mountain = hill.
+  tiny, petite = small.
+  stone = rock.
+  passage = tunnel.
+  falls, waterfalls = waterfall.
+  coast = coastline.
+  dino, dinosaurs = dinosaur.
+  weird, odd = strange.
+  filthy = dirty.
+  hole, ditch = pit.
+  shore = shoreline.
+  branches, twig = branch.
+  bush = bushes.
+  electronic = electric.
+  vines = vine.
+  egg = eggs.
+  reflect = aim.
+  hinge, hinges, chest, 'container' = box.
+  ancient = old.
+  can = cans.
+  nutrition, meat = food.
+  driftwood = wood.
+  boat = raft.
+  swallow = eat.
+  rex = tyranosaurus.
+  substance = grease.
+  over = across.
+  
+
+Syntax
+  'quit' = 'quit'.
+  take_inventory = 'inventory'.
+  scream = scream.
+  'wait' = 'wait'.
+  'score' = 'score'.
+  'look' = 'look'.
+  kill_yourself = attack yourself.
+  die = die.
+  'save' = 'save'.
+  sail = sail (obj).
+  'restore' = 'restore'.
+  enter = enter (obj).
+  breathe = breathe (obj).
+  help = help.
+  signal = signal (obj).
+  signal_with = signal (obj1) 'with' (obj2).
+  climb_on = climb 'on' (obj).
+  run_in = run 'in' (obj).
+  look_at = 'look' 'at' (obj).
+  look_on = 'look' 'on' (obj).
+  look_under = 'look' under (obj).
+  look_into = 'look' 'in' (obj).
+  breathe_in = breathe 'in' (obj).
+  jump_into = jump 'in' (obj).
+  jump_across = jump across (obj).
+  jump_from = jump 'from' (obj).
+  climb_up = climb u (obj).
+  take_with = take (obj1)* 'with' (obj2).
+  climb_down = climb d (obj).
+  scoop_up = scoop u (obj)*.
+  scoop_up_with = scoop u (obj1)* 'with' (obj2).
+  pick_up_with = pick u (obj1)* 'with' (obj2).
+  aim = aim (obj).
+  shine = shine (obj).
+  clean = clean (obj).
+  clean_with = clean (obj1) 'with' (obj2).
+  clean_in = clean (obj1) 'in' (obj2).
+  scoop_on = scoop (obj1) 'on' (obj2).
+  give_to = give (obj1) 'to' (obj2).
+  climb = climb (obj).
+  cross = cross (obj).
+  create = create (obj).
+  taste = taste (obj).
+  swing_across = swing across (obj).
+  swing_on = swing 'on' (obj).
+  lick = lick (obj).
+  use_on = 'use' (obj1) 'on' (obj2).
+  sit_in = sit 'in' (obj).
+  tie_with = tie (obj1) 'with' (obj2).
+  oil_with = oil (obj1) 'with' (obj2).
+  cut_with = cut (obj1)* 'with' (obj2).
+  fill_with = fill (obj1) 'with' (obj2).
+  oil = oil (obj).
+  plant = plant (obj).
+  fill = fill (obj).
+  drop = drop (obj)*.
+  pick_up = pick u (obj)*
+    Where obj Isa object
+      Else 
+        "You can't take people with you!"
+  
+  take = take (obj)*
+    Where obj Isa object
+      Else 
+        "You can't take people with you!"
+  
+  open = open (obj)
+    Where obj Isa object
+      Else 
+        "You can't open people."
+  
+  close = close (obj)
+    Where obj Isa object
+      Else 
+        "You can't close people."
+  
+  examine = examine (obj)
+    Where obj Isa object ****OR**** 'actor'
+      Else 
+        "You can't examine that."
+  
+  tie = tie (obj)
+    Where obj Isa object
+      Else 
+        "You can't tie that."
+  
+  cut = cut (obj)*
+    Where obj Isa object
+      Else 
+        "You can't cut that."
+  
+  read = read (obj)
+    Where obj Isa object
+      Else 
+        "You can't read people."
+  
+  ask = ask (act)
+    Where act Isa actor
+      Else 
+        "You don't expect a response, do you?"
+  
+  ask_about = ask (act) about (obj)
+    Where act Isa actor
+      Else 
+        "You don't expect a response, do you?"
+  
+  talk = 'talk' 'to' (act)
+    Where act Isa actor
+      Else 
+        "You don't expect a response, do you?"
+  
+  talk_about = 'talk to' (act) about (obj)
+    Where act Isa actor
+      Else 
+        "You don't expect a response, do you?"
+  
+  tell = tell (act)
+    Where act Isa actor
+      Else 
+        "You don't expect a response, do you?"
+  
+  tell_about = tell (act) about (obj)
+    Where act Isa actor
+      Else 
+        "You don't expect a response, do you?"
+  
+  throw = throw (obj)*
+    Where obj Isa object
+      Else 
+        "You can't throw people about. It isn't nice."
+  
+  throw_at = throw (obj1) 'at' (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't throw people about. It isn't nice."
+    And obj2 Isa object ****OR**** 'actor'
+      Else 
+        "You can't throw anything at that."
+  
+  throw_to = throw (obj1) 'to' (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't throw people about. It isn't nice."
+    And obj2 Isa object ****OR**** 'actor'
+      Else 
+        "You can't throw anything at that."
+  
+  throw_in = throw (obj1)* 'in' (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't throw people about. It isn't nice."
+    And obj2 Isa container
+      Else 
+        "You would rather not throw that."
+  
+  attack = attack (act)
+    Where act Isa actor
+      Else 
+        "You should not attack the $o."
+  
+  attack_with = attack (act) 'with' (obj)
+    Where act Isa actor
+      Else 
+        "You should not attack the $o."
+  
+  open_with = open (obj1) 'with' (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't open that."
+    And obj2 Isa object
+      Else 
+        "You can't close anything with that."
+  
+  close_with = close (obj1) 'with' (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't close that."
+    And obj2 Isa object
+      Else 
+        "You can't close anything with that."
+  
+  lock = lock (obj)
+    Where obj Isa object
+      Else 
+        "You can't lock that."
+  
+  unlock = unlock (obj)
+    Where obj Isa object
+      Else 
+        "You can't lock that."
+  
+  eat = eat (obj)
+    Where obj Isa object
+      Else 
+        "You can't eat that."
+  
+  drink = drink (obj)
+    Where obj Isa object
+      Else 
+        "You can't drink that."
+  
+  put = put (obj)*
+    Where obj Isa object
+      Else 
+        "You can't put that anywhere."
+  
+  push_in = push (obj1)* 'in' (obj2).
+  put_in = put (obj1)* 'in' (obj2).
+  put_with = put (obj1) 'with' (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't put that."
+    And obj2 Isa object
+      Else 
+        "You can't put anything with the $2."
+  
+  put_near = put (obj1) near (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't put that."
+    And obj2 Isa object
+      Else 
+        "You can't put anything near the $2."
+  
+  put_behind = put (obj1) behind (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't put that."
+    And obj2 Isa object
+      Else 
+        "You can't put anything behind the $2."
+  
+  put_on = put (obj1) 'on' (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't put that."
+    And obj2 Isa object
+      Else 
+        "You can't put anything on the $2."
+  
+  put_under = put (obj1) under (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't put that."
+    And obj2 Isa object
+      Else 
+        "You can't put anything under the $2."
+  
+  scoop = scoop (obj).
+  'use' = 'use' (obj)
+    Where obj Isa object
+      Else 
+        "You can't use that."
+  
+  push = push (obj)
+    Where obj Isa object
+      Else 
+        "You can't push that."
+  
+  push_with = push (obj1) 'with' (obj2)
+    Where obj1 Isa object
+      Else 
+        "You can't push that."
+    And obj2 Isa object
+      Else 
+        "You can't use a $2 to push anything."
+  
+  turn_on = turn 'on' (obj)
+    Where obj Isa object
+      Else 
+        "You can't turn that on."
+  
+  turn_off = turn off (obj)
+    Where obj Isa object
+      Else 
+        "You can't turn that off."
+  
+  pull = pull (obj)
+    Where obj Isa object
+      Else 
+        "You can't pull that."
+  
+  play = play (obj)
+    Where obj Isa object
+      Else 
+        "You can't play that."
+  
+  play2 = play 'with' (obj)
+    Where obj Isa object
+      Else 
+        "You can't play with that."
+  
+  light = light (obj)
+    Where obj Isa object
+      Else 
+        "You can't light that."
+  
+  extinguish = extinguish (obj)
+    Where obj Isa object
+      Else 
+        "You can't extinguish that."
+  
+  extinguish2 = put out (obj)
+    Where obj Isa object
+      Else 
+        "You can't put that out."
+  
+  shoot = shoot (obj)
+    Where obj Isa object ****OR**** 'actor'
+      Else 
+        "You can't turn that off."
+  
+  shoot_at = shoot (obj) 'at' (act)
+    Where obj Isa object
+      Else 
+        "You can't turn that off."
+    And act Isa object ****OR**** 'actor'
+      Else 
+        "You can't shoot that."
+  
+  shoot_with = shoot (act) 'with' (obj)
+    Where obj Isa object
+      Else 
+        "You can't turn that off."
+    And act Isa object ****OR**** 'actor'
+      Else 
+        "You can't shoot that."
+  
+  wear = wear (obj)
+    Where obj Isa object
+      Else 
+        "You can't wear that."
+  
+  put_on2 = 'put' 'on' (obj)
+    Where obj Isa object
+      Else 
+        "You can't put that on."
+  
+  'remove' = 'remove' (obj)
+    Where obj Isa object
+      Else 
+        "You can't remove that."
+  
+  take_off = take 'off' (obj)
+    Where obj Isa object
+      Else 
+        "You can't take that off."
+  
+
+Verb 'quit'
+  Does
+    Quit.
+End Verb.
+
+Verb take_inventory
+  Does
+    List inventory.
+End Verb.
+
+Verb 'score'
+  Does
+    "There is no score used in this game."
+End Verb.
+
+Verb scream
+  Does
+    "You let out a primal scream, which accomplishes nothing. Although you
+     do feel a little better."
+End Verb.
+
+Verb 'wait'
+  Does
+    "Time passes..."
+End Verb.
+
+Verb 'look'
+  Does
+    Look.
+End Verb.
+
+Verb 'save'
+  Does
+    "Saving..."
+    Save.
+    "Done."
+End Verb.
+
+Verb 'restore'
+  Does
+    "Restoring..."
+    Restore.
+    "Done.$n"
+    Look.
+End Verb.
+
+Verb help
+  Does
+    "Sorry, but you're on your own."
+End Verb.
+
+Verb drop, throw, put
+  Does
+    If obj Not In inventory Then
+      "You haven't got that."
+    Else 
+      "You would rather hold onto it for now."
+    End If.
+End Verb.
+
+Verb take, pick_up
+  Does
+    If obj Is Not takeable Then
+      "You can't take that!"
+    Elsif obj In inventory Then 
+      "You've already got that."
+    Else 
+      Locate obj In inventory.
+      "Taken."
+    End If.
+End Verb.
+
+Verb 'use'
+  Does
+    If obj Is Not usable Then
+      "You can not use that."
+    Else 
+      "You use the $o."
+    End If.
+End Verb.
+
+Verb cut
+  Does
+    If obj Is Not cuttable Then
+      "You can not cut that."
+    Else 
+      "You cut the $o."
+    End If.
+End Verb.
+
+Verb open
+  Does
+    If obj Is Not openable Then
+      "You can't open that!"
+    Elsif obj Is Not closed Then 
+      "It's already open."
+    Else 
+      Make obj Not closed.
+      "The $o is now open."
+    End If.
+End Verb.
+
+Verb close
+  Does
+    If obj Is Not closable Then
+      "You can't close that."
+    Elsif obj Is closed Then 
+      "It is not open."
+    Else 
+      Make obj closed.
+      "The $o is now closed."
+    End If.
+End Verb.
+
+Verb look_on, look_at
+  Does
+    "There is nothing special about the $o."
+End Verb.
+
+Verb look_into
+  Does
+    "There is nothing special inside the $o."
+End Verb.
+
+Verb look_under
+  Does
+    "There is nothing special under the $o."
+End Verb.
+
+Verb examine
+  Does
+    "There's nothing special about the $o."
+End Verb.
+
+Verb lick
+  Does
+    "Don't lick that. You don't know where it has been."
+End Verb.
+
+Verb read
+  Does
+    "There's nothing to read here."
+End Verb.
+
+Verb ask
+  Does
+    If act Is Not propername Then
+      "The $o ignores your question."
+    Else 
+      "$o ignores your question."
+    End If.
+End Verb.
+
+Verb ask_about
+  Does
+    If act Is Not propername Then
+      "The $1 ignores your question."
+    Else 
+      "$1 ignores your question."
+    End If.
+End Verb.
+
+Verb tell
+  Does
+    If act Is Not propername Then
+      "The $o is not impressed."
+    Else 
+      "$o is not impressed."
+    End If.
+End Verb.
+
+Verb tell_about
+  Does
+    If act Is Not propername Then
+      "The $1 is not impressed."
+    Else 
+      "$1 is not impressed."
+    End If.
+End Verb.
+
+Verb talk
+  Does
+    If act Is Not propername Then
+      "The $o does not seem to want to talk."
+    Else 
+      "$o does not seem to want to talk."
+    End If.
+End Verb.
+
+Verb kill_yourself, die
+  Does
+    "That would not be healthy."
+End Verb.
+
+Verb talk_about
+  Does
+    If act Is Not propername Then
+      "The $1 does not seem to want to talk."
+    Else 
+      "$1 does not seem to want to talk."
+    End If.
+End Verb.
+
+Verb throw_at, throw_to
+  Does
+    If obj1 Is throwable Then
+      If obj1 Not In inventory Then
+        "You haven't got that!"
+      Elsif obj2 Not Here And obj2 In inventory Then 
+        "I don't see any $2 here."
+      Else 
+        "The $1 bounces harmlessly off the $2.$n"
+        Locate obj1 Here.
+        "Dropped."
+      End If.
+    Else 
+      "You would rather not throw the $1."
+    End If.
+End Verb.
+
+Verb create
+  Does
+    "You can't create a $o."
+End Verb.
+
+Verb throw_in, put_in
+  Does
+    If obj1 Is throwable Then
+      If obj1 Not In inventory Then
+        "You haven't got that!"
+      Elsif obj2 Not Here And obj2 In inventory Then 
+        "I don't see any $2 here."
+      Elsif obj1 =obj2 Then 
+        "Now, that would be a good trick!"
+      Else 
+        Locate obj1 In obj2.
+        "Done."
+      End If.
+    Else 
+      "You would rather not drop the $1 at this time."
+    End If.
+End Verb.
+
+Verb attack
+  Does
+    If act Not Here Then
+      "I don't see that person here."
+    Else 
+      "There is no need for violence at this time."
+    End If.
+End Verb.
+
+Verb attack_with
+  Does
+    If act Not Here Then
+      "I don't see that person here."
+    Elsif obj Not In inventory Then 
+      "You don't have that object to attack with."
+    Else 
+      "There is no need for violence at this time."
+    End If.
+End Verb.
+
+Verb open_with
+  Does
+    If obj1 Not Here Then
+      "I don't see any $1 to open."
+    Elsif obj2 Not In inventory Then 
+      "You don't have the $2."
+    Else 
+      "You can't open the $1 with the $2."
+    End If.
+End Verb.
+
+Verb close_with
+  Does
+    If obj1 Not Here Then
+      "I don't see any $1 to close."
+    Elsif obj2 Not In inventory Then 
+      "You don't have the $2."
+    Else 
+      "You can't close the $1 with the $2."
+    End If.
+End Verb.
+
+Verb lock
+  Does
+    If obj Is Not lockable Then
+      "You can't lock that!"
+    Elsif obj Not Here Then 
+      "I don't see what you wish to lock."
+    Elsif obj Is locked Then 
+      "It's already locked."
+    Else 
+      Make obj locked.
+      "The $o is now locked."
+    End If.
+End Verb.
+
+Verb unlock
+  Does
+    If obj Is Not lockable Then
+      "You can't unlock that!"
+    Elsif obj Not Here Then 
+      "I don't see what you wish to unlock."
+    Elsif obj Is Not locked Then 
+      "It's already unlocked."
+    Else 
+      Make obj Not locked.
+      "The $o is now unlocked."
+    End If.
+End Verb.
+
+Verb eat
+  Does
+    If obj Is Not edible Then
+      "That is not edible."
+    Elsif obj Not Here Then 
+      "I don't see what you want to eat."
+    Else 
+      Locate obj In nowhere.
+      "You eat the $o. Yum, that was delicious!"
+    End If.
+End Verb.
+
+Verb drink
+  Does
+    If obj Is Not drinkable Then
+      "That is not drinkable."
+    Elsif obj Not Here Then 
+      "I don't see what you want to drink."
+    Else 
+      Locate obj In nowhere.
+      "You drink the $o. It is quite refreshing."
+    End If.
+End Verb.
+
+Verb put_with, put_near, put_behind, put_on, put_under
+  Does
+    If obj1 Not In inventory Then
+      "You haven't got that!"
+    Elsif obj2 Not Here And obj2 In inventory Then 
+      "I don't see any $2 here."
+    Else 
+      "You can't do that."
+    End If.
+End Verb.
+
+Verb push
+  Does
+    If obj Not Here Then
+      "I don't see what you want to push."
+    Else 
+      "You can't push it."
+    End If.
+End Verb.
+
+Verb push_with
+  Does
+    If obj1 Not Here Then
+      "I don't see what you want to push."
+    Elsif obj2 Not Here Then 
+      "You don't have any $2."
+    Else 
+      "Your action has no noticeable effect."
+    End If.
+End Verb.
+
+Verb turn_on
+  Does
+    If obj Is Not switchable Then
+      "You can't turn that on."
+    Elsif obj Not Here Then 
+      "I don't see what you want to turn on."
+    Elsif obj Is 'on' Then 
+      "It's already on."
+    Else 
+      Make obj 'on'.
+      "Ok, the $o is now on."
+    End If.
+End Verb.
+
+Verb turn_off
+  Does
+    If obj Is Not switchable Then
+      "You can't turn that off."
+    Elsif obj Is Not 'on' Then 
+      "It's already off."
+    Elsif obj Not Here Then 
+      "I don't see what you want to turn off."
+    Else 
+      Make obj Not 'on'.
+      "Ok, the $o is now off."
+    End If.
+End Verb.
+
+Verb pull
+  Does
+    If obj Not Here Then
+      "I don't see what you want to pull here."
+    Else 
+      "You can't pull that."
+    End If.
+End Verb.
+
+Verb play, play2
+  Does
+    If obj Not Here Then
+      "I don't see what you want to play here."
+    Else 
+      "You can't play that."
+    End If.
+End Verb.
+
+Verb light
+  Does
+    If obj Not Here Then
+      "I don't see the object you want to light."
+    Else 
+      "You can't light that object."
+    End If.
+End Verb.
+
+Verb extinguish, extinguish2
+  Does
+    If obj Not Here Then
+      "I don't see the object you want to extinguish."
+    Else 
+      "You can't extinguish that object."
+    End If.
+End Verb.
+
+Verb shoot
+  Does
+    If obj Not Here Then
+      "I don't see what you want to shoot."
+    Else 
+      "You would rather not do that."
+    End If.
+End Verb.
+
+Verb shoot_at
+  Does
+    If obj Is Not shootable Then
+      "You can't do that."
+    Else 
+      If obj Not In inventory Then
+        "You don't have that object."
+      Elsif act Not Here Then 
+        "I don't see what you want to shoot."
+      Else 
+        "You would rather not do that."
+      End If.
+    End If.
+End Verb.
+
+Verb shoot_with
+  Does
+    If obj Is Not shootable Then
+      "You can't do that."
+    Else 
+      If obj Not In inventory Then
+        "You don't have that object."
+      Elsif act Not Here Then 
+        "I don't see what you want to shoot."
+      Else 
+        "You can't do that."
+      End If.
+    End If.
+End Verb.
+
+Verb wear, put_on2
+  Does
+    If obj Not In inventory Then
+      "You don't have that object."
+    Else 
+      "You can't put that on."
+    End If.
+End Verb.
+
+Verb remove, take_off
+  Does
+    If obj Not In inventory Then
+      "You don't have that object."
+    Else 
+      "You can't remove that."
+    End If.
+End Verb.
+
+
+The clearings Isa location
+  
+  Description
+    If timemachine Is Not visited Then
+      "You decide that it is too dangerous for Clarisse and quickly
+       position yourself in the machine. You nervously start the controls
+       and hope for the best. Tha machine begins to shake and you notice a
+       strange grinding sound eminating from the machine. You also notice
+       that your field of view appears to be shrinking, and your vision is
+       getting blurry. You close your eyes for a few seconds and after
+       opening them you find yourself in a small clearing. You are still
+       sitting inside the time machine. After regaining your composure you
+       decide to have a look about."
+      Make timemachine visited.
+    End If.
+    "There appears to be a trail leading to the north and to the east.
+     Towards the north it seems to be rocky and to the east you think you
+     hear some type of river. You can see large tracks to the east. Other
+     than this trail there seems to be no other exits. You are surrounded by
+     forests. $n The time machine is located here."
+    Locate forest1 Here.
+  
+  Exit n To trail.
+  
+  Exit e To river.
+  
+End The clearings.
+
+The trail Isa location
+  
+  Description
+    "You are heading north on a trail leading to some hills and mountains.
+     The view is very lovely. You look about the area, but you do not see
+     any animal life nearby. You wonder where the Professor could be. If he
+     took this path you would have noticed footprints. He could have
+     wandered into the forest or took the other path. $n $n You can see a
+     trail leading to a small opening in the trees."
+  
+  Exit w To forest.
+  
+  Exit n To hill.
+  
+  Exit s To clearings.
+  
+End The trail.
+
+The forest Isa location
+  
+  Description
+    "You are standing in the jungle. Little light is shining through the
+     leaves and the air is very thick. A trail leads to the east and west."
+  
+  Exit e To trail.
+  
+  Exit w To swamp.
+  
+End The forest.
+
+The hill Isa location
+  
+  Description
+    "You are standing in front of a large hill. There is a small cave
+     within sight. You can see a path leading to the top of the hill. There
+     is less plant life located here."
+  
+  Exit s To trail.
+  
+  Exit u To hilltop.
+  
+  Exit n To cave.
+  
+End The hill.
+
+The hilltop Isa location
+  
+  Description
+    "You are standing on top of the hill. You can see smoke in the far
+     distance to your southeast. Since it doesn't appear cloudy you doubt
+     lightning stuck and it doesn't seem a likely place for a brush fire.
+     You think it may be the Professor. To the east is a small protruding
+     piece of rock. You could get a better view if you could get on it.
+     However, it does look a bit dangerous."
+  
+  Exit d To hill.
+  
+  Exit e To ledge.
+  
+End The hilltop.
+
+The ledge Isa location
+  
+  Description
+    "You try to carefully step on the piece of rock. It is a bit unstable.
+     You can see much better from here and are almost positive it is a
+     signal from the Professor. Too bad it won't do you much good. $n $n
+     Just as you were trying to get back on safe ground the rock broke. You
+     fell quite a distance. At least you died quickly..."
+    Quit.
+  
+End The ledge.
+
+The cave Isa location
+  
+  Description
+    "You are standing in a small, damp cave. To the east is a dark tunnel."
+  
+  Exit s To hill.
+  
+  Exit e To tunnel
+    Check lamp At cave
+      Else 
+        "It is too dark to safely travel in that direction."
+  End Exit.
+  
+End The cave.
+
+The tunnel Isa location
+  
+  Description
+    "You are standing in a small tunnel. The tunnel is quite short and ends
+     abruptly. The ground is quite sticky with a strange mud-like substance.
+     The only exit is to the west."
+  
+  Exit w To cave.
+  
+End The tunnel.
+
+The deadtunnel Isa location
+  
+  Description
+    "You stumble around trying to see where you are going. Carefully you
+     manage to step over the rock in front of you. Unfortunately, you hit
+     your head on a large piece of rock overhead. You fall to the ground and
+     die."
+    Quit.
+  
+End The deadtunnel.
+
+The river Isa location
+  
+  Description
+    "You are standing on a dirt path. Directly before you is a waterfall
+     that is moving very fast. At the bottom of the falls you can make out a
+     river with a long coastline. $n $n There are also several large tracks
+     to the north leading behind some trees and bushes. "
+  
+  Exit w To clearings.
+  
+  Exit n To bushes.
+  
+End The river.
+
+The bushes Isa location
+  
+  Description
+    "You follow the tracks to some nearby bushes. As you do so, you hear a
+     strange sound from the other side. You can see the large head of a
+     Tyranosaurus Rex peeking over the branches. Your scientific interest
+     overcomes your fear as view this creature. He has slaughtered a small
+     dinosaur and is in the process of devouring it. Exits lead north and
+     south."
+  
+  Exit s To river.
+  
+  Exit n To eaten.
+  
+End The bushes.
+
+The rivercrossing Isa location
+  
+  Description
+    "You take a large, flat piece of wood and try to go down the falls. As
+     you head down the falls, you are certain you will drown. Miraculously
+     you manage to hang onto the wood and stay afloat. You begin to float
+     down the river when the large head of some sort of dinosaur starts to
+     rise out of the water. You stand up on the piece of wood with the hope
+     of diving into the water and escaping. Unfortunately, you do not make
+     it as the creature slowly eats you."
+    Quit.
+  
+End The rivercrossing.
+
+The eaten Isa location
+  
+  Description
+    "You watch as this fascinating creature walks toward you. You see his
+     magnificent features clearly. You watch as this incredible creature
+     swallows you whole..."
+    Quit.
+  
+End The eaten.
+
+The drowning Isa location
+  
+  Description
+    "You push the raft out onto the water and hope for the best. You
+     quickly go over the falls, and as you do so, you feel the raft begin to
+     break apart. You desparately cling to a large piece of wood, but it is
+     of no avail. The current pulls you under, and you drown..."
+    Quit.
+  
+End The drowning.
+
+The lost Isa location
+  
+  Description
+    "You travel down the falls on your raft. It holds together surprisingly
+     well. The river takes you downstream farther than you had wished. You
+     are not sure where the Professor could be, so you remain on the raft
+     hoping to spot him on the shore. Unfortunately, by waiting so long, the
+     raft begins to break up. You struggle to stay afloat, but it is of no
+     use. You drown..."
+    Quit.
+  
+End The lost.
+
+The shore Isa location
+  
+  Description
+    If raft At shore Then
+      "You travel down the falls on your raft. It holds together
+       surprisingly well. The river takes you downstream farther than you
+       had wished. Your raft is heading for a a number of dangerous rocks
+       along the coastline. You dive off of your raft, just as it smashes
+       into the rocks. Your possessions fall into the river. You manage to
+       swim ashore, a moderate distance downstream. You look around the area
+       as you walk several feet up the shore. It looks quite foreboding. It
+       seems you can either follow the shoreline to the north, or go into
+       the jungle to the east."
+      Locate axe At nowhere.
+      Locate cans At nowhere.
+      Locate vines At nowhere.
+      Locate wood At nowhere.
+      Locate raft At nowhere.
+      Locate metal At nowhere.
+    Else 
+      "You are standing at the shore. Exits lead north and east."
+      Locate sand Here.
+      Locate waves Here.
+      Locate shorewater Here.
+    End If.
+  
+  Exit n To shore2.
+  
+  Exit e To jungle2x.
+  
+End The shore.
+
+The shore2 Isa location
+  
+  Description
+    "You are standing on a clear shoreline. The white sand glistens as the
+     waves slowly roll over its surface. Exits lead north and south."
+    Locate waves Here.
+    Locate shorewater Here.
+    Locate sand Here.
+  
+  Exit s To shore.
+  
+  Exit n To shoreline.
+  
+End The shore2.
+
+The shoreline Isa location
+  
+  Description
+    "You are standing on the shoreline. There are several large dinosaurs
+     walking about here. They appear to have some type of duck bill. A herd
+     of these creatures are currently blocking your path. To the east is a
+     dark path into the jungle. To the south is the shoreline."
+    Locate sand Here.
+    Locate shorewater Here.
+    Locate waves Here.
+  
+  Exit e To jungle4x.
+  
+  Exit s To shore2.
+  
+End The shoreline.
+
+The win_game Isa location
+  
+  Description
+    "You drop the eggs close to the dinosaurs. The herd of dinosaurs
+     quickly approach the eggs and begin to devour them. You make the most
+     of this opportunity and quickly run past the creatures to the
+     shoreline. You manage to get back on your path heading towards the
+     fire. You walk until you are within close sight of the smoke. You think
+     you spot a figure lying on the groundand you run to investigate.
+     Several feet from the fire you see the Professor. He is lying on the
+     ground, apparently hurt. He looks both surprised and happy when he sees
+     you. $n $n ""Thank God, you found me!"", he exclaims. ""I know I'm an
+     old fool for trying this experiment. Clarisse must have been terribly
+     worried."" $n $n You look over the Professor to make sure he is okay.
+     He has a few scrapes and bruises, but is generally in good shape. He
+     tells you what happened, how the time machine malfunctioned and brought
+     him to this time. As he was exploring the area, he got lost. He set up
+     camp here, on the beach hoping you would come and find him. $n $n You
+     then proceed to tell him what happened to Dr. Evers and how he is a
+     suspect in the murder. He is shocked that Professor Evers was killed.
+     $n $n ""You know that Dr. Evers and I had our disagreements, but you
+     know I would never do anything to harm him."" ""Of course not."", you
+     answer. $n $n You both start off looking for a way back to the time
+     machine. The Professor had been working on several components to the
+     time machine, hoping to fix them. He says they may be able to take us
+     back to the present time. You manage to follow a back way around the
+     river back to the clearing where the time machine is located. The
+     Professor installs the time components and you both sit down in the
+     machine. As you start the controls you say a short prayer and hope you
+     will return home. The machine begins to shake and you black out for a
+     few seconds before you arrive back in the lab. The control panel begins
+     to short circuit as you reach your destination. You see Clarisse
+     running towards you with a wide smile on her face. She grabs her father
+     and gives him a big hug. $n $n ""I'm so glad you are okay!"", she
+     exclaims. $n $n As you exit the time machine, you hear someone in the
+     next room walking towards the lab. Several policemen enter the room and
+     proceed to arrest the Professor. They say they have found evidence
+     linking Professor Adams to the murder. They take out a small test tube
+     with a sample of dried blood. $n $n ""This is the blood of Dr. Evers.
+     We found a small amount of dried blood in your sink. You tried to wash
+     off the evidence of your crime, Professor, but it didn't work."", a
+     burly police man states in a gruff voice. $n $n The Professor looks
+     shocked, and says he has no idea where the blood came from. $n $n Just
+     then, a teary eyed Clarisse walks up to the police and says she killed
+     Dr. Evers. $n $n At first the Professor and the police think she is
+     trying to take the blame for her father. However, she eventually
+     convinces them of her guilt as she goes into her room and comes back
+     with a small gun. She then describes the murder in detail. $n $n ""I
+     sneaked into Dr. Evers lab to sabatoge his time travelling machine.
+     After what he has done to father, I felt it wasn't fair if he received
+     the government funding. As I was looking at his machine, Dr. Evers
+     walked into the lab. He was surprised at first, and then he became
+     furious. He said he was going to call the police and have me arrested.
+     He also said that the government would now give him the funding, after
+     this incident became public. I tried to escape, but he grabbed me,
+     trying to push me to the ground. $n $n The gun accidently went off,
+     killing him."" $n $n All of you are completely shocked as she tells her
+     story. You can see how the Professor is hurt by this news. The police
+     take Clarisse away, and you and the Professor follow to the police
+     station. After a trial, Clarisse is sentenced to 15 years imprisonment
+     for manslaughter. Her father is broken hearted and enters into a
+     lethargic state. You wish you could do something to help them, as they
+     are both close friends. If there was some way you could change what has
+     transpired. $n $n Then you remember. You do have a time machine. $n $n
+     But that is another story... $n $n Congratulations, you have finished
+     the game."
+  
+End The win_game.
+
+The jungle4x Isa location
+  
+  Description
+    "The jungle is quite dark and foreboding. A large pit is located here,
+     blocking further passage into the jungle."
+    Locate forest1 Here.
+  
+  Exit w To shoreline.
+  
+  Exit d To shoreline
+    Check 
+      "There is no safe way down the pit."
+  End Exit.
+  
+End The jungle4x.
+
+The jungle2x Isa location
+  
+  Description
+    "You are in the jungle. It is very gloomy. A small path to the east
+     leads further into the jungle. To the west is the shore."
+    Locate forest1 Here.
+  
+  Exit w To shore.
+  
+  Exit e To jungle_pit.
+  
+End The jungle2x.
+
+The jungle_pit Isa location
+  
+  Description
+    "You are standing before a large pit blocking passage to the east.
+     Several large trees are standing here. Exits lead west and northwest."
+    Locate forest1 Here.
+  
+  Exit w To jungle2x.
+  
+  Exit nw To jungle4x.
+  
+  Exit d To jungle2x
+    Check 
+      "There is no safe way down the pit."
+  End Exit.
+  
+  Exit u To treetop.
+  
+End The jungle_pit.
+
+The treetop Isa location
+  
+  Description
+    "You are located in a tall tree. Long branches spread out in several
+     directions."
+    Locate forest1 Here.
+  
+  Exit d To jungle_pit.
+  
+  Exit e To branch.
+  
+End The treetop.
+
+The branch Isa location
+  
+  Description
+    "You are situated on top of a long tree branch. You are directly over
+     the large pit below."
+    Locate forest1 Here.
+  
+  Exit w To treetop.
+  
+End The branch.
+
+The jungle3x Isa location
+  
+  Description
+    "You continue on into the jungle. You do not see any tracks. You
+     stumble upon what looks like a nest. There are several very large eggs
+     located there. To your left are a few large bushes, in which you hear
+     strange sounds eminating. The pit is located directly behind you. The
+     only exit is to the northwest."
+    Locate forest1 Here.
+  
+  Exit nw To jungle5x.
+  
+End The jungle3x.
+
+The jungle5x Isa location
+  
+  Description
+    "You are standing in a relatively clear section of this jungle. You
+     hear a few strange sounds in the distance. Exits lead southeast and
+     west."
+    Locate forest1 Here.
+  
+  Exit se To jungle3x.
+  
+  Exit w To jungle6x.
+  
+End The jungle5x.
+
+The jungle6x Isa location
+  
+  Description
+    "You are standing before a few large dinosaurs walking about the
+     jungle. They have strange beaks and seem occupied looking for food. You
+     can spot the shore through a break in the plant growth, and see several
+     other dinosaurs gathered there."
+    Locate forest1 Here.
+  
+  Exit e To jungle5x.
+  
+End The jungle6x.
+
+The swamp Isa location
+  
+  Description
+    "You are standing in a swampy area. Vines are hanging down from the
+     trees. The air is very humid and moist. A large tree is standing before
+     you."
+  
+  Exit e To forest.
+  
+  Exit u To tree.
+  
+End The swamp.
+
+The tree Isa location
+  
+  Description
+    "You are located up in a tree. You can see down around you for quite a
+     distance. Swampy land surrounds this area blocking further travel. You
+     can spot a hill to your Northeast. Leaves and vines block a full view
+     of the surrounding lands."
+  
+  Exit d To swamp.
+  
+End The tree.
+
+The hidden Isa location
+  
+  Description
+  
+End The hidden.
+
+The killed Isa location
+  
+  Description
+    Quit.
+  
+End The killed.
+
+The nowhere Isa location
+  
+  Description
+  
+End The nowhere.
+
+The shorewater Isa object
+  Name water
+  At nowhere 
+  Description
+  
+End The shorewater.
+
+The waves Isa object
+  Name waves
+  At nowhere 
+  Description
+  
+End The waves.
+
+The sand Isa object
+  Name white sand
+  At nowhere 
+  Description
+  
+End The sand.
+
+The fakeprofessor Isa object
+  Name lost professor
+  At hilltop 
+  Description
+  
+  Verb examine, look_at, look_on, look_into
+    Does Only
+      "You can't see the Professor from here."
+  End Verb.
+  
+  Verb signal
+    Does Only
+      "How would you like to signal him?"
+  End Verb.
+  
+  Verb signal_with
+    Does Only
+      If obj1 <>fakeprofessor Then
+        "You can't do that."
+      Else 
+        If obj2 <>metal Then
+          "You can't signal him with the $o."
+        Else 
+          If metal Not In inventory Then
+            "You don't have any metal."
+          Else 
+            If metal Is cleaned Then
+              "You aim the metal at the sun, trying to create a signal that
+               the Professor can see. The shiny metal reflects the sunlight
+               quite well. After about ten minutes, you start to see a
+               similar signal in the far distance, across the river along
+               the shoreline. It must be the Professor. You now have an
+               approximate idea of where he is."
+              Make metal used.
+            Else 
+              "You can't signal the Professor with that."
+            End If.
+          End If.
+        End If.
+      End If.
+  End Verb.
+  
+End The fakeprofessor.
+
+The treetop1 Isa object
+  Name large tree
+  At treetop 
+  Description
+  
+  Verb climb_down
+    Does Only
+      "You climb down the tree."
+      Locate hero At jungle_pit.
+  End Verb.
+  
+End The treetop1.
+
+The trail1 Isa object
+  Name rocky trail
+  At clearings 
+  Description
+  
+End The trail1.
+
+The forest1 Isa object
+  Name forest
+  At clearings 
+  Description
+  
+End The forest1.
+
+The trail2 Isa object
+  Name rocky trail
+  At trail 
+  Description
+  
+End The trail2.
+
+The forest2 Isa object
+  Name forest
+  At trail 
+  Description
+  
+End The forest2.
+
+The trail3 Isa object
+  Name rocky trail
+  At forest 
+  Description
+  
+End The trail3.
+
+The forest3 Isa object
+  Name dark forest
+  At forest 
+  Description
+  
+End The forest3.
+
+The leaves2 Isa object
+  Name green leaf
+  At forest 
+  Description
+  
+End The leaves2.
+
+The trail4 Isa object
+  Name rocky trail
+  At hill 
+  Description
+  
+End The trail4.
+
+The hill1 Isa object
+  Name large hill
+  At hill 
+  Description
+  
+  Verb climb, climb_on, climb_up
+    Does Only
+      "You climb up the hillside."
+      Locate hero At hilltop.
+  End Verb.
+  
+End The hill1.
+
+The hill2 Isa object
+  Name large hill
+  At hilltop 
+  Description
+  
+  Verb climb_down
+    Does Only
+      "You climb down the hill."
+      Locate hero At hill.
+  End Verb.
+  
+End The hill2.
+
+The cave1 Isa object
+  Name small cave
+  At hill 
+  Description
+  
+  Verb enter, run_in
+    Does Only
+      Locate hero At cave.
+  End Verb.
+  
+End The cave1.
+
+The smoke Isa object
+  Name dark smoke
+  At hilltop 
+  Description
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "It doesn't appear to be coming from a natural fire."
+  End Verb.
+  
+  Verb breathe, breathe_in
+    Does Only
+      "Your lungs are not quite powerful enough to suck the smoke in from
+       this distance. I'm not really sure why you would want to anyway."
+  End Verb.
+  
+End The smoke.
+
+The rock1 Isa object
+  Name protruding rock
+  At hilltop 
+  Description
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "It looks very unstable."
+  End Verb.
+  
+  Verb climb_on, climb_up
+    Does Only
+      Locate hero At ledge.
+  End Verb.
+  
+End The rock1.
+
+The cave2 Isa object
+  Name dark cave
+  At cave 
+  Description
+  
+End The cave2.
+
+The tunnel1 Isa object
+  Name dark tunnel
+  At cave 
+  Description
+  
+  Verb run_in
+    Does Only
+      If lamp At cave Then
+        Locate hero At tunnel.
+      Else 
+        Locate hero At deadtunnel.
+      End If.
+  End Verb.
+  
+End The tunnel1.
+
+The waterfall Isa object
+  Name waterfall
+  At river 
+  Description
+  
+  Verb jump_into, enter
+    Does Only
+      Locate hero At rivercrossing.
+  End Verb.
+  
+End The waterfall.
+
+The river1 Isa object
+  Name river
+  At river 
+  Description
+  
+  Verb jump_into, enter
+    Does Only
+      Locate hero At rivercrossing.
+  End Verb.
+  
+End The river1.
+
+The coast1 Isa object
+  Name coastline
+  At river 
+  Description
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "You are too far away to make out any details."
+  End Verb.
+  
+End The coast1.
+
+The dinosaur5 Isa object
+  Name large tyranosaurus
+  At bushes 
+  Description
+  
+  Verb examine, look_at, look_on
+    Does Only
+      Locate hero At eaten.
+  End Verb.
+  
+  Verb attack
+    Does Only
+      "That would be suicide."
+  End Verb.
+  
+  Verb enter
+    Does Only
+      "You decide to examine the dinosaur at a much closer distance by
+       entering his body. The Tyranosaurus swallows you in one bite, killing
+       you instantly."
+      Locate hero At killed.
+  End Verb.
+  
+End The dinosaur5.
+
+The dinosaur6 Isa object
+  Name small dead dinosaur
+  At bushes 
+  Description
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "That may be your fate if you are not careful."
+  End Verb.
+  
+End The dinosaur6.
+
+The smoke2 Isa object
+  Name smoke
+  At shoreline 
+  Description
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "It looks like it is coming from very nearby."
+  End Verb.
+  
+  Verb breathe, breathe_in
+    Does Only
+      "You would rather not."
+  End Verb.
+  
+End The smoke2.
+
+The dinosaur7 Isa object
+  Name strange dinosaur
+  At jungle6x 
+  Description
+  
+  Verb attack
+    Does Only
+      "That would be too dangerous."
+  End Verb.
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "They are currently blocking your path in their direction."
+  End Verb.
+  
+  Verb give_to
+    Does Only
+      If obj1 <>eggs Then
+        "You would rather not do that."
+      Else 
+        If obj2 <>dinosaur7 Then
+          "There is no need to do that."
+        Else 
+          If eggs In inventory Then
+            Locate eggs At nowhere.
+            Locate hero At win_game.
+          Else 
+            "You do not have a dinosaur egg."
+          End If.
+        End If.
+      End If.
+  End Verb.
+  
+End The dinosaur7.
+
+The pit1 Isa object
+  Name large pit
+  At jungle4x 
+  Description
+  
+  Verb examine, look_into, look_on
+    Does Only
+      "It is too deep to safely cross."
+  End Verb.
+  
+  Verb enter, cross, jump_into, jump_across
+    Does Only
+      "You can not do this and still survive."
+  End Verb.
+  
+End The pit1.
+
+The tree9 Isa object
+  Name large tree
+  At swamp 
+  Description
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "It is covered with vines."
+  End Verb.
+  
+  Verb climb, climb_up, climb_on
+    Does Only
+      "You climb up the large tree."
+      Locate hero At tree.
+  End Verb.
+  
+End The tree9.
+
+The dirtywater Isa object
+  Name dirty water
+  At swamp 
+  Description
+  
+  Verb examine, look_at, look_on, look_into
+    Does Only
+      "The water is not very clear."
+  End Verb.
+  
+  Verb drink, taste
+    Does Only
+      "You don't think this water would be safe to use."
+  End Verb.
+  
+End The dirtywater.
+
+The tree8 Isa object
+  Name large tree
+  At tree 
+  Description
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "The tree is covered with vines."
+  End Verb.
+  
+  Verb climb_down
+    Does Only
+      "You climb down the tree."
+      Locate hero At swamp.
+  End Verb.
+  
+End The tree8.
+
+The pit2 Isa object
+  Name large pit
+  At jungle_pit 
+  Description
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "It is too deep to safely cross."
+  End Verb.
+  
+  Verb enter, cross, jump_into, jump_across
+    Does Only
+      "You can not do this and still survive."
+  End Verb.
+  
+End The pit2.
+
+The pit3 Isa object
+  Name large pit
+  At jungle3x 
+  Description
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "There does not appear to be a way to cross the pit from here."
+  End Verb.
+  
+  Verb cross, jump_into, jump_across, enter
+    Does Only
+      "You can not do this and still survive."
+  End Verb.
+  
+End The pit3.
+
+The pit4 Isa object
+  Name large pit
+  At branch 
+  Description
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "You are located directly over it. It is quite large and deep."
+  End Verb.
+  
+  Verb enter, jump_into
+    Does Only
+      "That would not be wise."
+  End Verb.
+  
+  Verb jump_across, swing_across, swing_on
+    Does Only
+      "You go far as you dare on the long branch. You then grab hold of the
+       branch and swing yourself over the pit. You just manage to clear it,
+       landing in a few bushes. You are a bit scratched, but nothing more."
+      Locate hero At jungle3x.
+  End Verb.
+  
+End The pit4.
+
+The tree2 Isa object
+  Name large tree
+  At jungle_pit 
+  Description
+  
+  Verb climb, climb_up, climb_on
+    Does Only
+      "You climb up the tree."
+      Locate hero At treetop.
+  End Verb.
+  
+End The tree2.
+
+The nest Isa object
+  Name large nest
+  At jungle3x 
+  Description
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "There are several large eggs located within it."
+  End Verb.
+  
+End The nest.
+
+The shore7 Isa object
+  Name shoreline
+  At jungle6x 
+  Description
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "You can just make out the shoreline through the plant growth. The
+       large dinosaurs here are blocking further passage to the shore."
+  End Verb.
+  
+End The shore7.
+
+The branch2 Isa object
+  Name sturdy branch
+  At treetop 
+  Description
+  
+  Verb examine
+    Does Only
+      "To your direct east is a large, strudy branch."
+  End Verb.
+  
+  Verb climb_on, enter, climb_up, climb
+    Does Only
+      Locate hero At branch.
+  End Verb.
+  
+End The branch2.
+
+The branch1 Isa object
+  Name sturdy branch
+  At branch 
+  Description
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "It is long and quite sturdy. It extends out over the pit below."
+  End Verb.
+  
+  Verb jump_from
+    Does Only
+      "You go far as you dare on the long branch. You then grab hold of the
+       branch and swing yourself over the pit. You just manage to clear it,
+       landing in a few bushes. You are a bit scratched, but nothing more."
+      Locate hero At jungle3x.
+  End Verb.
+  
+End The branch1.
+
+The water Isa object
+  Name blue water
+  At river 
+  Description
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "It is quite wet."
+  End Verb.
+  
+  Verb take, pick_up, scoop_up
+    Does Only
+      "You reach into the fast flowing water and wash off."
+  End Verb.
+  
+End The water.
+
+The dinosaur2 Isa object
+  Name large dinosaur
+  At hidden 
+  Description
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "You are not sure if it is a dinosaur."
+  End Verb.
+  
+End The dinosaur2.
+
+The dinosaurs Isa object
+  Name strange herd 'of' large dinosaur
+  At shoreline 
+  Mentioned
+    "herd of large dinosaurs"
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "They appear to have large beaks."
+  End Verb.
+  
+  Verb attack
+    Does Only
+      "That would be too dangerous."
+  End Verb.
+  
+End The dinosaurs.
+
+The bushes1 Isa object
+  Name green bushes
+  At jungle3x 
+  Description
+  
+  Verb examine, look_at, look_on
+    Does Only
+      If dinosaur2 At hidden Then
+        "You are not sure, but you think you can see something moving
+         behind them."
+      Else 
+        "You can't see anything moving behind them any longer."
+      End If.
+  End Verb.
+  
+End The bushes1.
+
+The fakevines Isa object
+  Name green vine
+  At nowhere 
+  Description
+  
+  Verb take, cut, pick_up
+    Does Only
+      "You do not need any more vines."
+  End Verb.
+  
+End The fakevines.
+
+The fakeleaf Isa object
+  Name large green leaf
+  At nowhere 
+  Description
+  
+  Verb take, pick_up, cut
+    Does Only
+      "You do not need any more leaves."
+  End Verb.
+  
+End The fakeleaf.
+
+The fakemud Isa object
+  Name dark sticky mud
+  At nowhere 
+  Description
+  
+  Verb examine
+    Does Only
+      "The mud is quite thick and sticky."
+  End Verb.
+  
+  Verb take, pick_up, scoop_up
+    Does Only
+      "You don't need any more mud."
+  End Verb.
+  
+End The fakemud.
+
+The mud Isa object
+  Name dark sticky mud
+  At tunnel 
+  Description
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "The mud is quite thick and sticky."
+  End Verb.
+  
+  Verb 'use'
+    Does Only
+      "How would you like to use the mud?"
+  End Verb.
+  
+  Verb drop
+    Does Only
+      If mud In inventory Then
+        "You would rather keep the mud for now."
+      Else 
+        "You don't have any mud."
+      End If.
+  End Verb.
+  
+  Verb take, pick_up, scoop_up
+    Does Only
+      If mud In inventory Or raft Is safe Then
+        "You already have all the mud you could possibly need."
+      Else 
+        "What would you like to put the mud in?"
+      End If.
+  End Verb.
+  
+  Verb put_in, scoop_up_with, pick_up_with, take_with, push_in
+    Does Only
+      If obj1 <>mud Then
+        "You would rather not do that."
+      Else 
+        If obj2 <>cans Then
+          "You would rather not do that."
+        Else 
+          If mud In inventory Or raft Is safe Then
+            "You have all the mud you could possibly need."
+          Else 
+            If cans In inventory Then
+              Locate mud In inventory.
+              "You fill the cans up with mud."
+            Else 
+              "You have nothing to hold the mud in."
+            End If.
+          End If.
+        End If.
+      End If.
+  End Verb.
+  
+  Verb use_on, put_on
+    Does Only
+      If obj1 <>mud Then
+        "You can not do that."
+      Else 
+        If obj2 =raft Or obj2 =wood Or obj2 =vines Then
+          If hero At river Then
+            If raft At river Then
+              "You rub the mud onto the vines and wood. You wait a short
+               while for the mud to dry. It quickly does so, creating a
+               stronger bond. "
+              Locate fakeraft At nowhere.
+              Locate mud At nowhere.
+              Locate fakemud At tunnel.
+              Make raft safe.
+            Else 
+              "You have no need to use the mud at this time."
+            End If.
+          Else 
+            "There is nothing here to use the mud on."
+          End If.
+        Else 
+          "You have no need to do that."
+        End If.
+      End If.
+  End Verb.
+  
+End The mud.
+
+The lamp Isa object
+  Name electric lamp
+  At nowhere 
+  Description
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "It is currently on."
+  End Verb.
+  
+  Verb take, pick_up
+    Does Only
+      "You would rather leave it here."
+  End Verb.
+  
+  Verb turn_off
+    Does Only
+      "You would rather leave it on."
+  End Verb.
+  
+End The lamp.
+
+The vines Isa object
+  Name green vine
+  At tree 
+  Description
+  
+  Verb take, pick_up
+    Does Only
+      If vines In inventory Then
+        "You already have them."
+      Else 
+        "They are too hard to break with your bare hands."
+      End If.
+  End Verb.
+  
+  Verb drop
+    Does Only
+      If vines In inventory Then
+        "You would rather hold onto the vines for now."
+      Else 
+        "You do not have them."
+      End If.
+  End Verb.
+  
+  Verb cut_with, take_with
+    Does Only
+      If obj1 <>vines Then
+        "You can't do that."
+      Else 
+        If obj2 <>axe Then
+          "You can't do that."
+        Else 
+          If axe Not In inventory Then
+            "You have nothing to cut them with."
+          Else 
+            If vines In inventory Then
+              "You already have them."
+            Else 
+              If raft Not At river Then
+                "You cut down the vines."
+                Locate vines In inventory.
+              Else 
+                "You have no need for any more vines."
+              End If.
+            End If.
+          End If.
+        End If.
+      End If.
+  End Verb.
+  
+  Verb cut
+    Does Only
+      "What would you like to cut them with?"
+  End Verb.
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "The vines appear to be strong."
+  End Verb.
+  
+  Verb 'use'
+    Does Only
+      "How would you like to use them?"
+  End Verb.
+  
+  Verb tie
+    Does Only
+      "What would you like to tie them to?"
+  End Verb.
+  
+  Verb use_on
+    Does Only
+      If obj1 <>vines Then
+        "You can not do that."
+      Else 
+        If obj2 <>wood Then
+          "You have no need to tie that."
+        Else 
+          If hero At river Then
+            If wood Is cut Then
+              "You tie the wood together using the vines. You now have a
+               small raft."
+              Locate raft At river.
+              Locate fakeraft At nowhere.
+              Locate vines At nowhere.
+              Locate fakevines At tree.
+            Else 
+              "The wood is too large to tie up."
+            End If.
+          Else 
+            "There is nothing here to tie."
+          End If.
+        End If.
+      End If.
+  End Verb.
+  
+End The vines.
+
+The eggs Isa object
+  Name large eggs
+  At jungle3x 
+  Description
+  
+  Verb eat
+    Does Only
+      "The eggs are a bit large for you to swallow."
+  End Verb.
+  
+  Verb take, pick_up
+    Does Only
+      If eggs In inventory Then
+        "You can't hold any more eggs."
+      Else 
+        If dinosaur2 At hidden Then
+          "You start to take a dinosaur egg. Just as you are picking it up,
+           a large dinosaur pops up from behind the bushes. It must be the
+           mother. She attacks you wildly and kills you."
+          Locate hero At killed.
+        Else 
+          "You quickly take a few of the large dinosaur eggs."
+          Locate eggs In inventory.
+        End If.
+      End If.
+  End Verb.
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "The eggs are very large."
+  End Verb.
+  
+  Verb drop
+    Does Only
+      If hero At jungle6x Then
+        Locate eggs At nowhere.
+        Locate hero At win_game.
+      Else 
+        "There is no need to drop them here."
+      End If.
+  End Verb.
+  
+End The eggs.
+
+The metal Isa object
+  Name rusted shiny metal
+  At nowhere 
+  Is 
+    takeable.
+  Is 
+    Not cleaned.
+  Is 
+    Not used.
+  Mentioned
+    If metal Is cleaned Then
+      "piece of shiny metal"
+    Else 
+      "piece of rusted metal"
+    End If.
+  
+  Verb examine, look_at, look_on
+    Does Only
+      If metal Is cleaned Then
+        "The metal is quite shiny and reflective."
+      Else 
+        "The metal is a rusty and dirty."
+      End If.
+  End Verb.
+  
+  Verb drop
+    Does Only
+      If metal In inventory Then
+        "You would rather hold onto the metal for now."
+      Else 
+        "You are not holding the piece of metal."
+      End If.
+  End Verb.
+  
+  Verb clean
+    Does Only
+      If hero At river Then
+        "You clean off the piece of metal using the nearby water."
+        Make metal cleaned.
+      Else 
+        "There is nothing here to clean it with."
+      End If.
+  End Verb.
+  
+  Verb clean_in, clean_with
+    Does Only
+      If obj1 <>metal Then
+        "You can't do that."
+      Else 
+        If obj2 =river1 Or obj2 =waterfall Or obj2 =water Then
+          "You clean off the metal using the nearby water."
+          Make metal cleaned.
+        Else 
+          "You can't clean the piece of metal using that."
+        End If.
+      End If.
+  End Verb.
+  
+  Verb shine, aim
+    Does Only
+      If hero At hilltop Then
+        "You aim the metal at the sun, trying to create a signal that the
+         Professor can see. The shiny metal reflects the sunlight quite
+         well. After about ten minutes, you start to see a similar signal in
+         the far distance, across the river along the shoreline. It must be
+         the Professor. You now have an approximate idea of where he is."
+        Make metal used.
+      Else 
+        "There is no need to do that here."
+      End If.
+  End Verb.
+  
+End The metal.
+
+The box Isa object
+  Name old iron box
+  At cave 
+  Is 
+    Not open.
+  Is 
+    Not greased.
+  Description
+    "There is an old iron box here."
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "It is a large box. The hinges appear to be very rusty. This box is
+       proof the Professor must have been here."
+  End Verb.
+  
+  Verb take, pick_up
+    Does Only
+      "The box is too heavy to easily carry around."
+  End Verb.
+  
+  Verb open
+    Does Only
+      If box Is open Then
+        "It is already open."
+      Else 
+        If box Is greased Then
+          Make box open.
+          "You manage to lift the rusty lid of the box. It seems that rust
+           had been holding the box together, as it seems to fall into
+           pieces as the oily substance flows over it. There are some basic
+           supplies here. There is some canned food, a small axe and an
+           electronic lamp. You set the lamp up, illuminating the cave."
+          Locate food1 At cave.
+          Locate lamp At cave.
+          Locate axe At cave.
+          Locate box At nowhere.
+          Locate metal At cave.
+        Else 
+          "You try to open the lid, but it is stuck from rust."
+        End If.
+      End If.
+  End Verb.
+  
+  Verb close
+    Does Only
+      If box Is open Then
+        "You would rather leave it open."
+      Else 
+        "It is already closed."
+      End If.
+  End Verb.
+  
+  Verb oil_with
+    Does Only
+      If obj1 <>box Then
+        "You do not need to oil that."
+      Else 
+        If obj2 <>grease Then
+          "You can't do that."
+        Else 
+          If grease In inventory Then
+            "You put the oily substance on the hinges of the box."
+            Make box greased.
+            Locate grease At nowhere.
+            Locate leaf At nowhere.
+            Locate fakeleaf At tree.
+          Else 
+            "You have nothing to oil it with."
+          End If.
+        End If.
+      End If.
+  End Verb.
+  
+  Verb oil
+    Does Only
+      If grease In inventory Then
+        "You put the oily substance on the hinges of the box."
+        Make box greased.
+        Locate grease At nowhere.
+        Locate leaf At nowhere.
+        Locate fakeleaf At tree.
+      Else 
+        "You have nothing to oil it with."
+      End If.
+  End Verb.
+  
+End The box.
+
+The food1 Isa object
+  Name canned food
+  At nowhere 
+  Is 
+    takeable.
+  Mentioned
+    "selection of canned food"
+  
+  Verb lick
+    Does Only
+      "Don't just lick it. Get a nice mouthful."
+  End Verb.
+  
+  Verb eat, open
+    Does Only
+      "You open the cans of food and dig in. The food isn't exactly
+       delicious, but it is edible."
+      Locate food1 At nowhere.
+      Locate cans In inventory.
+  End Verb.
+  
+End The food1.
+
+The cans Isa object
+  Name old cans
+  At nowhere 
+  Is 
+    takeable.
+  Mentioned
+    "few cans"
+  
+  Verb open
+    Does Only
+      "They are already open."
+  End Verb.
+  
+  Verb close
+    Does Only
+      "You can't close them."
+  End Verb.
+  
+  Verb fill_with
+    Does Only
+      If obj1 <>cans Then
+        "You do not need to fill that."
+      Else 
+        If obj2 <>mud Then
+          "You do not need to do that."
+        Else 
+          If mud In inventory Or raft Is safe Then
+            "You do not need any more mud."
+          Else 
+            "You fill the cans with mud."
+            Locate mud In inventory.
+          End If.
+        End If.
+      End If.
+  End Verb.
+  
+  Verb fill
+    Does Only
+      If mud In inventory Or raft Is safe Then
+        If hero At tunnel Then
+          "You fill the cans with the mud."
+          Locate mud In inventory.
+        Else 
+          "You have no need to do this."
+        End If.
+      End If.
+  End Verb.
+  
+  Verb drop
+    Does Only
+      "You would rather hold onto the cans for now."
+  End Verb.
+  
+End The cans.
+
+The axe Isa object
+  Name small axe
+  At nowhere 
+  Is 
+    takeable.
+  Description
+    "There is an axe here."
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "It is a small axe. The blade is very sharp, however."
+  End Verb.
+  
+  Verb lick
+    Does Only
+      "Hmm, it just might not be safe to lick a sharp axe. Using your
+       better judgement, you decide against it."
+  End Verb.
+  
+  Verb use_on
+    Does Only
+      If obj1 <>axe Then
+        "You can't do that."
+      Else 
+        If hero At river Then
+          If obj2 =wood Then
+            "You cut the wood into smaller pieces."
+            Make wood cut.
+          Else 
+            "You can not cut that."
+          End If.
+        Else 
+          If hero At tree Then
+            If obj2 =vines Then
+              "You chop down some of the vines, which you take."
+              Locate vines In inventory.
+            Else 
+              "You can't cut that."
+            End If.
+          Else 
+            "You can't cut that."
+          End If.
+        End If.
+      End If.
+  End Verb.
+  
+  Verb 'use'
+    Does Only
+      "What would you like to use it on?"
+  End Verb.
+  
+End The axe.
+
+The wood Isa object
+  Name drift wood
+  At river 
+  Is 
+    Not cut.
+  Description
+    If raft Not At river Then
+      If wood Is cut Then
+        "There are several pieces of cut wood here."
+      Else 
+        "There are several large pieces of wood here."
+      End If.
+    End If.
+  
+  Verb examine, look_at, look_on
+    Does Only
+      If wood Is cut Then
+        "They are simply cut pieces of driftwood."
+      Else 
+        "They are large pieces of driftwood."
+      End If.
+  End Verb.
+  
+  Verb take, pick_up
+    Does Only
+      "They would be too awkward to walk around with."
+  End Verb.
+  
+  Verb tie
+    Does Only
+      "Please state what you would like to tie it with."
+  End Verb.
+  
+  Verb tie_with
+    Does Only
+      If obj1 <>wood Then
+        "You can't do that."
+      Else 
+        If wood Is cut Then
+          If obj2 =vines Then
+            If vines In inventory Then
+              "You tie the wood together using the vines. A small raft is
+               now located here."
+              Locate raft At river.
+              Locate fakeraft At nowhere.
+              Locate vines At nowhere.
+              Locate fakevines At tree.
+            Else 
+              "You have nothing to tie them with."
+            End If.
+          Else 
+            "You can't tie the vines with that."
+          End If.
+        Else 
+          "The wood is too large to tie up."
+        End If.
+      End If.
+  End Verb.
+  
+  Verb cut
+    Does Only
+      If wood Is cut Then
+        "It is already cut."
+      Else 
+        "What would you like to cut it with?"
+      End If.
+  End Verb.
+  
+  Verb cut_with
+    Does Only
+      If obj1 <>wood Then
+        "You can't do that."
+      Else 
+        If obj2 =axe Then
+          If axe In inventory Then
+            If wood Is cut Then
+              "It is already cut."
+            Else 
+              "You cut the wood into smaller pieces."
+              Make wood cut.
+            End If.
+          Else 
+            "You do not have an axe."
+          End If.
+        Else 
+          "You can not cut the wood with that."
+        End If.
+      End If.
+  End Verb.
+  
+End The wood.
+
+The fakeraft Isa object
+  Name wooden raft
+  At river 
+  Description
+  
+  Verb create
+    Does Only
+      If wood Is Not cut Then
+        "The wood is too large to use."
+      Else 
+        If vines In inventory Then
+          "You tie the wood and create a small raft."
+          If mud In inventory Then
+            "You use the mud to create a stronger bond between the vines
+             and the wood."
+            Make raft safe.
+            Locate fakeraft At nowhere.
+            Locate raft At river.
+            Locate vines At nowhere.
+            Locate fakevines At tree.
+            Locate mud At nowhere.
+            Locate fakemud At tunnel.
+          End If.
+        Else 
+          "You don't have enough equipment."
+        End If.
+      End If.
+  End Verb.
+  
+End The fakeraft.
+
+The raft Isa object
+  Name simple wooden raft
+  At nowhere 
+  Is 
+    Not safe.
+  Description
+    "There is a raft here."
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "It looks a bit unsturdy, but it may do the job."
+  End Verb.
+  
+  Verb take, pick_up
+    Does Only
+      "The raft is too large to carry."
+  End Verb.
+  
+  Verb put_in, push_in
+    Does Only
+      If obj1 <>raft Then
+        "You can't do that."
+      Else 
+        If obj2 =river1 Or obj2 =waterfall Or obj2 =water Then
+          If raft Is safe Then
+            If metal Is used Then
+              Locate raft At shore.
+              Locate hero At shore.
+            Else 
+              Locate hero At lost.
+            End If.
+          Else 
+            Locate hero At drowning.
+          End If.
+        Else 
+          "You can't put the raft in that."
+        End If.
+      End If.
+  End Verb.
+  
+  Verb 'use', push, sail
+    Does Only
+      If raft Is safe Then
+        If metal Is used Then
+          Locate raft At shore.
+          Locate hero At shore.
+        Else 
+          Locate hero At lost.
+        End If.
+      Else 
+        Locate hero At drowning.
+      End If.
+  End Verb.
+  
+End The raft.
+
+The stone Isa object
+  Name small brown rock
+  At shoreline 
+  Is 
+    takeable.
+  Is 
+    throwable.
+  Description
+    "There is a small rock here."
+  
+  Verb eat
+    Does Only
+      If stone In inventory Then
+        "You swallow the rock in order to get your minerals for the day.
+         Almost immediately after hitting your stomach you feel an urge to
+         vomit, and you do so. The stone pops up and you put it back into
+         your pocket."
+      Else 
+        "You must really be hungry to have an urge to eat rocks.
+         Unfortunately, none are currently in your possesion."
+      End If.
+  End Verb.
+  
+  Verb throw_at
+    Does Only
+      If obj1 <>stone Then
+        "You can't throw that."
+      Else 
+        If hero At jungle3x Then
+          If obj2 =bushes1 Or obj2 =dinosaur2 Then
+            "You throw the stone over the nearby bushes. You hear a rumble
+             as you see a large dinosaur move toward the thrown rock."
+            Locate dinosaur2 At nowhere.
+            Locate stone At nowhere.
+          Else 
+            "You have no need to throw it at that."
+          End If.
+        Else 
+          "There is no need to throw the rock here."
+        End If.
+      End If.
+  End Verb.
+  
+  Verb throw
+    Does Only
+      If stone In inventory Then
+        "What would you like to throw it at?"
+      Else 
+        "You are not holding a rock."
+      End If.
+  End Verb.
+  
+End The stone.
+
+The timemachine Isa object
+  Name time machine
+  At clearings 
+  Is 
+    Not visited.
+  Is 
+    greasy.
+  Description
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "The time machine is in generally good working order. Several of the
+       manual controls are not present, but the Professor should hopefully
+       be able to fix them. That is, if you ever find him."
+      If timemachine Is greasy Then
+        "There appears to be an greasy substance around the control panel."
+        Locate grease At clearings.
+      End If.
+  End Verb.
+  
+  Verb enter, 'use', sit_in
+    Does Only
+      "It is currently overheated and unsafe to use. You better wait a
+       little while."
+  End Verb.
+  
+End The timemachine.
+
+The grease Isa object
+  Name grease
+  At nowhere 
+  Mentioned
+    "greasy substance"
+  
+  Verb examine, look_at, look_on
+    Does Only
+      "It looks unpleasant."
+  End Verb.
+  
+  Verb take_with, pick_up_with, scoop_up_with
+    Does Only
+      If obj1 <>grease Or obj2 <>leaf Then
+        "You can't do that."
+      Else 
+        If grease In inventory Then
+          "You already have it."
+        Else 
+          If leaf In inventory Then
+            "You scoop out some of the substance onto a leaf."
+            Locate grease In inventory.
+            Make timemachine Not greasy.
+          Else 
+            "You do not have anything to hold it with."
+          End If.
+        End If.
+      End If.
+  End Verb.
+  
+  Verb take, pick_up, scoop_up
+    Does Only
+      If grease In inventory Then
+        "You already have it."
+      Else 
+        "Please state how you will pick it up."
+      End If.
+  End Verb.
+  
+  Verb 'use', scoop
+    Does Only
+      "What would you like to use it on?"
+  End Verb.
+  
+  Verb put_on, 'use_on', scoop_on
+    Does Only
+      If obj1 <>grease Then
+        "You have no need to do that."
+      Else 
+        If obj2 =leaf Then
+          If leaf In inventory Then
+            "You scoop out some of the substance onto a leaf."
+            Locate grease In inventory.
+            Make timemachine Not greasy.
+          Else 
+            "You do not have a leaf."
+          End If.
+        Else 
+          If obj2 <>box Then
+            "There is no need to do that."
+          Else 
+            If hero At cave Then
+              "You put the oily substance on the hinges of the box."
+              Make box greased.
+              Locate leaf At nowhere.
+              Locate fakeleaf At tree.
+              Locate grease At nowhere.
+            Else 
+              "You have no need to do that."
+            End If.
+          End If.
+        End If.
+      End If.
+  End Verb.
+  
+End The grease.
+
+The leaf Isa object
+  Name large green leaf
+  At tree 
+  Is 
+    takeable.
+  Description
+  
+  Verb drop
+    Does Only
+      If leaf In inventory Then
+        "You would rather keep the leaf."
+      Else 
+        "You do not have it."
+      End If.
+  End Verb.
+  
+  Verb examine, look_at, look_on
+    Does Only
+      If grease In inventory Then
+        "The leaf is full of grease."
+      Else 
+        "It is a large green leaf."
+      End If.
+  End Verb.
+  
+  Verb plant
+    Does Only
+      "This leaf will never grow again."
+  End Verb.
+  
+End The leaf.
+
+Start At clearings.
+  " A Matter of Time $n $n An Introductory Adventure $n $n (C) 1995 Michael
+   Zerbo $n Created using ALAN Version 2.5 $n $n You are a research
+   physicist named Jonathan Stone. You are standing in the Professor's
+   laboratory. It is the year 2150. You are about to embark on a great
+   journey, a journey into the unknown. In front of you is the Professor's
+   time machine. The control panel is apparently missing. However, the dials
+   are locked on a specific date. A date seventy-five million years into the
+   past. This will be your destination, searching for your mentor and
+   friend... $n $n Your story began several days ago as Dr. Joseph Adams and
+   Dr. Karl Evers, bitter rivals, were each working on their version of a
+   machine which would travel in time. They were working towards a deadline
+   for government funding. Only one would receive it, the other left out in
+   the cold. You worked for Professor Adams as an assistant. His daughter
+   Clarisse also helped out when she could. $n $n You knew Professor Adams
+   was coming close to a breakthrough with his work, although you had no
+   idea how close he was to actually creating a working time machine. $n $n
+   This morning Dr. Evers was found dead in his laboratory, apparently
+   murdered. Two bullet holes were found in his head. The police visited you
+   a short while ago, requesting the presence of Dr. Adams for questioning.
+   To your surprise he was nowhere to be found. The police automatically
+   began a hunt for Dr. Adams, who became their prime suspect. Just now, as
+   you carefully look over the Professor's laboratory do you discover where
+   the Professor went... $n $n The time machine is missing... $n $n $n You
+   begin a search for any information the Professor may have left behind. A
+   small note sticking out from one of the Professor's notebooks, catches
+   your eye. You quickly remove it. $n $n $n It reads as follows: $n $n I am
+   going alone. It is too dangerous to risk other lives. I will attempt to
+   go as far back as we had planned, to the brink of oblivion, when time
+   began. I will search for what man has searched for his entire existance,
+   the proof of God. I will return on the day you are reading this note. $n
+   $n - Professor Adams $n $n You call Clarisse into the room and show her
+   what you found. You both can not believe that the Professor was involved
+   in the murder. It must be just a coincidence that the Professor tested
+   his machine this morning. You did not think the machine was ready for
+   use, but obviously you had been mistaken. $n $n Just then, with a flash
+   of light, the time machine reappears in the laboratory. However, it is
+   empty. You remember a safety device inside the machine which could be set
+   to return it to the present time in case of a problem. Unfortunately,
+   that is what must have happened. $n $n ""I am going after him"", you hear
+   Clarisse saying. You know you will have to find him if he is still alive.
+   However, you are not sure about bringing Clarisse along. Also, you know
+   you must hurry."
+  

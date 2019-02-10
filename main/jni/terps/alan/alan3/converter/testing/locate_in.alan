@@ -1,0 +1,24 @@
+syntax put_in = 'put' (obj) 'in' (cont)
+			where cont isa container
+				else "You can't put anything in that."
+
+verb put_in
+does
+	locate o in cont.
+	locate obj in cont.
+	locate obj in c.
+end verb.
+
+object c at l
+  container
+end object.
+
+object o at l
+end object.
+
+location l
+end location l.
+
+
+start at l.
+

@@ -1,0 +1,32 @@
+#include <cgreen/cgreen.h>
+#include <cgreen/mocks.h>
+
+#include "emit.h"
+
+
+/* DATA */
+
+ACodeHeader acodeHeader;
+
+
+/* FUNCTIONS */
+
+void initEmit(char acodeFileName[]) { mock(acodeFileName); }
+void initEmitBuffer(Aword *bufferToUse) { mock(bufferToUse); }
+Aaddr nextEmitAddress(void) { return (Aaddr)mock(nextEmitAddress); }
+void emitString(char str[]) { mock(str); }
+void emitVariable(Aword word) { mock(word); }
+void emitConstant(int word) { mock(word); }
+void emitN(void *words, int noOfWords) { mock(words, noOfWords); }
+void emitEntry(void *entryToEmit, int noOfBytes) { mock(entryToEmit, noOfBytes); }
+void emit0(Aword op) { mock(op); }
+void emit1(Aword op, Aword arg1) { mock(op, arg1); }
+void emit2(Aword op, Aword arg1, Aword arg2) { mock(op, arg1, arg2); }
+void emit3(Aword op, Aword arg1, Aword arg2, Aword arg3) { mock(op, arg1, arg2, arg3); }
+void copyTextDataToAcodeFile(char dataFileName[]) { mock(dataFileName); }
+Aint emitControlStructure(void) { return (Aint)mock(); }
+void writeHeader(ACodeHeader *acodeHeader) { mock(acodeHeader); }
+void emit(Aword word) { mock(word); }
+Aword reversed(Aword word) { return (Aword)mock(word); }
+void finalizeEmit(void) { mock(); }
+void terminateEmit(void) { mock(); }

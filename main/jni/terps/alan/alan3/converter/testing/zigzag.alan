@@ -1,0 +1,28 @@
+Syntax
+	'quit' = 'quit'.
+	zig_zag = 'zig zag'.
+
+Verb quit
+	Does
+		quit.
+End Verb.
+
+Location INSIDE
+	Description
+		"You are now on the inside"
+	Exit bar To OUTSIDE.
+End Location.
+
+Location OUTSIDE
+	Description
+		"You are now on the outside"
+	Exit foo To INSIDE.
+End Location.
+
+Location SECRET
+	Description
+		"You are now in a secret place!"
+	Exit leave To OUTSIDE.
+End Location.
+
+Start at INSIDE.

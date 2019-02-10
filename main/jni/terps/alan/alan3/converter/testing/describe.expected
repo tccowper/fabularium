@@ -1,0 +1,34 @@
+########## describe ##########
+
+
+The loc Isa location
+  Name grand 'Location'
+  
+  Description
+    "You are at a Grand Location."
+  
+End The loc.
+
+The o Isa object
+  At loc 
+End The o.
+Syntax
+  l = l.
+
+Verb l
+  Does
+    Look.
+End Verb.
+
+Syntax
+  d = d.
+
+Verb d
+  Does
+    Describe Current Location.
+End Verb.
+
+
+Start At loc.
+  "'d' for describe, 'l' for look."
+  

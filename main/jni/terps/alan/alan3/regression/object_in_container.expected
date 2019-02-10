@@ -1,0 +1,29 @@
+########## object_in_container ##########
+
+        No warnings or errors detected.
+
+
+
+O In outer: yes, ok 
+o In inner1: no, ok 
+o In inner2: no, ok 
+o In innermost: no, ok 
+o1 In outer: yes, ok 
+o1 In inner1: yes, ok 
+o1 In inner2: no, ok 
+o1 In innermost: no, ok 
+o2 In outer: yes, ok 
+o2 In inner1: no, ok 
+o2 In inner2: yes, ok 
+o2 In innermost: no, ok 
+om In outer: yes, ok 
+om In inner1: yes, ok 
+om In inner2: no, ok 
+om In innermost yes, ok
+
+
+L
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

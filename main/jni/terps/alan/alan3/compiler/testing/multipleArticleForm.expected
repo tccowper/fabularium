@@ -1,0 +1,28 @@
+########## multipleArticleForm ##########
+
+
+multipleArticleForm.alan
+
+    3.    Indefinite Form "form"
+=====>               1
+
+  *1*   204 E : Multiple use of [Indefinite] Article/Form clause in this
+                class/instance.
+
+    8.    Article "a"
+=====>    1
+
+  *1*   204 E : Multiple use of [Indefinite] Article/Form clause in this
+                class/instance.
+
+   13.    Form "if"
+=====>    1
+
+  *1*   204 E : Multiple use of [Indefinite] Article/Form clause in this
+                class/instance.
+
+
+        3 error(s).
+        No detected warnings.
+        1 informational message(s).
+

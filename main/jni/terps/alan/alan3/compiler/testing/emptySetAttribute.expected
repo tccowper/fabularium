@@ -1,0 +1,17 @@
+########## emptySetAttribute ##########
+
+
+emptySetAttribute.alan
+
+    2.    Has aSet {}.
+=====>        1
+
+  *1*   413 E : Empty Sets are not allowed unless the attribute is inherited.
+                At least one member is necessary to infer the type and class of
+                members.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

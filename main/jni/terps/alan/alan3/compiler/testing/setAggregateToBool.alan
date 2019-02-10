@@ -1,0 +1,6 @@
+The l Isa location
+  Is x.
+End The l.
+
+Start At l.
+  Set x Of l To Sum of x At l.

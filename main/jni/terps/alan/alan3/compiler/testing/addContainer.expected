@@ -1,0 +1,16 @@
+########## addContainer ##########
+
+
+addContainer.alan
+
+    6.    Container
+=====>    1
+
+  *1*   336 E : You cannot Add container properties when the class already have
+                it.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

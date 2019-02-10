@@ -1,0 +1,39 @@
+-- using a word as both an object name and a syntax word (sjg)
+
+the first isa location
+end the first.
+
+--the problem isa object
+  --  name hole
+  the hole isa object
+  end the.
+--    end the problem.
+
+----
+syntax digga = dig 'a' hole.
+
+verb digga
+does "You dig a hole here"
+--    locate problem at first.
+locate hole at first.
+"$pNow try to look at hole"
+end verb.
+
+
+----
+syntax lookat = 'look' 'at' (obj)
+where obj isa object
+else "You can't do it, mate."
+
+add to every object
+verb lookat
+does 
+describe obj.
+end verb.
+end add to.
+
+
+start at first.
+"Try to dig a hole
+$p(Ctrl-C to quit)"
+

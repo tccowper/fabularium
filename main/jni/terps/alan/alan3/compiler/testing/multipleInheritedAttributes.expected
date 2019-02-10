@@ -1,0 +1,15 @@
+########## multipleInheritedAttributes ##########
+
+
+multipleInheritedAttributes.alan
+
+    7.    Has i 4.
+=====>        1
+
+  *1*   218 E : Multiple definition of attribute 'i'.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -1,0 +1,16 @@
+The l Isa location
+  Has janitor janitor.
+  Has nonactor 4.
+End The l.
+
+Syntax 'use' = 'use' (a)
+  Where a Isa actor Else "Must use for an actor."
+
+The janitor Isa actor
+  Verb 'use'
+    Does
+      Use Script unknown For a.
+  End Verb.
+End The janitor.
+
+Start At l.

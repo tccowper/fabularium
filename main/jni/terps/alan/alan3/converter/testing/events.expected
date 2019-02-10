@@ -1,0 +1,73 @@
+########## events ##########
+
+Syntax
+  take = 'take' (o)*.
+
+Verb take
+  Does
+    Locate o In inventory.
+    "Taken."
+End Verb.
+
+Syntax
+  drop = 'drop' (o)*.
+
+Verb drop
+  Check object In inventory
+    Else 
+      "You don't have the $o."
+  Does
+    Locate object Here.
+End Verb.
+
+Syntax
+  l = 'l'.
+
+Verb l
+  Does
+    Look.
+End Verb.
+
+Syntax
+  i = 'i'.
+
+Verb i
+  Does
+    List inventory.
+End Verb.
+
+Syntax
+  q = 'q'.
+
+Verb q
+  Does
+    Quit.
+End Verb.
+
+Syntax
+  z = 'z'.
+
+Verb z
+  Does
+    ""
+End Verb.
+
+Event e1
+  "Happens every turn."
+  Schedule e1 After 1.
+End Event e1.
+
+Event e2
+  "Happens every 2."
+  Schedule e2 After 2.
+End Event e2.
+
+
+The loc Isa location
+  
+End The loc.
+
+Start At loc.
+  Schedule e1 After 1.
+  Schedule e2 After 2.
+  

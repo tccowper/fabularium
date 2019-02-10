@@ -1,0 +1,27 @@
+The l Isa location
+End The l.
+
+The pocket Isa object In hero
+  Container
+End The pocket.
+
+The stone Isa object In pocket
+End The stone.
+
+The purse Isa object In pocket
+ Opaque Container
+End The purse.
+
+The coin Isa object In purse
+End The coin.
+
+Syntax take = take (o).
+
+Add To Every object
+  Verb take
+  Does
+    "You take" Say the o. "."
+  End Verb.
+End Add.
+
+Start At l.

@@ -1,0 +1,15 @@
+########## syntaxWithoutVerb ##########
+
+
+syntaxWithoutVerb.alan
+
+    5.      put_in = 'put' (o) 'in' (c)
+=====>      1
+
+  *1*   207 E : VERB 'put_in' is not defined.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -1,0 +1,41 @@
+########## locate_in_parameter ##########
+Options
+  debug.
+  
+
+
+Syntax
+  put_in = 'put' (obj) 'in' (cont)
+    Where cont Isa container
+      Else 
+        "You can't put anything in"
+        Say cont.
+  
+
+Verb put_in
+  Does
+    Locate o In cont.
+    List cont.
+    Locate obj In cont.
+    List cont.
+    Locate obj In c.
+    List cont.
+End Verb.
+
+
+The c Isa object
+  At l 
+  With Container
+End The c.
+
+The o Isa object
+  At l 
+End The o.
+
+The l Isa location
+  
+End The l.
+
+Start At l.
+  "$pTry put-in."
+  

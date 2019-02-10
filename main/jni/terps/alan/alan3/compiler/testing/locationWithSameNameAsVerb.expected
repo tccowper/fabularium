@@ -1,0 +1,24 @@
+########## locationWithSameNameAsVerb ##########
+
+
+locationWithSameNameAsVerb.alan
+
+    4.  Syntax l = l.
+=====>         1
+
+  *1*   208 E : 'l' is not a VERB.
+
+    5.  Verb l
+=====>       1
+
+  *1*   304 E : 'l' also declared as an Instance (The).
+
+
+
+        208 E : 'l' is not a VERB.
+
+
+        3 error(s).
+        No detected warnings.
+        3 informational message(s).
+

@@ -1,0 +1,25 @@
+########## object_directly_at_location ##########
+
+        No warnings or errors detected.
+
+
+
+O Directly At outer: yes, ok 
+o1 Directly At outer: no, ok 
+o2 Directly At outer: no, ok 
+om Directly At outer: no, ok 
+o1 Directly At inner1: yes, ok 
+o2 Directly At inner2: yes, ok 
+o1 Directly At inner2: no, ok 
+o2 Directly At inner1: no, ok 
+om Directly At inner1: no, ok 
+om Directly At inner2: no, ok 
+om Directly At innermost yes, ok
+
+
+Inner1
+There is a o1 here.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

@@ -1,0 +1,22 @@
+########## initial_location_in_without_parent_should_not_crash ##########
+
+
+initial_location_in_without_parent_should_not_crash.alan
+
+    1.  The error_trigger Is Entity In error_trigger -- Note: 'is' instead of '
+        isa' causes instance to have no parent
+=====>      1                       2  3
+
+  *1*   429 E : No inheritance defined, everything must inherit from some
+                class.
+  *2*   101 E : Syntax error. Inserting "." before this token.
+  *2*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
+  *3*   404 E : Container is restricted to only contain instances of 'object'
+                and its subclasses.
+
+
+        4 error(s).
+        No detected warnings.
+        1 informational message(s).
+

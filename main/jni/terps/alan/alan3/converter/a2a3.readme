@@ -1,0 +1,53 @@
+
+			    Welcome to the
+		    Alan V2 to V3 Source Converter
+			      2003-09-23
+
+
+THE NEWS IN SHORT:
+
+This is a crude but working first version of a program that converts
+Alan source code from v2 to v3 format. (It will probably never be
+anything more than a crude version, since it is a run-once kind of a
+program, small enhancements might be made, and there are probably
+bugs, but don't hold your breath...).
+
+Since there are a number of small but tedious and repetetive changes
+that has to be made for a V2 source to be compatible with Alan v3 I
+hacked up this program.
+
+It will convert most simple changes such as:
+- OBJECT/ACTOR/LOCATION ATTRIBUTES are converted to Add To - constructs
+- OBJECT/ACTOR/LOCATION declarations are converted to The x Isa ...
+
+However it will not cope with the fact that global verbs can have no
+parameters but must be added to a class. Nor does it convert
+restrictions with "CONTAINER ACTOR" etc. to subsequent simple
+restrictions. You have to do these conversions manually. Some of these
+are marked by "****" in the output.
+
+Also it reads the complete source including included source files in
+one go and outputs all of it in one file. If you want to retain the
+file structure you have to hack up the output.
+
+You can run the converter from the command line, if so it takes two
+arguments, an input file name and an output file name.
+
+More than usual there are no guarantees. I have not made thorough
+tests, so I can't promise that it converts any input to something
+sensible, nor that it does not crash. But I hope this little hack
+might ease your work to convert to V3, which I hope you will do!
+
+NOTE that the a2a3.exe for Windows does require the cygwin1.dll, which
+you need to download from the internet due to its restrictions on its
+distribution. I hope this will change in the future.
+
+Any communication is welcome to thomas@alanif.se, and in particular
+I'd like to know if you have used it, is it worthwhile to continue to
+update the converter? (Since it hasn't been updated since 2003 you
+might conclude that I have not heard much from anyone, you might be
+the first one ;-)
+
+Thanks!
+
+/Thomas

@@ -1,0 +1,62 @@
+THE box ISA OBJECT AT loc1
+   CONTAINER
+END THE.
+
+THE bottle ISA OBJECT IN box
+   CONTAINER
+END THE.
+
+THE juice ISA OBJECT IN bottle.
+END THE.
+
+The ball Isa object in box
+End The ball.
+
+SYNTAX empty_in = 'empty' (obj) 'in' (cont)
+    WHERE obj ISA OBJECT
+     ELSE "no"
+    AND obj ISA CONTAINER
+     ELSE "no"
+    AND cont ISA OBJECT
+     ELSE "no"
+    AND cont ISA CONTAINER
+     ELSE "no"
+
+ADD TO EVERY OBJECT
+VERB empty_in
+   WHEN obj
+    DOES
+        EMPTY obj IN cont.
+       "You empty" SAY THE obj. "into" SAY THE cont. "."
+       List cont.
+END VERB.
+END ADD.
+
+SYNTAX put_in = 'put' (obj) 'in' (cont)
+    WHERE obj ISA OBJECT
+     ELSE "no"
+    AND cont ISA OBJECT
+     ELSE "no"
+    AND cont ISA CONTAINER
+     ELSE "no"
+
+ADD TO EVERY OBJECT
+VERB put_in
+   WHEN obj
+    DOES
+        LOCATE obj IN cont.
+       "You put" SAY THE obj." into" SAY THE cont. "."
+       List cont.
+END VERB.
+END ADD.
+
+THE loc1 ISA LOCATION
+END THE.
+
+START AT loc1.
+ 
+
+   
+
+
+     

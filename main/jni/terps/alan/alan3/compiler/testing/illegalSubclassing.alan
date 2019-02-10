@@ -1,0 +1,22 @@
+Every x1 Isa literal
+End Every.
+
+Every x2 Isa string
+End Every.
+
+Every x3 Isa integer
+End Every.
+
+The x4 Isa literal
+End The.
+
+The x5 Isa string
+End The.
+
+The x6 Isa integer
+End The.
+
+The l Isa location
+End The l.
+
+Start At l.

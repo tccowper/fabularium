@@ -1,0 +1,12 @@
+########## multiexit ##########
+digraph multiexit {
+  rankdir=LR;
+  node [shape=octagon;style=filled;]
+  l1[label="l1"];
+  l1 -> l1 [label=a];
+  l1 -> l1 [label=b];
+  l1 -> l1 [label=c];
+  l1 -> l1 [label=d];
+  l1 -> l1 [label=e];
+  l1 -> l1 [label=f];
+}

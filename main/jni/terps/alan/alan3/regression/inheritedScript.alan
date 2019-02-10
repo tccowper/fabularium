@@ -1,0 +1,28 @@
+Every y Isa actor
+  Script s.
+    Step "First step for" Say this.
+End Every y.
+
+Every x
+  Isa y
+End Every x.
+
+The a Isa x At l
+End The a.
+
+The b Isa y At l
+End The b.
+
+The l
+  Isa location
+End The l.
+
+Syntax z=z.
+Verb z
+Does "..."
+End Verb.
+
+
+Start At l.
+  Use Script s For a.
+  Use Script s For b.

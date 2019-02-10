@@ -1,0 +1,27 @@
+########## literal0 ##########
+
+
+literal0.alan
+
+    1.  Every literal Isa entity
+=====>        1
+
+  *1*   305 E : 'literal' also declared as a Class (Every).
+
+    4.  Every integer Isa literal
+=====>        1           2
+
+  *1*   305 E : 'integer' also declared as a Class (Every).
+  *2*   423 E : You cannot instantiate or sub-class 'literal'.
+
+    7.  Every string Isa literal
+=====>        1          2
+
+  *1*   305 E : 'string' also declared as a Class (Every).
+  *2*   423 E : You cannot instantiate or sub-class 'literal'.
+
+
+        5 error(s).
+        No detected warnings.
+        4 informational message(s).
+

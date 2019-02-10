@@ -1,0 +1,664 @@
+The Inform Standard Library
+===========================
+
+The standard header files are stored in lower-case here.  Symbolic links
+to other semi-standard names get created upon installation (e.g.
+verblib.h gets symlinked to Verblib.h and VerbLib.h) -- except on
+Cygwin, where case doesn't seem to matter.
+
+Version 6.12.1 (7 June 2016)
+============================
+
+This is a maintenance release focusing entirely on bug fixes.  No new
+features have been added.
+
+Bugs fixed
+----------
+
+* TAKE ROCKS, TAKE ALL, TAKE ROCKS mistakenly tried to take things from
+  an NPC if one was in the room.
+
+* DM4 Exercise 32 failure corrected.  Also fixed a problem that caused
+  Glulx to get stuck in a loop.
+
+* L__M(##Give, 2) wasn't correctly parameterized for voices and tenses.
+
+* Improved some nonsensical responses to DROP.
+
+* Corrected ordering NPC to take and drop multiple objects.
+
+* Corrected problems with DropSub and ImplicitTake.
+
+* Faulty OOPS correction partially fixed.
+
+
+Version 6.12.0 (19 December 2015)
+=================================
+
+This release of the Inform Library marks the first release after custody
+was taken over by David Griffith.  It is now housed at
+https://github.com/DavidGriffith/inform6lib.  This release focuses
+on bugs reported at http://www.inform-fiction.org/patches/library.html.
+A few significant enhancements have been added as well, mainly having to
+do with an abortive effort to produce Inform 6.40.  An old repository of
+that can be found at https://github.com/DavidGriffith/inform-2006.
+
+
+New features
+------------
+
+First-person and third-person narrative voices are natively supported.
+
+Default mode is now VERBOSE.
+
+Added infglk.h for more convenient programming for the Glulx virtual
+machine.
+
+There is now a Global "no_infer_message" which can be used in the
+ChooseObjects() routine to suppress an inference message for
+particular match.  This global is reset to false after the turn is
+complete.
+
+There is now a Global "no_implicit_actions" which can be used to tell
+the library not attempt to do things that implicitly must be done.  For
+example, the PC is holding a sack containing an apple and the command
+"DROP APPLE" is typed.  With no_implicit_actions set to true, the
+Library will complain instead of taking the apple out of the sack before
+dropping it.  Once this global is set, it stays set.
+
+If you add "Constant NO_INITIAL_LOOK;" to the beginning of your code,
+the library will not do an initial LOOK at the beginning of your
+program.
+
+There is now an optional Epilogue() function.  This will execute when
+the game ends.
+
+TAKE ALL has been modified such that scenery or animate objects will not
+be taken.  To revert back to traditional behavior, add "Constant
+TRADITIONAL_TAKE_ALL;" at the beginning of your program.
+
+If you want to use color in your game, you must add "Constant COLOUR;"
+or "Constant COLOR;" to the beginnning of your code.  This was required
+to fix L61105.
+
+To deal with L61126, a new global has been introduced
+parser_inflection_func.  Whenever parser_inflection is set as a
+function, parser_inflection_func must be set to true.  When the parser
+is done with it, parser_inflection_func is set back to false.  Under the
+Z-machine, it is possible to tell if a global is a common property or a
+function.  This is not so with the Glulx VM.  This change goes for both
+Z-machine and Glulx.  For background on how one might use
+parser_inflection, see Section 35 of the DM4.
+
+
+Bugs fixed
+----------
+
+Items of the form "Issue L61036" quote the bug’s reference number in the
+'Library' section of the Inform Patch List at
+http://inform-fiction.org/patches/library.html
+
+* WAVE AT has been improved.
+
+* Handling of ambiguous orders given to NPCs has been improved.
+
+* Fixed a problem with misparsing caused by incomplete orders.
+
+Issue L61101
+each_turn property causes runtime error.
+Problem: An each_turn property with both a local routine and a routine
+inherited from a Class causes a runtime error in Strict mode.
+Status: Fixed
+
+Issue L61102
+GET IN now matches Compass object.
+Adding "in_obj.&name-->0 = '.ignore';" to Initialise() reverts back to
+the previous behavior.
+Status: Fixed
+
+Issue L61103
+"statusline time;" statement isn't recognized.
+Problem: When I compile Greystone with 6.30 and 6/11 my statusline time;
+statement is seemingly ignored; the game runs by moves and not a clock.
+If I revert back to 6.21 and 6/10 the statusline is indeed a clock again
+and not a move counter.
+Status: Unable to reprodu
+
+Issue L61104
+ListMaker doesn't support 'serial' commas.
+Problem: The WriteListFrom() listmaker doesn't support 'serial' commas
+(aka Oxford or Harvard commas): Tom, Dick, and Harry.
+Status: Fixed
+
+Issue L61105
+'Game uses colour' bit is always set.
+Problem: Every game compiled with the 6/11 library has the 'game uses
+colour' bit set in the Flags2 header word.
+Fixed: From now on, if you want a game to use color, add "Constant
+COLOUR;" or "Constant COLOR;" to the beginning of your code.
+Status: Fixed
+
+Issue L61106
+Improvement to LibraryExtensions.RunUntil.
+Problem: The LibraryExtensions.RunUntil property (new at 6/11 and not
+currently used by the library) should return simply true or false if it
+does nothing.
+Status: Fixed
+
+Issue L61107
+(The) with 'proper' should capitalise object name.
+Problem: In the case of an object with the 'proper' attribute and a
+lower-case name (such as "your nose", "your corduroy trousers", "your
+mother's purse"), the (The) print rule should capitalise the first
+letter of the object name, so that library messages such as (The) x1,
+" ", (isorare) x1, " empty." correctly produce "Your mother's purse is
+empty."
+Status: Fixed
+
+Issue L61108
+indef_mode not restored.
+Problem: When printing an object with the proper attribute, the
+functions IndefArt() and CIndefArt() temporarily modify -- but do not
+restore -- the value of the global variable indef_mode.
+Status: Fixed
+
+Issue L61109
+Problem with 'Give reverse' grammar.
+Status: Fixed
+
+Issue L61110
+Inference message inconsistency.
+Problem: In a pile of several indistinguishable objects, taking them
+from the floor does not generate an (inference) message, but it does
+when the final one is taken. (See also Suggestion 48)
+Status: Fixed
+
+Issue L61111
+Multiple AGAINs treated as one.
+Status: Fixed
+
+Issue L61112
+WITHOUT_DIRECTIONS causes compilation error.
+Problem: Version 6/11 of the Inform Library fails to compile if the
+constant WITHOUT_DIRECTIONS is set and the objects 'u_obj' and 'd_obj'
+aren't defined, because a few library routines expect those objects to
+exist.
+Status: Fixed
+
+Issue L61113
+Size of upper window not restored properly on UNDO.
+Problem: Compile and run a trivial game with Nitfol. When the game
+begins, type WAIT and then UNDO. Nitfol displays the message [ERROR:
+output]: illegal line for set_cursor (1) 46968 (1,1) This happens in
+DrawStatusLine() and the reason is that the upper window has height 0,
+but the Library tries to position the cursor at (1,1).
+Comment: I couldn't get Nitfol to complain like this, but applied the
+fix anyhow.
+
+Issue L61114
+Numbers in the name property.
+Problem: Code such as this would cause "GET 1" to not match the box
+  Object  -> box1 "box marked 1"
+    with  name 'box' 'marked' '1//',
+    description "It's a wooden box marked with the number 1.";
+  Object  -> box2 "box marked 2"
+    with  name 'box' 'marked' '2//',
+    description "It's a wooden box marked with the number 2.";
+Status: Fixed
+
+Issue L61115
+'multiheld' can match unholdable objects.
+Problem: Contrary to the DM4, multiheld sometimes matches objects that
+are not held. This would be OK if the objects were then implicitly
+taken, like they are for held, but they are not.
+Status: Fixed
+
+Issue L61116
+Poor response from WAVE SELF.
+Problem: The message produced by WAVE SELF -- "But you aren't holding
+you" -- makes little sense.
+Status: Fixed
+
+Issue L61117
+Problem with <action> statements in Infix.
+Status: Fixed
+
+Issue L61118
+'thedark.initial' is never called.
+Problem: The library thoughtfully provides thedark.initial, but it is
+never called unless you are diabolical enough to make thedark contained
+by some location, which I'm sure is not what it was meant for. The DM is
+a bit contradictory about the purpose of thedark.initial, but the
+functionality that makes the most sense is that it is called at the
+transition from lighted to darkened. This makes up a gap in
+functionality: NewRoom() is called on light-to-light and dark-to-light;
+DarkToDark() is called on dark-to-dark, but absolutely nothing is called
+on light-to-dark.
+Status: Fixed
+
+Issue L61119
+TRACE should distinguish matched and inferred token.
+Problem:  When the parser partially matches a phrase, the TRACE command
+should not say "token resulted in success" for terms that it did not
+match but sucessfully inferred; instead it should state that those
+terms were inferred. This would avoid the phrase "token resulted in
+success" phrase meaning two different things -- actually matching and
+inferring.
+Status: Won't fix.  Maybe will fix in 6/13.
+
+Issue L61120
+Preposition parsing is too simplistic.
+Status: Fixed (by way of L61127)
+
+Issue L61121
+add_to_scope of parentless object causes error.
+Problem: Consider an object which has no parent, and is brought into
+scope by an add_to_scope property. An attempt to take that object causes
+error messag
+  [** Programming error: tried to test "has" or "hasnt" of nothing **]
+  [** Programming error: tried to test "has" or "hasnt" of nothing **]
+  That's hardly portable.
+Status: Fixed
+
+Issue L61122
+Conflict between 'describe' and 'initial' properties.
+Problem: This object displays its 'initial' message even though it has
+'moved' attribute; this is because of the presence of the 'describe'
+property, even though it returns false.
+Status: Fixed
+
+Issue L61123
+Minor problem with parse_name.
+Problem: A (rather minor) error with the parse_name routine. On page
+209, the DM4 states: ...
+Status: Fixed
+
+Issue L61124
+Spurious space with 'articles' property.
+Problem: The rarely-used articles property defines an array of strings.
+(The property is provided for non-English languages where irregular
+nouns may have unusual vowel-contraction rules with articles.) The DM4
+gives an example appropriate for a French game, with three strings in
+the array
+Object  "haricot"
+    with  name 'haricot' 'legume',
+          articles "Le "   "le "   "un ",
+          ... ;
+Note that each string includes its individual trailing space, if
+appropriate. This is important, because a definite article like l' must
+be followed immediately by the object's name, without any intervening
+space. However, in fact a space does appear.
+Status: Fixed
+
+Issue L61125
+match_list and match_scores over-run.
+Problem: The problem is that match_list-->number_matched is being
+accessed, when match_list has length only number_matched (that is,
+entries 0..number_matched-1). In particular this causes errors when th
+match_list is of full length (64 entries). Similarly for match_scores.
+Status: Fixed
+
+Issue L61126
+parser_inflection requires common properties in Glulx.
+Problem: Glulx cannot distinguish between a global that is a function or
+a common property.  They must be addressed differently.  Code has been
+introduced to require the author to explicity declare if
+parser_inflection is a function or a common property.
+Status: Fixed
+
+Issue L61127
+Improve multiexcept look-ahead.
+Problem: When the parser processes a grammar line that uses multiexcept
+or multiinside, it jumps ahead to match the second noun in order to
+provide context for the first one. However, in doing so, it skips over
+all the prepositions in the input, without caring whether they match the
+prepositions in the grammar line. If the second noun is ambiguous, this
+means the player may be asked a disambiguation question for a grammar
+line that has no chance of succeeding, whereas the grammar line that
+eventually succeeds might not even need disambiguation (thanks to
+different token type or ChooseObjects).
+This also fixes L61120
+Status: Fixed
+I have also applied a fix submitted by Nathan Schwartzman at
+http://inform7.com/mantis/view.php?id=636.
+
+Issue L61128
+OOPS sometimes changes wrong word.
+Problem: The OOPS command doesn't necessarily change the faulty word. In
+the examples below, 'ZZZ' should be corrected to 'RUBY'. This happens in
+the first example, but not the second.
+Status: Fixed
+
+Issue L61129
+Results from 'grammar' property are misplaced.
+Problem: An animate or talkable object's grammar property can return 1
+to mean (quoting from DM4) "you can stop parsing now because I have done
+it all, and put the resulting order into the variables action, noun and
+second". However, the library code to handle this return value does not
+work correctly.
+Status: Fixed
+
+
+Version 6/11 (27 February 2004)
+===============================
+
+New features
+------------
+
+* The library automatically defines four constants: LIBRARY_PARSER at
+  the end of Parser.h, LIBRARY_VERBLIB at the end of VerbLib.h,
+  LIBRARY_GRAMMAR at the end of Grammar.h, and LIBRARY_ENGLISH at the
+  end of English.h. Contributed library extensions can use these constants to
+  check that they have been Included in the correct location. A fifth
+  constant LIBRARY_VERSION, currently defined as the number 611, can be
+  checked by extensions which require this particular version of the
+  library.
+
+* The word "wall" has been removed from the CompassDirection objects
+  defined in English.h, whose names are now simply "north", "south", etc.
+
+* The verbs LOOK [TO THE] NORTH, LOOK DOWN, LOOK OUT[SIDE] etc -- but
+  not LOOK IN[SIDE], which is already available -- have been added. By
+  default, the response is of the form "You see nothing unexpected...",
+  but you can change this for individual directions in individual rooms
+  by providing a compass_look property
+
+  Room   study "Your study"
+    with description "There is a doorway to the east of this austere room.",
+         compass_look [ obj;
+             if (obj == e_obj) "You see a doorway.";
+             if (obj == n_obj or s_obj or w_obj) "You see the wall.";
+         ],
+         e_to hallway;
+
+  This enhancement uses the mechanism described in this topic in the
+  Inform 6 FAQ (http://www.firthworks.com/roger/informfaq/ww.html#1 How
+  can I get rid of those damn walls?) (except that the compass_look
+  property was previously named compasslook), and means that you no
+  longer need to make the library changes described ther
+
+* The verbs "ASK npc TO command" and "TELL npc TO command" -- both
+  synomymous with "npc,command" -- are provided. The new grammar is:
+
+  Verb 'ask'
+      ...
+      * creature 'to' topic -> AskTo
+      ...
+
+  in which the creature token matches the npc and the topic token
+  represents the command. AskTo isn’t an action in the usual sense: it's
+  trapped by the parser and converted to the original npc,command
+  format.  The npc can intercept the command by providing an orders
+  property in the usual way -- see Section 18 of the Inform Designer’s
+  Manual.
+
+  This enhancement means that you may no longer require Irene Callaci's
+  AskTellOrder.h library extension.
+
+* The verbs RECORDING [ON|OFF] and REPLAY are now always available,
+  irrespective of the DEBUG state. This may cause compilation errors if
+  you have already defined these verbs yourself.
+
+* The verbs PRY, PRISE, PRIZE and LEVER have been added. This may cause
+  compilation errors if you have already defined these verbs yourself.
+
+* The parser treats input lines beginning with “*” as a comment, without
+  attempting any further parsing. The character used to introduce
+  comments can be changed by defining COMMENT_CHARACTER before you
+  "Include Parser;".  For example:
+
+  Constant COMMENT_CHARACTER '!';
+
+  Since comments are used primarily when capturing a transcript --
+  either of a complete game (SCRIPT ON) or of input commands only
+  (RECORDING ON) -- the parser responds "[Comment recorded]" or
+  "[Comment NOT recorded]" as appropriate.
+
+* The selfobj object now includes an empty add_to_scope property, which
+  you can over-ride with your own routine, typically to equip the player
+  with body parts. For a single object:
+
+    selfobj.add_to_scope = nose;
+
+  or for multiple object
+
+    [ IncludeBodyParts; PlaceInScope(nose); PlaceInScope(hands); ];
+    selfobj.add_to_scope = IncludeBodyParts;
+
+* The task-based scoring system (§22 of the Inform Designer’s Manual)
+  uses a byte array, which precludes the awarding of large or negative
+  scores. To get round this, you can Replace the TaskScore() library
+  routine as follows, and then define task_scores as a word array:
+
+    Replace TaskScore;
+    Array task_scores --> 100 200 300 400 (-50) 600;
+    [ TaskScore i; return task_scores-->i; ];
+
+* The scoring system is completely disabled if you define a constant
+  NO_SCORE near the start of your game.
+
+    Constant NO_SCORE;
+
+* A new before_implicit property is available; at the moment this is
+  used only by the parser, when it is about to perform an implicit TAKE
+  (for example, EAT APPLE when you're not holding the apple). You can
+  give this property to an object if you wish to control the parser's
+  behaviour. The property's value should be a constant or a routine
+  which returns: 0 to report "(first taking the...)" and then attempt
+  to do so (this is what currently happens); 1 to attempt the TAKE
+  without first issuing the message, 2 to proceed with the requested
+  action without attempting the TAKE, or 3 to object that "You aren’t
+  holding that!". The object can test action_to_be to determine which
+  action has triggered the TAKE
+
+    before_implicit [;
+      Take: if (action_to_be == ##Eat) return 2;
+    ],
+
+* A new system variable sys_statusline_flag is set to 1 initially if you
+  have used the statusline time; directive in your program to show a
+  clock, and to 0 otherwise. It can be changed by the program.
+
+* An object's invent property -- if it has one -- is now invoked both
+  when displaying the player’s inventory and when including the object
+  in a room description. invent is invoked in the usual way (with
+  inventory_stage first set to 1, and then set to 2) both when
+  mentioning the object in a room description, and when listing it in
+  the player's inventory. By default you’ll get the same output each
+  time. If you need to distinguish between the two occasions, you can
+  test (c_style&PARTINV_BIT) -- true during a room description -- or
+  (c_style&FULLINV_BIT) — true during an inventory. Here’s an example:
+
+    Object  -> "sack"
+    with  name 'sack',
+          invent [;
+              ! When listing objects in the player's inventory
+              if (c_style&FULLINV_BIT) rfalse;
+
+              ! When listing objects at the end of a room description
+              if (inventory_stage == 1) switch (children(self)) {
+                  0: print "an empty sack";
+                  1: print "a sack containing ", (a) child(self);
+                  default: print "an assortment of objects in a sack";
+                  }
+              rtrue;
+              ],
+    has   container open;
+
+  This enhancement uses the mechanism described in
+  http://www.firthworks.com/roger/informfaq/ww.html#4 in the
+  Inform 6 FAQ (Can I avoid printing "(which is empty)" after a
+  container?) and means that you no longer need to Include WriteList.
+
+* The turns counter is now initialised to 0, not 1. You can change this
+  if you define a constant START_MOVE near the start of your game.
+
+    Constant START_MOVE 1;
+
+* A new LibraryExtensions object is defined, whose function is to act as
+  a parent to initialisation objects created by library extensions.
+  These objects may provide ext_initialise and/or ext_messages property
+  routines, whose role is to help integrate the extension into a game.
+  This is best explained by example.
+
+  Consider the SmartCantGo.h extension, which replaces "You can't go
+  that way" messages by the more informative "You can go only north,
+  south and east", and can be integrated into a game by adding a
+  ChangeDefault(cant_go, SmartCantGo) statement to your Initialise()
+  routine. Instead of requiring the author to make this addition, the
+  extension could now cause it to happen automatically by defining an
+  initialisation object as a child of LibraryExtensions, like this:
+
+    Object  "(SmartCantGo)" LibraryExtensions
+      with  ext_initialise [; ChangeDefault(cant_go, SmartCantGo); ];
+
+  Just before calling the game's Initialise() routine, the library loops
+  through the children -- if any -- of LibraryExtensions, and executes
+  those ext_initialise properties that it finds there. The property
+  routines can perform any appropriate setup processing that would
+  otherwise have to be inserted into the Initialise() routine itself;
+  for example, starting a daemon running.
+
+  A similar process takes place when displaying library messages. The
+  library first checks whether the author has provided a LibraryMessages
+  object to intercept the message which it is about to display. If not,
+  it now loops through the children of LibraryExtensions, and executes
+  ext_messages properties that it finds there. If none of those routines
+  returns true to signal that the message has been dealt with, the
+  standard library text is then printed in the usual way. For example,
+  here’s how an extension might automatically intercept Inventory
+  messages (unless the game has already handled them via LibraryMessages):
+
+    Object  "(someInventoryExtension)" LibraryExtensions
+      with  ext_messages [;
+                Inv: switch(lm_n) {
+                  1: "You are empty-handed.";
+                  2: "Your possessions include";
+                }
+            ];
+
+Note that this is an experimental feature, and may be modified or
+extended in the light of experience.
+
+
+Bugs fixed
+----------
+
+Items of the form [L61036] quote the bug's reference number in the
+'Library' section of the Inform Patch List at
+http://inform-fiction.org/patches/library.html
+
+* A command like EMPTY ME no longer replies "yourself can't contain
+  things". [L61036]
+
+* The commands TAKE ALL FROM X and REMOVE ALL FROM X, where X is a
+  closed or empty container, now produce sensible messages rather than
+  "You can’t see any such thing" and "You can’t use multiple objects
+  with that verb" respectively. [L61035]
+
+* A problem with the misbehaviour of name properties on rooms, in
+  conjunction with THE, has been corrected. [L61034]
+
+* The command PUT X INTO X now correctly produces "You can’t put
+  something inside itself", rather than "You can’t see any such thing".
+  [L61033]
+
+* Run-time errors resulting from IndirectlyContains() attempting to find
+  the parent of a Class which supports dynamic creation of objects have
+  been resolved. [L61032]
+
+* Code in Parser__parse() which deals with looking ahead to the indirect
+  object in cases like PUT ALL INTO BAG (a MULTIEXCEPT token) and TAKE
+  ALL FROM BAG (a MULTIINSIDE token) now correctly sets the
+  advance_warning global (to BAG). [L61031, L61023]
+
+* The Inform Designer's Manual (p. 98) states that SHOWOBJ should accept
+  an object number; now it does. [L61030]
+
+* The YesOrNo() routine now re-prompts correctly after garbage input.
+  [L61029]
+
+* The parse buffer is no longer declared and initialised incorrectly
+  (albeit harmlessly). [L61028, L60708]
+
+* The Inform Designer's Manual (p. 93) defines the calling order of
+  routines and properties for the 'Before' stage as follow
+    1. GamePreRoutine()
+    2. orders of the player
+    3. react_before of every object in scope
+    4. before of the current room
+    5. before of the first noun, if specified
+
+  In the library, however, steps 3 and 4 are executed in reverse order.
+  They are now as documented. [L61027]
+
+* A found_in floating object which the player is able to take (probably
+  due to a coding error) is no longer silently dropped when the player
+  returns to one of the listed rooms. [L61026]
+
+* A small problem with inherited describe properties has been corrected.
+  [L61025]
+
+* Standard screen-handling is now implemented in v6 games. [L61022]
+
+* The handling of "You can't go that way" messages is made consistent.
+  Also, the statement ChangeDefault(cant_go,myRoutine); now works.
+  [L61020]
+
+* Attempting to place an object in/on an object where it is already now
+  results in "It’s already there", rather than "You need to be holding
+  it before you can put it into something else". [L61019]
+
+* A problem with misleading inventory listing has been clarified. [L61018]
+
+* The command LEAVE X now correctly produces "But you aren't in/on the
+  X", if appropriate. [L61017]
+
+* The response to READ was inappropriate when an object is misspelled or
+  out of scope. [L61016]
+
+* A small bug in the choice of library messages for PUSH and TURN, which
+  wasn’t noticeable unless you overrode the messages to be different
+  from PULL, has been corrected. [L61015]
+
+* If you are in a dark room, you cannot examine what you are holding.
+  Yet if you open a container you brought in from a lit room, the standard
+  message "You open the box, revealing a..." was not being suppressed.
+  [L61014]
+
+* The ScoreMatchL() routine in Parserm.h incorrectly decided which
+  objects meet descriptors. As a result, some objects that didn't meet
+  descriptors were not properly removed from the match list when the
+  library is deciding which objects best match a player’s input. [L61013]
+
+* The Infix problem parsing commands containing commas and periods has
+  been fixed. [L61010]
+
+* A problem when describing what's visible after opening a container has
+  been corrected. [L61009]
+
+* An inappropriate message after GO NORTH CIRCULAR has been corrected.
+  [L61008]
+
+* Modified foreground and background colours are now correct after
+  RESTORE and UNDO. [L61007]
+
+* The grammar property now works with a large game whose dictionary lies
+  above $8000. [L61006]
+
+* A buffer conflict with disambiguation and UNDO has been resolved.
+  [L61004]
+
+* If a player is inside a closed, non-transparent container, the
+  library prints an extra blank line between the header "The container"
+  and the first inside_description line it prints. No more. [L61002]
+
+* The list writing routines do not handle plural containers
+  correctly. If you have two empty boxes, it might list "two boxes
+  (which is closed)". Not only should it say "are closed", but it will
+  lump empty containers together even if some are open and others
+  aren't. Now resolved. [L61001]
+
+* A conflict between DrawStatusLine() and DisplayStatus() on how to
+  determine whether to display turns or time is settled in favour of
+  checking a header flag. [L60709]

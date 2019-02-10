@@ -1,0 +1,24 @@
+The l Isa location
+  Has a 3.
+  Description
+    Set a Of This To 7.
+    Set a Of Current Actor To 7.
+    Set a Of Current Location To 7.
+    Set a Of l To 7.
+    Set a Of l To a Of This.
+    Set a Of l To a Of Current Actor.
+    Set a Of l To a Of Current Location.
+    Set a Of l To a Of l.
+    Set c Of c To 4.
+End The l.
+
+Start At l.
+    Set a Of This To 7.
+    Set a Of Current Actor To 7.
+    Set a Of Current Location To 7.
+    Set a Of l To 7.
+    Set a Of l To a Of This.
+    Set a Of l To a Of Current Actor.
+    Set a Of l To a Of Current Location.
+    Set a Of l To a Of l.
+    Set c Of c To 4.

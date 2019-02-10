@@ -1,0 +1,10 @@
+../../bin/alan prgnam
+if test -f ../../bin/arun.exe ; then
+  cp ../../bin/arun.exe prgnam.exe ;
+else
+  cp ../../bin/arun prgnam ;
+fi
+./prgnam -n < prgnam.input
+rm prgnam.sav
+
+

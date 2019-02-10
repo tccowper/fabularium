@@ -1,0 +1,4 @@
+../../bin/alan depending1
+../../bin/arun depending1 < depending1.input > depending1.tmp
+grep "depending on not 1 or 2!" depending1.tmp > depending1.output
+

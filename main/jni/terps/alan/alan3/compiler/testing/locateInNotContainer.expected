@@ -1,0 +1,38 @@
+########## locateInNotContainer ##########
+
+
+locateInNotContainer.alan
+
+   13.        Locate p In c. -- Error since c is not a container
+=====>                    1
+
+  *1*   312 E : Parameter 'c' is not guaranteed to be a Container, because it
+                is not restricted to Container, or to a class which has the
+                Container property in the Syntax or using surrounding If
+                statements.
+
+   17.        Locate p In Current Actor. -- Error, actors are not containers
+=====>                    1
+
+  *1*   428 E : Expression after IN must refer to a Container, which the
+                Current Actor is not since the class 'actor' does not have the
+                Container property.
+
+   25.    Locate o In o. -- Error since o is not a container
+=====>                1
+
+  *1*   318 E : The 'o' does not have the container property, which is required
+                in Expression after IN.
+
+   27.      Locate o In o. -- Error since o is an instance which can't be restr
+        icted
+=====>                  1
+
+  *1*   318 E : The 'o' does not have the container property, which is required
+                in Expression after IN.
+
+
+        4 error(s).
+        No detected warnings.
+        1 informational message(s).
+

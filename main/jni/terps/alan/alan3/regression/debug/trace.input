@@ -1,0 +1,24 @@
+trace
+trace source
+g
+trace
+trace instruction
+g
+n
+trace push
+g
+w
+trace section
+g
+e
+trace stack
+g
+w
+g
+down
+trace source
+trace instruction
+trace push
+trace stack
+trace section
+trace

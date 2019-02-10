@@ -1,0 +1,104 @@
+########## sundown ##########
+
+Syntax
+  take = 'take' (o)*.
+
+Verb take
+  Does
+    Locate o In inventory.
+    "Taken."
+End Verb.
+
+Syntax
+  drop = 'drop' (o)*.
+
+Verb drop
+  Check object In inventory
+    Else 
+      "You don't have the $o."
+  Does
+    Locate object Here.
+End Verb.
+
+Syntax
+  l = 'l'.
+
+Verb l
+  Does
+    Look.
+End Verb.
+
+Syntax
+  i = 'i'.
+
+Verb i
+  Does
+    List inventory.
+End Verb.
+
+Syntax
+  q = 'q'.
+
+Verb q
+  Does
+    Quit.
+End Verb.
+
+Syntax
+  z = 'z'.
+
+Verb z
+  Does
+    ""
+End Verb.
+
+
+The place Isa location
+  
+End The place.
+Syntax
+  eat = eat.
+
+Verb eat
+  Does
+    "Now you should be alright for a time."
+    Schedule hunger1 After 3.
+    Cancel hunger2.
+    Cancel hunger3.
+End Verb.
+
+Event hunger1
+  "You are starting to feeling a bit hungry."
+  Schedule hunger2 After 3.
+End Event hunger1.
+
+Event hunger2
+  "You are feeling more hungry."
+  Schedule hunger3 After 3.
+End Event hunger2.
+
+Event hunger3
+  "You starved to death."
+  Quit.
+End Event hunger3.
+
+Event sundown
+  "The light is getting dimmer as the sun slowly sinks in to the sea."
+  Schedule sunup After 2.
+End Event sundown.
+
+Event sunup
+  "An edge of the sun slowly appears over the horizon as the day breaks."
+  Schedule sundown After 2.
+End Event sunup.
+
+
+Start At place.
+  If hero Here Then
+    "Hero is here."
+  End If.
+  Schedule sundown At hero After 2.
+  Cancel sundown.
+  Schedule sundown After 2.
+  Schedule hunger1 After 3.
+  

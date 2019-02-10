@@ -1,0 +1,11 @@
+Add To Every location
+  Has existingAttribute 1.
+End Add.
+
+The l Isa location
+End The l.
+
+
+Start At l.
+	  If location Of hero = l Then "hopp" End If. -- OK
+	  If existingAttribute Of location Of hero = 1 Then "Att = 1" End If. -- OK

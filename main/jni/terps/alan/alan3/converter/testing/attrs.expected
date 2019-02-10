@@ -1,0 +1,33 @@
+########## attrs ##########
+
+Add To Every actor
+  Is
+    hungry.
+    Not hungry.
+End Add To.
+
+
+The l Isa location
+  
+  Is 
+    dark.
+    Not dark.
+End The l.
+
+The a Isa actor
+  
+  Is 
+    dark.
+    Not dark.
+End The a.
+
+
+The o Isa object
+  
+  Is 
+    dark.
+    Not dark.
+End The o.
+
+Start At l.
+  

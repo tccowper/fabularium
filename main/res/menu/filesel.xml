@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2017 Tim Cadogan-Cowper.
+  ~
+  ~ This file is part of Fabularium.
+  ~
+  ~ Fabularium is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU General Public License
+  ~ as published by the Free Software Foundation; either version 2
+  ~ of the License, or (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Fabularium; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+  -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_delete"
+        android:icon="@drawable/ic_delete_white_24dp"
+        android:title="@string/menu_delete"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_goToParent"
+        android:icon="@drawable/ic_reply_white_24dp"
+        android:title="@string/menu_go_to_parent_folder"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_showStorage"
+        android:icon="@drawable/ic_storage_white_24dp"
+        android:title="@string/menu_goToStorage"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_showShortcuts"
+        android:icon="@drawable/ic_home_white_24dp"
+        android:title="@string/menu_goToShortcuts"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_details"
+        android:title="@string/menu_properties"
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_rename"
+        android:title="@string/menu_rename"
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_goToDir"
+        android:title="@string/menu_goToDir"
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_newdir"
+        android:title="@string/menu_new_folder"
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_newfile"
+        android:title="@string/menu_new_file"
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_copy"
+        android:title="@string/menu_copy"
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_move"
+        android:title="@string/menu_move"
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_addAuto"
+        android:title="@string/menu_add_to_game_list_auto"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_addManual"
+        android:title="@string/menu_add_to_game_list_manual"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_uncompress"
+        android:title="@string/menu_uncompress"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_agt2agx"
+        android:title="@string/menu_agt2agx"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_reloadMountPoints"
+        android:title="@string/menu_reloadMountPoints"
+        app:showAsAction="never" />
+</menu>

@@ -1,0 +1,41 @@
+########## zigzag ##########
+
+Syntax
+  'quit' = 'quit'.
+  zig_zag = 'zig zag'.
+
+Verb 'quit'
+  Does
+    Quit.
+End Verb.
+
+
+The inside Isa location
+  
+  Description
+    "You are now on the inside"
+  
+  Exit bar To outside.
+  
+End The inside.
+
+The outside Isa location
+  
+  Description
+    "You are now on the outside"
+  
+  Exit foo To inside.
+  
+End The outside.
+
+The secret Isa location
+  
+  Description
+    "You are now in a secret place!"
+  
+  Exit leave To outside.
+  
+End The secret.
+
+Start At inside.
+  

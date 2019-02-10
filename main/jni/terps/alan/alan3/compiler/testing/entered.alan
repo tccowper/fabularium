@@ -1,0 +1,13 @@
+The l Isa location
+  Name 'The l has a name'
+  Entered
+    "Entered should be analyzed." Say x. "."
+End The l.
+
+The o Isa object At l
+  Name 'The o has a name'
+  Entered
+    "Entered is not allowed in anything not a location."
+End The o.
+
+Start At l.

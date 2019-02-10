@@ -1,0 +1,26 @@
+Syntax lit = lit (l)! Where l Isa literal Else "You can only lit literals."
+Syntax int = int (i)! Where i Isa integer Else "You can only int integers."
+Syntax str = str (s)! Where s Isa string Else "You can only str strings."
+Add To Every literal
+  Verb obj -- Using default syntax, obj = obj (o) Where o Isa object...
+    Does
+      "You obj" Say literal. "$$."
+  End Verb.
+  Verb lit
+    Does
+      "You lit" Say l. "$$."
+  End Verb.
+  Verb int
+    Does
+      "You int" Say i. "$$."
+  End Verb.
+  Verb str
+    Does
+      "You str" Say s. "$$."
+  End Verb.
+End Add.
+
+The l Isa location
+End The l.
+
+Start At l.

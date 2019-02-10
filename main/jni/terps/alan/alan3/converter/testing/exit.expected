@@ -1,0 +1,29 @@
+########## exit ##########
+
+
+The l Isa location
+  
+  Exit w To l.
+  
+  Exit w, w To l.
+  
+  Exit w To l.
+  
+End The l.
+
+The n Isa location
+  
+  Exit w, w To l.
+  
+End The n.
+
+The m Isa location
+  
+  Exit w To l.
+  
+  Exit w To l.
+  
+End The m.
+
+Start At l.
+  

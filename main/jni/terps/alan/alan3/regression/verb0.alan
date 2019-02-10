@@ -1,0 +1,20 @@
+The kitchen Isa location.
+End The kitchen.
+
+Syntax
+	'look'= 'look'.
+
+Verb 'look'
+Does
+  Look.
+End Verb.
+
+Syntax
+	'quit'= 'quit'.
+
+Verb 'quit'
+Does
+  Quit.
+End Verb.
+
+Start At kitchen.

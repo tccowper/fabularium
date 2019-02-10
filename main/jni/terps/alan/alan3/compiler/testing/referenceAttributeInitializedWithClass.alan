@@ -1,0 +1,11 @@
+The l Isa location
+End The l.
+
+Every door Isa object
+  Has otherSide door.
+End Every door.
+
+The d Isa door At l
+End The d.
+
+Start At l.

@@ -1,0 +1,6 @@
+The l Isa location
+  Has s {1}.
+End The l.
+
+Start At l.
+  Say Count Isa actor, Isa location, In s Of l.

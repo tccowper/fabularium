@@ -1,0 +1,21 @@
+The l Isa location
+End The l.
+
+Syntax z = z.
+Verb z
+  Does
+    "Zzz.."
+    Play 'c.mod'.
+End Verb.
+
+Event e
+  "Event e..."
+  Show 'b.jpg'.
+  Play 'd.aif'.
+End Event.
+
+Start At l.
+  Show 'a.jpg'.
+  Play 'b.mod'.
+  Schedule e After 2.
+  "'z' to sleep."

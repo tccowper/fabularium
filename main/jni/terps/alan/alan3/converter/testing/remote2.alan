@@ -1,0 +1,74 @@
+Syntax omni = omni (o)*!.
+
+Verb omni
+  Does
+    "omni" say o.
+End Verb omni.
+
+
+Syntax take = take (o)*.
+
+Verb take
+  Check Object Not In inventory
+    Else "You already have the $1."
+  Does
+    Locate Object In inventory.
+    "Taken."
+End Verb take.
+
+
+Syntax drop = drop (o)*.
+
+Verb drop
+  Check Object In inventory
+    Else "You don't have the $1."
+  Does
+    Locate Object Here.
+    "Dropped."
+End Verb drop.
+
+Syntax l = 'look'.
+Verb l
+  Does
+    Look.
+End Verb l.
+
+Syntax i = i.
+Verb i
+  Does
+    List Inventory.
+End Verb i.
+
+
+Location loc
+End Location loc.
+
+Location loc2
+End Location loc2.
+
+Object thing1 Name shiny long thing At loc
+End Object thing1.
+
+Object thing2 Name rusty long thing At loc
+End Object thing2.
+
+Object thing3 Name shiny short thing At loc
+End Object thing3.
+
+Object thing4 Name rusty short thing At loc
+End Object thing4.
+
+Object thing5 Name shiny short thing At loc2
+End Object thing5.
+
+Object thing6 Name rusty short thing At loc2
+End Object thing6.
+
+Object thing7 Name golden short thing At loc2
+End Object thing7.
+
+Object thing8 Name golden long thing At loc
+End Object thing8.
+
+Start At loc.
+  "Try 'take all', 'drop all' and 'omni all'"

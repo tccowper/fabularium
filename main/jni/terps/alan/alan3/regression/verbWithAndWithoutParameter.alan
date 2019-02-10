@@ -1,0 +1,16 @@
+Verb x
+  Does
+    "x"
+End Verb.
+
+The o Isa object At l
+  Verb x
+    Does
+      "x (object)"
+  End Verb.
+End The o.
+
+The l Isa location
+End The l.
+
+Start At l.

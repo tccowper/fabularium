@@ -1,0 +1,27 @@
+The l Isa location
+End The l.
+
+Every xl Isa location
+  Exit e, w To l.
+End Every.
+
+Every yl Isa location
+  Exit e, w To l.
+End Every.
+
+Every zl Isa object
+End Every zl.
+
+Add To Every xl
+  Exit w, s To unknown.
+End Add To.
+
+Add To Every yl
+  Exit n To unknown.
+End Add To.
+
+Add To Every zl
+  Exit n To unknown.
+End Add To.
+
+Start At l.

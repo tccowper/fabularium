@@ -1,0 +1,60 @@
+High priority
+=============
+
+Medium priority
+===============
+
+* Stamp out any remaining memory leaks. Tools like "top", "ps" or
+  "free" are really too crude to detect this. They do suggest that
+  there may be memory leaks still there (or it may just be GTK+
+  caching the data), but at least they don't look serious.
+
+* Handle errors when reading/writing files.
+
+* Make cut/copy/paste work from the Edit menu. I don't really know how
+  to do this so for now, use the built-in right-click menu instead.
+  (The main problem seems to be keeping an Edit menu in sync with the
+  right-click menu.)
+
+Low priority / Hope someone else does it
+========================================
+
+* Autoconf and Automake
+
+* "More" prompt. I have no idea how to do this, but it's less of a
+  priority now because GtkMagnetic now scrolls to the top of the new
+  text, instead of the bottom.
+
+* ms_fatal() doesn't really do anything useful, but I'm not sure
+  under which circumstances it will be called. So far I've only seen
+  it when doing stupid things, e.g. trying to load a saved game from a
+  different game.
+
+* A nice set of icons. The GTK+ documentation says:
+
+  "Recommended sizes to provide: 16x16, 32x32, 48x48 at minimum, and
+  larger images (64x64, 128x128) if you have them."
+
+* Splash screen gamma correction?
+
+* Splash screen scaling options?
+
+* More sound backends? I've been looking at MAD, but it's too
+  undocumented for me to wrap my head around right now.
+
+* Some way of getting the default colours back, other than manually
+  editing the configuration file.
+
+* A way of interrupting command playbacks?
+
+* Some indication - a statusbar, perhaps - when the interpreter is
+  recording, transcripting or running playbacks?
+
+* It would be nice if the hints window word-wrapped text, but I think
+  that would require a custom cell renderer, and I don't think I know
+  enough to make one. Fortunately, most hints are pretty short.
+
+* Add some configuration options for how transcript files are
+  word-wrapped?
+
+* There will always be more cleanups to do...

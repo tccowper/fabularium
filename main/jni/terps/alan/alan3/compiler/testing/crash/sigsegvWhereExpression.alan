@@ -1,0 +1,5 @@
+The l Isa location
+End The l.
+
+Start At l.
+  Say "Count Object Directly Here = ". Say Count Object Directly Here. "Should be 4.$n"

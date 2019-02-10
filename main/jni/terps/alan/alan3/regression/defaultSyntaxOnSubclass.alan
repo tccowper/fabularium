@@ -1,0 +1,22 @@
+Every vehicle Isa object
+End Every vehicle.
+
+Every car Isa vehicle
+  Verb drive
+    Does "Yoooohooooo!"
+  End Verb.
+End Every car.
+
+Every bus Isa vehicle
+End Every bus.
+
+The car1 Isa car At l
+End The car1.
+
+The bus1 Isa bus At l
+End The bus1.
+
+The l Isa location
+End The l.
+
+Start At l.

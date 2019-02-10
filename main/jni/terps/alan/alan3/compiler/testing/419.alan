@@ -1,0 +1,8 @@
+The l Isa location
+  Is x.
+  Has i 4.
+End The l.
+
+Start At l.
+  Set x Of l To 4.
+  Set i Of l To x Of l.

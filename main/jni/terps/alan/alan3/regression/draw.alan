@@ -1,0 +1,70 @@
+
+Syntax draw = draw a (d)! on (b)
+  Where d Isa drawing
+    Else "You think about it for a while, and then decide against it."
+  And b Isa drawable
+    Else "You have to find something else do draw on."
+
+Syntax draw = draw (d)! on (b).
+
+Synonyms 'an' = a.
+
+Add To Every entity
+  Verb draw
+    When d
+    Check b = whiteboard Else "You can not draw on" Say The b. "."
+    Does Only
+      "Not being an artist you find it to difficult to draw" Say An This. "."
+  End Verb.
+End Add.
+
+Every drawing Isa entity -- Doesn't need to show or otherwise be "real"
+  Verb draw
+    When d
+    Does Only
+      If drawing Of b Not = no_drawing Then
+        "Reluctantly you erase" Say The drawing Of b. "from" Say The b. "."
+        "Then, a"
+      Else 
+        "A"
+      End If.
+      "bit like a childs drawing, but there on"
+      Say The b. "is" Say An d. "."
+      Set drawing Of b To d.
+  End Verb draw.
+End Every drawing.
+
+Every drawable Isa object
+  Has drawing no_drawing.
+End Every drawable.
+
+The teacher Isa actor
+End The teacher.
+
+The horse Isa drawing
+End The horse.
+
+The apple Isa drawing
+  Indefinite Article "an"
+End The apple.
+
+The no_drawing Isa drawing
+End The no_drawing.
+
+The whiteboard Isa drawable At school
+  Description
+    "On the wall is a whiteboard."
+    If drawing Of whiteboard Not = no_drawing Then
+      "On the whiteboard someone has drawn" Say An drawing Of whiteboard. "."
+    End If.
+End The whiteboard.
+
+The School Isa location
+End The school.
+
+Verb l
+  Does
+    Look.
+End Verb.
+
+Start At school.

@@ -1,0 +1,15 @@
+########## cancel ##########
+
+
+cancel.alan
+
+   12.    Cancel l.
+=====>           1
+
+  *1*   331 E : Incompatible types in CANCEL statement. Event type required.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

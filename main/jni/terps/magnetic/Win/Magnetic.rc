@@ -1,0 +1,478 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.K.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif\r\n"
+    "#include ""res\\Magnetic.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\magnetic.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
+IDB_TOOLBAR32           BITMAP                  "res\\Toolbar32.bmp"
+IDB_LOGO                BITMAP                  "res\\Logo.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR  16, 15
+BEGIN
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SCRIPT
+    BUTTON      ID_FILE_RECORD
+    BUTTON      ID_FILE_PLAYBACK
+    BUTTON      ID_VIEW_FONT
+    BUTTON      ID_VIEW_OPTIONS
+    BUTTON      ID_VIEW_SCROLLBACK
+    BUTTON      ID_HELP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Open New Game...\tCtrl+O",   ID_FILE_OPEN
+        MENUITEM SEPARATOR
+        MENUITEM "&Script...\tF5",              ID_FILE_SCRIPT
+        MENUITEM "&Record...\tF6",              ID_FILE_RECORD
+        MENUITEM "&Playback...\tF7",            ID_FILE_PLAYBACK
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
+        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+        MENUITEM SEPARATOR
+        MENUITEM "&Font...\tCtrl+F",            ID_VIEW_FONT
+        MENUITEM "&Options...\tCtrl+T",         ID_VIEW_OPTIONS
+        MENUITEM "S&crollback\tCtrl+L",         ID_VIEW_SCROLLBACK
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "Magnetic &Help\tF1",          ID_HELP
+        MENUITEM SEPARATOR
+        MENUITEM "&About Magnetic",             ID_APP_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS 
+BEGIN
+    "F",            ID_VIEW_FONT,           VIRTKEY, CONTROL, NOINVERT
+    "L",            ID_VIEW_SCROLLBACK,     VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "T",            ID_VIEW_OPTIONS,        VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_F5,          ID_FILE_SCRIPT,         VIRTKEY, NOINVERT
+    VK_F6,          ID_FILE_RECORD,         VIRTKEY, NOINVERT
+    VK_F7,          ID_FILE_PLAYBACK,       VIRTKEY, NOINVERT
+    VK_F9,          ID_TOGGLE_GFX,          VIRTKEY, NOINVERT
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 278, 118
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "About Magnetic"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         129,IDC_LOGO,"Static",SS_BITMAP | SS_SUNKEN,6,4,70,88,
+                    WS_EX_CLIENTEDGE
+    GROUPBOX        "Credits",IDC_CREDITS,94,4,178,89
+    LTEXT           "Magnetic v2.3, an interpreter for Magnetic Scrolls games. Copyright © 1997-2008 Niclas Karlsson.",
+                    IDC_STATIC,99,16,165,16
+    LTEXT           "Magnetic is released under the terms of the GNU General Public License.",
+                    IDC_STATIC,100,35,160,16
+    LTEXT           "Magnetic was written by Niclas Karlsson,\nDavid Kinder, Stefan Meier and Paul David Doherty.",
+                    IDC_STATIC,99,54,171,16
+    LTEXT           "Magnetic for Windows Release 14.\nWindows version written by David Kinder.",
+                    IDC_STATIC,99,73,141,16
+    DEFPUSHBUTTON   "OK",IDOK,159,98,48,14,WS_GROUP
+END
+
+IDD_SCROLLBACK DIALOGEX 0, 0, 288, 121
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU | 
+    WS_THICKFRAME
+CAPTION "Scrollback"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    PUSHBUTTON      "Close window",IDOK,2,2,65,13
+    PUSHBUTTON      "Copy selected text to clipboard",IDC_COPY,73,2,111,13
+    CONTROL         "",IDC_TEXT,"RICHEDIT",TCS_HOTTRACK | TCS_VERTICAL | 
+                    TCS_RAGGEDRIGHT | TCS_FOCUSONBUTTONDOWN | 
+                    TCS_MULTISELECT | WS_BORDER | WS_VSCROLL | WS_TABSTOP,2,
+                    17,283,100
+END
+
+IDD_OPTIONS DIALOGEX 0, 0, 205, 203
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+EXSTYLE WS_EX_CONTEXTHELP
+CAPTION "Options"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,150,5,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,150,23,50,14
+    GROUPBOX        "Graphics",IDC_STATIC,4,1,142,73
+    LTEXT           "&Pictures",IDC_PIC_LABEL,15,13,28,8
+    COMBOBOX        IDC_SHOWPIC,61,11,75,46,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "S&cale pictures",IDC_SCALE_LABEL,15,29,49,8
+    EDITTEXT        IDC_SCALE,85,27,51,12,ES_AUTOHSCROLL
+    CONTROL         "Spin1",IDC_SPIN,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,133,30,11,
+                    7
+    LTEXT           "Scale title pict&ures",IDC_SCALET_LABEL,15,44,65,8
+    EDITTEXT        IDC_SCALET,85,42,51,12,ES_AUTOHSCROLL
+    CONTROL         "Spin1",IDC_SPINT,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,133,45,11,
+                    7
+    LTEXT           "Gamma correction",IDC_GAMMA_LABEL,15,59,65,8
+    EDITTEXT        IDC_GAMMA,85,57,51,12,ES_AUTOHSCROLL
+    CONTROL         "Spin1",IDC_SPING,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,134,60,11,
+                    7
+    GROUPBOX        "Colours",IDC_STATIC,4,76,142,47
+    RTEXT           "&Text",IDC_TEXT_LABEL,13,90,14,9
+    PUSHBUTTON      "",IDC_FORE,33,88,27,13
+    RTEXT           "&Background",IDC_BACK_LABEL,68,90,39,9
+    PUSHBUTTON      "",IDC_BACK,112,88,27,13
+    RTEXT           "Pictu&re background",IDC_GFX_LABEL,43,107,64,9
+    PUSHBUTTON      "",IDC_GFX,112,105,27,13
+    GROUPBOX        "Other",IDC_STATIC,4,125,142,73
+    CONTROL         "Show &hints in a separate window",IDC_HINT_WINDOW,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,138,125,8
+    CONTROL         "Scripts wait for animations",IDC_ANIM_WAIT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,17,151,109,8
+    CONTROL         "Make randomness predictable",IDC_PREDICT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,17,164,117,8
+    LTEXT           "Random seed",IDC_SEED_LABEL,23,180,46,8
+    EDITTEXT        IDC_SEED,74,178,43,12,ES_AUTOHSCROLL
+END
+
+IDD_TITLE DIALOGEX 0, 0, 189, 94
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP
+EXSTYLE WS_EX_CLIENTEDGE
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+END
+
+IDD_HINTS DIALOGEX 0, 0, 296, 140
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU | 
+    WS_THICKFRAME
+CAPTION "Game hints"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "Done",IDOK,238,114,50,14
+    PUSHBUTTON      "Help",IDC_SHOWHINT,238,12,50,14
+    PUSHBUTTON      "Topics",IDC_TOPICS,238,35,50,14
+    PUSHBUTTON      "Previous",IDC_PREVIOUS,238,59,50,14
+    LISTBOX         IDC_HINTLIST,7,7,224,126,LBS_OWNERDRAWVARIABLE | 
+                    LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | 
+                    WS_HSCROLL | WS_TABSTOP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 2,3,0,14
+ PRODUCTVERSION 2,3,0,14
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080904b0"
+        BEGIN
+            VALUE "Comments", "Windows version by David Kinder"
+            VALUE "CompanyName", "Magnetic Scrolls"
+            VALUE "FileDescription", "Magnetic Scrolls Interpreter"
+            VALUE "FileVersion", "2, 3, 0, 14"
+            VALUE "InternalName", "Magnetic"
+            VALUE "LegalCopyright", "Copyright (C) 1997-2008 Niclas Karlsson"
+            VALUE "OriginalFilename", "Magnetic.exe"
+            VALUE "ProductName", "Magnetic Scrolls Interpreter"
+            VALUE "ProductVersion", "2, 3, 0, 14"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x809, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        RIGHTMARGIN, 272
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 112
+    END
+
+    IDD_SCROLLBACK, DIALOG
+    BEGIN
+        LEFTMARGIN, 2
+        RIGHTMARGIN, 285
+        TOPMARGIN, 2
+        BOTTOMMARGIN, 117
+    END
+
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 200
+        TOPMARGIN, 1
+        BOTTOMMARGIN, 198
+    END
+
+    IDD_TITLE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 182
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 87
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_OPTIONS DLGINIT
+BEGIN
+    IDC_SHOWPIC, 0x403, 5, 0
+0x6f4e, 0x656e, "\000" 
+    IDC_SHOWPIC, 0x403, 16, 0
+0x6553, 0x6170, 0x6172, 0x6574, 0x5720, 0x6e69, 0x6f64, 0x0077, 
+    IDC_SHOWPIC, 0x403, 12, 0
+0x614d, 0x6e69, 0x5720, 0x6e69, 0x6f64, 0x0077, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// RT_MANIFEST
+//
+
+IDR_MANIFEST            RT_MANIFEST             "res\\Magnetic.manifest"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDR_MAINFRAME           "Magnetic Scrolls Interpreter\n\nMagnetic\n\n.mag\nMagnetic.Game\nMagnetic Scrolls Game"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "Magnetic"
+    AFX_IDS_IDLEMESSAGE     "Windows Magnetic"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
+    ID_APP_EXIT             "Quit the interpreter\nExit"
+    ID_HELP                 "Show help for Magnetic\nHelp"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "Open this game"
+    ID_FILE_MRU_FILE2       "Open this game"
+    ID_FILE_MRU_FILE3       "Open this game"
+    ID_FILE_MRU_FILE4       "Open this game"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCCLOSE         "Close the window"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VIEW_FONT            "Change the display font\nChange Font"
+    ID_HELP_TOPICS          "List help topics\nHelp Topics"
+    ID_FILE_RECORD          "Toggle input recording\nRecord"
+    ID_FILE_PLAYBACK        "Play back recorded input\nPlayback"
+    ID_FILE_SCRIPT          "Toggle scripting\nScript"
+    ID_VIEW_FLATBAR         "Toggle flat toolbar\nFlat Toolbar"
+    ID_VIEW_SCROLLBACK      "View the scrollback buffer\nScrollback"
+    ID_VIEW_OPTIONS         "Open the options dialog\nOptions"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_OPEN            "Open a Magnetic Scrolls game\nOpen"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_UNTITLED        "Untitled"
+END
+
+#endif    // English (U.K.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif
+#include "res\Magnetic.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

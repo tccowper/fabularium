@@ -1,0 +1,12 @@
+The l Isa xl
+End The l.
+
+Every xl Isa location
+  Exit e To l.
+End Every.
+
+Add To Every xl
+  Exit w To l.
+End Add To.
+
+Start At l.

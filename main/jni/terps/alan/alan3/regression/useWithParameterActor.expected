@@ -1,0 +1,51 @@
+########## useWithParameterActor ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+School
+There is a janitor here. There is a teacher here.
+
+> l
+School
+There is a janitor here. There is a teacher here.
+
+> l
+School
+There is a janitor here. There is a teacher here.
+
+> work janitor
+Janitor works.
+
+> l
+School
+The janitor is working. There is a teacher here. Janitor works.
+
+> l
+School
+There is a janitor here. There is a teacher here.
+
+> l
+School
+There is a janitor here. There is a teacher here.
+
+> work teacher
+Teacher works.
+
+> l
+School
+There is a janitor here. The teacher is working. Teacher works.
+
+> l
+School
+There is a janitor here. There is a teacher here.
+
+> l
+School
+There is a janitor here. There is a teacher here.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

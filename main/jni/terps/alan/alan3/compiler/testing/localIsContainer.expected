@@ -1,0 +1,16 @@
+########## localIsContainer ##########
+
+
+localIsContainer.alan
+
+    6.      List f.
+=====>           1
+
+  *1*   318 E : The 'f' does not have the container property, which is required
+                in LIST statement.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

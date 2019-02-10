@@ -1,0 +1,23 @@
+########## stopForInstance ##########
+
+
+stopForInstance.alan
+
+   11.    Stop o. -- Error, not an actor
+=====>         1
+
+  *1*   351 E : STOP statement must refer to an instance inheriting from
+                'actor'.
+
+   14.      Stop o. -- Error, not an actor since instance id's are not consider
+        ed for restriction
+=====>           1
+
+  *1*   351 E : STOP statement must refer to an instance inheriting from
+                'actor'.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

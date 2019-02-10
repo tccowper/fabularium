@@ -1,0 +1,16 @@
+########## setSetAssignment ##########
+
+        No warnings or errors detected.
+
+
+LocationSet should = 6, actual = 6.
+
+L1 l2 l3 l4 l5 l6 Should be "l1, l2, l3, l4, l5 & l6".
+
+
+
+L1
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

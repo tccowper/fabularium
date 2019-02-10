@@ -1,0 +1,28 @@
+-- Test for verb alternatives
+
+Syntax put_in = 'put' (o) 'in' (c).
+
+
+The obj1 Isa object At l
+  Verb put_in
+    When o
+      Does "OBJ1 is parameter o."
+    When c
+      Does "OBJ1 is parameter c."
+  End Verb put_in.
+End The obj1.
+
+The obj2 Isa object At l
+  Verb put_in
+    When o
+      Does "OBJ2 is parameter o."
+    When c
+      Does "OBJ2 is parameter c."
+  End Verb put_in.
+End The obj2.
+
+The l Isa location
+End The l.
+
+Start At l.
+  "To test verb alternatives try 'PUT obj1 in obj2' and vice versa."

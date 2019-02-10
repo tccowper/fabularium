@@ -1,0 +1,15 @@
+########## recursiveImports1 ##########
+
+
+recursiveImports1.import
+
+    1.1 import 'recursiveImports1.alan'.
+=====>         1
+
+  *1*   197 W : File 'recursiveImports1.alan' already imported. Ignored.
+
+
+
+        No detected errors.
+        1 warning(s).
+

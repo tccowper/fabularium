@@ -1,0 +1,16 @@
+Syntax x = x (o)*.
+
+Add To Every object
+  Verb x
+    Does Describe o.
+  End Verb.
+End Add.
+
+The y Isa object At l
+ Pronoun x.
+End The y.
+
+The l Isa location
+End The l.
+
+Start At l.

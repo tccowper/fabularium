@@ -1,0 +1,15 @@
+########## integerLoop ##########
+
+
+integerLoop.alan
+
+    9.    For i Between unknown Of l And 12 Do
+=====>                  1
+
+  *1*   315 E : Attribute not defined for 'l'.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

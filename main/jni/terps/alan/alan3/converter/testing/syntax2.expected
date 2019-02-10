@@ -1,0 +1,31 @@
+########## syntax2 ##########
+
+Syntax
+  take = take (obj)
+    Where obj Isa object
+      Else 
+        "You can only take objects !"
+  
+
+Verb take
+  Does
+    Locate obj In inventory.
+    "Taken."
+End Verb.
+
+
+The o Isa object
+  At l 
+End The o.
+
+The a Isa actor
+  At l 
+End The a.
+
+
+The l Isa location
+  
+End The l.
+
+Start At l.
+  

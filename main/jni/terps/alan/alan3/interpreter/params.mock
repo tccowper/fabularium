@@ -1,0 +1,45 @@
+#include <cgreen/cgreen.h>
+#include <cgreen/mocks.h>
+
+#include "params.h"
+
+
+/* DATA */
+Parameter *globalParameters;
+
+
+/* FUNCTIONS */
+/* Single Parameter: */
+Parameter *newParameter(int instanceId) { return (Parameter *)mock(); }
+void clearParameter(Parameter *parameter) { mock(); }
+void copyParameter(Parameter *theCopy, Parameter *theOriginal) { mock(); }
+
+/* ParameterArray: */
+ParameterArray newParameterArray(void) { return (ParameterArray)mock(); }
+ParameterArray ensureParameterArrayAllocated(ParameterArray currentArray) { return (ParameterArray)mock(); }
+void freeParameterArray(Parameter *array) { mock(); }
+
+bool parameterArrayIsEmpty(ParameterArray parameters) { return (bool)mock(); }
+void addParameterToParameterArray(ParameterArray theArray, Parameter *theParameter) { mock(); }
+void addParameterForInstance(ParameterArray parameters, int instance) { mock(); }
+void addParameterForInteger(ParameterArray parameters, int value) { mock(); }
+void addParameterForString(ParameterArray parameters, char *value) { mock(); }
+Parameter *findEndOfParameterArray(ParameterArray parameters) { return (Parameter*)mock(); }
+void compressParameterArray(ParameterArray a) { mock(); }
+int lengthOfParameterArray(ParameterArray a) { return (int)mock(); }
+bool equalParameterArrays(ParameterArray parameters1, ParameterArray parameters2) { return (bool)mock(); }
+bool inParameterArray(ParameterArray l, Aword e) { return (bool)mock(); }
+void copyParameterArray(ParameterArray to, ParameterArray from) { mock(); }
+void clearParameterArray(ParameterArray list) { mock(); }
+void subtractParameterArrays(ParameterArray a, ParameterArray b) { mock(); }
+void mergeParameterArrays(ParameterArray a, ParameterArray b) { mock(); }
+void intersectParameterArrays(ParameterArray a, ParameterArray b) { mock(); }
+void copyReferencesToParameterArray(Aint *references, ParameterArray parameters) { mock(); }
+void printParameterArray(ParameterArray parameters) { mock(); }
+
+int findMultiplePosition(ParameterArray parameters) { return (int)mock(); }
+
+/* Global Parameters: */
+void setGlobalParameters(ParameterArray parameters) { mock(); }
+ParameterArray getGlobalParameters(void) { return (ParameterArray)mock(); }
+ParameterArray getGlobalParameter(int parameterIndex) { return (ParameterArray)mock(); }

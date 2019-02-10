@@ -1,0 +1,18 @@
+########## eachBetweenNonInteger ##########
+
+
+eachBetweenNonInteger.alan
+
+    5.    Each i Between l And l Do
+=====>                   1     2
+
+  *1*   330 E : Wrong type of expression in context of 'BETWEEN'. Must be of
+                integer type.
+  *2*   330 E : Wrong type of expression in context of 'BETWEEN'. Must be of
+                integer type.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

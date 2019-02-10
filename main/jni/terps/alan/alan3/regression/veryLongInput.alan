@@ -1,0 +1,11 @@
+The key Isa object At loc
+  Verb take
+    Does
+	"You take it."
+  End Verb.
+End The key.
+
+The loc Isa location
+End The loc.
+
+Start At loc.

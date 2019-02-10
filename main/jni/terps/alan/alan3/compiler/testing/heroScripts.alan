@@ -1,0 +1,9 @@
+The loc_1 Isa location
+End The loc_1.
+
+The hero Isa actor
+  Script s1.
+   Step Locate Hero At loc_1.
+End The hero.
+
+Start At Loc_1.

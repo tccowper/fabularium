@@ -1,0 +1,24 @@
+########## nearby ##########
+
+        No warnings or errors detected.
+
+
+O1 not nearby (OK)
+o2 nearby (OK)
+o3 not nearby (OK)
+o4 not nearby (OK)
+l1 not nearby (OK)
+l2 nearby (OK)
+
+L2
+There is a o2 here. O1 not nearby (OK)
+o2 not nearby (OK)
+o3 nearby (OK)
+o4 not nearby (OK)
+l1 not nearby (OK)
+l2 not nearby (OK)
+
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

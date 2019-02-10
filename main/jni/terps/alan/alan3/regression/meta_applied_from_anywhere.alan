@@ -1,0 +1,46 @@
+The l Isa location
+End The l.
+
+Every x1 Isa object
+  Meta Verb m1
+    Does
+      Score.
+  End Verb.
+End Every.
+
+The the_x1 Isa x1 At l
+End The.
+
+Every x2 Isa x1
+  Verb m1
+    Does
+      Score.
+  End Verb.
+End Every.
+
+The the_x2 Isa x2 At l.
+End The.
+
+
+Every y1 Isa object
+  Verb m2
+    Does
+      Score.
+  End Verb.
+End Every.
+
+The the_y1 Isa y1 At l
+End The.
+
+Every y2 Isa y1
+  Meta Verb m2
+    Does
+      Score.
+  End Verb.
+End Every.
+
+The the_y2 Isa y2 At l.
+End The.
+
+
+Start At l.

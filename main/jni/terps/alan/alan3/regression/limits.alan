@@ -1,0 +1,45 @@
+The l Isa location
+End The l.
+
+Add To Every object
+  Has
+    size 2.
+End Add To.
+
+Syntax put_in = put (o) 'in' (c)
+  Where c Isa container
+    Else "You can only put things in containers."
+
+The cont Isa object At l
+  Container
+    Limits
+      Count 3 Else "You can only put 3 objects in the cont."
+      size 3 Else "It is too big."
+  Verb put_in
+    When c
+      Does
+        Locate o In c.
+  End Verb.
+End The cont.
+
+The size4 Isa object At l
+  Has size 4.
+End The size4.
+
+The size3 Isa object At l
+  Has size 3.
+End The size3.
+
+The size2 Isa object At l
+  Has size 2.
+End The size2.
+
+The size1 Isa object At l
+  Has size 1.
+End The size1.
+
+The size0 Isa object At l
+  Has size 0.
+End The size0.
+
+Start At l.

@@ -1,0 +1,33 @@
+########## followers ##########
+
+        No warnings or errors detected.
+
+
+
+L1
+There is a dog here. There is a cat here. There is a mouse here.
+
+> w
+L2
+The mouse suddenly appears, apparently following the hero here.
+
+> e
+L1
+There is a dog here. There is a cat here. The cat, searching for the mouse
+, leaves. The mouse suddenly appears, apparently following the hero here.
+
+> w
+L2
+There is a cat here. The dog suddenly appears, apparently following the 
+cat here. The cat, searching for the mouse, leaves. The mouse suddenly
+appears, apparently following the hero here.
+
+> e
+L1
+There is a cat here. The dog suddenly appears, apparently following the 
+cat here. The cat, searching for the mouse, leaves. The mouse suddenly
+appears, apparently following the hero here.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

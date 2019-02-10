@@ -1,0 +1,29 @@
+########## object_directly_in_container ##########
+
+        No warnings or errors detected.
+
+
+
+O Directly In outer: yes, ok 
+o Directly In inner1: no, ok 
+o Directly In inner2: no, ok 
+o Directly In innermost: no, ok 
+o1 Directly In outer: no, ok 
+o1 Directly In inner1: yes, ok 
+o1 Directly In inner2: no, ok 
+o1 Directly In innermost: no, ok 
+o2 Directly In outer: no, ok 
+o2 Directly In inner1: no, ok 
+o2 Directly In inner2: yes, ok 
+o2 Directly In innermost: no, ok 
+om Directly In outer: no, ok 
+om Directly In inner1: no, ok 
+om Directly In inner2: no, ok 
+om Directly In innermost yes, ok
+
+
+L
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

@@ -1,0 +1,24 @@
+########## figureOutContainedClass3 ##########
+
+
+figureOutContainedClass3.alan
+
+   40.      If i Has c3_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c3_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('c2') does
+                not have it.
+
+   41.      If i Has c4_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c4_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('c2') does
+                not have it.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

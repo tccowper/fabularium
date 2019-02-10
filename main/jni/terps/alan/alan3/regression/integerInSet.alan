@@ -1,0 +1,8 @@
+The l Isa location
+  Has intSet {1,3,5}.
+End The l.
+
+Start At l.
+  For i Between 1 And 10, In intSet Of l Do
+    Say i.
+  End For.

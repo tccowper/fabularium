@@ -1,0 +1,12 @@
+The l Isa location
+  Has int 4.
+End The l.
+
+Start At l.
+  For i Between 1 And 12 Do
+    Say i.
+  End For.
+
+  For i Between int Of l + 5 And 12 Do
+    Say i.
+  End For.

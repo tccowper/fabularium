@@ -1,0 +1,259 @@
+2005-08-XX - 1.6 (The "Syncing feeling" release.)
+
+Re-sync with GtkLevel9 1.3:
+
+Bugfixes
+
+- Don't assume that "/" is the directory separator when building the
+  config filename.
+
+Other changes
+
+- Usability updates for the file selector dialog: It always has a
+  default widget, and it remembers which directory was used the last
+  time.
+
+2005-07-29 - 1.5 (The "To err is human (but it feels divine)" release.)
+
+Bugfixes
+
+- Minor fixes to the file chooser dialog.
+
+Other changes
+
+- We used to execute only one game instruction every time the program
+  was idle, but it's probably more efficient (and not noticeable to the
+  user) to run several. Now we run up to 20.
+
+2005-07-28 - 1.4 (The "Modern Times" release.)
+
+This release was prompted by the number of changes I made while
+adapting the GtkMagnetic source code to create a GTK+ GUI for the
+Level 9 interpreter.
+
+Bugfixes
+
+- This time there shouldn't be any remaining editable portion around
+  old inputs. I hope.
+
+Other changes
+
+- GtkMagnetic was originally developed for GTK+ 2.0. A lot has
+  happened since then. Specifically, a lot of things I used have been
+  declared obsolete. One of the criteras for this release has been
+  that GtkMagnetic must build without warnings on my system, even with
+  all deprecated APIs disabled.
+
+  + gtk_idle_add        -> g_idle_add
+  + gtk_idle_remove     -> g_source_remove
+  + gtk_timeout_add     -> g_timeout_add
+  + gtk_timeout_remove  -> g_source_remove
+  + GtkFileSelection    -> GtkFileChooser
+  + GtkFontSelection    -> GtkFontButton
+  + GtkOptionMenu       -> GtkComboBox
+  + GtkItemFactory      -> GtkUIManager
+  +                        GtkColorButton
+  +                        GtkAboutDialog
+
+  The transition to GtkUIManager means the "Help" menu is no longer
+  right-justified. According to the GTK+ documentation, it "is now
+  considered a bad idea".
+
+  GtkMagnetic now requires GTK+ 2.6 or later. Since it was released
+  more than six months ago, that does not seem unreasonable to me.
+
+- Finally implemented a limit on how many lines the text buffer may
+  contain. This is not the same as the number of lines in the text
+  view: a text buffer line may be broken into several lines, so it's
+  actually more like the number of paragraphs. This distinction will
+  probably confuse the average user, so I have not made it
+  configurable.
+
+- Since the font selection has changed from a bulky font selection
+  widget to a small font selection button, I've added another one to
+  make the statusline font configureaable.
+
+- Each colour setting now has a corresponding "override" checkbox, so
+  that we can easily revert to the original GTK+ colours.
+
+- Ugly hack to make the cursor and text the same colour.
+
+2005-02-11 - 1.3 (The "Now you see it, now you don't!" release.)
+
+Other changes
+
+- Added a new text tag, "magnetic-input-padding" which is used for the
+  extra spaces that are inserted in the text buffer to keep the
+  editable area from vanishing. It uses the "invisible" attribute,
+  which apparently isn't fully supported by GTK+ yet. Still, it seems
+  to work well enough for my purposes.
+
+2003-05-06 - 1.2 (The "Someone else actually uses this?!" release.)
+
+Bugfixes
+
+- Applied a patch from Bernhard B to fix the hints window that broke
+  between 2.1 and 2.2.
+
+2003-03-20 - 1.1 (The "Don't mention the war!" release.)
+
+Other changes
+
+- Updated for Magnetic 2.2
+
+2002-07-08 - 1.0 (The "Plugging the leaks" release.)
+
+Bugfixes
+
+- When opening a new game file, a mysterious extra space would appear
+  at the first input prompt. This has been fixed.
+- Fixed bug which kept images from being scaled to constant height if
+  the image scaler for non-constant height was 1.0.
+- Fixed memory leak when freeing animated images.
+- Fixed splash screen memory leaks.
+- Fixed hints filename memory leak.
+- Fixed hints window memory leak?
+- Fixed file handle leaks.
+- The check for modifier keys was a bit too strict. I only meant to
+  only block stuff like Shift and Control, not Caps Lock and Num Lock!
+- When retrieving a command from the history, make sure to scroll the
+  command prompt into view.
+
+Oher changes
+
+- The text buffer/view signal handlers are now merely blocked and
+  unblocked during gameplay, rather than torn down and recreated. It
+  seemed marginally more elegant to do it this way.
+- It is now possible to turn off the animations completely.
+- Removed support for Magnetic 2.0 since 2.1 has been released now.
+
+2002-06-21 - 1.0 rc 2 (The "Robin Goodfellow" release.)
+
+Bugfixes
+
+- Playing back a special command no longer appears as an empty string
+  to a Magnetic Windows game. This fixes prompt weirdness.
+- Make sure the last line of a game transcript ends with a line break.
+- Fixed so that when making a transcript of a playback, each command
+  is only written to the transcript file once, not twice.
+
+Other changes
+
+- At every new input prompt except for the first one, attempt to
+  scroll the text view so that the previous input prompt is still
+  visible. It's not quite as good as a "more" prompt, but it will have
+  to do for now. Removed a few other attempts at scrolling the view
+  since they had little or no effect.
+- Added primitive word-wrapping of transcript files. So far, there is
+  no way of configuring maximum line length, nor does it break lines
+  at hyphens.
+- Hints windows are now non-modal, since it's easier to use the hints
+  if you can actually type while reading them. I didn't bother to put
+  back the "Close" that the old one had. It should be obvious how to
+  close the window anyway!
+- Added an SDL_mixer sound backend. I don't really like it, because
+  it's basically the same as the SMPEG one but with an extra library
+  dependency and a gross hack, but it's so simple to write one that I
+  couldn't just ignore it.
+- Clarified the message for config file mismatch, hopefully making it
+  a bit less scary.
+- You can now tell GtkMagnetic to scale all images to a constant
+  height, rather than using a constant scale factor. Of course, this
+  may cause some images, e.g. the Dumb Waiter in Wonderland, to look
+  extremely pixellated.
+
+2002-06-19 - 1.0 rc 1 (The "Dead Code Society" release.)
+
+Bugfixes
+
+- Fixed an input bug introduced in the previous version.
+- start_scripting() checked if record_file was open rather than
+  script_file. Oops...
+
+Other changes
+
+- Major cleanups, primarily of graphics.c and text.c.
+- Made the config file parser a bit stricter. Now it actually checks
+  for the <configuration> tag and its version attribute.
+- Allow #SEED to be used without argument so that the replay scripts
+  included with the Magnetic source code should work without
+  modifications. (Actually some of the scripts still don't work, but I
+  don't think it's because of me.)
+- Made generic functions for starting/stopping scripting, recording,
+  and playback.
+- text_insert() and file_selector() now take a format string and an
+  arbitrary number of arguments, just like printf().
+- I decided that it was silly to exclude special commands from
+  recordings. They no longer are.
+- The signal handlers to detect when the user inserts/deletes text or
+  presses any "special" key are now only connected while waiting for
+  user input. The actual behaviour is unchanged since they all used to
+  check this explicitly.
+- The text view's keypress handler now ignores stuff like Ctrl-ENTER
+  and Shift-UpArrow.
+- Removed the #REPLAY OFF hack. It's still a special command, but it's
+  no longer needed to terminate playbacks.
+
+2002-06-14 - 1.0 beta 4 (The "Unicode this!" release.)
+
+Bugfixes
+
+- Show the correct Magnetic core version in the About window.
+- Deal more gracefully with non-ASCII characters in user input. Now
+  they're discarded because the Magnetic core appears to be unable to
+  handle them, but at least they're treated as single characters now,
+  even if they occupied several bytes in the original string.
+- More prototype fixes. I've guarded about future screw-ups by always
+  including (sometimes otherwise unnecessarily) the appropriate header
+  file into the file which defines the function.
+
+Other changes
+
+- Finally figured out how to encode my own name as UTF-8 for the about
+  window. :-)
+- Let ms_getchar() return 1 (instead of '\n') if there is no input
+  buffer. This probably only happens when starting a new game while an
+  old one is already running.
+
+2002-06-10 - 1.0 beta 3 (The "Brown paper bag" release.)
+
+Bugfixes
+
+- Fixed incorrect prototype for and usage of start_new_game()
+- Remembered to change version number
+
+Other changes
+
+- Minor cleanups
+
+2002-06-09 - 1.0 beta 2 (The "Special Edition" release.)
+
+Features
+
+- Support for external hint files. This only works with Magnetic 2.1
+  or later, which may or may not have been released by the time you
+  read this.
+
+Bugfixes
+
+- Using the config dialog would restore the window partition to an
+  older setting.
+- Check for EOF during replay, not just zero-length lines.
+
+Other changes
+
+- The layout of the configuraion file has changed slightly, without
+  any attempt to maintain backwards compatibility. Fortunately it
+  should only affect the window size and partition settings. I'm sorry
+  about this, but it's better to do this sort of things while it's
+  still a beta version.
+- It wasn't really my intention, but a large part of the old README
+  consisted of a section on GtkMagnetic vs gMagnetic, and I still went
+  on to ramble about other things. The main part of that section is
+  now "Performance considerations". (Though there are still a few jabs
+  at gMagnetic there. :-)
+- And, of course, a few insignificant cleanups.
+
+2002-06-06 - 1.0 beta 1 (The "It's alive!" release.)
+
+First version where all the major features are present.

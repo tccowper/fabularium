@@ -1,0 +1,3 @@
+#!/bin/sh
+f=${1%%\.}
+meld $f.expected $f.output

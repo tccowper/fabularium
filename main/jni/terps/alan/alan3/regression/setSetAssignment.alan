@@ -1,0 +1,27 @@
+The l1 Isa location
+  Has locationSet {l1}.
+End The l1.
+
+The l2 Isa location
+  Has locationSet {l1, l2, l3, l4, l5, l6}.
+End The l2.
+
+The l3 Isa location
+End The l3.
+
+The l4 Isa location
+End The l4.
+
+The l5 Isa location
+End The l5.
+
+The l6 Isa location
+End The l6.
+
+Start At l1.
+  Set locationSet Of l1 To locationSet Of l2.
+  "locationSet should = 6, actual =" Say Count Isa location, In locationSet Of l1. ".$p"
+  For Each loc In locationSet Of l1 Do
+    Say loc.
+  End For Each.
+  "Should be ""l1, l2, l3, l4, l5 & l6"".$p"

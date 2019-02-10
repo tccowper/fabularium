@@ -1,0 +1,21 @@
+ACTOR ATTRIBUTES
+	hungry.
+	NOT hungry.
+
+
+Location l
+  Is dark.
+     NOT dark.
+End Location.
+
+Actor a
+  Is dark.
+     NOT dark.
+End Actor.
+
+Object o
+  Is dark.
+     NOT dark.
+End Object.
+
+Start At l.

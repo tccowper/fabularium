@@ -1,0 +1,14 @@
+The l Isa location
+  Has e e1.
+End The l.
+
+Event e1 "This is e1 running." Set e Of l To e2. End Event.
+Event e2 "This is e2 running." Set e Of l To e3. End Event.
+Event e3 "This is e3 running." Set e Of l To e1. End Event.
+
+Event timer Schedule e Of l After 1. Schedule timer after 2. End Event.
+
+Start At l.
+  Schedule e Of l After 1.
+  Schedule timer After 3.
+

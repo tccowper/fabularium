@@ -1,0 +1,86 @@
+OPTIONS
+  debug.
+
+SYNTAX
+  look_at_using = 'look' 'at' (obj) 'using' (aid).
+
+SYNONYMS
+  'with' = 'using'.
+
+VERB look_at_using
+  CHECK obj <> aid
+    ELSE "Smart ass!"
+  AND aid = binoculars
+    ELSE "You can't get any better look using $2."
+END VERB.
+
+
+SYNTAX l = 'look'.
+
+VERB l
+  DOES
+    LOOK.
+END VERB l.
+
+
+LOCATION hills
+  EXIT w TO hill_road.
+END LOCATION hills.
+
+OBJECT mountain AT hills
+  VERB look_at_using
+    DOES
+      "At this short distance all you can see is a magnification of a
+	grey stone mountain side." 
+  END VERB.
+END OBJECT mountain.
+
+
+LOCATION hill_road NAME 'A Road to the Hills'
+  EXIT e TO hills.
+  EXIT w TO scenic_vista.
+END LOCATION hill_road.
+
+LOCATION scenic_vista NAME Scenic Vista
+  EXIT e TO hill_road.
+END LOCATION scenic_vista.
+
+OBJECT shadow_mountain NAME distant mountain AT scenic_vista
+  DESCRIPTION
+    "Far in the distance you can see the Pebbly Mountain
+	raising towards the sky."
+
+  VERB look_at_using
+    DOES
+      IF hero AT scenic_vista THEN
+        "The magnified image of the mountain reveals a hill side
+	road."
+      ELSE
+	"This close to the mountain there is not much that you see
+	better through the binoculars."
+      END IF.
+  END VERB.
+	
+END OBJECT shadow_mountain.
+
+WHEN hero AT scenic_vista OR hero AT hill_road =>
+  LOCATE shadow_mountain AT hero.
+
+OBJECT binoculars NAME pair 'of' binoculars IN belt
+END OBJECT binoculars.
+
+CONTAINER belt
+END CONTAINER belt.
+
+SYNTAX invent = 'i'.
+VERB invent
+  DOES
+    LIST inventory.
+    LIST belt.
+END VERB.
+
+OBJECT stone IN inventory
+END OBJECT stone.
+
+START AT scenic_vista.
+  "Look at that view!!!"

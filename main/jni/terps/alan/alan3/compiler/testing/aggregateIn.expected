@@ -1,0 +1,44 @@
+########## aggregateIn ##########
+
+
+aggregateIn.alan
+
+   13.    If Max Of y Isa object, In unknown = 9 Then "" End If.
+=====>              1                2
+
+  *1*   316 E : Attribute 'y' is not defined for instances aggregated over
+                using 'MAX' since the class it is guaranteed to be in this
+                context ('object') does not have it.
+  *2*   310 E : Identifier 'unknown' not defined.
+
+   14.    If Max Of y Isa object, In members Of x = 9 Then "" End If.
+=====>              1                           2
+
+  *1*   316 E : Attribute 'y' is not defined for instances aggregated over
+                using 'MAX' since the class it is guaranteed to be in this
+                context ('object') does not have it.
+  *2*   310 E : Identifier 'x' not defined.
+
+   15.    If Max Of y Isa object, In members Of l = 9 Then "" End If.
+=====>              1                2
+
+  *1*   316 E : Attribute 'y' is not defined for instances aggregated over
+                using 'MAX' since the class it is guaranteed to be in this
+                context ('object') does not have it.
+  *2*   315 E : Attribute not defined for 'l'.
+
+   16.    If Max Of y Isa object, In members Of o = 9 Then "" End If.
+=====>              1             2
+
+  *1*   316 E : Attribute 'y' is not defined for instances aggregated over
+                using 'MAX' since the class it is guaranteed to be in this
+                context ('object') does not have it.
+  *2*   441 E : Incompatible filter. All filters must enumerate instances or
+                values which are compatible, such as subclasses or compatible
+                types.
+
+
+        8 error(s).
+        No detected warnings.
+        1 informational message(s).
+

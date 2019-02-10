@@ -1,0 +1,25 @@
+#include <cgreen/mocks.h>
+
+#include "ext_x.h"
+
+/* USE: */
+#include "context.h"
+
+
+/* DATA: */
+
+int dirmin, dirmax;
+int dircount;
+
+
+/* FUNCTIONS: */
+
+/* Create a new Exit node */
+Exit *newExit(Srcp *srcp, List *dirs, Id *to, List *chks, List *stms) { Exit *exit = NEW(Exit); exit->srcp = *srcp; exit->directions = dirs; exit->target = to; exit->chks = chks; exit->stms = stms; return exit; }
+void symbolizeExits(List *exts) { mock(exts); }
+void analyzeExit(Exit *ext, Context *context) { mock(ext, context); }
+void analyzeExits(List *exts, Context *context) { mock(exts, context); }
+List *combineExits(List *ownExits, List *exitsToAdd) { return (List*)mock(ownExits, exitsToAdd); }
+Bool exitIdFound(Id *targetId, List *exits) { return (Bool)mock(targetId, exits); }
+Aaddr generateExits(List *exts) { return (Aaddr)mock(exts); }
+void dumpExit(Exit *ext) { mock(ext); }

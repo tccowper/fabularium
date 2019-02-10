@@ -1,0 +1,42 @@
+The l Isa location
+End The l.
+
+Add To Every thing
+  Has thing_attribute.
+End Add.
+
+Add To Every object
+  Has object_attribute.
+End Add.
+
+Every c2 Isa object
+  Has c2_attribute.
+  Container Taking c2.
+End Every.
+
+Every c3 Isa object
+  Has c3_attribute.
+  Container Taking c2.
+End Every.
+
+Every c4 Isa c2
+  Has c4_attribute.
+  Container Taking c3.
+End Every.
+
+
+The cont6 Isa object
+  Container Taking c4.
+End The cont6.
+
+
+Start At l.
+  For Each i In cont6 Do
+    -- i is always an object, since cont6 contains c4:s, c3:s (through c4) and c2:s (through c3 and c2)
+    -- and the only common parent is object
+    If i Has thing_attribute Then "ok" End If.
+    If i Has object_attribute Then "ok" End If. 
+    If i Has c2_attribute Then "error" End If.
+    If i Has c3_attribute Then "error" End If.
+    If i Has c4_attribute Then "error" End If.
+  End For.

@@ -1,0 +1,38 @@
+########## undoScores ##########
+
+        No warnings or errors detected.
+        2 informational message(s).
+
+
+
+P
+You have scored 0 points out of 5 in 0 moves. There is a o here.
+
+> l
+P
+You have scored 0 points out of 5 in 0 moves. There is a o here.
+
+> v o
+You have scored 5 points out of 5 in 1 moves.
+
+> l
+P
+You have scored 5 points out of 5 in 2 moves. There is a o here.
+
+> undo
+'v o' undone.
+
+> l
+P
+You have scored 0 points out of 5 in 3 moves. There is a o here.
+
+> v o
+You have scored 5 points out of 5 in 4 moves.
+
+> l
+P
+You have scored 5 points out of 5 in 5 moves. There is a o here.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

@@ -1,0 +1,24 @@
+The livingroom isa location
+End The livingroom.
+
+Event tick
+  "Tick."
+  Schedule tick after 1.
+End Event tick.
+
+The butler Isa Actor At livingroom
+  Script goingOut
+    Step
+      "The butler steps out of the room."
+      Locate butler At nowhere.
+    Step
+      Locate butler At livingroom.
+      "The butler steps into the room."
+End The butler.
+
+The nowhere Isa location
+End The nowhere.
+
+Start At livingroom.
+  Use Script goingOut For butler.
+  Schedule tick After 3.

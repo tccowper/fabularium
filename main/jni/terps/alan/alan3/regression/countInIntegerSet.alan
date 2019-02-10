@@ -1,0 +1,7 @@
+The l Isa location
+  Has iSet {5,11,999}.
+End The l.
+
+Start At l.
+  Say Count In iSet Of l.
+  If Count In iSet Of l Not = 3 Then "Error." Else "Ok." End If.

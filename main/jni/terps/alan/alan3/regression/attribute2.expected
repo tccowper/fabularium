@@ -1,0 +1,24 @@
+########## attribute2 ##########
+
+        No warnings or errors detected.
+
+
+
+FirstInstance
+This location has a1 = 1 and a11 = 11 and a12 = 112
+
+> w
+SecondInstance
+This location has a1 = 201 and a12 = 12 and a21 = 21 and a22 = 22
+
+> e
+FirstInstance
+This location has a1 = 111 and a11 = 11 and a12 = 112
+
+> w
+SecondInstance
+This location has a1 = 201 and a12 = 12 and a21 = 21 and a22 = 22
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

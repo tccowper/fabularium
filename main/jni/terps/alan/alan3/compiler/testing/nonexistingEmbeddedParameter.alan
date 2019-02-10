@@ -1,0 +1,17 @@
+The l Isa location
+  Verb v
+    Does
+      "parameter $1" -- ok
+      "parameter $2" -- ERROR
+      "parameter $!2" -- ERROR
+  End Verb.
+End The l.
+
+Start At l.
+  "This is a reference to an non-existing parameter $1"
+  "This is a reference to an non-existing parameter $+1"
+  "This is a reference to an non-existing parameter $01"
+  "This is a reference to an non-existing parameter $-1"
+  "This is a reference to an non-existing parameter $!1"
+  "This is not $$ ... "
+  "This is not $ either"

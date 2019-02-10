@@ -1,0 +1,19 @@
+Add To Every location
+  Entered
+    Increase visitCount Of This.
+    Say This. "has been visited" Say visitCount Of This. "times before."
+  Has visitCount 0.
+End Add.
+
+The outer Isa location
+End the outer.
+
+The l1 Isa location At outer
+  Exit e,w,s,n To l2.
+End The l1.
+
+The l2 Isa location At outer
+  Exit e,w,s,n To l1.
+End The l2.
+
+Start At l1.

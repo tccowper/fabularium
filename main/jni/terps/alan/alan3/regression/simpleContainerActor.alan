@@ -1,0 +1,9 @@
+The cont Isa actor At loc
+  With Container
+End The cont.
+
+The loc Isa location
+End The loc.
+
+Start At loc.
+  Describe cont.

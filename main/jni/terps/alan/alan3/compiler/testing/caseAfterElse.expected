@@ -1,0 +1,15 @@
+########## caseAfterElse ##########
+
+
+caseAfterElse.alan
+
+    7.    Else "else"
+=====>    1
+
+  *1*   335 E : ELSE clause of a DEPENDING statement must be the last.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

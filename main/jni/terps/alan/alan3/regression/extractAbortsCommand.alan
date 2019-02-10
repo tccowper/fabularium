@@ -1,0 +1,61 @@
+Verb l
+  Does
+    Look.
+End Verb.
+
+The bar Isa location
+End The bar.
+
+The bartender Isa actor
+  At bar.
+  Container
+    Header "The bartender is carrying"
+    Else "The bartender is not carrying anything."
+    Extract Check "The bartender will not allow you to take anything."
+End The bartender.
+
+The waiter Isa actor
+  At bar.
+  Is Not annoyed.
+  Description
+    "A slow-moving, traditionally dressed waiter is here."
+    List waiter.
+    If waiter Is annoyed Then
+      "He is rather annoyed."
+    End If.
+  Container
+    Header "The waiter is carrying"
+    Else "The waiter is empty-handed."
+    Extract Does "The waiter is annoyed by your presupposition."
+		 Make waiter annoyed.
+End The waiter.
+
+The glass Isa object In bartender
+End The glass.
+
+The menu Isa object
+  In waiter.
+End The menu.
+
+
+Syntax take = take (o).
+
+Add To Every object
+  Verb take
+    Does
+      Locate o In hero.
+      "Taken."
+  End Verb.
+End Add To.
+
+Syntax i = i.
+Verb i
+  Does
+    List hero.
+End Verb.
+
+The hero Isa actor
+  With Container
+End The hero.
+
+Start At bar.

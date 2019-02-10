@@ -1,0 +1,38 @@
+/* Mocking output.c */
+#include "output.h"
+
+/* IMPORTS */
+#include "types.h"
+
+
+/* CONSTANTS */
+
+
+/* TYPES */
+
+
+/* DATA */
+int col, lin; // TODO Move to current.column & current.line?
+int pageLength, pageWidth;
+
+bool anyOutput;
+bool needSpace;
+bool capitalize;
+
+/* Log file */
+#ifdef HAVE_GLK
+#include "glk.h"
+strid_t logFile;
+#else
+FILE *logFile;
+#endif
+
+
+/* FUNCTIONS */
+void setSubHeaderStyle(void) { mock(); }
+void setNormalStyle(void) { mock(); }
+void newline(void) { mock(); }
+void para(void) { mock(); }
+void clear(void) { mock(); }
+void printAndLog(char string[]) { mock(string); }
+void output(char string[]) { mock(string); }

@@ -1,0 +1,34 @@
+Every topic Isa entity
+End Every topic.
+
+The aTopic Isa topic
+End The aTopic.
+
+Every subtopic Isa topic
+End Every subtopic.
+
+The aSubTopic Isa subtopic
+End The aSubTopic.
+
+Every talker Isa actor
+  Has a {aTopic}.
+  Has b {aTopic}.
+  Has c {aTopic}.
+End Every talker.
+
+Every subtalker Isa talker
+  Has a {aSubTopic}.
+  Has b {l}.			-- Member class is not a subclass
+  Has c {1}.			-- Member type is not INSTANCE
+End Every subtalker.
+
+The aSubtalker Isa subtalker
+End The aSubtalker.
+
+The l Isa location
+End The l.
+
+Start At l.
+  Include aTopic In a of aSubtalker.  -- Should be OK
+  Include l In a of aSubTalker.	-- Should only allow topics
+

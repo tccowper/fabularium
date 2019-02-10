@@ -1,0 +1,1 @@
+../bin/alan $1 ; ../bin/arun -n -r $1 < $1.input

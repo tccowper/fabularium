@@ -1,0 +1,139 @@
+####################################################################
+# This file is included from Makefile. It includes special settings
+# to build Alan Interpreter(s) on Darwin. Common rules are in
+# Makefile.common
+
+# We use last release until there is a new one, so always one behind Cygwin...
+VERSION := $(shell cat ../NEXTRELEASE)
+
+# Define the program name
+PROGNAME=-DPROGNAME=\"arun\"
+ARUNOPTS = $(PROGNAME) $(GLK)
+
+OSFLAGS =
+#ARCHFLAGS = -m32
+
+COMPILER = gcc -g
+COMPILEFLAGS = -Wall -funsigned-char -Wno-invalid-source-encoding
+
+LINKER = gcc -g
+LINKFLAGS =
+
+# -- CGreen unit test framework settings
+CGREEN = yes
+CGREENROOT = /usr/local
+CGREENINCLUDE = -I$(CGREENROOT)/include/
+CGREENLIBDIR= $(CGREENROOT)/lib
+CGREENLIBS = -lcgreen
+
+
+###################################################################
+#
+# Default target on Darwin
+#
+.PHONY: default
+default all: unit arun MacArun gararun
+
+##################################################################
+# Add extra tests here that might not be working on all platforms
+tests: test
+
+
+
+##################################################################
+.PHONY: release
+release: ARCHFLAGS = -arch i386 -arch ppc
+release: EXTRA_COMPILER_FLAGS = -O4
+release: DEPENDENCY =
+release: all
+
+##################################################################
+coverage: CFLAGS += --coverage
+coverage: LINKFLAGS += --coverage
+.PHONY: coverage
+coverage: clean arun unit
+
+
+
+#--------------------------------------------------------------------
+# Extra targets on Darwin
+
+# GARARUN: a Gargoyle drop-in alan interpreter
+# Gargoyle should be installed at GARGOYLE_DIR and have
+# terps/alan3 linked to alan/interpreter. All required libraries, including
+# libgarglk.dylib need to be built to binary form before making it from here.
+# It is built with jam, so "alan3", the resulting Alan interpreter drop-in,
+# will be available as $(GARGOYLE_DIR)/build/<platform>.<buildtype>.release/alan3/alan3
+#
+# To build it we need various libraries, make sure they are installed using (MacPorts)
+#     sudo port install libSDL libSDL_mixer jpeg freetype +universal
+#
+# MacOSX have some fishy routines for finding libraries and since we built it against macports
+# we need to readjust the path to the libraries so that it looks in the Gargoyle.app frameworks
+# instead of the /opt/local where macports keeps its dylibs.
+#
+# We build an installer package using Packages (http://s.sudre.free.fr/Software/Packages)
+#
+GARGOYLE_DIR=../../garglk-current-alan3
+gararun: gargoyle-updater gararun-tar
+
+gargoyle-updater: alan3 gargoyle-libs
+	packagesbuild gargoyle-alan3-installer.pkgproj
+	cp build/gargoyle-alan3.pkg gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).macosx.pkg
+	rm -r build
+
+gararun-tar: alan3 gargoyle-libs
+	tar zcvf gargoyle-alan3-$(VERSION)$(BUILDVERSION).macosx.tgz Gargoyle.app gargoyle.alan3-slot-in.readme
+	rm -r Gargoyle.app
+
+alan3:
+	cd $(GARGOYLE_DIR); jam garglk alan3
+	mkdir -p Gargoyle.app/Contents/PlugIns Gargoyle.app/Contents/Frameworks
+	cp $(GARGOYLE_DIR)/build/macosx.release/alan3/alan3 .
+	install_name_tool -change @executable_path/libgarglk.dylib @executable_path/../Frameworks/libgarglk.dylib alan3
+	install_name_tool -change /opt/local/lib/libfreetype.6.dylib @executable_path/../Frameworks/libfreetype.6.dylib alan3
+	install_name_tool -change /opt/local/lib/libz.1.dylib /usr/lib/libgcc_s.1.dylib alan3
+	mv alan3 Gargoyle.app/Contents/PlugIns
+
+gargoyle-libs:
+	cp /opt/local/lib/libfreetype.6.dylib .
+	install_name_tool -change /opt/local/lib/libfreetype.6.dylib @executable_path/../Frameworks/libfreetype.6.dylib libfreetype.6.dylib
+	install_name_tool -change /opt/local/lib/libz.1.dylib @executable_path/../Frameworks/libz.1.dylib libfreetype.6.dylib
+	install_name_tool -change /opt/local/lib/libbz2.1.0.dylib @executable_path/../Frameworks/libbz2.1.0.dylib libfreetype.6.dylib
+	install_name_tool -change /opt/local/lib/libpng16.16.dylib @executable_path/../Frameworks/libpng16.16.dylib libfreetype.6.dylib
+	mv libfreetype.6.dylib Gargoyle.app/Contents/Frameworks
+	cp /opt/local/lib/libpng16.16.dylib .
+	install_name_tool -change /opt/local/lib/libz.1.dylib @executable_path/../Frameworks/libz.1.dylib libpng16.16.dylib
+	mv libpng16.16.dylib Gargoyle.app/Contents/Frameworks
+
+
+##################################################################################
+# MacArun: a Platypus-based application that runs the command line interpreter in
+# a Terminal.
+#
+# Builds using platypus which needs to be installed, including the command line version
+
+MacArun: MacArun.app
+	zip -r MacArun$(VERSION)$(BUILDVERSION).zip MacArun.app
+	rm -r MacArun.app
+
+MacArun.app: MacArun.sh MacArun.platypus
+	platypus -P MacArun.platypus -a MacArun -V $(VERSION)$(BUILDVERSION) MacArun.app
+
+
+############################################################
+# glkarun
+
+glkarun: TERMGLKROOT = ../../glkterm
+glkarun: ARCHFLAGS = -m32
+
+CURSESLIB = -lcurses
+
+
+#######################################################################
+# dumpacd: Dump Acode file into text format
+
+DUMPACDOBJECTS = dumpacd.o reverse.o lists.o sysdep.o compatibility.o ../compiler/spa.o
+dumpacd: $(DUMPACDOBJECTS)
+	$(LINK) $(LDFLAGS) -Wall -o dumpacd -ggdb $(DUMPACDOBJECTS)
+	cp $@ ../bin/

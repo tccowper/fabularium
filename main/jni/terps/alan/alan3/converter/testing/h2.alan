@@ -1,0 +1,26 @@
+Object photo
+
+verb show_to, give_to does only
+
+If photo is identified or photo is named then
+"There is no need to show the photo at this moment."
+else
+If hero at office2 then
+"You ask Julie to take a look at the photo. She's always reading those
+movie magazines, maybe she knows the name of the film. $n $n
+""Let's see, it's one of those crime films. Not 'Crime city', hmm,
+I know, it's from 'The Postman always rings twice', with John Garfield.
+That's him in the foreground. Don't tell me you have Garfield as a
+client, bigshot.""
+""No, no, just the fellow in the back, the one with the mustache."",
+you tell her. $n ""No idea who he is, just some extra it looks like"",
+Julie replies. $n
+You thank her for the help. Hmm, not a bad film if you
+remember. Can't quite remember the studio though."
+make photo named.
+else
+"No one wants to look at you photo."
+end if.
+end if.
+end verb.
+End Object.

@@ -1,0 +1,35 @@
+Every door Isa object
+  Has otherside door.
+End Every door.
+
+Every lockableDoor Isa door.
+  Has otherside lockableDoor.
+End Every lockableDoor.
+
+Every illegalDoor Isa door
+  Has otherSide object.
+End Every illegalDoor.
+
+The aDoor Isa door
+  Has otherside anotherDoor.
+End The aDoor.
+
+The anotherDoor Isa door
+  Has otherside aLockableDoor.		-- This should be ok
+End The anotherDoor.
+
+The aLockableDoor Isa lockableDoor
+  Has otherside anotherLockableDoor.
+End The aLockableDoor.
+
+The anotherLockableDoor Isa lockableDoor
+  Has otherside aDoor.			-- This should not be ok.
+End The anotherLockableDoor.
+
+The frontDoor Isa lockableDoor
+End The frontDoor.
+
+The l Isa location
+End The l.
+
+Start At l.

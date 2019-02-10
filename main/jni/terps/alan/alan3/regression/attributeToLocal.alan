@@ -1,0 +1,23 @@
+The loc Isa location
+End The loc.
+
+The o Isa object At loc
+End The o.
+
+The e Isa thing At loc
+End The e.
+
+The l Isa location At loc
+End The l.
+
+The a Isa actor At loc
+End The a.
+
+Add To Every entity
+  Has x 42.
+End Add.
+
+Start At loc.
+  For Each i Isa entity, Here Do
+    Say i. "has x =" Say x Of i. "."
+  End For.

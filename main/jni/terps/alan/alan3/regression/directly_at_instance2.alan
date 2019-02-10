@@ -1,0 +1,23 @@
+The l Isa location
+End The l.
+
+The o Isa object At l
+End The o.
+
+The c Isa object At l
+  Container
+End The c.
+
+The d Isa object In c
+  Container
+End The d.
+
+The e Isa object In d.
+End The.
+
+Start At l.
+  If o Directly at d Then "o Directly at d. *** Not Ok ***."
+	Else "o Not Directly at d. Ok." End If.
+  "$n"
+  If o Directly at e Then "o Directly at e. *** Not Ok ***."
+	Else "o Not Directly at e. Ok." End If.

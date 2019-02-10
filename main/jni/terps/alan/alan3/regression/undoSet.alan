@@ -1,0 +1,30 @@
+The loc Isa location
+  Has s {1,2}.
+  Has Not commaFound.
+End The loc.
+
+Syntax s = s (i) Where i Isa Integer Else "Give an integer please."
+
+Add To Every integer
+  Verb s
+    Does
+      Set s Of loc To {}.
+      For Each j Between 1 And i Do
+        Include j In s Of loc.
+      End For.
+  End Verb.
+End Add.
+
+Verb l
+  Does
+    "{$$"
+    Make loc Not commaFound.
+    For Each i In s Of loc Do
+      If loc Is commaFound Then "," End If.
+      Make loc commaFound.
+      Say i.
+    End For.
+    "$$}"
+End Verb.
+
+Start At loc.

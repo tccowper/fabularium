@@ -1,0 +1,25 @@
+Object cont At loc
+  Container
+End Object cont.
+
+Object obj In cont
+End Object obj.
+
+Object obj2
+End Object obj2.
+
+Event ev
+  "This is EV."
+End Event ev.
+
+Location loc
+End Location loc.
+
+Start At loc.
+  "Scheduling EV at OBJ which is inside CONT."
+  Schedule ev At obj After 0.
+  "Locating OBJ2 at OBJ which is inside CONT."
+  Locate obj2 At obj.
+  List cont.
+  "Locating HERO at OBJ which is inside CONT."
+  Locate hero At obj.

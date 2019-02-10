@@ -1,0 +1,25 @@
+Syntax
+	clean_with = 'clean' (obj1) 'with' (obj2).
+
+Location l
+End Location l.
+
+Verb clean_with
+  Does
+    "Cleaning" Say obj1. "with" Say obj2.
+End Verb.
+
+Verb clean
+  Does
+    "Cleaning" Say OBJECT.
+End Verb clean.
+
+Object o1 At l
+End Object o1.
+
+Object o2 At l
+End Object o2.
+
+Start At l.
+
+	"Testing syntax for 'clean with' and default for 'clean'."

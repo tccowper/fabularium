@@ -1,0 +1,15 @@
+########## maxIsaUnknown ##########
+
+
+maxIsaUnknown.alan
+
+    6.    Set i Of l To Max Of i Isa unknown.
+=====>                               1
+
+  *1*   310 E : Identifier 'unknown' not defined.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

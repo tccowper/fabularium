@@ -1,0 +1,35 @@
+The outer Isa location
+End The outer.
+
+The oc1 Isa object At outer
+  Container
+End The oc1.
+
+The oc2 Isa object In oc1
+  Container
+End The oc2.
+
+The o Isa object In oc2
+End The o.
+
+The inner1 Isa location At outer
+End The inner1.
+
+The inner2 Isa location At outer
+End The inner2.
+
+The innermost Isa location At inner1
+End The innermost.
+
+Start At inner1.
+  "$n"
+  "o Indirectly At outer:"
+  If o Indirectly At outer Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o Indirectly At inner1:"
+  If o Indirectly At inner1 Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o Indirectly At inner2:"
+  If o Indirectly At inner2 Then "yes, ok" Else "no, *** error ***" End If.

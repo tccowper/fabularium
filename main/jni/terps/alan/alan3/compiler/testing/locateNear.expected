@@ -1,0 +1,20 @@
+########## locateNear ##########
+
+
+locateNear.alan
+
+    8.    Locate o Nearby.
+=====>    1
+
+  *1*   415 E : Invalid Where specification in LOCATE statement.
+
+    9.    Locate o Near l.
+=====>    1
+
+  *1*   415 E : Invalid Where specification in LOCATE statement.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

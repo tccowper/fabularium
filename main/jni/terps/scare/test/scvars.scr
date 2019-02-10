@@ -1,0 +1,457 @@
+# vi: set ts=2 shiftwidth=2 expandtab:
+#
+# System and user variable tests.
+#
+# Covers user and system variables, integers as words, and some left-over
+# operator precedence for expressions.
+#
+# Unless otherwise noted, the input and responses in this script were created
+# from a transcript of the Adrift Runner, release 4.0.45 or 46.
+#
+
+~ game
+*Valueless* Compiled "08 Nov 2006"* Version 4.00*
+
+
+#
+# Check some expression operator precedences.
+#
+
+# Note -- Adrift's operator precedence seems to be somewhat wacky.  The
+# expressions calculated here are:
+#   a := -7+6+5^4-3*2
+#   b := -7+(6*5)^(4-3)*2
+#   c := (1--1)+(1+-1)+-1
+#   d := 10+10/2-(10+10)/2
+#   e := 10+15mod7-(10+15)mod7
+# For normal precedence, the results should be:
+#   a = "618" b = "53" c = "1" d = "5" e = "7"
+# However, Adrift appears to lump exponentiation and modulus in with addition
+# and subtraction, giving a completely different set of results.  As a result,
+# SCARE's expression parser tries to replicate this, even though it's arguably
+# rather broken.
+> expressions
+a = "250" b = "529" c = "1" d = "5" e = "0"
+
+
+#
+# Verify general system constants and variables.
+#
+
+> statics
+author = "A.N. Onymous"
+maxscore = 15
+modified = "08 Nov 2006"
+player = "Ted Swippett"
+title = "Valueless"
+
+# We can't verify playing time accurately.
+# TODO SCARE's idea of turns doesn't accurately track Adrifts; in particular,
+# "administrative" tasks don't count as turns in SCARE.
+> dynamics
+score = 0
+time = *
+turns = [0-9]
+
+
+#
+# Test score manipulations.
+#
+# Note -- this section has been altered slightly to match the way SCARE works.
+# SCARE prints "...has decreased by N" rather than the tautological "...has
+# decreased by -N".
+#
+
+> score 5
+(Your score has increased by 5)
+score = "5"
+
+> dynamics
+score = 5 time = * turns = *
+
+> score 5
+score = "5"
+
+> score 10
+(Your score has increased by 10)
+score = "15"
+
+> score 10
+score = "15"
+
+> score -1
+(Your score has decreased by 1)
+score = "14"
+
+> score -1
+(Your score has decreased by 1)
+score = "13"
+
+> score -1, score -1, score -1, score -1, score -1, score -1, score -1, score -1
+(Your score has decreased by 1)
+score = "12"
+(Your score has decreased by 1)
+score = "11"
+(Your score has decreased by 1)
+score = "10"
+(Your score has decreased by 1)
+score = "9"
+(Your score has decreased by 1)
+score = "8"
+(Your score has decreased by 1)
+score = "7"
+(Your score has decreased by 1)
+score = "6"
+(Your score has decreased by 1)
+score = "5"
+
+> score -1, score -1, score -1, score -1, score -1, score -1, score -1, score -1
+(Your score has decreased by 1)
+score = "4"
+(Your score has decreased by 1)
+score = "3"
+(Your score has decreased by 1)
+score = "2"
+(Your score has decreased by 1)
+score = "1"
+(Your score has decreased by 1)
+score = "0"
+(Your score has decreased by 1)
+score = "-1"
+(Your score has decreased by 1)
+score = "-2"
+(Your score has decreased by 1)
+score = "-3"
+
+
+#
+# Check variables that reference an NPC.
+#
+
+> character janitor
+character = "the janitor"
+heshe = "he"
+himher = "him"
+
+
+#
+# Check variables that reference an object.
+#
+
+# Obstate_ has to be handled carefully here, as it causes Adrift error 9 in
+# the Runner if used on a non-stateful object.  For that reason, we handle it
+# separately later on.
+> object cupboard
+object = "a cupboard"
+obstate = "[[]obstate breaks Adrift[]]"
+obstatus = "closed"
+theobject = "the cupboard"
+
+> object table
+object = "a table"
+obstate = "[[]obstate breaks Adrift[]]"
+obstatus = "unopenable"
+theobject = "the table"
+
+> object switch
+object = "a switch"
+obstate = "[[]obstate breaks Adrift[]]"
+obstatus = "unopenable"
+theobject = "the switch"
+
+> open cupboard
+
+> object cupboard
+object = "a cupboard"
+obstate = "[[]obstate breaks Adrift[]]"
+obstatus = "open"
+theobject = "the cupboard"
+
+> object book
+object = "a book"
+obstate = "[[]obstate breaks Adrift[]]"
+obstatus = "unopenable"
+theobject = "the book"
+
+> object tray
+object = "a tray"
+obstate = "[[]obstate breaks Adrift[]]"
+obstatus = "unopenable"
+theobject = "the tray"
+
+> object bag
+object = "a bag"
+obstate = "[[]obstate breaks Adrift[]]"
+obstatus = "closed"
+theobject = "the bag"
+
+> object hat
+object = "a hat"
+obstate = "[[]obstate breaks Adrift[]]"
+obstatus = "unopenable"
+theobject = "the hat"
+
+> take bag, open bag
+
+> object bag
+object = "a bag"
+obstate = "[[]obstate breaks Adrift[]]"
+obstatus = "open"
+theobject = "the bag"
+
+# Separate tests for obstate_, invoked only on a stateful object.
+> object_breaks_adrift switch
+obstate = "On"
+
+> switch off
+Flipped off.
+
+> object_breaks_adrift switch
+obstate = "Off"
+
+> switch between
+Flipped between.
+
+> object_breaks_adrift switch
+obstate = "In between"
+
+> switch on
+Flipped on.
+
+> object_breaks_adrift switch
+obstate = "On"
+
+
+#
+# Check variables that reference a number or text.
+#
+
+> number -1
+number = -1 t_number = "-1"
+
+> number 0
+number = 0 t_number = "zero"
+
+> number 1
+number = 1 t_number = "one"
+
+> number 2
+number = 2 t_number = "two"
+
+> number 3
+number = 3 t_number = "three"
+
+> number 4
+number = 4 t_number = "four"
+
+> number 5
+number = 5 t_number = "five"
+
+> number 6
+number = 6 t_number = "six"
+
+> number 7
+number = 7 t_number = "seven"
+
+> number 8
+number = 8 t_number = "eight"
+
+> number 9
+number = 9 t_number = "nine"
+
+> number 10
+number = 10 t_number = "ten"
+
+> number 11
+number = 11 t_number = "eleven"
+
+> number 12
+number = 12 t_number = "twelve"
+
+> number 13
+number = 13 t_number = "thirteen"
+
+> number 14
+number = 14 t_number = "fourteen"
+
+> number 15
+number = 15 t_number = "fifteen"
+
+> number 16
+number = 16 t_number = "sixteen"
+
+> number 17
+number = 17 t_number = "seventeen"
+
+> number 18
+number = 18 t_number = "eighteen"
+
+> number 19
+number = 19 t_number = "nineteen"
+
+> number 20
+number = 20 t_number = "twenty"
+
+> number 21
+number = 21 t_number = "21"
+
+> number 123
+number = 123 t_number = "123"
+
+> number -123
+number = -123 t_number = "-123"
+
+> text hello world
+text = "hello world"
+
+> text the quick brown fox jumped over the lazy dog
+text = "the quick brown fox jumped over the lazy dog"
+
+
+#
+# Check variables that name a user variable.
+#
+
+> expressions
+a = "250" b = "529" c = "1" d = "5" e = "0"
+
+> variables
+t_a = "250" t_b = "529" t_c = "one" t_d = "five" t_e = "zero"
+
+
+#
+# Check variables that name an object.
+#
+# TODO Adrift somehow fiddles with the casing of object states so that in
+# some contexts they're "On", in others "on".  It's not clear how, and maybe
+# it's a bug; for now this test permits both below for state_switch.
+#
+# TODO In a couple of cases, SCARE prints "<objects> are in <container>"
+# where Adrift uses "Inside <container> are <objects>".  Adrift has two
+# possible formats it could use here, and the selection criteria it uses for
+# this (if any) isn't yet known.  For now, these test expectations have been
+# altered to allow the test to pass.
+#
+
+> close bag, put bag in cupboard
+
+> named objects
+#in_cupboard = "Inside the cupboard is a book, a tray, a bag and a hat."
+in_cupboard = "A book, a tray, a bag and a hat are inside the cupboard."
+on_cupboard = ""
+#onin_cupboard = "Inside the cupboard is a book, a tray, a bag and a hat."
+onin_cupboard = "A book, a tray, a bag and a hat are inside the cupboard."
+in_bag = ""
+on_bag = ""
+onin_bag = ""
+in_tray = ""
+on_tray = ""
+onin_tray = ""
+state_switch = "[Oo]n"
+status_cupboard = "open"
+
+> take bag, take hat, open bag, put hat in bag
+
+> named objects
+in_cupboard = "A book and a tray are inside the cupboard."
+on_cupboard = ""
+onin_cupboard = "A book and a tray are inside the cupboard."
+in_bag = "A hat is inside the bag."
+on_bag = ""
+onin_bag = "A hat is inside the bag."
+in_tray = ""
+on_tray = ""
+onin_tray = ""
+state_switch = "[Oo]n"
+status_cupboard = "open"
+
+> take book, put book in bag
+
+> named objects
+in_cupboard = "A tray is inside the cupboard."
+on_cupboard = ""
+onin_cupboard = "A tray is inside the cupboard."
+in_bag = "A book and a hat are inside the bag."
+on_bag = ""
+onin_bag = "A book and a hat are inside the bag."
+in_tray = ""
+on_tray = ""
+onin_tray = ""
+state_switch = "[Oo]n"
+status_cupboard = "open"
+
+> take tray, take all from bag
+
+> named objects
+in_cupboard = ""
+on_cupboard = ""
+onin_cupboard = ""
+in_bag = ""
+on_bag = ""
+onin_bag = ""
+in_tray = ""
+on_tray = ""
+onin_tray = ""
+state_switch = "[Oo]n"
+status_cupboard = "open"
+
+> put hat on tray, put bag on tray
+
+> named objects
+in_cupboard = ""
+on_cupboard = ""
+onin_cupboard = ""
+in_bag = ""
+on_bag = ""
+onin_bag = ""
+in_tray = ""
+on_tray = "A bag and a hat are on the tray."
+onin_tray = "A bag and a hat are on the tray."
+state_switch = "[Oo]n"
+status_cupboard = "open"
+
+> restart
+> open cupboard, take tray from cupboard, take book from cupboard
+> put book on tray, put tray on cupboard
+
+> named objects
+in_cupboard = "A bag and a hat are inside the cupboard."
+on_cupboard = "A tray is on the cupboard."
+#onin_cupboard = "A tray is on the cupboard, and inside is a bag and a hat."
+onin_cupboard = "A tray is on the cupboard, and a bag and a hat are inside."
+in_bag = ""
+on_bag = ""
+onin_bag = ""
+in_tray = ""
+on_tray = "A book is on the tray."
+onin_tray = "A book is on the tray."
+state_switch = "[Oo]n"
+status_cupboard = "open"
+
+> take bag, open it, take hat, put hat in bag, put bag on cupboard
+
+> named objects
+in_cupboard = ""
+on_cupboard = "A tray and a bag are on the cupboard."
+onin_cupboard = "A tray and a bag are on the cupboard."
+in_bag = "A hat is inside the bag."
+on_bag = ""
+onin_bag = "A hat is inside the bag."
+in_tray = ""
+on_tray = "A book is on the tray."
+onin_tray = "A book is on the tray."
+state_switch = "[Oo]n"
+status_cupboard = "open"
+
+
+#
+# Check %version%, for some reason, not directly printable in Adrift.
+#
+
+# Note -- for flexibility, allow any of 4044-4046.
+> version
+version = "404[4-6]"
+
+> variables
+t_a = "404[4-6]" t_b = "404[4-6]"
+t_c = "404[4-6]" t_d = "404[4-6]" t_e = "404[4-6]"

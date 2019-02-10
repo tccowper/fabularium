@@ -1,0 +1,86 @@
+SYNONYMS
+  car = ferrari.
+
+SYNTAX
+  drive = drive.
+  park = park.
+
+SYNTAX l = l.
+
+VERB l
+  DOES
+    LOOK.
+END VERB.
+
+LOCATION garage
+END LOCATION.
+
+LOCATION parking_lot NAME 'Large Parking Lot'
+END LOCATION.
+
+OBJECT car NAME little red sporty ferrari
+  AT garage
+  IS
+    NOT running.
+  HAS
+    position 0.
+
+  VERB enter
+    DOES
+      LOCATE hero AT inside_car.
+  END VERB enter.
+
+END OBJECT car.
+
+LOCATION inside_car NAME 'Inside the Ferrari'
+  
+  DESCRIPTION
+    "This sporty little red vehicle can really take you places..."
+
+  EXIT out TO inside_car -- just a dummy, since we are going to change it below
+    CHECK car IS NOT running
+    	ELSE "I think you should stop the car before getting out..."
+    DOES
+      IF position OF car = 0 THEN
+        LOCATE hero AT garage.
+      ELSIF position OF car = 1 THEN
+        LOCATE hero AT parking_lot.
+      --- Etc.
+      END IF.
+  END EXIT.
+
+  VERB drive
+    CHECK car IS NOT running
+      ELSE "You are already driving it!"
+    DOES
+      "You start the car and drive off."
+      MAKE car running.
+      SCHEDULE drive1 AFTER 1.
+  END VERB drive.
+
+  VERB park
+    CHECK car IS running
+      ELSE "You are not driving it!"
+    DOES
+      "You slow to a stop and turn the engine off."
+      MAKE car NOT running.
+      CANCEL drive1. CANCEL drive2. --- Etc.
+  END VERB park.
+
+END LOCATION inside_car.
+
+EVENT drive1
+  "You drive out from your garage and approach a large parking lot."
+  SET position OF car TO 1.
+  LOCATE car AT parking_lot.
+  SCHEDULE drive2 after 1.
+END EVENT drive1.
+
+EVENT drive2
+  "You drive out from the parking lot and approach your own garage."
+  SET position OF car TO 0.
+  LOCATE car AT garage.
+  SCHEDULE drive1 after 1.
+END EVENT drive2.  
+
+START AT garage.

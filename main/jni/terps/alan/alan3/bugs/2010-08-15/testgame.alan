@@ -1,0 +1,279 @@
+-- TESTGAME
+
+
+IMPORT 'locations.i'.
+IMPORT 'classes.i'.
+IMPORT 'verbs.i'.
+IMPORT 'messages.i'.
+
+
+
+THE testroom ISA ROOM 
+	DESCRIPTION "This is a testroom for the beta version of a new ALAN library. 
+			A white door leads north. A window decorates the western wall."
+
+	EXIT north TO room2	
+		CHECK 
+			IF door1 IS closed
+				THEN "You can't, since the door is closed."
+				ELSE "You walk north."
+					LOCATE hero AT room2.
+					LOCATE door1 AT room2.
+			END IF.
+	END EXIT.
+
+
+END THE.
+
+
+THE box ISA LISTABLE_CONTAINER
+	AT testroom
+	VERB attack DOES MAKE felix following. 
+				MAKE dog following.
+	END VERB.
+END THE.
+
+
+THE table ISA SUPPORTER
+	AT testroom
+	IS NOT takeable.
+	VERB examine
+		DOES AFTER LIST table_parts.
+	END VERB.
+END THE.	
+
+
+THE table_parts ISA OBJECT
+	AT testroom
+	CONTAINER
+		HEADER "In the table there are"
+		ELSE ""
+	DESCRIPTION ""
+END THE.
+	
+
+THE drawer1 ISA LISTABLE_CONTAINER
+	IN table_parts
+	OPAQUE CONTAINER
+	NAME top drawer
+	IS closeable. IS closed.
+	DESCRIPTION ""
+END THE.
+
+
+THE drawer2 ISA LISTABLE_CONTAINER
+	IN table_parts 
+	OPAQUE CONTAINER
+	NAME bottom drawer
+	IS closeable. IS closed.
+	DESCRIPTION ""
+END THE.
+
+
+THE secret_object ISA OBJECT
+	NAME secret 'object'
+	IN drawer1
+END THE.
+
+
+THE door1 ISA DOOR
+	AT testroom
+	NAME white 'door'
+	DESCRIPTION ""
+END THE.
+
+
+THE window1 ISA WINDOW
+	AT testroom
+	NAME 'window'
+	DESCRIPTION ""
+END THE.
+
+
+THE flower ISA SCENERY
+	AT testroom
+END THE.
+
+
+THE note ISA OBJECT
+	IN table
+	IS writeable.
+	IS readable.
+	
+
+	VERB burn
+		CHECK match IS lit
+			ELSE "How?"
+		DOES ONLY "You burn the note to ashes."
+				LOCATE note AT nowhere.
+	END VERB.
+
+	VERB burn_with
+		WHEN obj1
+		CHECK obj2 = match
+			ELSE "That's not possible."
+		DOES ONLY "You burn the note to ashes."
+				LOCATE note AT nowhere.
+	END VERB.
+			
+
+END THE.
+
+
+THE bottle ISA LISTABLE_CONTAINER
+	In box
+END THE.
+
+
+THE juice ISA LIQUID
+	IN bottle
+	HAS vessel bottle.
+	IS drinkable.
+	ARTICLE "some"
+	
+
+END THE.
+
+
+THE match ISA LIGHTSOURCE 
+	IN table
+	IS natural.
+END THE.
+
+
+THE flashlight ISA LIGHTSOURCE
+	IN box
+	IS NOT natural.
+END THE.
+
+
+THE waterpistol ISA WEAPON
+	IN table
+	IS fireable.
+END THE.
+
+
+THE room2 ISA SITE 
+	NAME  ''  
+	DESCRIPTION "This is an outdoor location. The sky is clear. In the distance you see a mountain. 
+	The"
+	IF door1 IS closed
+		THEN "closed"
+		ELSE "open"
+	END IF.
+	"door back to the testroom lies to the south. There is a black hole to the north. It looks like you might just try entering it."
+	IF visited OF THIS = 1
+		THEN "This room has not been visited before."
+		ELSE "This room has been visited before."
+	END IF.
+	IF described OF THIS = 0
+		THEN "1111"
+		ELSE "over 1111"
+	END IF.
+	EXIT south TO testroom	
+		CHECK 
+			IF door1 IS closed
+				THEN "You can't, since the door is closed."
+				ELSE "You go back to the testroom."
+					LOCATE hero AT testroom.
+					LOCATE door1 AT testroom.
+					FOR EACH bg ISA background, AT room2 DO
+						LOCATE bg AT nowhere.
+					END EACH.
+			END IF.
+	END EXIT.
+
+
+	EXIT north TO room3
+		DOES "You enter the black hole."
+	END EXIT.
+
+END THE.
+
+
+
+THE mountain ISA BACKGROUND
+	AT room2
+	DESCRIPTION
+END THE.
+
+
+THE hole ISA OBJECT
+	AT room2
+	CONTAINER -- so that it can be entered
+	DESCRIPTION
+
+	VERB enter
+		DOES ONLY LOCATE hero AT room3.
+	END VERB.
+
+END THE.
+
+
+THE blue_ball ISA OBJECT
+	AT room2
+	NAME blue ball
+END THE.
+
+
+THE room3 ISA DARK_LOCATION
+	NAME 'The Third Location'
+	EXIT south TO room2.
+	DESCRIPTION "This the lighted third location."
+END THE.
+
+
+THE shirt ISA CLOTHING
+	AT room3
+	IS topcover 8.
+END THE.
+
+
+THE jacket ISA CLOTHING
+	AT room3
+	IS topcover 32.
+END THE.
+
+
+THE wallet ISA OBJECT
+	IN jacket
+END THE.
+
+
+THE red_ball ISA OBJECT
+	AT room3
+	NAME red ball
+	VERB attack
+		DOES ONLY DESCRIBE ending.
+	END VERB.
+END THE.
+
+
+THE felix ISA NAMED_ACTOR
+	AT testroom
+	NAME felix NAME himself
+	HAS can_talk.
+	MENTIONED "Felix"	
+	PRONOUN 'him'
+
+	
+	VERB examine 
+		DOES ONLY "Felix is a boy." 
+	END VERB.
+
+END THE.
+
+
+THE dog ISA ACTOR
+	AT testroom
+END THE.
+
+THE ending ISA OBJECT
+	DESCRIPTION "$p$p$t$t$t$t* * *$t The end$t * * *$p"
+		    QUIT. 
+END THE.
+
+
+START AT testroom.
+
+		

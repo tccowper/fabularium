@@ -1,0 +1,46 @@
+########## undoDoesNotCancelEvents ##########
+
+        No warnings or errors detected.
+        2 informational message(s).
+
+
+
+L1
+It is not changed.
+
+> l
+L1
+It is not changed.
+
+> change
+
+> l
+L1
+It is changed.
+
+> undo
+'change' undone.
+
+> l
+L1
+It is not changed.
+
+> l
+L1
+It is not changed.
+
+> l
+L1
+It is not changed. This is event e.
+
+> l
+L1
+It is not changed.
+
+> l
+L1
+It is not changed.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

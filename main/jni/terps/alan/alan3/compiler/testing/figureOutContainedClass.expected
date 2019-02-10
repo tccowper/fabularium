@@ -1,0 +1,164 @@
+########## figureOutContainedClass ##########
+
+
+figureOutContainedClass.alan
+
+   60.      If i Has object_attribute Then "error" End If. 
+=====>               1
+
+  *1*   316 E : Attribute 'object_attribute' is not defined for variable 'i'
+                since the class it is guaranteed to be in this context
+                ('thing') does not have it.
+
+   61.      If i Has c1_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c1_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('thing') does
+                not have it.
+
+   62.      If i Has c2_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c2_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('thing') does
+                not have it.
+
+   63.      If i Has c4_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c4_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('thing') does
+                not have it.
+
+   69.      If i Has c1_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c1_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('object')
+                does not have it.
+
+   70.      If i Has c2_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c2_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('object')
+                does not have it.
+
+   71.      If i Has c3_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c3_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('object')
+                does not have it.
+
+   72.      If i Has c4_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c4_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('object')
+                does not have it.
+
+   79.      If i Has c2_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c2_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('c1') does
+                not have it.
+
+   80.      If i Has c3_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c3_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('c1') does
+                not have it.
+
+   81.      If i Has c4_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c4_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('c1') does
+                not have it.
+
+   87.      If i Has c1_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c1_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('c2') does
+                not have it.
+
+   89.      If i Has c3_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c3_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('c2') does
+                not have it.
+
+   90.      If i Has c4_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c4_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('c2') does
+                not have it.
+
+   97.      If i Has c1_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c1_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('object')
+                does not have it.
+
+   98.      If i Has c2_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c2_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('object')
+                does not have it.
+
+   99.      If i Has c3_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c3_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('object')
+                does not have it.
+
+  100.      If i Has c4_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c4_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('object')
+                does not have it.
+
+  107.      If i Has c1_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c1_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('object')
+                does not have it.
+
+  108.      If i Has c2_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c2_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('object')
+                does not have it.
+
+  109.      If i Has c3_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c3_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('object')
+                does not have it.
+
+  110.      If i Has c4_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c4_attribute' is not defined for variable 'i' since
+                the class it is guaranteed to be in this context ('object')
+                does not have it.
+
+
+        22 error(s).
+        No detected warnings.
+        1 informational message(s).
+

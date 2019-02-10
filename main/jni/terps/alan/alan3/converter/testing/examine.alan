@@ -1,0 +1,36 @@
+Options
+	debug.
+
+Default Attributes
+	NOT openable.
+	closed.
+
+Syntax examine = 'examine' (obj)
+	where obj Isa Container Object or Container Actor
+	  else "You can't examine that."
+
+Verb examine
+  Does
+    If Obj Is openable Then
+      "$p"
+      If Obj Is closed Then
+        "The $o is closed."
+      Else
+        List Obj.
+      End If.
+    End If.
+End Verb.
+
+
+Object c At l
+  Container
+  Is openable.
+End Object c.
+
+Actor a At l
+End Actor a.
+
+Location l
+End Location l.
+
+Start At l.

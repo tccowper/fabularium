@@ -1,0 +1,217 @@
+# vi: set ts=2 shiftwidth=2 expandtab:
+#
+# Simple task action tests.
+#
+# Covers the basic task actions involving object and NPC movement, and ending
+# the game.  Variable and score changes are not covered as they're already
+# used elsewhere in other tests.
+#
+# Note that this test is far from exhaustive, and really only scratches the
+# surface.  The combinatorial explosion of possibilities makes complete testing
+# problematic.
+#
+# Unless otherwise noted, the input and responses in this script were created
+# from a transcript of the Adrift Runner, release 4.0.45 or 46.
+#
+
+~ game
+*Guileless* Compiled "09 Dec 2006"* Version 4.00*
+
+> verbose
+
+
+#
+# Test task actions that relocate all objects worn and held by the player.
+#
+
+> open cupboard, take all from cupboard, wear hat
+> inventory
+You are wearing a floppy hat, and you are carrying a book, a tray, a bag, a
+sandwich and a jelly.
+
+> relocate
+As if by magic, everything relocates.
+
+> inventory
+You are carrying nothing.
+
+> x me
+You are as well as can be expected, considering the circumstances.
+
+> east
+You move east.
+Clean Room
+As bland as the Activity Room, but somehow cleaner.  There's a sign on the
+wall that proclaims "No food or drink, please."  Also here is a book, a tray,
+a bag, a sandwich, a jelly and a floppy hat.  The janitor is here.  You can
+only move west.
+
+
+#
+# Verify tasks that use the referenced object or NPC to hide something.
+#
+
+> x book
+A copy, apparently, of the Adrift manual. Version 4.00 no less. It looks
+like it might be almost new; the dust cover still wraps nicely around it.
+
+~ objects 1
+*In Room 1*
+
+> hide book
+Object hidden.
+
+~ objects 1
+*Hidden*
+
+> x book
+# Note -- Adrift seems to differentiate between invisible objects never seen
+# and those seen but no longer visible.  SCARE doesn't, so there's a difference
+# here in the message printed.
+#You can't see the book from here!
+You see no such thing.
+
+> x janitor
+Dressed head to toe in standard janitorial coveralls, this man appears to be
+the very model of efficiency.  No sign at all of sloppiness or laziness here.
+
+Also, not much sign of movement, it has to be said.
+
+~ npcs 0
+*In Room 1*
+
+> hide janitor
+Character hidden.
+
+~ npcs 0
+*Hidden*
+
+> x janitor
+# Note -- See above for a description of the difference here between Adrift and
+# SCARE.
+#You cannot see the janitor from here.
+You see no such thing.
+
+
+#
+# Verify that tasks can move the player.
+#
+
+> west
+You move west.
+Activity Room
+Sparsely furnished, the walls are white and unadorned, and the carpet is a
+bland shade of grey. Frankly, very little promise here for diversionary
+activity.  Also here is a pinewood cupboard, a pinewood table and a chair.
+You can only move east.
+
+> move player
+Player moved.
+
+> look
+Clean Room
+As bland as the Activity Room, but somehow cleaner.  There's a sign on the
+wall that proclaims "No food or drink, please."  Also here is a tray, a bag,
+ a sandwich, a jelly and a floppy hat.  You can only move west.
+
+
+#
+# Verify a task with a wide range of actions.
+#
+
+> west
+You move west.
+Activity Room
+Sparsely furnished, the walls are white and unadorned, and the carpet is a
+bland shade of grey. Frankly, very little promise here for diversionary
+activity.  Also here is a pinewood cupboard, a pinewood table and a chair.
+You can only move east.
+
+> rearrange
+As if by magic, everything moves.  Rearrange task called.
+
+# Player moved to sitting at chair, and wearing the hat.
+> x me
+You are as well as can be expected, considering the circumstances.  You are
+sitting down on the chair.  You are wearing a floppy hat.
+
+# Book moved to player inventory.
+> inventory
+You are wearing a floppy hat, and you are carrying a book.
+
+# Objects moved to player/NPC room.
+> look
+Activity Room
+Sparsely furnished, the walls are white and unadorned, and the carpet is a
+bland shade of grey. Frankly, very little promise here for diversionary
+activity.  Also here is a pinewood cupboard, a sandwich, a pinewood table
+and a chair.  The janitor is here.  You can only move east.
+
+# NPC moved, and tray moved to held by NPC.
+> x janitor
+Dressed head to toe in standard janitorial coveralls, this man appears to be
+the very model of efficiency.  No sign at all of sloppiness or laziness here.
+
+Also, not much sign of movement, it has to be said.  The janitor is carrying
+a tray.
+
+# Bag moved onto tray, and jelly moved inside the bag.
+> x tray
+Decorated with purple flowers of some kind. It could be worse, though.
+Kittens nestling in lace-lined baskets, for example.  A bag is on the tray.  
+
+> x bag
+This looks like the carpetbag from "To Hell in a Hamper."  How on earth did
+this get here?  The bag is closed.
+
+# Note -- Adrift stops the player opening the bag until it's carried.  SCARE
+# doesn't, so the following succeeds on SCARE if we let it past.
+#> open bag
+#You are not carrying the bag!
+
+> take bag, open the bag
+You take the bag from the tray.
+You open the bag.  A jelly is inside the bag.
+
+> take tray
+The janitor refuses to give you the tray!
+
+
+#
+# Game ending tasks.  Because the script framework can't resurrect or restart
+# an ended game, we can check only one of these automatically.
+#
+
+#> restart
+#> win game
+#Game won.
+# Note -- Adrift adds "congratulations!" on the status line, we add it here.
+#Congratulations!
+
+#~ game
+#*Not running* Completed*
+
+#> restart
+#> lose game
+#Game lost.
+#Better luck next time.
+
+#~ game
+#*Not running* Completed*
+
+> restart
+> suicide
+Game end, player dies.
+I'm afraid you are dead!
+# Note -- Adrift adds the following additional information; SCARE does not.
+#You scored 0 out of the maximum 0!
+#That is 100% of the game!
+
+~ game
+*Not running* Completed*
+
+#> quiet suicide
+#Game end, player dies quietly.
+
+#~ game
+#*Not running* Completed*

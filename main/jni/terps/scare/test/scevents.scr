@@ -1,0 +1,2460 @@
+# vi: set ts=2 shiftwidth=2 expandtab:
+#
+# Event tests.
+#
+# Covers one-shot and repeating events, and tests controlled by tasks.
+#
+# Unless otherwise noted, the input and responses in this script were created
+# from a transcript of the Adrift Runner, release 4.0.45 or 46.
+#
+
+~ game
+*Timeless* Compiled "24 Nov 2006"* Version 4.00*
+
+
+#
+# Verify a one-shot event that starts immediately on game start.
+#
+
+# Note -- Adrift writes a room description that includes the running task,
+# but omits the event start task message.  It's unclear how to replicate this,
+# so for now SCARE works differently to Adrift.
+#Completely empty.  One-shot running.
+~
+Timeless
+Timing Room
+Completely empty. You can't go in any direction! One-shot start.
+
+~ events 0
+*Running *Time 5
+
+> inventory
+You are carrying a One-shot token.
+
+~ events 0
+*Running *Time 4
+
+> wait
+Time passes...
+
+~ events 0
+*Running *Time 3
+
+> wait
+Time passes...
+One-shot 2 turns from end.
+
+~ events 0
+*Running *Time 2
+
+> wait
+Time passes...
+One-shot 1 turn from end.
+
+~ events 0
+*Running *Time 1
+
+> wait
+Time passes...
+One-shot end.  One-shot task completed.
+
+~ events 0
+*Finished *Time 0
+
+> inventory
+You are carrying nothing.
+
+
+#
+# Verify a task-controllable event runs to completion.
+#
+
+> start controllable
+Start controllable completed.  Controllable start.
+
+~ events 3
+*Running *Time 20
+
+> wait, wait, wait, wait, wait, wait, wait, wait, wait, wait, wait, wait
+> wait, wait, wait
+
+~ events 3
+*Running *Time 5
+
+> wait, wait
+
+~ events 3
+*Running *Time 3
+
+> wait
+Time passes...
+Controllable 2 turns from end.
+
+~ events 3
+*Running *Time 2
+
+> wait
+Time passes...
+Controllable 1 turn from end.
+
+~ events 3
+*Running *Time 1
+
+> wait
+Time passes...
+Controllable end.
+
+~ events 3
+*Finished *
+
+
+#
+# Series of tests to investigate start/pause/resume/stop events.
+#
+
+# Reset game state.
+> restart
+> wait, wait, wait, wait, wait
+
+# Start, stop.
+> start controllable
+Start controllable completed.  Controllable start.
+
+~ events 3
+*Running *Time 20
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 19
+
+> unstart controllable
+Start controllable reversed.
+
+~ events 3
+*Awaiting *
+
+> wait
+Time passes...
+
+~ events 3
+*Awaiting *
+
+
+# Reset game state.
+> restart
+> wait, wait, wait, wait, wait
+
+# Start, pause, stop.
+> start controllable
+Start controllable completed.  Controllable start.
+
+~ events 3
+*Running *Time 20
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 19
+
+> pause controllable
+Pause controllable completed.
+
+~ events 3
+*Paused *
+
+> wait
+Time passes...
+
+~ events 3
+*Paused *
+
+> unstart controllable
+Start controllable reversed.
+
+~ events 3
+*Paused *
+
+> wait
+Time passes...
+
+~ events 3
+*Paused *
+
+
+# Reset game state.
+> restart
+> wait, wait, wait, wait, wait
+
+# Start, resume, stop.
+> start controllable
+Start controllable completed.  Controllable start.
+
+~ events 3
+*Running *Time 20
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 19
+
+> resume controllable
+Resume controllable completed.
+
+~ events 3
+*Running *Time 18
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 17
+
+> unstart controllable
+Start controllable reversed.
+
+~ events 3
+*Awaiting *
+
+> wait
+Time passes...
+
+~ events 3
+*Awaiting *
+
+
+# Reset game state.
+> restart
+> wait, wait, wait, wait, wait
+
+# Start, pause, resume, stop.
+> start controllable
+Start controllable completed.  Controllable start.
+
+~ events 3
+*Running *Time 20
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 19
+
+> pause controllable
+Pause controllable completed.
+
+~ events 3
+*Paused *
+
+> wait
+Time passes...
+
+~ events 3
+*Paused *
+
+> resume controllable
+Resume controllable completed.
+
+~ events 3
+*Running *Time 18
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 17
+
+> unstart controllable
+Start controllable reversed.
+
+~ events 3
+*Awaiting *
+
+> wait
+Time passes...
+
+~ events 3
+*Awaiting *
+
+
+# Reset game state.
+> restart
+> wait, wait, wait, wait, wait
+
+# Start, resume, pause, stop.
+> start controllable
+Start controllable completed.  Controllable start.
+
+~ events 3
+*Running *Time 20
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 19
+
+> resume controllable
+Resume controllable completed.
+
+~ events 3
+*Running *Time 18
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 17
+
+> pause controllable
+Pause controllable completed.
+
+~ events 3
+*Running *Time 16
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 15
+
+> unstart controllable
+Start controllable reversed.
+
+~ events 3
+*Awaiting *
+
+> wait
+Time passes...
+
+~ events 3
+*Awaiting *
+
+
+# Reset game state.
+> restart
+> wait, wait, wait, wait, wait
+
+# Pause, start, stop.
+> pause controllable
+Pause controllable completed.
+
+~ events 3
+*Awaiting *
+
+> wait
+Time passes...
+
+~ events 3
+*Awaiting *
+
+> start controllable
+Start controllable completed.  Controllable start.
+
+~ events 3
+*Paused *
+
+> wait
+Time passes...
+
+~ events 3
+*Paused *
+
+> unstart controllable
+Start controllable reversed.
+
+~ events 3
+*Paused *
+
+> wait
+Time passes...
+
+~ events 3
+*Paused *
+
+
+# Reset game state.
+> restart
+> wait, wait, wait, wait, wait
+
+# Pause, start, resume, stop.
+> pause controllable
+Pause controllable completed.
+
+~ events 3
+*Awaiting *
+
+> wait
+Time passes...
+
+~ events 3
+*Awaiting *
+
+> start controllable
+Start controllable completed.  Controllable start.
+
+~ events 3
+*Paused *
+
+> wait
+Time passes...
+
+~ events 3
+*Paused *
+
+> resume controllable
+Resume controllable completed.
+
+~ events 3
+# Note -- see below...
+*Running *Time 19
+
+> wait
+Time passes...
+
+~ events 3
+# Note -- SCARE is off-by-one here in comparison with Adrift.  It's unclear
+# how to avoid this for now without affecting other tests.  Resuming takes up
+# a tick, as does the wait, so it seems that the "right" value here should be
+# 18.  I don't know how Adrift gets 19.
+#*Running *Time 19
+*Running *Time 18
+
+> unstart controllable
+Start controllable reversed.
+
+~ events 3
+*Awaiting *
+
+
+# Reset game state.
+> restart
+> wait, wait, wait, wait, wait
+
+# Pause, resume, start, stop.
+> pause controllable
+Pause controllable completed.
+
+~ events 3
+*Awaiting *
+
+> wait
+Time passes...
+
+~ events 3
+*Awaiting *
+
+> resume controllable
+Resume controllable completed.
+
+~ events 3
+*Awaiting *
+
+> wait
+Time passes...
+
+~ events 3
+*Awaiting *
+
+> start controllable
+Start controllable completed.  Controllable start.
+
+~ events 3
+*Running *Time 20
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 19
+
+> unstart controllable
+Start controllable reversed.
+
+~ events 3
+*Awaiting *
+
+
+# Reset game state.
+> restart
+> wait, wait, wait, wait, wait
+
+# Start, pause, unpause, resume, stop.
+> start controllable
+Start controllable completed.  Controllable start.
+
+~ events 3
+*Running *Time 20
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 19
+
+> pause controllable
+Pause controllable completed.
+
+~ events 3
+*Paused *
+
+> wait
+Time passes...
+
+~ events 3
+*Paused *
+
+> unpause controllable
+Pause controllable reversed.
+
+~ events 3
+*Paused *
+
+> wait
+Time passes...
+
+~ events 3
+*Paused *
+
+> resume controllable
+Resume controllable completed.
+
+~ events 3
+*Running *Time 18
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 17
+
+> unstart controllable
+Start controllable reversed.
+
+~ events 3
+*Awaiting *
+
+> wait
+Time passes...
+
+~ events 3
+*Awaiting *
+
+
+# Reset game state.
+> restart
+> wait, wait, wait, wait, wait
+
+# Start, pause, resume, unpause, stop.
+> start controllable
+Start controllable completed.  Controllable start.
+
+~ events 3
+*Running *Time 20
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 19
+
+> pause controllable
+Pause controllable completed.
+
+~ events 3
+*Paused *
+
+> wait
+Time passes...
+
+~ events 3
+*Paused *
+
+> resume controllable
+Resume controllable completed.
+
+~ events 3
+*Running *Time 18
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 17
+
+> unpause controllable
+Pause controllable reversed.
+
+~ events 3
+*Running *Time 16
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 15
+
+> unstart controllable
+Start controllable reversed.
+
+~ events 3
+*Awaiting *
+
+
+# Reset game state.
+> restart
+> wait, wait, wait, wait, wait
+
+# Start, resume, pause, unpause, stop.
+> start controllable
+Start controllable completed.  Controllable start.
+
+~ events 3
+*Running *Time 20
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 19
+
+> resume controllable
+Resume controllable completed.
+
+~ events 3
+*Running *Time 18
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 17
+
+> pause controllable
+Pause controllable completed.
+
+~ events 3
+*Running *Time 16
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 15
+
+> unpause controllable
+Pause controllable reversed.
+
+~ events 3
+*Running *Time 14
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 13
+
+> unstart controllable
+Start controllable reversed.
+
+~ events 3
+*Awaiting *
+
+> wait
+Time passes...
+
+~ events 3
+*Awaiting *
+
+
+# Reset game state.
+> restart
+> wait, wait, wait, wait, wait
+
+# Start, pause, resume, unresume, stop.
+> start controllable
+Start controllable completed.  Controllable start.
+
+~ events 3
+*Running *Time 20
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 19
+
+> pause controllable
+Pause controllable completed.
+
+~ events 3
+*Paused *
+
+> wait
+Time passes...
+
+~ events 3
+*Paused *
+
+> resume controllable
+Resume controllable completed.
+
+~ events 3
+*Running *Time 18
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 17
+
+> unresume controllable
+Resume controllable reversed.
+
+~ events 3
+*Paused *
+
+> wait
+Time passes...
+
+~ events 3
+*Paused *
+
+> unstart controllable
+Start controllable reversed.
+
+~ events 3
+*Paused *
+
+> wait
+Time passes...
+
+~ events 3
+*Paused *
+
+
+# Reset game state.
+> restart
+> wait, wait, wait, wait, wait
+
+# Start, pause, resume, unresume, unpause, stop.
+> start controllable
+Start controllable completed.  Controllable start.
+
+~ events 3
+*Running *Time 20
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 19
+
+> pause controllable
+Pause controllable completed.
+
+~ events 3
+*Paused *
+
+> wait
+Time passes...
+
+~ events 3
+*Paused *
+
+> resume controllable
+Resume controllable completed.
+
+~ events 3
+*Running *Time 18
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 17
+
+> unresume controllable
+Resume controllable reversed.
+
+~ events 3
+*Paused *
+
+> wait
+Time passes...
+
+~ events 3
+*Paused *
+
+> unpause controllable
+Pause controllable reversed.
+
+~ events 3
+*Paused *
+
+> wait
+Time passes...
+
+~ events 3
+*Paused *
+
+> unstart controllable
+Start controllable reversed.
+
+~ events 3
+*Paused *
+
+> wait
+Time passes...
+
+~ events 3
+*Paused *
+
+
+# Reset game state.
+> restart
+> wait, wait, wait, wait, wait
+
+# Start, pause, resume, unpause, unresume, stop.
+> start controllable
+Start controllable completed.  Controllable start.
+
+~ events 3
+*Running *Time 20
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 19
+
+> pause controllable
+Pause controllable completed.
+
+~ events 3
+*Paused *
+
+> wait
+Time passes...
+
+~ events 3
+*Paused *
+
+> resume controllable
+Resume controllable completed.
+
+~ events 3
+*Running *Time 18
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 17
+
+> unpause controllable
+Pause controllable reversed.
+
+~ events 3
+*Running *Time 16
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 15
+
+> unresume controllable
+Resume controllable reversed.
+
+~ events 3
+*Running *Time 14
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 13
+
+> unstart controllable
+Start controllable reversed.
+
+~ events 3
+*Awaiting *
+
+> wait
+Time passes...
+
+~ events 3
+*Awaiting *
+
+
+# Reset game state.
+> restart
+> wait, wait, wait, wait, wait
+
+# Pause, resume, start, unresume, unpause, stop.
+> pause controllable
+Pause controllable completed.
+
+~ events 3
+*Awaiting *
+
+> wait
+Time passes...
+
+~ events 3
+*Awaiting *
+
+> resume controllable
+Resume controllable completed.
+
+~ events 3
+*Awaiting *
+
+> wait
+Time passes...
+
+~ events 3
+*Awaiting *
+
+> start controllable
+Start controllable completed.  Controllable start.
+
+~ events 3
+*Running *Time 20
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 19
+
+> unresume controllable
+Resume controllable reversed.
+
+~ events 3
+*Paused *
+
+> wait
+Time passes...
+
+~ events 3
+*Paused *
+
+> unpause controllable
+Pause controllable reversed.
+
+~ events 3
+*Paused *
+
+> wait
+Time passes...
+
+~ events 3
+*Paused *
+
+> unstart controllable
+Start controllable reversed.
+
+~ events 3
+*Paused *
+
+> wait
+Time passes...
+
+~ events 3
+*Paused *
+
+
+# Reset game state.
+> restart
+> wait, wait, wait, wait, wait
+
+# Pause, resume, start, unpause, unresume, stop.
+> pause controllable
+Pause controllable completed.
+
+~ events 3
+*Awaiting *
+
+> wait
+Time passes...
+
+~ events 3
+*Awaiting *
+
+> resume controllable
+Resume controllable completed.
+
+~ events 3
+*Awaiting *
+
+> wait
+Time passes...
+
+~ events 3
+*Awaiting *
+
+> start controllable
+Start controllable completed.  Controllable start.
+
+~ events 3
+*Running *Time 20
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 19
+
+> unpause controllable
+Pause controllable reversed.
+
+~ events 3
+*Running *Time 18
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 17
+
+> unresume controllable
+Resume controllable reversed.
+
+~ events 3
+*Running *Time 16
+
+> wait
+Time passes...
+
+~ events 3
+*Running *Time 15
+
+> unstart controllable
+Start controllable reversed.
+
+~ events 3
+*Awaiting *
+
+> wait
+Time passes...
+
+~ events 3
+*Awaiting *
+
+
+#
+# Restart, then continual wait, to verify repeater and cycler events.
+#
+
+> restart
+> wait, wait, wait, wait, wait
+
+# Run controllable once from start to end.
+> start controllable
+Start controllable completed.  Controllable start.
+
+~ events 3
+*Running *Time 20
+
+> wait, wait, wait, wait, wait, wait, wait, wait, wait, wait, wait, wait
+> wait, wait, wait
+
+~ events 3
+*Running *Time 5
+
+> wait, wait
+Time passes...
+Time passes...
+
+~ events 3
+*Running *Time 3
+
+> wait
+Time passes...
+Controllable 2 turns from end.
+
+~ events 3
+*Running *Time 2
+
+> wait
+Time passes...
+Controllable 1 turn from end.
+
+~ events 3
+*Running *Time 1
+
+> wait
+Time passes...
+Controllable end.
+
+~ events 3
+# Note -- Adrift cycles straight to Awaiting; SCARE goes through Finished, and
+# to Awaiting only on unstart.
+#*Awaiting *
+*Finished *
+
+> wait
+Time passes...
+
+> wait
+Time passes...
+
+> unstart controllable
+Start controllable reversed.
+
+~ events 3
+*Awaiting *
+
+# Run controllable again one more time from start to end.
+> start controllable
+Start controllable completed.  Controllable start.
+
+~ events 3
+*Running *Time 20
+
+> wait, wait, wait, wait, wait, wait, wait, wait, wait, wait, wait,
+Time passes...  Time passes...  Time passes...  Time passes...  Time passes...
+Time passes...  Time passes...  Time passes...  Time passes...  Time passes...
+Time passes...
+> wait, wait, wait, wait, wait, wait, wait, wait, wait
+Time passes...  Time passes...  Time passes...  Time passes...
+Time passes...  Time passes...  Time passes...
+Controllable 2 turns from end.
+Time passes...
+Controllable 1 turn from end.
+Time passes...
+Controllable end.
+
+# Now wait, ensuring that repeater and cycler happen at the expected points.
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Repeater start.
+
+> look
+Timing Room
+Completely empty.  Repeater running.  Also here is a Repeater token.
+You can't go in any direction!
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Repeater 2 turns from end.
+
+> wait
+Time passes...
+Repeater 1 turn from end.
+
+> wait
+Time passes...
+Repeater end.
+
+> look
+Timing Room
+Completely empty.  You can't go in any direction!
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler start.
+
+> look
+Timing Room
+Completely empty.  Cycler running.  Also here is a Cycler token.
+You can't go in any direction!
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Repeater start.  Cycler end.  Cycler task completed.  Cycler start.
+
+> look
+Timing Room
+Completely empty.  Repeater running.  Cycler running.  Also here is a
+Repeater token and a Cycler token.
+You can't go in any direction!
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Repeater 2 turns from end.
+
+> wait
+Time passes...
+Repeater 1 turn from end.  Cycler 2 turns from end.
+
+> wait
+Time passes...
+Repeater end.  Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Repeater start.  Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Repeater 2 turns from end.
+
+> wait
+Time passes...
+Repeater 1 turn from end.
+
+> wait
+Time passes...
+Repeater end.  Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Repeater start.  Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Repeater 2 turns from end.
+
+> wait
+Time passes...
+Repeater 1 turn from end.
+
+> wait
+Time passes...
+Repeater end.
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+Repeater start.
+
+> wait
+Time passes...
+Cycler 2 turns from end.
+
+> wait
+Time passes...
+Cycler 1 turn from end.
+
+> wait
+Time passes...
+Cycler end.  Cycler task completed.  Cycler start.
+
+> wait
+Time passes...
+> wait
+Time passes...
+> wait
+Time passes...
+
+> wait
+Time passes...
+Repeater 2 turns from end.
+
+> wait
+Time passes...
+Repeater 1 turn from end.
+
+> wait
+Time passes...
+Repeater end.

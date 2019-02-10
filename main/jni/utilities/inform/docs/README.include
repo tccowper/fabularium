@@ -1,0 +1,15 @@
+Include files
+=============
+
+The ../include'directory contains many of the include files that various
+people have written for Inform over the years.  Documentation for most of
+them is contained in their own files (but there are extra doc files for
+some).
+
+Note that only some of these headers have been tested with Inform 6.  If
+you find one that doesn't work as advertised, drop me a line and I'll
+attempt to fix it (or, if you've already done that, send me the fix!).
+
+As with the library headers, all the header file names have been converted
+to lower case.  Converted lowercase files get symlinked to their original
+names on installation, for compatibility with old games that use them.

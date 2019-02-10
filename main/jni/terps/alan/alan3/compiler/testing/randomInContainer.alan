@@ -1,0 +1,10 @@
+The c Isa object
+End The c.
+
+The l Isa location
+End The l.
+
+Start At l.
+  Say Random In c.
+  Say Random In l.
+  Say Random Directly In l.

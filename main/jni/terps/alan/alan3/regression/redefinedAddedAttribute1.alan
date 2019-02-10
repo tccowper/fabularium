@@ -1,0 +1,18 @@
+Add To Every object
+  Is Not openable.
+End Add To.
+
+The door Isa object At l
+  Is openable.
+End The door.
+
+The l Isa location
+End THe l.
+
+Start At l.
+  "The door is"
+  If door Is openable Then
+    "openable."
+  Else
+    "not openable."
+  End If.

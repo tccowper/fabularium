@@ -1,0 +1,7 @@
+The l Isa location
+  Has s "asd".
+End The l.
+
+Start At l.
+  Set s Of l To "hej".
+  Say s Of l.

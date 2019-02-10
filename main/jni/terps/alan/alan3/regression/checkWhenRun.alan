@@ -1,0 +1,43 @@
+The l Isa location
+End The l.
+
+Syntax v = v (p1) (p2).
+
+Syntax flip = flip.
+
+Verb flip
+  Does if hero:can_v Then Make hero Not can_v. Else Make hero can_v. End If.
+End Verb.
+
+Add To Every object
+  Verb v
+  End Verb.
+End Add.
+
+The hero Isa actor
+  Can can_v.
+End The hero.
+
+The o1 Isa object At l
+  Verb v
+    When p1
+      Check hero:can_v
+        Else "Can't use o1 as p1."
+      Does
+        Say This. "as p1."
+    When p2
+      Check hero:can_v
+        Else "Can't use o1 as p2."
+      Does
+        Say This. "as p2."
+  End Verb.
+End The o1.
+
+The o2 Isa object At l
+  Verb v
+    When p2
+      Check Say This. "as p2."
+  End Verb.
+End The o2.
+
+Start At l.

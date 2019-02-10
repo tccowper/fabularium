@@ -1,0 +1,17 @@
+This directory contains various contributed files for Inform:
+
+    inform-mode.el	A GNU Emacs Inform mode, contributed by
+			Gareth Rees <Gareth.Rees@cl.cam.ac.uk>, and
+			currently maintained by Rupert Lane
+			<rupert@merguez.demon.co.uk>.
+
+    pblorb.pl		Generate a blorb file according to a supplied
+			blurb file.  Originally by Graham Nelson.
+			Currently maintained by David Griffith.
+
+    scanblorb.pl	Reads a Blorb interactive fiction resource file,
+			checks for validity, and reports on its
+			contents. The contents of the Blorb file can also
+			be extracted to individual files.
+			Originally by Graham Nelson.  Currently
+			maintained by David Griffith.

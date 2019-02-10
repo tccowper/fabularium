@@ -1,0 +1,25 @@
+Syntax take = take (p)*.
+
+Add To Every object
+  Verb take
+    Check p Not In owen
+      Else "It is in the owen, you cannot take it."
+    Does
+      "Taken, but not really..."
+  End Verb.
+End Add.
+
+The a Isa object In owen
+End The a.
+
+The b Isa object At l
+End The b.
+
+The owen Isa object At l
+  Container
+End The owen.
+
+The l Isa location
+End the l.
+
+Start At l.

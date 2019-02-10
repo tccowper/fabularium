@@ -1,0 +1,31 @@
+The loc Isa location
+  Description
+    Say The This. "is" If This Is Not xed Then "not" End If. "xed."    
+  Is Not xed.
+End The loc.
+
+Verb x
+  Does
+    Make loc xed.
+    "Making loc xed."
+End Verb x.
+
+Verb y
+  Does
+    Make loc Not xed.
+    "Making loc Not xed."
+    Quit.
+End Verb y.
+
+Verb l
+  Does
+    Look.
+End Verb l.
+
+Verb q
+  Does
+    Describe loc.
+    Quit.
+End Verb q.
+
+Start At loc.

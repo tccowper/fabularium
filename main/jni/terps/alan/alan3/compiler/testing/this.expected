@@ -1,0 +1,30 @@
+########## this ##########
+
+
+this.alan
+
+    4.      Else Say This.
+=====>               1
+
+  *1*   421 E : THIS instance is not defined in this context.
+
+    8.      Say This.
+=====>          1
+
+  *1*   421 E : THIS instance is not defined in this context.
+
+   22.    Say This.
+=====>        1
+
+  *1*   421 E : THIS instance is not defined in this context.
+
+   26.    Say This.
+=====>        1
+
+  *1*   421 E : THIS instance is not defined in this context.
+
+
+        4 error(s).
+        No detected warnings.
+        2 informational message(s).
+

@@ -1,0 +1,277 @@
+Changes in V3.0beta5:
+- FEATURE: compiler now figures out the most general class taken transitively by containers and uses that instead of entity where applicable
+- FEATURE: MacOS application to run text-only interpreter in a terminal
+- BUGFIX: if the hero was already defined as something other than an actor, declaring it the compiler crashed
+- CLEANUP: rebuilt Makefiles building on Windows10 and 64-bit, continuous integration with Jenkins etc. etc. after move to new machines and other infrastructure
+
+Changes in V3.0beta4:
+- MAJOR FEATURE: 'Indirectly' keyword to complement 'Directly In', allowing explicit transitivity of containment
+- FEATURE: The hero is now a container by default
+- FEATURE: The hero may inherit from any subclass of actor
+- FEATURE: Actor scripts are now aborted if an error, such as an extraction failure, occurs
+- FEATURE: Debugger shows symbolic name of events when tracing
+- FEATURE: WinAlan now generates the output file in the correct directory if a source file is dropped on the WinAlan icon
+- BUGFIX: Locating something inside itself hanged the interpreter, now generates controlled Application Error
+- BUGFIX: For Each loops with In-filters did not take transitivity into account, might now detect more errors
+- BUGFIX: Initial locations in containers did not consider the Taking <class> of the container
+- BUGFIX: Debugger section trace crashed on verb bodies in locations
+
+Changes in V3.0beta3:
+- MAJOR FEATURE: the class of parameters and locals can now be asserted using If .. Isa .. allowing general restrictions in parameter restrictions and more specific access (attributes, scripts, containers) with the If-statement
+- FEATURE: Attributes from entity can now be referenced for literals
+- FEATURE: Debugger now has a command to toggle a levels of trace off and on
+- FEATURE: Debugger now lists the programmer name of instances as well as the player name
+- FEATURE: Debugger can now list instances matching a wildcard pattern ("instance a*")
+- FEATURE: Compiler now flags all occurrences of a multiply defined identifier
+- BUGFIX: Out of memory error in interpreter for very large game fixed
+- BUGFIX: sometimes locating a location At itself crashed the interpreter
+- BUGFIX: comparing strings with '<>' did not work
+- BUGFIX: using a location identifier as a direction sometimes caused a compiler crash
+- BUGFIX: A DEBUG message would be printed in some games in some circumstances
+
+Changes in V3.0beta2:
+- FEATURE: improved rules handling to simplify usage
+- FEATURE: "Location Of" expression to investigate the current location of an instance
+- FEATURE: syntax may now start with a parameter (an instance, like an actor name)
+- FEATURE: TRANSCRIPT statement in language
+- FEATURE: PROMPT section in language to control player input prompt
+- FEATURE: new debugger command language
+- FEATURE: tracing can now use symbolic parameter names
+- BUGFIX: if a dollar sign was followed by a character not defined as a printing symbol, that character was lost
+- BUGFIX: sometimes events would not be restored correctly from a save file
+- BUGFIX: positioning of error pointers in -cc mode was not always correct causing AlanIDE to point to the wrong place
+- BUGFIX: sometimes WinArun and Gargoyle interpreters hung on <more> prompt
+- BUGFIX: undo after quit did sometimes crash
+- Updated documentation
+
+Changes in V3.0alpha9:
+- Clearified licensing, read COPYING
+- Upgraded WinGLK to 1.39
+- BUGFIX: WinArun did not follow preferences for window colouring and fonts
+- BUGFIX: WinArun did not find sound and image resources when started from another directory than the game
+- BUGFIX: a pronoun referencing an instance from a previous command that is no longer
+  available, the message was non-optimal
+- FEATURE: Improved the tracing messages in the debugger
+
+Changes in V3.0alpha8:
+- FEATURE: Entered is now inherited and nested in an accumulative way
+- FEATURE: Entered is now executed before Description
+- FEATURE: 'Can' is now added to 'Is', 'Has' and 'Are' for starting attribute declarations
+- FEATURE: Instances listed after 'except'/'but' in player input using 'all', are now
+  handled in the same way as other syntax parameters
+- BUGFIX: The location of a instance that is 'nowhere' could cause the interpreter to
+  crash
+- BUGFIX: The pronoun handling could get confused if the player command referred to
+  multiple instance with the same pronoun
+- BUGFIX: An UNDO command directly after a QUIT where the player choose to UNDO crashed
+- BUGFIX: The compiler could crash if a reference attribute was not defined in the
+  parent class
+- BUGFIX: Aggregating over an attribute might crash the interpreter if the
+  aggregating set contained containers taking instances not having the attribute
+- BUGFIX: Entered did not always set This correctly
+- BUGFIX: 'except' without preceeding parameters caused the interpreter to crash
+- BUGFIX: A problem with literals caused the dial-sample to crash
+- BUGFIX: Forward delete now works on MacOSX (and probably Linux too)
+- BUGFIX: Some cases of disambiguating player references did not work as expected
+
+Changes in V3.0alpha7:
+- BUGFIX: "undo" as a response to "Quit?" undid the wrong command in some cases
+- BUGFIX: verb bodies in outer nested locations did not get executed
+- Prohibited locating actors into containers
+- BUGFIX: aggregating over things in restricted containers did not consider the
+  class restriction so did not find e.g. attributes defined for that class
+- BUGFIX: In loops with an "In <container>" filter this did not restrict the
+  class to the classes taken by the container
+- BUGFIX: Isa expressions and loop filters did a general lookup for the class
+  name, so would find e.g. default syntax parameters
+- BUGFIX: WinArun could try to restore from an empty file reference in some cases
+- BUGFIX: If a multiple or omnipotent indicator was used for one syntax which shared
+  a common prefix (starting with the same verb e.g.) would sometimes miss the
+  indicator. Changed this to make an indicator implicitly apply to all syntaxes
+  with the same prefix.
+- Extensive refactoring of the sources and Makefiles
+- Removed support for the Metrowerks (old Mac) compiler
+
+Changes in V3.0alpha6:
+- BUGFIX: Undo directly after restart would crash
+- BUGFIX: Scheduled events imminent to run would get lost after undo
+  (typically the ones scheduled After 0)
+- BUGFIX: Checksum calculation to work with pre-alpha5 games
+
+Changes in V3.0alpha5:
+- Feature: nested locations, by locating locations in each other you
+  can create nested scopes. You can even do this during run-time, perhaps
+  a tool to create vehicles? Read more in the manual.
+- Allowed more general expressions in Locate At statement and Isa expressions.
+- Now generates an IFID as per The Babel Treaty.
+- Rules are now also run immediately after the game is set-up.
+- BUGFIX: A few problems with "open" verbs in the library.
+- BUGFIX: added inherited reference attributes could sometimes cause a crash.
+- A pronoun in player input, matching multiple parameters, now gives an
+  error message.
+- BUGFIX: An empty container clause terminated by a full stop would cause
+  random errors caused by uninitialized data.
+- BUGFIX: Renaming the WinArun interpreter to a game name would crash on game
+  save.
+- BUGFIX: Negative integer literals would cause a system error
+- BUGFIX: Full lists of multiply nested imported files would print incorrectly.
+
+Changes in V3.0alpha4:
+- Corrected scope handling so that locations are not always in scope.
+- Made CANCEL accept expressions.
+
+Changes in V3.0alpha3:
+- Fixed a problem with multi-parameter syntaxes which allowed multiple
+  parameters in positions which where not the last.
+- RESTART did not clear the buffer so continued command could be executed
+  as the first after a restart.
+- Alpha interpreters will now warn if attempting to run games produced with
+  beta or release compilers.
+- Made WinArun set window title to game name even if the game was opened
+  from the game open dialog.
+
+Changes in V3.0alpha2:
+- Fixed a problem with items in an opaque container being possible to
+  manipulate using ALL.
+- Fixed a problem with inherited reference attributes affecting proposed
+  door class implementation. Now works as specified.
+- Fixed position calculation with -ide (for use with AlanIDE) to be
+  platform independent.
+ 
+Changes in V3.0alpha1:
+- Unified the automatic display of objects and actors so that they now
+  both are listed in indefinite form. Actors are still listed separately
+  since they might carry things and have script descriptions.
+- Moved the special actor handling of automatic display to the library
+- Changed the message identifiers SEE_OBJ_xxxx to SEE_xxxx
+- Removed the message identifier SEE_ACTOR
+- Adjusted default listing of containers without a description so that
+  it always occurs unless the container is opaque.
+- Added analysis of parameter references embedded in strings.
+- Allowed expression in Step After <expression> (previously only allowed
+  integer)
+- Fixed a problem where you could not refer to the script of an actor, if
+  the actor was a loop variable.
+- Fixed inheritance of Initialize clause.
+
+Changes in v3.0dev36:
+- Printing of pronouns
+- SET statement can now set a literal set value; Set x Of l To {}.
+- SET statement can now set a set to the value of another set; Set set1 Of i1 To set2 Of i1.
+- IN can now test set membership in set literal; If int Of i In {1,3,5,7} Then...
+- Saving did not handle sets and strings correctly, could cause crashes, fixed
+- Initialization of a set attribute to an empty set is allowed and possible in two ways:
+    1) The attribute is inherited so the member type and class is known
+    2) A single class identifier is given instead of members
+- Integer loops; For Each i Between 1 And limit Of bridge Do ...
+- Loops over Sets and Containers; For Each i In friends Of hero Do ...
+- Aggregation over Sets and Containers; Count In friends Of hero
+- Reference attributes can be initialized with a class instead of an instance if
+  declared in a class. In this case all instances must give the attribute a value.
+- Fixed WinArun startup so that it now prompts for a game name if the program is
+  activated instead of activating a game.
+- Fixed the renaming feature of the interpreter which was broken (if renamed the
+  interpreter will look for game files with the corresponding name).
+- Finally fixed the about box in WinArun to work in Win2000 and WinXP
+- Debugger now knows on which lines it is possible to set breakpoints
+- Added NEGATIVE ARTICLE/FORM for "Can't see any xyzzy here.", including a
+  corresponding Say form and embedded printing symbol.
+- Fixed a bug where a single trailing $ caused spurious output, now correctly
+  outputs a single $
+- Removed M_???_ARTICLE and M_PRONOUN messages since they are equivalent to the
+  corresponding clause in the class 'entity' which now sets them as default. You
+  can override them by adding the clauses with an Add statement instead of using MESSAGE.
+- Fixed numerous bugs in the UNDO handling:
+    o Now saves only states when player changes anything
+    o Now handles strings and sets correctly
+    o Now responds with "'<command>' undone." which is a new customizable message
+- Added more separators (characters that automatically inhibit space and force
+  capitalization)
+
+Changes in v3.0.35 development:
+- The DIRECTLY qualifier can now be used for all Where-type expressions
+- A container using the default description will list its content
+- The List statement can now operate on expressions, notably involving
+  reference attributes
+- Implemented text style hints which of course only works in some
+  interpreters, notably non-trivial GLK-variants
+- Exits can be inherited and added
+- Initialize clause added to classes and instances, this makes it easier
+  to control initializations locally
+- Events can be referenced from attributes in the same way as instances
+- NEW Play statement to play sounds, interpreter dependent support of course
+- All media resources are now automatically packaged into a single resource
+  file (blorb-format) by the compiler
+- Improved word handling to enable more correct parsings when words are of
+  multiple classes, e.g. verb&direction, adjective&verb and preposition&verb
+- Nearby expression can test locations
+- NEW Near expression which tests the adjacency between two instances
+- Simplified the language grammar notation in the manaual
+
+
+Changes in v3.0.34 development:
+- Clean up of AT and IN. They are both now transitive/recursive.
+  Optional qualifier, "Directly", can be used in expressions to get
+  direct location or containment.
+- Clean-up of pre-defined classes. Everything must inherit from some
+  class. "entity" can not have location (invisible and everywhere),
+  "thing" can but is not described automatically (invisible but
+  localized). "actor" and "object" are described automatically
+  (visible). Sub-classes to "entity" behave like "entity". This
+  harmonizes with the fact that "literal" is a subclass of "entity".
+- Names are now inherited by adding names down the hierarchy. This
+  means that if a name is available for a more general class it will
+  also be available for the more special classes and instances. Good
+  candidates for use of this feature is fruit/apple/macintosh and
+  human/person/man.
+- Initial locations are inherited.
+- Restrictions on auto-generated syntaxes now matches the class the
+  verb was declared in.
+- New statement "Random In" extracts a random element in a set or
+  container.
+- Pronoun declarations. Instead of the previously built in
+  "IT"-handling and synonyms, it is now possible to declare pronouns
+  for a class or instance. These words can be used in player input to
+  refer to the instance if the instance was previously mentioned
+  explicitly in the previous player command. (This also solves the
+  problem with referring to a single instance using "them". "them" can
+  still be used to refer to the same multiple set of instances as used
+  in the previous command.)
+- Improved use of correct case for words.
+- Printing actor names are now done in the same way as for other
+  instances wrt. to definite/indefinite forms.
+- Parameters are available in the Message sections for many
+  messages. This allows e.g. fixing the message wrt. to noun case (as
+  in German, "any" = kein/keine/keiner depending on noun case).
+- Changed default messages to use parameter handling in as many cases
+  as possible, e.g. default location "content" listing, and container
+  listings. It is now possible to re-format these into tabulation
+  instead of the standard in-line form, for example.
+- Added message for "unknown word".
+- Interpreter now lists alternatives for ambiguous instance
+  references, which of course can be tweaked using a new message.
+- Deprecated "$include" in favour of a new, equilvalent, "import"
+  statement. (***spoiler***) This makes future IDE-building easier.
+- Verified that an inherited set or reference attribute retains the
+  original type even if the infered type of a redefinition is not the
+  same. A sub-class of the original is required.
+- Fixed debug/trace output to show up also in winarun.
+- Fixed command line arguments to winarun, you can now run the
+  debugger, trace etc. also in GLK-variants of the interpreter.
+- Fixed a bug which mixed up several syntax-declarations so that
+  interpreter would respond with "You must supply a noun." for some
+  legal inputs.
+- Fixed a bug with spacing in command line version.
+- Fixed a bug with opaque attribute not being inherited for inherited
+  containers.
+- Fixed a problem with some attributes not being saved and restored
+  correctly.
+
+Changes in v3.0.33 development:
+- Changed DEPEND case separator from ':' to 'THEN'
+- Added a new attribute type, set, declared using '{' and '}'
+- Added a new interpretation of 'IN' which refers to sets
+- Upgraded loop and aggregation filters to use 'IN' both for containers and sets
+- Added messages for UNDO responses
+- Added UNDO as a response to QUIT
+- Empty player input is now interpreted as forfeiting that command turn

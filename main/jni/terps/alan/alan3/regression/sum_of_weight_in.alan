@@ -1,0 +1,33 @@
+The l Isa location
+End The l.
+
+The balance Isa object At l
+  Description
+    Say The this. "is"
+  If Sum Of weight Directly In left_scale <> Sum Of weight Directly In right_scale Then
+    "not"
+  End If.
+  "in balance."
+End The balance.
+
+The left_scale Isa thing At l
+  Container Taking object.
+End The left_scale.
+
+The right_scale Isa thing At l
+  Container Taking object.
+End The right_scale.
+
+Add To Every object
+  Has weight 1.
+End Add.
+
+The small_pebble Isa object In left_scale
+  Has weight 1.
+End The small_pebble.
+
+The larger_pebble Isa object In right_scale
+  Has weight 2.
+End The larger_pebble.
+
+Start At l.

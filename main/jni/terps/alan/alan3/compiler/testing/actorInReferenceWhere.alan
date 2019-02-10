@@ -1,0 +1,9 @@
+The l Isa location
+End The l.
+
+Event e
+  If l Of Current Actor In x Then "" End If.
+End Event e.
+
+Start At l.
+  If l Of Current Actor In x Then "" End If.

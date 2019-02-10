@@ -1,0 +1,21 @@
+########## opaqueAfterAttributes ##########
+
+
+opaqueAfterAttributes.alan
+
+    5.        opaque.
+=====>              1
+
+  *1*   101 E : Syntax error. Inserting "container" before this token.
+
+    6.    Opaque Container
+=====>           1
+
+  *1*   204 E : Multiple use of CONTAINER properties clause in this
+                class/instance.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

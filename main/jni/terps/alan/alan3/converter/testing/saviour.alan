@@ -1,0 +1,1295 @@
+-- This is a short game in Alan. It's got very little comments and is not
+-- written as an example (in which case it would have been much better
+-- documented ;-). Instead it was the first adventure game I ever wrote,
+-- actually in Cobol as a farewell gift to my co-workers at a job I once
+-- held. That company was producing Cobol-executing small business computers.
+--
+-- Well, in 1985 I went on to start at my current company, SoftLab, which as
+-- a main area of competence has computer languages and development tools.
+-- As a first experiment I implemented the IF language that Göran Forslund and
+-- I had talked about for some time. That was Alan version 0. Since then
+-- Alan has matured and is now in its v2.x:s. This game has been with us
+-- since then and been ported from version to version of Alan.
+--
+-- No guarantees, of course, and it isn't as pretty as I would like, and it
+-- does not show the real potential of Alan (but perhaps some of its elegance
+-- can be glimpsed ;-) But due to popular demand I am now placing this at
+--
+--	ftp://ftp.gmd.de/pub/if-archive
+--
+-- Probably under programming/alan/examples (unless Volker Blasius
+-- have a better suggestion)
+--
+
+OPTIONS
+    Language English.
+    Pack.
+    Debug.
+
+OBJECT ATTRIBUTES
+    NOT takeable.
+    NOT readable.
+    NOT openable.
+    NOT startable.
+    examinable.
+
+
+SYNONYMS
+    e = east.
+    w = west.
+    n = north.
+    s = south.
+    u = up.
+    d = down.
+
+
+CONTAINER pseudowords
+END CONTAINER.
+
+VERB drop
+    CHECK OBJECT IN hero
+    	ELSE "You don't have the $o."
+    DOES
+	LOCATE OBJECT HERE.
+	"Dropped."
+END VERB.
+
+
+SYNTAX 'save' = 'save'.
+
+VERB 'save'
+    DOES
+      SAVE.
+      "Ok. Saved."
+END VERB 'save'.
+
+
+SYNTAX 'restore' = 'restore'.
+
+VERB 'restore'
+    DOES
+      RESTORE.
+      LOOK.
+END VERB 'restore'.
+
+
+VERB examine
+    CHECK OBJECT IS examinable
+        ELSE "There is nothing special about the $o."
+END VERB.
+
+
+VERB read
+    CHECK OBJECT IS readable
+    	ELSE "There is nothing written on the $o."
+END VERB.
+
+
+VERB lock, unlock
+    CHECK OBJECT IS openable
+    	ELSE "There is no way to $v the $1."
+    DOES
+        "You have to use something to $v the $o with."
+END VERB.
+
+
+SYNTAX unlock_with = 'unlock' (o) 'with' (k).
+
+VERB unlock_with
+    CHECK o IS openable
+	ELSE "There is no way to $v the $1."
+END VERB unlock_with.
+
+
+VERB open, close
+    CHECK
+	OBJECT IS openable
+    ELSE
+	"There is no way to $v the $1."
+END VERB.
+
+
+SYNTAX	-- Does only work with 2.7 and above
+    find = 'find' (o)!
+	WHERE o ISA ACTOR OR OBJECT
+	    ELSE "Don't know how you plan on finding that..."
+
+VERB find
+    CHECK o NOT IN hero
+	ELSE "You already have it!"
+    DOES ONLY
+	"You have to find things yourself..."
+END VERB find.
+
+
+VERB insert
+    CHECK "I don't understand what you want to insert the $o into."
+END VERB insert.
+
+SYNONYMS
+	put = 'insert'.
+	'in' = 'into'.
+SYNTAX
+	insert_into = 'insert' (o) 'into' (s).
+VERB insert_into
+    CHECK o <> s
+	ELSE "Don't try to be smart with me!"
+END VERB insert_into.
+
+
+VERB 'start'
+    CHECK OBJECT IS startable
+	ELSE "You can't start the $o."
+END VERB 'start'.
+
+
+SYNTAX run = 'run'.
+VERB run
+    DOES
+        "You better not run in this old building, you might trip and fall."
+END VERB run.
+
+SYNTAX 'score' = 'score'.
+VERB 'score'
+    DOES
+        SCORE.
+END VERB 'score'.
+
+
+SYNTAX help = help.
+VERB help
+    DOES
+	"In this game I am your eyes and your body. I will describe the
+	surroundings for you. You tell me what you want to do. For
+	example if you want to go north, then type 'north'. But there are
+	a lot of other things you may do, like picking up things,
+	examining them, opening doors and so on. Try anything you would
+	do if you really were standing here!$pRemember to study the
+	descriptions very carefully, they are sure to contain clues!
+	$p'score' may be used to see how well you are doing. 'save' and
+	'restore' allows you to save a game and restore it later.
+	$pGood Luck!! You'll need it!"
+END VERB.
+
+
+SYNTAX i = i.
+SYNONYMS invent = i. 
+VERB i
+    DOES
+	LIST hero.
+END VERB.
+
+
+SYNTAX l = l.
+SYNONYMS 'look' = l.
+VERB l
+    DOES
+	LOOK.
+END VERB.
+
+
+SYNTAX q = q.
+SYNONYMS 'quit' = q.
+VERB q
+    DOES
+	"Chicken."
+	SCORE.
+	IF SCORE = 125 THEN "You couldn't do better!"
+	ELSIF SCORE > 100 THEN "Not quite perfect."
+	ELSIF SCORE > 50 THEN "You have been doing this before."
+	ELSIF SCORE > 25 THEN "A promising beginning."
+	ELSIF SCORE > 0 THEN "An amateur..."
+	ELSE "No comment." END IF.
+	QUIT.
+END VERB.
+
+
+SYNTAX take = take (o)*.
+VERB take
+    CHECK OBJECT NOT IN hero
+	ELSE
+            "You already have the $1."
+    AND OBJECT IS takeable
+	ELSE
+            "You can't take the $1."
+    DOES
+        LOCATE OBJECT IN hero.
+        "Taken."
+END VERB.
+
+
+SYNTAX type = 'type' (str)
+    WHERE str ISA STRING
+	ELSE "You must supply a string containing what you propose to type."
+VERB type
+    CHECK terminal HERE
+        ELSE "There is nothing here to type on."
+    AND terminal IS connected
+        ELSE "The terminal (on which I assume you mean to type on?)
+              is not connected anywhere, so nothing happens."
+    AND computer IS running
+        ELSE "The computer is not running so your input is just ignored."
+    DOES
+	IF terminal IS showing_msg1 THEN
+	    IF str = password OF manual THEN
+		"'Welcome" SAY password of manual. "$$!$pEnter command:'"
+		MAKE terminal NOT showing_msg1.
+		MAKE terminal showing_msg2.
+	    ELSE
+		"'ERROR: Wrong USERID.$nPlease login. Enter USERID:'"
+		SET pwtry OF manual TO str.
+	    END IF.
+	ELSIF terminal IS showing_msg2 THEN
+	    IF str = "backup" THEN
+		IF tape IS NOT mounted THEN "'ERROR: No tape mounted.'"
+        	ELSE
+		    "The tape starts to spin and after a few moments it stops.
+		     Then it starts to rewind itself. FLAP, FLAP, and then it
+		     stops completely. The terminal displays:
+		     $p'Backup finished.$nEnter command:'"
+		    MAKE tape copied.
+		END IF.
+	    ELSIF str = "info" THEN
+		"'INFO - information about programs'
+		 $n'BACKUP' - program backup copying'
+		 $n'ADVENTURE' - recreational game'
+		 $n'Enter command:'"
+	    ELSIF str = "adventure" THEN
+		"'Welcome to adventure!!$pYou are standing at the end of a
+		 road before a small brick building. Around you is a forest.
+		 A small stream flows out of the building and down a gully.'
+		 $pWith a loud POP! the computer stops suddenly and the
+		 terminal turns blank."
+		MAKE computer NOT running.
+		MAKE computer popped.
+		MAKE terminal NOT showing_msg1.
+		MAKE terminal NOT showing_msg2.
+	    ELSE
+		"'ERROR: Unknown command.$nEnter command:'"
+	    END IF.
+	END IF.	    
+END VERB.
+
+
+LOCATION nowhere
+END LOCATION.
+
+
+
+LOCATION outside NAME Outside the tall building
+    DESCRIPTION
+        "To the north is a tall ancient building with a large entrance.
+         On the top there is a clock tower. Most of the windows in the
+         building are broken, and a sign with three oval objects are
+         hanging lose from the wall."
+    
+    EXIT north TO hall
+	DOES
+            SCORE 5.
+    END EXIT.
+END LOCATION.
+    
+    
+    
+LOCATION hall
+    DESCRIPTION
+        "Inside the entrance is a hallway full of dust and pieces of
+         the ceiling has fallen to the floor. At the west end is a
+         staircase, and to the south is the exit."
+        DESCRIBE door.
+
+    EXIT east TO cafe
+        CHECK door IS NOT closed
+	    ELSE "You can not go in there, the door is closed."
+    END EXIT.
+    EXIT west TO stairs.
+    EXIT south TO outside
+	DOES
+	    "As you walk out through the door the large building
+	     collapses in a huge pile of bricks and stones. The cloud of
+	     dust will not settle for days. You should count yourself
+	     lucky that you got out in time.$p"
+	    IF tape IS copied THEN
+		IF tape IN hero THEN
+		    SCORE 25.
+		    "CONGRATULATIONS!! You managed to save"
+		ELSE
+		    "Unfortunately you forgot the tape with"
+		END IF.
+	    ELSE
+		"The world will now have to live without"
+	    END IF.
+	    "the last copy of the ADVENTURE game."
+	    QUIT.
+    END EXIT.
+END LOCATION.
+
+OBJECT door AT hall
+    IS
+        closed.
+        locked.
+	readable.
+	openable.
+
+    DESCRIPTION
+        "To the east is a folding door."
+        IF door IS closed THEN
+            "It is closed."
+        ELSE
+            "It is open revealing the entrance to a cafeteria."
+        END IF.
+
+    VERB examine DOES
+        "The door is made of wooden segments, folding together as it
+         is opened or closed. It also has a lock, but the key isn't in
+         the lock. Some carved letters are fastned to the door."
+    END VERB.
+
+    VERB open DOES
+        IF door IS NOT closed THEN
+            "It is already open."
+        ELSIF door IS locked THEN
+            "The door is locked, and doesn't open."
+        ELSE
+            "The door opens, revealing the entrance to a dusty old
+             cafeteria."
+            MAKE door NOT closed.
+            SCORE 10.
+        END IF.
+    END VERB.
+
+    VERB close DOES
+        IF door IS closed THEN
+            "It is already closed."
+        ELSE
+            MAKE door closed.
+            "Closed."
+        END IF.
+    END VERB.
+
+    VERB read DOES
+        "The wooden letters are not hanging straight but they must
+         have formed the word 'CAFETERIA'."
+    END VERB.
+
+    VERB unlock_with
+        WHEN o DOES
+            IF door IS NOT closed THEN
+                "It isn't even closed!"
+            ELSIF door IS NOT locked THEN
+                "It isn't locked!"
+            ELSIF k = keys THEN
+		IF keys NOT IN hero THEN
+		    "You don't have the keys!"
+		ELSE
+                    "The key clicks in the lock as the door unlocks."
+                    MAKE door NOT locked.
+		END IF.
+	    ELSE
+		"You can't $v the $1 with the $2."
+            END IF.
+    END VERB.
+
+    VERB lock
+	DOES
+        IF door IS NOT closed THEN
+            "It isn't even closed!"
+        ELSIF door IS locked THEN
+            "It is already locked."
+        ELSIF keys NOT IN hero THEN
+            "You have no key!"
+        ELSE
+            "The key clicks in the lock as the door locks."
+            MAKE door locked.
+        END IF.
+    END VERB.
+END OBJECT.
+
+
+LOCATION stairs
+    DESCRIPTION
+        "You are at the landing of an old staircase. It seem steady
+         enough to walk in, but be careful if you are going to use it.
+         There is a passage leading up, and another leading down into
+         a dark cellar. To the east is the hallway. A strange smell
+	 emerges from below."
+
+    EXIT up TO first.
+    EXIT down TO cellar.
+    EXIT east TO hall.
+END LOCATION.
+
+
+LOCATION cellar
+    DESCRIPTION
+        "In front of you is a dark cellar. To the west is a doorway
+         into a dark room. The stairs lead up. A thin beam of light
+         has found its way all the way down here."
+
+    EXIT up TO stairs.
+    EXIT west TO store
+        CHECK rats ARE NOT hungry
+	    ELSE
+		"You can not go in there, the rats are too fierce. The hungry
+		 rats bite and tear at your legs as soon as you try to get past
+		 them."
+        DOES
+            "Silently sneaking past the sleeping rats, you enter the
+             dark room to the west."
+    END EXIT.
+END LOCATION.
+
+OBJECT rats AT cellar
+    ARE
+        hungry.
+
+    DESCRIPTION
+        "In the light from the sun some rats can be seen."
+        IF rats ARE NOT hungry THEN
+            "They are all sleeping."
+        END IF.
+
+    VERB examine DOES
+        IF rats ARE hungry THEN
+            "Watch it, you nearly lost your fingers trying to touch
+             the hungry and biting rats. You must be more careful!"
+        ELSE
+            "The rats are awakened by your movements, and they are
+             even more HUNGRY!!!"
+            MAKE rats hungry.
+        END IF.
+    END VERB.
+
+    VERB kick DOES
+        IF rats ARE hungry THEN
+            "Careful, you are only making them more angry!"
+        ELSE
+            "Kicking at them wakes them up, and now they are really
+             HUNGRY!!"
+            MAKE rats hungry.
+        END IF.
+    END VERB.
+END OBJECT.
+
+
+LOCATION store
+    DESCRIPTION
+        "This must be an old storage room. There seems to be any
+         amount of old crap here. Keytops from ancient keyboards are
+         scattered all over the place, and keyboard overlays can be
+         seen laying around here and there. I guess they all came out
+         of date long ago. There is also a shelf with old program
+         listings. One of the binders is marked with 'DCM V7 891012'."
+        IF tape AT store THEN
+            DESCRIBE tape.
+        END IF.
+
+    EXIT east TO cellar.
+END LOCATION.
+
+OBJECT tape AT store
+    IS
+	NOT examinable.
+        takeable.
+        NOT mounted.
+        NOT copied.
+
+    DESCRIPTION
+        IF tape IS NOT mounted THEN
+	    IF tape AT store THEN
+		"On another shelf there is a spool of computer tape."
+	    ELSE
+		"On the floor a spool of computer tape can be seen."
+	    END IF.
+        END IF.
+
+    MENTIONED
+        "spool of computer tape"
+
+    VERB mount DOES
+        IF tape IS mounted THEN
+            "It is already mounted."
+        ELSIF computer HERE THEN
+            "The tape is now securely mounted on the tape drive."
+            MAKE tape mounted.
+            LOCATE tape HERE.
+        ELSE
+            "There is nothing here to mount it on."
+        END IF.
+    END VERB.
+END OBJECT.
+
+
+LOCATION first Name First Floor 
+    DESCRIPTION
+        "The landing on the first floor is as dirty as all the others.
+         Meters and meters of old cables are laying around, leading
+         into a room to the east. The stairs leads up and down. They
+         still seem alright. Through the dirty windows the barren
+         field outside the building can be seen."
+
+    EXIT up TO second.
+    EXIT down TO stairs.
+    EXIT east TO office.
+END LOCATION.
+
+OBJECT book NAME old book AT first
+    IS
+        takeable.
+	readable.
+
+    DESCRIPTION
+        "Almost completely covered by dust, there is an old book
+         laying on the floor here."
+
+    VERB examine DOES
+        "The book looks as if it could fall apart any minute, but on
+         the cover the three oval markings, also seen on the outside
+         of the building, can barely be recognized. There is also
+         something about 'Introduction' and 'Series'-something."
+    END VERB.
+
+    VERB read DOES
+        "As you carefully try to open the book it falls apart into
+         dust and falls to the floor through your fingers."
+        LOCATE book AT NOWHERE.
+    END VERB.
+END OBJECT.
+
+
+LOCATION office
+    DESCRIPTION
+        "In front of you is a deserted office area. Desks and chairs
+         are piled up in one corner. The ventilation system has partly
+         fallen to the floor, tearing part of the ceiling down with
+         it. Under the twisted tubing a couple of old coffee makers are
+         crushed to pieces. One shelf, having some kind of lettering,
+         no longer readable, is thrown to one side, and another is
+         still standing in a corner, full of dust."
+
+    EXIT west TO first.
+END LOCATION.
+
+OBJECT ladder AT office
+    IS
+        takeable.
+	readable.
+        NOT raised.
+
+    DESCRIPTION
+        IF ladder IS NOT raised THEN
+            "There is a ladder laying on the floor here."
+        ELSIF ladder AT holeroom THEN
+            "A ladder is raised in the middle of the room, extending
+             through the hole in the ceiling."
+        END IF.
+
+    MENTIONED
+        "3 metre long ladder"
+
+    VERB examine DOES
+        "It is a wooden ladder with a few steps missing, but I'm sure
+         it could be climbed."
+    END VERB.
+
+    VERB read DOES
+        "A small platinum plate reads:
+	 $i First manufactured by ThoNi in february 1985,
+	 $i as a farewell present to all the fellow workers
+	 $i at Ericsson with the least bit of imagination.
+	 $n$i Later reworked into the Alan Language and has
+	 $i since functioned as a test vehicle for that
+	 $i language."
+    END VERB.
+
+    VERB take
+    CHECK ladder NOT AT walless 
+        ELSE
+            "You are not strong enough to pull the long ladder up through
+             the hole."
+    DOES
+        MAKE ladder NOT raised.
+    END VERB.
+
+    VERB raise DOES
+        LOCATE ladder HERE.
+        IF ladder AT outside THEN
+            "There is nothing here to lean it against, so it falls flat
+             to the ground."
+        ELSIF ladder AT holeroom THEN
+            IF ladder IS raised THEN
+                "The ladder is already raised through the hole in the
+                 ceiling."
+            ELSE
+                "The ladder is just long enough to reach up through
+                 the hole in the ceiling, where it now is standing."
+                MAKE ladder raised.
+            SCORE 15.
+            END IF.
+        ELSE
+            "The ladder is too long to be raised in this room. It
+             meets the ceiling before it can be raised completely, and
+             slides down on the floor."
+        END IF.
+    END VERB.
+
+    VERB climb DOES
+        IF ladder IN hero THEN
+            "You can't climb the ladder while you are carrying it,
+             silly!"
+        ELSIF ladder IS NOT raised THEN
+            "Who have ever heard about someone trying to climb a
+             ladder laying flat on the floor ?!?"
+        ELSE
+            "The steps of the ladder feels a bit weak, some more than
+             others, but you manage to climb all the way without
+             falling down."
+            IF ladder AT walless THEN
+                LOCATE HERO AT holeroom.
+            ELSE
+                LOCATE HERO AT walless.
+            END IF.
+            LOCATE ladder HERE.
+        END IF.
+    END VERB.
+END OBJECT.
+
+
+LOCATION second NAME Second Floor
+    DESCRIPTION
+        "The second landing of the stairs is well kept through the
+         ages. Some rust has gotten a grip on the fence but it is
+         still rock steady. The window glass is still present in the
+         frames, altough covered with dust so that the sunlight can
+         barely be seen through them. There is a doorway to the east."
+
+    EXIT up TO third.
+    EXIT down TO first.
+    EXIT east TO terminal_room.
+END LOCATION.
+
+
+LOCATION terminal_room NAME Terminal Room
+    DESCRIPTION
+        "This must be the old terminal room. Old and dusty, most of
+         them cracked and broken, off-white computer terminals are
+         standing on desks that once were called 'ergonomic'. Nowhere
+         can any connections for the terminals be seen. A doorway to
+	 the west leads out to the stairs."
+        IF terminal AT terminal_room THEN
+            DESCRIBE terminal.
+        END IF.
+
+    EXIT west TO second.
+END LOCATION.
+
+OBJECT terminal AT terminal_room
+    IS
+        takeable.
+	readable.
+        NOT connected.
+        NOT showing_msg1.
+        NOT showing_msg2.
+
+    DESCRIPTION
+        IF terminal AT terminal_room THEN
+            "One of the terminals seems in much better shape than the
+             others."
+        ELSE
+            "A worn old terminal is standing here."
+        END IF.
+
+    MENTIONED
+        "rather heavy computer terminal"
+
+    VERB examine DOES
+        "It is a computer terminal, with a keyboard. It looks O.K."
+        IF terminal IS NOT connected THEN
+            "It's not connected anywhere."
+        ELSE
+            "It is connected to the nearby computer."
+        END IF.
+        IF terminal IS showing_msg1
+        OR terminal IS showing_msg2 THEN
+            "There is a message displayed on it."
+        END IF.
+    END VERB.
+
+    VERB read DOES
+        IF terminal IS showing_msg1 THEN
+            "The message says: 'Please login. Enter USERID:'"
+        ELSIF terminal IS showing_msg2 THEN
+            "The message says: 'Enter command:'"
+        ELSE
+            "The screen is completely blank."
+        END IF.
+    END VERB.
+
+    VERB take DOES
+	MAKE terminal NOT connected.
+	MAKE terminal NOT showing_msg1.
+	MAKE terminal NOT showing_msg2.
+	IF coin IS NOT found THEN
+	    "OH! There was a coin under it!"
+	    MAKE coin found.
+	    LOCATE coin HERE.
+	    SCORE 10.
+	END IF.
+    END VERB.
+
+    VERB connect DOES
+        IF computer NOT HERE THEN
+            "There is nothing here to connect it to!"
+        ELSE
+            IF computer IS running THEN
+                "The computer notes the presence of the terminal and
+                 displays the message 'Please login. Enter USERID:'"
+                MAKE terminal showing_msg1.
+            ELSE
+                "The terminal is now connected to the nearby computer."
+            END IF.
+            MAKE terminal connected.
+            LOCATE terminal HERE.
+        END IF.
+    END VERB.
+END OBJECT.
+
+OBJECT coin NAME small coin
+    IS
+        takeable.
+	readable.
+	NOT examinable.
+        NOT found.
+
+    DESCRIPTION
+        "There is a small coin here."
+
+    VERB read DOES
+        "It says '25 öre' and 'För Sverige i Tiden'."
+    END VERB.
+
+    VERB insert_into
+	CHECK s = machine
+	    ELSE "It is not possible to insert the $1 in the $2"
+	DOES
+            "A clinking sound is heared from the machine and a candy
+             bar falls out on the floor."
+            LOCATE candy HERE.
+            LOCATE coin AT NOWHERE.
+            SCORE 15.
+    END VERB.
+END OBJECT.
+
+
+LOCATION third NAME Third Floor
+    DESCRIPTION
+        "On the wall here it says 'THIRD FLOOR'. The fence around the
+         stairs is probably not to be trusted any longer and the
+         stairs themselves are getting weaker. A puddle of water on
+         the floor shows that the weather has free access through the
+         empty window frames. A whissle by the wind is all that can be
+         heared. Foremerly there was an entrance to the east which is
+	 now totally blocked."
+
+    EXIT up TO fourth.
+    EXIT down TO second.
+END LOCATION.
+
+
+LOCATION fourth NAME Fourth Floor
+    DESCRIPTION
+        "Even this high up the stairs are intact but the fence and
+         railings are gone. Small pieces of glass and rusty metal
+         covers the stairs that leads up and down. Be careful where
+	 you put your feet! There are doors to the east and to the
+	 north."
+
+    EXIT up TO fifth.
+    EXIT down TO third.
+    EXIT east TO computer_room.
+    EXIT north TO holeroom.
+END LOCATION.
+
+
+LOCATION holeroom NAME Windy Room
+    DESCRIPTION
+        "In the middle of the room is a light spot on the floor. The
+         light is comming from a hole in the ceiling. A strong wind
+         can be felt comming through the hole. Bricks and stones
+         covers the floor. The remains of bird nests can be seen, but
+         there are no birds anywhere. Perhaps your entrance scared
+         them off."
+
+    EXIT up TO walless
+        CHECK ladder IS raised
+	    ELSE
+                "You can't fly through the hole in the ceiling!"
+        DOES
+            LOCATE ladder AT walless.
+    END EXIT.
+    EXIT south TO fourth.
+END LOCATION.
+
+
+LOCATION walless NAME Walless Room
+    DESCRIPTION
+        "Through the hole in the floor the end of a ladder is
+         extending. Three of the walls in this room are missing and
+         the wind is strong in your hair and clothes. Piles of bricks
+         and wood are everywhere. Far, far below you the field
+         surrounding the building can be seen."
+
+    EXIT down TO holeroom
+	DOES
+            LOCATE ladder AT holeroom.
+    END EXIT.
+END LOCATION.
+
+OBJECT nest NAME birds nest AT walless
+    IS
+        takeable.
+        NOT examined.
+
+    DESCRIPTION
+        IF nest AT walless THEN
+            "In one corner, near the remains of one of the walls, a crow
+             has built it's nest."
+        ELSE
+            "A crows nest is placed on the floor. I wonder how it got
+             here?!"
+        END IF.
+
+    VERB examine DOES
+        IF nest IS NOT examined THEN
+            "As you turn the nest over for examination, a set of keys
+             falls out. Otherwise there is nothing special about the
+             nest."
+            LOCATE keys HERE.
+            MAKE nest examined.
+            SCORE 15.
+        ELSE
+            "It looks like any other empty bird nest."
+        END IF.
+    END VERB.
+END OBJECT.
+
+OBJECT keys
+    IS
+        takeable.
+
+    DESCRIPTION
+        "A set of rusty keys are laying on the floor here."
+
+    MENTIONED
+        "set of rusty keys"
+
+    VERB examine DOES
+        "The keys are mounted on a ring. One of the keys looks like a
+         door key, the other is even more rusty and broken."
+    END VERB.
+END OBJECT.
+
+LOCATION fifth NAME Fifth Floor
+    DESCRIPTION
+        "This must be the top of the top landing of the staircase.
+         With a pounding heart and breath you look around and see two
+         doorways. A small one to the south, and to the east a long
+         corridor."
+
+    EXIT down TO fourth.
+    EXIT east TO corr.
+    EXIT south TO clockroom.
+END LOCATION.
+
+
+LOCATION clockroom NAME Clock Room
+    DESCRIPTION
+        "The room is so small and low that you can't stand straight."
+        DESCRIBE clock.
+
+    EXIT north TO fifth.
+END LOCATION.
+
+OBJECT clock AT clockroom
+    IS
+	readable.
+        NOT wound.
+        NOT broken.
+
+    DESCRIPTION
+        "In one of the walls an elaborate clockwork is mounted."
+        IF clock IS NOT broken THEN
+            "It is in very good shape it seems."
+        ELSE
+            "From the clock and through the wall a big spring is
+             sticking out."
+        END IF.
+
+    VERB examine DOES
+        "The clock looks very complex, but there is a big handle for
+         winding it."
+        IF clock IS broken THEN
+            "It looks broken, because through the wall a big spring is
+             sticking out."
+        END IF.
+    END VERB.
+
+    VERB read DOES
+        "A tiny little sign says 'Made in Korea'"
+    END VERB.
+
+    VERB wind DOES
+        IF clock IS NOT wound THEN
+            "With a deafening BING BANG the clock begins to chime.
+             From the corridor in the south a loud flapping of wings
+             is heard."
+            MAKE clock wound.
+        ELSIF clock IS NOT broken THEN
+            "With a twanging sound a big spring chrashes through the
+             wall and nearly hits you! I think you broke the clock."
+            MAKE clock broken.
+        ELSE
+            "As you already have broken the clock, turning the handle
+             yet again will not have any effect."
+        END IF.
+    END VERB.
+END OBJECT.
+
+
+LOCATION corr NAME Corridor
+    DESCRIPTION
+        "A long east-west corridor extends in both directions. There
+         are exits in both ends. In the ceiling there are markings
+         from claws (BIG CLAWS!!) and the floor is covered with litter
+         from bats."
+
+    EXIT east TO deskroom
+        CHECK clock IS wound
+	    ELSE
+		"As soon as you try to move, a tremendous flapping of
+		 wings is heard. A giant horde of bats take you by their
+		 claws, and carry you out through the window. Your stomac
+		 turns inside out as you look down on the ground hundreds
+		 of feet below. Fortunately the bats gently put you down
+		 outside the building.$p"
+		LOCATE HERO AT outside.
+    END EXIT.
+    EXIT west TO fifth.
+END LOCATION.
+
+
+LOCATION deskroom NAME Small Office
+    DESCRIPTION
+        "This looks like a small office."
+	DESCRIBE desk.
+        "A small window lets some light in. The
+         wallpaper has nearly all fallen to the floor and the chair is
+         only a pile of broken sticks in one corner. Once the room had
+         a balcony but I don't recommend using it now since the floor
+         is gone. Anyway, it is not possible to get out there
+         anymore."
+
+    EXIT west TO corr.
+END LOCATION.
+
+OBJECT drawer AT deskroom
+    IS
+	openable.
+        NOT open.
+        NOT 'empty'.
+
+    DESCRIPTION
+	"There is a drawer in the desk."
+        IF drawer IS open THEN
+            "It is open."
+        END IF.
+
+    VERB examine DOES
+        IF drawer IS open THEN
+            "The drawer is open."
+            IF drawer IS NOT 'empty' THEN
+                "In it there is a technical manual."
+            END IF.
+        END IF.
+    END VERB.
+
+    VERB open DOES
+        IF drawer IS open THEN
+            "The drawer is already open."
+        ELSIF manual IS NOT found THEN
+            "Pulling out the drawer a manual falls to the floor."
+            LOCATE manual HERE.
+            SCORE 10.
+        ELSE
+            "The desk drawer is now open."
+        END IF.
+        MAKE drawer open.
+    END VERB.
+
+    VERB close DOES
+       IF drawer IS NOT open THEN
+           "The drawer is already closed."
+       ELSE
+           "The drawer is now closed."
+           MAKE drawer NOT open.
+       END IF.
+    END VERB.
+END OBJECT.
+
+
+OBJECT desk AT deskroom
+    IS
+	openable.
+        NOT marked.
+
+    DESCRIPTION
+        "Near the window there is a large desk."
+	DESCRIBE drawer.
+
+    VERB examine DOES
+        "It is an old desk, made from oak. The top is completely
+         covered by dust"
+        IF desk IS marked THEN
+            "that shows markings from fingers."
+        ELSE
+            "where your fingers leave markings."
+            MAKE desk marked.
+        END IF.
+        "The desk has one remaining drawer."
+        IF drawer IS open THEN
+            "The drawer is open."
+            IF drawer IS NOT 'empty' THEN
+                "In it there is a technical manual."
+            END IF.
+        END IF.
+    END VERB.
+
+    VERB open DOES
+        IF drawer IS open THEN
+            "The drawer is already open."
+        ELSIF manual IS NOT found THEN
+            "Pulling out the drawer a manual falls to the floor."
+            LOCATE manual HERE.
+            SCORE 10.
+        ELSE
+            "The desk drawer is now open."
+        END IF.
+        MAKE drawer open.
+    END VERB.
+
+    VERB close DOES
+       IF drawer IS NOT open THEN
+           "The drawer is already closed."
+       ELSE
+           "The drawer is now closed."
+           MAKE drawer NOT open.
+       END IF.
+    END VERB.
+END OBJECT.
+
+OBJECT manual NAME dirty technical manual
+    IS
+        takeable.
+	readable.
+        NOT found.
+    HAS
+	pwindex 0.
+        password "".
+	pwtry "".
+
+    DESCRIPTION
+        "There is a dirty technical manual here."
+
+    MENTIONED
+        "dirty manual"
+
+    VERB examine DOES
+        "The manual is dusty and the faded text is difficult to read."
+    END VERB.
+
+    VERB read DOES
+        "The text inside the manual reads:$i'You login by typing your
+         Userid, and...' $i'... command is executed by typing it's
+         name.' and $i'The INFO command lists available commands.'
+	 $pThe rest is unfortunately completely illegible.
+	 $pOOH! There is a hand written remark in the margin here,
+	 it says '$$"
+	IF pwindex OF manual = 0 THEN
+	    SET pwindex OF manual TO RANDOM 1 TO 3.
+	END IF.
+	IF pwindex OF manual = 1 THEN
+	     SET password OF manual TO "NilGu".
+	ELSIF pwindex OF manual = 2 THEN
+	     SET password OF manual TO "SveGr".
+	ELSIF pwindex OF manual = 3 THEN
+	     SET password OF manual TO "OscSv".
+	END IF.
+	SAY password OF manual. "$$'."
+	IF pwtry OF manual = password OF manual THEN
+	    "$pFunny, isn't that what you tried earlier..."
+	END IF.
+    END VERB.
+END OBJECT.
+
+
+LOCATION computer_room NAME Computer Room
+    DESCRIPTION
+        "A room of old computers, cables, disk drives, tape stations
+         and floppy disks are spread out all over the floor. The exit
+	 is to the west."
+
+    EXIT west TO fourth.
+END LOCATION.
+
+OBJECT computer AT computer_room
+    IS
+	startable.
+        NOT running.
+        NOT popped.
+
+    DESCRIPTION
+        "An ancient computer is standing in the centre of the room."
+        IF computer IS running THEN
+            "It's powered up and running."
+        END IF.
+
+    VERB examine DOES
+        "The computer is mounted in a cabinet, about one metre high.
+         The power cord leads to an outlet in the wall."
+        IF computer IS NOT running AND computer IS NOT popped THEN
+            "Perhaps with luck it could be started."
+        ELSIF computer IS running THEN
+            "The twinkling front panel lights indicate that it is
+             running."
+        END IF.
+        IF tape IS mounted THEN
+            "On the tape drive a tape is mounted."
+        ELSE
+            "In the cabinet there is also an empty tape drive."
+        END IF.
+        IF terminal IS connected THEN
+            "A terminal is connected to the computer."
+        ELSE
+            "There is an empty connection for a terminal or console on
+             the front of the computer."
+        END IF.
+    END VERB.
+
+    VERB kick DOES
+        IF computer IS NOT running AND computer IS NOT popped THEN
+            "Surprisingly. the old computer starts to whirr, the front
+             panel lights begins to twinkle frantically, and the
+             computer starts up."
+            MAKE computer running.
+            SCORE 15.
+            IF terminal IS connected THEN
+                "The connected terminal displays the message 'Please
+                 login. Enter USERID:'"
+                MAKE terminal showing_msg1.
+            END IF.
+        ELSIF computer IS running THEN
+            "Careful, it may break!"
+        ELSE
+            "I'm sorry, but it is gone forever."
+        END IF.
+    END VERB.
+
+    VERB 'start' DOES ONLY
+	"The power cord is connected to the outlet and the power
+	switch is on, but the computer still will not start.
+	Perhaps this is not the way to get it running!"
+    END VERB 'start'.
+
+END OBJECT.
+
+
+------------------------------------------------------------------------------
+
+LOCATION cafe
+    DESCRIPTION
+        "This is the entrance to the old cafeteria. The kitchen and
+         all the furniture is long gone, but there is still some paper
+         boxes and old plates here."
+         DESCRIBE machine.
+
+    EXIT west TO hall.
+END LOCATION.
+
+OBJECT machine NAME vending machine AT cafe
+    IS
+	readable.
+
+    DESCRIPTION
+        "In one corner of the cafeteria there is a vending machine. It
+         seems to be working. At least the little light inside is on,
+         showing some candy."
+
+    VERB examine DOES
+        "Most of the slots are empty, but there is some candy still in
+         there. A slot for coins and a small sign is also mounted on
+         the machine."
+    END VERB.
+
+    VERB read DOES
+        "The small sign on the machine says 'Insert coin'."
+    END VERB.
+END OBJECT.
+
+OBJECT candy NAME old mouldy candy bar
+    IS
+        takeable.
+	readable.
+
+    DESCRIPTION
+        "On the floor there is a candy bar."
+
+    VERB examine DOES
+        "The candy bar is some centimetres long and covered in brown
+         paper."
+    END VERB.
+
+    VERB read DOES
+        "The candy is very old and the text on the paper is no longer
+         readable."
+    END VERB.
+
+    VERB eat DOES
+        "The candy bar tastes very old, mouldy and stale."
+        LOCATE candy AT NOWHERE.
+    END VERB.
+
+    VERB drop
+      DOES
+        IF rats HERE THEN
+            "The rats throw themselves at the candy devouring it
+             furiously, nearly killing each other. When every little
+             bit is gone they all fall asleep in the sunshine."
+            MAKE rats NOT hungry.
+            LOCATE candy AT NOWHERE.
+            SCORE 5.
+        END IF.
+    END VERB.
+END OBJECT.
+
+
+ACTOR hero
+    CONTAINER
+        LIMITS
+	    COUNT 3 THEN "You can't carry anything more."
+        HEADER "You are carrying"
+        ELSE "You are empty-handed."
+END ACTOR.
+
+
+START AT outside.
+
+    "$pWelcome to the game of SAVIOUR!$pIn this game your mission
+     is to salvage the last copy of the famous ADVENTURE game.
+     Legends have it that somewhere inside an ancient building
+     the last copy of this game is still spinning on some old disks.
+     $pIf you need help just type 'help'.$pSo go forth and be the
+     salvaging hero of all Adventurers!$p$pThis game was produced
+     with the ALAN Adventure Development System and is brought to
+     you by ThoNi&GorFo Adventure Factories."
+
+    VISITS 2.

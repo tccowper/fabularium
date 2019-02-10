@@ -1,0 +1,32 @@
+########## goto ##########
+
+        No warnings or errors detected.
+
+
+
+Inside
+This is inside.
+
+> w
+Outside
+This is outside.
+
+> go to inside
+Inside
+This is inside.
+
+> go to outside
+Outside
+This is outside.
+
+> e
+Inside
+This is inside.
+
+> go to inside
+Inside
+This is inside.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

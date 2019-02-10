@@ -1,0 +1,446 @@
+# vi: set ts=2 shiftwidth=2 expandtab:
+#
+# NPC tests.
+#
+# Covers player movement restrictions, and NPC walks.
+#
+# Unless otherwise noted, the input and responses in this script were created
+# from a transcript of the Adrift Runner, release 4.0.45 or 46.
+#
+
+~ game
+*Pathless* Compiled "28 Nov 2006"* Version 4.00*
+
+> verbose
+
+
+#
+# Verify restrictions on player movements.
+#
+
+> up
+#You can't go in that direction, but you can move north, east, west, northeast,
+#southeast, southwest and northwest.
+# Note -- SCARE does this differently, and perhaps with more clarity.
+You can't go in that direction (at present).
+
+> allow up
+Up allowed.
+
+> up
+You move up.
+Up
+Up room.
+# Note -- SCARE also adds here (and it's unclear how to prevent it):
+You can't go in any direction!
+
+> look
+Up
+Up room.
+# Note -- SCARE also adds here (and it's unclear how to prevent it):
+You can't go in any direction!
+
+> exits
+You can't go in any direction!
+
+> down
+You can't go in any direction!
+
+> allow down
+Down allowed.
+
+> down
+You move down.
+Centre
+Centre room.  Also here is a thing.  Follower is here.  You can move north,
+east, west, northeast, southeast, southwest and northwest.
+
+> south
+#You can't go in that direction, but you can move north, east, west, northeast,
+#southeast, southwest and northwest.
+# Note -- SCARE does this differently, and perhaps with more clarity.
+You can't go in that direction (at present).
+
+> exits
+You can move north, east, west, northeast, southeast, southwest and northwest.
+
+> open door
+Door opened.
+
+> south
+You move south.
+South
+South room.  You can move north, east and west.
+
+> close door
+Door closed.
+
+> north
+#You can't go in that direction, but you can move east and west.
+# Note -- SCARE does this differently, and perhaps with more clarity.
+You can't go in that direction (at present).
+
+> open door
+Door opened.
+
+> north
+You move north.
+Centre
+Centre room.  Also here is a thing.  Follower is here.  You can move north,
+east, south, west, northeast, southeast, southwest and northwest.
+
+
+#
+# Walk round all the rooms.
+#
+
+> south
+You move south.
+South
+South room.  You can move north, east and west.
+
+> west
+You move west.
+Southwest
+Southwest room.  You can move north, east and northeast.
+
+> north
+You move north.
+West
+West room.  You can move north, east and south.
+
+> north
+You move north.
+Northwest
+Northwest room.  You can move east, south and southeast.
+
+> east
+You move east.
+North
+North room.  You can move east, south and west.
+
+> east
+You move east.
+Northeast
+Northeast room.  You can move south, west and southwest.
+
+> south
+You move south.
+East
+East room.  You can move north, south and west.
+
+> south
+You move south.
+Southeast
+Southeast room.  You can move north, west and northwest.
+
+> west
+You move west.
+South
+South room.  You can move north, east and west.
+
+> north
+You move north.
+Centre
+Centre room.  Also here is a thing.  Follower is here.  You can move north,
+east, south, west, northeast, southeast, southwest and northwest.
+
+> southeast
+You move southeast.
+Southeast
+Southeast room.  You can move north, west and northwest.
+
+> northwest
+You move northwest.
+Centre
+Centre room.  Also here is a thing.  Follower is here.  You can move north,
+east, south, west, northeast, southeast, southwest and northwest.
+
+> northwest
+You move northwest.
+Northwest
+Northwest room.  You can move east, south and southeast.
+
+> southeast
+You move southeast.
+Centre
+Centre room.  Also here is a thing.  Follower is here.  You can move north,
+east, south, west, northeast, southeast, southwest and northwest.
+
+> southwest
+You move southwest.
+Southwest
+Southwest room.  You can move north, east and northeast.
+
+> northeast
+You move northeast.
+Centre
+Centre room.  Also here is a thing.  Follower is here.  You can move north,
+east, south, west, northeast, southeast, southwest and northwest.
+
+> northeast
+You move northeast.
+Northeast
+Northeast room.  You can move south, west and southwest.
+
+> southwest
+You move southwest.
+Centre
+Centre room.  Also here is a thing.  Follower is here.  You can move north,
+east, south, west, northeast, southeast, southwest and northwest.
+
+> north
+You move north.
+North
+North room.  You can move east, south and west.
+
+#
+# Verify that an NPC correctly circles the map.
+#
+
+> start circler
+Circler started.
+# Note -- SCARE adds the following "...drops in", as it doesn't distinguish
+# between the first move on a walk and others.  It's hard to stop this, and
+# it's defensible under the circumstances, so it's left as is for now.
+Circler drops in.
+Circler meets player.
+
+> south
+You move south.
+Centre
+Centre room.  Also here is a thing.  Follower is here.  You can move north,
+east, south, west, northeast, southeast, southwest and northwest.
+
+> south
+You move south.
+South
+South room.  You can move north, east and west.
+
+> wait
+Time passes...
+
+> wait
+Time passes...
+Circler drops in from the west.  Circler meets player.
+
+> wait
+Time passes...
+Circler drops out to the east.
+
+> north
+You move north.
+Centre
+Centre room.  Also here is a thing.  Follower is here.  You can move north,
+east, south, west, northeast, southeast, southwest and northwest.
+
+> north
+You move north.
+North
+North room.  You can move east, south and west.
+
+> wait
+Time passes...
+Circler drops in from the east.  Circler meets player.
+
+> unstart circler
+Circler unstarted.
+
+> x circler
+Basic circler.
+
+
+#
+# Relocate met object and observe another circler cycle.
+#
+
+> south
+You move south.
+Centre
+Centre room.  Also here is a thing.  Follower is here.  You can move north,
+east, south, west, northeast, southeast, southwest and northwest.
+
+> get thing
+#You take the thing.
+# Note -- minor SCARE difference here...
+You pick up the thing.
+
+> north
+You move north.
+North
+North room.  Circler is in the room.  You can move east, south and west.
+# Note -- Adrift adds a clause here that SCARE fails to print.  This is a
+# SCARE bug; it probably should output this here.
+#Circler meets player.
+
+> drop thing
+You drop the thing.
+
+> start circler
+Circler started.  Circler meets player.  Circler meets object.
+
+> wait
+Time passes...
+Circler drops out to the west.
+
+> wait, wait, wait, wait, wait, wait
+> wait
+Time passes...
+Circler drops in from the east.  Circler meets player.  Circler meets object.
+
+> unstart circler
+Circler unstarted.
+
+> wait
+Time passes...
+
+
+#
+# Verify that an NPC correctly follows the player.
+#
+
+> south
+You move south.
+Centre
+Centre room.  Follower is here.  You can move north, east, south, west,
+northeast, southeast, southwest and northwest.
+
+> x follower
+Basic follower.
+
+> start follower
+Follower started.
+
+> x follower
+Basic follower.
+
+> north
+You move north.
+North
+North room.  Also here is a thing.  Circler is in the room.  You can move
+east, south and west.
+# Note -- Adrift adds a clause here that SCARE fails to print.  This is a
+# SCARE bug; it probably should output this here.
+#Circler meets player.
+Follower enters from the south.  Follower meets circler.
+
+> x follower
+Basic follower.
+# Note -- Adrift does not adds "Follower meets circler", again, but SCARE
+# does.  It's a mystery why it would add this for "modify circler" below,
+# but not on other non-movement tasks.  For now it's unsolveable, so it's
+# added below to the expected output.  Sigh.
+Follower meets circler.
+
+> look
+North
+North room.  Also here is a thing.  Circler is in the room.  Stalker is
+following you.  You can move east, south and west.  Follower meets circler.
+
+> x circler
+Basic circler.
+# Note -- SCARE difference; see above for more...
+Follower meets circler.
+
+> modify circler
+Circler modified.
+Follower meets circler.
+
+> x circler
+Modified circler.
+# Note -- SCARE difference; see above for more...
+Follower meets circler.
+
+> start circler
+Circler started.  Circler meets player.  Circler meets object.
+Follower meets circler.
+
+> wait
+Time passes...
+Circler drops out to the west.
+
+> wait, wait, wait, wait, wait, wait
+> wait
+Time passes...
+Circler drops in from the east.  Circler meets player.  Circler meets object.
+Follower meets circler.
+
+> unstart circler
+Circler unstarted.
+Follower meets circler.
+
+> stop follower
+Follower stopped.
+
+> south
+You move south.
+Centre
+Centre room.  You can move north, east, south, west, northeast, southeast,
+southwest and northwest.
+
+> unstop follower
+Follower unstopped.  Follower enters from the north.
+
+> unstart follower
+Follower unstarted.
+
+> south
+You move south.
+South
+South room.  You can move north, east and west.
+
+> north
+You move north.
+Centre
+Centre room.  Follower is here.  You can move north, east, south, west,
+northeast, southeast, southwest and northwest.
+
+
+#
+# Now start a random meanderer.
+#
+# Note -- this portion of the script was not created from a transcript of the
+# Adrift Runner, but instead from the output of SCARE itself.  It is a
+# functionality and regression test, not a compatibility test.
+#
+
+~ random 12345
+
+> start meanderer
+Meanderer started.
+
+# Because of unfortunate aliasing between the count of rooms in the test group
+# and the linear congruential generator, the Meanderer shuttles between the
+# north-west and the centre room on alternate turns, and never goes elsewhere.
+# This doesn't happen with the platform random number generator.
+> wait
+Time passes...
+Meanderer enters from the north-west.
+
+> wait
+Time passes...
+Meanderer exits to the north-west.
+
+> wait
+Time passes...
+Meanderer enters from the north-west.
+
+> look
+Centre
+Centre room.  Meanderer and Follower are here.  You can move north, east,
+south, west, northeast, southeast, southwest and northwest.  Meanderer exits
+to the north-west.
+
+> wait
+Time passes...
+Meanderer enters from the north-west.
+
+> wait
+Time passes...
+Meanderer exits to the north-west.
+
+> look
+Centre
+Centre room.  Follower is here.  You can move north, east, south, west,
+northeast, southeast, southwest and northwest.  Meanderer enters from the
+north-west.

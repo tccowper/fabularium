@@ -1,0 +1,16 @@
+The l Isa location
+End The l.
+
+Every yl Isa location
+End Every.
+
+Add To Every yl
+  Exit n To unknown
+    Check unknown Is hot
+      Else Make unknown hot.
+    Does
+      Make unknown hot.
+  End Exit.
+End Add To.
+
+Start At l.

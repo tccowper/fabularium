@@ -1,0 +1,25 @@
+########## parameterRestrictedByIsaExpression ##########
+
+
+parameterRestrictedByIsaExpression.alan
+
+   17.          If o Is Not dark Then -- Error, attribute does not exist anywhe
+        re
+=====>                      1
+
+  *1*   316 E : Attribute 'dark' is not defined for parameter 'o' since the
+                class it is guaranteed to be in this context ('location') does
+                not have it.
+
+   18.            Make o dark. -- Error, attribute does not exist anywhere
+=====>                   1
+
+  *1*   316 E : Attribute 'dark' is not defined for parameter 'o' since the
+                class it is guaranteed to be in this context ('location') does
+                not have it.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

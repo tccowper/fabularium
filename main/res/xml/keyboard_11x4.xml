@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2017 Tim Cadogan-Cowper.
+  ~
+  ~ This file is part of Fabularium.
+  ~
+  ~ Fabularium is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU General Public License
+  ~ as published by the Free Software Foundation; either version 2
+  ~ of the License, or (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Fabularium; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+  -->
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:horizontalGap="0.45%p"
+    app:keyHeight="50dp"
+    app:keyWidth="8.6%p"
+    app:verticalGap="0.45%p">
+    <Row>
+        <!-- 11 keys x 8.6% + 12 gaps x 0.45% = 100% -->
+        <Key
+            app:codes="0xFEFF"
+            app:keyEdgeFlags="left"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyEdgeFlags="right"
+            app:keyLabel=" " />
+    </Row>
+    <Row>
+        <!-- 11 keys x 8.6% + 12 gaps x 0.45% = 100% -->
+        <Key
+            app:codes="0xFEFF"
+            app:keyEdgeFlags="left"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyEdgeFlags="right"
+            app:keyLabel=" " />
+    </Row>
+    <Row>
+        <!-- 11 keys x 8.6% + 12 gaps x 0.45% = 100% -->
+        <Key
+            app:codes="0xFEFF"
+            app:keyEdgeFlags="left"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel="m" />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" " />
+        <Key
+            app:codes="0xFEFF"
+            app:keyEdgeFlags="right"
+            app:keyLabel=" " />
+    </Row>
+    <Row app:rowEdgeFlags="bottom">
+        <!-- 6 large keys x 11% + 1 space x 30.3% + 8 gaps x 0.45% = 99.9% -->
+        <Key
+            app:codes="0xFEFF"
+            app:keyEdgeFlags="left"
+            app:keyLabel=" "
+            app:keyWidth="11%p" />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" "
+            app:keyWidth="11%p" />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" "
+            app:keyWidth="11%p" />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" "
+            app:keyWidth="30.4%p" />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" "
+            app:keyWidth="11%p" />
+        <Key
+            app:codes="0xFEFF"
+            app:keyLabel=" "
+            app:keyWidth="11%p" />
+        <Key
+            app:codes="0xFEFF"
+            app:keyEdgeFlags="right"
+            app:keyLabel=" "
+            app:keyWidth="11%p" />
+    </Row>
+</Keyboard>

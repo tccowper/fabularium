@@ -1,0 +1,28 @@
+########## indirectlyStm ##########
+
+
+indirectlyStm.alan
+
+    4.  The c Isa object Indirectly At l.
+=====>                              1
+
+  *1*   422 E : Explicit transitivity 'Indirectly' not allowed for Initial
+                location.
+
+    9.    Locate c Indirectly At l.
+=====>                        1
+
+  *1*   422 E : Explicit transitivity 'Indirectly' not allowed in LOCATE
+                statement.
+
+   10.    Empty c Indirectly At l.
+=====>                       1
+
+  *1*   422 E : Explicit transitivity 'Indirectly' not allowed in EMPTY
+                statement.
+
+
+        3 error(s).
+        No detected warnings.
+        1 informational message(s).
+

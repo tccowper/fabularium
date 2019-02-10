@@ -1,0 +1,20 @@
+The l Isa location
+End The l.
+
+Every door Isa object
+  Has otherSide door.
+End Every door.
+
+The aDoor Isa door
+  Has otherSide aDoor.
+End The aDoor.
+
+Every lockable_door Isa door
+  Has otherSide d.
+End Every.
+
+The d Isa lockable_door At l
+  Has otherSide aDoor.
+End The d.
+
+Start At l.

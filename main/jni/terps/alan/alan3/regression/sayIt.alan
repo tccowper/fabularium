@@ -1,0 +1,22 @@
+The l Isa location
+End The l.
+
+Syntax v = v (o) Where o Isa thing Else ""
+
+The waitress Isa actor At l
+  Pronoun her.
+  Verb v
+    Does
+      "Saying $!1."
+  End Verb.
+End The waitress.
+
+The ball Isa object At l.
+  Pronoun 'it'
+End The ball.
+
+Start At l.
+  "Say ball = " Say ball.
+  "Say it ball = " Say It ball.
+  "Say it waitress = " Say It waitress.
+

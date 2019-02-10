@@ -1,0 +1,29 @@
+The o Isa object
+End The o.
+
+Every cont Isa object
+  Container
+End Every.
+
+Syntax 'locate' = 'locate' (p) 'in' (c) Where c Isa object Else ""
+
+Add To Every object
+  Verb 'locate'
+    When c Does
+      Locate p In c. -- Error since c is not a container
+      If c Isa cont Then
+        Locate p In c. -- Should be ok
+      End If.
+      Locate p In Current Actor. -- Error, actors are not containers
+  End Verb.
+End Add.
+
+The l Isa location
+End The l.
+
+Start At l.
+  Locate o In o. -- Error since o is not a container
+  If o Isa cont Then
+    Locate o In o. -- Error since o is an instance which can't be restricted
+  End If.
+  Locate o In Current Location. -- Error, locations are not containers.

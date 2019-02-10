@@ -1,0 +1,25 @@
+Add To Every actor
+  Description
+    Check this At hero
+      Else Schedule notHere At hero After 0.
+    Does
+      "An actor."
+End Add To.
+
+The man Isa actor At l
+End The man.
+
+The woman Isa actor
+End The woman.
+
+The l Isa location
+End The l.
+
+Event notHere
+  "Not here."
+End Event.
+
+Start At l.
+  Describe man.
+  Describe woman.
+

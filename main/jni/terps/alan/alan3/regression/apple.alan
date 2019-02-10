@@ -1,0 +1,16 @@
+The apple Isa object At l
+  Name apple
+  Name big red fallen rotten apple
+  Indefinite Article "an"
+End The apple.
+
+The tree Isa object At l
+  Name old tree
+  Name slippery mouldy rotten tree
+  Indefinite Article "an"
+End The tree.
+
+The l Isa location
+End The l.
+
+Start At l.

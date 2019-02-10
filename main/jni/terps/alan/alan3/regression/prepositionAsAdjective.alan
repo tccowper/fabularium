@@ -1,0 +1,29 @@
+The l Isa location
+End The l.
+
+The sign Isa object At l
+  Name under construction sign
+End The sign.
+
+The postbox Isa object at l
+End The postbox.
+
+Syntax look_under = 'look' under (o).
+
+Syntax look_object = 'look' (o).
+
+Add To Every object
+
+  Verb look_under
+    Does
+      "Looking under" Say The o. "."
+  End Verb.
+
+  Verb look_object
+    Does
+      "Looking at" Say The o. "."
+  End Verb.
+
+End Add.
+
+Start At l.

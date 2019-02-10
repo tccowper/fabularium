@@ -1,0 +1,12 @@
+The l1 Isa location
+End The l1.
+
+The l2 Isa location
+End The l2.
+
+Event quitEvent
+  Quit.
+End Event.
+
+Start At l1.
+  Schedule quitEvent At l2 After 0.

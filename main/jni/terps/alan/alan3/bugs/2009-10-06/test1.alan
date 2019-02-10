@@ -1,0 +1,24 @@
+-- testgame
+
+IMPORT 'locations.i'.
+IMPORT 'classes.i'.
+IMPORT 'verbs.i'.
+
+THE jacket ISA CLOTHING
+	AT room1
+	IS topcover 32.
+        CONTAINER
+END THE.
+
+THE shirt ISA CLOTHING
+	AT room1
+	IS topcover 8.
+END THE.
+
+THE wallet ISA object IN jacket
+END THE wallet.
+	
+The room1 ISA ROOM
+END THE.
+
+START AT room1.

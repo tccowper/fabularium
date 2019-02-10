@@ -1,0 +1,12 @@
+Every door Isa object
+  Is not open.
+End Every door.
+
+Add To Every door
+  Has open 5.
+End Add To.
+
+The l Isa location
+End The l.
+
+Start At l.

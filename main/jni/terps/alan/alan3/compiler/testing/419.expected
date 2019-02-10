@@ -1,0 +1,22 @@
+########## 419 ##########
+
+
+419.alan
+
+    7.    Set x Of l To 4.
+=====>    1     2
+
+  *1*   331 E : Incompatible types in target and expression in SET statement.
+  *2*   419 E : Target for SET statement cannot be of boolean type.
+
+    8.    Set i Of l To x Of l.
+=====>    1               2
+
+  *1*   331 E : Incompatible types in target and expression in SET statement.
+  *2*   419 E : Expression in SET statement cannot be of boolean type.
+
+
+        4 error(s).
+        No detected warnings.
+        1 informational message(s).
+

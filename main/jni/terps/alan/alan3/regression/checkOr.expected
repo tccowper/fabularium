@@ -1,0 +1,15 @@
+########## checkOr ##########
+
+        No warnings or errors detected.
+
+
+
+Loc1
+There is a ball here.
+
+> touch ball
+Can't reach.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

@@ -1,0 +1,65 @@
+VERB take
+CHECK OBJECT NOT IN inventory
+    ELSE "You already have it."
+AND OBJECT HERE
+    ELSE "I can't see such a thing here."
+DOES
+    LOCATE OBJECT IN inventory.
+    "Taken."
+END VERB.
+
+SYNTAX put_down = put (o) down.
+VERB put_down
+CHECK
+    OBJECT IN inventory
+    ELSE "You don't have such a thing."
+
+DOES
+    LOCATE OBJECT HERE.
+    "Dropped."
+END VERB.
+
+
+VERB drop, throw
+CHECK
+    OBJECT IN inventory
+    ELSE "You don't have such a thing."
+
+DOES
+    LOCATE OBJECT HERE.
+    "Dropped."
+END VERB.
+
+
+LOCATION dark_place
+    EXIT s TO bright_place.
+
+    VERB throw
+    CHECK "You can't aim in the dark."
+    END VERB.
+END LOCATION dark_place.
+
+
+LOCATION bright_place
+    EXIT n TO dark_place.
+END LOCATION bright_place.
+
+
+OBJECT vase IN inventory
+    VERB drop, throw
+    DOES
+        "The nice vase flies into billions of pieces."
+        LOCATE vase AT LIMBO.
+        LOCATE vase_pieces HERE.
+    END VERB.
+END OBJECT vase.
+
+
+OBJECT vase_pieces
+END OBJECT vase_pieces.
+
+LOCATION LIMBO
+END LOCATION LIMBO.
+
+START AT bright_place.
+

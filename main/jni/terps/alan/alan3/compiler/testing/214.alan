@@ -1,0 +1,9 @@
+The l Isa location
+  Verb x
+    When a
+  End Verb x.
+End The l.
+
+Syntax x = x (y).
+
+Start At l.

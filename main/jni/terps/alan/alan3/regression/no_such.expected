@@ -1,0 +1,36 @@
+########## no_such ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a extra small o, a extra medium o and a extra large o here.
+
+> x o
+I don't know if you mean the extra small o, the extra medium o or the 
+extra large o.
+
+> x all
+(extra small o) You x the extra small o...
+
+(extra medium o) You x the extra medium o...
+
+(extra large o) You x the extra large o...
+
+> w
+L2
+There is a big o here.
+
+> x all
+(big o) You x the big o...
+
+> x o
+You x the big o...
+
+> x large o
+I can't see any large o here.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

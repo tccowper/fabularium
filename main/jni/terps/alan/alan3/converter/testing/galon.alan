@@ -1,0 +1,23 @@
+Options
+  Debug.
+
+
+SYNTAX take_obj = 'take' (o)
+  WHERE o ISA OBJECT OR ACTOR
+    ELSE "You can't take that."
+
+Verb take_obj
+  Does
+    "Taken."
+End Verb.
+
+Object obj At l
+End Object.
+
+
+Location l
+End Location.
+
+Start At l.
+
+    

@@ -1,0 +1,44 @@
+########## list ##########
+
+
+list.alan
+
+   17.    List unknown.
+=====>         1
+
+  *1*   310 E : Identifier 'unknown' not defined.
+
+   18.    List o.
+=====>         1
+
+  *1*   318 E : The 'o' does not have the container property, which is required
+                in LIST statement.
+
+   19.    List l.
+=====>         1
+
+  *1*   318 E : The 'l' does not have the container property, which is required
+                in LIST statement.
+
+   20.    List unknown of unknown.
+=====>                    1
+
+  *1*   310 E : Identifier 'unknown' not defined.
+
+   21.    List unknown of o.
+=====>         1
+
+  *1*   315 E : Attribute not defined for 'o'.
+
+   22.    List ref Of o.
+=====>             1
+
+  *1*   311 E : Expression is not guaranteed to be a Container, because the
+                class of the attribute infered from its initial value does not
+                have the Container property.
+
+
+        6 error(s).
+        No detected warnings.
+        1 informational message(s).
+

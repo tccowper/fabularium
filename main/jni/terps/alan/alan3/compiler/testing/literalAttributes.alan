@@ -1,0 +1,23 @@
+Add To Every entity
+  Has a 4.
+  Is what.
+End Add.
+
+Syntax s = s (l)
+  Where l Isa string
+    Else "Must be a string."
+
+Add To Every string
+  Verb s
+    Does
+      Say a Of l.                  -- Use is ok
+      Set a Of l To 5.             -- Setting not
+      If l Is what Then "" End If. -- Use is ok
+      Make l what.                 -- Setting not
+  End Verb.
+End Add.
+
+The l Isa location
+End The l.
+
+Start At l.

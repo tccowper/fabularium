@@ -1,0 +1,12 @@
+The l Isa location
+  Has size 0.
+  Initialize
+    Set this:size To 3.
+    Locate x Here.
+End The l.
+
+The x Isa object At l
+End The x.
+
+Start At l.
+  If size Of l = 3 Then "ok." Else "Error!" End If.

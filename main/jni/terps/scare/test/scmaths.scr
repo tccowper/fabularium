@@ -1,0 +1,649 @@
+# vi: set ts=2 shiftwidth=2 expandtab:
+#
+# Maths operation tests.
+#
+# Covers expression parsing and basic maths primitives, including some limited
+# operator precedence and parenthesis checks, min/max, either, mod, and rand.
+#
+# Unless otherwise noted, the input and responses in this script were created
+# from a transcript of the Adrift Runner, release 4.0.45 or 46.
+#
+
+~ game
+*Countless* Compiled "03 Nov 2006"* Version 4.00*
+
+
+#
+# Verify the test primitives themselves first.
+#
+
+> set a 2147483647, set x 2147483647, set y 2147483647
+a = 2147483647 x = 2147483647 y = 2147483647
+
+> set a -2147483648, set x -2147483648, set y -2147483648
+a = -2147483648 x = -2147483648 y = -2147483648
+
+> set res 1, set a res, set x res, set y res
+res = 1 a = 1 x = 1 y = 1
+
+> set res 0, set a res, set x res, set y res
+res = 0 a = 0 x = 0 y = 0
+
+> set res -1, set a res, set x res, set y res
+res = -1 a = -1 x = -1 y = -1
+
+
+#
+# Tests for elementary maths operations.
+#
+
+# Addition, subtraction, and multiplication.
+> set x 2, set y 2, mul x y
+x = 2 y = 2 res = 4
+
+> set x 2, set y 2, add x y
+x = 2 y = 2 res = 4
+
+> set x 2, set y 2, sub x y
+x = 2 y = 2 res = 0
+
+> set x 1234, set y 5678, add x y
+x = 1234 y = 5678 res = 6912
+
+> set x 1234, set y 5678, sub x y
+x = 1234 y = 5678 res = -4444
+
+> set x 1234, set y 5678, mul x y
+x = 1234 y = 5678 res = 7006652
+
+> set x 1234, set y -5678, add x y
+x = 1234 y = -5678 res = -4444
+
+> set x 1234, set y -5678, sub x y
+x = 1234 y = -5678 res = 6912
+
+> set x 1234, set y -5678, mul x y
+x = 1234 y = -5678 res = -7006652
+
+> set x -1234, set y -5678, add x y
+x = -1234 y = -5678 res = -6912
+
+> set x -1234, set y -5678, sub x y
+x = -1234 y = -5678 res = 4444
+
+> set x -1234, set y -5678, mul x y
+x = -1234 y = -5678 res = 7006652
+
+> set x -1234, set y 5678, add x y
+x = -1234 y = 5678 res = 4444
+
+> set x -1234, set y 5678, sub x y
+x = -1234 y = 5678 res = -6912
+
+> set x -1234, set y 5678, mul x y
+x = -1234 y = 5678 res = -7006652
+
+# Division is unconventional; more later, but for now...
+> set x 5678, set y 44, div x y
+x = 5678 y = 44 res = 129
+
+> set x -5678, set y 44, div x y
+x = -5678 y = 44 res = -129
+
+> set x -5678, set y -44, div x y
+x = -5678 y = -44 res = 129
+
+> set x 5678, set y -44, div x y
+x = 5678 y = -44 res = -129
+
+> set x 11, set y 8, div x y
+x = 11 y = 8 res = 1
+
+> set x 12, set y 8, div x y
+x = 12 y = 8 res = 2
+
+> set x 13, set y 8, div x y
+x = 13 y = 8 res = 2
+
+> set x 13, set y -8, div x y
+x = 13 y = -8 res = -2
+
+> set x 12, set y -8, div x y
+x = 12 y = -8 res = -1
+
+> set x 11, set y -8, div x y
+x = 11 y = -8 res = -1
+
+> set x -11, set y 8, div x y
+x = -11 y = 8 res = -1
+
+> set x -12, set y 8, div x y
+x = -12 y = 8 res = -1
+
+> set x -13, set y 8, div x y
+x = -13 y = 8 res = -2
+
+# Simple mod operations.
+> set x 5678, set y 44, mod x y
+x = 5678 y = 44 res = 2
+
+> set x 5678, set y 654, mod x y
+x = 5678 y = 654 res = 446
+
+> set x -5678, set y 654, mod x y
+x = -5678 y = 654 res = -446
+
+> set x 5678, set y -654, mod x y
+x = 5678 y = -654 res = 446
+
+> set x -5678, set y -654, mod x y
+x = -5678 y = -654 res = -446
+
+> set x 5678, set y 1, mod x y
+x = 5678 y = 1 res = 0
+
+> set x 5678, set y 1, div x y
+x = 5678 y = 1 res = 5678
+
+# Exponentiation.  This doesn't seem to be documented in Adrift.
+> set x 1, set y 1, pwr x y
+x = 1 y = 1 res = 1
+
+> set x 2, set y 2, pwr x y
+x = 2 y = 2 res = 4
+
+> set x 2, set y 1, pwr x y
+x = 2 y = 1 res = 2
+
+> set x 2, set y 0, pwr x y
+x = 2 y = 0 res = 1
+
+> set x 2, set y -1, pwr x y
+x = 2 y = -1 res = 0
+
+> set x 2147483647, set y -1, pwr x y
+x = 2147483647 y = -1 res = 0
+
+> set x 2147483647, set y 1, pwr x y
+x = 2147483647 y = 1 res = 2147483647
+
+> set x 2147483647, set y 0, pwr x y
+x = 2147483647 y = 0 res = 1
+
+> set x -1, set y 1, pwr x y
+x = -1 y = 1 res = -1
+
+> set x -1, set y 2, pwr x y
+x = -1 y = 2 res = 1
+
+> set x -1, set y 0, pwr x y
+x = -1 y = 0 res = 1
+
+> set x -2147483648, set y -1, pwr x y
+x = -2147483648 y = -1 res = 0
+
+> set x -2147483648, set y 1, pwr x y
+x = -2147483648 y = 1 res = -2147483648
+
+> set x -2147483648, set y 0, pwr x y
+x = -2147483648 y = 0 res = 1
+
+> set x 0, set y 0, pwr x y
+x = 0 y = 0 res = 1
+
+> set x 0, set y -1, pwr x y
+x = 0 y = -1
+# Adrift prints this too: ** ERROR - Invalid procedure call or argument! **
+# Note -- SCARE returns a different value for invalid operations.
+res = *
+
+> set x 2147483647, set y 2147483647, pwr x y
+x = 2147483647 y = 2147483647
+# Adrift prints this too: ** ERROR - Overflow! **
+# Note -- SCARE returns a different value for invalid operations.
+res = *
+
+> set x 2, set y 31, pwr x y
+x = 2 y = 31
+# Adrift prints this too: ** ERROR - Overflow! **
+# Note -- SCARE returns a different value for invalid operations.
+res = *
+
+> set x 2, set y 30, pwr x y
+x = 2 y = 30 res = 1073741824
+
+> set x -2, set y 30, pwr x y
+x = -2 y = 30 res = 1073741824
+
+> set x 3, set y 30, pwr x y
+x = 3 y = 30
+# Adrift prints this too: ** ERROR - Overflow! **
+# Note -- SCARE returns a different value for invalid operations.
+res = *
+
+> set x -3, set y 30, pwr x y
+x = -3 y = 30
+# Adrift prints this too: ** ERROR - Overflow! **
+# Note -- SCARE returns a different value for invalid operations.
+res = *
+
+> set x -1, set y -1, pwr x y
+x = -1 y = -1 res = -1
+
+
+#
+# Tests for function-like maths operations.
+#
+
+> set x 5678, set y 1234, min x y
+x = 5678 y = 1234 res = 1234
+
+> set x 5678, set y 1234, max x y
+x = 5678 y = 1234 res = 5678
+
+> set x 5678, set y -1234, min x y
+x = 5678 y = -1234 res = -1234
+
+> set x -5678, set y -1234, min x y
+x = -5678 y = -1234 res = -5678
+
+> set x 5678, set y -1234, max x y
+x = 5678 y = -1234 res = 5678
+
+> set x -5678, set y -1234, max x y
+x = -5678 y = -1234 res = -1234
+
+# Note -- the either() check results below were edited to match the random
+# number sequence in SCARE.
+~ random 54321
+
+> set x 5678, set y 1234, either x y
+x = 5678 y = 1234 res = 5678
+
+> set x 5678, set y 1234, either x y
+x = 5678 y = 1234 res = 1234
+
+> set x 5678, set y 1234, either x y
+x = 5678 y = 1234 res = 5678
+
+> set x 5678, set y 1234, either x y
+x = 5678 y = 1234 res = 1234
+
+> set x 1, set y 5, rand x y
+x = 1 y = 5 res = 1
+
+> set x 456, abs x
+x = 456 res = 456
+
+> set x -456, abs x
+x = -456 res = 456
+
+> set x 456, neg x
+x = 456 res = -456
+
+> set x -456, neg x
+x = -456 res = 456
+
+# Note -- the valid range rand() check results below were edited to match the
+# random number sequence in SCARE; the invalid range check results are un-
+# edited.
+~ random 12345
+
+> set x 1, set y 5, rand x y, rand x y, rand x y, rand x y, rand x y
+x = 1 y = 5 res = 2 res = 1 res = 2 res = 5 res = 4
+
+> set x 1, set y 1, rand x y, rand x y, rand x y, rand x y, rand x y
+x = 1 y = 1 res = 1 res = 1 res = 1 res = 1 res = 1
+
+> set x 1, set y 0, rand x y, rand x y, rand x y, rand x y, rand x y
+x = 1 y = 0 res = 1 res = 1 res = 1 res = 1 res = 1
+
+> set x 1, set y 0, rand x y, rand x y, rand x y, rand x y, rand x y
+x = 1 y = 0 res = 1 res = 1 res = 1 res = 1 res = 1
+
+> set x -1, set y 0, rand x y, rand x y, rand x y, rand x y, rand x y
+x = -1 y = 0 res = 0 res = -1 res = 0 res = -1 res = 0
+
+> set x -1, set y 1, rand x y, rand x y, rand x y, rand x y, rand x y
+x = -1 y = 1 res = -1 res = -1 res = 1 res = -1 res = 1
+
+
+#
+# Simple operator precedence and parenthesis checks.
+#
+
+> set x 2, set y 3, set a 4, add x y mul a
+x = 2 y = 3 a = 4 res = 14
+
+> set x 2, set y 3, set a 4, add_paren x y mul a
+x = 2 y = 3 a = 4 res = 20
+
+> set x 45, set y 20, set a 4, sub x y div a
+x = 45 y = 20 a = 4 res = 40
+
+> set x 45, set y 20, set a 4, sub_paren x y div a
+x = 45 y = 20 a = 4 res = 6
+
+
+#
+# Calculate up to maximum and minimum integer values.
+#
+
+> set x 3, set y 6, pwr x y
+x = 3 y = 6 res = 729
+
+> set x 2, set y 30, pwr x y
+x = 2 y = 30 res = 1073741824
+
+> set x res, set y 1, sub x y
+x = 1073741824 y = 1 res = 1073741823
+
+> set x res, set y 2, mul x y
+x = 1073741823 y = 2 res = 2147483646
+
+> set x res, set y 1, add x y
+x = 2147483646 y = 1 res = 2147483647
+
+> set x 0, set y res, sub x y
+x = 0 y = 2147483647 res = -2147483647
+
+> set x res, set y 1, sub x y
+x = -2147483647 y = 1 res = -2147483648
+
+
+#
+# Attempt division by zero.
+#
+# These tests may provoke error reports to stderr from SCARE.
+#
+# Note -- this portion of the script was not created from a transcript of the
+# Adrift Runner, but instead from the output of SCARE itself.
+#
+
+# Note -- SCARE returns 0 for invalid division operations.
+> set x 1, set y 0, div x y
+x = 1 y = 0 res = 0
+
+> set x 1, set y 0, mod x y
+x = 1 y = 0 res = 0
+
+
+#
+# Specific tests of division rounding and modulo operations.
+#
+# Adrift's division operator does rounding, so here are some extra tests to
+# confirm that SCARE does the same, and that it gets its signedness correct
+# for both division and modulo.
+#
+
+# Test division rounding for small numbers around zero.
+> set x -2600, set y 1000, div x y, mod x y
+x = -2600 y = 1000 res = -3 res = -600
+
+> set x -2500, set y 1000, div x y, mod x y
+x = -2500 y = 1000 res = -2 res = -500
+
+> set x -2400, set y 1000, div x y, mod x y
+x = -2400 y = 1000 res = -2 res = -400
+
+> set x -1600, set y 1000, div x y, mod x y
+x = -1600 y = 1000 res = -2 res = -600
+
+> set x -1500, set y 1000, div x y, mod x y
+x = -1500 y = 1000 res = -1 res = -500
+
+> set x -1400, set y 1000, div x y, mod x y
+x = -1400 y = 1000 res = -1 res = -400
+
+> set x -600, set y 1000, div x y, mod x y
+x = -600 y = 1000 res = -1 res = -600
+
+> set x -500, set y 1000, div x y, mod x y
+x = -500 y = 1000 res = 0 res = -500
+
+> set x -400, set y 1000, div x y, mod x y
+x = -400 y = 1000 res = 0 res = -400
+
+> set x 0, set y 1000, div x y, mod x y
+x = 0 y = 1000 res = 0 res = 0
+
+> set x 400, set y 1000, div x y, mod x y
+x = 400 y = 1000 res = 0 res = 400
+
+> set x 500, set y 1000, div x y, mod x y
+x = 500 y = 1000 res = 1 res = 500
+
+> set x 600, set y 1000, div x y, mod x y
+x = 600 y = 1000 res = 1 res = 600
+
+> set x 1400, set y 1000, div x y, mod x y
+x = 1400 y = 1000 res = 1 res = 400
+
+> set x 1500, set y 1000, div x y, mod x y
+x = 1500 y = 1000 res = 2 res = 500
+
+> set x 1600, set y 1000, div x y, mod x y
+x = 1600 y = 1000 res = 2 res = 600
+
+> set x 2400, set y 1000, div x y, mod x y
+x = 2400 y = 1000 res = 2 res = 400
+
+> set x 2500, set y 1000, div x y, mod x y
+x = 2500 y = 1000 res = 3 res = 500
+
+> set x 2600, set y 1000, div x y, mod x y
+x = 2600 y = 1000 res = 3 res = 600
+
+> set x -2600, set y -1000, div x y, mod x y
+x = -2600 y = -1000 res = 3 res = -600
+
+> set x -2500, set y -1000, div x y, mod x y
+x = -2500 y = -1000 res = 3 res = -500
+
+> set x -2400, set y -1000, div x y, mod x y
+x = -2400 y = -1000 res = 2 res = -400
+
+> set x -1600, set y -1000, div x y, mod x y
+x = -1600 y = -1000 res = 2 res = -600
+
+> set x -1500, set y -1000, div x y, mod x y
+x = -1500 y = -1000 res = 2 res = -500
+
+> set x -1400, set y -1000, div x y, mod x y
+x = -1400 y = -1000 res = 1 res = -400
+
+> set x -600, set y -1000, div x y, mod x y
+x = -600 y = -1000 res = 1 res = -600
+
+> set x -500, set y -1000, div x y, mod x y
+x = -500 y = -1000 res = 1 res = -500
+
+> set x -400, set y -1000, div x y, mod x y
+x = -400 y = -1000 res = 0 res = -400
+
+> set x 0, set y -1000, div x y, mod x y
+x = 0 y = -1000 res = 0 res = 0
+
+> set x 400, set y -1000, div x y, mod x y
+x = 400 y = -1000 res = 0 res = 400
+
+> set x 500, set y -1000, div x y, mod x y
+x = 500 y = -1000 res = 0 res = 500
+
+> set x 600, set y -1000, div x y, mod x y
+x = 600 y = -1000 res = -1 res = 600
+
+> set x 1400, set y -1000, div x y, mod x y
+x = 1400 y = -1000 res = -1 res = 400
+
+> set x 1500, set y -1000, div x y, mod x y
+x = 1500 y = -1000 res = -1 res = 500
+
+> set x 1600, set y -1000, div x y, mod x y
+x = 1600 y = -1000 res = -2 res = 600
+
+> set x 2400, set y -1000, div x y, mod x y
+x = 2400 y = -1000 res = -2 res = 400
+
+> set x 2500, set y -1000, div x y, mod x y
+x = 2500 y = -1000 res = -2 res = 500
+
+> set x 2600, set y -1000, div x y, mod x y
+x = 2600 y = -1000 res = -3 res = 600
+
+# Test modulo.
+> set x -12, set y 1, div x y, mod x y
+x = -12 y = 1 res = -12 res = 0
+
+> set x -12, set y 2, div x y, mod x y
+x = -12 y = 2 res = -6 res = 0
+
+> set x -12, set y 3, div x y, mod x y
+x = -12 y = 3 res = -4 res = 0
+
+> set x -12, set y 4, div x y, mod x y
+x = -12 y = 4 res = -3 res = 0
+
+> set x -12, set y 5, div x y, mod x y
+x = -12 y = 5 res = -2 res = -2
+
+> set x -12, set y 6, div x y, mod x y
+x = -12 y = 6 res = -2 res = 0
+
+> set x -12, set y 7, div x y, mod x y
+x = -12 y = 7 res = -2 res = -5
+
+> set x -12, set y 8, div x y, mod x y
+x = -12 y = 8 res = -1 res = -4
+
+> set x -12, set y 9, div x y, mod x y
+x = -12 y = 9 res = -1 res = -3
+
+> set x -12, set y 10, div x y, mod x y
+x = -12 y = 10 res = -1 res = -2
+
+> set x -12, set y 11, div x y, mod x y
+x = -12 y = 11 res = -1 res = -1
+
+> set x -12, set y 12, div x y, mod x y
+x = -12 y = 12 res = -1 res = 0
+
+> set x -12, set y 13, div x y, mod x y
+x = -12 y = 13 res = -1 res = -12
+
+> set x -12, set y -1, div x y, mod x y
+x = -12 y = -1 res = 12 res = 0
+
+> set x -12, set y -2, div x y, mod x y
+x = -12 y = -2 res = 6 res = 0
+
+> set x -12, set y -3, div x y, mod x y
+x = -12 y = -3 res = 4 res = 0
+
+> set x -12, set y -4, div x y, mod x y
+x = -12 y = -4 res = 3 res = 0
+
+> set x -12, set y -5, div x y, mod x y
+x = -12 y = -5 res = 2 res = -2
+
+> set x -12, set y -6, div x y, mod x y
+x = -12 y = -6 res = 2 res = 0
+
+> set x -12, set y -7, div x y, mod x y
+x = -12 y = -7 res = 2 res = -5
+
+> set x -12, set y -8, div x y, mod x y
+x = -12 y = -8 res = 2 res = -4
+
+> set x -12, set y -9, div x y, mod x y
+x = -12 y = -9 res = 1 res = -3
+
+> set x -12, set y -10, div x y, mod x y
+x = -12 y = -10 res = 1 res = -2
+
+> set x -12, set y -11, div x y, mod x y
+x = -12 y = -11 res = 1 res = -1
+
+> set x -12, set y -12, div x y, mod x y
+x = -12 y = -12 res = 1 res = 0
+
+> set x -12, set y -13, div x y, mod x y
+x = -12 y = -13 res = 1 res = -12
+
+> set x 12, set y 1, div x y, mod x y
+x = 12 y = 1 res = 12 res = 0
+
+> set x 12, set y 2, div x y, mod x y
+x = 12 y = 2 res = 6 res = 0
+
+> set x 12, set y 3, div x y, mod x y
+x = 12 y = 3 res = 4 res = 0
+
+> set x 12, set y 4, div x y, mod x y
+x = 12 y = 4 res = 3 res = 0
+
+> set x 12, set y 5, div x y, mod x y
+x = 12 y = 5 res = 2 res = 2
+
+> set x 12, set y 6, div x y, mod x y
+x = 12 y = 6 res = 2 res = 0
+
+> set x 12, set y 7, div x y, mod x y
+x = 12 y = 7 res = 2 res = 5
+
+> set x 12, set y 8, div x y, mod x y
+x = 12 y = 8 res = 2 res = 4
+
+> set x 12, set y 9, div x y, mod x y
+x = 12 y = 9 res = 1 res = 3
+
+> set x 12, set y 10, div x y, mod x y
+x = 12 y = 10 res = 1 res = 2
+
+> set x 12, set y 11, div x y, mod x y
+x = 12 y = 11 res = 1 res = 1
+
+> set x 12, set y 12, div x y, mod x y
+x = 12 y = 12 res = 1 res = 0
+
+> set x 12, set y 12, div x y, mod x y
+x = 12 y = 12 res = 1 res = 0
+
+> set x 12, set y 13, div x y, mod x y
+x = 12 y = 13 res = 1 res = 12
+
+> set x 12, set y -1, div x y, mod x y
+x = 12 y = -1 res = -12 res = 0
+
+> set x 12, set y -2, div x y, mod x y
+x = 12 y = -2 res = -6 res = 0
+
+> set x 12, set y -3, div x y, mod x y
+x = 12 y = -3 res = -4 res = 0
+
+> set x 12, set y -4, div x y, mod x y
+x = 12 y = -4 res = -3 res = 0
+
+> set x 12, set y -5, div x y, mod x y
+x = 12 y = -5 res = -2 res = 2
+
+> set x 12, set y -6, div x y, mod x y
+x = 12 y = -6 res = -2 res = 0
+
+> set x 12, set y -7, div x y, mod x y
+x = 12 y = -7 res = -2 res = 5
+
+> set x 12, set y -8, div x y, mod x y
+x = 12 y = -8 res = -1 res = 4
+
+> set x 12, set y -9, div x y, mod x y
+x = 12 y = -9 res = -1 res = 3
+
+> set x 12, set y -11, div x y, mod x y
+x = 12 y = -11 res = -1 res = 1
+
+> set x 12, set y -12, div x y, mod x y
+x = 12 y = -12 res = -1 res = 0
+
+> set x 12, set y -13, div x y, mod x y
+x = 12 y = -13 res = -1 res = 12

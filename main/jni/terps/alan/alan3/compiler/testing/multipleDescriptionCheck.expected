@@ -1,0 +1,22 @@
+########## multipleDescriptionCheck ##########
+
+
+multipleDescriptionCheck.alan
+
+    2.    Description Check a Is b Else Make c d.
+=====>                      1                2
+
+  *1*   310 E : Identifier 'a' not defined.
+  *2*   310 E : Identifier 'c' not defined.
+
+    4.    Description Check a Is b Else Make c d.
+=====>                1
+
+  *1*   204 E : Multiple use of DESCRIPTION CHECK clause in this
+                class/instance.
+
+
+        3 error(s).
+        No detected warnings.
+        1 informational message(s).
+

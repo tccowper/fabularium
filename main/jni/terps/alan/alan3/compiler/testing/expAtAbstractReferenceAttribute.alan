@@ -1,0 +1,24 @@
+Every act Isa actor
+  Has ref actor.
+  Has i 0.
+  Description
+    If o At ref Of This Then "" End If.
+End Every act.
+
+The o Isa object
+End The o.
+
+The a Isa act
+  Has ref a.
+End The a.
+
+The l Isa location
+End The l.
+
+Start At l.
+  If o At unknownRef Of act Then "" End If.
+  If o At ref Of act Then "" End If.
+  If o At i Of act Then "" End If.
+  If o At unknownRef Of a Then "" End If.
+  If o At ref Of a Then "" End If.
+  If o At i Of a Then "" End If.

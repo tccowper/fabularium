@@ -1,0 +1,10 @@
+The l Isa location
+End The l.
+
+The c Isa object Indirectly At l.
+  Container
+End THe c.
+
+Start At l.
+  Locate c Indirectly At l.
+  Empty c Indirectly At l.

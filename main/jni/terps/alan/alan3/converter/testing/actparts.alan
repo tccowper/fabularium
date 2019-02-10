@@ -1,0 +1,32 @@
+Actor free_order
+
+  Description
+    "First description."
+
+  Verb x
+  End Verb x.
+
+  Container
+
+  Is large.
+
+  Container
+
+  Description "Second description."
+
+  Has light.
+
+  Script first_script.
+    Step
+      "Step one."
+
+  Script second_script.
+    Step
+      "Step one."
+
+End Actor.
+
+Location nowhere
+End Location nowhere.
+
+Start At nowhere.

@@ -1,0 +1,22 @@
+The l Isa location
+  Has x 4.
+  Description
+    "This is is l. it has x =" Say x Of l. "."
+End The l.
+
+Syntax 'save' = 'save'.
+Verb 'save'
+  Does
+    Set x Of l To 3.
+    Save.
+End Verb.
+
+Syntax 'restore' = 'restore'.
+Verb 'restore'
+  Does
+    Restore.
+    "Done.$n"
+	Look.
+End Verb.
+
+Start At l.

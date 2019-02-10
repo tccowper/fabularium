@@ -1,0 +1,198 @@
+#
+# ADRIFT Module
+# Exported 24-Nov-2006
+#
+
+# Author: A.N. Onymous
+
+Version 4.00 Release 46
+
+DEFINE Room "Room1"
+   SHORTDESC = "Timing Room"
+   LONGDESC = "Completely empty."
+END Room
+
+DEFINE Object "Object1"
+   PREFIX = ""
+   NAME = "One-shot token"
+   DESCRIPTION = "One-shot token."
+   LOCATION = Hidden
+   TYPE = Dynamic
+   SIZE = Normal
+   WEIGHT = Normal
+   ARMOUR VALUE = 0
+END Object
+
+DEFINE Object "Object2"
+   PREFIX = ""
+   NAME = "Repeater token"
+   DESCRIPTION = "Repeater token."
+   LOCATION = Hidden
+   TYPE = Dynamic
+   SIZE = Normal
+   WEIGHT = Normal
+   ARMOUR VALUE = 0
+END Object
+
+DEFINE Object "Object3"
+   PREFIX = ""
+   NAME = "Cycler token"
+   DESCRIPTION = "Cycler token."
+   LOCATION = Hidden
+   TYPE = Dynamic
+   SIZE = Normal
+   WEIGHT = Normal
+   ARMOUR VALUE = 0
+END Object
+
+DEFINE Task "Task1"
+   COMMAND "#One-shot task"
+   COMMAND "set one-shot task"
+   WHERE = All Rooms
+   MESSAGE = "One-shot task completed."
+   REVERSIBLE = True
+   REPEATABLE = True
+   REVCOMMAND "unset one-shot task"
+   REVERSETEXT = "One-shot task reversed."
+END Task
+
+DEFINE Task "Task2"
+   COMMAND "#Repeater task"
+   COMMAND "set repeater task"
+   WHERE = All Rooms
+   MESSAGE = "Repeater task completed."
+   REVERSIBLE = True
+   REPEATABLE = True
+   REVCOMMAND "unset repeater task"
+   REVERSETEXT = "Repeater task reversed."
+END Task
+
+DEFINE Task "Task3"
+   COMMAND "#Cycler task"
+   COMMAND "set cycler task"
+   WHERE = All Rooms
+   MESSAGE = "Cycler task completed."
+   REVERSIBLE = True
+   REPEATABLE = True
+   REVCOMMAND "unset cycler task"
+   REVERSETEXT = "Cycler task reversed."
+END Task
+
+DEFINE Task "Task4"
+   COMMAND "start controllable"
+   WHERE = All Rooms
+   MESSAGE = "Start controllable completed."
+   REVERSIBLE = True
+   REPEATABLE = True
+   REVCOMMAND "unstart controllable"
+   REVERSETEXT = "Start controllable reversed."
+END Task
+
+DEFINE Task "Task5"
+   COMMAND "pause controllable"
+   WHERE = All Rooms
+   MESSAGE = "Pause controllable completed."
+   REVERSIBLE = True
+   REPEATABLE = True
+   REVCOMMAND "unpause controllable"
+   REVERSETEXT = "Pause controllable reversed."
+END Task
+
+DEFINE Task "Task6"
+   COMMAND "resume controllable"
+   WHERE = All Rooms
+   MESSAGE = "Resume controllable completed."
+   REVERSIBLE = True
+   REPEATABLE = True
+   REVCOMMAND "unresume controllable"
+   REVERSETEXT = "Resume controllable reversed."
+END Task
+
+DEFINE Event "Event1"
+   NAME = "One shot"
+   START Immediately
+   LENGTH Between 5 and 5
+   WHERE = All Rooms
+   STARTTEXT = "One-shot start."
+   LOOKTEXT = "One-shot running."
+   MIDTIME1 = 2
+   MIDTEXT1 = "One-shot 2 turns from end."
+   MIDTIME2 = 1
+   MIDTEXT2 = "One-shot 1 turn from end."
+   FINISHTEXT = "One-shot end."
+   ON FINISH MOVE Object "Object1" TO Hidden
+   ON START MOVE Object "Object1" TO "Room-1"
+   EXECUTE TASK "Task1"
+END Event
+
+DEFINE Event "Event2"
+   NAME = "Repeater"
+   START Between 100 and 100
+   LENGTH Between 10 and 10
+   REPEATING = True
+   DELAY = True
+   WHERE = All Rooms
+   STARTTEXT = "Repeater start."
+   LOOKTEXT = "Repeater running."
+   MIDTIME1 = 2
+   MIDTEXT1 = "Repeater 2 turns from end."
+   MIDTIME2 = 1
+   MIDTEXT2 = "Repeater 1 turn from end."
+   FINISHTEXT = "Repeater end."
+   ON FINISH MOVE Object "Object2" TO Hidden
+   ON START MOVE Object "Object2" TO "Room0"
+   UNDO TASK "Task2"
+END Event
+
+DEFINE Event "Event3"
+   NAME = "Cycler"
+   START Between 120 and 120
+   LENGTH Between 10 and 10
+   REPEATING = True
+   WHERE = All Rooms
+   STARTTEXT = "Cycler start."
+   LOOKTEXT = "Cycler running."
+   MIDTIME1 = 2
+   MIDTEXT1 = "Cycler 2 turns from end."
+   MIDTIME2 = 1
+   MIDTEXT2 = "Cycler 1 turn from end."
+   FINISHTEXT = "Cycler end."
+   ON FINISH MOVE Object "Object3" TO Hidden
+   ON START MOVE Object "Object3" TO "Room1"
+   EXECUTE TASK "Task3"
+END Event
+
+DEFINE Event "Event4"
+   NAME = "Controllable"
+   START After Task "Task5"
+   LENGTH Between 20 and 20
+   WHERE = All Rooms
+   STARTTEXT = "Controllable start."
+   LOOKTEXT = "Controllable running."
+   MIDTIME1 = 2
+   MIDTEXT1 = "Controllable 2 turns from end."
+   MIDTIME2 = 1
+   MIDTEXT2 = "Controllable 1 turn from end."
+   FINISHTEXT = "Controllable end."
+   PAUSE IF TASK "Task5" IS Completed
+   RESUME IF TASK "Task6" IS Completed
+END Event
+
+DEFINE Introduction
+   MESSAGE = ""
+   STARTROOM = "Room1"
+   SHOWFIRST = True
+END Introduction
+
+DEFINE Winning
+   MESSAGE = ""
+END Winning
+
+DEFINE Player
+   NAME = "Ted Swippett"
+   GENDER = Male
+   DESCRIPTION = ""
+   INITIALPOSITION = Standing
+   MAXBULK = 10 Normal Objects
+   MAXWEIGHT = 10 Normal Objects
+END Player

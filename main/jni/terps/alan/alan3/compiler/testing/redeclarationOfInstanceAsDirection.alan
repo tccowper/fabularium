@@ -1,0 +1,9 @@
+the living isa location
+	exit west to hallway.
+end the living.
+
+the hallway isa location
+	exit east, living to living.
+end the hallway.
+
+start at living.

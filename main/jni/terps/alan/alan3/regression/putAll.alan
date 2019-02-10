@@ -1,0 +1,59 @@
+The l Isa location
+End The l.
+
+The bowl Isa object At l
+	Container
+	VERB put_in
+		WHEN obj2
+			DOES 
+				"Put in."
+	END VERB.
+End The bowl.
+
+The key Isa object In hero
+End The key.
+
+The x1 Isa object
+End The x1.
+
+The x2 Isa object
+End The x2.
+
+Add To Every actor
+  Container
+End Add To.
+
+Syntax
+	put = put (obj) *
+		Where obj Isa Object
+			Else "You can't put that anywhere."
+Syntax
+	put_in = put (obj1) 'in' (obj2)
+		Where obj1 Isa Object
+			Else "You can't put that anywhere."
+		And obj2 Isa Container
+			Else "You can't put anything in that." 
+
+
+Add To Every object
+  Verb put
+	Check obj In hero
+		Else "You haven't got that."
+	Does
+		Locate obj Here.
+		"Dropped."
+  End Verb.
+
+    Verb put_in
+	When obj1
+		Check obj1 In hero
+			Else "You haven't got that."
+		And obj1 <> obj2
+			Else "You can't put anything inside itself."
+		Does
+			"Done." 
+    End Verb.
+End Add To.
+
+Start At l.
+	List hero.

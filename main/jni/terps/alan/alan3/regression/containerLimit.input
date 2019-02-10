@@ -1,0 +1,4 @@
+put o1 in jug
+put o1 in o2
+put jug in o1
+put o2 in jug

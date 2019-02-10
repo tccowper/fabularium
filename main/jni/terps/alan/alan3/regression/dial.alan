@@ -1,0 +1,49 @@
+Add To Every object
+  Is
+    value  0.
+    Not turnable.
+End Add To.
+
+Syntax
+  turn_to = 'turn' (o) 'to' (n)
+    Where n Isa integer
+      Else 
+	"You can't turn the $1 to $2!"
+
+Add To Every thing
+    Verb turn_to
+      Check o Is turnable
+	Else 
+	  "You can't turn that to anything."
+      Does
+	If n >999 Then
+	  "The dial is only marked up to and including 999."
+	Else 
+	  Set value Of o To n.
+	  "The $1 is now set to $2."
+	End If.
+    End Verb.
+End Add To.
+
+The dial Isa object
+  At l 
+  Has 
+    value  0.
+  Is 
+    turnable.
+
+  Verb examine
+    Does
+      "The dial is marked with values between 0 and 999. It is currently
+       set to"
+      Say value Of dial.
+      "$$."
+  End Verb.
+
+End The dial.
+
+The l Isa location
+End The l.
+
+Start At l.
+  "Try 'turn dial to <n>'."

@@ -1,0 +1,10 @@
+The l Isa location
+  Has nSet {3}.
+  Has iSet {l}.
+End The l.
+
+Start At l.
+  If l In l:nSet Then "It's in!" End If.
+  If l In l:iSet Then "It's in!" End If.
+  If 3 In l:nSet Then "It's in!" End If.
+  If 3 In l:iSet Then "It's in!" End If.

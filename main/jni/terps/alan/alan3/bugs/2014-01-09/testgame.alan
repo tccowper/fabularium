@@ -1,0 +1,410 @@
+-- TESTGAME
+
+
+IMPORT 'newlocations.i'.
+IMPORT 'newclasses.i'.
+IMPORT 'newverbs.i'.
+IMPORT 'newdefinitions.i'.
+
+
+
+
+
+
+THE my_game ISA definition_block 
+    
+    HAS title "Testgame1".	
+    HAS author "Wendell Botbot".
+    HAS year 2014.
+	    
+    HAS intro_text "". 	
+
+    --Define the default behaviour for the verbs you want:	
+	
+    VERB examine 
+	  DOES ONLY "This is my game's default response when the player examines something."
+    END VERB.
+
+End The.
+
+
+
+
+
+
+
+THE sunny_room ISA ROOM  	-- all ROOMS automatically have a floor, walls and a ceiling
+	NAME sunny 'room'
+	DESCRIPTION "You are in a spacious room filled with bright sunlight entering through 
+			the window and through an open doorway to the west leading to a small balcony. 
+			A white door leads north. There is a staircase to the south."
+
+	EXIT north TO closet	
+		CHECK 
+			IF door1 IS closed
+				THEN "You can't, since the door is closed."
+				ELSE "You walk into the closet. The door slams shut behind you."
+					LOCATE hero AT closet.
+					LOCATE door1 AT closet.
+					MAKE door1 closed.
+			END IF.
+	END EXIT.
+
+	EXIT west TO balcony.
+	
+	EXIT south TO nowhere
+		CHECK "The staircase just leads out of here. Stay here to keep experimenting,
+			otherwise type QUIT to quit."
+	END EXIT.
+
+
+END THE.
+
+
+
+
+THE table ISA SUPPORTER    -- you can place things on a supporter
+	AT sunny_room
+	IS NOT takeable.
+	HAS components {drawer1, drawer2}.
+
+	VERB examine
+		DOES AFTER
+			FOR EACH c IN components OF THIS 
+				DO
+				"The table has" SAY AN c. "." 
+					IF c IS NOT closed
+						THEN LIST c.
+						ELSE SAY THE c. "is closed."
+					END IF.
+			END FOR.
+	END VERB.
+
+END THE.
+
+
+THE drawer1 ISA LISTED_CONTAINER
+	AT sunny_room
+	OPAQUE CONTAINER 
+	NAME top drawer
+	IS closeable. IS closed.
+	DESCRIPTION ""
+END THE.
+
+
+THE drawer2 ISA LISTED_CONTAINER
+	AT sunny_room
+	OPAQUE CONTAINER
+	NAME bottom drawer
+	IS closeable. IS closed.
+	DESCRIPTION ""
+END THE.
+
+
+
+THE pearls ISA OBJECT
+	In table.
+	IS plural.
+	PRONOUN 'them'
+
+	VERB examine
+		DOES BEFORE
+			"This is an object with a plural name. Experiment with different commands to see
+			the responses and how they are different as compared with objects with a singular name.$p"
+	END VERB.
+
+
+END THE.
+
+
+THE box ISA LISTED_CONTAINER
+	AT sunny_room
+
+	VERB examine
+		DOES BEFORE "This is a listed container defined in the library. The contents should be
+			listed after both 'examine', 'look in' and 'look'."
+	END VERB.
+
+END THE.
+
+	
+
+THE door1 ISA DOOR
+	AT sunny_room
+	NAME white 'door'
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "This is a door object. Please experiment by opening and closing, knocking on
+			     and looking under both when the door is opened and closed."
+	END VERB.
+
+
+END THE.
+
+
+THE window1 ISA WINDOW
+	AT sunny_room
+	NAME 'window'
+	DESCRIPTION ""
+END THE.
+
+
+THE flower ISA OBJECT
+	IS scenery.
+	IN table		-- Note the 'in' here; however, the flower will be described 
+				-- to be *on* the table.
+
+
+END THE.    
+
+
+
+THE note ISA OBJECT
+	IN table
+	IS writeable.
+	IS readable.
+	
+
+	VERB examine
+		DOES ONLY "You can try writing something on the note."
+	END VERB.
+
+
+	VERB write
+		WHEN obj
+		DOES BEFORE 
+			IF pen NOT IN hero
+				THEN "(taking the pen first)$n"
+					LOCATE pen IN hero.
+			END IF.
+	END VERB.
+
+
+	VERB burn
+		CHECK match IS lit
+			ELSE "How?"
+		DOES ONLY "You burn the note to ashes."
+				LOCATE note AT nowhere.
+	END VERB.
+
+
+	VERB burn_with
+		WHEN obj
+		CHECK instr = match
+			ELSE "That's not possible."
+		DOES ONLY "You burn the note to ashes."
+				LOCATE note AT nowhere.
+	END VERB.
+			
+
+END THE.
+
+
+THE pen ISA OBJECT
+	IN table
+END THE.
+
+
+THE bottle ISA LISTED_CONTAINER
+	IN box
+END THE.
+
+
+THE juice ISA LIQUID
+	IN bottle
+	HAS vessel bottle.
+	IS drinkable.
+	ARTICLE "some"
+END THE.
+
+
+THE match ISA LIGHTSOURCE 
+	IN box
+	IS natural.
+END THE.
+
+
+THE flashlight ISA LIGHTSOURCE
+	IN box
+	IS NOT natural.
+END THE.
+
+
+THE waterpistol ISA WEAPON
+	IN box
+	IS fireable.
+END THE.
+
+
+THE blue_ball ISA OBJECT
+	IN box
+	NAME blue ball NAME blue
+	VERB take
+		DOES SCORE 1.
+	END VERB.
+END THE.
+
+
+THE red_ball ISA OBJECT
+	AT sunny_room
+	NAME red ball NAME red
+	VERB take
+		DOES SCORE 1.
+	END VERB.
+END THE.
+
+
+THE yellow_ball ISA OBJECT 
+	AT sunny_room
+	NAME yellow ball NAME yellow
+	VERB take
+		DOES SCORE 1.
+	END VERB.
+END THE.
+
+
+THE felix ISA PERSON
+	AT sunny_room
+	NAME felix NAME himself NAME butler
+	IS named.
+	MENTIONED "Felix"	
+	PRONOUN 'him'
+	DESCRIPTION "$pFelix, your grumpy butler, is standing off to one side."
+
+	VERB examine 
+		DOES ONLY "Felix is your grumpy butler. You could try talking to him, or asking him
+			for various things.$p" LIST felix. LIST felix_worn.
+	END VERB.
+
+END THE.
+
+
+THE felix_worn ISA NPC_WORN
+    HAS carrier felix.
+END THE.
+
+
+THE tuxedo ISA CLOTHING IN felix_worn
+	IS topcover 64. botcover 64.
+	IS NOT takeable.
+END THE.
+
+
+THE dog ISA ACTOR
+	AT sunny_room
+	DESCRIPTION "$pA dog is here, looking at you with faithful eyes." 
+	CONTAINER
+		HEADER "The dog is carrying"
+		ELSE "The dog is not carrying anything."
+		
+	
+	VERB examine
+		DOES ONLY "Give the blue ball to the dog and he will follow you."
+				LIST dog.
+	END VERB.
+
+END THE.
+
+
+THE balcony ISA LOCATION 
+
+	DESCRIPTION "You're standing on a small balcony overlooking a garden. The sky is clear. 
+			 In the distance you see a mountain. 
+			 The room is back to the east."
+	
+	IF visited OF balcony = 1
+		THEN "$pHaving never been on this balcony before, you pause to take in the magnificent view."
+		ELSE "$pEven if you've been here before, the magnificent view never ceases to amaze you."
+	END IF.
+
+	EXIT east TO sunny_room.	
+
+END THE.
+
+
+-- The balcony is neither a pure indoor or outdoor room, we need the floor but also the sky:
+
+
+THE balcony_object ISA OBJECT AT balcony
+	NAME balcony
+	IS NOT takeable.
+	IS NOT movable.
+	DESCRIPTION ""
+END THE.
+
+THE balcony_floor ISA OBJECT AT balcony
+	NAME floor
+	IS NOT takeable.
+	IS NOT movable.
+	DESCRIPTION ""
+END THE.
+
+
+THE balcony_sky ISA BACKGROUND AT balcony
+	NAME sky
+	DESCRIPTION ""
+END THE.
+
+
+THE mountain ISA BACKGROUND
+	AT balcony
+	DESCRIPTION ""
+	VERB examine
+		DOES ONLY "Beautiful."
+	END VERB.
+END THE.
+
+
+THE garden ISA BACKGROUND
+	AT balcony
+	NAME garden NAME flowers
+	DESCRIPTION "The garden is green and full of blossoming flowers."
+END THE.
+
+
+
+THE closet ISA DARK_LOCATION
+	
+	DESCRIPTION "This is a closet."
+
+	EXIT south TO sunny_room	
+		DOES "Aiming to the direction from where you remember coming, you manage to push the door open
+			and emerge back into the sunny room. The closet door slams shut behind you again."
+			LOCATE door1 AT sunny_room.
+	END EXIT.
+
+END THE.
+
+
+THE shirt ISA CLOTHING
+	AT closet
+	IS topcover 8.
+END THE.
+
+
+THE jacket ISA CLOTHING
+	AT closet
+	IS topcover 32.
+END THE.
+
+
+THE wallet ISA OBJECT
+	IN jacket
+END THE.
+
+
+WHEN blue_ball IN dog AND dog IS NOT following
+	=> MAKE dog following.
+
+
+
+
+
+   
+
+START AT sunny_room.
+
+"This is a" STYLE alert. "testgame" STYLE normal. "for the new ALAN library. Experiment with
+ manipulating various objects and moving around. 
+Taking any ball will increase your score."

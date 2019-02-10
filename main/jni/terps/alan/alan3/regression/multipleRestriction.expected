@@ -1,0 +1,27 @@
+########## multipleRestriction ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a o, a m1, a t2 and a m2 here.
+
+> m t1
+Can only m objects.
+
+> m o
+Can only m moveables.
+
+> m m1
+Can only m takeables.
+
+> m t2
+Can only m manipulables.
+
+> m m2
+You can't do that.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

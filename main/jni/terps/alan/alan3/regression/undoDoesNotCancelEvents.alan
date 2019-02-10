@@ -1,0 +1,22 @@
+The l1 Isa location
+  Is Not changed.
+  Description
+    "It is" If This Is Not changed Then "not" End If. "changed."
+End The l1.
+
+Event e
+  "This is event e."
+End Event.
+
+Verb l
+  Does
+    Look.
+End Verb l.
+
+Verb change
+  Does
+    Make l1 changed.
+End Verb change.
+
+Start At l1.
+  Schedule e At l1 After 4.

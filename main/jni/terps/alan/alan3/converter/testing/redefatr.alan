@@ -1,0 +1,30 @@
+Default Attributes
+  attr 0.
+  global 42.
+
+Location Attributes
+  attr 1.
+
+Object Attributes
+  attr 2.
+
+Actor Attributes
+  attr 3.
+
+Object o At l
+End Object.
+
+Location l
+End Location.
+
+Start At l.
+  "The redefined attributes are as follows:$n"
+  "$nattr of L =" Say attr Of l.		-- Should be 1
+  "$nattr of o =" Say attr Of o.		-- Should be 2
+  "$nattr of hero =" Say attr Of hero.		-- Should be 3
+
+  "The global attributes are as follows:$n"	-- Should all be 42
+  "$nglobal of L =" Say global Of l.
+  "$nglobal of o =" Say global Of o.
+  "$nglobal of hero =" Say global Of hero.
+

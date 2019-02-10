@@ -1,0 +1,27 @@
+The x Isa object
+  Has s1 "this is a string that contains enough characters to test with".
+  Has s2 "a word".
+End The x.
+
+The l Isa location
+End The l.
+
+Start At l.
+ Strip First Word From s1 Of x Into s2 of x.
+ Say s1 Of x."$n"	-- "is a string ..."
+ Say s2 Of x."$n"	-- "this"
+ Strip First 2 Word From s1 Of x Into s2 of x.
+ Say s1 Of x."$n"	-- "string that contains ..."
+ Say s2 Of x."$n"	-- "is a"
+ Strip First Character From s1 Of x Into s2 of x.
+ Say s1 Of x."$n"	-- "tring that contains ..."
+ Say s2 Of x."$n"	-- "s"
+ Strip First 10 Character From s1 Of x.
+ Say s1 Of x."$n"	-- " contains enough ..."
+ Say s2 Of x."$n"	-- "s"
+ Strip Last 3 Character From s1 Of x Into s2 of x.
+ Say s1 Of x."$n"	-- " contains enough characters to test w"
+ Say s2 Of x."$n"	-- "ith"
+ Strip Last 100 Word From s1 Of x.
+ Say s1 Of x."$n"	-- ""
+ Say s2 Of x."$n"	-- "ith"

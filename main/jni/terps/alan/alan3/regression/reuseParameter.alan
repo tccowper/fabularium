@@ -1,0 +1,21 @@
+Add To Every object
+  Verb x
+    Does
+      Describe p.
+      If object = o Then
+        "Ok. Parameter still = o."
+      Else
+        "Not ok. Parameter overritten."
+      End If.
+  End Verb.
+End Add.
+
+The o Isa object At l
+End The o.
+The p Isa object At l
+End The p.
+
+The l Isa location
+End The l.
+
+Start At l.

@@ -1,0 +1,27 @@
+########## inheritedEntities ##########
+
+
+inheritedEntities.alan
+
+   17.    Verb x
+=====>    1
+
+  *1*   426 W : Adding a Verb to the pre-defined class 'entity' will result in
+                multiple executions of it, since it will be inherited by both
+                all locations and all objects. This is probably not what you
+                want. Try adding it to 'thing' instead.
+
+
+        No detected errors.
+        1 warning(s).
+
+
+
+Loc
+
+> x the e
+You x the entity e
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

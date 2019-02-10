@@ -1,0 +1,90 @@
+########## inventory ##########
+
+Add To Every object
+  Is
+    takeable.
+End Add To.
+
+The inventory
+  Container
+    Limits
+      Count 3
+        Else
+          "You can't pick up anything more."
+    Header
+      "You are carrying"
+    Else
+      "You are empty-handed."
+End The inventory.
+
+Verb take, get, pick
+  Check object Here
+    Else 
+      "I can't see any $o here!"
+  And object Not In inventory
+    Else 
+      "You already have the $o."
+  And object Is takeable
+    Else 
+      "You can't take the $o."
+  Does
+    Locate object In inventory.
+    "Taken."
+End Verb.
+
+Verb drop
+  Check object In inventory
+    Else 
+      "You don't have the $o!"
+  Does
+    Locate object Here.
+    "Dropped."
+End Verb.
+
+Syntax
+  i = i.
+
+Synonyms
+  invent = i.
+  
+
+Verb i
+  Does
+    List inventory.
+End Verb.
+
+
+The loc Isa location
+  
+End The loc.
+
+The o1 Isa object
+  At loc 
+  Article
+    "an"
+  
+End The o1.
+
+The o2 Isa object
+  At loc 
+  Article
+    "an"
+  
+End The o2.
+
+The o3 Isa object
+  At loc 
+  Article
+    "an"
+  
+End The o3.
+
+The o4 Isa object
+  At loc 
+  Article
+    "an"
+  
+End The o4.
+
+Start At loc.
+  

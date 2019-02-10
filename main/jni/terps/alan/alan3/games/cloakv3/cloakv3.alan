@@ -1,0 +1,233 @@
+import 'std.i'.
+
+The foyer Isa location
+  Name 'Foyer of the Opera House'
+  
+  Description
+    "You are standing in a spacious hall, splendidly decorated in red and
+     gold, with glittering chandeliers overhead. The entrance from the
+     street is to the north, and there are doorways south and west."
+  
+  Exit south To bar
+    Does
+      If cloak In hero Then
+        Locate hero At dark_bar.
+      Else 
+        Locate hero At bar.
+      End If.
+  End Exit.
+  
+  Exit west To cloakroom.
+  
+  Exit north To foyer
+    Check 
+      "You've only just arrived, and besides, the weather outside seems to
+       be getting worse."
+  End Exit.
+  
+End The foyer.
+
+The cloakroom Isa location
+  
+  Description
+    "The walls of this small room were clearly once lined with hooks,
+     though now only one remains. The exit is a door to the east."
+  
+  Exit east To foyer.
+  
+End The cloakroom.
+
+The hook Isa object
+  Name small brass hook
+  At cloakroom 
+  Is 
+    Not takeable.
+  Description
+  
+  Verb examine
+    Does Only
+      "It's just a small brass hook"
+      If cloak Is on_hook Then
+        "with a cloak hanging on it."
+      Else 
+        "screwed to the wall."
+      End If.
+  End Verb.
+  
+End The hook.
+
+Synonyms
+  peg = hook.
+
+The bar Isa location
+  Name foyer bar
+  
+  Description
+    "The bar, much rougher than you'd have guessed after the opulence of
+     the foyer to the north, is completely empty. There seems to be some
+     sort of message scrawled in the sawdust on the floor."
+  
+  Exit north To foyer.
+  
+End The bar.
+
+The 'message' Isa object
+  Name scrawled 'message'
+  At bar 
+  Is 
+    Not takeable.
+  Is 
+    readable.
+  Has 
+    damage_number  0.
+  Description
+  
+  Verb examine
+    Does Only
+      Describe read_message.
+  End Verb.
+  
+  Verb read
+    Does Only
+      Describe read_message.
+  End Verb.
+  
+End The 'message'.
+Synonyms
+  floor, sawdust = 'message'.
+  
+
+
+The read_message Isa object
+  
+  Description
+    If damage_number Of 'message' <2 Then
+      Score 1.
+      "The message, neatly marked in the sawdust, reads... $p$t*** You have
+       won ***$p"
+    Else 
+      "The message has been carelessly trampled, making it difficult to
+       read. You can just distinguish the words... $p$t*** You have lost
+       ***$p"
+    End If.
+    Score .
+    Quit.
+  
+End The read_message.
+
+The dark_bar Isa location
+  Name darkness
+  
+  Description
+    "It's pitch black here. You can't see a thing."
+  
+  Exit north To foyer.
+  
+  Exit northeast, east, southeast, south, southwest, west, northwest To dark_bar
+    Check 
+      "Blundering around in the dark isn't a good idea!"
+      Increase damage_number Of 'message' By 2.
+  End Exit.
+  
+  Verb invent, 'look', 'wait'
+    Does Only
+      Describe dark_warning.
+  End Verb.
+  
+  Verb read, switch_on1, switch_on2, turn_on1, turn_on2
+    Does Only
+      Describe dark_warning.
+  End Verb.
+  
+  Verb drop, examine, pick_up1, pick_up2, put_down1, put_down2, take, throw
+    Does Only
+      Describe dark_warning.
+  End Verb.
+  
+  Verb search
+    Does Only
+      Describe dark_warning.
+  End Verb.
+
+End The dark_bar.
+
+The dark_warning Isa object
+  
+  Description
+    "In the dark? You could easily disturb something!"
+    Increase damage_number Of 'message' By 1.
+  
+End The dark_warning.
+
+The cloak Isa object
+  Name black velvet cloak
+  In hero 
+  Is 
+    Not on_hook.
+  Description
+    If cloak Is on_hook Then
+      "$pOn the small brass hook is a velvet cloak."
+    Else 
+      "$pThere is a black velvet cloak here."
+    End If.
+  
+  Verb examine
+    Check Current Location <>dark_bar
+      Else 
+        Describe dark_warning.
+    Does Only
+      "A handsome cloak, of velvet trimmed with satin, and slightly
+       spattered with raindrops. Its blackness is so deep that it almost
+       seems to suck light from the room."
+  End Verb.
+  
+  Verb drop, put_down1, put_down2
+    Check Current Location <>dark_bar
+      Else 
+        Describe dark_warning.
+    And Current Location =cloakroom
+      Else 
+        "This isn't the best place to leave a smart cloak lying around."
+  End Verb.
+  
+  Verb put_on
+	When Obj1
+    Check obj2 =hook
+      Else 
+        "This isn't the best place to leave a smart cloak lying around."
+    Does Only
+      If hero Is Not hung_cloak Then
+        Make hero hung_cloak.
+        Score 1.
+      End If.
+      "You $v the $1 on the $2."
+      Make cloak on_hook.
+      Locate cloak Here.
+  End Verb.
+  
+End The cloak.
+Synonyms
+  hang = put.
+
+Add To Every actor
+  Is 
+    Not hung_cloak.
+  Verb examine
+    Check Current Location <> dark_bar
+      Else 
+        Describe dark_warning.
+    Does Only
+      "As handsome as ever."
+  End Verb.
+  
+End Add.
+
+
+Start At foyer.
+  "$p$pHurrying through the rainswept November night, you're glad to see
+   the bright lights of the Opera House. It's surprising that there aren't
+   more people about but, hey, what do you expect in a cheap demo game...?"
+  "$p$nCloak of Darkness"
+  "$nA basic IF demonstration."
+  "$nVersion 1, Sept 2008. (Implemented using ALAN 3.0alpha6, lib 0.6.1)"
+  "$nAuto-converted to Alan v3 from the Alan v2 Version by Thomas Nilsson"

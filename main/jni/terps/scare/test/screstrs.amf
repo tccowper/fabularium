@@ -1,0 +1,232 @@
+#
+# ADRIFT Module
+# Exported 09-Dec-2006
+#
+
+# Author: A.N. Onymous
+
+Version 4.00 Release 46
+
+DEFINE Room "Room1"
+   SHORTDESC = "Activity Room"
+   LONGDESC = "Sparsely furnished, the walls are white and unadorned, and the carpet is a bland shade of grey. Frankly, very little promise here for diversionary activity."
+   EAST = "Room2"
+END Room
+
+DEFINE Room "Room2"
+   SHORTDESC = "Clean Room"
+   LONGDESC = "As bland as the Activity Room, but somehow cleaner.  There's a sign on the wall that proclaims \"No food or drink, please.\""
+   WEST = "Room1"
+END Room
+
+DEFINE Object "Object1"
+   PREFIX = "a pinewood"
+   NAME = "cupboard"
+   ALIASES = "tallboy", "dresser", "bookcase", "armoire"
+   DESCRIPTION = "Large and, well, very woody. It looks a bit like something built from an MFI kit. Perhaps by a one-handed blind man with a drink problem."
+   LOCATION = "Room1"
+   TYPE = Static
+   CONTAINER = True ANDHOLDS 5 NORMAL OBJECTS
+   OPENABLE = True
+   OPENSTATE = Closed
+   LISTOB = True
+   ARMOUR VALUE = 0
+END Object
+
+DEFINE Object "Object2"
+   PREFIX = "a"
+   NAME = "book"
+   ALIASES = "tome", "manual", "guide", "pamphlet", "article", "magazine"
+   DESCRIPTION = "A copy, apparently, of the Adrift manual. Version 4.00 no less. It looks like it might be almost new; the dust cover still wraps nicely around it."
+   LOCATION = Inside "Object1"
+   TYPE = Dynamic
+   READABLE = True
+   READTEXT = "\"Background: When I was at school back in 1989, I was introduced to a text adventure...\"<br><br>All very interesting in its own way, I suppose, but oddly mute on some of the more esoteric actions that the Adrift Runner is capable of."
+   SIZE = Normal
+   WEIGHT = Normal
+   ARMOUR VALUE = 0
+END Object
+
+DEFINE Object "Object3"
+   PREFIX = "a"
+   NAME = "tray"
+   DESCRIPTION = "Decorated with purple flowers of some kind. It could be worse, though. Kittens nestling in lace-lined baskets, for example."
+   LOCATION = Inside "Object1"
+   TYPE = Dynamic
+   SURFACE = True
+   SIZE = Normal
+   WEIGHT = Normal
+   ARMOUR VALUE = 0
+END Object
+
+DEFINE Object "Object4"
+   PREFIX = "a"
+   NAME = "bag"
+   ALIASES = "carpetbag"
+   DESCRIPTION = "This looks like the carpetbag from \"To Hell in a Hamper.\"  How on earth did this get here?"
+   LOCATION = Inside "Object1"
+   TYPE = Dynamic
+   CONTAINER = True ANDHOLDS 5 NORMAL OBJECTS
+   OPENABLE = True
+   OPENSTATE = Closed
+   SIZE = Normal
+   WEIGHT = Normal
+   ARMOUR VALUE = 0
+END Object
+
+DEFINE Object "Object5"
+   PREFIX = "a"
+   NAME = "sandwich"
+   ALIASES = "snack"
+   DESCRIPTION = "Jam -- strawberry, by the look of it.  No peanut butter, and made that much more appetizing by the lack thereof."
+   LOCATION = Inside "Object1"
+   TYPE = Dynamic
+   EDIBLE = True
+   SIZE = Normal
+   WEIGHT = Normal
+   ARMOUR VALUE = 0
+END Object
+
+DEFINE Object "Object6"
+   PREFIX = "a pinewood"
+   NAME = "table"
+   ALIASES = "desk"
+   DESCRIPTION = "Somewhat sturdier than the cupboard, at any rate. The table looks a bit the worse for wear -- it's probably come from some charity shop. Not likely to collapse if you were to climb on it, though."
+   LOCATION = "Room1"
+   TYPE = Static
+   SURFACE = True
+   SITABLE = True
+   LYABLE = True
+   LISTOB = True
+   ARMOUR VALUE = 0
+END Object
+
+DEFINE Object "Object7"
+   PREFIX = "a"
+   NAME = "chair"
+   DESCRIPTION = "Strategically placed right by the desk. Very handy for sitting on when doing desk-related things, then."
+   LOCATION = "Room1"
+   TYPE = Static
+   SITABLE = True
+   LISTOB = True
+   ARMOUR VALUE = 0
+END Object
+
+DEFINE Object "Object8"
+   PREFIX = "a"
+   NAME = "jelly"
+   ALIASES = "jello"
+   DESCRIPTION = "Wobbly, and green. The archetypical party jelly, it seems."
+   LOCATION = Inside "Object1"
+   TYPE = Dynamic
+   EDIBLE = True
+   SIZE = Normal
+   WEIGHT = Normal
+   ARMOUR VALUE = 0
+END Object
+
+DEFINE Object "Object9"
+   PREFIX = "a floppy"
+   NAME = "hat"
+   ALIASES = "cap"
+   DESCRIPTION = "Tatty and somewhat faded, this is one of those hats that only someone style-challenged could possibly wear. Someone like you, perhaps."
+   LOCATION = Inside "Object1"
+   TYPE = Dynamic
+   WEARABLE = True
+   SIZE = Normal
+   WEIGHT = Normal
+   ARMOUR VALUE = 0
+END Object
+
+DEFINE Task "Task1"
+   COMMAND "prerequisite %number%"
+   WHERE = All Rooms
+   MESSAGE = "Prerequisite completed."
+   RESTRICTION Player must be in same room as Character "Char1"
+      ELSESHOW "You're not in the same room as the janitor."
+      AND
+   RESTRICTION Player must be of gender Male
+      ELSESHOW "You are not male."
+      AND
+   RESTRICTION Player must be lying on The Floor
+      ELSESHOW "You are not lying on the floor."
+      AND
+   RESTRICTION Referenced Number must be not equal to 0
+      ELSESHOW "Number must be anything but 0."
+END Task
+
+DEFINE Task "Task2"
+   COMMAND "attempt %text%"
+   WHERE = All Rooms
+   MESSAGE = "Attempt successful."
+   RESTRICTION No Object must be in room "Room2"
+      ELSESHOW "There's something in the clean room."
+      AND
+   RESTRICTION Any Object must be in room "Room1"
+      ELSESHOW "There's nothing in the activity room."
+      AND
+   RESTRICTION Object "Object2" must be held by Player
+      ELSESHOW "You're not holding the book."
+      AND
+   RESTRICTION Object "Object4" must be on object "Object3"
+      ELSESHOW "The bag is not on the tray."
+      AND
+   RESTRICTION Object "Object3" must be in object "Object1"
+      ELSESHOW "The tray is not in the cupboard."
+      AND
+   RESTRICTION Object "Object9" must not be worn by Player
+      ELSESHOW "You are wearing the hat."
+      AND
+   RESTRICTION State of Object "Object4" must be "Open"
+      ELSESHOW "The bag is not open."
+      AND
+   RESTRICTION Task "Task1" must be Completed
+      ELSESHOW "Prerequisite is not complete."
+      AND
+   RESTRICTION Player must be not in same room as Character "Char1"
+      ELSESHOW "You're in the same room as the janitor."
+      AND
+   RESTRICTION Player must be sitting on Object "Object7"
+      ELSESHOW "You're not sitting on the chair."
+      AND
+   RESTRICTION Referenced Text must be equal to "12345"
+      ELSESHOW "The password is 12345."
+   REPEATABLE = True
+END Task
+
+DEFINE Character "Char1"
+   NAME = "the janitor"
+   PREFIX = ""
+   ALIASES = "cleaner", "attendant", "janitor", "handyman"
+   LOCATION = "Room2"
+   DESCRIPTION = "Dressed head to toe in standard janitorial coveralls, this man appears to be the very model of efficiency.  No sign at all of sloppiness or laziness here.<br><br>Also, not much sign of movement, it has to be said."
+   GENDER = Male
+   TEXTHERE = "the janitor is here."
+   CONVERSATION
+      SUBJECTS = "book"
+      REPLY = "A bit of a dusty tome, if you ask me. Can't say I've ever read it myself, though.  Too much cleaning to do."
+   END CONVERSATION
+   CONVERSATION
+      SUBJECTS = "jelly, jello, sandwich"
+      REPLY = "I can't be letting that in here, I'm afraid. It's more than my job's worth."
+   END CONVERSATION
+END Character
+
+DEFINE Introduction
+   MESSAGE = "Empty."
+   STARTROOM = "Room1"
+   SHOWFIRST = True
+END Introduction
+
+DEFINE Winning
+   MESSAGE = ""
+END Winning
+
+DEFINE Player
+   NAME = ""
+   GENDER = Male
+   DESCRIPTION = ""
+   INITIALPOSITION = Standing
+   MAXBULK = 10 Normal Objects
+   MAXWEIGHT = 10 Normal Objects
+END Player

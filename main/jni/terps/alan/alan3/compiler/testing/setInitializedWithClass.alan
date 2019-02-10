@@ -1,0 +1,9 @@
+The loc Isa location
+  Has aSet {location}.
+End The loc.
+
+Start At loc.
+  "set has" Say Count In aSet Of loc. "elements."
+  Include hero In aSet Of loc.		-- Error: not correct type
+  Include 3 In aSet Of loc.		-- Error: not correct type
+  Include loc In aSet Of loc.		-- OK!

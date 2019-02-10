@@ -1,0 +1,24 @@
+########## lightsource ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+Light_location
+This is a light location. There is a object_in_light here.
+
+> look
+Light_location
+This is a light location. There is a object_in_light here.
+
+> n
+Dark_location
+You cannot see anything without any light.
+
+> look
+You cannot see anything without any light.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

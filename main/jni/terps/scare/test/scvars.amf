@@ -1,0 +1,283 @@
+#
+# ADRIFT Module
+# Exported 08-Nov-2006
+#
+
+# Author: A.N. Onymous
+
+Version 4.00 Release 45
+
+DEFINE Room "Room1"
+   SHORTDESC = "Printing Room"
+   LONGDESC = "Completely empty."
+END Room
+
+DEFINE Object "Object1"
+   PREFIX = "a"
+   NAME = "cupboard"
+   DESCRIPTION = ""
+   LOCATION = All Rooms
+   TYPE = Static
+   CONTAINER = True
+   OPENABLE = True
+   OPENSTATE = Closed
+   SURFACE = True
+   LISTOB = True
+END Object
+
+DEFINE Object "Object2"
+   PREFIX = "a"
+   NAME = "book"
+   DESCRIPTION = ""
+   LOCATION = Inside "Object1"
+   TYPE = Dynamic
+   READABLE = True
+   READTEXT = "Nothing interesting."
+END Object
+
+DEFINE Object "Object3"
+   PREFIX = "a"
+   NAME = "tray"
+   DESCRIPTION = ""
+   LOCATION = Inside "Object1"
+   TYPE = Dynamic
+   SURFACE = True
+END Object
+
+DEFINE Object "Object4"
+   PREFIX = "a"
+   NAME = "bag"
+   DESCRIPTION = ""
+   LOCATION = Inside "Object1"
+   TYPE = Dynamic
+   CONTAINER = True
+   OPENABLE = True
+   OPENSTATE = Closed
+END Object
+
+DEFINE Object "Object5"
+   PREFIX = "a"
+   NAME = "table"
+   ALIASES = "desk"
+   DESCRIPTION = ""
+   LOCATION = All Rooms
+   TYPE = Static
+   SURFACE = True
+   SITABLE = True
+   LYABLE = True
+   LISTOB = True
+END Object
+
+DEFINE Object "Object6"
+   PREFIX = "a"
+   NAME = "hat"
+   DESCRIPTION = ""
+   LOCATION = Inside "Object1"
+   TYPE = Dynamic
+   WEARABLE = True
+END Object
+
+DEFINE Object "Object7"
+   PREFIX = "a"
+   NAME = "switch"
+   DESCRIPTION = ""
+   LOCATION = All Rooms
+   TYPE = Static
+   STATES = "On|Off|In between"
+   STARTSTATE = "On"
+   LISTOB = True
+END Object
+
+DEFINE Task "Task1"
+   COMMAND "expressions"
+   WHERE = All Rooms
+   MESSAGE = "a = \"%a%\"<br>b = \"%b%\"<br>c = \"%c%\"<br>d = \"%d%\"<br>e = \"%e%\""
+   ACTION Change Variable "Var1" to Expression "-7+6+5^4-3*2"
+   ACTION Change Variable "Var2" to Expression "-7+(6*5)^(4-3)*2"
+   ACTION Change Variable "Var3" to Expression "(1--1)+(1+-1)+-1"
+   ACTION Change Variable "Var4" to Expression "10+10/2-(10+10)/2"
+   ACTION Change Variable "Var5" to Expression "10+15mod7-(10+15)mod7"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task2"
+   COMMAND "score 10"
+   WHERE = All Rooms
+   MESSAGE = "score = \"%score%\""
+   ACTION Change Score by 10
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task3"
+   COMMAND "score 5"
+   WHERE = All Rooms
+   MESSAGE = "score = \"%score%\""
+   ACTION Change Score by 5
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task4"
+   COMMAND "score -1"
+   WHERE = All Rooms
+   MESSAGE = "score = \"%score%\""
+   ACTION Change Score by -1
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task5"
+   COMMAND "switch on"
+   WHERE = All Rooms
+   MESSAGE = "Flipped on."
+   ACTION Change State of "Object7" to "On"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task6"
+   COMMAND "switch off"
+   WHERE = All Rooms
+   MESSAGE = "Flipped off."
+   ACTION Change State of "Object7" to "Off"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task7"
+   COMMAND "switch between"
+   WHERE = All Rooms
+   MESSAGE = "Flipped between."
+   ACTION Change State of "Object7" to "In between"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task8"
+   COMMAND "statics"
+   WHERE = All Rooms
+   MESSAGE = "author = \"%author%\"<br>maxscore = %maxscore%<br>modified = \"%modified%\"<br>player = \"%player%\"<br>title = \"%title%\""
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task9"
+   COMMAND "dynamics"
+   WHERE = All Rooms
+   MESSAGE = "score = %score%<br>time = %time%<br>turns = %turns%"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task10"
+   COMMAND "character %character%"
+   WHERE = All Rooms
+   MESSAGE = "character = \"%character%\"<br>heshe = \"%heshe%\"<br>himher = \"%himher%\""
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task11"
+   COMMAND "object %object%"
+   WHERE = All Rooms
+   MESSAGE = "object = \"%object%\"<br>obstate = \"[obstate breaks Adrift]\"<br>obstatus = \"%obstatus%\"<br>theobject = \"%theobject%\""
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task12"
+   COMMAND "object_breaks_adrift %object%"
+   WHERE = All Rooms
+   MESSAGE = "obstate = \"%obstate%\""
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task13"
+   COMMAND "number %number%"
+   WHERE = All Rooms
+   MESSAGE = "number = %number%<br>t_number = \"%t_number%\""
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task14"
+   COMMAND "text %text%"
+   WHERE = All Rooms
+   MESSAGE = "text = \"%text%\""
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task15"
+   COMMAND "variables"
+   WHERE = All Rooms
+   MESSAGE = "t_a = \"%t_a%\"<br>t_b = \"%t_b%\"<br>t_c = \"%t_c%\"<br>t_d = \"%t_d%\"<br>t_e = \"%t_e%\""
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task16"
+   COMMAND "named objects"
+   WHERE = All Rooms
+   MESSAGE = "in_cupboard = \"%in_cupboard%\"<br>on_cupboard = \"%on_cupboard%\"<br>onin_cupboard = \"%onin_cupboard%\"<br>in_bag = \"%in_bag%\"<br>on_bag = \"%on_bag%\"<br>onin_bag = \"%onin_bag%\"<br>in_tray = \"%in_tray%\"<br>on_tray = \"%on_tray%\"<br>onin_tray = \"%onin_tray%\"<br>state_switch = \"%state_switch%\"<br>status_cupboard = \"%status_cupboard%\""
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task17"
+   COMMAND "version"
+   WHERE = All Rooms
+   MESSAGE = "version = \"%a%\""
+   ACTION Change Variable "Var1" to Expression "%version%"
+   ACTION Change Variable "Var2" to Expression "%version%"
+   ACTION Change Variable "Var3" to Expression "%version%"
+   ACTION Change Variable "Var4" to Expression "%version%"
+   ACTION Change Variable "Var5" to Expression "%version%"
+   REPEATABLE = True
+END Task
+
+DEFINE Character "Char1"
+   NAME = "the janitor"
+   PREFIX = ""
+   ALIASES = "cleaner", "attendant", "janitor", "handyman"
+   LOCATION = "Room1"
+   DESCRIPTION = ""
+   GENDER = Male
+   TEXTHERE = "the janitor is here."
+END Character
+
+DEFINE Variable "Var1"
+   NAME = "a"
+   TYPE = Integer
+   VALUE = 0
+END Variable
+
+DEFINE Variable "Var2"
+   NAME = "b"
+   TYPE = Integer
+   VALUE = 0
+END Variable
+
+DEFINE Variable "Var3"
+   NAME = "c"
+   TYPE = Integer
+   VALUE = 0
+END Variable
+
+DEFINE Variable "Var4"
+   NAME = "d"
+   TYPE = Integer
+   VALUE = 0
+END Variable
+
+DEFINE Variable "Var5"
+   NAME = "e"
+   TYPE = Integer
+   VALUE = 0
+END Variable
+
+DEFINE Introduction
+   MESSAGE = ""
+   STARTROOM = "Room1"
+   SHOWFIRST = True
+END Introduction
+
+DEFINE Winning
+   MESSAGE = ""
+END Winning
+
+DEFINE Player
+   NAME = "Ted Swippett"
+   GENDER = Male
+   DESCRIPTION = ""
+   INITIALPOSITION = Standing
+   MAXBULK = 10 Normal Objects
+   MAXWEIGHT = 10 Normal Objects
+END Player

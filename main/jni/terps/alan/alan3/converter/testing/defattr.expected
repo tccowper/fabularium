@@ -1,0 +1,22 @@
+########## defattr ##########
+
+Add To Every thing
+  Is
+    boolean_attr 
+    "hej".
+End Add To.
+
+Add To Every location
+  Is
+    boolean_attr.
+End Add To.
+
+
+The l Isa location
+  
+  Has 
+    boolean_attr  3.
+End The l.
+
+Start At l.
+  

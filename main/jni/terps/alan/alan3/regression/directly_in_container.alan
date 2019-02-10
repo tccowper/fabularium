@@ -1,0 +1,16 @@
+The l Isa location
+End The l.
+
+The c Isa object At l
+  Container
+End The c.
+
+The o1 Isa object At l.
+End The.
+
+The o2 Isa object In c.
+End The.
+
+Start At l.
+  If o1 Directly at o2 Then "o1 Directly at o2. *** Not Ok ***."
+	Else "o1 Not Directly at o2. Ok." End If.

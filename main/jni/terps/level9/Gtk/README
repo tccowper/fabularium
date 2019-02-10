@@ -1,0 +1,146 @@
+Introduction
+============
+
+GtkLevel9 is the result of adapting GtkMagnetic to the Level 9
+interpreter. This turned out to be more work than I had anticipated:
+GtkMagnetic was written for GTK+ 2.0, and a lot of things that were
+state-of-the-art then are deprecated now. Lots of little things had to
+be rewritten.
+
+In all fairness, these newer APIs often turned out to often be easier
+than the original ones, or produce better-looking results. Sometimes
+both. So whenever I made any such change, I made sure to backport it
+to GtkMagnetic.
+
+As with GtkMagnetic, the main competition to my version is Simon
+Baldwin's Glk version. When I began the work on my GTK+ version, his
+version did not yet support graphics. I mentioned this in my README
+file, which of course was like waving a red rag to a bull. It was only
+a few days later that I received an email informing me that the latest
+Glk version did support graphics.
+
+Not that this came as any surprise to me. When GtkMagnetic first
+appeared, GlkMagnetic didn't support graphics either, and now it even
+supports animations. The moral of this story is clear: Never get
+involved in a land war in Asia, and never go against a Baldwin when
+graphics is on the line.
+
+My highly biased opinion is, of course, that GtkLevel9 is much nicer
+to use, mostly thanks to the hard work of the GTK+ developers, but I
+suggest you try both and form your own opinion. Feature-wise I guess
+they're about equal, give or take a few minor things.
+
+Compiling
+=========
+
+Compiling under Unix should be pretty straightforward, though it will
+probably require some Makefile editing:
+
+   LEVEL9 should point to the Generic directory of the original
+   Level 9 source distribution. This is so that the build process
+   will be able to find level9.h and level9.c.
+
+It should be noted that GTK+ is available for non-Unix platforms, e.g.
+Microsoft Windows. If anyone manages to compile GtkLevel9 for any of
+those, I'd be interested to hear if it worked.
+
+Performance considerations
+==========================
+
+It shouldn't take a particularly powerful computer to run GtkLevel9.
+Handling a text buffer and displaying still images isn't a demanding
+task, not even when scaling up the images from their original tiny
+size.
+
+However, if you tell GtkLevel9 to animate line drawing, the entire
+picture will be redrawn several times per second until the image is
+complete. This is quite simple to implement, but not the most
+efficient way of doing it. To avoid bogging down the rest of the
+program this is done at a very low priority.
+
+If the performance is still unacceptable, here are a few things you
+could try.
+
+* Use a cheaper interpolation mode. In particular, stay away from the
+  "Hyperbolic" mode. You probably won't be able to tell its results
+  from "Bilinear" anyway.
+
+* Set the image scale factor to 1. That way it won't need to
+  interpolate the picture at all.
+
+* Increase the animation speed. This tells how much GtkLevel9 should
+  draw before updating the image.
+
+Turning up compiler optimizations may help slightly, but probably not
+much in this case. Most of the time-consuming stuff probably happens
+within the bowels of GdkPixbuf, and that should already be optimized.
+
+A few words on interpolation modes
+==================================
+
+GTK+ 2.x uses the gdk-pixbuf library which, to quote from the
+documentation, provides the following interpolation modes when scaling
+an image:
+
+   GDK_INTERP_NEAREST
+
+   Nearest neighbor sampling; this is the fastest and lowest quality
+   mode. Quality is normally unacceptable when scaling down, but may
+   be OK when scaling up.
+
+   GDK_INTERP_TILES
+
+   This is an accurate simulation of the PostScript image operator
+   without any interpolation enabled. Each pixel is rendered as a tiny
+   parallelogram of solid color, the edges of which are implemented
+   with antialiasing. It resembles nearest neighbor for enlargement,
+   and bilinear for reduction.
+
+   GDK_INTERP_BILINEAR
+
+   Best quality/speed balance; use this mode by default. Bilinear
+   interpolation. For enlargement, it is equivalent to point-sampling
+   the ideal bilinear-interpolated image. For reduction, it is
+   equivalent to laying down small tiles and integrating over the
+   coverage area.
+
+   GDK_INTERP_HYPER
+
+   This is the slowest and highest quality reconstruction function. It
+   is derived from the hyperbolic filters in Wolberg's "Digital Image
+   Warping", and is formally defined as the hyperbolic-filter sampling
+   the ideal hyperbolic-filter interpolated image (the filter is
+   designed to be idempotent for 1:1 pixel mapping).
+
+In reality it is unlikely that you will ever want to scale down the
+images, unless someone ports the interpreter to a hand-held computer,
+so "Nearest" and "Tiles" can be considered as equivalent. They will
+both provide a sharp, albeit slightly blocky, image when scaling up.
+
+"Bilinear" and "Hyperbolic" will produce a smoother, slightly blurry,
+image. I can't tell the difference between the two, so they can
+probably be considered equal as well.
+
+I prefer using the "Bilinear" mode, but on slow computers it may be
+prudent to use "Nearest" or "Tiles" in games with animated pictures.
+Read the section on performance considerations for some further
+elaboration on this.
+
+Splash screens
+==============
+
+Some Level 9 games show a splash screen while the game is loading. On
+today's computers, loading times are much too short for this, so
+GtkMagnetic asks the user to press any key instead. The heuristics to
+determine when to do this is somewhat experimental, but appears to work.
+
+If no key is pressed, the picture will be removed automatically after
+approximately five seconds.
+
+Changing colours
+================
+
+It is possible to specify the fore- and background colours of the text
+area and the background colour of the picture area.
+
+Torbjörn Andersson <d91tan@Update.UU.SE>

@@ -1,0 +1,19 @@
+The l Isa location
+End The l.
+
+The c Isa object
+  Container
+    Taking location.
+End The c.
+
+The o Isa object
+End the o.
+
+Start At l.
+  Locate l In l.
+  Locate l In c.
+  Locate c In c.
+  Locate c In l.
+  Locate o In c.
+  Locate o In l.
+  

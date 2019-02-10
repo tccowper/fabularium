@@ -1,0 +1,24 @@
+########## setSet ##########
+
+        No warnings or errors detected.
+
+
+LocationSet should = 1, actual = 1.
+
+LocationSet should = 0, actual = 0.
+
+LocationSet should = 1, actual = 1.
+
+L1 should be "l1".
+
+LocationSet should = 2, actual = 2.
+
+L1 l2 Should be "l1 & l2".
+
+
+
+L1
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

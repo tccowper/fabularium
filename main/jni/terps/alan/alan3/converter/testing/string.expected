@@ -1,0 +1,33 @@
+########## string ##########
+Options
+  debug.
+  
+
+
+
+The l Isa location
+  Name 'String''s Lair'
+  
+  Has 
+    int  1.
+  Has 
+    str 
+    "string".
+  Description
+    "quit!"
+    Quit.
+  
+End The l.
+
+Start At l.
+  Say int Of l.
+  Say 45.
+  Set str Of l To 
+  "debug".
+  Say 
+  "Hello!".
+  If str Of l =
+  "debug" Then
+    """Debug""!"
+  End If.
+  

@@ -1,0 +1,27 @@
+The c1 Isa object
+  Container
+End The c1.
+
+The c2 Isa object In c1
+  Container
+End The c2.
+
+The c3 Isa object In c2
+End The c3.
+
+The l Isa location
+End The l.
+
+Start At l.
+  "DEFAULT: - should print c2 and c3:"
+  For f In c1 Do
+    Say f.
+  End For.
+  "$nDIRECTLY: should print only c2:"
+  For f Directly In c1 Do
+    Say f.
+  End For.
+  "$nINDIRECTLY: - should print only c3:"
+  For f Indirectly In c1 Do
+    Say f.
+  End For.

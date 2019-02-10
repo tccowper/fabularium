@@ -1,0 +1,18 @@
+The box Isa object At l.
+  Container Taking object. -- Now we know there can only be objects in containers, since this is the only one
+End The box.
+
+Add To Every object
+  Has value 4.
+End Add.
+
+The o1 Isa object In box
+End The o1.
+
+The l Isa location
+End The l.
+
+Start At l.
+  For Each o In box Do
+    "Value of" Say The o. "is" Say value Of o. "."
+  End For.

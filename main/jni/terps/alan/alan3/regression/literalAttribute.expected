@@ -1,0 +1,16 @@
+########## literalAttribute ##########
+
+        No warnings or errors detected.
+
+
+'Play "c"'
+
+
+L
+
+> play "c"
+That's not something you can play.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

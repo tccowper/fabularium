@@ -1,0 +1,15 @@
+########## disambiguateM0Y ##########
+
+        No warnings or errors detected.
+
+
+
+Loc
+There is a adj1 o1 and a adj2 o1 here.
+
+> vo o1
+I don't know if you mean the adj1 o1 or the adj2 o1.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

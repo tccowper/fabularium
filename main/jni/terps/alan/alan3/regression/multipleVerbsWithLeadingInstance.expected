@@ -1,0 +1,35 @@
+########## multipleVerbsWithLeadingInstance ##########
+
+        No warnings or errors detected.
+
+
+
+Room1
+There is a book and a ball here. There is a boy here. There is a girl 
+here.
+
+> take the book
+Try asking someone to take it for you.
+
+> boy take the book
+The boy refuses to take the book.
+
+> boy take the ball
+The boy refuses to take the ball.
+
+> hero take the ball
+Persuasion fails. Try asking the boy. Persuasion fails. Try asking the
+boy.
+
+> girl take the ball
+Persuasion fails. Try asking the boy. Persuasion fails. Try asking the
+boy.
+
+> girl take the boy
+That's impossible with the boy.
+
+> 
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

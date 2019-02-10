@@ -1,0 +1,18 @@
+The l Isa location
+  Has i 3.
+  Has l l.
+  Has a a.
+End The l.
+
+The a Isa actor.
+End The a.
+
+Start At l.
+    Set i Of l to l. -- Wrong type
+    Set l Of l to a. -- Not a subclass
+    Set a Of l to l. -- Not a subclass
+    Set l Of l to 4. -- Wrong type
+    Set l Of l to l. -- OK
+    Set a Of l to a. -- OK
+
+

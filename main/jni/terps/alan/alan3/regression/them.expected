@@ -1,0 +1,38 @@
+########## them ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a trousers and a o here.
+
+> x all
+(trousers) There is a trousers here.
+
+(o) There is a o here.
+
+> x them
+(trousers) There is a trousers here.
+
+(o) There is a o here.
+
+> x o and trousers
+(o) There is a o here.
+
+(trousers) There is a trousers here.
+
+> x them
+(o) There is a o here.
+
+(trousers) There is a trousers here.
+
+> x trousers
+There is a trousers here.
+
+> x them
+There is a trousers here.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

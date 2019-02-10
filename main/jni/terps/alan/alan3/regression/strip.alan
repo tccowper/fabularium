@@ -1,0 +1,10 @@
+The l Isa location
+  Has string "some long dong string".
+  Has char "b".
+End The l.
+
+Start At l.
+  Say String Of l. "."
+  Strip First Word From string Of l. Say string Of l. "."
+  Strip Last 2 Words From string Of l. Say string Of l. "."
+  Strip First 2 Characters From String Of l Into char Of l. Say char Of l. "." Say String Of l. "."

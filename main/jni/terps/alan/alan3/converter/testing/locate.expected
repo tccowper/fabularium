@@ -1,0 +1,57 @@
+########## locate ##########
+
+Add To Every object
+  Is
+    global_object_attribute.
+End Add To.
+
+Add To Every location
+  Is
+    global_location_attribute.
+End Add To.
+
+The container_id
+  Container
+End The container_id.
+
+
+The obj Isa object
+  At location_id 
+  Is 
+    local_object_attribute.
+End The obj.
+
+The location_id Isa location
+  
+  Is 
+    local_location_attribute.
+End The location_id.
+Event event_id
+  "This is EVENT_ID happening."
+End Event event_id.
+
+Verb 'locate'
+  Does
+    Locate object Here.
+    Look.
+    Locate object At Current Location.
+    Look.
+    Locate object At object.
+    Look.
+    Locate object At location_id.
+    Look.
+    Locate object At obj.
+    Look.
+    Locate object At hero.
+    Look.
+    Locate obj Here.
+    Look.
+    Locate hero Here.
+    Look.
+End Verb.
+
+
+Start At location_id.
+  "$pTry 'locate obj'."
+  Schedule event_id After 3.
+  

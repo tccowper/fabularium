@@ -1,0 +1,10 @@
+#include <cgreen/cgreen.h>
+#include <cgreen/mocks.h>
+
+#include "attribute.h"
+
+/* DATA */
+
+/* FUNCTIONS */
+Aptr getAttribute(AttributeEntry *attributeTable, int attributeCode) { return (Aptr)mock(); }
+void setAttribute(AttributeEntry *attributeTable, int attributeCode, Aptr newValue) { mock(); }

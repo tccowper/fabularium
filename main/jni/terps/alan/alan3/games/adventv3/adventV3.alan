@@ -1,0 +1,6653 @@
+Add To Every object
+  Is
+    space  1.
+    takable.
+    Not openable.
+    Not open.
+    Not treasure.
+End Add To.
+
+Add To Every location
+  Is
+    Not oil.
+    Not water.
+    Not lighted.
+End Add To.
+
+Synonyms
+  east = e.
+  southeast = se.
+  south = s.
+  southwest = sw.
+  west = w.
+  northwest = nw.
+  north = n.
+  northeast = ne.
+  above, ascend, up, upward = u.
+  down, descend, downward = d.
+  leave, out, outside = 'exit'.
+  onward = forward.
+  inside, inward = 'in'.
+  building = house.
+  hill = road.
+  passage = tunnel.
+  null = nowhere.
+  keys = key.
+  headlamp, lantern = lamp.
+  issue, spelunker = magazine.
+  dwarves = dwarf.
+  knives = knife.
+  rations = food.
+  jar = bottle.
+  h2o = water.
+  beans = plant.
+  shadow = figure.
+  drawings = drawing.
+  geyser = volcano.
+  battery = batteries.
+  carpet = moss.
+  gold = nugget.
+  diamond = diamonds.
+  silver, bar = bars.
+  jewel, jewels = jewelry.
+  coin = coins.
+  box, treasure = chest.
+  egg, eggs = nest.
+  shard, pottery = vase.
+  spice = spices.
+  l = 'look'.
+  i = inventory.
+  q = 'quit'.
+  attack, fight, hit, strike = kill.
+  blowup, detonate, ignite = blast.
+  shatter, smash = break.
+  placate, tame = calm.
+  capture, carry, catch, get, keep, steal, tote = take.
+  chant, mumble, sing, utter = 'say'.
+  close = lock.
+  continue, explore, follow, goto, proceed, run, travel, turn = walk.
+  devour = eat.
+  discard, dump, free, release = drop.
+  disturb = wake.
+  extinguish = off.
+  light, lite = 'on'.
+  'restore' = load.
+  unlock = open.
+  pause, 'save' = suspend.
+  peruse = read.
+  shake, swing = wave.
+  toss = throw.
+  y = yes.
+  'no' = nothing.
+  
+
+Syntax
+  mv_forward = 'forward'.
+  mv_left = 'left'.
+  mv_right = 'right'.
+  mv_in = 'in'.
+  mv_exit = 'exit'.
+  mv_enter = 'enter'.
+  mv_xyzzy = 'xyzzy'.
+  mv_plugh = 'plugh'.
+  mv_crawl = 'crawl'.
+  mv_jump = 'jump'.
+  mv_climb = 'climb'.
+  mv_over = 'over'.
+  mv_across = 'across'.
+  mv_cross = 'cross'.
+  mv_outdoors = 'outdoors'.
+  mv_upstream = 'upstream'.
+  mv_downstream = 'downstream'.
+  mv_object = 'namedobject'.
+  omv_nowhere = 'nowhere'.
+  omv_fork = 'fork'.
+  omv_view = 'view'.
+  omv_barren = 'barren'.
+  omv_tunnel = 'tunnel'.
+  omv_gully = 'gully'.
+  omv_stream = 'stream'.
+  omv_forest = 'forest'.
+  omv_depression = 'depression'.
+  omv_valley = 'valley'.
+  omv_rock = 'rock'.
+  omv_bed = 'bed'.
+  omv_slit = 'slit'.
+  omv_cobblestone = 'cobblestone'.
+  omv_pit = 'pit'.
+  omv_debris = 'debris'.
+  omv_surface = 'surface'.
+  omv_dark = 'dark'.
+  omv_entrance = 'entrance'.
+  omv_canyon = 'canyon'.
+  omv_crack = 'crack'.
+  omv_hall = 'hall'.
+  omv_stairs = 'stairs'.
+  omv_dome = 'dome'.
+  omv_secret = 'secret'.
+  omv_slab = 'slab'.
+  omv_hole = 'hole'.
+  omv_wall = 'wall'.
+  omv_broken = 'broken'.
+  omv_plover = 'plover'.
+  omv_floor = 'floor'.
+  omv_bedquilt = 'bedquilt'.
+  omv_room = 'room'.
+  omv_shell = 'shell'.
+  omv_oriental = 'oriental'.
+  omv_reservoir = 'reservoir'.
+  omv_giant = 'giant'.
+  omv_cavern = 'cavern'.
+  omv_low = 'low'.
+  omv_y2 = 'y2'.
+  omv_house = 'house'.
+  omv_road = 'road'.
+  specv_look = 'look'.
+  specv_yes = yes.
+  specv_status = status.
+  itav_drop = 'drop'.
+  itav_say = 'say'.
+  itav_wave = 'wave'.
+  itav_calm = 'calm'.
+  itav_rub = 'rub'.
+  itav_throw = 'throw'.
+  itav_find = 'find'.
+  itav_feed = 'feed'.
+  itav_break = 'break'.
+  itav_wake = 'wake'.
+  itav_take = 'take'.
+  itav_open = 'open'.
+  itav_lock = 'lock'.
+  itav_nothing = 'nothing'.
+  itav_on = 'on'.
+  itav_off = 'off'.
+  itav_pour = 'pour'.
+  itav_walk = 'walk'.
+  itav_kill = 'kill'.
+  itav_eat = 'eat'.
+  itav_drink = 'drink'.
+  itav_quit = 'quit'.
+  itav_fill = 'fill'.
+  itav_blast = 'blast'.
+  itav_score = 'score'.
+  itav_fee = 'fee'.
+  itav_fie = 'fie'.
+  itav_foe = 'foe'.
+  itav_foo = 'foo'.
+  itav_fum = 'fum'.
+  itav_suspend = 'suspend'.
+  itav_inventory = 'inventory'.
+  itav_load = 'load'.
+  tav_calm = 'calm' (obj).
+  tav_walk = 'walk' (obj).
+  tav_quit = 'quit' (obj).
+  tav_score = 'score' (obj).
+  tav_foo = 'foo' (obj).
+  tav_brief = 'brief' (obj).
+  tav_suspend = 'suspend' (obj).
+  tav_hours = 'hours' (obj).
+  tav_log = 'log' (obj).
+  tav_take = 'take' (obj).
+  tav_drop = 'drop' (obj).
+  tav_open = 'open' (obj).
+  tav_lock = 'lock' (obj).
+  tav_say = 'say' (str)
+    Where str Isa string
+      Else 
+        "What?"
+  
+  tav_nothing = 'nothing' (obj).
+  tav_on = 'on' (obj).
+  tav_off = 'off' (obj).
+  tav_wave = 'wave' (obj).
+  tav_kill = 'kill' (obj).
+  tav_pour = 'pour' (obj).
+  tav_eat = 'eat' (obj).
+  tav_drink = 'drink' (obj).
+  tav_rub = 'rub' (obj).
+  tav_throw = 'throw' (obj).
+  tav_feed = 'feed' (obj).
+  tav_find = 'find' (obj).
+  tav_inventory = 'inventory' (obj).
+  tav_fill = 'fill' (obj).
+  tav_read = 'read' (obj).
+  tav_blast = 'blast' (obj).
+  tav_break = 'break' (obj).
+  tav_wake = 'wake' (obj).
+
+Verb mv_forward, mv_left, mv_right
+  Does
+    "I am unsure how you are facing. Use compass points or nearby objects."
+End Verb.
+
+Verb mv_in, mv_exit
+  Does
+    "I don't know in from out here. Use compass points or name something in
+     the general direction you want to go."
+End Verb.
+
+Verb mv_xyzzy, mv_plugh
+  Does
+    "Nothing happens."
+End Verb.
+
+Verb mv_crawl
+  Does
+    "Which way?"
+End Verb.
+
+Verb mv_jump, mv_climb, mv_over, mv_across, mv_enter, mv_cross, mv_outdoors, mv_upstream, mv_downstream
+  Does
+    "I don't know how to apply that word here."
+End Verb.
+
+Verb mv_object
+  Does
+    "I don't know how to apply that word here."
+End Verb.
+
+Verb omv_nowhere, omv_fork, omv_view, omv_barren, omv_tunnel, omv_gully, omv_stream, omv_forest, omv_depression, omv_valley, omv_rock, omv_bed, omv_slit, omv_cobblestone, omv_pit, omv_debris, omv_surface, omv_dark, omv_entrance, omv_canyon, omv_crack, omv_hall, omv_stairs, omv_dome, omv_secret, omv_slab, omv_hole, omv_wall, omv_broken, omv_plover, omv_floor, omv_bedquilt, omv_room, omv_shell, omv_oriental, omv_reservoir, omv_giant, omv_cavern, omv_low, omv_y2, omv_house, omv_road
+  Does
+    "I don't know how to apply that word here."
+End Verb.
+
+Verb specv_look
+  Does
+    Look.
+    List company.
+End Verb.
+
+Verb specv_yes
+  Check hero Is asked
+    Else 
+      "That doesn't seem to answer any question."
+  Does
+    If hero Is quitting Then
+      Score .
+      Quit.
+    End If.
+End Verb.
+
+Verb specv_status
+  Does
+    "Your lamp has about"
+    Say power Of obj_2_lamp.
+    "minutes left.$p"
+End Verb.
+
+Verb itav_drop, itav_say, itav_wave, itav_calm, itav_rub, itav_throw, itav_find, itav_feed, itav_break, itav_wake, itav_take, itav_open, itav_lock
+  Does
+    "$v what?"
+End Verb.
+
+Verb itav_nothing
+  Does
+    "OK."
+End Verb.
+
+Verb itav_on
+  Check obj_2_lamp Here
+    Else 
+      "You have no source of light."
+  And obj_2_lamp Is Not lit
+    Else 
+      "Your lamp is already on."
+  Does
+    If obj_2_lamp Is dim Then
+      "Your lamp is getting dim.. You'd best start wrapping this up, unless
+       you can find some fresh batteries. I seem to recall there's a vending
+       machine in the maze. Bring some coins with you."
+    End If.
+    If power Of obj_2_lamp >0 Then
+      Make obj_2_lamp lit.
+      "Your lamp is now on."
+      If hero At darkplace Then
+        Locate hero At placemarker.
+        Locate placemarker At nowhere.
+      End If.
+    End If.
+End Verb.
+
+Verb itav_off
+  Check obj_2_lamp Here
+    Else 
+      "You have no source of light."
+  And obj_2_lamp Is lit
+    Else 
+      "Your lamp is already off."
+  Does
+    Make obj_2_lamp Not lit.
+    "Your lamp is now off."
+    If Current Location Is Not lighted Then
+      Locate placemarker Here.
+      Locate hero At darkplace.
+    End If.
+End Verb.
+
+Verb itav_pour
+  Check obj_20_bottle In inventory And obj_20_bottle Is full
+    Else 
+      "Pour what?"
+  Does
+    If obj_24_plant Here And status Of obj_24_plant <6 Then
+      If obj_20_bottle Has oil Then
+        "The plant indignantly shakes the oil off its leaves and asks:
+         ""Water?""."
+      Elsif obj_20_bottle Has water Then 
+        Increase status Of obj_24_plant.
+        Describe obj_24_plant.
+        Increase status Of obj_24_plant.
+      End If.
+    Elsif obj_9_door Here Then 
+      If obj_20_bottle Has oil Then
+        "The oil has freed up the hinges so that the door will now move,
+         although it requires some effort."
+        Make obj_9_door oiled.
+      Elsif obj_20_bottle Has water Then 
+        "The hinges are quite thoroughly rusted now and won't budge."
+        Make obj_9_door oiled.
+      End If.
+    Else 
+      "Your bottle is empty and the ground is wet."
+    End If.
+    Make obj_20_bottle Not full.
+    If obj_20_bottle Has water Then
+      Make obj_20_bottle Not water.
+      Locate obj_21_water In universalobjects.
+    Elsif obj_20_bottle Has oil Then 
+      Make obj_20_bottle Not oil.
+      Locate obj_22_oil In universalobjects.
+    End If.
+End Verb.
+
+Verb itav_walk
+  Does
+    "Where?"
+End Verb.
+
+Verb itav_kill
+  Does
+    "You can't walk around just killing things blindly"
+End Verb.
+
+Verb itav_eat
+  Check obj_19_food Here
+    Else 
+      "Eat what?"
+  Does
+    "Thank you. It was delicious!"
+    Locate obj_19_food At nowhere.
+End Verb.
+
+Verb itav_drink
+  Check Current Location Has water Or (obj_20_bottle Here And obj_20_bottle Has water)
+    Else 
+      "Drink what?"
+  Does
+    If obj_21_water In inventory Then
+      "The bottle of water is now empty."
+      Locate obj_21_water In universalobjects.
+      Make obj_20_bottle Not full.
+      Make obj_20_bottle Not water.
+    Else 
+      "You have taken a drink from the stream. The water tastes strongly of
+       minerals, but is not unpleasant. It is extremely cold."
+    End If.
+End Verb.
+
+Verb itav_quit
+  Does
+    "Do you really want to leave your current adventure?"
+    Make hero asked.
+    Make hero quitting.
+    Schedule event_noquit After 1.
+End Verb.
+
+Verb itav_fill
+  Does
+    "OK."
+End Verb.
+
+Verb itav_blast
+  Check obj_0_cave Is closed And obj_6_rod2 Is found
+    Else 
+      "Blasting requires dynamite."
+  Does
+    If obj_6_rod2 At hero Then
+      "There is a loud explosion, and you are suddenly splashed across the
+       walls of the room."
+    Elsif hero At loc_115 Then 
+      "There is a loud explosion, and a twenty-foot hole appears in the far
+       wall, burying the snakes in the rubble. A river of molten lava pours
+       in through the hole, destroying everything in its path, including
+       you!!"
+    Else 
+      "There is a loud explosion, and a twenty-foot hole appears in the far
+       wall, burying the Dwarves in the rubble. You march through the hole
+       and find yourself in the main office, where a cheering band of
+       friendly elves carry the conquering adventurer off into the sunset."
+    End If.
+    Score .
+    Quit.
+End Verb.
+
+Verb itav_score
+  Does
+    Score .
+End Verb.
+
+Verb itav_fee
+  Does
+    Set status Of foobar To 1.
+    Schedule event_foobarreset After 1.
+End Verb.
+
+Verb itav_fie
+  Check status Of foobar >0
+    Else 
+      "Nothing happens."
+  Does
+    If status Of foobar =1 Then
+      Increase status Of foobar.
+      Schedule event_foobarreset After 1.
+    Else 
+      "What's the matter, can't you read? Now you'd best start over."
+    End If.
+End Verb.
+
+Verb itav_foe
+  Check status Of foobar >0
+    Else 
+      "Nothing happens."
+  Does
+    If status Of foobar =2 Then
+      Increase status Of foobar.
+      Schedule event_foobarreset After 1.
+    Else 
+      "What's the matter, can't you read? Now you'd best start over."
+    End If.
+End Verb.
+
+Verb itav_foo
+  Check status Of foobar >0
+    Else 
+      "Nothing happens."
+  Does
+    If status Of foobar =3 Then
+      Cancel event_foobarreset.
+      Set status Of foobar To 0.
+      If obj_56_eggs At loc_92 Or (obj_56_eggs In inventory And hero At loc_92) Then
+        "Nothing happens."
+      Else 
+        "Done!$n"
+        Schedule event_goldeggvanish At obj_56_eggs After 0.
+        Schedule event_goldeggappear At loc_92 After 0.
+      End If.
+    Else 
+      "What's the matter, can't you read? Now you'd best start over."
+    End If.
+End Verb.
+
+Verb itav_fum
+  Check status Of foobar >0
+    Else 
+      "Nothing happens."
+  Does
+    "What's the matter, can't you read? Now you'd best start over."
+End Verb.
+
+Verb itav_suspend
+  Does
+    Save.
+    "OK."
+End Verb.
+
+Verb itav_inventory
+  Does
+    List inventory.
+    List company.
+End Verb.
+
+Verb itav_load
+  Does
+    Restore.
+    "OK."
+End Verb.
+
+Add To Every object
+Verb tav_calm
+  Does
+    "I'm game. Would you care to explain how?"
+End Verb.
+
+Verb tav_quit, tav_score, tav_suspend, tav_hours, tav_log
+  Does
+    "I don't understand that!"
+End Verb.
+
+Verb tav_foo
+  Does
+    "I don't know how."
+End Verb.
+
+Verb tav_walk
+  Does
+    "Where?"
+End Verb.
+
+Verb tav_brief
+  Does
+    "On what?"
+End Verb.
+
+Verb tav_take
+  Check obj Not In inventory
+    Else 
+      "You are already carrying it!"
+  And obj Not In company
+    Else 
+      "You already have it!"
+  And obj Is takable
+    Else 
+      "You can't be serious!"
+  Does
+    Locate obj In inventory.
+    "OK."
+End Verb.
+
+Verb tav_drop
+  Check obj In inventory Or obj In company
+    Else 
+      "You aren't carrying it!"
+  Does
+    Locate obj Here.
+    "OK."
+End Verb.
+
+Verb tav_open
+  Check obj Is openable
+    Else 
+      "I don't know how to lock or unlock such a thing."
+  And obj Is Not open
+    Else 
+      "It was already unlocked."
+  Does
+    Make obj open.
+    "OK."
+End Verb.
+
+Verb tav_lock
+  Check obj Is openable
+    Else 
+      "I don't know how to lock or unlock such a thing."
+  And obj Is open
+    Else 
+      "It was already locked."
+  Does
+    Make obj Not open.
+    "OK."
+End Verb.
+
+Verb tav_say
+  Does
+    "Okay. "
+    Say str.
+End Verb.
+
+Verb tav_nothing
+  Does
+    "OK."
+End Verb.
+
+Verb tav_on
+  Does
+    "OK."
+End Verb.
+
+Verb tav_off
+  Does
+    "OK."
+End Verb.
+
+Verb tav_wave
+  Does
+    "Nothing happens."
+End Verb.
+
+Verb tav_kill
+  Does
+    "Don't be ridiculous!"
+End Verb.
+
+Verb tav_pour
+  Check obj In inventory
+    Else 
+      "You aren't carrying it!"
+  And obj =obj_20_bottle Or obj =obj_21_water Or obj =obj_22_oil
+    Else 
+      "You can't pour that."
+  Does
+    If obj_24_plant Here And status Of obj_24_plant <6 Then
+      If obj_20_bottle Has oil Then
+        "The plant indignantly shakes the oil off its leaves and asks:
+         ""Water?""."
+      Elsif obj_20_bottle Has water Then 
+        Increase status Of obj_24_plant.
+        Describe obj_24_plant.
+        Increase status Of obj_24_plant.
+      End If.
+    Elsif obj_9_door Here Then 
+      If obj_20_bottle Has oil Then
+        "The oil has freed up the hinges so that the door will now move,
+         although it requires some effort."
+        Make obj_9_door oiled.
+      Elsif obj_20_bottle Has water Then 
+        "The hinges are quite thoroughly rusted now and won't budge."
+        Make obj_9_door oiled.
+      End If.
+    Else 
+      "Your bottle is empty and the ground is wet."
+    End If.
+    Make obj_20_bottle Not full.
+    If obj_20_bottle Has water Then
+      Make obj_20_bottle Not water.
+      Locate obj_21_water In universalobjects.
+    Elsif obj_20_bottle Has oil Then 
+      Make obj_20_bottle Not oil.
+      Locate obj_22_oil In universalobjects.
+    End If.
+End Verb.
+
+Verb tav_eat
+  Does
+    "Don't be ridiculous!"
+End Verb.
+
+Verb tav_drink
+  Does
+    "Don't be ridiculous!"
+End Verb.
+
+Verb tav_rub
+  Does
+    "OK."
+End Verb.
+
+Verb tav_throw
+  Check obj In inventory Or obj In company
+    Else 
+      "You aren't carrying it!"
+  Does
+    Locate obj Here.
+    "OK."
+End Verb.
+
+Verb tav_feed
+  Does
+    "OK."
+End Verb.
+
+Verb tav_inventory
+  Does
+    "OK."
+End Verb.
+
+Verb tav_find
+  Check obj Not In inventory And obj Not In company
+    Else 
+      "You are already carrying it!"
+  And obj_0_cave Is Not closed
+    Else 
+      "I daresay whatever you want is around here somewhere."
+  And obj Here
+    Else 
+      "I can only tell you what you see as you move about and manipulate
+       things. I cannot tell you where remote things are."
+  Does
+    "I believe what you want is right here with you."
+End Verb.
+
+Verb tav_fill
+  Does
+    "You can't fill that."
+End Verb.
+
+Verb tav_read
+  Does
+    "OK."
+End Verb.
+
+Verb tav_blast
+  Check obj_0_cave Is closed And obj_6_rod2 Is found
+    Else 
+      "Blasting requires dynamite."
+  Does
+    If obj_6_rod2 At hero Then
+      "There is a loud explosion, and you are suddenly splashed across the
+       walls of the room."
+    Elsif hero At loc_115 Then 
+      "There is a loud explosion, and a twenty-foot hole appears in the far
+       wall, burying the snakes in the rubble. A river of molten lava pours
+       in through the hole, destroying everything in its path, including
+       you!!"
+    Else 
+      "There is a loud explosion, and a twenty-foot hole appears in the far
+       wall, burying the Dwarves in the rubble. You march through the hole
+       and find yourself in the main office, where a cheering band of
+       friendly elves carry the conquering adventurer off into the sunset."
+    End If.
+    Score .
+    Quit.
+End Verb.
+
+Verb tav_break
+  Does
+    "OK."
+End Verb.
+
+Verb tav_wake
+  Does
+    "OK."
+End Verb.
+
+End Add.
+
+
+The inventory Isa entity
+  Container
+    Limits
+      space  7
+        Else
+          "You can't carry anything more. You'll have to drop something
+           first"
+    Header
+      "You are currently holding the following: "
+End The inventory.
+
+The company Isa entity
+  Container
+    Header
+      "You also have company with"
+    Else
+      ""
+End The company.
+
+The universalobjects Isa entity
+  Container
+End The universalobjects.
+
+
+The obj_0_cave Isa object
+  
+  Has 
+    treasuresavailable  15.
+  Has 
+    time  0.
+  Is 
+    Not closingsoon.
+  Is 
+    Not closing.
+  Is 
+    Not closed.
+End The obj_0_cave.
+
+The foobar Isa object
+  
+  Has 
+    status  0.
+End The foobar.
+
+The obj_1_keys Isa object
+  Name key
+  At loc_3 
+  Description
+    "There are some keys on the ground here."
+  
+  Mentioned
+    "set of keys"
+  
+  Verb tav_open
+    Check 
+      "You can't unlock the keys."
+  End Verb.
+  
+End The obj_1_keys.
+
+The obj_2_lamp Isa object
+  Name lamp
+  At loc_3 
+  Is 
+    Not lit.
+  Has 
+    power  330.
+  Is 
+    Not dim.
+  Description
+    If obj_2_lamp Is Not lit Then
+      "There is a shiny brass lamp nearby."
+    Else 
+      "There is a lamp shining nearby."
+    End If.
+  
+  Mentioned
+    "brass lantern"
+  
+End The obj_2_lamp.
+
+The obj_3_grate Isa object
+  Name grate
+  At loc_8 
+  Is 
+    Not takable.
+  Is 
+    openable.
+  Is 
+    Not open.
+  Description
+    If obj_3_grate Is Not open Then
+      "The grate is locked."
+    Else 
+      "The grate is open."
+    End If.
+  
+  Mentioned
+    "grate"
+  
+  Verb tav_open
+    Check obj_1_keys Here
+      Else 
+        "You have no keys!"
+    And obj_0_cave Is Not closing
+      Else 
+        "A mysterious recorded voice groans into life and announces:$n
+         ""This exit is closed. Please leave via main office.""$n"
+    Does
+      Make obj_3_grate_copy open.
+      "The grate is now unlocked."
+  End Verb.
+  
+  Verb tav_lock
+    Check obj_1_keys Here
+      Else 
+        "You have no keys!"
+    Does
+      Make obj_3_grate_copy Not open.
+      "The grate is now locked."
+  End Verb.
+  
+End The obj_3_grate.
+
+The obj_3_grate_copy Isa object
+  Name grate
+  At loc_9 
+  Is 
+    Not takable.
+  Is 
+    openable.
+  Is 
+    Not open.
+  Description
+    If obj_3_grate Is Not open Then
+      "The grate is locked."
+    Else 
+      "The grate is open."
+    End If.
+  
+  Mentioned
+    "grate"
+  
+  Verb tav_open
+    Check obj_1_keys Here
+      Else 
+        "You have no keys!"
+    And obj_0_cave Is Not closing
+      Else 
+        "A mysterious recorded voice groans into life and announces:$n
+         ""This exit is closed. Please leave via main office.""$n"
+    Does
+      Make obj_3_grate open.
+  End Verb.
+  
+  Verb tav_lock
+    Check obj_1_keys Here
+      Else 
+        "You have no keys!"
+    Does
+      Make obj_3_grate Not open.
+  End Verb.
+  
+End The obj_3_grate_copy.
+
+The obj_4_cage Isa object
+  Name cage
+  At loc_10 
+  Description
+    "There is a small wicker cage discarded nearby."
+    If obj_8_bird Is incage Then
+      Describe obj_8_bird.
+    End If.
+  
+  Mentioned
+    "wicker cage"
+  
+  Verb tav_open
+    Check 
+      "It has no lock."
+  End Verb.
+  
+  Verb tav_take
+    Does
+      If obj_8_bird Is incage Then
+        Locate obj_8_bird In inventory.
+      End If.
+  End Verb.
+  
+  Verb tav_drop
+    Does
+      If obj_8_bird Is incage Then
+        Locate obj_8_bird Here.
+      End If.
+  End Verb.
+  
+End The obj_4_cage.
+
+The obj_5_rod Isa object
+  Name rod
+  At loc_11 
+  Description
+    "A three foot black rod with a rusty star on an end lies nearby."
+  
+  Mentioned
+    "black rod"
+  
+  Verb tav_wave
+    Check obj_12_fissure Here
+      Else 
+        "Nothing happens."
+    Does Only
+      If obj_12_fissure Is spanned Then
+        Make obj_12_fissure Not spanned.
+      Else 
+        Make obj_12_fissure spanned.
+        Make obj_12_fissure beenspanned.
+      End If.
+      Describe obj_12_fissure.
+  End Verb.
+  
+End The obj_5_rod.
+
+The obj_6_rod2 Isa object
+  Name rod
+  
+  Is 
+    Not found.
+  Description
+    "A three foot black rod with a rusty mark on an end lies nearby."
+  
+  Mentioned
+    "black rod"
+  
+End The obj_6_rod2.
+
+The obj_7_steps Isa object
+  Name steps
+  At loc_14 
+  Is 
+    Not takable.
+  Description
+    If obj_50_nugget Not In inventory Then
+      "Rough stone steps lead down the pit."
+    End If.
+  
+  Mentioned
+    "steps"
+  
+End The obj_7_steps.
+
+The obj_7_steps_copy Isa object
+  Name steps
+  At loc_15 
+  Is 
+    Not takable.
+  Description
+    If obj_50_nugget Not In inventory Then
+      "Rough stone steps lead up the dome."
+    End If.
+  
+  Mentioned
+    "steps"
+  
+End The obj_7_steps_copy.
+
+The obj_8_bird Isa object
+  Name bird
+  At loc_13 
+  Has 
+    space  0.
+  Is 
+    Not incage.
+  Description
+    If obj_8_bird Is incage Then
+      Describe obj_4_cage.
+      "There is a little bird in the cage."
+    Else 
+      "A cheerful little bird is sitting here singing."
+    End If.
+  
+  Mentioned
+    "little bird in cage"
+  
+  Verb tav_take
+    Check obj_5_rod Not In inventory
+      Else 
+        "The bird was unafraid when you entered, but as you approach it
+         becomes disturbed and you cannot catch it."
+    And obj_4_cage In inventory
+      Else 
+        "You can catch the bird, but you cannot carry it."
+    Does
+      If obj_8_bird Is incage Then
+        Locate obj_4_cage In inventory.
+      Else 
+        Make obj_8_bird incage.
+      End If.
+  End Verb.
+  
+  Verb tav_drop
+    Does
+      Make obj_8_bird Not incage.
+      If obj_11_snake Here Then
+        "The little bird attacks the green snake, and in an astounding
+         flurry drives the snake away."
+        Make obj_11_snake Not living.
+        Locate obj_11_snake At nowhere.
+        If obj_0_cave Is closing Then
+          Schedule event_dwarfend At hero After 0.
+        End If.
+      End If.
+      If obj_31_dragon Here Then
+        "The little bird attacks the green dragon, and in an astounding
+         flurry gets burnt to a cinder. The ashes blow away."
+        Locate obj_8_bird At nowhere.
+      End If.
+  End Verb.
+  
+  Verb tav_kill
+    Check obj_0_cave Is Not closed
+      Else 
+        "Oh, leave the poor unhappy bird alone."
+    Does Only
+      "The little bird is now dead. Its body disappears."
+      Locate obj_8_bird At nowhere.
+  End Verb.
+  
+  Verb tav_eat
+    Check 
+      "I think I just lost my appetite."
+  End Verb.
+  
+End The obj_8_bird.
+
+The obj_9_door Isa object
+  Name door
+  At loc_94 
+  Is 
+    Not takable.
+  Is 
+    Not oiled.
+  Description
+    If obj_9_door Is Not oiled Then
+      "The way north is barred by a massive, rusty, iron door."
+    Else 
+      "The way north leads through a massive, rusty, iron door."
+    End If.
+  
+  Mentioned
+    "rusty door"
+  
+  Verb tav_open
+    Check obj_9_door Is oiled
+      Else 
+        "The door is extremely rusty and refuses to open."
+  End Verb.
+  
+End The obj_9_door.
+
+The obj_10_pillow Isa object
+  Name velvet pillow
+  At loc_96 
+  Description
+    "A small velvet pillow lies on the floor."
+  
+  Mentioned
+    "velvet pillow"
+  
+End The obj_10_pillow.
+
+The obj_11_snake Isa object
+  Name snake
+  At loc_19 
+  Is 
+    Not takable.
+  Is 
+    living.
+  Description
+    "A huge green fierce snake bars the way!"
+  
+  Mentioned
+    "snake"
+  
+  Verb tav_kill
+    Does Only
+      "Attacking the snake both doesn't work and is very dangerous."
+  End Verb.
+  
+  Verb tav_eat
+    Check 
+      "I think I just lost my appetite."
+  End Verb.
+  
+End The obj_11_snake.
+
+The obj_12_fissure Isa object
+  Name fissure
+  At loc_17 
+  Is 
+    Not takable.
+  Is 
+    Not spanned.
+  Has 
+    Not beenspanned.
+  Description
+    If obj_12_fissure Is spanned Then
+      "A crystal bridge now spans the fissure."
+    Elsif obj_12_fissure Has beenspanned Then 
+      "The crystal bridge has vanished!"
+    End If.
+  
+  Mentioned
+    "fissure"
+  
+End The obj_12_fissure.
+
+The obj_12_fissure_copy Isa object
+  Name fissure
+  At loc_27 
+  Is 
+    Not takable.
+  Is 
+    Not spanned.
+  Description
+    If obj_12_fissure Is spanned Then
+      "A crystal bridge now spans the fissure."
+    Elsif obj_12_fissure Has beenspanned Then 
+      "The crystal bridge has vanished!"
+    End If.
+  
+  Mentioned
+    "fissure"
+  
+End The obj_12_fissure_copy.
+
+The obj_13_tablet Isa object
+  Name tablet
+  At loc_101 
+  Is 
+    Not takable.
+  Description
+    "A massive stone tablet imbedded in the wall reads:$i ""Congratulations
+     on bringing light into the dark-room!""$n"
+  
+  Mentioned
+    "stone tablet"
+  
+End The obj_13_tablet.
+
+The obj_14_clam Isa object
+  Name clam
+  At loc_103 
+  Is 
+    openable.
+  Is 
+    Not open.
+  Description
+    "There is an enormous clam here with its shell tightly closed."
+  
+  Mentioned
+    "giant clam >Grunt!<"
+  
+  Verb tav_open
+    Check obj_57_trident In inventory
+      Else 
+        "You don't have anything strong enough to open the clam."
+    And obj_14_clam Not In inventory
+      Else 
+        "I advise you to put down the clam before opening it. >STRAIN!<"
+    Does
+      "A glistening pearl falls out of the clam and rolls away. Goodness,
+       this must really be an oyster. (I never was very good at identifying
+       bivalves.) Whatever it is, it has now snapped shut again."
+      Locate obj_15_oyster Here.
+      Locate obj_61_pearl At loc_105.
+      Locate obj_14_clam At nowhere.
+  End Verb.
+  
+  Verb tav_kill
+    Does Only
+      "The shell is very strong and impervious to attack."
+  End Verb.
+  
+  Verb tav_eat
+    Check 
+      "I think I just lost my appetite."
+  End Verb.
+  
+End The obj_14_clam.
+
+The obj_15_oyster Isa object
+  Name oyster
+  
+  Is 
+    openable.
+  Is 
+    Not open.
+  Description
+    "There is an enormous oyster here with its shell tightly closed."
+    If obj_0_cave Is closed Then
+      "Interesting. There seems to be something written on the underside of
+       the oyster."
+    End If.
+  
+  Mentioned
+    "giant oyster >Groan!<"
+  
+  Verb tav_open
+    Check obj_57_trident In inventory
+      Else 
+        "You don't have anything strong enough to open the oyster."
+    And obj_15_oyster Not In inventory
+      Else 
+        "I advise you to put down the oyster before opening it. >WRENCH!<"
+    Does
+      "The oyster creaks open, revealing nothing but oyster inside. It
+       promptly snaps shut again."
+  End Verb.
+  
+  Verb tav_kill
+    Does Only
+      "The shell is very strong and impervious to attack."
+  End Verb.
+  
+  Verb tav_eat
+    Check 
+      "I think I just lost my appetite."
+  End Verb.
+  
+End The obj_15_oyster.
+
+The obj_16_magazine Isa object
+  Name magazine
+  At loc_106 
+  Description
+    "There are a few recent issues of ""Spelunker Today"" magazine here."
+  
+  Mentioned
+    """Spelunker Today"""
+  
+  Verb tav_drop, tav_throw
+    Does
+      If Current Location =loc_108 Then
+        Score 1.
+      End If.
+  End Verb.
+  
+End The obj_16_magazine.
+
+The obj_17_dwarf Isa object
+  Name dwarf
+  
+  Is 
+    Not takable.
+  Verb tav_kill
+    Check obj_0_cave Is Not closed
+      Else 
+        Schedule event_dwarfend At hero After 0.
+    Does Only
+      "With what? Your bare hands?"
+  End Verb.
+  
+  Verb tav_eat
+    Check 
+      "I think I just lost my appetite."
+  End Verb.
+  
+End The obj_17_dwarf.
+
+The obj_18_knife Isa object
+  Name knife
+  
+End The obj_18_knife.
+
+The obj_19_food Isa object
+  Name food
+  At loc_3 
+  Description
+    "There is tasty food here."
+  
+  Article
+    "some"
+  
+  Mentioned
+    "tasty food"
+  
+  Verb tav_eat
+    Does Only
+      "Thank you. It was delicious!"
+      Locate obj_19_food At nowhere.
+  End Verb.
+  
+  Verb tav_throw
+    Does After
+      If obj_35_bear Here And obj_35_bear Is hungry Then
+        "The bear eagerly wolfs down your food, after which he seems to
+         calm down considerably, and even becomes rather friendly."
+        Locate obj_19_food At nowhere.
+        Make obj_35_bear Not hungry.
+        Make obj_35_bear takable.
+        Make obj_28_axe takable.
+      End If.
+  End Verb.
+  
+End The obj_19_food.
+
+The obj_20_bottle Isa object
+  Name bottle
+  At loc_3 
+  Has 
+    water.
+  Has 
+    Not oil.
+  Is 
+    full.
+  Description
+    If obj_20_bottle Has water Then
+      "There is a bottle of water here."
+    Elsif obj_20_bottle Has oil Then 
+      "There is a bottle of oil here."
+    Else 
+      "There is an empty bottle here."
+    End If.
+  
+  Mentioned
+    "small bottle"
+  
+
+  Verb tav_take
+    Does
+      If obj_20_bottle Has water Then
+        Locate obj_21_water In inventory.
+      End If.
+      If obj_20_bottle Has oil Then
+        Locate obj_22_oil In inventory.
+      End If.
+  End Verb.
+  
+  Verb tav_drop
+    Does
+      If obj_20_bottle Has water Then
+        Locate obj_21_water In universalobjects.
+      End If.
+      If obj_20_bottle Has oil Then
+        Locate obj_22_oil In universalobjects.
+      End If.
+  End Verb.
+  
+  Verb tav_fill
+    Check obj_20_bottle Is Not full
+      Else 
+        "Your bottle is already full."
+    And Current Location Has water Or Current Location Has oil
+      Else 
+        "There is nothing here with which to fill the bottle."
+    And obj_20_bottle In inventory
+      Else 
+        "You aren't carrying it!"
+    Does Only
+      Make obj_20_bottle full.
+      If Current Location Has water Then
+        Make obj_20_bottle water.
+        Locate obj_21_water In inventory.
+        "Your bottle is now full of water."
+      Else 
+        Make obj_20_bottle oil.
+        Locate obj_22_oil In inventory.
+        "Your bottle is now full of oil."
+      End If.
+  End Verb.
+  
+End The obj_20_bottle.
+
+The obj_21_water Isa object
+  Name water
+  In universalobjects 
+  Has 
+    space  0.
+  Description
+    ""
+  
+  Article
+    ""
+  
+  Mentioned
+    "water in the bottle"
+  
+  Verb tav_take
+    Check (Current Location Has water)
+      Else 
+        "I can't see any water here."
+    And obj_20_bottle In inventory
+      Else 
+        "You have nothing in which to carry it."
+    And obj_20_bottle Is Not full
+      Else 
+        "Your bottle is already full"
+    Does Only
+      Locate obj_21_water In inventory.
+      Make obj_20_bottle full.
+      Make obj_20_bottle water.
+      "Your bottle is now full of water."
+  End Verb.
+  
+  Verb tav_drop, tav_throw
+    Check (Current Location Has water Or obj_21_water In inventory)
+      Else 
+        "I can't see any water here."
+    And obj_21_water In inventory
+      Else 
+        "You aren't carrying it."
+    Does Only
+      Locate obj_21_water In universalobjects.
+      Make obj_20_bottle Not full.
+      Make obj_20_bottle Not water.
+  End Verb.
+  
+  Verb tav_drink
+    Check obj_21_water In inventory Or Current Location Has water
+      Else 
+        "I see no water here."
+    Does Only
+      If obj_21_water In inventory Then
+        "The bottle of water is now empty."
+        Locate obj_21_water In universalobjects.
+        Make obj_20_bottle Not full.
+        Make obj_20_bottle Not water.
+      Else 
+        "You have taken a drink from the stream. The water tastes strongly
+         of minerals, but is not unpleasant. It is extremely cold."
+      End If.
+  End Verb.
+  
+  Verb tav_find
+    Check Current Location Has water Or (obj_20_bottle Here And obj_20_bottle Has water)
+      Else 
+        "I can only tell you what you see as you move about and manipulate
+         things. I cannot tell you where remote things are."
+  End Verb.
+  
+End The obj_21_water.
+
+The obj_22_oil Isa object
+  Name oil
+  In universalobjects 
+  Has 
+    space  0.
+  Description
+    ""
+  
+  Article
+    ""
+  
+  Mentioned
+    "oil in the bottle"
+  
+  Verb tav_take
+    Check Current Location Has oil
+      Else 
+        "I can't see any oil here."
+    And obj_20_bottle In inventory
+      Else 
+        "You have nothing in which to carry it."
+    And obj_20_bottle Is Not full
+      Else 
+        "Your bottle is already full"
+    Does Only
+      Locate obj_22_oil In inventory.
+      Make obj_20_bottle full.
+      Make obj_20_bottle oil.
+      "Your bottle is now full of oil."
+  End Verb.
+  
+  Verb tav_drop, tav_throw
+    Check (Current Location Has oil) Or (obj_20_bottle In inventory And obj_20_bottle Has oil)
+      Else 
+        "I can't see any oil here."
+    And obj_20_bottle In inventory
+      Else 
+        "You aren't carrying it."
+    Does Only
+      Locate obj_22_oil In universalobjects.
+      Make obj_20_bottle Not full.
+      Make obj_20_bottle Not oil.
+  End Verb.
+  
+  Verb tav_find
+    Check Current Location Has oil Or (obj_20_bottle Here And obj_20_bottle Has oil)
+      Else 
+        "I can only tell you what you see as you move about and manipulate
+         things. I cannot tell you where remote things are."
+  End Verb.
+  
+End The obj_22_oil.
+
+The obj_23_mirror Isa object
+  Name mirror
+  At loc_109 
+  Is 
+    Not takable.
+  Description
+    ""
+  
+  Mentioned
+    "mirror"
+  
+End The obj_23_mirror.
+
+The obj_24_plant Isa object
+  Name plant
+  At loc_25 
+  Is 
+    Not takable.
+  Has 
+    status  0.
+  Description
+    If status Of obj_24_plant =0 Then
+      "There is a tiny little plant in the pit, murmuring ""Water, Water,
+       ..."""
+    Elsif status Of obj_24_plant =1 Then 
+      "The plant spurts into furious growth for a few seconds."
+    Elsif status Of obj_24_plant =2 Then 
+      "There is a 12-foot-tall beanstalk stretching up out of the pit,
+       bellowing ""Water!! Water!!"""
+    Elsif status Of obj_24_plant =3 Then 
+      "The plant grows explosively, almost filling the bottom of the pit."
+    Elsif status Of obj_24_plant =4 Then 
+      "There is a gigantic beanstalk stretching all the way up to the
+       hole."
+    Elsif status Of obj_24_plant =5 Then 
+      "You've over-watered the plant! It's shriveling up! It's, It's..."
+    Else 
+      "What once was a gigantic beanstalk is now lying in a heap on the
+       floor."
+    End If.
+  
+  Mentioned
+    "plant"
+  
+  Verb tav_take
+    Check status Of obj_24_plant <=0
+      Else 
+        "The plant has exceptionally deep roots and cannot be pulled free."
+    Does
+      ""
+  End Verb.
+  
+End The obj_24_plant.
+
+The obj_25_plant2 Isa object
+  Name plant
+  At loc_23 
+  Is 
+    Not takable.
+  Has 
+    status  0.
+  Description
+    If status Of obj_24_plant <1 Then
+      ""
+    Elsif status Of obj_24_plant <3 Then 
+      "The top of a 12-foot-tall beanstalk is poking up out of the west
+       pit."
+    Elsif status Of obj_24_plant <5 Then 
+      "There is a huge beanstalk growing out of the west pit up to the
+       hole."
+    Else 
+      ""
+    End If.
+  
+  Mentioned
+    "phony plant"
+  
+End The obj_25_plant2.
+
+The obj_25_plant2_copy Isa object
+  Name plant
+  At loc_67 
+  Is 
+    Not takable.
+  Description
+    If status Of obj_24_plant <1 Then
+      ""
+    Elsif status Of obj_24_plant <3 Then 
+      "The top of a 12-foot-tall beanstalk is poking up out of the west
+       pit."
+    Elsif status Of obj_24_plant <5 Then 
+      "There is a huge beanstalk growing out of the west pit up to the
+       hole."
+    Else 
+      ""
+    End If.
+  
+  Mentioned
+    "phony plant"
+  
+End The obj_25_plant2_copy.
+
+The obj_26_stalactite Isa object
+  Name stalactite
+  At loc_111 
+  Is 
+    Not takable.
+  Description
+    ""
+  
+  Mentioned
+    "stalactite"
+  
+End The obj_26_stalactite.
+
+The obj_27_shadow Isa object
+  Name figure
+  At loc_35 
+  Is 
+    Not takable.
+  Description
+    "The shadowy figure seems to be trying to attract your attention."
+  
+  Mentioned
+    "shadowy figure"
+  
+End The obj_27_shadow.
+
+The obj_27_shadow_copy Isa object
+  Name figure
+  At loc_110 
+  Is 
+    Not takable.
+  Description
+    "The shadowy figure seems to be trying to attract your attention."
+  
+  Mentioned
+    "shadowy figure"
+  
+End The obj_27_shadow_copy.
+
+The obj_28_axe Isa object
+  Name axe
+  
+  Description
+    If obj_28_axe Is takable Then
+      "There is a little axe here."
+    Else 
+      "There is a little axe lying beside the bear."
+    End If.
+  
+  Mentioned
+    "dwarf's axe"
+  
+  Verb tav_throw
+    Does
+      If obj_17_dwarf Here Then
+        "Geronimo -- Dwarf attack!!!"
+      Elsif (obj_31_dragon Here Or obj_31_dragon_copy Here) And obj_31_dragon Is living Then 
+        "The axe bounces harmlessly off the dragon's thick scales."
+      Elsif obj_33_troll Here Or obj_33_troll_copy Here Then 
+        "The troll deftly catches the axe, examines it carefully, and
+         tosses it back, declaring, ""Good workmanship, but it's not
+         valuable enough.""."
+      Elsif obj_35_bear Here And obj_35_bear Is hungry Then 
+        "The axe misses and lands near the bear where you can't get at it."
+        Make obj_28_axe Not takable.
+      End If.
+  End Verb.
+  
+End The obj_28_axe.
+
+The obj_29_drawing Isa object
+  Name drawing
+  At loc_97 
+  Is 
+    Not takable.
+  Description
+    ""
+  
+  Mentioned
+    "cave drawings"
+  
+End The obj_29_drawing.
+
+The obj_30_pirate Isa object
+  Name pirate
+  
+  Is 
+    Not takable.
+  Description
+    ""
+  
+  Mentioned
+    "pirate"
+  
+End The obj_30_pirate.
+
+The obj_31_dragon Isa object
+  Name dragon
+  At loc_119 
+  Is 
+    Not takable.
+  Is 
+    living.
+  Description
+    If obj_31_dragon Is living Then
+      "A huge green fierce dragon bars the way!"
+    Else 
+      "The body of a huge green dead dragon is lying off to one side."
+    End If.
+  
+  Mentioned
+    "dragon"
+  
+  Verb tav_kill
+    Check obj_31_dragon Is living
+      Else 
+        "For crying out loud, the poor thing is already dead!"
+    Does Only
+      "With what? Your bare hands?"
+      Make hero asked.
+      Make hero killing.
+      Schedule event_nokill After 1.
+  End Verb.
+  
+  Verb tav_eat
+    Check 
+      "I think I just lost my appetite."
+  End Verb.
+  
+End The obj_31_dragon.
+
+The obj_31_dragon_copy Isa object
+  Name dragon
+  At loc_121 
+  Is 
+    Not takable.
+  Is 
+    living.
+  Description
+    If obj_31_dragon Is living Then
+      "A huge green fierce dragon bars the way!"
+    Else 
+      "The body of a huge green dead dragon is lying off to one side."
+    End If.
+  
+  Mentioned
+    "dragon"
+  
+  Verb tav_kill
+    Check obj_31_dragon Is living
+      Else 
+        "For crying out loud, the poor thing is already dead!"
+    Does Only
+      "With what? Your bare hands?"
+      Make hero asked.
+      Make hero killing.
+      Schedule event_nokill After 1.
+
+  End Verb.
+  
+  Verb tav_eat
+    Check 
+      "I think I just lost my appetite."
+  End Verb.
+  
+End The obj_31_dragon_copy.
+
+The obj_32_chasm Isa object
+  Name chasm
+  At loc_117 
+  Is 
+    Not takable.
+  Is 
+    spanned.
+  Description
+    If obj_32_chasm Is spanned Then
+      "A rickety wooden bridge extends across the chasm, vanishing into the
+       mist. A sign posted on the bridge reads:$i ""Stop! Pay Troll!""$n"
+    Else 
+      "The wreckage of a bridge (and a dead bear) can be seen at the bottom
+       of the chasm."
+    End If.
+  
+  Mentioned
+    "chasm"
+  
+End The obj_32_chasm.
+
+The obj_32_chasm_copy Isa object
+  Name chasm
+  At loc_122 
+  Is 
+    Not takable.
+  Is 
+    spanned.
+  Description
+    If obj_32_chasm Is spanned Then
+      "A rickety wooden bridge extends across the chasm, vanishing into the
+       mist. A sign posted on the bridge reads:$i ""Stop! Pay Troll!""$n"
+    Else 
+      "The wreckage of a bridge (and a dead bear) can be seen at the bottom
+       of the chasm."
+    End If.
+  
+  Mentioned
+    "chasm"
+  
+End The obj_32_chasm_copy.
+
+The obj_33_troll Isa object
+  Name troll
+  At loc_117 
+  Is 
+    insight.
+  Is 
+    Not returning.
+  Is 
+    Not gone.
+  Is 
+    Not takable.
+  Description
+    If obj_33_troll Is insight Then
+      "A burly troll stands by the bridge and insists you throw him a
+       treasure before you may cross."
+    Else 
+      "The troll is nowhere to be seen."
+    End If.
+  
+  Mentioned
+    "troll"
+  
+  Verb tav_kill
+    Does Only
+      "Trolls are close relatives with the rocks and have skin as tough as
+       that of a rhinoceros. The troll fends off your blows effortlessly."
+  End Verb.
+  
+  Verb tav_eat
+    Check 
+      "I think I just lost my appetite."
+  End Verb.
+  
+End The obj_33_troll.
+
+The obj_33_troll_copy Isa object
+  Name troll
+  At loc_122 
+  Is 
+    insight.
+  Is 
+    Not returning.
+  Is 
+    Not gone.
+  Is 
+    Not takable.
+  Description
+    If obj_33_troll Is insight Then
+      "A burly troll stands by the bridge and insists you throw him a
+       treasure before you may cross."
+    Else 
+      "The troll is nowhere to be seen."
+    End If.
+  
+  Mentioned
+    "troll"
+  
+  Verb tav_kill
+    Does Only
+      "Trolls are close relatives with the rocks and have skin as tough as
+       that of a rhinoceros. The troll fends off your blows effortlessly."
+  End Verb.
+  
+  Verb tav_eat
+    Check 
+      "I think I just lost my appetite."
+  End Verb.
+  
+End The obj_33_troll_copy.
+
+The obj_35_bear Isa object
+  Name 'bear'
+  At loc_130 
+  Has 
+    space  0.
+  Is 
+    Not takable.
+  Is 
+    chained.
+  Is 
+    hungry.
+  Is 
+    living.
+  Is 
+    Not incompany.
+  Description
+    If obj_35_bear Is Not living Then
+      ""
+    Elsif obj_35_bear In company Then 
+      "$nYou are being followed by a very large, tame bear."
+    Elsif obj_35_bear Is hungry Then 
+      "There is a ferocious cave bear eyeing you from the far end of the
+       room!"
+    Elsif obj_35_bear Is chained Then 
+      "There is a gentle cave bear sitting placidly in one corner."
+    Else 
+      "There is a contented-looking bear wandering about nearby."
+    End If.
+  
+  Mentioned
+    "large cave bear"
+  
+  Verb tav_take
+    Check obj_35_bear Is Not chained
+      Else 
+        "The bear is still chained to the wall."
+    Does Only
+      Locate obj_35_bear In company.
+      "OK."
+      "You put one arm around the bear's neck."
+      Schedule event_checkbear Here After 1.
+  End Verb.
+  
+  Verb tav_drop
+    Does
+      If obj_33_troll_copy Here And obj_33_troll Is insight Then
+        "The bear lumbers toward the troll, who lets out a startled shriek
+         and scurries away. The bear soon gives up pursuit and wanders
+         back."
+        Make obj_33_troll Not insight.
+        Make obj_33_troll Not returning.
+        Make obj_33_troll gone.
+      End If.
+      Cancel event_checkbear.
+  End Verb.
+  
+  Verb tav_kill
+    Does Only
+      If obj_35_bear Is hungry Then
+        "With what? Your bare hands? Agains HIS bear hands??"
+      Else 
+        "The bear is confused; he only wants to be your friend."
+      End If.
+  End Verb.
+  
+  Verb tav_eat
+    Check 
+      "I think I just lost my appetite."
+  End Verb.
+  
+End The obj_35_bear.
+
+The obj_36_message Isa object
+  Name 'message'
+  
+  Is 
+    Not takable.
+  Description
+    "There is a message scrawled in the dust in a flowery script,
+     reading:$i ""This is not the maze where the""$i ""pirate leaves his
+     treasure chest""$n"
+  
+  Mentioned
+    "message in second maze"
+  
+End The obj_36_message.
+
+The obj_37_volcano Isa object
+  Name volcano
+  At loc_126 
+  Is 
+    Not takable.
+  Description
+    ""
+  
+  Mentioned
+    "volcano and,or Geyser"
+  
+End The obj_37_volcano.
+
+The obj_38_vend Isa object
+  Name vending machine
+  At loc_140 
+  Is 
+    Not takable.
+  Description
+    "There is a massive vending machine here. The instructions on it
+     read:$i ""Drop coins here to receive fresh batteries.""$n"
+  
+  Mentioned
+    "vending machine"
+  
+End The obj_38_vend.
+
+The obj_39_batteries Isa object
+  Name batteries
+  At nowhere 
+  Are 
+    fresh.
+  Description
+    If obj_39_batteries Are fresh Then
+      "There are fresh batteries here."
+    Else 
+      "Some worn-out batteries have been discarded nearby."
+    End If.
+  
+  Mentioned
+    "batteries"
+  
+End The obj_39_batteries.
+
+The obj_40_moss Isa object
+  Name moss
+  At loc_96 
+  Is 
+    Not takable.
+  Description
+    ""
+  
+  Mentioned
+    "carpet and,or moss"
+  
+End The obj_40_moss.
+
+The obj_41 Isa object
+  
+End The obj_41.
+
+The obj_42 Isa object
+  
+End The obj_42.
+
+The obj_43 Isa object
+  
+End The obj_43.
+
+The obj_44 Isa object
+  
+End The obj_44.
+
+The obj_45 Isa object
+  
+End The obj_45.
+
+The obj_46 Isa object
+  
+End The obj_46.
+
+The obj_47 Isa object
+  
+End The obj_47.
+
+The obj_48 Isa object
+  
+End The obj_48.
+
+The obj_49 Isa object
+  
+End The obj_49.
+
+The obj_50_nugget Isa object
+  Name nugget
+  At loc_18 
+  Is 
+    treasure.
+  Description
+    Score 2.
+    "There is a large sparkling nugget of gold here!"
+  
+  Mentioned
+    "large gold nugget"
+  
+  Verb tav_drop, tav_throw
+    Does
+      If hero At loc_3 Then
+        Score 10.
+        Decrease treasuresavailable Of obj_0_cave.
+      End If.
+  End Verb.
+  
+End The obj_50_nugget.
+
+The obj_51_diamonds Isa object
+  Name diamonds
+  At loc_27 
+  Is 
+    treasure.
+  Description
+    Score 2.
+    "There are diamonds here!"
+  
+  Article
+    ""
+  
+  Mentioned
+    "several diamonds"
+  
+  Verb tav_drop, tav_throw
+    Does
+      If hero At loc_3 Then
+        Score 10.
+        Decrease treasuresavailable Of obj_0_cave.
+      End If.
+  End Verb.
+  
+End The obj_51_diamonds.
+
+The obj_52_bars Isa object
+  Name bars
+  At loc_28 
+  Is 
+    treasure.
+  Description
+    Score 2.
+    "There are bars of silver here!"
+  
+  Mentioned
+    "bars of silver"
+  
+  Verb tav_drop, tav_throw
+    Does
+      If hero At loc_3 Then
+        Score 10.
+        Decrease treasuresavailable Of obj_0_cave.
+      End If.
+  End Verb.
+  
+End The obj_52_bars.
+
+The obj_53_jewelry Isa object
+  Name jewelry
+  At loc_29 
+  Is 
+    treasure.
+  Description
+    Score 2.
+    "There is precious jewelry here!"
+  
+  Mentioned
+    "precious jewelry"
+  
+  Verb tav_drop, tav_throw
+    Does
+      If hero At loc_3 Then
+        Score 10.
+        Decrease treasuresavailable Of obj_0_cave.
+      End If.
+  End Verb.
+  
+End The obj_53_jewelry.
+
+The obj_54_coins Isa object
+  Name coins
+  At loc_30 
+  Is 
+    treasure.
+  Description
+    Score 2.
+    "There are many coins here!"
+  
+  Mentioned
+    "rare coins"
+  
+  Verb tav_drop, tav_throw
+    Does
+      If obj_38_vend Here Then
+        Locate obj_54_coins At nowhere.
+        Locate obj_39_batteries Here.
+        Describe obj_39_batteries.
+      End If.
+      If hero At loc_3 Then
+        Score 10.
+        Decrease treasuresavailable Of obj_0_cave.
+      End If.
+  End Verb.
+  
+End The obj_54_coins.
+
+The obj_55_chest Isa object
+  Name chest
+  
+  Is 
+    Not found.
+  Is 
+    treasure.
+  Description
+    Score 2.
+    "The pirate's treasure chest is here!"
+    Make obj_55_chest found.
+  
+  Mentioned
+    "treasure chest"
+  
+  Verb tav_drop, tav_throw
+    Does
+      If hero At loc_3 Then
+        Score 12.
+        Decrease treasuresavailable Of obj_0_cave.
+      End If.
+  End Verb.
+  
+End The obj_55_chest.
+
+The obj_56_eggs Isa object
+  Name nest
+  At loc_92 
+  Is 
+    treasure.
+  Description
+    Score 2.
+    "There is a large nest here, full of golden eggs!"
+  
+  Article
+    "some"
+  
+  Mentioned
+    "golden eggs"
+  
+  Verb tav_drop, tav_throw
+    Does
+      If hero At loc_3 Then
+        Score 14.
+        Decrease treasuresavailable Of obj_0_cave.
+      End If.
+  End Verb.
+  
+End The obj_56_eggs.
+
+The obj_57_trident Isa object
+  Name trident
+  At loc_95 
+  Is 
+    treasure.
+  Description
+    Score 2.
+    "There is a jewel-encrusted trident here!"
+  
+  Mentioned
+    "jeweled trident"
+  
+  Verb tav_drop, tav_throw
+    Does
+      If hero At loc_3 Then
+        Score 14.
+        Decrease treasuresavailable Of obj_0_cave.
+      End If.
+  End Verb.
+  
+End The obj_57_trident.
+
+The obj_58_vase Isa object
+  Name ming vase
+  At loc_97 
+  Is 
+    Not broken.
+  Is 
+    Not onpillow.
+  Is 
+    treasure.
+  Description
+    Score 2.
+    If obj_58_vase Is broken Then
+      "The floor is littered with worthless shards of pottery."
+    Else 
+      "There is a delicate, precious, ming vase here!"
+    End If.
+  
+  Mentioned
+    "ming vase"
+  
+  Verb tav_drop
+    Does
+      If hero Not At loc_96 Then
+        If obj_10_pillow Here And obj_10_pillow Not In inventory Then
+          "The vase is now resting, delicately, on a velvet pillow."
+          If hero At loc_3 Then
+            Score 14.
+            Decrease treasuresavailable Of obj_0_cave.
+          End If.
+        Else 
+          "The ming vase drops with a delicate crash."
+          Make obj_58_vase broken.
+          Make obj_58_vase Not takable.
+        End If.
+      End If.
+  End Verb.
+  
+  Verb tav_throw
+    Does
+      "The ming vase drops with a delicate crash."
+      Make obj_58_vase broken.
+      Make obj_58_vase Not takable.
+  End Verb.
+  
+  Verb tav_fill
+    Check Current Location Has water Or Current Location Has oil
+      Else 
+        "There is nothing here with which to fill the vase."
+    And obj_58_vase In inventory
+      Else 
+        "You aren't carrying it!"
+    Does Only
+      "The sudden change in temperature has delicately shattered the vase."
+      Make obj_58_vase broken.
+      Make obj_58_vase Not takable.
+      Locate obj_58_vase Here.
+  End Verb.
+  
+End The obj_58_vase.
+
+The obj_59_emerald Isa object
+  Name emerald
+  At loc_100 
+  Is 
+    treasure.
+  Description
+    Score 2.
+    "There is an emerald here the size of a plover's egg!"
+  
+  Mentioned
+    "egg-sized emerald"
+  
+  Verb tav_drop, tav_throw
+    Does
+      If hero At loc_3 Then
+        Score 14.
+        Decrease treasuresavailable Of obj_0_cave.
+      End If.
+  End Verb.
+  
+End The obj_59_emerald.
+
+The obj_60_pyramid Isa object
+  Name platinum pyramid
+  At loc_101 
+  Is 
+    treasure.
+  Description
+    Score 2.
+    "There is a platinum pyramid here, 8 inches on a side!"
+  
+  Mentioned
+    "platinum pyramid"
+  
+  Verb tav_drop, tav_throw
+    Does
+      If hero At loc_3 Then
+        Score 14.
+        Decrease treasuresavailable Of obj_0_cave.
+      End If.
+  End Verb.
+  
+End The obj_60_pyramid.
+
+The obj_61_pearl Isa object
+  Name pearl
+  
+  Is 
+    treasure.
+  Description
+    Score 2.
+    "Off to one side lies a glistening pearl!"
+  
+  Mentioned
+    "glistening pearl"
+  
+  Verb tav_drop, tav_throw
+    Does
+      If hero At loc_3 Then
+        Score 14.
+        Decrease treasuresavailable Of obj_0_cave.
+      End If.
+  End Verb.
+  
+End The obj_61_pearl.
+
+The obj_62_rug Isa object
+  Name persian rug
+  At loc_119 
+  Is 
+    Not takable.
+  Is 
+    treasure.
+  Description
+    Score 2.
+    If obj_31_dragon Is living Then
+      "The dragon is sprawled out on a persian rug!!"
+    Else 
+      "There is a persian rug spread out on the floor!"
+    End If.
+  
+  Mentioned
+    "persian rug"
+  
+  Verb tav_drop, tav_throw
+    Does
+      If hero At loc_3 Then
+        Score 14.
+        Decrease treasuresavailable Of obj_0_cave.
+      End If.
+  End Verb.
+  
+End The obj_62_rug.
+
+The obj_62_rug_copy Isa object
+  Name persian rug
+  At loc_121 
+  Is 
+    Not takable.
+  Description
+    If obj_31_dragon Is living Then
+      "The dragon is sprawled out on a persian rug!!"
+    Else 
+      "There is a persian rug spread out on the floor!"
+    End If.
+  
+  Mentioned
+    "persian rug"
+  
+End The obj_62_rug_copy.
+
+The obj_63_spices Isa object
+  Name spices
+  At loc_127 
+  Is 
+    treasure.
+  Description
+    Score 2.
+    "There are rare spices here!"
+  
+  Mentioned
+    "rare spices"
+  
+  Verb tav_drop, tav_throw
+    Does
+      If hero At loc_3 Then
+        Score 14.
+        Decrease treasuresavailable Of obj_0_cave.
+      End If.
+  End Verb.
+  
+End The obj_63_spices.
+
+The obj_64_chain Isa object
+  Name golden chain
+  At loc_130 
+  Is 
+    openable.
+  Is 
+    Not open.
+  Is 
+    Not takable.
+  Is 
+    treasure.
+  Description
+    Score 2.
+    If obj_35_bear Is chained Then
+      "The bear is locked to the wall with a golden chain!"
+    Elsif obj_64_chain Is open Then 
+      "There is a golden chain lying in a heap on the floor!"
+    Else 
+      "There is a golden chain locked to the wall!"
+    End If.
+  
+  Mentioned
+    "golden chain"
+  
+  Verb tav_open
+    Check obj_1_keys In inventory
+      Else 
+        "You have no keys!"
+    And obj_35_bear Is Not hungry
+      Else 
+        "There is no way to get past the bear to unlock the chain, -- which
+         is probably just as well."
+    And obj_64_chain Is Not open
+      Else 
+        "It was already unlocked."
+    Does
+      "The chain is now unlocked."
+      Make obj_64_chain takable.
+      Make obj_35_bear Not chained.
+  End Verb.
+  
+  Verb tav_lock
+    Check obj_1_keys In inventory
+      Else 
+        "You have no keys!"
+    And obj_64_chain Is open
+      Else 
+        "It was already locked."
+    And hero At loc_130
+      Else 
+        "There is nothing here to which the chain can be locked."
+    Does
+      "The chain is now locked."
+      Make obj_64_chain Not takable.
+  End Verb.
+  
+  Verb tav_take
+    Check obj_35_bear Is Not chained
+      Else 
+        "The chain is still locked"
+  End Verb.
+  
+  Verb tav_drop, tav_throw
+    Does
+      If hero At loc_3 Then
+        Score 14.
+        Decrease treasuresavailable Of obj_0_cave.
+      End If.
+  End Verb.
+  
+End The obj_64_chain.
+
+The hero Isa actor
+  
+  Is 
+    Not warned.
+  Is 
+    Not asked.
+  Is 
+    Not killing.
+  Is 
+    Not quitting.
+End The hero.
+
+
+The pirate Isa actor
+  
+  Description
+    ""
+  
+  Script s0.
+    Step
+      Locate pirate At nowhere.
+      Use Script s0.
+  Script s1.
+    Description
+      ""
+    
+    Step
+      Locate pirate At loc_15.
+    Step
+      Locate pirate At loc_19.
+    Step
+      Locate pirate At loc_30.
+    Step
+      Locate pirate At loc_62.
+    Step
+      Locate pirate At loc_60.
+    Step
+      Locate pirate At loc_41.
+    Step
+      Locate pirate At loc_17.
+    Step
+      Locate pirate At loc_19.
+    Step
+      Locate pirate At loc_28.
+    Step
+      Locate pirate At loc_36.
+    Step
+      Locate pirate At loc_39.
+    Step
+      Locate pirate At loc_64.
+    Step
+      Locate pirate At loc_65.
+    Step
+      Locate pirate At loc_66.
+      Use Script s1.
+End The pirate.
+
+Event timer
+  If obj_0_cave Is closingsoon And Current Location Is Not lighted Then
+    Decrease time Of obj_0_cave.
+  End If.
+  If (obj_2_lamp Is lit And power Of obj_2_lamp >=0) Then
+    Decrease power Of obj_2_lamp.
+  End If.
+  Schedule timer At hero After 1.
+End Event timer.
+
+Event event_nokill
+  Make hero Not asked.
+  Make hero Not killing.
+End Event event_nokill.
+
+Event event_noquit
+  Make hero Not asked.
+  Make hero Not quitting.
+End Event event_noquit.
+
+Event event_dwarfend
+  "The resulting ruckus has awakened the Dwarves. There are now several
+   threatening little Dwarves in the room with you! Most of them throw
+   knives at you! All of them get you!"
+  Schedule event_death Here After 0.
+End Event event_dwarfend.
+
+Event event_death
+  Empty inventory Here .
+  Locate hero At loc_0.
+End Event event_death.
+
+Event event_checkbear
+  If hero Not Here Then
+    Schedule event_movebear At hero After 0.
+  Else 
+    Schedule event_checkbear Here After 1.
+  End If.
+End Event event_checkbear.
+
+Event event_movebear
+  Describe obj_35_bear.
+  Schedule event_checkbear Here After 1.
+End Event event_movebear.
+
+Event event_breakbridge
+  "Just as you reach the other side, the bridge buckles beneath the weight
+   of the bear, which was still following you around. You scrabble
+   desperately for support, but as the bridge collapses you stumble back and
+   fall into the chasm."
+  Make obj_32_chasm Not spanned.
+  Locate obj_33_troll At nowhere.
+  Locate obj_35_bear At loc_117.
+  Make obj_35_bear Not living.
+  Make obj_35_bear Not takable.
+  Locate hero At loc_117.
+  Schedule event_death Here After 0.
+End Event event_breakbridge.
+
+Event event_foobarreset
+  Set status Of foobar To 0.
+End Event event_foobarreset.
+
+Event event_goldeggvanish
+  Locate obj_56_eggs At loc_92.
+  "The nest of golden eggs has vanished!"
+End Event event_goldeggvanish.
+
+Event event_goldeggappear
+  "There is a large nest here, full of golden eggs!"
+End Event event_goldeggappear.
+
+Event event_lampoff
+  Make obj_2_lamp Not lit.
+  "Your lamp has run out of power."
+  If hero Here And Current Location Is Not lighted Then
+    Locate placemarker Here.
+    Locate hero At darkplace.
+  End If.
+End Event event_lampoff.
+
+Event event_lampwarning
+  If obj_39_batteries At nowhere Then
+    "Your lamp is getting dim. You'd best start wrapping this up, unless
+     you can find some fresh batteries. I seem to recall there's a vending
+     machine in the maze. Bring some coins with you."
+    Make hero warned.
+  Elsif obj_39_batteries Not Here Then 
+    "Your lamp is getting dim. You'd best go back for those batteries."
+    Make hero warned.
+  Elsif obj_39_batteries Are Not fresh Then 
+    "Your lamp is getting dim, and you're out of spare batteries. You'd
+     best start wrapping this up."
+    Make hero warned.
+  End If.
+End Event event_lampwarning.
+
+Event event_replacebatteries
+  "Your lamp is getting dim. I'm taking the liberty of replacing the
+   batteries."
+  Make obj_39_batteries Not fresh.
+  Locate obj_39_batteries Here.
+  Set power Of obj_2_lamp To 400.
+  Make obj_2_lamp Not dim.
+  Make hero Not warned.
+End Event event_replacebatteries.
+
+Event event_startclosing
+  "A sepulchral voice reverberating through the cave says:$n ""Cave closing
+   soon. All adventurers exit immediately through main office.""$n"
+  Make obj_0_cave closing.
+  Make obj_3_grate Not open.
+  Make obj_3_grate_copy Not open.
+  Make obj_12_fissure Not spanned.
+  Make obj_12_fissure_copy Not spanned.
+  If obj_35_bear Is living Then
+    Locate obj_35_bear At nowhere.
+  End If.
+  Make obj_64_chain Not open.
+  Make obj_64_chain takable.
+  Make obj_28_axe takable.
+  Locate obj_33_troll At nowhere.
+  Locate obj_33_troll_copy At nowhere.
+End Event event_startclosing.
+
+Event event_closecave
+  "The sepulchral voice entones, ""The cave is now closed."" As the echoes
+   fade, there is a blinding flash of light (and a small puff of orange
+   smoke). . . . $p As your eyes refocus you look around and find...$p"
+  "Sorry, no endgame yet!$p"
+  Score 70.
+  Score .
+  Quit.
+End Event event_closecave.
+
+Event event_pirateview
+  "The pirate's view:$n"
+  Describe Current Location.
+  Look.
+End Event event_pirateview.
+
+Event event_stealtreasures
+  "Out from the shadows behind you pounces a bearded pirate!$i ""Har, har""
+   he chortles, ""I'll just take all this booty and hide it away with me
+   chest deep in the maze!"".$n He snatches your treasure and vanishes into
+   the gloom."
+  If obj_50_nugget Here Then
+    Locate obj_50_nugget At loc_114.
+  End If.
+  If obj_51_diamonds Here Then
+    Locate obj_51_diamonds At loc_114.
+  End If.
+  If obj_52_bars Here Then
+    Locate obj_52_bars At loc_114.
+  End If.
+  If obj_53_jewelry Here Then
+    Locate obj_53_jewelry At loc_114.
+  End If.
+  If obj_54_coins Here Then
+    Locate obj_54_coins At loc_114.
+  End If.
+  If obj_56_eggs Here Then
+    Locate obj_56_eggs At loc_114.
+  End If.
+  If obj_57_trident Here Then
+    Locate obj_57_trident At loc_114.
+  End If.
+  If obj_58_vase Here Then
+    Locate obj_58_vase At loc_114.
+  End If.
+  If obj_59_emerald Here Then
+    Locate obj_59_emerald At loc_114.
+  End If.
+  If obj_60_pyramid Here Then
+    Locate obj_60_pyramid At loc_114.
+  End If.
+  If obj_61_pearl Here Then
+    Locate obj_61_pearl At loc_114.
+  End If.
+  If obj_62_rug Here Then
+    Locate obj_62_rug At loc_114.
+  End If.
+  If obj_63_spices Here Then
+    Locate obj_63_spices At loc_114.
+  End If.
+  If obj_64_chain Here Then
+    Locate obj_64_chain At loc_114.
+  End If.
+  Locate obj_55_chest At loc_114.
+End Event event_stealtreasures.
+
+Event event_hidetreasure
+  "There are faint rustling noises from the darkness behind you. As you
+   turn toward them, the beam of your lamp falls across a bearded pirate. He
+   is carrying a large chest.$i ""Shiver me timbers!"" he cries, ""I've been
+   spotted! I'd best hide meself off to the maze and hide me chest!"".$n
+   With that, he vanished into the gloom."
+  Locate obj_55_chest At loc_114.
+End Event event_hidetreasure.
+
+Event event_checktreasures
+  If obj_50_nugget Here Or obj_51_diamonds Here Or obj_52_bars Here Or obj_53_jewelry Here Or obj_54_coins Here Or obj_55_chest Here Or obj_56_eggs Here Or obj_57_trident Here Or obj_58_vase Here Or obj_59_emerald Here Or obj_60_pyramid Here Or obj_61_pearl Here Or obj_62_rug Here Or obj_63_spices Here Or obj_64_chain Here Then
+    Schedule event_stealtreasures At hero After 0.
+  End If.
+End Event event_checktreasures.
+
+When power Of obj_2_lamp =0 And obj_2_lamp Is lit Then
+  Schedule event_lampoff At obj_2_lamp After 0.
+
+When power Of obj_2_lamp <=30 And obj_2_lamp Is Not dim Then
+  Make obj_2_lamp dim.
+
+When obj_2_lamp Is lit And obj_2_lamp Is dim And obj_2_lamp At hero And obj_39_batteries At hero Then
+  Schedule event_replacebatteries At obj_2_lamp After 0.
+
+When obj_2_lamp Is lit And obj_2_lamp Is dim And hero Is Not warned And hero At obj_2_lamp Then
+  Schedule event_lampwarning At obj_2_lamp After 0.
+
+When treasuresavailable Of obj_0_cave =0 And obj_0_cave Is Not closingsoon Then
+  Make obj_0_cave closingsoon.
+  Set time Of obj_0_cave To 80.
+
+When obj_0_cave Is closingsoon And time Of obj_0_cave <50 And obj_0_cave Is Not closing Then
+  Schedule event_startclosing At hero After 0.
+
+When obj_0_cave Is closing And obj_0_cave Is Not closed And time Of obj_0_cave <=0 Then
+  Schedule event_closecave At hero After 0.
+
+When pirate At hero Then
+  Schedule event_checktreasures At hero After 0.
+
+When pirate At hero And treasuresavailable Of obj_0_cave =1 And obj_55_chest Is Not found Then
+  Schedule event_hidetreasure At hero After 0.
+
+When pirate Near hero Then
+  Schedule rustling At hero After 0.
+
+Event rustling
+  "There are faint rustling noises from the darkness behind you."
+End Event.
+
+When obj_55_chest In inventory Then
+  Cancel event_checktreasures.
+  Cancel event_stealtreasures.
+  Locate pirate At nowhere.
+  Use Script s0 For pirate.
+
+
+The nowhere Isa location
+  Name ''
+  
+End The nowhere.
+
+The darkplace Isa location
+  Name 'In the dark'
+  
+  Description
+    "It is now pitch dark. If you proceed you will likely fall into a pit."
+  
+  Exit n, s, e, w, u, d, se, sw, ne, nw To darkplace
+    Check Random 1 To 100 >35
+      Else 
+        "You fell into a pit and broke every bone in your body! Oh dear,
+         you seem to have gotten yourself killed. I might be able to help
+         you out, but I've never really done this before. Do you want me to
+         try to reincarnate you?"
+        Locate hero At loc_0.
+  End Exit.
+  
+  Verb mv_xyzzy
+    Check placemarker At loc_11
+      Else 
+        "Nothing happens."
+    Does Only
+      Locate hero At loc_3.
+      Locate placemarker At nowhere.
+  End Verb.
+  
+  Verb omv_plover
+    Check placemarker At loc_100
+      Else 
+        "Nothing happens."
+    Does Only
+      Locate hero At loc_100.
+      Locate placemarker At nowhere.
+  End Verb.
+  
+  Verb mv_plugh
+    Check placemarker At loc_33
+      Else 
+        "Nothing happens."
+    Does Only
+      Locate hero At loc_3.
+      Locate placemarker At nowhere.
+  End Verb.
+  
+End The darkplace.
+
+The placemarker Isa object
+  Name ''
+  
+  Description
+    ""
+  
+End The placemarker.
+
+The loc_0 Isa location
+  Name 'Dead'
+  
+  Description
+    "You are dead."
+  
+End The loc_0.
+
+The loc_1 Isa location
+  Name 'End of road'
+  
+  Has 
+    water.
+  Is 
+    lighted.
+  Description
+    "You are standing at the end of a road before a small brick building.
+     Around you is a forest. A small stream flows out of the building and
+     down a gully."
+  
+  Exit n To loc_5.
+  
+  Exit s, d To loc_4.
+  
+  Exit e To loc_3.
+  
+  Exit w, u To loc_2.
+  
+  Verb mv_in, mv_enter, omv_house
+    Does Only
+      Locate hero At loc_3.
+  End Verb.
+  
+  Verb mv_downstream, omv_gully, omv_stream
+    Does Only
+      Locate hero At loc_4.
+  End Verb.
+  
+  Verb omv_road
+    Does Only
+      Locate hero At loc_2.
+  End Verb.
+  
+  Verb omv_forest
+    Does Only
+      Locate hero At loc_5.
+  End Verb.
+  
+  Verb omv_depression
+    Does Only
+      Locate hero At loc_8.
+  End Verb.
+  
+End The loc_1.
+
+The loc_2 Isa location
+  Name 'Hill in road'
+  
+  Is 
+    lighted.
+  Description
+    "You have walked up a hill, still in the forest. The road slopes back
+     down the other side of the hill. There is a building in the distance."
+  
+  Exit n, e, d To loc_1.
+  
+  Exit s To loc_5.
+  
+  Verb mv_forward, omv_house, omv_road
+    Does Only
+      Locate hero At loc_1.
+  End Verb.
+  
+  Verb omv_forest
+    Does Only
+      Locate hero At loc_5.
+  End Verb.
+  
+End The loc_2.
+
+The loc_3 Isa location
+  Name 'Inside building'
+  
+  Has 
+    water.
+  Is 
+    lighted.
+  Description
+    "You are inside a building, a well house for a large spring."
+    Score 6.
+  
+  Exit w To loc_1.
+  
+  Verb mv_enter, mv_exit, mv_outdoors
+    Does Only
+      Locate hero At loc_1.
+  End Verb.
+  
+  Verb mv_xyzzy
+    Does Only
+      If obj_2_lamp Is lit And (obj_2_lamp In inventory Or obj_2_lamp At loc_11) Then
+        Locate hero At loc_11.
+      Else 
+        Locate placemarker At loc_11.
+        Locate Current Actor At darkplace.
+      End If.
+  End Verb.
+  
+  Verb mv_plugh
+    Does Only
+      If obj_2_lamp Is lit And (obj_2_lamp In inventory Or obj_2_lamp At loc_33) Then
+        Locate hero At loc_33.
+      Else 
+        Locate placemarker At loc_33.
+        Locate Current Actor At darkplace.
+      End If.
+  End Verb.
+  
+  Verb mv_downstream, omv_stream
+    Does Only
+      Locate hero At loc_79.
+  End Verb.
+  
+End The loc_3.
+
+The loc_4 Isa location
+  Name 'Valley'
+  
+  Has 
+    water.
+  Is 
+    lighted.
+  Description
+    "You are in a valley in the forest beside a stream tumbling along a
+     rocky bed."
+  
+  Exit n To loc_1.
+  
+  Exit s, d To loc_7.
+  
+  Exit e, w, u To loc_5.
+  
+  Verb mv_upstream, omv_house
+    Does Only
+      Locate hero At loc_1.
+  End Verb.
+  
+  Verb mv_downstream
+    Does Only
+      Locate hero At loc_7.
+  End Verb.
+  
+  Verb omv_forest
+    Does Only
+      Locate hero At loc_5.
+  End Verb.
+  
+  Verb omv_depression
+    Does Only
+      Locate hero At loc_8.
+  End Verb.
+  
+End The loc_4.
+
+The loc_5 Isa location
+  Name 'Forest'
+  
+  Is 
+    lighted.
+  Description
+    "You are in open forest, with a deep valley to one side."
+  
+  Exit n To loc_5
+    Check Random 0 To 100 >50
+      Else 
+        Locate hero At loc_6.
+  End Exit.
+  
+  Exit s, w To loc_5.
+  
+  Exit e, d To loc_4.
+  
+  Verb mv_forward, omv_forest
+    Does Only
+      If Random 1 To 100 >50 Then
+        Locate hero At loc_6.
+      Else 
+        Locate hero At loc_5.
+      End If.
+  End Verb.
+  
+  Verb omv_valley
+    Does Only
+      Locate hero At loc_4.
+  End Verb.
+  
+End The loc_5.
+
+The loc_6 Isa location
+  Name 'Forest'
+  
+  Is 
+    lighted.
+  Description
+    "You are in open forest near both a valley and a road."
+  
+  Exit n To loc_1.
+  
+  Exit s To loc_5.
+  
+  Exit e, w, d To loc_4.
+  
+  Verb omv_forest
+    Does Only
+      Locate hero At loc_5.
+  End Verb.
+  
+  Verb omv_road
+    Does Only
+      Locate hero At loc_1.
+  End Verb.
+  
+  Verb omv_valley
+    Does Only
+      Locate hero At loc_4.
+  End Verb.
+  
+End The loc_6.
+
+The loc_7 Isa location
+  Name 'Slit in streambead'
+  
+  Has 
+    water.
+  Is 
+    lighted.
+  Description
+    "At your feet all the water of the stream splashes into a 2-inch slit
+     in the rock. Downstream the streambed is bare rock."
+  
+  Exit n To loc_4.
+  
+  Exit s To loc_8.
+  
+  Exit e, w To loc_5.
+  
+  Exit d To loc_7
+    Check 
+      "You don't fit through a two-inch slit!"
+  End Exit.
+  
+  Verb omv_slit, omv_stream
+    Does Only
+      "You don't fit through a two-inch slit!"
+  End Verb.
+  
+  Verb mv_downstream, omv_rock, omv_bed
+    Does Only
+      Locate hero At loc_8.
+  End Verb.
+  
+  Verb omv_house
+    Does Only
+      Locate hero At loc_1.
+  End Verb.
+  
+  Verb mv_upstream
+    Does Only
+      Locate hero At loc_4.
+  End Verb.
+  
+  Verb omv_forest
+    Does Only
+      Locate hero At loc_5.
+  End Verb.
+  
+End The loc_7.
+
+The loc_8 Isa location
+  Name 'Outside grate'
+  
+  Has 
+    hintc.
+  Is 
+    lighted.
+  Description
+    "You are in a 20-foot depression floored with bare dirt. Set into the
+     dirt is a strong steel grate mounted in concrete. A dry streambed leads
+     into the depression."
+  
+  Exit n To loc_7.
+  
+  Exit e, w, s To loc_5.
+  
+  Exit d To loc_9
+    Check obj_3_grate Is open
+      Else 
+        "You can't go through a locked steel grate!"
+  End Exit.
+  
+  Verb mv_enter, mv_in
+    Check obj_3_grate Is open
+      Else 
+        "You can't go through a locked steel grate!"
+    Does Only
+      Locate hero At loc_9.
+  End Verb.
+  
+  Verb omv_house
+    Does Only
+      Locate hero At loc_1.
+  End Verb.
+  
+  Verb mv_upstream, omv_gully
+    Does Only
+      Locate hero At loc_7.
+  End Verb.
+  
+  Verb omv_forest
+    Does Only
+      Locate hero At loc_5.
+  End Verb.
+  
+End The loc_8.
+
+The loc_9 Isa location
+  Name 'Below the grate'
+  
+  Is 
+    lighted.
+  Description
+    "You are in a small chamber beneath a 3x3 steel grate to the surface. A
+     low crawl over cobbles leads inward to the West."
+  
+  Exit w To loc_10.
+  
+  Exit u To loc_8
+    Check obj_3_grate Is open
+      Else 
+        "You can't go through a locked steel grate!"
+    And obj_0_cave Is Not closing
+      Else 
+        "A mysterious recorded voice groans into life and announces:$n
+         ""This exit is closed. Please leave via main office.""$n"
+  End Exit.
+  
+  Verb mv_exit
+    Check obj_3_grate Is open
+      Else 
+        "You can't go through a locked steel grate!"
+    And obj_0_cave Is Not closing
+      Else 
+        "A mysterious recorded voice groans into life and announces:$n
+         ""This exit is closed. Please leave via main office.""$n"
+    Does Only
+      Locate hero At loc_8.
+  End Verb.
+  
+  Verb mv_in, mv_crawl, omv_cobblestone
+    Does Only
+      Locate hero At loc_10.
+  End Verb.
+  
+  Verb omv_debris
+    Does Only
+      If obj_2_lamp Is lit And (obj_2_lamp In inventory Or obj_2_lamp At loc_11) Then
+        Locate hero At loc_11.
+      Else 
+        Locate placemarker At loc_11.
+        Locate Current Actor At darkplace.
+      End If.
+  End Verb.
+  
+  Verb omv_pit
+    Does Only
+      Locate hero At loc_14.
+  End Verb.
+  
+End The loc_9.
+
+The loc_10 Isa location
+  Name 'Cobble crawl'
+  
+  Is 
+    lighted.
+  Description
+    "You are crawling over cobbles in a low passage. There is a dim light
+     at the east end of the passage."
+  
+  Exit e To loc_9.
+  
+  Exit w To loc_11
+    Check obj_2_lamp Is lit And (obj_2_lamp In inventory Or obj_2_lamp At loc_11)
+      Else 
+        Locate placemarker At loc_11.
+        Locate Current Actor At darkplace.
+  End Exit.
+  
+  Verb mv_exit, omv_surface, omv_nowhere
+    Does Only
+      Locate hero At loc_9.
+  End Verb.
+  
+  Verb mv_in, omv_dark, omv_debris
+    Does Only
+      If obj_2_lamp Is lit And (obj_2_lamp In inventory Or obj_2_lamp At loc_11) Then
+        Locate hero At loc_11.
+      Else 
+        Locate placemarker At loc_11.
+        Locate Current Actor At darkplace.
+      End If.
+  End Verb.
+  
+  Verb omv_pit
+    Does Only
+      Locate hero At loc_14.
+  End Verb.
+  
+End The loc_10.
+
+The loc_11 Isa location
+  Name 'Debris room'
+  
+  Description
+    "You are in a debris room filled with stuff washed in from the surface.
+     A low wide passage with cobbles becomes plugged with mud and debris
+     here, but an awkward canyon leads upward and west. A note on the wall
+     says:$i Magic Word ""XYZZY""$n"
+  
+  Exit e To loc_10.
+  
+  Exit w, u To loc_12.
+  
+  Verb omv_depression
+    Does Only
+      If obj_3_grate Is open Then
+        Locate hero At loc_8.
+      Else 
+        Locate hero At loc_9.
+      End If.
+  End Verb.
+  
+  Verb mv_crawl, omv_cobblestone, omv_tunnel, omv_low
+    Does Only
+      Locate hero At loc_10.
+  End Verb.
+  
+  Verb mv_in, omv_canyon
+    Does Only
+      Locate hero At loc_12.
+  End Verb.
+  
+  Verb omv_pit
+    Does Only
+      Locate hero At loc_14.
+  End Verb.
+  
+  Verb omv_entrance
+    Does Only
+      Locate hero At loc_9.
+  End Verb.
+  
+  Verb mv_xyzzy
+    Check obj_0_cave Is Not closing
+      Else 
+        "A mysterious recorded voice groans into life and announces:$n
+         ""This exit is closed. Please leave via main office.""$n"
+    Does Only
+      Locate hero At loc_3.
+  End Verb.
+  
+End The loc_11.
+
+The loc_12 Isa location
+  Name 'Sloping E/W canyon'
+  
+  Description
+    "You are in an awkward sloping east/west canyon."
+  
+  Exit e, d To loc_11.
+  
+  Exit w, u To loc_13.
+  
+  Verb omv_depression
+    Does Only
+      If obj_3_grate Is open Then
+        Locate hero At loc_8.
+      Else 
+        Locate hero At loc_9.
+      End If.
+  End Verb.
+  
+  Verb mv_in
+    Does Only
+      Locate hero At loc_13.
+  End Verb.
+  
+  Verb omv_pit
+    Does Only
+      Locate hero At loc_14.
+  End Verb.
+  
+  Verb omv_entrance
+    Does Only
+      Locate hero At loc_9.
+  End Verb.
+  
+  Verb omv_debris
+    Does Only
+      Locate hero At loc_11.
+
+  End Verb.
+  
+End The loc_12.
+
+The loc_13 Isa location
+  Name 'Bird chamber'
+  
+  Has 
+    hintb.
+  Description
+    "You are in a splendid chamber thirty feet high. The walls are frozen
+     rivers of orange stone. An awkward canyon and a good passage exit from
+     east and west sides of the chamber."
+  
+  Exit e To loc_12.
+  
+  Exit w To loc_14.
+  
+  Verb omv_depression
+    Does Only
+      If obj_3_grate Is open Then
+        Locate hero At loc_8.
+      Else 
+        Locate hero At loc_9.
+      End If.
+  End Verb.
+  
+  Verb omv_canyon
+    Does Only
+      Locate hero At loc_12.
+  End Verb.
+  
+  Verb omv_pit, omv_tunnel
+    Does Only
+      Locate hero At loc_14.
+  End Verb.
+  
+  Verb omv_entrance
+    Does Only
+      Locate hero At loc_9.
+  End Verb.
+  
+  Verb omv_debris
+    Does Only
+      Locate hero At loc_11.
+  End Verb.
+  
+End The loc_13.
+
+The loc_14 Isa location
+  Name 'Top of small pit'
+  
+  Description
+    "At your feet is a small pit breathing traces of white mist. An east
+     passage ends here except for a small crack leading on."
+  
+  Exit e To loc_13.
+  
+  Exit w To loc_16.
+  
+  Exit d To loc_15
+    Check obj_50_nugget Not In inventory
+      Else 
+        Locate hero At loc_20.
+  End Exit.
+  
+  Verb omv_depression
+    Does Only
+      If obj_3_grate Is open Then
+        Locate hero At loc_8.
+      Else 
+        Locate hero At loc_9.
+      End If.
+  End Verb.
+  
+  Verb omv_entrance
+    Does Only
+      Locate hero At loc_9.
+  End Verb.
+  
+  Verb omv_tunnel
+    Does Only
+      Locate hero At loc_13.
+  End Verb.
+  
+  Verb omv_pit
+    Does Only
+      If obj_50_nugget In inventory Then
+        Locate hero At loc_20.
+      Else 
+        Locate hero At loc_15.
+      End If.
+  End Verb.
+  
+  Verb omv_debris
+    Does Only
+      Locate hero At loc_11.
+  End Verb.
+  
+  Verb omv_crack
+    Does Only
+      Locate hero At loc_16.
+  End Verb.
+  
+End The loc_14.
+
+The loc_15 Isa location
+  Name 'Hall of mists'
+  
+  Description
+    "You are at one end of a vast hall stretching forward out of sight to
+     the west. There are openings to either side. Nearby, a wide stone
+     staircase leads downward. The hall is filled with wisps of white mist
+     swaying to and fro almost as if alive. A cold wind blows up the
+     staircase. There is a passage at the top of a dome behind you."
+  
+  Exit s To loc_18.
+  
+  Exit w To loc_17.
+  
+  Exit d, n To loc_19.
+  
+  Exit u, e To loc_14
+    Check obj_50_nugget Not In inventory
+      Else 
+        Locate hero At loc_22.
+  End Exit.
+  
+  Verb mv_forward, omv_hall
+    Does Only
+      Locate hero At loc_17.
+  End Verb.
+  
+  Verb mv_left
+    Does Only
+      Locate hero At loc_18.
+  End Verb.
+  
+  Verb omv_pit, omv_dome, omv_tunnel
+    Does Only
+      If obj_50_nugget In inventory Then
+        Locate hero At loc_22.
+      Else 
+        Locate hero At loc_14.
+      End If.
+  End Verb.
+  
+  Verb omv_stairs
+    Does Only
+      Locate hero At loc_19.
+  End Verb.
+  
+  Verb omv_y2
+    Does Only
+      Locate hero At loc_34.
+  End Verb.
+  
+End The loc_15.
+
+The loc_16 Isa location
+  Name 'Sorry'
+  
+  Is 
+    watoil.
+  Description
+    "The crack is far too small for you to follow."
+  
+  Entered
+    Locate hero At loc_14.
+End The loc_16.
+
+The loc_17 Isa location
+  Name 'East bank of fissure'
+  
+  Description
+    "You are on the east bank of a fissure slicing clear across the hall.
+     The mist is quite thick here, and the fissure is too wide to jump."
+  
+  Exit e To loc_15.
+  
+  Exit w To loc_27
+    Check obj_12_fissure Is spanned
+      Else 
+        "There is no way across the fissure."
+  End Exit.
+  
+  Verb omv_hall
+    Does Only
+      Locate hero At loc_15.
+  End Verb.
+  
+  Verb mv_over, mv_across, mv_cross
+    Check obj_12_fissure Is spanned
+      Else 
+        "There is no way across the fissure."
+    Does Only
+      Locate hero At loc_27.
+  End Verb.
+  
+  Verb mv_forward
+    Check obj_12_fissure Is spanned
+      Else 
+        Locate hero At loc_21.
+    Does Only
+      Locate hero At loc_27.
+  End Verb.
+  
+  Verb mv_jump
+    Check obj_12_fissure Is spanned
+      Else 
+        Locate hero At loc_21.
+    Does Only
+      "I respectfully suggest you go across the bridge instead of jumping."
+  End Verb.
+  
+End The loc_17.
+
+The loc_18 Isa location
+  Name 'Nugget of gold room'
+  
+  Description
+    "This is a low room with a crude note on the wall. The note says:$i You
+     won't get it up the steps.$n"
+  
+  Exit n To loc_15.
+  
+  Verb mv_exit, omv_hall
+    Does Only
+      Locate hero At loc_15.
+  End Verb.
+  
+End The loc_18.
+
+The loc_19 Isa location
+  Name 'Hall of Mt. King'
+  
+  Has 
+    hints.
+  Description
+    Score 25.
+    "You are in the hall of the mountain king, with passages off in all
+     directions."
+  
+  Exit u, e To loc_15.
+  
+  Exit n To loc_28
+    Check obj_11_snake Is Not living
+      Else 
+        Locate hero At loc_32.
+  End Exit.
+  
+  Exit s To loc_29
+    Check obj_11_snake Is Not living
+      Else 
+        Locate hero At loc_32.
+  End Exit.
+  
+  Exit w To loc_30
+    Check obj_11_snake Is Not living
+      Else 
+        Locate hero At loc_32.
+  End Exit.
+  
+  Exit sw To loc_74
+    Check (obj_11_snake Is Not living) Or (Random 1 To 100 >65)
+      Else 
+        Locate hero At loc_32.
+  End Exit.
+  
+  Verb omv_stairs
+    Does Only
+      Locate hero At loc_15.
+  End Verb.
+  
+  Verb omv_secret
+    Does Only
+      Locate hero At loc_74.
+  End Verb.
+  
+  Verb mv_left
+    Does Only
+      If obj_11_snake Is living Then
+        Locate hero At loc_32.
+      Else 
+        Locate hero At loc_28.
+      End If.
+  End Verb.
+  
+  Verb mv_right
+    Does Only
+      If obj_11_snake Is living Then
+        Locate hero At loc_32.
+      Else 
+        Locate hero At loc_29.
+      End If.
+  End Verb.
+  
+  Verb mv_forward
+    Does Only
+      If obj_11_snake Is living Then
+        Locate hero At loc_32.
+      Else 
+        Locate hero At loc_30.
+      End If.
+  End Verb.
+  
+End The loc_19.
+
+The loc_20 Isa location
+  Name 'Sorry'
+  
+  Is 
+    watoil.
+  Description
+    "You are at the bottom of the pit with a broken neck."
+  
+  Entered
+    Locate hero At loc_0.
+End The loc_20.
+
+The loc_21 Isa location
+  Name 'Sorry'
+  
+  Is 
+    watoil.
+  Description
+    "You didn't make it."
+  
+  Entered
+    Locate hero At loc_0.
+End The loc_21.
+
+The loc_22 Isa location
+  Name 'Sorry'
+  
+  Is 
+    watoil.
+  Description
+    "The dome is unclimbable."
+  
+  Entered
+    Locate hero At loc_15.
+End The loc_22.
+
+The loc_23 Isa location
+  Name 'West end of twopit room'
+  
+  Description
+    "You are at the west end of the twopit room. There is a large hole in
+     the wall above the pit at this end of the room."
+  
+  Exit e To loc_67.
+  
+  Exit w To loc_68.
+  
+  Exit d To loc_25.
+  
+  Verb mv_across
+    Does Only
+      Locate hero At loc_67.
+  End Verb.
+  
+  Verb omv_slab
+    Does Only
+      Locate hero At loc_68.
+  End Verb.
+  
+  Verb omv_pit
+    Does Only
+      Locate hero At loc_25.
+  End Verb.
+  
+  Verb omv_hole
+    Does Only
+      "It is too far up for you to reach."
+  End Verb.
+  
+End The loc_23.
+
+The loc_24 Isa location
+  Name 'East pit'
+  
+  Is 
+    watoil.
+  Has 
+    oil.
+  Description
+    "You are that the bottom of the eastern pit in the twopit room. There
+     is a small pool of oil in one corner of the pit."
+  
+  Exit u To loc_67.
+  
+  Verb mv_exit
+    Does Only
+      Locate hero At loc_67.
+  End Verb.
+  
+End The loc_24.
+
+The loc_25 Isa location
+  Name 'West pit'
+  
+  Description
+    "You are at the bottom of the western pit in the towpit room. There is
+     a large hole in the wall about 25 feet above you."
+  
+  Exit u To loc_23.
+  
+  Verb mv_exit
+    Does Only
+      Locate hero At loc_23.
+  End Verb.
+  
+  Verb mv_climb
+    Does Only
+      If status Of obj_24_plant =4 Then
+        Locate hero At loc_26.
+      Else 
+        Locate hero At loc_31.
+      End If.
+  End Verb.
+  
+End The loc_25.
+
+The loc_26 Isa location
+  Name 'Ok'
+  
+  Is 
+    watoil.
+  Description
+    "You clamber up the plant and scurry through the hole at the top."
+  
+  Entered
+    Locate hero At loc_88.
+End The loc_26.
+
+The loc_27 Isa location
+  Name 'West side of fissure'
+  
+  Description
+    "You are on the west side of the fissure in the hall of mists."
+  
+  Exit n To loc_40.
+  
+  Exit w To loc_41.
+  
+  Exit e To loc_17
+    Check obj_12_fissure Is spanned
+      Else 
+        "There is no way across the fissure."
+  End Exit.
+  
+  Verb omv_hall
+    Does Only
+      Locate hero At loc_15.
+  End Verb.
+  
+  Verb mv_over, mv_across, mv_cross
+    Check obj_12_fissure Is spanned
+      Else 
+        "There is no way across the fissure."
+    Does Only
+      Locate hero At loc_17.
+  End Verb.
+  
+  Verb mv_forward
+    Check obj_12_fissure Is spanned
+      Else 
+        Locate hero At loc_21.
+    Does Only
+      Locate hero At loc_17.
+  End Verb.
+  
+  Verb mv_jump
+    Check obj_12_fissure Is spanned
+      Else 
+        Locate hero At loc_21.
+    Does Only
+      "I respectfully suggest you go across the bridge instead of jumping."
+  End Verb.
+  
+End The loc_27.
+
+The loc_28 Isa location
+  Name 'Hole in N/S passage'
+  
+  Description
+    "You are in a low N/S passage at a hole in the floor. The hole goes
+     down to an E/W passage."
+  
+  Exit s To loc_19.
+  
+  Exit n To loc_33.
+  
+  Exit d To loc_36.
+  
+  Verb mv_exit, omv_hall
+    Does Only
+      Locate hero At loc_19.
+  End Verb.
+  
+  Verb omv_y2
+    Does Only
+      Locate hero At loc_33.
+  End Verb.
+  
+  Verb omv_hole
+    Does Only
+      Locate hero At loc_36.
+  End Verb.
+  
+End The loc_28.
+
+The loc_29 Isa location
+  Name 'South side chamber'
+  
+  Description
+    "You are in the south side chamber."
+  
+  Exit n To loc_19.
+  
+  Verb mv_exit, omv_hall
+    Does Only
+      Locate hero At loc_19.
+  End Verb.
+  
+End The loc_29.
+
+The loc_30 Isa location
+  Name 'West side chamber'
+  
+  Description
+    "You are in the west side chamber of the hall of the mountain king. A
+     passage continues west and up here."
+  
+  Exit e To loc_19.
+  
+  Exit w, u To loc_62.
+  
+  Verb mv_exit, omv_hall
+    Does Only
+      Locate hero At loc_19.
+  End Verb.
+  
+End The loc_30.
+
+The loc_31 Isa location
+  Name '?'
+  
+  Is 
+    watoil.
+  Description
+    ""
+  
+  Entered
+    If status Of obj_24_plant =2 Then
+      Locate hero At loc_89.
+    Else 
+      Locate hero At loc_90.
+    End If.
+End The loc_31.
+
+The loc_32 Isa location
+  Name 'Sorry'
+  
+  Is 
+    watoil.
+  Description
+    "You can't get by the snake."
+  
+  Entered
+    Locate hero At loc_19.
+End The loc_32.
+
+The loc_33 Isa location
+  Name 'Y2'
+  
+  Description
+    "You are in a large room, with a passage to the south, a passage to the
+     west, and a wall of broken rock to the east. There is a large ""Y2"" on
+     a rock in the room's center."
+    If Random 1 To 3 =1 Then
+      "A hollow voice says ""Plugh""."
+    End If.
+  
+  Exit s To loc_28.
+  
+  Exit e To loc_34.
+  
+  Exit w To loc_35.
+  
+  Verb mv_plugh
+    Check obj_0_cave Is Not closing
+      Else 
+        "A mysterious recorded voice groans into life and announces:$n
+         ""This exit is closed. Please leave via main office.""$n"
+    Does Only
+      Locate hero At loc_3.
+  End Verb.
+  
+  Verb omv_wall, omv_broken
+    Does Only
+      Locate hero At loc_34.
+  End Verb.
+  
+  Verb omv_plover
+    Does Only
+      If obj_59_emerald In inventory Then
+        Locate obj_59_emerald Here.
+      Else 
+        Locate hero At loc_100.
+      End If.
+  End Verb.
+  
+End The loc_33.
+
+The loc_34 Isa location
+  Name 'Jumble of rocks'
+  
+  Description
+    "You are in a jumble of rock, with cracks everywhere."
+  
+  Exit d To loc_33.
+  
+  Exit u To loc_15.
+  
+  Verb omv_y2
+    Does Only
+      Locate hero At loc_33.
+  End Verb.
+  
+End The loc_34.
+
+The loc_35 Isa location
+  Name 'Window on pit'
+  
+  Description
+    "You're at a low window overlooking a huge pit, which extends up out of
+     sight. A floor is indistinctly visible over 50 feet below. Traces of
+     white mist cover the floor of the pit, becoming thicker to the right.
+     Marks in the dust around the window would seem to indicate that someone
+     has been here recently. Directly across the pit from you and 25 feet
+     away there is a similar window looking into a lighted room. A shadowy
+     figure can be seen there peering back at you."
+  
+  Exit e To loc_33.
+  
+  Verb omv_y2
+    Does Only
+      Locate hero At loc_33.
+  End Verb.
+  
+  Verb mv_jump
+    Does Only
+      Locate hero At loc_20.
+  End Verb.
+  
+End The loc_35.
+
+The loc_36 Isa location
+  Name 'Dirty passage'
+  
+  Description
+    "You are in a dirty broken passage. To the east is a crawl. To the west
+     is a large passage. Above you is another passage."
+  
+  Exit e To loc_37.
+  
+  Exit u To loc_28.
+  
+  Exit w To loc_39.
+  
+  Verb mv_crawl
+    Does Only
+      Locate hero At loc_37.
+  End Verb.
+  
+  Verb omv_hole
+    Does Only
+      Locate hero At loc_28.
+  End Verb.
+  
+  Verb omv_bedquilt
+    Does Only
+      Locate hero At loc_65.
+  End Verb.
+  
+End The loc_36.
+
+The loc_37 Isa location
+  Name 'Brink of pit'
+  
+  Description
+    "You are on the brink of a small clean climbable pit. A crawl leads
+     west."
+  
+  Exit d To loc_38.
+  
+  Exit w To loc_36.
+  
+  Verb mv_crawl
+    Does Only
+      Locate hero At loc_36.
+  End Verb.
+  
+  Verb mv_climb, omv_pit
+    Does Only
+      Locate hero At loc_38.
+  End Verb.
+  
+End The loc_37.
+
+The loc_38 Isa location
+  Name 'Bottom of pit'
+  
+  Has 
+    water.
+  Description
+    "You are in the bottom of a small pit with a little stream, which
+     enters and exits through tiny slits."
+  
+  Exit u To loc_37.
+  
+  Exit d To loc_38
+    Check 
+      "You don't fit through a two-inch slit!"
+  End Exit.
+  
+  Verb mv_upstream, mv_downstream, omv_slit, omv_stream
+    Does Only
+      "You don't fit through a two-inch slit!"
+  End Verb.
+  
+  Verb mv_climb, mv_exit
+    Does Only
+      Locate hero At loc_37.
+  End Verb.
+  
+End The loc_38.
+
+The loc_39 Isa location
+  Name 'Dusty rock room'
+  
+  Description
+    "You are in a large room full of dusty rocks. There is a big hole in
+     the floor. There are cracks everywhere, and a passage leading east."
+  
+  Exit e To loc_36.
+  
+  Exit d To loc_64.
+  
+  Verb omv_tunnel
+    Does Only
+      Locate hero At loc_36.
+  End Verb.
+  
+  Verb omv_hole, omv_floor
+    Does Only
+      Locate hero At loc_64.
+  End Verb.
+  
+  Verb omv_bedquilt
+    Does Only
+      Locate hero At loc_65.
+  End Verb.
+  
+End The loc_39.
+
+The loc_40 Isa location
+  Name 'Ok'
+  
+  Is 
+    watoil.
+  Description
+    "You have crawled through a very low wide passage parallel to and north
+     of the hall of mists."
+  
+  Entered
+    Locate hero At loc_41.
+End The loc_40.
+
+The loc_41 Isa location
+  Name 'West end of Hall of mists'
+  
+  Description
+    "You are at the west end of hall of mists. A low wide crawl continues
+     west and another goes north. To the south is a little passage 6 feet
+     off the floor."
+  
+  Exit s, u To loc_42.
+  
+  Exit e To loc_27.
+  
+  Exit n To loc_59.
+  
+  Exit w To loc_60.
+  
+  Verb mv_climb, omv_tunnel
+    Does Only
+      Locate hero At loc_42.
+  End Verb.
+  
+  Verb mv_crawl
+    Does Only
+      Locate hero At loc_60.
+  End Verb.
+  
+End The loc_41.
+
+The loc_42 Isa location
+  Name 'Maze'
+  
+  Has 
+    hintm.
+  Description
+    "You are in a maze of twisty little passages, all alike."
+  
+  Exit u To loc_41.
+  
+  Exit n To loc_42.
+  
+  Exit e To loc_43.
+  
+  Exit s To loc_45.
+  
+  Exit w To loc_80.
+  
+End The loc_42.
+
+The loc_43 Isa location
+  Name 'Maze'
+  
+  Has 
+    hintm.
+  Description
+    "You are in a maze of twisty little passages, all alike."
+  
+  Exit e To loc_45.
+  
+  Exit s To loc_44.
+  
+  Exit w To loc_42.
+  
+End The loc_43.
+
+The loc_44 Isa location
+  Name 'Maze'
+  
+  Has 
+    hintm.
+  Description
+    "You are in a maze of twisty little passages, all alike."
+  
+  Exit e To loc_43.
+  
+  Exit d To loc_48.
+  
+  Exit s To loc_50.
+  
+  Exit n To loc_82.
+  
+End The loc_44.
+
+The loc_45 Isa location
+  Name 'Maze'
+  
+  Has 
+    hintm.
+  Description
+    "You are in a maze of twisty little passages, all alike."
+  
+  Exit n To loc_43.
+  
+  Exit s To loc_47.
+  
+  Exit e To loc_46.
+  
+  Exit w To loc_42.
+  
+  Exit u, d To loc_87.
+  
+End The loc_45.
+
+The loc_46 Isa location
+  Name 'Dead end'
+  
+  Has 
+    hintm.
+  Is 
+    piratefree.
+  Description
+    "Dead end"
+  
+  Exit w To loc_45.
+  
+  Verb mv_exit
+    Does Only
+      Locate hero At loc_45.
+  End Verb.
+  
+End The loc_46.
+
+The loc_47 Isa location
+  Name 'Dead end'
+  
+  Has 
+    hintm.
+  Is 
+    piratefree.
+  Description
+    "Dead end"
+  
+  Exit e To loc_45.
+  
+  Verb mv_exit
+    Does Only
+      Locate hero At loc_45.
+  End Verb.
+  
+End The loc_47.
+
+The loc_48 Isa location
+  Name 'Dead end'
+  
+  Has 
+    hintm.
+  Is 
+    piratefree.
+  Description
+    "Dead end"
+  
+  Exit u To loc_44.
+  
+  Verb mv_exit
+    Does Only
+      Locate hero At loc_44.
+  End Verb.
+  
+End The loc_48.
+
+The loc_49 Isa location
+  Name 'Maze'
+  
+  Has 
+    hintm.
+  Description
+    "You are in a maze of twisty little passages, all alike."
+  
+  Exit e To loc_50.
+  
+  Exit w To loc_51.
+  
+End The loc_49.
+
+The loc_50 Isa location
+  Name 'Maze'
+  
+  Has 
+    hintm.
+  Description
+    "You are in a maze of twisty little passages, all alike."
+  
+  Exit d To loc_51.
+  
+  Exit s To loc_52.
+  
+  Exit e To loc_44.
+  
+  Exit w To loc_49.
+  
+End The loc_50.
+
+The loc_51 Isa location
+  Name 'Maze'
+  
+  Has 
+    hintm.
+  Description
+    "You are in a maze of twisty little passages, all alike."
+  
+  Exit u To loc_50.
+  
+  Exit s To loc_53.
+  
+  Exit e To loc_52.
+  
+  Exit w To loc_49.
+  
+End The loc_51.
+
+The loc_52 Isa location
+  Name 'Maze'
+  
+  Has 
+    hintm.
+  Description
+    "You are in a maze of twisty little passages, all alike."
+  
+  Exit n To loc_55.
+  
+  Exit s To loc_52.
+  
+  Exit e To loc_51.
+  
+  Exit w To loc_50.
+  
+  Exit u To loc_53.
+  
+  Exit d To loc_86.
+  
+End The loc_52.
+
+The loc_53 Isa location
+  Name 'Maze'
+  
+  Has 
+    hintm.
+  Description
+    "You are in a maze of twisty little passages, all alike."
+  
+  Exit n To loc_52.
+  
+  Exit s To loc_54.
+  
+  Exit w To loc_51.
+  
+End The loc_53.
+
+The loc_54 Isa location
+  Name 'Dead end'
+  
+  Has 
+    hintm.
+  Is 
+    piratefree.
+  Description
+    "Dead end"
+  
+  Exit w To loc_53.
+  
+  Verb mv_exit
+    Does Only
+      Locate hero At loc_53.
+  End Verb.
+  
+End The loc_54.
+
+The loc_55 Isa location
+  Name 'Maze'
+  
+  Has 
+    hintm.
+  Description
+    "You are in a maze of twisty little passages, all alike."
+  
+  Exit e To loc_57.
+  
+  Exit w To loc_52.
+  
+  Exit n To loc_55.
+  
+  Exit d To loc_56.
+  
+End The loc_55.
+
+The loc_56 Isa location
+  Name 'Dead end'
+  
+  Has 
+    hintm.
+  Is 
+    piratefree.
+  Description
+    "Dead end"
+  
+  Exit u To loc_55.
+  
+  Verb mv_exit
+    Does Only
+      Locate hero At loc_55.
+  End Verb.
+  
+End The loc_56.
+
+The loc_57 Isa location
+  Name 'Brink of pit'
+  
+  Description
+    "You are on the brink of a thirty foot pit with a massive orange column
+     down one wall. You could climb down here but you could not get back up.
+     The maze continues at this level."
+  
+  Exit n To loc_83.
+  
+  Exit s To loc_58.
+  
+  Exit e To loc_84.
+  
+  Exit w To loc_55.
+  
+  Exit d To loc_13.
+  
+  Verb mv_climb
+    Does Only
+      Locate hero At loc_13.
+  End Verb.
+  
+End The loc_57.
+
+The loc_58 Isa location
+  Name 'Dead end'
+  
+  Is 
+    piratefree.
+  Description
+    "Dead end"
+  
+  Exit e To loc_57.
+  
+  Verb mv_exit
+    Does Only
+      Locate hero At loc_57.
+  End Verb.
+  
+End The loc_58.
+
+The loc_59 Isa location
+  Name 'Ok'
+  
+  Is 
+    watoil.
+  Description
+    "You have crawled through a very low wide passage paralled to and north
+     of the hall of mists."
+  
+  Entered
+    Locate hero At loc_27.
+End The loc_59.
+
+The loc_60 Isa location
+  Name 'East end of long hall'
+  
+  Description
+    "You are at the east end of a very long hall apparently without side
+     chambers. To the east a low wide crawl slants up. To the north a round
+     two foot hole slants down."
+  
+  Exit n, d To loc_62.
+  
+  Exit u, e To loc_41.
+  
+  Exit w To loc_61.
+  
+  Verb mv_crawl
+    Does Only
+      Locate hero At loc_41.
+  End Verb.
+  
+  Verb omv_hole
+    Does Only
+      Locate hero At loc_62.
+  End Verb.
+  
+End The loc_60.
+
+The loc_61 Isa location
+  Name 'West end of long hall'
+  
+  Description
+    "You are at the west end of a very long featureless hall. The hall
+     joins up with a narrow north/south passage."
+  
+  Exit n To loc_62.
+  
+  Exit e To loc_60.
+  
+  Exit s To loc_107.
+  
+End The loc_61.
+
+The loc_62 Isa location
+  Name 'Crossover'
+  
+  Description
+    "You are at a crossover of a high N/S passage and a low E/W one."
+  
+  Exit n To loc_63.
+  
+  Exit s To loc_61.
+  
+  Exit e To loc_30.
+  
+  Exit w To loc_60.
+  
+End The loc_62.
+
+The loc_63 Isa location
+  Name 'Dead end'
+  
+  Description
+    "Dead end"
+  
+  Exit s To loc_62.
+  
+  Verb mv_exit
+    Does Only
+      Locate hero At loc_62.
+  End Verb.
+  
+End The loc_63.
+
+The loc_64 Isa location
+  Name 'Complex junction'
+  
+  Description
+    "You are at a complex junction. A low hands and knees passage from the
+     north joins a higher crawl from the east to make a walking passage
+     going west. There is also a large room above. The air is damp here."
+  
+  Exit n To loc_103.
+  
+  Exit e To loc_106.
+  
+  Exit w To loc_65.
+  
+  Exit u To loc_39.
+  
+  Verb mv_climb, omv_room
+    Does Only
+      Locate hero At loc_39.
+  End Verb.
+  
+  Verb omv_bedquilt
+    Does Only
+      Locate hero At loc_65.
+  End Verb.
+  
+  Verb omv_shell
+    Does Only
+      Locate hero At loc_103.
+  End Verb.
+  
+End The loc_64.
+
+The loc_65 Isa location
+  Name 'Bedquilt'
+  
+  Description
+    "You are in bedquilt, a long east/west passage with holes everywhere.
+     To explore at random select north, south, up or down."
+  
+  Exit e To loc_64.
+  
+  Exit w To loc_66.
+  
+  Exit s To loc_68
+    Check Random 1 To 100 >80
+      Else 
+        "You have crawled around in some little holes and wound up back in
+         the main passage."
+  End Exit.
+  
+  Exit u To loc_39
+    Check Random 1 To 100 >80
+      Else 
+        "You have crawled around in some little holes and wound up back in
+         the main passage."
+    And Random 1 To 100 >50
+      Else 
+        Locate hero At loc_70.
+  End Exit.
+  
+  Exit n To loc_71
+    Check Random 1 To 100 >60
+      Else 
+        "You have crawled around in some little holes and wound up back in
+         the main passage."
+    And Random 1 To 100 >75
+      Else 
+        Locate hero At loc_72.
+  End Exit.
+  
+  Exit d To loc_106
+    Check Random 1 To 100 >80
+      Else 
+        "You have crawled around in some little holes and wound up back in
+         the main passage."
+  End Exit.
+  
+  Verb omv_slab
+    Does Only
+      Locate hero At loc_68.
+  End Verb.
+  
+End The loc_65.
+
+The loc_66 Isa location
+  Name 'Swiss chesse room'
+  
+  Description
+    "You are in a room whose walls resemble swiss cheese. Obvious passages
+     go west, east, ne, and nw. Part of the room is occupied by a large
+     bedrock block."
+  
+  Exit ne To loc_65.
+  
+  Exit w To loc_67.
+  
+  Exit e To loc_96.
+  
+  Exit s To loc_77
+    Check Random 1 To 100 >80
+      Else 
+        "You have crawled around in some little holes and wound up back in
+         the main passage."
+  End Exit.
+  
+  Exit nw To loc_97
+    Check Random 1 To 100 >50
+      Else 
+        "You have crawled around in some little holes and wound up back in
+         the main passage."
+  End Exit.
+  
+  Verb omv_canyon
+    Does Only
+      Locate hero At loc_77.
+  End Verb.
+  
+  Verb omv_oriental
+    Does Only
+      Locate hero At loc_97.
+  End Verb.
+  
+End The loc_66.
+
+The loc_67 Isa location
+  Name 'East end of twopit room'
+  
+  Description
+    "You are at the east end of the twopit room. The floor here is littered
+     with thin rock slabs, which make it easy to descend the pits. There is
+     a path here bypassing the pits to connect passages from east and west.
+     There are holes all over, but the only bit one is on the wall directly
+     over the west pit where you can't get at it."
+  
+  Exit e To loc_66.
+  
+  Exit w To loc_23.
+  
+  Exit d To loc_24.
+  
+  Verb mv_across
+    Does Only
+      Locate hero At loc_23.
+  End Verb.
+  
+  Verb omv_pit
+    Does Only
+      Locate hero At loc_24.
+  End Verb.
+  
+End The loc_67.
+
+The loc_68 Isa location
+  Name 'Slab room'
+  
+  Description
+    "You are in a large low circular chamber whose floor is an immense slab
+     fallen from the ceiling (slab room). East and west there once were
+     large passages, but they are now filled with boulders. Low small
+     passages go north and south, and the south one quickly bends west
+     around the boulders."
+  
+  Exit s To loc_23.
+  
+  Exit n To loc_65.
+  
+  Exit u To loc_69.
+  
+  Verb mv_climb
+    Does Only
+      Locate hero At loc_69.
+  End Verb.
+  
+End The loc_68.
+
+The loc_69 Isa location
+  Name 'Secret N/S canyon'
+  
+  Description
+    "You are in a secret N/S canyon above a large room."
+  
+  Exit d To loc_68.
+  
+  Exit n To loc_109.
+  
+  Exit s To loc_120
+    Check obj_31_dragon Is Not living
+      Else 
+        Locate hero At loc_119.
+  End Exit.
+  
+  Verb omv_slab
+    Does Only
+      Locate hero At loc_68.
+  End Verb.
+  
+  Verb omv_reservoir
+    Does Only
+      Locate hero At loc_113.
+  End Verb.
+  
+End The loc_69.
+
+The loc_70 Isa location
+  Name 'Secret N/S canyon'
+  
+  Description
+    "You are in a secret N/S canyon above a sizable passage."
+  
+  Exit s To loc_111.
+  
+  Exit n To loc_71.
+  
+  Exit d To loc_65.
+  
+  Verb omv_tunnel
+    Does Only
+      Locate hero At loc_65.
+  End Verb.
+  
+End The loc_70.
+
+The loc_71 Isa location
+  Name 'Junction of secret canyons'
+  
+  Description
+    "You are in a secret canyon at a junction of three canyons, bearing
+     north, south and se. The north one is as tall as the other two
+     combined."
+  
+  Exit s To loc_70.
+  
+  Exit n To loc_110.
+  
+  Exit se To loc_65.
+  
+End The loc_71.
+
+The loc_72 Isa location
+  Name 'Large low room'
+  
+  Description
+    "You are in a large low room. Crawls lead north, se, and sw."
+  
+  Exit sw To loc_118.
+  
+  Exit n To loc_73.
+  
+  Exit se To loc_97.
+  
+  Verb omv_bedquilt
+    Does Only
+      Locate hero At loc_65.
+  End Verb.
+  
+  Verb omv_oriental
+    Does Only
+      Locate hero At loc_97.
+  End Verb.
+  
+End The loc_72.
+
+The loc_73 Isa location
+  Name 'Dead end crawl'
+  
+  Description
+    "Dead end crawl."
+  
+  Exit s To loc_72.
+  
+  Verb mv_exit, mv_crawl
+    Does Only
+      Locate hero At loc_72.
+  End Verb.
+  
+End The loc_73.
+
+The loc_74 Isa location
+  Name 'Secret E/W canyon'
+  
+  Description
+    "You are in a secret canyon which here runs E/W. It crosses over a very
+     tight canyon 15 feet below. If you go down you may not be able to get
+     back up."
+  
+  Exit e To loc_19.
+  
+  Exit d To loc_75.
+  
+  Exit w To loc_120
+    Check obj_31_dragon Is Not living
+      Else 
+        Locate hero At loc_121.
+  End Exit.
+  
+End The loc_74.
+
+The loc_75 Isa location
+  Name 'Wide place in canyon'
+  
+  Description
+    "You are at a wide place in a very tight N/S canyon."
+  
+  Exit n To loc_77.
+  
+  Exit s To loc_76.
+  
+End The loc_75.
+
+The loc_76 Isa location
+  Name 'Sorry'
+  
+  Description
+    "The canyon here becomes too tight to go further south."
+  
+  Exit n To loc_75.
+  
+End The loc_76.
+
+The loc_77 Isa location
+  Name 'Tall E/W canyon'
+  
+  Description
+    "You are in a tall E/W canyon. A low tight crawl goes 3 feet north and
+     seems to open up."
+  
+  Exit n To loc_66.
+  
+  Exit w To loc_78.
+  
+  Exit e To loc_75.
+  
+  Verb mv_crawl
+    Does Only
+      Locate hero At loc_66.
+  End Verb.
+  
+End The loc_77.
+
+The loc_78 Isa location
+  Name 'Dead end'
+  
+  Description
+    "The canyon runs into a mass of boulders -- dead end."
+  
+  Exit s To loc_77.
+  
+End The loc_78.
+
+The loc_79 Isa location
+  Name 'Sorry'
+  
+  Is 
+    watoil.
+  Description
+    "The stream flows out through a pair of 1 foot diameter sewer pipes. It
+     would be advisable to use the exit."
+  
+  Entered
+    Locate hero At loc_3.
+End The loc_79.
+
+The loc_80 Isa location
+  Name 'Maze'
+  
+  Has 
+    hintm.
+  Description
+    "You are in a maze of twisty little passages, all alike."
+  
+  Exit n To loc_42.
+  
+  Exit s, w To loc_80.
+  
+  Exit e To loc_81.
+  
+End The loc_80.
+
+The loc_81 Isa location
+  Name 'Dead end'
+  
+  Has 
+    hintm.
+  Is 
+    piratefree.
+  Description
+    "Dead end."
+  
+  Exit w To loc_80.
+  
+  Verb mv_exit
+    Does Only
+      Locate hero At loc_80.
+  End Verb.
+  
+End The loc_81.
+
+The loc_82 Isa location
+  Name 'Dead end'
+  
+  Has 
+    hintm.
+  Is 
+    piratefree.
+  Description
+    "Dead end."
+  
+  Exit s To loc_44.
+  
+  Verb mv_exit
+    Does Only
+      Locate hero At loc_44.
+  End Verb.
+  
+End The loc_82.
+
+The loc_83 Isa location
+  Name 'Maze'
+  
+  Description
+    "You are in a maze of twisty little passages, all alike."
+  
+  Exit s To loc_57.
+  
+  Exit e To loc_84.
+  
+  Exit w To loc_85.
+  
+End The loc_83.
+
+The loc_84 Isa location
+  Name 'Maze'
+  
+  Description
+    "You are in a maze of twisty little passages, all alike."
+  
+  Exit n To loc_57.
+  
+  Exit nw To loc_114.
+  
+  Exit w To loc_83.
+  
+End The loc_84.
+
+The loc_85 Isa location
+  Name 'Dead end'
+  
+  Is 
+    piratefree.
+  Description
+    "Dead end."
+  
+  Exit e To loc_83.
+  
+  Verb mv_exit
+    Does Only
+      Locate hero At loc_83.
+  End Verb.
+  
+End The loc_85.
+
+The loc_86 Isa location
+  Name 'Dead end'
+  
+  Has 
+    hintm.
+  Is 
+    piratefree.
+  Description
+    "Dead end."
+  
+  Exit u To loc_52.
+  
+  Verb mv_exit
+    Does Only
+      Locate hero At loc_52.
+  End Verb.
+  
+End The loc_86.
+
+The loc_87 Isa location
+  Name 'Maze'
+  
+  Has 
+    hintm.
+  Description
+    "You are in a maze of twisty little passages, all alike."
+  
+  Exit d, u To loc_45.
+  
+End The loc_87.
+
+The loc_88 Isa location
+  Name 'Narrow corridor'
+  
+  Description
+    "You are in a long, narrow corridor stretching out of sight to the
+     west. At the eastern end is a hole through which you can see a
+     profusion of leaves,"
+  
+  Exit d, e To loc_25.
+  
+  Exit w To loc_92.
+  
+  Verb mv_climb
+    Does Only
+      Locate hero At loc_25.
+  End Verb.
+  
+  Verb mv_jump
+    Does Only
+      Locate hero At loc_20.
+  End Verb.
+  
+  Verb omv_giant
+    Does Only
+      Locate hero At loc_92.
+  End Verb.
+  
+End The loc_88.
+
+The loc_89 Isa location
+  Name 'Sorry'
+  
+  Is 
+    watoil.
+  Description
+    "There is nothing here to climb. Use ""up"" or ""out"" to leave the
+     pit."
+  
+  Entered
+    Locate hero At loc_25.
+End The loc_89.
+
+The loc_90 Isa location
+  Name 'Ok'
+  
+  Is 
+    watoil.
+  Description
+    "You have climbed up the plant and out of the pit."
+  
+  Entered
+    Locate hero At loc_23.
+End The loc_90.
+
+The loc_91 Isa location
+  Name 'Steep incline'
+  
+  Description
+    "You are at the top of a steep incline above a large room. You could
+     climb down here, but you would not be able to climb up. There is a
+     passage leading back to the north."
+  
+  Exit n To loc_95.
+  
+  Exit d To loc_72.
+  
+  Verb mv_climb
+    Does Only
+      Locate hero At loc_72.
+  End Verb.
+  
+  Verb omv_tunnel, omv_cavern
+    Does Only
+      Locate hero At loc_95.
+  End Verb.
+  
+End The loc_91.
+
+The loc_92 Isa location
+  Name 'Giant room'
+  
+  Description
+    "You are in the giant room. The ceiling is too high up for your lamp to
+     show it. Cavernous passages lead east, north, and south. On the west
+     wall is scrawled the inscription:$i ""Fee Fie Foe Foo"" {sic}$n"
+  
+  Exit s To loc_88.
+  
+  Exit e To loc_93.
+  
+  Exit n To loc_94.
+  
+End The loc_92.
+
+The loc_93 Isa location
+  Name 'Cave-in'
+  
+  Description
+    "The passage here is blocked by a recent cave-in."
+  
+  Exit s To loc_92.
+  
+  Verb mv_exit, omv_giant
+    Does Only
+      Locate hero At loc_92.
+  End Verb.
+  
+End The loc_93.
+
+The loc_94 Isa location
+  Name 'Immense N/S passage'
+  
+  Description
+    "You are at one end of an immense north/south passage."
+  
+  Exit s To loc_92.
+  
+  Exit n To loc_95
+    Check obj_9_door Is oiled
+      Else 
+        "The door is extremely rusty and refuses to open."
+  End Exit.
+  
+  Verb mv_enter, omv_cavern
+    Check obj_9_door Is oiled
+      Else 
+        "The door is extremely rusty and refuses to open."
+    Does Only
+      Locate hero At loc_95.
+  End Verb.
+  
+  Verb omv_giant, omv_tunnel
+    Does Only
+      Locate hero At loc_92.
+  End Verb.
+  
+End The loc_94.
+
+The loc_95 Isa location
+  Name 'Cavern with waterfall'
+  
+  Has 
+    water.
+  Description
+    "You are in a magnificent cavern with a rushing stream, which cascades
+     over a sparkling waterfall into a roaring whirlpool which disappears
+     through a hole in the floor. Passages exit to the south and west."
+  
+  Exit w To loc_91.
+  
+  Exit s To loc_94.
+  
+  Verb mv_exit
+    Does Only
+      Locate hero At loc_94.
+  End Verb.
+  
+  Verb omv_giant
+    Does Only
+      Locate hero At loc_92.
+  End Verb.
+  
+End The loc_95.
+
+The loc_96 Isa location
+  Name 'Soft room'
+  
+  Description
+    "You are in the soft room. The walls are covered with heavy curtains,
+     the floor with a thick pile carpet. Moss covers the ceiling."
+  
+  Exit w To loc_66.
+  
+  Verb mv_exit
+    Does Only
+      Locate hero At loc_66.
+  End Verb.
+  
+End The loc_96.
+
+The loc_97 Isa location
+  Name 'Oriental room'
+  
+  Description
+    "This is the oriental room. Ancient oriental cave drawings cover the
+     walls. A gently sloping passage leads upward to the north, another
+     passage leads se, and a hands and knees crawl leads west."
+  
+  Exit se To loc_66.
+  
+  Exit w To loc_72.
+  
+  Exit n, u To loc_98.
+  
+  Verb mv_crawl
+    Does Only
+      Locate hero At loc_72.
+  End Verb.
+  
+  Verb omv_cavern
+    Does Only
+      Locate hero At loc_98.
+  End Verb.
+  
+End The loc_97.
+
+The loc_98 Isa location
+  Name 'Misty cavern'
+  
+  Description
+    "You are following a wide path around the outer edge of a large cavern.
+     Far below, through a heavy white mist, strange splashing noises can be
+     heard. The mist rises up through a fissure in the ceiling. The path
+     exits to the south and west."
+  
+  Exit s To loc_97.
+  
+  Exit w To loc_99.
+  
+  Verb omv_oriental
+    Does Only
+      Locate hero At loc_97.
+  End Verb.
+  
+End The loc_98.
+
+The loc_99 Isa location
+  Name 'Alcove'
+  
+  Description
+    "You are in an alcove. A small nw path seems to widen after a short
+     distance. An extremely tight tunnel leads east. It looks like a very
+     tight squeeze. An eerie light can be seen at the other end."
+  
+  Exit nw To loc_98.
+  
+  Exit e To loc_100
+    Check  Count Isa object, Directly In inventory =0 Or (obj_59_emerald In inventory And  Count Isa object, Directly In inventory =1)
+      Else 
+        "Something you're carrying won't fit through the tunnel with you.
+         You'd best take inventory and drop something."
+  End Exit.
+  
+  Verb omv_cavern
+    Does Only
+      Locate hero At loc_98.
+  End Verb.
+  
+  Verb omv_tunnel
+    Check  Count Isa object, Directly In inventory =0 Or (obj_59_emerald In inventory And  Count Isa object, Directly In inventory =1)
+      Else 
+        "Something you're carrying won't fit through the tunnel with you.
+         You'd best take inventory and drop something."
+    Does Only
+      Locate hero At loc_100.
+  End Verb.
+  
+End The loc_99.
+
+The loc_100 Isa location
+  Name 'Plover room'
+  
+  Is 
+    lighted.
+  Description
+    "You're in a small chamber lit by an eerie green light. An extremely
+     narrow tunnel exits to the west. A dark corridor leads ne."
+  
+  Exit ne To loc_101
+    Check obj_2_lamp Is lit And (obj_2_lamp In inventory Or obj_2_lamp At loc_101)
+      Else 
+        Locate placemarker At loc_101.
+        Locate Current Actor At darkplace.
+  End Exit.
+  
+  Exit w To loc_99
+    Check  Count Isa object, Directly In inventory =0 Or (obj_59_emerald In inventory And  Count Isa object, Directly In inventory =1)
+      Else 
+        "Something you're carrying won't fit through the tunnel with you.
+         You'd best take inventory and drop something."
+    And obj_2_lamp Is lit And (obj_2_lamp In inventory Or obj_2_lamp At loc_99)
+      Else 
+        Locate placemarker At loc_99.
+        Locate Current Actor At darkplace.
+  End Exit.
+  
+  Verb omv_dark
+    Does Only
+      Locate hero At loc_101.
+  End Verb.
+  
+  Verb omv_tunnel, mv_exit
+    Check  Count Isa object, Directly In inventory =0 Or (obj_59_emerald In inventory And  Count Isa object, Directly In inventory =1)
+      Else 
+        "Something you're carrying won't fit through the tunnel with you.
+         You'd best take inventory and drop something."
+    Does Only
+      Locate hero At loc_99.
+  End Verb.
+  
+  Verb omv_plover
+    Does Only
+      If obj_59_emerald In inventory Then
+        Locate obj_59_emerald Here.
+      Elsif obj_2_lamp Is lit And (obj_2_lamp In inventory Or obj_2_lamp At loc_33) Then 
+        Locate hero At loc_33.
+      Else 
+        Locate placemarker At loc_33.
+        Locate Current Actor At darkplace.
+      End If.
+  End Verb.
+  
+End The loc_100.
+
+The loc_101 Isa location
+  Name 'Dark-room'
+  
+  Description
+    "You're in the dark-room. A corridor leading south is the only exit."
+  
+  Exit s To loc_100.
+  
+  Verb mv_exit, omv_plover
+    Does Only
+      Locate hero At loc_100.
+  End Verb.
+  
+End The loc_101.
+
+The loc_102 Isa location
+  Name 'Arched hall'
+  
+  Description
+    "You are in an arched hall. A coral passage once continued up and east
+     from here, but is now blocked by debris. The air smells of sea water."
+  
+  Exit d To loc_103.
+  
+  Verb mv_exit, omv_shell
+    Does Only
+      Locate hero At loc_103.
+  End Verb.
+  
+End The loc_102.
+
+The loc_103 Isa location
+  Name 'Shell room'
+  
+  Description
+    "You're in a large room carved out of sedimentary rock. The floor and
+     walls are littered with bits of shells imbedded in the stone. A shallow
+     passage proceeds downward, and a somewhat steeper one leads up. A low
+     hands and knees passage enters from the south."
+  
+  Exit u To loc_102.
+  
+  Exit d To loc_104.
+  
+  Exit s To loc_64
+    Check obj_14_clam Not In inventory
+      Else 
+        "You can't fit this five-foot clam through that little passage!"
+    And obj_15_oyster Not In inventory
+      Else 
+        "You can't fit this five foot oyster through that little passage!"
+  End Exit.
+  
+  Verb omv_hall
+    Does Only
+      Locate hero At loc_102.
+  End Verb.
+  
+End The loc_103.
+
+The loc_104 Isa location
+  Name 'Long sloping corridor'
+  
+  Description
+    "You are in a long sloping corridor with ragged sharp walls."
+  
+  Exit u To loc_103.
+  
+  Exit d To loc_105.
+  
+  Verb omv_shell
+    Does Only
+      Locate hero At loc_103.
+  End Verb.
+  
+End The loc_104.
+
+The loc_105 Isa location
+  Name 'Cul-de-sac'
+  
+  Description
+    "You are in a cul-de-sac about eight feet across."
+  
+  Exit u To loc_104.
+  
+  Verb mv_exit
+    Does Only
+      Locate hero At loc_104.
+  End Verb.
+  
+  Verb omv_shell
+    Does Only
+      Locate hero At loc_103.
+  End Verb.
+  
+End The loc_105.
+
+The loc_106 Isa location
+  Name 'Anteroom'
+  
+  Description
+    "You are in an anteroom leading to a large passage to the east. Small
+     passages go west and up. The remnants of recent digging are evident. A
+     sign in midair here says:$i ""Cave under construction beyond this
+     point.""$i $t""Proceed at your own risk.""$i $t""Witt construction
+     company""$n"
+  
+  Exit u To loc_64.
+  
+  Exit w To loc_65.
+  
+  Exit e To loc_108.
+  
+End The loc_106.
+
+The loc_107 Isa location
+  Name 'Maze'
+  
+  Description
+    "You are in a maze of twisty little passages, all different."
+  
+  Exit n To loc_139.
+  
+  Exit s To loc_131.
+  
+  Exit e To loc_137.
+  
+  Exit w To loc_138.
+  
+  Exit ne To loc_133.
+  
+  Exit nw To loc_136.
+  
+  Exit se To loc_134.
+  
+  Exit sw To loc_132.
+  
+  Exit u To loc_135.
+  
+  Exit d To loc_61.
+  
+End The loc_107.
+
+The loc_108 Isa location
+  Name 'Witt''s end'
+  
+  Description
+    "You are at Witt's end. Passages lead off in ALL directions."
+  
+  Exit w To loc_108
+    Does
+      "You have crawled around in some little holes and found your way
+       blocked by a recent cave-in. You are now back in the main passage."
+  End Exit.
+  
+  Exit e, n, s, ne, se, sw, nw, u, d To loc_106
+    Check Random 1 To 100 >95
+      Else 
+        "You have crawled around in some little holes and wound up back in
+         the main passage."
+  End Exit.
+  
+End The loc_108.
+
+The loc_109 Isa location
+  Name 'Mirror canyon'
+  
+  Description
+    "You are in a north/south canyon about 25 feet across. The floor is
+     covered by white mist seeping in from the north. The walls extend
+     upward for well over 100 feet. Suspended from some unseen point far
+     above you, an enormous two- sided mirror is hanging paralled to and
+     midway between the canyon walls. (The mirror is obviously provided for
+     the use of the dwarves, who as you know, are extremely vain.) A small
+     window can be seen in either wall, some fifty feet up."
+  
+  Exit s To loc_69.
+  
+  Exit n To loc_113.
+  
+  Verb omv_reservoir
+    Does Only
+      Locate hero At loc_113.
+  End Verb.
+  
+End The loc_109.
+
+The loc_110 Isa location
+  Name 'Window on pit'
+  
+  Description
+    "You're at a low window overlooking a huge pit, which extends up out of
+     sight. A floor is indistinctly visible over 50 feet below. Traces of
+     white mist cover the floor of the pit, becoming thicker to the left.
+     Marks in the dust around the window would seem to indicate that someone
+     has been here recently. Directly across the pit from you and 25 feet
+     away there is a similar window looking into a lighted room. A shadowy
+     figure can be seen there peering back at you."
+  
+  Exit w To loc_71.
+  
+  Verb mv_jump
+    Does Only
+      Locate hero At loc_20.
+  End Verb.
+  
+End The loc_110.
+
+The loc_111 Isa location
+  Name 'Top of stalactite'
+  
+  Description
+    "A large stalactite extends from the roof and almost reaches the floor
+     below. You could climb down it, and jump from it to the floor, but
+     having done so you would be unable to reach it to climb back up."
+  
+  Exit n To loc_70.
+  
+  Exit d To loc_45
+    Check Random 1 To 100 >60
+      Else 
+        Locate hero At loc_50.
+    And Random 1 To 100 >50
+      Else 
+        Locate hero At loc_53.
+  End Exit.
+  
+  Verb mv_climb, mv_jump
+    Does Only
+      If Random 1 To 100 >60 Then
+        Locate hero At loc_50.
+      Elsif Random 1 To 100 >50 Then 
+        Locate hero At loc_53.
+      Else 
+        Locate hero At loc_45.
+      End If.
+  End Verb.
+  
+End The loc_111.
+
+The loc_112 Isa location
+  Name 'Maze'
+  
+  Description
+    "You are in a little maze of twisting passages, all different."
+  
+  Exit n To loc_132.
+  
+  Exit s To loc_140.
+  
+  Exit e To loc_133.
+  
+  Exit w To loc_137.
+  
+  Exit ne To loc_136.
+  
+  Exit nw To loc_134.
+  
+  Exit se To loc_135.
+  
+  Exit sw To loc_131.
+  
+  Exit u To loc_139.
+  
+  Exit d To loc_138.
+  
+End The loc_112.
+
+The loc_113 Isa location
+  Name 'Reservoir'
+  
+  Has 
+    water.
+  Description
+    "You are at the edge of a large underground reservoir. An opaque cloud
+     of white mist fills the room and rises rapidly upward. The lake is fed
+     by a stream which tumbles out of a hole in the wall about 10 feet
+     overhead and splashes noisily into the water somewhere within the mist.
+     The only passage goes back toward the south."
+  
+  Exit s To loc_109.
+  
+  Verb mv_exit
+    Does Only
+      Locate hero At loc_109.
+  End Verb.
+  
+End The loc_113.
+
+The loc_114 Isa location
+  Name 'Dead end'
+  
+  Description
+    "Dead end."
+  
+  Exit se To loc_84.
+  
+End The loc_114.
+
+The loc_115 Isa location
+  Name 'NE end of repository'
+  
+  Is 
+    lighted.
+  Description
+    "You are at the northeast end of an immense room, even larger than the
+     giant room. It appears to be a repository for the ""adventure""
+     program. Massive torches far overhead bathe the room with smoky yellow
+     light. Scattered about you can be seen a pile of bottles (all of them
+     empty), a nursery of young beanstalks murmuring quietly, a bed of
+     oysters, a bundle of black rods with rusty stars on their ends, and a
+     collection of brass lanterns. Off to one side a great many Dwarves are
+     sleeping on the floor, snoring loudly. A sign nearby reads:$i ""Do NOT
+     disturb the Dwarves!""$n An immense mirror is hanging against one wall,
+     and stretches to the other end of the room, where various other sundry
+     objects can be glimpsed dimly in the distance."
+  
+  Exit sw To loc_116.
+  
+End The loc_115.
+
+The loc_116 Isa location
+  Name 'SW end of repository'
+  
+  Is 
+    lighted.
+  Description
+    "You are at the southwest end of the repository. To one side is a pit
+     full of fierce green snakes. On the other side is a row of small wicker
+     cages, each of which contains a little sulking bird. In one corner is a
+     bundle of black rods with rusty marks on their ends. A large number of
+     velvet pillows are scattered about on the floor. A vast mirror
+     stretches off to the northeast. At your feet is a large steel grate,
+     next to which is a sign which reads:$i ""Treasure vault. Keys in main
+     office.""$n"
+  
+  Exit d To loc_116
+    Check 
+      "You can't go through a locked steel grate!"
+  End Exit.
+  
+  Exit ne To loc_115.
+  
+End The loc_116.
+
+The loc_117 Isa location
+  Name 'SW side of chasm'
+  
+  Description
+    "You are on one side of a large deep chasm. A heavy white mist rising
+     up from below obscures all view of the far side. A sw path leads away
+     from the chasm into a winding corridor."
+  
+  Exit sw To loc_118.
+  
+  Exit ne To loc_122
+    Check obj_32_chasm Is spanned
+      Else 
+        "There is no longer any way across the chasm."
+    And obj_33_troll Is Not insight
+      Else 
+        "The troll refuses to let you cross."
+    And obj_33_troll Is Not returning
+      Else 
+        "The troll steps out from beneath the bridge and blocks your way."
+        Make obj_33_troll insight.
+    Does
+      If obj_33_troll Is Not gone Then
+        Make obj_33_troll returning.
+      End If.
+  End Exit.
+  
+  Verb omv_hall
+    Does Only
+      Locate hero At loc_15.
+  End Verb.
+  
+  Verb mv_over, mv_across, mv_cross
+    Check obj_32_chasm Is spanned
+      Else 
+        "There is no longer any way across the chasm."
+    And obj_33_troll Is Not insight
+      Else 
+        "The troll refuses to let you cross."
+    And obj_33_troll Is Not returning
+      Else 
+        "The troll steps out from beneath the bridge and blocks your way."
+        Make obj_33_troll insight.
+    Does Only
+      Locate hero At loc_122.
+      If obj_33_troll Is Not gone Then
+        Make obj_33_troll returning.
+      End If.
+  End Verb.
+  
+  Verb mv_jump
+    Check obj_32_chasm Is spanned
+      Else 
+        Locate hero At loc_21.
+    Does Only
+      "I respectfully suggest you go across the bridge instead of jumping."
+  End Verb.
+  
+  Verb tav_throw
+    Check (obj_33_troll Is Not insight Or obj Is Not treasure)
+      Else 
+        "The troll catches your treasure and scurries away out of sight."
+        Locate obj At nowhere.
+        Make obj_33_troll Not insight.
+        Make obj_33_troll Not returning.
+  End Verb.
+  
+End The loc_117.
+
+The loc_118 Isa location
+  Name 'Sloping corridor'
+  
+  Description
+    "You are in a long winding corridor sloping out of sight in both
+     directions."
+  
+  Exit d To loc_72.
+  
+  Exit u To loc_117.
+  
+End The loc_118.
+
+The loc_119 Isa location
+  Name 'Secret canyon'
+  
+  Description
+    "You are in a secret canyon which exits to the north and east."
+  
+  Exit n To loc_69.
+  
+  Exit e To loc_119
+    Check 
+      "The dragon looks rather nasty. You'd best not try to get by."
+  End Exit.
+  
+  Verb mv_exit
+    Does Only
+      Locate hero At loc_69.
+  End Verb.
+  
+  Verb mv_forward
+    Does Only
+      "The dragon looks rather nasty. You'd best not try to get by."
+  End Verb.
+  
+  Verb tav_drop
+    Does Only
+      Locate obj In obj_loc_119.
+  End Verb.
+  
+  Verb specv_yes
+    Does
+      If hero Is killing Then
+        Make obj_31_dragon Not living.
+        "Congratulations! You have just vanquished a dragon with your bare
+         hands! (Unbelievable, Isn't it?)"
+        Locate hero At loc_120.
+        Locate obj_31_dragon At loc_120.
+        Locate obj_62_rug At loc_120.
+        Make obj_62_rug takable.
+        Empty obj_loc_119 At loc_120 .
+      End If.
+  End Verb.
+  
+End The loc_119.
+
+The obj_loc_119 Isa object
+  Name ''
+  At loc_119 
+  With Container
+    Header
+      "In front of the dragon lies"
+    Else
+      ""
+  Description
+    List obj_loc_119.
+  
+End The obj_loc_119.
+
+The loc_120 Isa location
+  Name 'Secret canyon'
+  
+  Description
+    "You are in a secret canyon which exits to the north and east."
+  
+  Exit e To loc_74.
+  
+  Exit n To loc_69.
+  
+End The loc_120.
+
+The loc_121 Isa location
+  Name 'Secret canyon'
+  
+  Description
+    "You are in a secret canyon which exits to the north and east."
+  
+  Exit e To loc_74.
+  
+  Exit n To loc_121
+    Check 
+      "The dragon looks rather nasty. You'd best not try to get by."
+  End Exit.
+  
+  Verb mv_exit
+    Does Only
+      Locate hero At loc_74.
+  End Verb.
+  
+  Verb mv_forward
+    Does Only
+      "The dragon looks rather nasty. You'd best not try to get by."
+  End Verb.
+  
+  Verb tav_drop
+    Does Only
+      Locate obj In obj_loc_121.
+  End Verb.
+  
+  Verb specv_yes
+    Does
+      If hero Is killing Then
+        Make obj_31_dragon Not living.
+        "Congratulations! You have just vanquished a dragon with your bare
+         hands! (Unbelievable, Isn't it?)"
+        Locate hero At loc_120.
+        Locate obj_31_dragon At loc_120.
+        Locate obj_62_rug At loc_120.
+        Make obj_62_rug takable.
+        Empty obj_loc_121 At loc_120 .
+      End If.
+  End Verb.
+  
+End The loc_121.
+
+The obj_loc_121 Isa object
+  Name ''
+  At loc_121 
+  With Container
+    Header
+      "In front of the dragon lies"
+    Else
+      ""
+  Description
+    List obj_loc_121.
+  
+End The obj_loc_121.
+
+The loc_122 Isa location
+  Name 'NE side of chasm'
+  
+  Is 
+    piratefree.
+  Description
+    "You are on the far side of the chasm. A ne path leads away from the
+     chasm on this side."
+  
+  Exit ne To loc_123.
+  
+  Exit sw To loc_117
+    Check obj_32_chasm Is spanned
+      Else 
+        "There is no longer any way across the chasm."
+    And obj_33_troll Is Not insight
+      Else 
+        "The troll refuses to let you cross."
+    And obj_33_troll Is Not returning
+      Else 
+        "The troll steps out from beneath the bridge and blocks your way."
+        Make obj_33_troll insight.
+    Does
+      If obj_33_troll Is Not gone Then
+        Make obj_33_troll returning.
+      End If.
+      If obj_35_bear In company Then
+        Schedule event_breakbridge Here After 0.
+      End If.
+  End Exit.
+  
+  Verb omv_hall
+    Does Only
+      Locate hero At loc_15.
+  End Verb.
+  
+  Verb mv_over, mv_across, mv_cross
+    Check obj_32_chasm Is spanned
+      Else 
+        "There is no longer any way across the chasm."
+    And obj_33_troll Is Not insight
+      Else 
+        "The troll refuses to let you cross."
+    And obj_33_troll Is Not returning
+      Else 
+        "The troll steps out from beneath the bridge and blocks your way."
+        Make obj_33_troll insight.
+    Does Only
+      Locate hero At loc_117.
+      If obj_33_troll Is Not gone Then
+        Make obj_33_troll returning.
+      End If.
+      If obj_35_bear In company Then
+        Schedule event_breakbridge Here After 0.
+      End If.
+  End Verb.
+  
+  Verb mv_jump
+    Check obj_32_chasm Is spanned
+      Else 
+        Locate hero At loc_21.
+    Does Only
+      "I respectfully suggest you go across the bridge instead of jumping."
+  End Verb.
+  
+  Verb omv_fork
+    Does Only
+      Locate hero At loc_124.
+  End Verb.
+  
+  Verb omv_view
+    Does Only
+      Locate hero At loc_126.
+  End Verb.
+  
+  Verb omv_barren
+    Does Only
+      Locate hero At loc_129.
+  End Verb.
+  
+  Verb tav_throw
+    Check obj_33_troll Is Not insight Or obj Is Not treasure
+      Else 
+        "The troll catches your treasure and scurries away out of sight."
+        Locate obj At nowhere.
+        Make obj_33_troll Not insight.
+        Make obj_33_troll Not returning.
+  End Verb.
+  
+End The loc_122.
+
+The loc_123 Isa location
+  Name 'Corridor'
+  
+  Is 
+    piratefree.
+  Description
+    "You're in a long east/west corridor. A faint rumbling noise can be
+     heard in the distance."
+  
+  Exit w To loc_122.
+  
+  Exit e To loc_124.
+  
+  Verb omv_fork
+    Does Only
+      Locate hero At loc_124.
+  End Verb.
+  
+  Verb omv_view
+    Does Only
+      Locate hero At loc_126.
+  End Verb.
+  
+  Verb omv_barren
+    Does Only
+      Locate hero At loc_129.
+  End Verb.
+  
+End The loc_123.
+
+The loc_124 Isa location
+  Name 'Fork in path'
+  
+  Is 
+    piratefree.
+  Description
+    "The path forks here. The left fork leads northeast. A dull rumbling
+     seems to get louder in that direction. The right fork leads southeast
+     down a gentle slope. The main corridor enters from the west."
+  
+  Exit w To loc_123.
+  
+  Exit ne To loc_125.
+  
+  Exit se, d To loc_128.
+  
+  Verb mv_left
+    Does Only
+      Locate hero At loc_125.
+  End Verb.
+  
+  Verb mv_right
+    Does Only
+      Locate hero At loc_128.
+  End Verb.
+  
+  Verb omv_view
+    Does Only
+      Locate hero At loc_126.
+  End Verb.
+  
+  Verb omv_barren
+    Does Only
+      Locate hero At loc_129.
+  End Verb.
+  
+End The loc_124.
+
+The loc_125 Isa location
+  Name 'Junction with warm walls'
+  
+  Is 
+    piratefree.
+  Description
+    "The walls are quite warm here. From the north can be heard a steady
+     roar, so loud that the entire cave seems to be trembling. Another
+     passage leads south, and a low crawl goes east."
+  
+  Exit s To loc_124.
+  
+  Exit n To loc_126.
+  
+  Exit e To loc_127.
+  
+  Verb omv_fork
+    Does Only
+      Locate hero At loc_124.
+  End Verb.
+  
+  Verb omv_view
+    Does Only
+      Locate hero At loc_126.
+  End Verb.
+  
+  Verb mv_crawl
+    Does Only
+      Locate hero At loc_127.
+  End Verb.
+  
+End The loc_125.
+
+The loc_126 Isa location
+  Name 'Breath-taking view'
+  
+  Is 
+    piratefree.
+  Description
+    "You are on the edge of a breath-taking view. Far below you is an
+     active volcano, from which great gouts of molten lava come surging out,
+     cascading back down into the depths. The glowing rock fills the
+     farthest reaches of the cavern with a blood-red glare, giving
+     everything an eerie, macabre appearance. The air is filled with
+     flickering sparks of ash and a heavy smell of brimstone. The walls are
+     hot to the touch, and the thundering of the volcano drowns out all
+     other sounds. Embedded in the jagged roof far overhead are myriad
+     formations composed of pure white alabaster, which scatter their murky
+     light into sinister apparitions upon the walls. To one side is a deep
+     gorge, filled with a bizarre chaos of tortured rock which seems to have
+     been crafted by the Devil Himself. An immense river of fire crashes out
+     from the depths of the volcano, burns its way through the gorge, and
+     plummets into a bottomless pit far off to your left. To the right, an
+     immense geyser of blistering steam erupts continuously from a barren
+     island in the center of a sulfurous lake, which bubbles ominously. The
+     far right wall is aflame with an incandescence of its own, which lends
+     an additional infernal splendor to the already hellish scene. A dark,
+     foreboding passage exits to the south."
+  
+  Exit s To loc_125.
+  
+  Exit d To loc_126
+    Check 
+      "Don't be ridiculous!"
+  End Exit.
+  
+  Verb mv_jump
+    Does Only
+      "Don't be ridiculous!"
+  End Verb.
+  
+  Verb omv_fork
+    Does Only
+      Locate hero At loc_124.
+  End Verb.
+  
+  Verb omv_view
+    Does Only
+      Locate hero At loc_126.
+  End Verb.
+  
+  Verb mv_exit, omv_tunnel
+    Does Only
+      Locate hero At loc_125.
+  End Verb.
+  
+End The loc_126.
+
+The loc_127 Isa location
+  Name 'Chamber of boulders'
+  
+  Is 
+    piratefree.
+  Description
+    "You are in a small chamber filled with large boulders. The walls are
+     very warm, causing the air in the room to be almost stifling from the
+     heat. The only exit is a crawl heading west, through which is coming a
+     low rumbling."
+  
+  Exit w To loc_125.
+  
+  Verb omv_fork
+    Does Only
+      Locate hero At loc_124.
+  End Verb.
+  
+  Verb omv_view
+    Does Only
+      Locate hero At loc_126.
+  End Verb.
+  
+  Verb mv_exit, mv_crawl
+    Does Only
+      Locate hero At loc_125.
+  End Verb.
+  
+End The loc_127.
+
+The loc_128 Isa location
+  Name 'Limestone passage'
+  
+  Is 
+    piratefree.
+  Description
+    "You are walking along a gently sloping north/south passage lined with
+     oddly shaped limestone formations."
+  
+  Exit n, u To loc_124.
+  
+  Exit s, d To loc_129.
+  
+  Verb omv_fork
+    Does Only
+      Locate hero At loc_124.
+  End Verb.
+  
+  Verb omv_view
+    Does Only
+      Locate hero At loc_126.
+  End Verb.
+  
+  Verb omv_barren
+    Does Only
+      Locate hero At loc_129.
+  End Verb.
+  
+End The loc_128.
+
+The loc_129 Isa location
+  Name 'Outside barren room'
+  
+  Is 
+    piratefree.
+  Description
+    "You are standing at the entrance to a large, barren room. A sign
+     posted above the entrance reads:$i ""Caution! Bear in room!""$n"
+  
+  Exit w, u To loc_128.
+  
+  Exit e To loc_130.
+  
+  Verb omv_fork
+    Does Only
+      Locate hero At loc_124.
+  End Verb.
+  
+  Verb omv_view
+    Does Only
+      Locate hero At loc_126.
+  End Verb.
+  
+  Verb omv_barren, mv_enter, mv_in
+    Does Only
+      Locate hero At loc_130.
+  End Verb.
+  
+End The loc_129.
+
+The loc_130 Isa location
+  Name 'Barren room'
+  
+  Is 
+    piratefree.
+  Description
+    "You are inside a barren room. The center of the room is completely
+     empty except for some dust. Marks in the dust lead away toward the far
+     end of the room. The only exit is the way you came in."
+  
+  Exit w To loc_129.
+  
+  Verb omv_fork
+    Does Only
+      Locate hero At loc_124.
+  End Verb.
+  
+  Verb omv_view
+    Does Only
+      Locate hero At loc_126.
+  End Verb.
+  
+End The loc_130.
+
+The loc_131 Isa location
+  Name 'Maze'
+  
+  Description
+    "You are in a maze of twisting little passages, all different."
+  
+  Exit n To loc_138.
+  
+  Exit s To loc_139.
+  
+  Exit e To loc_112.
+  
+  Exit w To loc_107.
+  
+  Exit ne To loc_135.
+  
+  Exit nw To loc_133.
+  
+  Exit se To loc_132.
+  
+  Exit sw To loc_134.
+  
+  Exit u To loc_136.
+  
+  Exit d To loc_137.
+  
+End The loc_131.
+
+The loc_132 Isa location
+  Name 'Maze'
+  
+  Description
+    "You are in a little maze of twisty passages, all different."
+  
+  Exit n To loc_133.
+  
+  Exit s To loc_134.
+  
+  Exit e To loc_138.
+  
+  Exit w To loc_135.
+  
+  Exit ne To loc_137.
+  
+  Exit nw To loc_107.
+  
+  Exit se To loc_112.
+  
+  Exit sw To loc_136.
+  
+  Exit u To loc_131.
+  
+  Exit d To loc_139.
+  
+End The loc_132.
+
+The loc_133 Isa location
+  Name 'Maze'
+  
+  Description
+    "You are in a twisting maze of little passages, all different."
+  
+  Exit n To loc_137.
+  
+  Exit s To loc_112.
+  
+  Exit e To loc_136.
+  
+  Exit w To loc_132.
+  
+  Exit ne To loc_134.
+  
+  Exit nw To loc_138.
+  
+  Exit se To loc_139.
+  
+  Exit sw To loc_135.
+  
+  Exit u To loc_107.
+  
+  Exit d To loc_131.
+  
+End The loc_133.
+
+The loc_134 Isa location
+  Name 'Maze'
+  
+  Description
+    "You are in a twisting little maze of passages, all different."
+  
+  Exit n To loc_131.
+  
+  Exit s To loc_137.
+  
+  Exit e To loc_135.
+  
+  Exit w To loc_139.
+  
+  Exit ne To loc_107.
+  
+  Exit nw To loc_132.
+  
+  Exit se To loc_133.
+  
+  Exit sw To loc_112.
+  
+  Exit u To loc_138.
+  
+  Exit d To loc_136.
+  
+End The loc_134.
+
+The loc_135 Isa location
+  Name 'Maze'
+  
+  Description
+    "You are in a twisty little maze of passages, all different."
+  
+  Exit n To loc_107.
+  
+  Exit s To loc_133.
+  
+  Exit e To loc_134.
+  
+  Exit w To loc_136.
+  
+  Exit ne To loc_138.
+  
+  Exit nw To loc_139.
+  
+  Exit se To loc_131.
+  
+  Exit sw To loc_137.
+  
+  Exit u To loc_112.
+  
+  Exit d To loc_132.
+  
+End The loc_135.
+
+The loc_136 Isa location
+  Name 'Maze'
+  
+  Description
+    "You are in a twisty maze of little passages, all different."
+  
+  Exit n To loc_112.
+  
+  Exit s To loc_135.
+  
+  Exit e To loc_107.
+  
+  Exit w To loc_131.
+  
+  Exit ne To loc_139.
+  
+  Exit nw To loc_137.
+  
+  Exit se To loc_138.
+  
+  Exit sw To loc_133.
+  
+  Exit u To loc_132.
+  
+  Exit d To loc_134.
+  
+End The loc_136.
+
+The loc_137 Isa location
+  Name 'Maze'
+  
+  Description
+    "You are in a little twisty maze of passages, all different."
+  
+  Exit n To loc_136.
+  
+  Exit s To loc_132.
+  
+  Exit e To loc_139.
+  
+  Exit w To loc_112.
+  
+  Exit ne To loc_131.
+  
+  Exit nw To loc_135.
+  
+  Exit se To loc_107.
+  
+  Exit sw To loc_138.
+  
+  Exit u To loc_134.
+  
+  Exit d To loc_133.
+  
+End The loc_137.
+
+The loc_138 Isa location
+  Name 'Maze'
+  
+  Description
+    "You are in a maze of little twisting passages, all different."
+  
+  Exit n To loc_135.
+  
+  Exit s To loc_136.
+  
+  Exit e To loc_131.
+  
+  Exit w To loc_134.
+  
+  Exit ne To loc_132.
+  
+  Exit nw To loc_112.
+  
+  Exit se To loc_137.
+  
+  Exit sw To loc_139.
+  
+  Exit u To loc_133.
+  
+  Exit d To loc_107.
+  
+End The loc_138.
+
+The loc_139 Isa location
+  Name 'Maze'
+  
+  Description
+    "You are in a maze of little twisty passages, all different."
+  
+  Exit n To loc_134.
+  
+  Exit s To loc_138.
+  
+  Exit e To loc_132.
+  
+  Exit w To loc_133.
+  
+  Exit ne To loc_112.
+  
+  Exit nw To loc_131.
+  
+  Exit se To loc_136.
+  
+  Exit sw To loc_107.
+  
+  Exit u To loc_137.
+  
+  Exit d To loc_135.
+  
+End The loc_139.
+
+The loc_140 Isa location
+  Name 'Dead end'
+  
+  Description
+    "Dead end."
+  
+  Exit n To loc_112.
+  
+  Verb mv_exit
+    Does Only
+      Locate hero At loc_112.
+  End Verb.
+  
+End The loc_140.
+
+Start At loc_1.
+  Schedule timer At hero After 1.
+  Use Script s1 For pirate.
+  Score 30.
+  Visits 3.
+
+  "Welcome to this Alan V3 version of ADVENT. I came across the Alan v2
+   source for a conversion of ADVENT that Göran attempted many years
+   ago. It was performed from the original FORTRAN code but never
+   completed. I ran the code through the converter and with only two
+   lines of manually entered code, it ran. It is not winnable, but
+   most of the things in the original game works. Perhaps you can take
+   a crawl and reminisce...$p"

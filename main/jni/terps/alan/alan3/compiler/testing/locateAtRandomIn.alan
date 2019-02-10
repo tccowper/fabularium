@@ -1,0 +1,11 @@
+The npc Isa actor
+  Has locations {l}.
+  Has integers {2}.
+End The npc.
+
+The l Isa location
+End The l.
+
+Start At l.
+  Locate npc At Random In locations Of npc.
+  Locate npc At Random In integers Of npc.

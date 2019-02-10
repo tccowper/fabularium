@@ -1,0 +1,16 @@
+########## addVerb ##########
+
+
+addVerb.alan
+
+    7.    Verb x Does "x/y"
+=====>         1
+
+  *1*   240 E : Verb 'x' already defined for class 'obj'. You cannot add it.
+                You can override it by subclassing from class 'obj'.
+
+
+        1 error(s).
+        No detected warnings.
+        2 informational message(s).
+

@@ -1,0 +1,8 @@
+The room Isa location
+  Has windows 4.
+End The room.
+
+Start At room.
+  Say windows Of room.
+  Increase windows Of room.
+  Say windows Of room.

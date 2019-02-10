@@ -1,0 +1,23 @@
+########## themExcept ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a trousers and a o here.
+
+> x them
+I don't know what you mean by 'them'.
+
+> x all
+(trousers) There is a trousers here.
+
+(o) There is a o here.
+
+> x them except trousers
+You can only use 'except' after 'all'.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

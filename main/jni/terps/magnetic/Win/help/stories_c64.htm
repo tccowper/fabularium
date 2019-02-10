@@ -1,0 +1,26 @@
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <link rel="stylesheet" type="text/css" href="Magnetic.css">
+  <title>Commodore 64 Story Files</title>
+ </head>
+ <body>
+<h1>Commodore 64 Story Files</h1>
+Story files can be created by extracting the data from C64 disk images (i.e. files representing the contents
+of the games released for the Commodore 64). These files are identified by having a file name ending with
+".d64". Disk images for "The Pawn", "The Guild of Thieves", "Corruption", "Jinxter" and "Fish!" can be found
+on the Internet on numerous C64 web sites.
+<p>
+To convert these files to the interpreter's own format the <b>Xtract64</b> program, which is included with this
+interpreter, must be used. <b>Xtract64</b> is a Win32 console program, so must be run from an MS-DOS prompt under
+Windows. Run <b>Xtract64</b> without any arguments to read a help screen. The syntax is:
+<pre>
+    Xtract64 disk1.d64 disk2.d64 game.mag
+</pre>
+For example, for "The Pawn", the command line might be:
+<pre>
+    Xtract64 pawn1.d64 pawn2.d64 pawn.mag
+</pre>
+ </body>
+</html>
+

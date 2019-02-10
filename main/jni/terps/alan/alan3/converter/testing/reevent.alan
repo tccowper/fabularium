@@ -1,0 +1,14 @@
+-- This tests multiple definitions of an event
+
+Event e
+ ""
+End Event.
+
+Event e
+  ""
+End Event.
+
+Location l
+End Location l.
+
+Start At l.

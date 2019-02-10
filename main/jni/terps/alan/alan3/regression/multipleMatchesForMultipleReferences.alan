@@ -1,0 +1,28 @@
+The l Isa location
+End The l.
+
+The first_book Isa object At l
+    Name first book
+End The first_book.
+
+The second_book Isa object
+    Name second book
+End The second_book.
+
+The first_vase Isa object At l
+    Name first vase
+End The first_vase.
+
+The second_vase Isa object
+    Name second vase
+End The second_vase.
+
+Syntax take = take (o)*.
+
+Add To Every object
+  Verb take
+    Does "$1 taken."
+  End Verb.
+End Add.
+
+Start At l.

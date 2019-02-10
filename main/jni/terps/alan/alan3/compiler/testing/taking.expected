@@ -1,0 +1,32 @@
+########## taking ##########
+
+
+taking.alan
+
+    6.      Taking unknown.
+=====>             1
+
+  *1*   310 E : Identifier 'unknown' not defined.
+
+   11.      Taking location.
+=====>             1
+
+  *1*   402 E : A Location cannot be inside a Container.
+
+   12.      Limits unknown 4 Else "Too much."
+=====>             1
+
+  *1*   407 E : Attribute in Limits must be an attribute for every instance of
+                the class the container accepts, in this case 'location'.
+
+   16.          Locate o In This.
+=====>                   1
+
+  *1*   404 E : Container is restricted to only contain instances of 'location'
+                and its subclasses.
+
+
+        4 error(s).
+        No detected warnings.
+        1 informational message(s).
+

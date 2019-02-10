@@ -1,0 +1,15 @@
+########## verbListNonExistant ##########
+
+
+verbListNonExistant.alan
+
+    4.    Verb x1, x2
+=====>             1
+
+  *1*   215 E : Syntax not compatible with syntax for 'x1'.
+
+
+        1 error(s).
+        No detected warnings.
+        2 informational message(s).
+

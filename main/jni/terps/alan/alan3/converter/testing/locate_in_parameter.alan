@@ -1,0 +1,34 @@
+options
+	debug.
+
+
+syntax put_in = 'put' (obj) 'in' (cont)
+			where cont isa container
+				else "You can't put anything in"
+					say cont.
+
+verb put_in
+does
+	locate o in cont.
+	list cont.
+	locate obj in cont.
+	list cont.
+	locate obj in c.
+	list cont.
+end verb.
+
+object c at l
+  container
+end object.
+
+object o at l
+end object.
+
+location l
+end location l.
+
+
+start at l.
+
+	"$pTry put-in."
+

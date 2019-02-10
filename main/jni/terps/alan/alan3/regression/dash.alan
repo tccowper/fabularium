@@ -1,0 +1,11 @@
+The s Isa object At l
+  Name 'sub-sonic' water_ski 
+  Verb x
+    Does "You x" Say the this. "."
+  End Verb.
+End The s.
+
+The l Isa location
+End The l.
+
+Start At l.

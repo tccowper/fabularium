@@ -1,0 +1,20 @@
+About the Alan distribution for Mac OSX:
+
+This distribution does not contain anything apart from the executable
+compiler and interpreter for Intel-based machines. As of now there are
+only command line versions available of them.
+
+Gargoyle (https://code.google.com/p/garglk/downloads/list) is a multi-
+interpreter GUI including an older alan interpreter. You can update it
+using the slotin replacement available from the Alan Home Pages.
+
+You can use any text editor to write your Alan game. A recommended GUI
+to create new games is the AlanIDE, available from
+
+	http://www.alanif.se.
+
+There you also can find documentation, an extensive standard library
+as well as some sample code.
+
+The port was made on a MacOSX 10.10 Intel Macbook Pro by Thomas Nilefalk
+(thomas@alanif.se).

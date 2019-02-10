@@ -1,0 +1,23 @@
+########## literals ##########
+
+        No warnings or errors detected.
+
+
+
+L
+
+> lit 123 123
+Second parameter should be a string.
+
+> lit "asd" "sad"
+First parameter should be an integer.
+
+> lit hero 123
+First parameter should be an integer.
+
+> lit 123456 "hejhopp"
+Lit: 123456 hejhopp Lit: 123456 hejhopp
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

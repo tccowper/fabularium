@@ -1,0 +1,44 @@
+########## traversingInheritedLocations2 ##########
+
+        No warnings or errors detected.
+
+
+
+InheritedRoom
+
+> n
+OtherRoom
+
+> n
+You can't go that way.
+
+> s
+InheritedRoom
+
+> s
+You can't go that way.
+
+> n
+OtherRoom
+
+> s
+InheritedRoom
+
+> n
+OtherRoom
+
+> s
+InheritedRoom
+
+> w
+I don't know the word 'w'.
+
+> s
+You can't go that way.
+
+> n
+OtherRoom
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

@@ -1,0 +1,9 @@
+The cont Isa object
+  Container
+End The cont.
+
+The place Isa location
+End The place.
+
+Start At place.
+  Locate place In cont.

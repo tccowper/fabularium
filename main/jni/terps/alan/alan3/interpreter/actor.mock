@@ -1,0 +1,13 @@
+#include <cgreen/cgreen.h>
+#include <cgreen/mocks.h>
+
+#include "actor.h"
+
+
+/* DATA */
+
+
+/* FUNCTIONS */
+ScriptEntry *scriptOf(int actor) { return (ScriptEntry*)mock(); }
+StepEntry *stepOf(int actor) { return (StepEntry*)mock(); }
+void describeActor(int actor) { mock(); }

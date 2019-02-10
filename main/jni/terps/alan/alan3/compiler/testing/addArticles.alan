@@ -1,0 +1,18 @@
+Every c1 Isa object
+  Indefinite Article ""
+  Definite Article ""
+End Every c1.
+
+Add To Every c1
+  Indefinite Article ""
+End Add To c1.
+
+Add To Every c1
+  Definite Article ""
+End Add To.
+
+The l Isa location
+End the l.
+
+Start At l.
+

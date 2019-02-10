@@ -1,0 +1,18 @@
+########## locateInContainerRestrictedByContext ##########
+
+
+locateInContainerRestrictedByContext.alan
+
+   19.        Locate o In c. -- Error, since NOT restricted to cont
+=====>                    1
+
+  *1*   312 E : Parameter 'c' is not guaranteed to be a Container, because it
+                is not restricted to Container, or to a class which has the
+                Container property in the Syntax or using surrounding If
+                statements.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -1,0 +1,37 @@
+Every thing2
+  Isa thing.
+  At l.
+  Name x.
+  Pronoun it.
+  Has x 5.
+  Initialize "initialize"
+  Description Check "description check"
+              Does "some description."
+  Definite Article "a"
+  Indefinite Article "the"
+  Mentioned "mentioned"
+  Container
+  Verb x Does "x" End Verb x.
+End Every.
+
+Every actor2
+  Isa actor
+  Script s. Step "hello"
+End Every.
+
+Every location2
+  Isa location
+  Entered "entered"
+  Exit e To l.
+End Every.
+
+The t Isa thing2
+End The t.
+
+The a Isa actor2
+End The a.
+
+The l Isa location2
+End The l.
+
+Start At l.

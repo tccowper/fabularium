@@ -1,0 +1,8 @@
+The error_trigger Is Entity In error_trigger -- Note: 'is' instead of 'isa' causes instance to have no parent
+  Container
+End The error_trigger.
+
+The l Isa location
+End The l.
+
+Start At l.

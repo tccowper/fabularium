@@ -1,0 +1,28 @@
+The outer Isa location
+End The outer.
+
+The inner1 Isa location At outer
+End The inner1.
+
+The inner2 Isa location At outer
+End The inner2.
+
+The innermost Isa location At inner1
+End The innermost.
+
+
+Start At inner1.
+  "$ninner1 Directly At outer:"
+  If inner1 Directly At outer Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$ninner2 Directly At outer:"
+  If inner2 Directly At outer Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$ninnermost Directly At inner1:"
+  If innermost Directly At inner1 Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$ninnermost Directly At inner2:"
+  If innermost Directly At inner2 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$ninnermost Directly At outer:"
+  If innermost Directly At outer Then "yes, *** error ***" Else "no, ok" End If.

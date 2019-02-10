@@ -1,0 +1,18 @@
+########## location_at_location ##########
+
+        No warnings or errors detected.
+
+
+
+Inner1 At outer: yes, ok 
+inner2 At outer: yes, ok 
+innermost At inner1: yes, ok 
+innermost At inner2: no, ok 
+innermost At outer: yes, ok
+
+
+Inner1
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

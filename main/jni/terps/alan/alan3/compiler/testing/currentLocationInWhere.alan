@@ -1,0 +1,8 @@
+The l Isa location
+  Description
+    If Current Location Here Then
+      "Current Location is here."
+    End If.
+End The l.
+
+Start At l.

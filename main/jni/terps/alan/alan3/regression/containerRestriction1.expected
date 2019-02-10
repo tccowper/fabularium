@@ -1,0 +1,18 @@
+########## containerRestriction1 ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a cont and a notacont here.
+
+> put notacont in cont
+Ok.
+
+> put cont in notacont
+You can't put anything in the notacont.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

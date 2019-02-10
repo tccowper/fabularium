@@ -1,0 +1,12 @@
+Add To Every actor
+  Has r actor.
+End Add To.
+
+The a Isa actor
+  Has r a.
+End The a.
+
+The l Isa location
+End The l.
+
+Start At l.

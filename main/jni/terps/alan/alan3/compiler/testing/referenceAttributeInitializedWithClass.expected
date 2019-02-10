@@ -1,0 +1,17 @@
+########## referenceAttributeInitializedWithClass ##########
+
+
+referenceAttributeInitializedWithClass.alan
+
+    8.  The d Isa door At l
+=====>      1
+
+  *1*   328 E : Attribute 'otherSide' is inherited from 'door' as an abstract
+                attribute which is not initilized, only defined. Instances are
+                required to initialize all abstract attributes.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

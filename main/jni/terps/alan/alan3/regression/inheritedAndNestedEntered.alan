@@ -1,0 +1,21 @@
+Add To Every location
+  Has visitCount 0.
+  Entered
+    Increase visitCount Of This.
+    Say This. "have visits =" Say visitCount Of This. "."
+End Add.
+
+The outer Isa location
+  Exit 'in' To inner2.
+End The outer.
+
+The inner1 Isa location At outer
+  Exit w To inner2.
+End The inner1.
+
+The inner2 Isa location At outer
+  Exit e To inner1.
+  Exit out To outer.
+End The inner2.
+
+Start At outer.

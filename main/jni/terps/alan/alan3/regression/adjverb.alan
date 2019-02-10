@@ -1,0 +1,28 @@
+The l Isa location
+End The l.
+
+Add To Every object
+  Verb mail
+    Does
+      "Mailing..."
+  End Verb.
+End Add To.
+
+The letter Isa object
+  At l 
+End The letter.
+
+The mail_box Isa object
+  Name mail box
+  At l 
+  Verb x
+    Does
+      "This is a mail box."
+  End Verb.
+  
+End The mail_box.
+
+
+Start At l.
+  "Test the use of the same words as an adjective and a verb. Try $imail
+   letter $ix mail box"

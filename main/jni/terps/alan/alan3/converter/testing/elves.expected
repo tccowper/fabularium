@@ -1,0 +1,23 @@
+########## elves ##########
+
+
+The boy_elf Isa actor
+  Name boy elf
+  Name boy
+  At l 
+End The boy_elf.
+
+
+The girl_elf Isa actor
+  Name girl elf
+  Name girl
+  At l 
+End The girl_elf.
+
+
+The l Isa location
+  
+End The l.
+
+Start At l.
+  

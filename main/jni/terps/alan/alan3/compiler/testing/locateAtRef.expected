@@ -1,0 +1,20 @@
+########## locateAtRef ##########
+
+
+locateAtRef.alan
+
+    2.    Has unknownAtr unknown.
+=====>                   1
+
+  *1*   310 E : Identifier 'unknown' not defined.
+
+   11.    Locate o At unknown Of l.
+=====>                1
+
+  *1*   315 E : Attribute not defined for 'l'.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

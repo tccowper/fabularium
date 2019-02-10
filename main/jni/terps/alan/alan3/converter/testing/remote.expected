@@ -1,0 +1,37 @@
+########## remote ##########
+
+
+The present Isa location
+  
+End The present.
+
+The remote Isa location
+  
+End The remote.
+
+The r Isa object
+  At remote 
+End The r.
+
+The p Isa object
+  At present 
+End The p.
+Verb x
+  Does
+    "x"
+    Say object.
+End Verb.
+
+Syntax
+  y = y (o)!.
+
+Verb y
+  Does
+    "y"
+    Say object.
+End Verb.
+
+
+Start At present.
+  "Try 'x r' and 'x p' for present and remote object."
+  

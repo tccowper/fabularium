@@ -1,0 +1,21 @@
+########## entered ##########
+
+
+entered.alan
+
+    4.      "Entered should be analyzed." Say x. "."
+=====>                                        1
+
+  *1*   310 E : Identifier 'x' not defined.
+
+    7.  The o Isa object At l
+=====>      1
+
+  *1*   352 E : Instance 'o' does not inherit from 'location', but has ENTERED
+                statements which is not allowed.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

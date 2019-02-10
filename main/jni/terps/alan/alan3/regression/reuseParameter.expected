@@ -1,0 +1,16 @@
+########## reuseParameter ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+L
+There is a o and a p here.
+
+> x o
+There is a p here. Ok. Parameter still = o.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

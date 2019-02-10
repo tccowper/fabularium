@@ -1,0 +1,104 @@
+Syntax
+  put_in = put (s) 'in' (p)
+    Where s Isa stone Else "You can only put stones in the pans."
+    And p Isa pan Else "You can only put the stones in one of the pans."
+
+  take = take (s).
+
+  'look' = 'look'.
+
+Verb 'look'
+  Does
+    Look.
+End Verb.
+
+Every stone Isa object
+  Has weight 0.
+  Initialize Set weight Of This To Random 1 to 15.
+
+  Verb put_in
+    Does
+      Locate This In p.
+      If Sum Of weight Directly In left_pan = Sum Of weight Directly In right_pan Then
+        "It balances, and the secret passage opens."
+        Quit.
+      Else
+        "It still doesn't balance."
+      End If.
+  End Verb.
+
+  Verb take
+    Does
+      "You remove the stone from the pan."
+      Locate s In hero.
+  End Verb.
+
+End Every stone.
+
+The scales Isa object At hall
+  Name pair 'of' scales balance
+  Container Taking pan.
+    Header "It consists of"
+  Description
+    "There is" Say An This. "here."
+    List This.
+    If Count Directly In left_pan = Count Directly In right_pan Then
+      "Both the right and the left pan"
+      If Count Directly In left_pan = 0 Then
+        "are empty."
+      Else
+        "contains" Say Count Directly In left_pan. "stones."
+      End If.
+    Else
+      For Each p Directly In This Do
+        Describe p.
+      End For.
+    End If.
+End The scales.
+
+Every pan Isa object
+  Container Taking stone.
+  Description
+      Say The This.
+      If Count Directly In This = 0 Then
+        "is empty."
+      Else
+        "contains" Say Count Directly In This.
+        If Count Directly In This = 1 Then "stone." Else "stones." End If.
+      End If.
+End Every pan.
+
+The left_pan Isa pan In scales
+  Name left pan
+  Container Taking stone.
+End The left_pan.
+
+The right_pan Isa pan In scales
+  Name right pan
+  Container Taking stone.
+End The right_pan.
+
+The hall Isa location
+End The hall.
+
+The stone1 Isa stone In hero
+  Name first stone
+End The stone1.
+
+The stone2 Isa stone In hero
+  Name second stone
+End The stone2.
+
+The stone3 Isa stone In hero
+  Name third stone
+End The stone3.
+
+The stone4 Isa stone In hero
+  Name fourth stone
+End The stone4.
+
+The stone5 Isa stone In hero
+  Name fifth stone
+End The stone5.
+
+Start At hall.

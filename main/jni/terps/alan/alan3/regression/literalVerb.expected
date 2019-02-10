@@ -1,0 +1,60 @@
+########## literalVerb ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+L
+
+> obj 1
+You obj 1.
+
+> obj l
+I can't see any l here.
+
+> obj "hej"
+You obj hej.
+
+> obj hero
+You can't do that.
+
+> lit 1
+You lit 1.
+
+> lit l
+You can only lit literals.
+
+> lit "hej"
+You lit hej.
+
+> lit hero
+You can only lit literals.
+
+> int 1
+You int 1.
+
+> int l
+You can only int integers.
+
+> int "hej"
+You can only int integers.
+
+> int hero
+You can only int integers.
+
+> str 1
+You can only str strings.
+
+> str l
+You can only str strings.
+
+> str "hej"
+You str hej.
+
+> str hero
+You can only str strings.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

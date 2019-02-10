@@ -1,0 +1,34 @@
+The test_bed isa location
+    Name Test Bed
+    Description "Just your ordinary test bed. Do 'x box' three
+    times to end the game."
+End the.
+
+The box isa object at test_bed
+    Name Test Box
+    Description "$pA nice box is here."
+    Is describedAs "All wood and all good.".
+End the.
+--------------------------
+Syntax x = x (obj)
+    Where obj isa object
+        Else "Objects only."
+--------------------------
+Add to every object
+    Is describedAs "TXT".
+    meta Verb x
+            Does
+                Say describedAs of obj.
+                Score.
+        End verb.
+End add.
+
+Prompt ">"
+
+Event end_game
+    "$pThis is the end."
+    quit.
+End event.
+
+Start at test_bed.
+    Schedule end_game at hero after 3.

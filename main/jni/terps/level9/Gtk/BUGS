@@ -1,0 +1,3 @@
+* Pressing "Cancel" at a Restore Game dialog causes some (most? all?)
+  games to terminate. I don't think there's anything GtkLevel9 can do to
+  prevent that, short of disabling cancelling, and that feels wrong.

@@ -1,0 +1,20 @@
+Add To Every actor
+  Script walking
+    Description "walking"
+    Step 
+      Say this. "starts walking."
+End Add.
+
+The l Isa location
+End The l.
+
+The a1 Isa actor At l
+End The a1.
+
+The a2 Isa actor At l
+End The a2.
+
+Start At l.
+  For Each a Isa actor Do
+    Use Script walking For a.
+  End For.

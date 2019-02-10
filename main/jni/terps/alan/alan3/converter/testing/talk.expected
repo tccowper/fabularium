@@ -1,0 +1,99 @@
+########## talk ##########
+
+Synonyms
+  chair = armchair.
+  woman = sarah.
+  lady = sarah.
+  q = 'quit'.
+  
+
+
+The lounge Isa location
+  
+  Description
+    "You can go west to the balcony which leads off from this sparsely
+     furnished room."
+  
+  Exit west To balcony.
+  
+End The lounge.
+
+The armchair Isa object
+  At lounge 
+End The armchair.
+
+The wm Isa actor
+  Name sarah
+  At lounge 
+  Description
+    "Sarah is sitting in the armchair."
+  
+End The wm.
+
+
+The balcony Isa location
+  
+  Description
+    "There's a very nice view from here but there's no-one to talk to - but
+     try talking to Sarah to see the game's responses. You can go east to go
+     back inside."
+  
+  Exit east To lounge.
+  
+End The balcony.
+Syntax
+  'quit' = 'quit'.
+
+Verb 'quit'
+  Does
+    Quit.
+End Verb.
+
+Syntax
+  ask = ask (act)! about (obj)!
+    Where obj Isa object ****OR**** 'actor'
+      Else 
+        "You can't ask about that."
+    And act Isa actor
+      Else 
+        "You can't talk to that."
+  
+
+Verb ask
+  Check act Here
+    Else 
+      Say act.
+      "$$'s not here, mate!"
+  Does
+    "$1 replies ""I don't know anything about that."""
+    "$n"
+    "After a moment's thought,"
+    Say act.
+    "shrugs. ""No, I definitely can't help you there, I'm sorry."""
+    "$i(In this text,first reference to NPC uses the $ o parameter, the
+     second, capitilised, one uses SAY statement.)"
+End Verb.
+
+Syntax
+  tell = tell (act) about (obj)!
+    Where obj Isa object ****OR**** 'actor'
+      Else 
+        "You can't ask about that."
+    And act Isa actor
+      Else 
+        "You can't talk to that."
+  
+
+Verb tell
+  Does
+    """I don't think I need to know about the $2."" $1 replies."
+End Verb.
+
+
+Start At lounge.
+  "Capitalised Actor Name Example"
+  "$pAvailable verbs: $iquit $iask (character) about (topic) $itell
+   (character about (topic)"
+  "$p""ask"" illustrates capitilised name stuff while ""tell"" uses the
+   default stuff."
+  

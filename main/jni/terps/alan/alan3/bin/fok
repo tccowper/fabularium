@@ -1,0 +1,47 @@
+#! /bin/sh
+#
+# Diff all failing tests and ask if that's ok
+#
+
+diffCase ()
+{
+    if [ -x /usr/local/bin/DiffMerge ] ; then
+        DiffMerge $case.output $case.expected
+    else
+        diff -b -c $case.output $case.expected
+    fi
+}
+
+ok ()
+{
+echo "Is the test case ok?"
+PS3="OK? "
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) mv $1.output $1.expected; break;;
+        No ) break;;
+    esac
+done
+}
+
+if [ $# != 0 ] ; then
+  for f in ${*} ; do
+    case=`basename ${f%%.} .output`
+    if [ "$case" != "$f" ] ; then
+echo Now!
+	    diffCase
+        ok $case
+    elif [ -f $case.alan -a -f $case.expected ] ; then
+        diffCase
+        ok $case
+    fi
+  done
+else
+  for f in *.output ; do
+    case=`basename $f .output`
+    if [ -f $case.alan -a -f $case.expected ] ; then
+	    diffCase
+        ok $case
+    fi
+  done
+fi

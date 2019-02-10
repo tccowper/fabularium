@@ -1,0 +1,28 @@
+########## randomInContainer ##########
+
+
+randomInContainer.alan
+
+    8.    Say Random In c.
+=====>                  1
+
+  *1*   318 E : The 'c' does not have the container property, which is required
+                in 'Random In' expression.
+
+    9.    Say Random In l.
+=====>                  1
+
+  *1*   318 E : The 'l' does not have the container property, which is required
+                in 'Random In' expression.
+
+   10.    Say Random Directly In l.
+=====>                           1
+
+  *1*   318 E : The 'l' does not have the container property, which is required
+                in 'Random In' expression.
+
+
+        3 error(s).
+        No detected warnings.
+        1 informational message(s).
+

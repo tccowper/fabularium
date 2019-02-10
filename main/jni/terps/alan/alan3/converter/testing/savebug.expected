@@ -1,0 +1,2382 @@
+########## savebug ##########
+Options
+  pack.
+  
+
+
+"That sentence is not understood."
+"Nothing to do."
+"One at a time, please."
+"You can't see any such thing."
+"That word is not understood."
+"Which $1 do you mean?"
+"But what?"
+""
+"The pronoun 'it' is currently undefined."
+"The pronoun 'them' is currently undefined."
+"<< Press Enter >>"
+"$pThere is"
+STRING
+STRING
+Add To Every location
+  Is
+    'the'.
+    'add'.
+End Add To.
+
+
+The $genid#1 Isa object
+  
+  Is 
+    opened.
+    insider.
+    Not loose.
+    Not cloth.
+    Not inside.
+    Not openable.
+    Not semi_openable.
+    size  1.
+End The $genid#1.
+Synonyms
+  east = e.
+  north = n.
+  west = w.
+  south = s.
+  northeast = ne.
+  northwest = nw.
+  southeast = se.
+  southwest = sw.
+  up = u.
+  down = d.
+  through, thru, 'at', 'to', over, 'into', 'on', onto = 'in'.
+  'out' = 'off'.
+  'the', 'isa' = $genid#2.
+  
+
+
+The $genid#3 Isa actor
+  Name me
+  Name myself
+  
+  Has 
+    level  2.
+  With Container
+    Limits
+      Count 5
+        Else
+          "You can't carry any more."
+    Header
+      "You are carrying"
+    Else
+      "You are empty-handed."
+  Verb stand, enter, get_in, get_off, climb, climb_in
+    Does Only
+      "That is quite absurd, don't you think?"
+  End Verb.
+  
+  Verb leave
+    Does Only
+      "Don't you ever leave me, baby, if you leave me you will kill me
+       now..."
+  End Verb.
+  
+  Verb feel
+    Does Only
+      "Touch me, touch me, I wanna feel your body, you heart is next to
+       mine..."
+  End Verb.
+  
+  Verb listen_to
+    Does Only
+      "Unfortunately, you do that all the time."
+  End Verb.
+  
+  Verb examine, look_in
+    Does Only
+      If level Of hero =1 Then
+        "Nothing much to be proud about. But you are still alive."
+      Else 
+        "As handsome as ever."
+      End If.
+  End Verb.
+  
+  Verb kill
+    Does Only
+      "Suicide is not the solution."
+  End Verb.
+  
+  Verb smell
+    Does Only
+      "Your deodorant has failed."
+  End Verb.
+  
+  Verb hit
+    Does Only
+      "Masochist, eh?"
+  End Verb.
+  
+  Verb blow
+    Does Only
+      "You lack the flexibility."
+  End Verb.
+  
+  Verb kick
+    Does Only
+      "That would only cause some pain."
+  End Verb.
+  
+  Verb talk_to
+    Does Only
+      "Now you have really lost your marbles."
+  End Verb.
+  
+  Verb ask
+    When act
+      Does Only
+        If obj =hero Then
+          "Now that is a good question. Do you really know yourself?"
+        Else 
+          "You probably know the answer already."
+        End If.
+  End Verb.
+  
+  Verb give_to
+    When act
+      Does Only
+        "You have it already."
+  End Verb.
+  
+  Verb show_to
+    When act
+      Does Only
+        "You have already seen it."
+  End Verb.
+  
+  Verb fuck_it
+    Does Only
+      "Fuck you indeed."
+  End Verb.
+  
+End The $genid#3.
+
+The $genid#4
+  Container
+    Header
+      "You are wearing"
+    Else
+      ""
+End The $genid#4.
+
+Synonyms
+  carry, remove, t = take.
+  
+
+Syntax
+  take = take (obj)*
+    Where obj Isa object
+      Else 
+        "Whatever turns you on."
+  
+
+Syntax
+  get = get (obj)*
+    Where obj Isa object
+      Else 
+        "Whatever turns you on."
+  
+
+Verb get, take
+  Check obj Is loose
+    Else 
+      "That is not something you can carry around."
+  And obj Not In hero
+    Else 
+      "You are already carrying the"
+      Say obj.
+      "$$."
+  And obj Not In body
+    Else 
+      Locate obj In hero.
+      "You take off the"
+      Say obj.
+      "$$."
+  And obj Is Not inside
+    Else 
+      Locate obj In hero.
+      Make obj Not inside.
+      "Done."
+  Does
+    Locate obj In hero.
+    "Done."
+End Verb.
+
+Syntax
+  get_in = 'get' 'in' (obj)
+    Where obj Isa actor
+      Else 
+        "You can't do that."
+  
+
+Syntax
+  get_off = 'get' 'off' (obj)
+    Where obj Isa actor
+      Else 
+        "You can't do that."
+  
+
+Verb get_in, get_off
+  Does
+    "That would not accomplish anything."
+End Verb.
+
+Syntax
+  take_off = 'take' 'off' (obj)
+    Where obj Isa object
+      Else 
+        "Now you are being silly."
+  
+
+Syntax
+  take_off2 = 'take' (obj) 'off'
+    Where obj Isa object
+      Else 
+        "Now you are being silly."
+  
+
+Syntax
+  undress = undress (obj)
+    Where obj Isa object
+      Else 
+        "Now you are being silly."
+  
+
+Synonyms
+  doff = undress.
+  
+
+Verb take_off, take_off2, undress
+  Check obj Is cloth
+    Else 
+      "Now you are being silly."
+  And obj In body
+    Else 
+      "But you are not wearing the"
+      Say obj.
+      "$$."
+  Does
+    Locate obj In hero.
+    "You take off the"
+    Say obj.
+    "$$."
+End Verb.
+
+Syntax
+  take_from = 'take' (obj) 'from' (cont)*
+    Where obj Isa object
+      Else 
+        "Now you are being silly."
+    And cont Isa container
+      Else 
+        "You can't do that."
+  
+
+Syntax
+  get_from = 'get' (obj) 'from' (cont)*
+    Where obj Isa object
+      Else 
+        "Now you are being silly."
+    And cont Isa container
+      Else 
+        "You can't do that."
+  
+
+Verb get_from, take_from
+  Check obj <>cont
+    Else 
+      "Weird."
+  And obj In cont
+    Else 
+      "But the"
+      Say obj.
+      "is not in the"
+      Say cont.
+      "$$."
+  Does
+    Locate obj In hero.
+    Make obj Not inside.
+    "Done."
+End Verb.
+
+Syntax
+  give = give (obj)
+    Where obj Isa object
+      Else 
+        "Silly."
+  
+
+Syntax
+  give_to = 'give' (obj) 'in' (act)
+    Where obj Isa object
+      Else 
+        "Silly."
+    And act Isa actor
+      Else 
+        "That probably couldn't enjoy the gift."
+  
+
+Verb give
+  Check obj Is loose
+    Else 
+      "You can't give that away."
+  And obj Not In body
+    Else 
+      "That's difficult to do when you are wearing the"
+      Say obj.
+      "$$."
+  And obj In hero
+    Else 
+      "You are not carrying the"
+      Say obj.
+      "$$."
+  Does
+    "Whether giving away stuff is a good idea or not depends on whom you
+     give it to."
+End Verb.
+
+Verb give_to
+  Check obj Is loose
+    Else 
+      "You can't give that away."
+  And obj Not In body
+    Else 
+      "That's difficult to do when you are wearing the"
+      Say obj.
+      "$$."
+  And obj In hero
+    Else 
+      "You are not carrying the"
+      Say obj.
+      "$$."
+  Does
+    "That would not achieve anything."
+End Verb.
+
+Syntax
+  'show' = 'show' (obj)
+    Where obj Isa object
+      Else 
+        "Silly."
+  
+
+Syntax
+  show_to = 'show' (obj) 'in' (act)
+    Where obj Isa object
+      Else 
+        "Silly."
+    And act Isa actor
+      Else 
+        "That probably couldn't enjoy the sight."
+  
+
+Verb 'show'
+  Does
+    "The air around you doesn't want to see it."
+End Verb.
+
+Verb show_to
+  Does
+    "That would not achieve anything."
+End Verb.
+
+Synonyms
+  whirl, swing = wave.
+  
+
+Syntax
+  wave = wave (obj)
+    Where obj Isa object
+      Else 
+        "That's silly."
+  
+
+Verb wave
+  Does
+    "You look silly waving the"
+    Say obj.
+    "$$."
+End Verb.
+
+Synonyms
+  embark, clamber, mount, ride = climb.
+  disembark, 'exit' = leave.
+  
+
+Syntax
+  climb_in = 'climb' 'in' (obj)
+    Where obj Isa actor
+      Else 
+        "You can't climb that."
+  
+
+Syntax
+  climb = climb (obj)
+    Where obj Isa actor
+      Else 
+        "You can't climb that."
+  
+
+Syntax
+  enter = enter (obj)
+    Where obj Isa actor
+      Else 
+        "You can't enter that."
+  
+
+Syntax
+  leave = leave (obj)
+    Where obj Isa actor
+      Else 
+        "You can't do that."
+  
+
+Verb leave, enter, climb_in, climb
+  Does
+    "That would not accomplish anything."
+End Verb.
+
+Syntax
+  just_leave = leave.
+
+Verb just_leave
+  Does
+    "Where?"
+End Verb.
+
+Synonyms
+  dress, don = wear.
+  
+
+Syntax
+  wear = wear (obj)
+    Where obj Isa object
+      Else 
+        "Whatever turns you on."
+  
+
+Verb wear, put_on, put_on2
+  Check obj Is cloth
+    Else 
+      "That would be very difficult to wear."
+  And obj Not In body
+    Else 
+      "You are already wearing the"
+      Say obj.
+      "$$."
+  And obj In hero
+    Else 
+      "You are not carrying the"
+      Say obj.
+      "$$."
+  Does
+    Locate obj In body.
+    "You are now wearing the"
+    Say obj.
+    "$$."
+End Verb.
+
+Synonyms
+  discard = drop.
+  
+
+Syntax
+  drop = drop (obj)*
+    Where obj Isa object
+      Else 
+        "Drop dead."
+  
+
+Verb drop
+  Check obj Is loose
+    Else 
+      "Drop dead."
+  And obj Not In body
+    Else 
+      "That's difficult to do when you are wearing the"
+      Say obj.
+      "$$."
+  And obj In hero
+    Else 
+      "You are not carrying the"
+      Say obj.
+      "$$."
+  Does
+    Locate obj Here.
+    "Done."
+End Verb.
+
+Synonyms
+  insert = put.
+  
+
+Syntax
+  put_on = 'put' (obj) 'in'
+    Where obj Isa object
+      Else 
+        "Whatever turns you on."
+  
+
+Syntax
+  put_on2 = 'put' 'in' (obj)
+    Where obj Isa object
+      Else 
+        "Whatever turns you on."
+  
+
+Syntax
+  put = 'put' (obj) 'in' (cont)
+    Where obj Isa object
+      Else 
+        "Whatever turns you on."
+    And cont Isa container
+      Else 
+        "That would not accomplish anything at all."
+  
+
+Verb put
+  Check obj Is loose
+    Else 
+      "You are not putting that anywhere."
+  And obj Not In body
+    Else 
+      "That's difficult to do when you are wearing the"
+      Say obj.
+      "$$."
+  And obj Not In cont
+    Else 
+      "But the"
+      Say obj.
+      "is already there."
+  And obj In hero
+    Else 
+      "You are not carrying the"
+      Say obj.
+      "$$."
+  And cont Is opened
+    Else 
+      "But the"
+      Say cont.
+      "is closed."
+  And obj <>cont
+    Else 
+      "You are much too clever for this game."
+  And size Of obj <=size Of cont
+    Else 
+      "The"
+      Say obj.
+      "won't fit in the"
+      Say cont.
+      "$$."
+  Does
+    Locate obj In cont.
+    If cont Is insider Then
+      Make obj inside.
+    End If.
+    "Done."
+End Verb.
+
+Syntax
+  'empty' = 'empty' (obj)
+    Where obj Isa container
+      Else 
+        "You can't empty that."
+  
+
+Verb 'empty'
+  Check obj Not In body
+    Else 
+      "You can't do that when you are wearing the"
+      Say obj.
+      "$$."
+  And obj In hero
+    Else 
+      "You are not carrying the"
+      Say obj.
+      "$$."
+  Does
+    "There's no reason to do that."
+End Verb.
+
+Synonyms
+  taste = eat.
+  quaff, slurp = drink.
+  
+
+Syntax
+  eat = eat (obj)
+    Where obj Isa object
+      Else 
+        "Rrrrrraawwww mmmmeaat!!!"
+  
+
+Syntax
+  drink = drink (obj)
+    Where obj Isa object
+      Else 
+        "Now you are being silly."
+  
+
+Verb eat
+  Does
+    "That might not be very delicious."
+End Verb.
+
+Verb drink
+  Does
+    "That is not something you could possibly drink."
+End Verb.
+
+Synonyms
+  lock, shut = close.
+  unlock = open.
+  
+
+Syntax
+  open = open (obj)
+    Where obj Isa object
+      Else 
+        "You are not a qualified surgeon."
+  
+
+Verb open
+  Check obj Is Not semi_openable
+    Else 
+      "That is done automatically when necessary."
+  And obj Is openable
+    Else 
+      "The"
+      Say obj.
+      "can't be opened."
+  And obj Is Not opened
+    Else 
+      "But the"
+      Say obj.
+      "is already open."
+  Does
+    Make obj opened.
+    "You open the"
+    Say obj.
+    "$$."
+End Verb.
+
+Syntax
+  close = close (obj)
+    Where obj Isa object
+      Else 
+        "Case closed."
+  
+
+Verb close
+  Check obj Is Not semi_openable
+    Else 
+      "That is done automatically when necessary."
+  And obj Is openable
+    Else 
+      "The"
+      Say obj.
+      "can't be closed."
+  And obj Is opened
+    Else 
+      "But the"
+      Say obj.
+      "is already closed."
+  Does
+    Make obj Not opened.
+    "You close the"
+    Say obj.
+    "$$."
+End Verb.
+
+Synonyms
+  grope, fiddle, touch = feel.
+  
+
+Syntax
+  feel = feel (obj)
+    Where obj Isa actor
+      Else 
+        "You can't do that."
+  
+
+Verb feel
+  Does
+    "That has no effect whatsoever."
+End Verb.
+
+Synonyms
+  toss, chuck, cast = throw.
+  
+
+Syntax
+  throw = throw (obj)
+    Where obj Isa object
+      Else 
+        "Woohaa!"
+  
+
+Verb throw
+  Check obj Is loose
+    Else 
+      "You can't throw that anywhere."
+  And obj Not In body
+    Else 
+      "That's difficult to do when you are wearing the"
+      Say obj.
+      "$$."
+  And obj In hero
+    Else 
+      "You are not carrying the"
+      Say obj.
+      "$$."
+  Does
+    "Aimless throwing of things is a sign of frustration."
+End Verb.
+
+Syntax
+  throw_at = 'throw' (obj) 'in' (target)
+    Where obj Isa object
+      Else 
+        "Woohaa!"
+    And target Isa actor
+      Else 
+        "You can't do that."
+  
+
+Verb throw_at
+  Check obj <>target
+    Else 
+      "Right."
+  And obj Is loose
+    Else 
+      "You can't throw that anywhere."
+  And obj Not In body
+    Else 
+      "That's difficult to do when you're wearing the"
+      Say obj.
+      "$$."
+  And obj In hero
+    Else 
+      "You're not carrying the"
+      Say obj.
+      "$$."
+  Does
+    "That would not accomplish anything."
+End Verb.
+
+Syntax
+  sit = 'sit' 'in' (obj)
+    Where obj Isa object
+      Else 
+        "Kinky."
+  
+
+Verb sit
+  Check obj Not In hero
+    Else 
+      "Sitting on something while carrying it is very silly."
+  And obj Not In body
+    Else 
+      "Yeah, right."
+  Does
+    "That would not accomplish anything."
+End Verb.
+
+Syntax
+  stand = 'stand' 'in' (obj)
+    Where obj Isa actor
+      Else 
+        "You can't do that."
+  
+
+Verb stand
+  Check obj Not In hero
+    Else 
+      "Standing on something while carrying it is impossible."
+  And obj Not In body
+    Else 
+      "Yeah, right."
+  Does
+    "That would not accomplish anything."
+End Verb.
+
+Syntax
+  i = i.
+
+Synonyms
+  inv, inventory = i.
+  
+
+Verb i
+  Does
+    If  Count Isa object, In hero =0 And  Count Isa object, In body >0 Then
+      List body.
+    Else 
+      List hero.
+      List body.
+    End If.
+    If coat In body And  Count Isa object, In coat >0 Then
+      List coat.
+    End If.
+End Verb.
+
+Synonyms
+  x, exam, inspect, 'check' = examine.
+  
+
+Syntax
+  examine = examine (obj)
+    Where obj Isa actor
+      Else 
+        "You can't examine that."
+  
+
+Verb examine
+  Does
+    "You see nothing special about the"
+    Say obj.
+    "$$."
+End Verb.
+
+Syntax
+  read = read (obj)
+    Where obj Isa object
+      Else 
+        "Are you sure you can do that?"
+  
+
+Verb read
+  Does
+    "There is nothing to read on the"
+    Say obj.
+    "$$."
+End Verb.
+
+Syntax
+  search = search (obj)
+    Where obj Isa actor
+      Else 
+        "You can't search that."
+  
+
+Verb search
+  Does
+    "You see nothing special."
+End Verb.
+
+Synonyms
+  yank = pull.
+  flick, press, move, tip = push.
+  switch, twist = turn.
+  ignite = 'start'.
+  halt = 'stop'.
+  
+
+Syntax
+  turn = turn (obj)
+    Where obj Isa actor
+      Else 
+        "You can't turn that."
+  
+
+Syntax
+  push = push (obj)
+    Where obj Isa actor
+      Else 
+        "You can't push that."
+  
+
+Syntax
+  pull = pull (obj)
+    Where obj Isa actor
+      Else 
+        "You can't pull that."
+  
+
+Syntax
+  turn_on = 'turn' 'in' (obj)
+    Where obj Isa object
+      Else 
+        "Now wouldn't you want that."
+  
+
+Syntax
+  turn_on2 = 'turn' (obj) 'in'
+    Where obj Isa object
+      Else 
+        "Now wouldn't you want that."
+  
+
+Syntax
+  turn_off = 'turn' 'off' (obj)
+    Where obj Isa object
+      Else 
+        "That may already be the case."
+  
+
+Syntax
+  turn_off2 = 'turn' (obj) 'off'
+    Where obj Isa object
+      Else 
+        "That may already be the case."
+  
+
+Syntax
+  'start' = 'start' (obj)
+    Where obj Isa object
+      Else 
+        "Now you are being silly."
+  
+
+Syntax
+  'stop' = 'stop' (obj)
+    Where obj Isa object
+      Else 
+        "Now you are being silly."
+  
+
+Verb 'start'
+  Does Only
+    "That is something you can't start."
+End Verb.
+
+Verb 'stop'
+  Does Only
+    "That wouldn't do any good."
+End Verb.
+
+Verb turn_on, turn_on2
+  Does
+    "You can't turn that on."
+End Verb.
+
+Verb turn_off, turn_off2
+  Does Only
+    "That is not possible."
+End Verb.
+
+Verb push, pull, turn
+  Does
+    "There is no need to do that."
+End Verb.
+
+Syntax
+  kill = kill (act)
+    Where act Isa actor
+      Else 
+        "That sort of behaviour is spooky."
+  
+
+Synonyms
+  decapitate, assasinate, attack, fight, murder = kill.
+  
+
+Verb kill
+  Does
+    "That would not be very polite."
+End Verb.
+
+Syntax
+  hit = hit (obj)
+    Where obj Isa actor
+      Else 
+        "You can't hit that."
+  
+
+Synonyms
+  bang, damage, smash, crush, strike, break, lash, punch = hit.
+  
+
+Verb hit
+  Does
+    "Violence is not the answer."
+End Verb.
+
+Syntax
+  kick = kick (obj)
+    Where obj Isa actor
+      Else 
+        "You can't kick that."
+  
+
+Verb kick
+  Does
+    "This is not a football game."
+End Verb.
+
+Synonyms
+  slice, sever, fell, hack, carve, whittle = cut.
+  
+
+Syntax
+  cut = cut (obj)
+    Where obj Isa object
+      Else 
+        "That is truly a disgusting thought."
+  
+
+Syntax
+  cut_with = 'cut' (obj) 'with' (tool)
+    Where obj Isa object
+      Else 
+        "That is truly a disgusting thought."
+    And tool Isa object
+      Else 
+        "Yeah, right."
+  
+
+Verb cut
+  Does
+    "Your fingers are not the best possible tool for cutting things."
+End Verb.
+
+Verb cut_with
+  Check obj <>tool
+    Else 
+      "Right."
+  And tool Is loose
+    Else 
+      "You are not cutting anything with that."
+  And tool In hero
+    Else 
+      "But you are not carrying the"
+      Say tool.
+      "$$."
+  Does
+    "That would serve no useful purpose."
+End Verb.
+
+Syntax
+  talk_to = 'talk' 'in' (obj)
+    Where obj Isa actor
+      Else 
+        "Hello? Anybody home?"
+  
+
+Syntax
+  shout = shout.
+
+Verb shout
+  Does
+    "Eeeuuuuaaargghhh!"
+End Verb.
+
+Synonyms
+  speak, chitchat, chat = talk.
+  scream, yell = shout.
+  query = ask.
+  
+
+Verb talk_to
+  Does
+    "No response."
+End Verb.
+
+Syntax
+  ask = 'ask' (act) 'about' (obj)!
+    Where act Isa actor
+      Else 
+        "Hello? Anybody home?"
+    And obj Isa actor
+      Else 
+        "You can't do that."
+  
+
+Verb ask
+  Does
+    "There's no answer."
+End Verb.
+
+Syntax
+  'quit' = 'quit'.
+
+Syntax
+  q = q.
+
+Synonyms
+  'restart' = 'quit'.
+  
+
+Verb 'quit'
+  Does
+    "You have failed to come out of the closet."
+    If fip Here Then
+      "$p""Giving up, huh? Well, see you around."""
+    End If.
+    Quit.
+End Verb.
+
+Verb q
+  Does
+    "It is very easy to hit Q by accident so to quit you really need to
+     type the whole word."
+End Verb.
+
+Syntax
+  'look' = 'look'.
+
+Syntax
+  look_under = 'look' 'under' (obj)
+    Where obj Isa object
+      Else 
+        "Kinky."
+  
+
+Syntax
+  look_behind = 'look' 'behind' (obj)
+    Where obj Isa object
+      Else 
+        "Look! Behind you, a three-headed monkey!"
+  
+
+Syntax
+  look_in = 'look' 'in' (obj)
+    Where obj Isa actor
+      Else 
+        "You can't do that."
+  
+
+Synonyms
+  l = 'look'.
+  
+
+Verb 'look'
+  Does
+    Look.
+End Verb.
+
+Verb look_under, look_behind, look_in
+  Does
+    "You see nothing special."
+End Verb.
+
+Syntax
+  help = help.
+
+Synonyms
+  h = help.
+  
+
+Verb help
+  Does
+    "You are doing fine."
+End Verb.
+
+Syntax
+  'wait' = 'wait'.
+
+Syntax
+  sleep = sleep.
+
+Verb sleep
+  Does
+    "You're not feeling very sleepy right now."
+End Verb.
+
+Synonyms
+  z = 'wait'.
+  
+
+Verb 'wait'
+  Does
+    "Time passes slowly."
+End Verb.
+
+Syntax
+  milk = milk (act)
+    Where act Isa actor
+      Else 
+        "You have obviously something loose."
+  
+
+Verb milk
+  Does
+    "Just what do you think you are doing?"
+End Verb.
+
+Syntax
+  fuck_it = fuck (act)
+    Where act Isa actor ****OR**** object
+      Else 
+        "You can't do that."
+  
+
+Verb fuck_it
+  Does
+    "What sort of pervert are you anyway?"
+End Verb.
+
+Syntax
+  fart = fart.
+
+Verb fart
+  Does
+    "Pffffft."
+End Verb.
+
+Syntax
+  kiss = kiss (act)
+    Where act Isa actor
+      Else 
+        "You can't do that."
+  
+
+Synonyms
+  hug = kiss.
+  
+
+Verb kiss
+  Does
+    "Better not."
+End Verb.
+
+Synonyms
+  hear = listen.
+  
+
+Syntax
+  listen = listen.
+
+Syntax
+  listen_to = 'listen' 'in' (obj)
+    Where obj Isa actor
+      Else 
+        "You can't do that."
+  
+
+Syntax
+  bare_smell = smell.
+
+Syntax
+  smell = smell (obj)
+    Where obj Isa actor
+      Else 
+        "You can't do that."
+  
+
+Verb smell
+  Does
+    "The closet smells exactly like a closet."
+End Verb.
+
+Verb bare_smell
+  Does
+    "You smell nothing peculiar."
+End Verb.
+
+Verb listen
+  Does
+    If fip Here Then
+      "You can hear Fip scurrying around the closet."
+    Else 
+      "You hear nothing you are not supposed to hear."
+    End If.
+End Verb.
+
+Verb listen_to
+  Does
+    "You hear nothing special."
+End Verb.
+
+Syntax
+  jump = jump.
+
+Synonyms
+  hop, leap = jump.
+  
+
+Verb jump
+  Does
+    "Wheeee!!!"
+End Verb.
+
+Syntax
+  'score' = 'score'.
+
+Verb 'score'
+  Does
+    If level Of hero =1 Then
+      "Your only concern right now is survival."
+    Else 
+      "You will, eventually. Right now concentrate on the game."
+    End If.
+End Verb.
+
+Syntax
+  yes = yes.
+
+Verb yes
+  Does
+    "Indeed."
+End Verb.
+
+Syntax
+  no = no.
+
+Verb no
+  Does
+    "Why not?"
+End Verb.
+
+Syntax
+  shit = shit.
+
+Synonyms
+  piss = shit.
+  
+
+Verb shit
+  Does
+    "Could you just forget bodily functions for a moment?"
+End Verb.
+
+Syntax
+  fuck = fuck.
+
+Verb fuck
+  Does
+    "Getting frustrated?"
+End Verb.
+
+Syntax
+  swim = swim.
+
+Verb swim
+  Does
+    "That would do no good here."
+End Verb.
+
+Syntax
+  sing = sing.
+
+Syntax
+  dance = dance.
+
+Synonyms
+  whistle = sing.
+  
+
+Verb sing
+  Does
+    "If you think that will help."
+End Verb.
+
+Verb dance
+  Does
+    "You do the disco duck. What is that anyway?"
+End Verb.
+
+Syntax
+  just_blow = blow.
+
+Syntax
+  blow = blow (obj)
+    Where obj Isa actor
+      Else 
+        "You can't do that."
+  
+
+Synonyms
+  suck = blow.
+  
+
+Verb just_blow
+  Does
+    "You do that all the time."
+End Verb.
+
+Verb blow
+  Does
+    "No."
+End Verb.
+
+Synonyms
+  yoho, plugh, plover = xyzzy.
+  
+
+Syntax
+  xyzzy = xyzzy.
+
+Verb xyzzy
+  Does
+    "It's not that easy to get out."
+    If fip Here Then
+      "$p""Hey! Where did you learn that?"""
+    End If.
+End Verb.
+
+Syntax
+  vittu = vittu.
+
+Syntax
+  perkele = perkele.
+
+Synonyms
+  saatana, jumalauta = perkele.
+  
+
+Verb perkele
+  Does
+    "Žl„ kiroile."
+End Verb.
+
+Verb vittu
+  Does
+    "Congratulations! You have found the secret word!"
+End Verb.
+
+Syntax
+  dir = dir.
+
+Verb dir
+  Does
+    "Sorry, no naughty pictures on this disk."
+End Verb.
+
+Syntax
+  'save' = 'save'.
+
+Syntax
+  'restore' = 'restore'.
+
+Verb 'save'
+  Does
+    Save.
+    "Game saved."
+End Verb.
+
+Verb 'restore'
+  Does
+    Restore.
+    "Game restored."
+End Verb.
+
+Syntax
+  verbose = verbose.
+
+Verb verbose
+  Does
+    Visits 0.
+    "Verbose descriptions."
+End Verb.
+
+Syntax
+  brief = brief.
+
+Verb brief
+  Does
+    Visits 999.
+    "Brief descriptions."
+End Verb.
+
+
+The 'in' Isa object
+  In limbo 
+  With Container
+End The 'in'.
+When pot In shelves And coat In pot And hair In coat Then
+  Make door winnable.
+
+
+The closet Isa actor
+  Name 'Inside the Closet' 'isa'
+  In Current Location 
+  Description
+    "This walk-in closet you are trapped in is actually quite big, but not
+     big enough to be any more than a single location. The door leading out
+     of here looks strong enough to withstand the blows of a sledgehammer."
+    If door Is opened Then
+      "Banging the door would however be unnecessary since the door is wide
+       open."
+    End If.
+    "Next to the door in one corner is a small wooden chest"
+    If chest Is opened Then
+      "which is open."
+    Else 
+      "$$."
+    End If.
+    "Attached to the wall opposite to the door are few metal shelves full
+     of miscellaneous stuff."
+    If  Count Isa object, In shelves >0 Then
+      List shelves.
+    End If.
+  
+  Verb nw, n, ne, se, s, sw, w, closet
+    Check 
+      "The only possible exit is through the door to the east."
+  End Verb.
+  
+End The closet.
+
+
+Start Here.
+  "Digging your way out of here is not possible."
+  "You can't leave through the ceiling."
+  "You can't walk through solid matter."
+  If door Is winnable Then
+    "You try to leave, but something stops you. You are not ready to come
+     out of the closet yet."
+    If fip Here And book Is Not examined Then
+      "$p""Hmm. That is strange. Very strange. But wait a moment - I think
+       there is something in the Book of Gnomes about that sort of thing.
+       Now if you just wait a moment..."""
+      "$pFip reaches into his pocket and pulls out an old, dusty book. He
+       opens it, sits down and says, ""Oh yes. It's somewhere in here..."""
+      Locate book In fip.
+      Make book examined.
+      Cancel fip_action.
+      Use Script s11 For fip.
+    End If.
+    "As you approach the door you hear a noise behind you. Turning around
+     you see smoke coming from the plant pot. After a while a grey blob
+     wearing the leather jacket jumps out of the pot."
+    "$p""Well done. Now you can succesfully come out of the closet"", it
+     says and disappears taking the pot with it."
+    "$pFip looks thrilled. ""Did you see that? That was fantastic! I've
+     never seen anything like it! Or actually I have, but - oh never mind.""
+     Fip looks a bit sad. ""I guess it's time to say goodbye. I've had a
+     good time and I wish you the best of luck. See you around!"""
+    "$pAfter saying that Fip disappears in a puff of smoke. You are really
+     going to miss that little fellow, you think as you come out of the
+     closet."
+    "$p*** You have won ***"
+    Quit.'exit' Then
+      STRINGobject Or 
+      "Book of Gnomes" Is loose
+      Verb examine, look_in
+        Does Only
+          "It looks very old and fragile."
+      End Verb.
+      
+      Verb read, search
+        Does Only
+          """Hands off! This is for gnomes only."""
+      End Verb.
+      
+      Verb get, take
+        Does Only
+          """What do you think you are doing? Hands off!"""
+      End Verb.
+      
+      
+      Start At closet
+      
+      The $genid#5 Isa object
+        
+        Description
+          ""
+        
+        Verb examine, look_in, search, push, pull, turn, kick, hit
+          Does Only
+            "This is just a closet full of junk."
+        End Verb.
+        
+      End The $genid#5.
+      
+      Start At closet
+      
+      The $genid#6 Isa object
+        
+        Description
+          ""
+        
+        Verb examine, look_in
+          Does Only
+            "A thick, solid, concrete wall."
+            If crack Here Then
+              "There is a narrow crack in it."
+            End If.
+        End Verb.
+        
+        Verb hit
+          Does Only
+            "That would be a very desperate attempt."
+        End Verb.
+        
+        Verb kick
+          Does Only
+            "That will only hurt a lot."
+        End Verb.
+        
+        Verb push
+          Does Only
+            "The wall won't fall no matter how hard you push."
+        End Verb.
+        
+        Verb enter, climb, climb_in, get_in, stand, sit
+          Does Only
+            "What a silly idea."
+        End Verb.
+        
+        Verb pull
+          Does Only
+            "How could you possibly pull a wall?"
+        End Verb.
+        
+        Verb look_under, look_behind
+          Does Only
+            "And how could you do that? You are not Superman."
+        End Verb.
+        
+        Verb search
+          Check crack At limbo
+            Else 
+              "You search reveals nothing new."
+          Does Only
+            "There appears to be a narrow crack in the wall."
+            Locate crack Here.
+        End Verb.
+        
+      End The $genid#6.
+      
+      Start At limbo
+      
+      The $genid#7 Isa object
+        
+        Description
+          ""
+        
+        Verb examine, look_in, search
+          Check cloth At limbo
+            Else 
+              "There is a piece of cloth stuck in the crack."
+          Does Only
+            If cloth Is taken Then
+              "The crack is now nothing more than just a crack."
+            Else 
+              "You find a piece of cloth stuck in the crack."
+              Locate cloth Here.
+            End If.
+        End Verb.
+        
+        Verb enter, get_in, climb_in, climb
+          Does Only
+            "You are not a worm."
+        End Verb.
+        
+      End The $genid#7.
+      
+      Start At limbo
+      
+      The $genid#8 Isa object
+        
+        Mentioned
+          "piece of cloth"
+        
+        Is 
+          loose.
+        Is 
+          Not taken.
+        Description
+          ""
+        
+        Verb examine, look_in
+          Does Only
+            "There is nothing much to see."
+        End Verb.
+        
+        Verb get, take
+          Does Only
+            Schedule entering After 0.
+        End Verb.
+        
+        Verb pull
+          Does Only
+            Schedule entering After 0.
+        End Verb.
+        
+      End The $genid#8.
+      
+      Start At closet
+      
+      The $genid#9 Isa object
+        
+        Is 
+          openable.
+        Is 
+          Not opened.
+        Is 
+          Not winnable.
+        Description
+          ""
+        
+        Verb get_in, enter, leave
+          Does Only
+            "It would be much easier for me if you just used a compass
+             direction. The door is to the east. Therefore go east. Please."
+        End Verb.
+        
+        Verb examine
+          Does Only
+            "It is the closet door, as you may already have noticed. Behind
+             that door lies your freedom."
+            If door Is opened Then
+              "The door is open."
+            End If.
+        End Verb.
+        
+        Verb look_in, look_behind
+          Check door Is opened
+            Else 
+              "If you want to see what's behind the door you'd better open
+               it first."
+          Does Only
+            "That is indeed strange. The room behind the door is totally
+             dark."
+        End Verb.
+        
+        Verb hit
+          Check door Is Not opened
+            Else 
+              "The would be pointless now since the door is open."
+          Does Only
+            "You couldn't break that door even if you had a sledgehammer."
+        End Verb.
+        
+        Verb kick
+          Check door Is Not opened
+            Else 
+              "Kicking an open door is stupid."
+          Does Only
+            "You are not a police officer."
+        End Verb.
+        
+        Verb push
+          Check door Is Not opened
+            Else 
+              "You play for a while with the open door."
+          Does Only
+            "Oh well. The door opens."
+            Make door opened.
+        End Verb.
+        
+        Verb pull
+          Check door Is opened
+            Else 
+              "That won't work."
+          Does Only
+            "You pull the door closed."
+            Make door Not opened.
+        End Verb.
+        
+      End The $genid#9.
+      
+      Start At closet
+      
+      The $genid#10 Isa object
+        
+        Is 
+          openable.
+        Is 
+          Not opened.
+        Has 
+          size  1.
+        With Container
+          Header
+            "Inside the chest you can see"
+          Else
+            "It is empty."
+        Description
+          ""
+        
+        Verb examine, look_in, search
+          Does Only
+            "It is a small wooden chest as already described. Nothing
+             spectacular."
+            If chest Is opened Then
+              List chest.
+            End If.
+        End Verb.
+        
+        Verb look_under, look_behind
+          Does Only
+            "Your curiosity is admirable."
+        End Verb.
+        
+        Verb kick, hit
+          Does Only
+            "You vandal."
+        End Verb.
+        
+        Verb enter
+          Check chest Is opened
+            Else 
+              "Fortunately the chest is closed."
+          Does Only
+            "And how do you expect to fit in there?"
+        End Verb.
+        
+        Verb sit, stand, climb
+          Check chest Is Not opened
+            Else 
+              "Doing that while the chest is opened would be extremely
+               silly."
+          Does Only
+            "Don't you have anything better to do? Just asking."
+        End Verb.
+        
+        Verb get_in, climb_in
+          Does Only
+            "You really don't have to do that, you know."
+        End Verb.
+        
+        Verb push, pull
+          Does Only
+            "There is no point in moving the chest. You can reach even the
+             top shelf without any help."
+        End Verb.
+        
+        Verb turn
+          Does Only
+            "No, you will not turn the chest in any way."
+        End Verb.
+        
+        Verb open
+          Does
+            Empty closed_chest In chest .
+            List chest.
+            If fip Here And coat Is Not found Then
+              "$p""Wow! That's a really nice looking jacket. But it's
+               probably too big for me."""
+            End If.
+            Make coat found.
+        End Verb.
+        
+        Verb close
+          Does
+            Empty chest In closed_chest .
+        End Verb.
+        
+      End The $genid#10.
+      
+      Start At closet
+      
+      The $genid#11 Isa object
+        
+        Has 
+          size  3.
+        With Container
+          Header
+            "On a shelf among some less interesting things you can see"
+          Else
+            "The shelves are full of things that do not interest you at
+             all."
+        Description
+          ""
+        
+        Verb examine, look_in, search
+          Does Only
+            "A metal shelf is a metal shelf. You can put things on it. In
+             this case there are several metal shelves from the bottom one
+             at your groin level to the top shelf which is a bit above your
+             head."
+            List shelves.
+        End Verb.
+        
+        Verb push, pull, turn
+          Does Only
+            "Don't do that - you could get buried in junk."
+        End Verb.
+        
+        Verb kick, hit
+          Does Only
+            "Don't be such a vandal."
+        End Verb.
+        
+        Verb enter, climb, climb_in, get_in, stand, sit
+          Does Only
+            "No, no, no! You could get hurt. Let's be careful."
+        End Verb.
+        
+        Verb look_under, look_behind
+          Does Only
+            "Your curiosity is admirable."
+        End Verb.
+        
+        Verb put
+          Does Only
+            "You put the"
+            Say obj.
+            "on the top shelf."
+            Locate obj In shelves.
+        End Verb.
+        
+      End The $genid#11.
+      
+      The pockets Isa object
+        Name pocket
+        Name black
+        
+        Is 
+          loose.
+        Is 
+          cloth.
+        Is 
+          Not found.
+        Is 
+          Not worn.
+        With Container
+          Header
+            "In a jacket pocket there is"
+          Else
+            "The pockets are empty."
+        Description
+          "$pA leather jacket is in a bundle at your feet."
+        
+        Verb wear, put_on, put_on2
+          Does
+            If fip Here And coat Is Not worn Then
+              "$p""Wow! That jacket suits you. Indeed it does. You look
+               cool."""
+            End If.
+            Make coat worn.
+        End Verb.
+        
+        Verb examine, look_in
+          Does Only
+            "It is a fine-looking black leather jacket. It has several
+             pockets."
+            If  Count Isa object, In coat >0 Then
+              List coat.
+            End If.
+        End Verb.
+        
+        Verb search
+          Does Only
+            List coat.
+        End Verb.
+        
+      End The pockets.
+      Event entering
+        Make cloth taken.
+        Locate cloth At limbo.
+        "You start pulling the cloth. To your amazement it's bigger than
+         you imagined. Much bigger. You think that the crack must be quite
+         deep, but soon you do not know what to think anymore, because you
+         seem to have pulled a small man out of the crack. How he fit in
+         there, you have absolutely no idea."
+        "$p""Hello there. My name is Fip. I'm a closet gnome, as you can
+         see."""
+        Locate fip Here.
+        Use Script s1 For fip.
+      End Event entering.
+      
+      Event fip_action
+        Set action Of fip To Random 2 To 10.
+        If action Of fip =2 Then
+          Use Script s2 For fip.
+        Elsif action Of fip =3 Then 
+          Use Script s3 For fip.
+        Elsif action Of fip =4 Then 
+          Use Script s4 For fip.
+        Elsif action Of fip =5 Then 
+          Use Script s5 For fip.
+        Elsif action Of fip =6 Then 
+          Use Script s6 For fip.
+        Elsif action Of fip =7 Then 
+          Use Script s7 For fip.
+        Elsif action Of fip =8 Then 
+          Use Script s8 For fip.
+        Elsif action Of fip =9 Then 
+          Use Script s9 For fip.
+        Elsif action Of fip =10 Then 
+          Use Script s10 For fip.
+        End If.
+      End Event fip_action.
+      
+      Event red_idea
+        "$p""Hmm. Too bad the Book couldn't help you. But hey, let's play a
+         guessing game, okay? I think of a number between 1 and 100 and you
+         try to guess it. Ready?"""
+        Set number Of fip To Random 1 To 1.
+        Use Script s12 For fip.
+      End Event red_idea.
+      
+      
+      The fip Isa actor
+        Name 'Fip the closet gnome'
+        Name fip
+        Name gnome
+        Name him
+        Name himself
+        Name gnomes
+        
+        Is 
+          Not examined.
+        Has 
+          number  0.
+        Has 
+          action  1.
+        With Container
+        Description
+          "$pFip the closet gnome is here looking thoughtful."
+        
+        Script s1.
+          Description
+            "$pFip the closet gnome is here looking around."
+          
+          Step
+            "$pFip glances around and says, ""My oh my. What a nice closet
+             are we in."""
+          Step
+            Schedule fip_action After 1.
+        Script s2.
+          Description
+            "$pFip the closet gnome is biting his nails nearby."
+          
+          Step
+            Schedule fip_action After 1.
+        Script s3.
+          Description
+            "$pYou see Fip stubbornly trying to climb on the bottom shelf."
+          
+          Step
+            Schedule fip_action After 1.
+        Script s4.
+          Description
+            "$pYou hear Fip mumbling to himself as he examines the door
+             very closely."
+          
+          Step
+            Schedule fip_action After 1.
+        Script s5.
+          Description
+            "$pFip the closet gnome is sitting on the floor looking at a
+             small bug."
+          
+          Step
+            Schedule fip_action After 1.
+        Script s6.
+          Description
+            "$pFip the closet gnome is combing his beard next to you."
+          
+          Step
+            Schedule fip_action After 1.
+        Script s7.
+          Description
+            "$pYou see Fip reading the latest issue of Playgnome."
+          
+          Step
+            Schedule fip_action After 1.
+        Script s8.
+          Description
+            "$pFip the closet gnome is peeking into the chest."
+          
+          Step
+            Schedule fip_action After 1.
+        Script s9.
+          Description
+            "$pFip is here eating a carrot."
+          
+          Step
+            Schedule fip_action After 1.
+        Script s10.
+          Description
+            "$pYou wonder who this Fip fellow is and where he comes from."
+          
+          Step
+            Schedule fip_action After 1.
+        Script s11.
+          Description
+            "$pFip is sitting under the shelves and reading the Book of
+             Gnomes."
+          
+          Step
+            ""
+          Step
+            ""
+          Step
+            Schedule red_idea After 3.
+          Step
+            "$pSuddenly Fip stands up and looks at you with enthusiasm.
+             ""Yes! Here it is! Now let's see. Hmm, hmm, hmm, hmm. What? Oh
+             well. Right then. I found this little poem:"
+            "$p'To get out of the closet"
+            "$nthis is what you'll do:"
+            "$nput grey in black, black in red,"
+            "$nand all is above you.'"
+            "$pFip puts the book back into his pocket. ""Did that make any
+             sense?"""
+            Locate book At limbo.
+        Script s12.
+          Description
+            "$pFip is here waiting for you to guess a number."
+          
+          Step
+            Use Script s12 For fip.
+        Verb examine, look_in
+          Does Only
+            "Fip is about one third of your height. He has a long, grey
+             beard and he is wearing clothes you would expect a gnome to
+             wear."
+            If fip Is Not examined Then
+              "$p""What are you looking at? Never seen a closet gnome
+               before?"" Fip seems a bit insulted, but soon he starts to
+               smile. ""I guess you haven't. But that's all right."""
+              Make fip examined.
+            End If.
+        End Verb.
+        
+        Verb search
+          Does Only
+            """Hey! Keep your hands away! We gnomes are not into that kind
+             of stuff."""
+        End Verb.
+        
+        Verb kick, hit
+          Does Only
+            "You couldn't do that to Fip. He hasn't done any harm to you."
+        End Verb.
+        
+        Verb kill
+          Does Only
+            "But he hasn't done any harm to you. And besides, killing a
+             gnome is against the law."
+        End Verb.
+        
+        Verb push, pull, turn
+          Does Only
+            """Hey! Hands off! I'm perfectly capable of moving by myself,
+             thank you."""
+        End Verb.
+        
+        Verb talk_to
+          Does Only
+            "You try to chitchat with Fip but he appears to be too busy
+             looking around."
+        End Verb.
+        
+        Verb give_to
+          Does Only
+            If obj =coat Then
+              """You keep it. I think it would be too big for me anyway."""
+            Elsif obj =hair Then 
+              """Hmmmph!"" Fip frowns and looks at you angrily."
+            Else 
+              """Now what can I do with it without a plant?"""
+            End If.
+        End Verb.
+        
+        Verb show_to
+          Does Only
+            If obj =coat Then
+              """Nice, isn't it? Reminds me of - now what was it - oh never
+               mind."""
+            Elsif obj =hair Then 
+              """Hmmmph!"""
+            Else 
+              """Yes, very nice."""
+            End If.
+        End Verb.
+        
+        Verb kiss
+          Does Only
+            """Eeek! Not that!"" Fip runs away and tries to hide behind the
+             chest."
+        End Verb.
+        
+        Verb fuck_it
+          Does Only
+            "Please go wash your filthy mind."
+        End Verb.
+        
+        Verb listen_to
+          Does Only
+            """You have quite a lot of wax in your ears, did you know
+             that?"""
+        End Verb.
+        
+        Verb enter, get_in, climb_in, climb
+          Does Only
+            "That is quite a bad idea. Fip is so small."
+        End Verb.
+        
+        Verb smell
+          Does Only
+            """Hey! I use deodorant! So put your nose someplace else!"""
+        End Verb.
+        
+        Verb ask
+          Does Only
+            If obj =fip Then
+              """As I told you earlier I am a closet gnome and therefore I
+               live in closets. There are other kinds of gnomes, too, and
+               they live in, well, various places. For example, I once knew
+               a bedroom gnome who - erm, well, never mind. But you get the
+               idea."""
+              "$pYou just hope that there are not any toilet gnomes."
+            Elsif obj =the_closet Then 
+              """This closet is very nice. But not as nice as the one in -
+               oh, but that is not important."""
+            Elsif obj =door Then 
+              """That is a door. Did you know that a door can be opened or
+               closed? If a door is open you can go through it. If a door is
+               closed you can't. See?"""
+            Elsif obj =chest Then 
+              """How should I know? I didn't bring it here."""
+            Elsif obj =shelves Then 
+              """Do I look like an encyclopedia to you?"""
+            Elsif obj =hero Then 
+              """Maybe you should ask yourself that question."""
+            Elsif obj =beard Then 
+              """Ah! I'm glad you noticed my wonderful looking beard! Isn't
+               it really something? I'm very proud of my beard, you know."""
+            Elsif obj =crack Then 
+              """It's a nice place to rest in. You should try it
+               someday."""
+            Elsif obj =book Then 
+              """That's a very old book that contains amazing amounts of
+               knowledge. If humans saw it then who knows what would happen.
+               Only gnomes are ready to know that much things."""
+            Else 
+              """What did you say?"" Apparently Fip was not listening."
+            End If.
+        End Verb.
+        
+      End The fip.
+      
+      When beard In fip Then
+        STRING
+      
+      
+      The $genid#12 Isa object
+        
+        Mentioned
+          "Fip's beard"
+        
+        Article
+          ""
+        
+        Is 
+          Not pulled.
+        Description
+          ""
+        
+        Verb pull
+          Check beard Is Not pulled
+            Else 
+              "When Fip notices that you are going to pull his beard again
+               he frowns and moves further away."
+          Does Only
+            "Quickly you grab at Fip's beard and yank hard. A small wisp of
+             grey hair is removed due to this heinous act."
+            "$p""Yeoow! Get your hands off my beard, you big monkey!"" Fip
+             looks deeply insulted as he starts combing and trimming his
+             beard back into shape."
+            Make beard pulled.
+            Locate hair In hero.
+        End Verb.
+        
+        Verb examine, look_in
+          Does Only
+            "Fip's beard is grey and fluffy."
+        End Verb.
+        
+        Verb search
+          Does Only
+            """And what do you think you are doing? Get your dirty hands
+             off my beautiful beard! Why don't you grow your own beard, you
+             ox."""
+        End Verb.
+        
+      End The $genid#12.
+      
+      The $genid#13 Isa object
+        
+        Is 
+          loose.
+        Article
+          "some"
+        
+        Verb examine, look_in
+          Does Only
+            "It's grey and fluffy, just like Fip's beard."
+        End Verb.
+        
+        Verb eat
+          Does Only
+            "Absolutely not!"
+        End Verb.
+        
+      End The $genid#13.
+      
+      The $genid#14 Isa object
+        
+        Is 
+          loose.
+        Has 
+          size  2.
+        With Container
+          Header
+            "Inside the plant pot you can see"
+          Else
+            "There is nothing inside the plant pot."
+        Verb examine
+          Does Only
+            "It's a large red plant pot made of clay."
+            If  Count Isa object, In pot >0 Then
+              List pot.
+            End If.
+        End Verb.
+        
+        Verb search, look_in
+          Does Only
+            List pot.
+        End Verb.
+        
+        Verb hit, kick
+          Does Only
+            "Don't do that - it's probably quite fragile."
+        End Verb.
+        
+      End The $genid#14.
+      Syntax
+        guess = guess (num)
+          Where num Isa integer
+            Else 
+              "You can only guess numbers."
+        
+      
+      Synonyms
+        'say' = guess.
+        
+      
+      Verb guess
+        Check number Of fip <>0
+          Else 
+            "There is no need to guess a number now."
+        Does
+          If num <1 Or num >100 Then
+            """Erm. My number is between 1 and 100. Didn't you hear?"""
+          Elsif num <number Of fip Then 
+            """Wrong you are. The number I'm thinking of is bigger."""
+          Elsif num >number Of fip Then 
+            """No, no. My number is smaller."""
+          Else 
+            """Correct! Wonderful! But this game is boring, let's not play
+             it anymore. Let's grow a plant instead."""
+            "$pYou watch in amazement as Fip jumps into the crack and after
+             a while comes back with a large plant pot."
+            "$p""Darn, darn. I couldn't find any plants. I guess we'll have
+             to do without one."""
+            Locate pot Here.
+            Set number Of fip To 0.
+            Schedule fip_action After 0.
+          End If.
+      End Verb.
+      
+      
+      Start At closet.
+        "One day you notice that you are trapped in a closet. Strange."
+        "$pCOMING OUT OF THE CLOSET"
+        "$nWritten by Mikko Vuorinen (mvuorine@cc.helsinki.fi)"
+        "$nRelease 2; Compiled with Alan 2.7(5)"
+        

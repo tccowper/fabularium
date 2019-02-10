@@ -1,0 +1,21 @@
+Every coin Isa object In purse
+End Every coin.
+
+Every bag Isa object At l
+  With Container
+End Every bag.
+
+The purse Isa bag
+End The purse.
+
+The l Isa location
+End The l.
+
+The c1 Isa coin
+End The c1.
+
+The c2 Isa coin
+End The c2.
+
+Start At l.
+  List purse.

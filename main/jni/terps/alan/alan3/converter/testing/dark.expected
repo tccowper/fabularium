@@ -1,0 +1,91 @@
+########## dark ##########
+
+Add To Every object
+  Is
+    lightsource  0.
+End Add To.
+
+Add To Every location
+  Is
+    lit.
+End Add To.
+
+Syntax
+  'look' = l.
+
+Verb 'look'
+  Does
+    If  (Sum Of lightsourceIsa object, Here =0 And Current Location Is Not lit Then
+      "You cannot see anything without any light."
+    Else 
+      Look.
+    End If.
+End Verb.
+
+Syntax
+  i = i.
+
+Verb i
+  Does
+    List hero.
+End Verb.
+
+Verb take
+  Check object Not In hero
+    Else 
+      "You already have that."
+  Does
+    Locate object In hero.
+End Verb.
+
+Verb drop
+  Check object In hero
+    Else 
+      "You don't have that."
+  Does
+    Locate object Here.
+End Verb.
+
+
+The indoors Isa location
+  
+  Is 
+    Not lit.
+  Description
+    If  (Sum Of lightsourceIsa object, Here >0 Then
+      "This is usually a very dark room. But in this light you can see..."
+    Else 
+      "You can not see anything in the dark."
+    End If.
+  
+  Exit out To outdoors.
+  
+End The indoors.
+
+The outdoors Isa location
+  
+  Description
+    "Out here in the sun you can see everything."
+  
+  Exit 'in' To indoors.
+  
+End The outdoors.
+
+The lamp Isa object
+  In inventory 
+  Verb light
+    Does
+      If  (Sum Of lightsourceIsa object, Here =0 And Current Location Is Not lit Then
+        Set lightsource Of lamp To 1.
+        Look.
+      Else 
+        Set lightsource Of lamp To 1.
+      End If.
+  End Verb.
+  
+End The lamp.
+
+Start At outdoors.
+  "Try moving 'in' and 'out' with and without the lamp. You can light the
+   lamp and drop it. Also try 'look' in various situations."
+  

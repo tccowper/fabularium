@@ -1,0 +1,30 @@
+Every n1 Isa object At l
+  Negative Article
+    "inherited negative"
+End Every.
+
+The n Isa n1
+End The n.
+
+The n2 Isa object At l
+  Negative Article "direct negative"
+End The n2.
+
+Add To Every actor
+  Negative Article "added negative"
+End Add To.
+
+Add To Every thing
+  Verb x
+    Does
+      "$-1$p"
+  End Verb.
+End Add.
+
+The l Isa location
+End The l.
+
+Start At l.
+  Say no n. "$n"
+  Say no n2. "$n"
+  Say no hero.

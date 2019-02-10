@@ -1,0 +1,1 @@
+.alan : alan -dump ! -list $1

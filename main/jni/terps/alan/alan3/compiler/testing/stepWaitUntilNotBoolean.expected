@@ -1,0 +1,16 @@
+########## stepWaitUntilNotBoolean ##########
+
+
+stepWaitUntilNotBoolean.alan
+
+    3.      Step Wait Until "hello"
+=====>                      1
+
+  *1*   330 E : Wrong type of expression in context of Step Wait Until. Must be
+                of Boolean type.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

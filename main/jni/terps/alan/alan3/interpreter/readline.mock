@@ -1,0 +1,7 @@
+#include <cgreen/cgreen.h>
+#include <cgreen/mocks.h>
+
+#include "readline.h"
+
+bool readline(char usrbuf[]) { return (bool)mock(); }
+

@@ -1,0 +1,53 @@
+########## hide ##########
+
+Syntax
+  hide = 'hide'.
+
+Verb hide
+  Does
+    "There is nowhere here to hide."
+End Verb.
+
+
+The open Isa location
+  
+  Description
+    "West to forest."
+  
+  Exit west To forest.
+  
+End The open.
+
+The forest Isa location
+  
+  Is 
+    hairy.
+  Description
+    "East to open, north to cavern."
+  
+  Exit east To open.
+  
+  Exit north To cavern.
+  
+  Verb hide
+    Check 
+      Locate hero At cavern.
+      "You hide in the cavern."
+  End Verb.
+  
+End The forest.
+
+The cavern Isa location
+  
+  Description
+    "South to forest, north to cavern."
+  
+  Exit south To forest.
+  
+  Exit north To cavern.
+  
+End The cavern.
+
+Start At open.
+  "Try to 'hide'."
+  

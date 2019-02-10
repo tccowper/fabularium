@@ -1,0 +1,25 @@
+########## extractDoesDoesNotAbortExtraction ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+Bar
+A slow-moving, traditionally dressed waiter is here. The waiter is
+carrying a menu.
+
+> take menu
+The waiter is annoyed by your presupposition. Taken.
+
+> l
+Bar
+A slow-moving, traditionally dressed waiter is here. The waiter is
+empty-handed. He is rather annoyed.
+
+> i
+The hero carries a menu.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

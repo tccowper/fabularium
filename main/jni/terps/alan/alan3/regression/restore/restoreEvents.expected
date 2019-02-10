@@ -1,0 +1,48 @@
+########## restoreEvents ##########
+
+        No warnings or errors detected.
+
+
+Welcome to restore testing adventures.
+
+If you go north an event will be scheduled, if you go in any other
+direction it won't. Go north, then save and quit. Restart game and
+restore.
+
+
+L
+
+> n
+L
+
+> save
+Enter file name to save in (restoreEvents.sav) : 
+Event x...
+
+> 
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 
+
+Welcome to restore testing adventures.
+
+If you go north an event will be scheduled, if you go in any other
+direction it won't. Go north, then save and quit. Restart game and
+restore.
+
+
+L
+
+> restore
+Enter file name to restore from (restoreEvents.sav) : 
+Done. Event x...
+
+> 
+
+> e
+L
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

@@ -1,0 +1,11 @@
+The l Isa location
+End The l.
+
+The o Isa object
+  Verb e Does "e" End Verb.
+End The o.
+
+Start At l.
+  For Each e Isa object Do
+    Say a Of e.
+  End For.

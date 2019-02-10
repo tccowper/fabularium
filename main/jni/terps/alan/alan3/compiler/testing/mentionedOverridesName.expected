@@ -1,0 +1,15 @@
+########## mentionedOverridesName ##########
+
+
+mentionedOverridesName.alan
+
+    3.    Mentioned
+=====>    1
+
+  *1*   425 W : A Mentioned clause overrides the Name for an instance
+                inheriting from location.
+
+
+        No detected errors.
+        1 warning(s).
+

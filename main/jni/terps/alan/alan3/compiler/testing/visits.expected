@@ -1,0 +1,20 @@
+########## visits ##########
+
+
+visits.alan
+
+    5.      Increase visits Of this.
+=====>                      1
+
+  *1*   436 E : Cannot modify readonly attribute.
+
+    6.      Set visits Of this To 12.
+=====>                 1
+
+  *1*   436 E : Cannot modify readonly attribute.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

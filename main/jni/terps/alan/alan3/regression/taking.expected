@@ -1,0 +1,21 @@
+########## taking ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a o1 and a o2 here.
+
+> put o1 in o2
+Too much.
+
+> put l in o2
+You can only put things in containers here.
+
+> put o2 in o1
+The o1 can not contain the o2.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

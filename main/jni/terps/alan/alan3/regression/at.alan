@@ -1,0 +1,76 @@
+The l Isa location
+End The l.
+
+The c Isa object At l
+  Container
+End The c.
+
+The d Isa object In c
+  Container
+End The d.
+
+The o1 Isa object At l.
+End The.
+
+The o2 Isa object In c.
+End The.
+
+The o3 Isa object In d.
+End The.
+
+The o4 Isa object At l.
+End The.
+
+The o5 Isa object In c.
+End The.
+
+The o6 Isa object In d.
+End The.
+
+Start At l.
+  If o1 At l Then "$no1 At l. Ok." Else "$no1 Not At l. *** Not Ok ***." End If.
+  If o2 At l Then "$no2 At l. Ok." Else "$no2 Not At l. *** Not Ok ***." End If.
+  If o3 At l Then "$no3 At l. Ok." Else "$no3 Not At l. *** Not Ok ***." End If.
+
+  If o1 at o1 Then "$no1 at o1. Ok."
+	Else "$no1 Not at o1. *** Not Ok ***." End If.
+  If o2 at o1 Then "$no2 at o1. Ok."
+	Else "$no2 Not at o1. *** Not Ok ***." End If.
+  If o3 at o1 Then "$no3 at o1. Ok."
+	Else "$no3 Not at o1. *** Not Ok ***." End If.
+
+  If o1 at o2 Then "$no1 at o2. Ok."
+	Else "$no1 Not at o2. *** Not Ok ***." End If.
+  If o2 at o2 Then "$no2 at o2. Ok."
+	Else "$no2 Not at o2. *** Not Ok ***." End If.
+  If o3 at o2 Then "$no3 at o2. Ok."
+	Else "$no3 Not at o2. *** Not Ok ***." End If.
+
+  If o1 at o3 Then "$no1 at o3. Ok."
+	Else "$no1 Not at o3. *** Not Ok ***." End If.
+  If o2 at o3 Then "$no2 at o3. Ok."
+	Else "$no2 Not at o3. *** Not Ok ***." End If.
+  If o3 at o3 Then "$no3 at o3. Ok."
+	Else "$no3 Not at o3. *** Not Ok ***." End If.
+
+  If o1 at o4 Then "$no1 at o4. Ok."
+	Else "$no1 Not at o4. *** Not Ok ***." End If.
+  If o2 at o4 Then "$no2 at o4. Ok."
+	Else "$no2 Not at o4. *** Not Ok ***." End If.
+  If o3 at o4 Then "$no3 at o4. Ok."
+	Else "$no3 Not at o4. *** Not Ok ***." End If.
+
+  If o1 at o5 Then "$no1 at o5. Ok."
+	Else "$no1 Not at o5. *** Not Ok ***." End If.
+  If o2 at o5 Then "$no2 at o5. Ok."
+	Else "$no2 Not at o5. *** Not Ok ***." End If.
+  If o3 at o5 Then "$no3 at o5. Ok."
+	Else "$no3 Not at o5. *** Not Ok ***." End If.
+
+  If o1 at o6 Then "$no1 at o6. Ok."
+	Else "$no1 Not at o6. *** Not Ok ***." End If.
+  If o2 at o6 Then "$no2 at o6. Ok."
+	Else "$no2 Not at o6. *** Not Ok***." End If.
+  If o3 at o6 Then "$no3 at o6. Ok."
+	Else "$no3 Not at o6. *** Not Ok ***." End If.
+

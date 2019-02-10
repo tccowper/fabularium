@@ -1,0 +1,105 @@
+Syntax take = 'take' (o)*.
+Syntax drop = 'drop' (o)*.
+
+Add To Every thing
+  Verb take
+    Does
+	Locate o In hero.
+	"Taken."
+  End Verb.
+
+  Verb drop
+    Check o In hero
+	Else "You don't have the $o."
+    Does
+	Locate o Here.
+  End Verb.
+End Add To.
+
+Syntax l = 'l'.
+Verb l
+    Does
+	Look.
+End Verb.
+
+
+Syntax i = 'i'.
+Verb i
+  Does
+    List hero.
+End Verb i.
+
+
+Syntax q = 'q'.
+Verb q
+  Does
+    Quit.
+End Verb q.
+
+The ano Isa object
+  Name unknown 'object'
+  At l1
+  Article "an"
+End The.
+
+The o Isa object
+  Name something
+  At l1
+  Article ""
+End The.
+
+The t Isa object
+  Name thing At l1
+End The.
+
+The d Isa object
+  Name described thing
+  At l1
+  Description
+    "This is the description of a described object."
+End The.
+
+The m Isa object
+  Name 'mentioned' thing
+  At l1
+  Mentioned
+    "mentioned object"
+End The.
+
+The u Isa object
+  Name 'unmentionable' thing
+  At l1
+  Article
+    "an"
+  Mentioned
+    "unmentionable object"
+End The.
+
+-- Testing free order of descriptions
+The adm Isa object
+  Article "a"
+  Description "d"
+  Mentioned "m"
+End The adm.
+
+The amd Isa object
+  Article "a"
+  Mentioned "m"
+  Description "d"
+End The amd.
+
+The dma Isa object
+  Description "d"
+  Mentioned "m"
+  Article "a"
+End The dma.
+
+The l1 Isa location
+End The l1.
+
+The hero Isa actor
+  container
+End the hero.
+
+Start At l1.
+

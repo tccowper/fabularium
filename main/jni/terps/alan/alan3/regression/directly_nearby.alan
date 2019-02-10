@@ -1,0 +1,36 @@
+The l1 Isa location
+End The l1.
+
+The l2 Isa location
+  Exit w To l1.
+End The l2.
+
+The c1 Isa object At l1
+  Container
+End The c1.
+
+The c2 Isa object At l2
+  Container
+End The c2.
+
+The n1 Isa object In c1
+End The n1.
+
+The n2 Isa object In c2
+End The n2.
+
+The n3 Isa object At l1
+End The n3.
+
+The n4 Isa object At l2
+End The n4.
+
+Start At l1.
+  "N1 Nearby:" If n1 Nearby Then "Yes, not ok." Else "No, ok" End If. "$n"
+  "N2 Nearby:" If n2 Nearby Then "Yes, ok." Else "No, not ok" End If. "$n"
+  "N3 Nearby:" If n3 Nearby Then "Yes, not ok." Else "No, ok" End If. "$n"
+  "N4 Nearby:" If n4 Nearby Then "Yes, ok." Else "No, not ok" End If. "$n"
+  "N1 Directly Nearby:" If n1 Directly Nearby Then "Yes, not ok." Else "No, ok" End If. "$n"
+  "N2 Directly Nearby:" If n2 Directly Nearby Then "Yes, not ok." Else "No, ok" End If. "$n"
+  "N3 Directly Nearby:" If n3 Directly Nearby Then "Yes, not ok." Else "No, ok" End If. "$n"
+  "N4 Directly Nearby:" If n4 Directly Nearby Then "Yes, ok." Else "No, not ok" End If. "$n"

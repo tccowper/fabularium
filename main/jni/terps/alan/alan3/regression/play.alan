@@ -1,0 +1,28 @@
+SYNTAX 'play' = 'play' (obj)
+		WHERE obj ISA OBJECT
+			ELSE 
+				 "That's not something you can play."
+
+Syntax play_on = 'play' (str) 'on' (obj)
+	   Where str Isa string
+	   		 Else "You can only play notes."
+		And obj Isa object
+			Else "You can only play on instruments."
+
+The l Isa location
+End The l.
+
+The piano Isa object At l
+  Verb play_on
+    Does
+      "You play" Say str. "."
+  End Verb.
+  Verb 'play'
+    Does
+      "You are good at this."
+  End Verb.
+End The piano.
+
+
+Start at l.
+

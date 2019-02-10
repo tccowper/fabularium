@@ -1,0 +1,26 @@
+########## say ##########
+Options
+  debug.
+  
+
+
+
+The l Isa location
+  
+  Has 
+    int  1.
+  Has 
+    str 
+    "string".
+End The l.
+
+Start At l.
+  Say int Of l.
+  Say 45.
+  Set str Of l To 
+  "string".
+  Say 
+  "Hello!".
+  Say str Of l.
+  Quit.
+  

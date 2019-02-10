@@ -1,0 +1,22 @@
+
+
+THE nowhere ISA LOCATION
+END THE.
+
+ADD TO EVERY LOCATION
+  HAS north nowhere.
+END ADD.
+
+THE loc1 ISA LOCATION
+HAS north loc2. 
+END THE.
+
+VERB north 
+DOES LOCATE hero AT north OF location OF hero.
+END VERB.
+
+THE loc2 ISA LOCATION
+END THE.
+
+START AT loc1.
+

@@ -1,0 +1,72 @@
+1.0
+• Add the ability to patch known bugs in games at runtime.
+• The username can now be set.
+
+0.9
+• UTF-8 is now used for all transcripts and command scripts.
+• Watchpoints can now be set through the debugging interface.
+• The upper window now tracks resizes properly even when it is closed.
+
+0.6.3.2
+• Fix detection of Sherlock version 26-880127.
+
+0.6.3.1
+• Fix a potential use of uninitialized variable.
+
+0.6.3
+• Improved handling of abbreviations (x, g, z, and o).
+• The “attribute 48” bug of Sherlock is now properly handled.
+• Blorb sounds are now properly loaded if the story file itself is wrapped in a
+  Blorb file.
+• Support for “debugging” meta commands, the main use of which is to help find
+  cheats without needing to know details of the Z-machine architecture.
+
+0.6.2
+• Enable /undo in V5 games which do not support undo (e.g. Hitchhiker’s Guide).
+• Add new meta commands /say (allowing text strings which begin with / to be
+  sent to the game) and /disable (which disables meta commands for the rest of
+  the game session).
+• Add new meta commands /ps and /pop which allow in-memory saves to be created,
+  providing arbitrary save points.
+• Meta commands are no longer included in transcripts.
+
+0.6.1
+• Bocfel is now dual-licensed under both the GPLv2 and GPLv3.
+• Small bugfixes and general cleanup.
+
+0.6.0
+• The configuration options script_on and script_name have been renamed to
+  record_on and record_name.
+• Support for some meta commands (/undo, /replay, etc.) has been added.
+• Assorted minor bugfixes and features.
+
+0.5.5
+• Preliminary @sound_effect support.
+• Small bugfixes and general cleanup.
+
+0.5.4
+• Fix a rather obscure bug triggered when @restart is called inside an
+  interrupt.
+• Improved resilience in the face of utterly broken story files.
+• Minor improvements to the syntax for cheats.
+• Improved handling of the configuration file on Windows.
+
+0.5.3
+• The initial random seed can now be read from a device such as /dev/random.
+• Support for Z-machine versions 1 and 2 is now built unconditionally.
+• Small bugfixes and general cleanup.
+
+0.5.2
+• Fix a display problem when a newline is printed at the right edge of the upper
+  window.
+• Provide better diagnostics when a save file cannot be loaded.
+
+0.5.1
+• Bocfel now reports itself as a Standard 1.1-compliant interpreter.
+• The stack is now properly saved in a @save_undo call.
+• Bocfel generates error messages on a few rather questionable uses of the
+  Z-machine; some of these instances have been modified to return sensible
+  results instead of aborting.  The praxix and strictz tests are now passed.
+
+0.5.0
+• Initial release.

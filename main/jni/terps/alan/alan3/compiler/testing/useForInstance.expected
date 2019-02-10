@@ -1,0 +1,33 @@
+########## useForInstance ##########
+
+
+useForInstance.alan
+
+   11.    Use Script x For o. -- Error, not an actor
+=====>                     1
+
+  *1*   351 E : USE statement must refer to an instance inheriting from
+                'actor'.
+
+   12.    Use Script x For a. -- Error, does not have the script
+=====>               1
+
+  *1*   400 E : Script 'x' not defined for actor 'a'.
+
+   14.      Use Script x For o. -- Error, not an actor since instance id's are 
+        not considered for restriction
+=====>                       1
+
+  *1*   351 E : USE statement must refer to an instance inheriting from
+                'actor'.
+
+   15.      Use Script x For a. -- Error, does not have the script
+=====>                 1
+
+  *1*   400 E : Script 'x' not defined for actor 'a'.
+
+
+        4 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -1,0 +1,17 @@
+########## integer ##########
+
+
+The l Isa location
+  
+  Has 
+    int - 3.
+End The l.
+
+Start At l.
+  "Should be -3:"
+  Say int Of l.
+  Set int Of l To -4.
+  "Should be -4:"
+  Say int Of l.
+  Quit.
+  

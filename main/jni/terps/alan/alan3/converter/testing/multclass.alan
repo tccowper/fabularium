@@ -1,0 +1,35 @@
+OBJECT ATTRIBUTES
+  takable.
+
+ACTOR ATTRIBUTES
+  propernamed.
+
+ACTOR hero
+  IS
+    containedbya "nothing".
+END ACTOR.
+
+SYNONYMS get = take.
+
+SYNTAX take = take (dobj) *
+  WHERE dobj ISA ACTOR OR OBJECT
+    ELSE "This message shouldn't show up."
+
+VERB take
+  CHECK dobj = OBJECT
+    ELSE 
+      IF dobj IS propernamed THEN
+        "You suspect" SAY dobj. "wouldn't care for that."
+      ELSE
+        "You suspect the" SAY dobj. "wouldn't care for that."
+      END IF.
+  AND dobj NOT IN inventory
+    ELSE "You already did, remember?"
+  AND dobj IS takable
+    ELSE "Leave the" SAY dobj. "alone."
+  AND containedbya OF hero = "nothing"
+    ELSE "Not from the" SAY containedbya OF hero. "you can't." 
+  DOES
+    LOCATE dobj IN inventory.
+    "Taken."
+END VERB.

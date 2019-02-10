@@ -1,0 +1,23 @@
+########## takeAllShouldNotByPassVerbChecks ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a b and a owen here. The owen contains a a.
+
+> take a
+It is in the owen, you cannot take it.
+
+> take b
+Taken, but not really...
+
+> take all
+(b) Taken, but not really...
+
+(owen) Taken, but not really...
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

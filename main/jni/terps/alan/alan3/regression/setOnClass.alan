@@ -1,0 +1,65 @@
+The l Isa location
+End The l.
+
+Add To Every object
+  Has y 2.
+  Has members {o1, o2, o3}.
+End Add.
+
+The o1 Isa object
+  Has y 1.
+End The o1.
+The o2 Isa object
+  Has y 2.
+End The o2.
+The o3 Isa object
+  Has y 3.
+End The o3.
+The o4 Isa object
+  Has y 4.
+End The o4.
+
+Start At l.
+  If o1 In members of o1 THen "ok" Else "not ok" End If.
+  If o2 In members of o1 THen "ok" Else "not ok" End If.
+  If o3 In members of o1 THen "ok" Else "not ok" End If.
+  If o4 Not In members of o1 THen "ok" Else "not ok" End If.
+
+  If o1 In members of o2 THen "ok" Else "not ok" End If.
+  If o2 In members of o2 THen "ok" Else "not ok" End If.
+  If o3 In members of o2 THen "ok" Else "not ok" End If.
+  If o4 Not In members of o2 THen "ok" Else "not ok" End If.
+
+  If o1 In members of o3 THen "ok" Else "not ok" End If.
+  If o2 In members of o3 THen "ok" Else "not ok" End If.
+  If o3 In members of o3 THen "ok" Else "not ok" End If.
+  If o4 Not In members of o3 THen "ok" Else "not ok" End If.
+
+  If o1 In members of o4 THen "ok" Else "not ok" End If.
+  If o2 In members of o4 THen "ok" Else "not ok" End If.
+  If o3 In members of o4 THen "ok" Else "not ok" End If.
+  If o4 Not In members of o4 THen "ok" Else "not ok" End If.
+
+  Include o4 In members Of o1.
+
+  If o1 In members of o1 THen "ok" Else "not ok" End If.
+  If o2 In members of o1 THen "ok" Else "not ok" End If.
+  If o3 In members of o1 THen "ok" Else "not ok" End If.
+  If o4 In members of o1 THen "ok" Else "not ok" End If.
+
+  If o1 In members of o2 THen "ok" Else "not ok" End If.
+  If o2 In members of o2 THen "ok" Else "not ok" End If.
+  If o3 In members of o2 THen "ok" Else "not ok" End If.
+  If o4 Not In members of o2 THen "ok" Else "not ok" End If.
+
+  If o1 In members of o3 THen "ok" Else "not ok" End If.
+  If o2 In members of o3 THen "ok" Else "not ok" End If.
+  If o3 In members of o3 THen "ok" Else "not ok" End If.
+  If o4 Not In members of o3 THen "ok" Else "not ok" End If.
+
+  If o1 In members of o4 THen "ok" Else "not ok" End If.
+  If o2 In members of o4 THen "ok" Else "not ok" End If.
+  If o3 In members of o4 THen "ok" Else "not ok" End If.
+  If o4 Not In members of o4 THen "ok" Else "not ok" End If.
+
+

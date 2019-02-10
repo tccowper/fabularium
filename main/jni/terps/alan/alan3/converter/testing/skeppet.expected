@@ -1,0 +1,1463 @@
+########## skeppet ##########
+Options
+  language swedish.
+  width 80.length 24.
+
+
+Add To Every object
+  Is
+    takable.
+    readable.
+    Not neutrum.
+    Not plural.
+End Add To.
+
+Syntax
+  l = l.
+
+Verb l
+  Does
+    Look.
+End Verb.
+
+Syntax
+  ta = ta (o)*.
+
+Verb ta
+  Check object Is Not takable
+    Else 
+      "Du kan inte ta"
+      If object Are plural Then
+        "dem."
+      Elsif object Is neutrum Then 
+        "det."
+      Else 
+        "den."
+      End If.
+  And object Not In inventory
+    Else 
+      "Du bär redan på"
+      If object Are plural Then
+        "dem."
+      Elsif object Is neutrum Then 
+        "det."
+      Else 
+        "den."
+      End If.
+  Does
+    Locate object In inventory.
+    "OK!"
+    If object Are plural Then
+      "Tagna."
+    Elsif object Is neutrum Then 
+      "Taget."
+    Else 
+      "Tagen."
+    End If.
+End Verb.
+
+Verb släpp
+  Check object In inventory
+    Else 
+      "Du bär inte på"
+      If object Are plural Then
+        "dem."
+      Elsif object Is neutrum Then 
+        "det."
+      Else 
+        "den."
+      End If.
+  Does
+    Locate object Here.
+    "OK!"
+    If object Are plural Then
+      "Släppta."
+    Else 
+      "Släppt."
+    End If.
+End Verb.
+
+Syntax
+  inventera = i.
+
+Verb inventera
+  Does
+    List inventory.
+End Verb.
+
+The inventory
+  Container
+    Header
+      "Du bär på"
+    Else
+      "Du är tomhänt."
+End The inventory.
+
+Syntax
+  vänta = vänta.
+
+Verb vänta
+  Does
+    Make time Not immediate.
+    "Tiden lider, och Du med den."
+    If time Is morning Then
+      "Det är nu mitt på dagen, och solen står nästan rakt upp."
+      Make time Not morning.
+      Make time noon.
+    Elsif time Is noon Then 
+      "Solen vandrar sin stilla ban, och sänker sig vid horisonten."
+      Make time Not noon.
+      Make time evening.
+      "Dina föräldrar ropar på Dig. De tänker visst fara hem,"
+      "men själv har Du ingen lust att åka ännu."
+      Locate föräldrar At p_plats.
+      If hjälte Is synlig Then
+        "Så får Din far syn på Dig. Han stirrar med bestämd"
+        "blick rakt på Dig, och Du förstår att Du inte kan"
+        "smita undan. Du går honom till mötes."
+        Locate hero At p_plats.
+      End If.
+    End If.
+End Verb.
+
+Verb klättra
+  Does
+    "Det finns absolut ingen möjlighet för Dig att ta dig upp här."
+End Verb.
+
+Verb läs
+  Check object Is readable
+    Else 
+      "Du kan inte läsa"
+      If object Is neutrum Then
+        "den."
+      Else 
+        "det."
+      End If.
+  Does
+    "Vad vill Du jag ska läsa? En godnattsaga?"
+End Verb.
+
+
+The time Isa object
+  
+  Is 
+    morning.
+    Not noon.
+    Not evening.
+    immediate.
+End The time.
+
+The hjälte Isa object
+  
+  Is 
+    Not fast.
+    synlig.
+End The hjälte.
+
+The klippa Isa location
+  
+  Description
+    "Stranden slutar här i en tvär bergvägg, som Du inte har någon chans
+     att klättra uppför."
+    If time Is evening Then
+      "I skenet från den nedgående solens sista strålar skimmrar klippan i
+       alla tänkbara nyanser av rött och guld."
+    End If.
+    "Nyfiken försöker Du gå runt den, men finner att klippan verkar sträcka
+     sig ända ned till havet."
+    Make time Not immediate.
+  
+  Exit s To klippa
+    Does
+      "Ett stängsel hindrar Dig från att hamna på motorvägen, som stryker
+       tätt förbi strandens södra sida."
+  End Exit.
+  
+  Exit so To p_plats.
+  
+  Exit o To filtplats.
+  
+  Exit no To västanhav.
+  
+  Exit n To västanhav.
+  
+  Exit nv To klippa
+    Does
+      "Klippan är alldeles för brant för att Du ska ha en chans att ta dig
+       upp den vägen."
+  End Exit.
+  
+  Exit v To klippa
+    Does
+      "Klippan är alldeles för brant för att Du ska ha en chans att ta dig
+       upp den vägen."
+  End Exit.
+  
+  Exit sv To klippa
+    Does
+      "Klippan är alldeles för brant för att Du ska ha en chans att ta dig
+       upp den vägen."
+  End Exit.
+  
+End The klippa.
+
+The p_plats Isa location
+  
+  Description
+    "Du står på Strandbadets stora parkeringsplats, och ser ut över
+     stranden."
+    Describe grinden.
+    Describe anslagstavlan.
+    If time Is morning Then
+      "Så här tidigt är det ännu inte många bilar här."
+    Elsif time Is noon Then 
+      "Parkeringsplatsen är alldeles fullbelagd utav allehanda fordon."
+    Elsif time Is evening Then 
+      "Nu har de flesta åkt hem. Endast enstaka bilar syns fortfarande kvar
+       vid stranden."
+    End If.
+    If föräldrar At filtplats And pengarna At nowhere Then
+      "Från stranden hör Du Dina föräldrar ropa på Dig!"
+      Make time immediate.
+    Elsif föräldrar Here Then 
+      "Så sitter Du åter i bilen på väg hemåt den här gången. Visst har det
+       varit en fin dag, men något säger Dig ändå att Du missat något.
+       Någonstans där bakom dig känns det som om ett Äventyr låg och lurade,
+       ett Äventyr som nu aldrig skulle bli verklighet."
+      Quit.
+    End If.
+    If föräldrar Is Not repeting Then
+      "Oh, vad Du är trött på att de alltid skall vilja hålla reda på Dig.
+       Som om Du vore någon barnunge! Du är ju trots allt 17 år."
+      Make föräldrar repeting.
+    End If.
+  
+  Exit o To glasskiosk.
+  
+  Exit n To filtplats.
+  
+  Exit no To strandmitt.
+  
+  Exit v To klippa
+    Does
+      "Du vandrar hit och dit utan särskilt mål."
+  End Exit.
+  
+  Exit nv To klippa.
+  
+End The p_plats.
+
+The anslagstavlan Isa object
+  At p_plats 
+  Is 
+    Not takable.
+  Description
+    "Intill grinden står en stor anslagstavla."
+  
+  Verb läs
+    Does Only
+      "På anslagstavlan trängs förra veckans dansbandsaffischer med
+       smålappar om borttappade badbyxor. Ett anslag väcker ditt intresse,
+       eftersom det verkar vara ganska nytt (det är i alla fall inte
+       sönderslitet ännu, och det är dessutom klistrat ovanpå de övriga).
+       Det är ett meddelande från Strandens astronomiska förening. Snabbt
+       skummar Du igenom texten, och får veta att det i kväll kommer att
+       vara ett ovanligt kraftigt tidvatten på grund av solens och månens
+       inbördes förhållande."
+  End Verb.
+  
+End The anslagstavlan.
+
+The grinden Isa object
+  At p_plats 
+  Is 
+    Not takable.
+  Description
+    "Rakt fram står grinden öppen till stranden."
+  
+End The grinden.
+
+The glasskiosk Isa location
+  
+  Description
+    "Här står en glasskiosk, som verkar gå bra. Det är kanske inte så
+     konstigt i den här värmen."
+    Describe glass.
+    "En stor strut skulle kanske inte vara så dumt!"
+    Make time Not immediate.
+  
+  Exit v To p_plats
+    Check hjälte Is Not fast
+      Else 
+        "Du kan inte röra dig."
+  End Exit.
+  
+  Exit nv To filtplats
+    Check hjälte Is Not fast
+      Else 
+        "Du kan inte röra dig."
+  End Exit.
+  
+  Exit n To strandmitt
+    Check hjälte Is Not fast
+      Else 
+        "Du kan inte röra dig."
+  End Exit.
+  
+  Exit no To sandslott
+    Check hjälte Is Not fast
+      Else 
+        "Du kan inte röra dig."
+  End Exit.
+  
+  Exit o To kiosk
+    Check hjälte Is Not fast
+      Else 
+        "Du kan inte röra dig."
+  End Exit.
+  
+End The glasskiosk.
+
+The glass Isa object
+  At glasskiosk 
+  Description
+    "Här finns glass av alla slag."
+  
+  Mentioned
+    "storstrut"
+  
+  Verb ta
+    Does
+      "Du ser glassförsäljaren försvinna in i det bakre lagret. Snabbt
+       sticker Du fram en hand över disken för att snatta en glass. Aj, aj
+       !!! Det skulle Du inte ha gjort. Försäljaren kommer tillbaka utan
+       förvarning, och med ett språng är han framme hos Dig. Hans stora näve
+       griper Dig om handleden och vrider om. Glassen faller ur din hand,
+       men han släpper inte taget."
+      Make hjälte fast.
+  End Verb.
+  
+  Verb ät
+    Does
+      If glass In inventory Then
+        "Du slukar glassen i stora tuggor. Kanske inte det bästa sättet att
+         äta glass på, men - Mmmm vad gott!!"
+        Locate glass At glasskiosk.
+      Else 
+        "Då får Du allt köpa en glass först."
+      End If.
+  End Verb.
+  
+  Verb köp
+    Does
+      If pengarna In inventory And pengarna Is Not slut Then
+        If glass In inventory Then
+          "Försäljaren, en ovanligt otrevlig typ, vänder sig till Dig och
+           säger: 'Ät upp den Du har först. Jag har så många kunder här som
+           verkar behöva en glass mer än Du."
+        Else 
+          "Försäljaren tar dina pengar och sticker till dig en strut. Det
+           var egentligen inte alls en sådan Du ville ha, men han är redan
+           hos nästa kund."
+          Locate glass In inventory.
+          If pengarna Is lite Then
+            Make pengarna slut.
+          Elsif pengarna Is tillräckligt Then 
+            Make pengarna lite.
+          Elsif pengarna Is mycket Then 
+            Make pengarna tillräckligt.
+          End If.
+        End If.
+      Else 
+        "Du har inte tillräckligt med pengar."
+      End If.
+  End Verb.
+  
+  Verb släpp
+    Does
+      If glass In inventory Then
+        "Du slänger glassen ifrån dig. Får man inte vad man vill kan man
+         lika gärna vara utan, resonerar du. Glassen hade hur som helst
+         nästan smält redan. Det lilla som var kvar försvinner snabbt i den
+         heta solen."
+        Locate glass At glasskiosk.
+      Else 
+        "Du bär inte på någon glass."
+      End If.
+  End Verb.
+  
+End The glass.
+
+The filtplats Isa location
+  
+  Description
+    "Här är ett fint ställe att ligga på."
+    If föräldrar Here Then
+      Describe föräldrar.
+    End If.
+    Make time Not immediate.
+  
+  Exit s To p_plats.
+  
+  Exit v To klippa.
+  
+  Exit sv To klippa
+    Does
+      "Du strövar omkring och hamnar i en av strandens mera avlägsna delar.
+       Längst i söder stöter Du på ett stängsel och vänder norrut."
+  End Exit.
+  
+  Exit o To strandmitt.
+  
+  Exit so To glasskiosk.
+  
+  Exit nv To västanhav.
+  
+  Exit n To västanhav.
+  
+  Exit no To medelhav.
+  
+End The filtplats.
+
+The föräldrar Isa object
+  At filtplats 
+  Is 
+    Not takable.
+    Not repeting.
+    plural.
+  Description
+    "Dina föräldrar har redan brett ut sin filt här i sanden, och slängt
+     sig ned på den för att inte missa en gnutta sol."
+    If time Is immediate Then
+      "$p- Bra att Du kom, säger Din mor. Här får Du lite pengar ifall Du
+       vill köpa något. Hon sticker åt Dig några sedlar."
+      Locate pengarna In inventory.
+    End If.
+  
+End The föräldrar.
+
+The strandmitt Isa location
+  
+  Description
+    "Du står mitt på stranden bland en massa okända människor."
+    If föräldrar At filtplats Then
+      "Borta i väster kan Du se dina föräldrar utfläkta på er gamla vanliga
+       utflyktsfilt."
+    End If.
+    If skylten Here Then
+      Describe skylten.
+    End If.
+    "I öster är ett gäng i full färd med att bygga ett sandslott, som
+     verkar vara något utöver det vanliga. Längs strandens södra kant ligger
+     kiosker och småaffärer av diverse slag."
+    Make time Not immediate.
+  
+  Exit v To filtplats.
+  
+  Exit s To glasskiosk.
+  
+  Exit sv To p_plats.
+  
+  Exit so To kiosk.
+  
+  Exit o To sandslott.
+  
+  Exit no To östanhav.
+  
+  Exit n To medelhav.
+  
+  Exit nv To västanhav.
+  
+End The strandmitt.
+
+The skylten Isa object
+  At strandmitt 
+  Is 
+    readable.
+  Description
+    "En gammal skylt står här."
+  
+  Verb läs
+    Does Only
+      "$i'VARNING för kraftiga underströmmar!$iSimma inte för långt ut
+       ifrån stranden.'"
+  End Verb.
+  
+End The skylten.
+
+The kiosk Isa location
+  
+  Description
+    "Här finns en liten butik, som verkar sälja allt möjligt."
+    If time Is evening Then
+      Describe innehavaren.
+    Else 
+      "Det verkar inte finnas någon här att handla av för tillfället."
+    End If.
+  
+  Exit v To glasskiosk.
+  
+  Exit nv To strandmitt.
+  
+  Exit n To sandslott.
+  
+End The kiosk.
+
+The innehavaren Isa object
+  
+  Is 
+    Not takable.
+    Not synlig.
+  Description
+    If innehavaren Is Not synlig Then
+      Locate innehavaren Here.
+      Locate kniven Here.
+      Locate lappen Here.
+      Locate träbenet Here.
+      Locate kroken Here.
+      Make innehavaren synlig.
+    End If.
+    "När Du kliver på, får Du en skymt av innehavaren, och av någon
+     anledning får det Dig att känna Dig illa till mods. Du har dock svårt
+     att riktigt sätta fingret på vad det är som ger dig denna känsla. Kan
+     det vara sättet han tittar på dig med det öga, som inte är gömt bakom
+     den svarta lappen? Kan det måhända vara ljuden, när han haltar fram på
+     sitt träben eller slår den krok, som sitter där armen slutar, i bordet?
+     Eller är det helt enkelt frågan om hans röst, när han med tänderna hårt
+     slutna"
+    If kniven Here Then
+      "kring sin kniv"
+    End If.
+    "väser fram:$p- 'Ikväll grabben ! Ikväll är det dags ...'"
+  
+End The innehavaren.
+
+The kniven Isa object
+  
+  Description
+    If kniven Not At kiosk Then
+      "Det ligger en blank kniv här."
+    End If.
+  
+  Mentioned
+    "kniv"
+  
+  Verb ta
+    Does
+      If kniven At kiosk And innehavaren At kiosk Then
+        "När Du sträcker Dig fram för att ta kniven ur munnen på den
+         vildsinte innehavaren, blir han en smula vred. Med en snabb
+         högerkrok förpassar han Dig till de sälla jaktmarkerna."
+        Locate hero At nowhere.
+      Elsif kniven In inventory Then 
+        "Du bär redan på den."
+      Else 
+        Locate kniven In inventory.
+        "OK!"
+      End If.
+  End Verb.
+  
+  Verb köp
+    Does
+      If kniven At kiosk And innehavaren At kiosk Then
+        "Innehavaren tittar sniket på, medan Du plockar upp pengar ur Din
+         ficka."
+        If pengarna Is slut Or pengarna Is lite Then
+          "Nedlåtande skakar han på huvudet och säger: $i- 'Nej, du
+           grabben. Det där räcker inte.'"
+        Else 
+          "Raskt rycker han åt sig hela Din pengabunt, och spottar
+           nonchalant ut kniven. $i- 'Här har Du', väser han. 'Det är en
+           äkta sjörövarkniv, så använd den väl!'"
+          Make pengarna slut.
+          "Du böjer Dig fascinerat ned och plockar upp kniven."
+          Locate kniven In inventory.
+        End If.
+      Else 
+        "Det finns ingen här att betala till."
+      End If.
+  End Verb.
+  
+End The kniven.
+
+The lappen Isa object
+  
+  Is 
+    Not takable.
+  Mentioned
+    "lapp"
+  
+End The lappen.
+
+The träbenet Isa object
+  
+  Is 
+    neutrum.
+    Not takable.
+  Mentioned
+    "träben"
+  
+End The träbenet.
+
+The kroken Isa object
+  
+  Is 
+    Not takable.
+  Mentioned
+    "krok"
+  
+End The kroken.
+
+The sandslott Isa location
+  
+  Description
+    "Ett fantastiskt sandslott håller på att växa fram här. Nyfiken går Du
+     runt slottet, och finner att det faktiskt går att gå in i borgen. Du
+     sätter Dig på borggården. Det känns skönt att ha ett ställe där man kan
+     gömma sig för föräldrarnas vakande blickar."
+    Make hjälte Not synlig.
+  
+  Exit v To strandmitt
+    Does
+      Make hjälte synlig.
+  End Exit.
+  
+  Exit sv To glasskiosk
+    Does
+      Make hjälte synlig.
+  End Exit.
+  
+  Exit s To kiosk
+    Does
+      Make hjälte synlig.
+  End Exit.
+  
+  Exit n To östanhav
+    Does
+      Make hjälte synlig.
+  End Exit.
+  
+  Exit nv To medelhav
+    Does
+      Make hjälte synlig.
+  End Exit.
+  
+End The sandslott.
+
+The västanhav Isa location
+  
+  Description
+    Make hjälte synlig.
+    If time Is evening Then
+      "Tidvattnet har varit mycket kraftigt idag, och nu under ebb ligger
+       en stor bit av den tidigare havsbotten framför dina fötter. Vid
+       klippan i väster kan Du se en mörk öppning, omkring en meter hög."
+    Else 
+      "Du simmar omkring i det behagliga vattnet. Strömmen är ganska stark,
+       och Du kommer ofrivilligt att hamna ganska nära klippan i väster.
+       Klippan är här liksom på stranden tämligen ogästvänlig, där den
+       tornar upp sig ur vattnet."
+    End If.
+  
+  Exit sv To klippa.
+  
+  Exit s To klippa.
+  
+  Exit so To filtplats.
+  
+  Exit o To västanhav
+    Check 
+      "Du försöker simma österut, men vågorna och de starka strömmarna
+       hindrar dig."
+  End Exit.
+  
+  Exit no To nordanhav.
+  
+  Exit n To nordanhav.
+  
+  Exit nv To nordanhav.
+  
+  Exit v To ostviken
+    Check time Is Not evening
+      Else 
+        "Du simmar mot den branta klippan, som fortsätter ut i havet. Det
+         finns ingenstans att gå i land här."
+    And time Is Not morning
+      Else 
+        "Det går inte att gå däråt nu."
+    Does
+      If time Is noon Then
+        "Just som Du tänker vända inåt stranden, är det något som fångar
+         din blick. Det utåtgående tidvattnet har sjunkit undan krafigt den
+         senaste timmen, och precis i vattenbrynet syns ett mörkt hål.
+         Nyfiken simmar Du närmare och finner vad som verkar vara ingången
+         till en tunnel. Försiktigt tar Du dig fram genom den halvt
+         vattenfyllda gången mot det ljus som syns i andra änden. Efter bara
+         ett ögonblick är Du igenom."
+      Elsif time Is evening Then 
+        "Du skyndar Dig fram i leran till öppningen. Du tittar in, och ser
+         antydan till en ljusning längst in. Halvt hukande tar du Dig in,
+         och efter ett ögonblick är Du igenom."
+      End If.
+  End Exit.
+  
+End The västanhav.
+
+The medelhav Isa location
+  
+  Description
+    "Du flyter omkring i vattnet strax utanför stranden. Inne på stranden
+     ser Du Dina föräldrar lapande sol. Du ser också ett antal småkiosker. I
+     väster tar stranden så småningom slut intill en brant klippa."
+  
+  Exit sv To filtplats.
+  
+  Exit s To strandmitt.
+  
+  Exit so To sandslott.
+  
+  Exit o To medelhav
+    Check 
+      "Du försöker simma österut, men vågorna och de starka strömmarna
+       hindrar dig."
+  End Exit.
+  
+  Exit no To nordanhav.
+  
+  Exit n To nordanhav.
+  
+  Exit nv To nordanhav.
+  
+  Exit v To västanhav.
+  
+End The medelhav.
+
+The östanhav Isa location
+  
+  Description
+    "Du har hamnat i vattnet långt bort på strandens östra kant. Här är det
+     ensamt i vattnet. På stranden innanför dig är det dock fullt med folk,
+     som håller på att bygga på ett enormt sandslott."
+  
+  Exit sv To strandmitt.
+  
+  Exit s To sandslott.
+  
+  Exit so To sandslott.
+  
+  Exit o To östanhav
+    Check 
+      "Du försöker simma österut, men vågorna och de starka strömmarna
+       hindrar dig."
+  End Exit.
+  
+  Exit no To nordanhav.
+  
+  Exit n To nordanhav.
+  
+  Exit nv To nordanhav.
+  
+  Exit v To medelhav.
+  
+End The östanhav.
+
+The nordanhav Isa location
+  
+  Description
+    "Du har simmat alldeles för långt ut från stranden, och egentligen
+     skulle Du ha sugits ned av de kraftiga underströmmarna och drunknat.
+     Eftersom detta inte står i vår makt får Du en chans att fortsätta.
+     Grattis ! "
+  
+  Exit sv To västanhav.
+  
+  Exit s To västanhav.
+  
+  Exit so To västanhav.
+  
+End The nordanhav.
+
+The ostviken Isa location
+  
+  Description
+    Make hjälte Not synlig.
+    "Här, dold djupt inne bland de höga, ogästvänliga klipporna, finner Du
+     en liten vik. Det verkar nästan som en naturlig båthamn, men Du kan
+     inte se några båtar här nu."
+    If time Is evening Then
+      "Du är på väg tillbaka till stranden, då den nedåtgående solens sista
+       strålar plötsligt reflekteras i något vid strandkanten längst bort i
+       viken."
+    End If.
+  
+  Exit o To västanhav.
+  
+  Exit v To västviken
+    Does
+      If time Is evening Then
+        "Nyfikenheten får Dig att besluta Dig för att undersöka det hela
+         närmare."
+      End If.
+  End Exit.
+  
+End The ostviken.
+
+The västviken Isa location
+  
+  Description
+    "Längst in i viken är marken stenig och ogästvänlig. Vassa klippor
+     sticker upp ur vattnet."
+    If time Is evening Then
+      "Till Din förvåning ser Du lågt ute i vattnet ett helt skeppsskrov,
+       som antagligen brukar ligga under vatten normalt, men som nu
+       blottlagts av det ovanligt kraftiga tidvattnet."
+    End If.
+  
+  Exit n To skäret.
+  
+  Exit o To ostviken.
+  
+End The västviken.
+
+The nowhere Isa location
+  
+End The nowhere.
+
+The pengarna Isa object
+  At nowhere 
+  Is 
+    plural.
+    mycket.
+    Not tillräckligt.
+    Not lite.
+    Not slut.
+  Description
+    "En mindre summa pengar finns här."
+  
+  Mentioned
+    "lite pengar"
+  
+End The pengarna.
+
+The skäret Isa location
+  
+  Description
+    "Så här långt ute i vattnet kan du knappt se stranden."
+    Describe skrovet.
+    Locate hålet Here.
+    Describe hålet.
+  
+  Exit 'in' To innanför.
+  
+  Exit s To västviken.
+  
+End The skäret.
+
+The skrovet Isa object
+  At skäret 
+  Description
+    "Ett gammalt rostigt stålskrov ligger här på skäret. Det salta vattnet
+     har tärt hårt på skrovet. Rosten färgar till och med det annars klara
+     vattnet rött när det kluckar mot skrovet."
+  
+  Verb undersök
+    Does
+      "Så här utanpå kan man inte direkt finna något intressant, om man
+       inte har ett speciellt intresse av sönderrostande båtar. Du står
+       dessutom så nära att du inte riktigt kan få någon överblick över
+       skrovets utseeende."
+  End Verb.
+  
+End The skrovet.
+
+The hålet Isa object
+  At skäret 
+  Description
+    "I sidan på skrovet, mitt framför näsan på dig finns ett stort hål
+     (nåja, du skulle i alla fall komma igenom det!). Man skulle faktiskt
+     kunna tro att det är detta hål som är den direkta orsaken till att
+     skrovet ligger här och rostar sönder."
+  
+  Verb undersök
+    Does
+      "Hålet verkar vara gjort av någon projektil eller annat trubbigt
+       föremål som trängt igenom sidan utifrån. Kanterna är ganska vassa men
+       rosten och vattnet har hjälpts åt att slipa bort det värsta, och en
+       fullvuxen karl skulle numera kunna ta sig igenom utan att skada sig
+       (om man är försiktig!)."
+  End Verb.
+  
+End The hålet.
+
+The innanför Isa location
+  
+  Description
+    "Här inne i det rostande skrovet, är det ganska mörkt, men hålet
+     släpper in lite av ljuset utifrån. Lite vatten skvalpar fortfarande
+     kring dina fötter, det rinner kanske aldrig ur, hålet är ju några
+     decimeter ifrån botten på skrovet. Förut ser man en dörr, och akterut
+     en mörk öppning in till ett annat utrymme."
+    Locate hålet Here.
+    Describe hålet.
+  
+  Exit ut To skäret.
+  
+  Exit förut To trapp2
+    Check 
+      "Dörren är stängd."
+  End Exit.
+  
+  Exit akterut To motorrummet.
+  
+  Exit 'in' To motorrummet.
+  
+End The innanför.
+
+The dörren Isa object
+  At innanför 
+  Mentioned
+    "dörr"
+  
+  Verb undersök
+    Does
+      "Dörren ser relativt oskadad ut, men den buktar oroväckande utåt, mot
+       dig."
+  End Verb.
+  
+  Verb öppna
+    Does
+      "Visserligen får du ett gott grepp om handtaget, men hur du än tar i
+       så kan du inte rubba dörren en millimeter."
+  End Verb.
+  
+End The dörren.
+
+The motorrummet Isa location
+  
+  Description
+    "Här är motorrummet i skeppet. På både styrbords och babords sida av
+     rummet finns öppningar, den på babordssidan är något ljusare än den
+     andra."
+  
+  Exit babord To innanför.
+  
+  Exit styrbord To håliga_rummet.
+  
+End The motorrummet.
+
+The turbinerna Isa object
+  At motorrummet 
+  Description
+    "Två enorma dieselturbiner fyller nästan hela rummet. Lukten av olja
+     och dieselbränsle ligger tung här. Detta är märkligt då ju skrovet i
+     övrigt tyder på att det legat här i många, många år, så man tycker att
+     lukten borde gått ur nu."
+  
+End The turbinerna.
+
+The skräpet Isa object
+  At motorrummet 
+  Description
+    "En hel del skräp ligger här på durken. Gamla rostiga burkar, sladdar
+     och trasor är spridda överallt."
+  
+End The skräpet.
+
+The håliga_rummet Isa location
+  
+  Description
+    "Här har rosten bitit in duktigt i skrovet."
+    Describe hålen.
+    "Både för- och akterut finns öppningar i skrovets skott."
+  
+  Exit akterut To motorrummet.
+  
+  Exit förut To trapp1.
+  
+End The håliga_rummet.
+
+The hålen Isa object
+  At håliga_rummet 
+  Description
+    "Överallt i sidan på skrovet finns små, små hål som släpper in lite
+     ljus, precis så mycket att du ser vad du gör."
+  
+  Verb undersök
+    Does
+      "Hålen varierar i storlek mellan 1 och 5 millimeter, och genom ett av
+       de större kan du skymta vattnet utanför."
+  End Verb.
+  
+End The hålen.
+
+The trapp1 Isa location
+  
+  Description
+    "Det här verkar var ett av lastrummen i skeppet. Helt tomt och utan
+     några som helst kännetecken förutom den trappa som börjar borta vid
+     styrbordsskottet och leder upp."
+    Locate trappan Here.
+  
+  Exit akterut To håliga_rummet.
+  
+  Exit upp To trapp_top.
+  
+  Exit förut To lastrum1.
+  
+End The trapp1.
+
+The trappan Isa object
+  At trapp1 
+  Verb undersök
+    Does
+      "Trappan är gjord av järn, med trappsteg av galler, ungefär som man
+       föreställer sig en trappa i ett gammalt järnskepp. Ganska rostig
+       förstås, men ganska stadig ändå."
+  End Verb.
+  
+End The trappan.
+
+The trapp_top Isa location
+  
+  Description
+    "Trappan leder upp, men efter en bit ser du att själva hålet är
+     övertäckt av en massa brädor. Längre upp än så här kan du inte komma."
+  
+  Exit ner To trapp1.
+  
+End The trapp_top.
+
+The brädorna Isa object
+  At trapp_top 
+  Verb undersök
+    Does
+      "Brädorna ligger tungt staplade precis för nedgången till trappan,
+       och inte ens Karl-Alfred skulle kunna rubba dem."
+  End Verb.
+  
+End The brädorna.
+
+The lastrum1 Isa location
+  
+  Description
+    "Detta är ytterligare ett av de tomma lastrummen på skeppet. Vad det
+     har fraktat en gång i tiden är svårt att avgöra, men någon äcklig goja
+     kletar fast på dina fötter. Känns inte lukten av tång starkare nu?"
+  
+  Exit babord To lastrum2.
+  
+End The lastrum1.
+
+The lastrum2 Isa location
+  
+  Description
+    "Detta är ytterligare ett av de tomma lastrummen på skeppet. Vad det
+     har fraktat en gång i tiden är svårt att avgöra, men någon äcklig goja
+     kletar fast på dina fötter. Känns inte lukten av tång starkare nu?"
+  
+  Exit akterut To trapp2.
+  
+  Exit styrbord To lastrum1.
+  
+End The lastrum2.
+
+The trapp2 Isa location
+  
+  Description
+    "Det här verkar var ett av lastrummen i skeppet. Helt tomt och utan
+     några som helst kännetecken förutom den trappa som börjar borta vid
+     babordsskottet och leder upp."
+    Locate trappan Here.
+    Describe vattenpölen.
+  
+  Exit förut To lastrum2.
+  
+  Exit upp To babords_hall_1.
+  
+End The trapp2.
+
+The vattenpölen Isa object
+  At trapp2 
+  Is 
+    Not stor.
+  Description
+    "I den aktre änden av lastrummet har samlats en stor pöl med vatten. På
+     grund av skrovets lutning kan väl inte detta rinna ut när tidvattnet
+     sjunker, och det står en bra bit upp på en dörr i den änden av rummet.
+     Dörren buktar ordentligt utåt, in mot rummet på aktre sidan av det
+     skottet."
+  
+End The vattenpölen.
+
+The babords_hall_1 Isa location
+  
+  Description
+    "Ovanför trappan som leder ned till lastrummet börjar en lång hall. Den
+     sträcker sig akteröver förbi ett antal hytter. Åt styrbordsidan ser du
+     en annan hall leda akterut."
+    Locate trappan Here.
+  
+  Exit akterut To babords_hall_2.
+  
+  Exit styrbord To styrbords_hall_1.
+  
+  Exit ned To trapp2
+    Check vattenpölen Is Not stor
+      Else 
+        "När du försöker gå nedför trappan möts du av en massa vatten.
+         Antagligen har tidvattnet stigit igen, och fyllt de undre delarna
+         av skrovet med vatten. Eftersom du inte har någon dykardräkt eller
+         andra hjälpmedel blir du tvungen att stanna här uppe."
+  End Exit.
+  
+End The babords_hall_1.
+
+The babords_hall_2 Isa location
+  
+  Description
+    "Förut syns den förliga änden av hallen. Rakt framför dig är ingången
+     till Hytt nummer 1. Hallen fortsätter akterut."
+  
+  Exit förut To babords_hall_1.
+  
+  Exit akterut To babords_hall_3.
+  
+  Exit 'in' To hytt1.
+  
+End The babords_hall_2.
+
+The hytt1 Isa location
+  
+  Exit babord To babords_hall_2.
+  
+End The hytt1.
+
+The babords_hall_3 Isa location
+  
+  Description
+    "Akterut syns den akterliga änden av hallen. Rakt framför dig är
+     ingången till Hytt nummer 2. Hallen fortsätter föröver."
+  
+  Exit förut To babords_hall_2.
+  
+  Exit akterut To babords_hall_4.
+  
+  Exit 'in' To hytt2.
+  
+End The babords_hall_3.
+
+The hytt2 Isa location
+  
+  Exit babord To babords_hall_3.
+  
+End The hytt2.
+
+The babords_hall_4 Isa location
+  
+  Description
+    "Hallen sträcker sig vidare förut. Framför dig är ingången till Hytt
+     Nummer 3. Akterut viker hallen av runt hörnet åt styrbord."
+  
+  Exit 'in' To hytt3.
+  
+  Exit förut To babords_hall_3.
+  
+  Exit akterut To hallslut.
+  
+  Exit styrbord To hallslut.
+  
+End The babords_hall_4.
+
+The hytt3 Isa location
+  
+  Description
+    "Hytt 3"
+  
+  Exit babord To babords_hall_4.
+  
+End The hytt3.
+
+The hallslut Isa location
+  
+  Description
+    "Här är den aktra änden av två hallar som både åt styrbords- och
+     babordssidan leder föröver. Akterut leder en stor glasad ingång till en
+     stor salong."
+    Make vattenpölen stor.
+  
+  Exit styrbord To styrbords_hall_4.
+  
+  Exit babord To babords_hall_4.
+  
+  Exit förut To babords_hall_4
+    Check 
+      "Du måste nog välja den ena eller den andra hallen!"
+  End Exit.
+  
+  Exit akterut To salongen.
+  
+End The hallslut.
+
+The styrbords_hall_1 Isa location
+  
+  Description
+    "Här börjar en lång hall. Den sträcker sig akteröver förbi ett antal
+     hytter. Föröver ligger en annan hytt. Åt babordsidan ser du en annan
+     hall leda akterut."
+    Describe bläckfisken.
+  
+  Exit akterut To styrbords_hall_2
+    Check bläckfisken Is Not levande
+      Else 
+        "Du ska inte tro att bläckfisken släpper sitt tag bara för att du
+         vill det!!"
+  End Exit.
+  
+  Exit förut To kaptens_hytt
+    Check bläckfisken Is Not levande
+      Else 
+        "Du ska inte tro att bläckfisken släpper sitt tag bara för att du
+         vill det!!"
+  End Exit.
+  
+  Exit babord To babords_hall_1
+    Check bläckfisken Is Not levande
+      Else 
+        "Du ska inte tro att bläckfisken släpper sitt tag bara för att du
+         vill det!!"
+  End Exit.
+  
+End The styrbords_hall_1.
+
+The bläckfisken Isa object
+  At styrbords_hall_1 
+  Is 
+    levande.
+  Description
+    If bläckfisken Is levande Then
+      "Utfläkt över golvet ligger en STOR tolvarmad bläckfisk. Hans
+       tallriksstora ögon blickar fisklikt på dig, medan två av hans
+       tentakler greppar hård kring dina fotleder. Hur du än sliter och
+       slingrar dig har du inte en chans att komma loss!"
+    Else 
+      "Utfläkt över golvet ligger de slemmiga resterna av en STOR
+       bläckfisk."
+    End If.
+  
+  Verb döda
+    Does
+      If kniven In inventory Then
+        "Efter en stunds vilt hackande i bläckfiskens kropp med kniven
+         märker du att de slemmiga massornas kraft mattas och till sist
+         sjunker slemklumpen till golvet. Du är fri!"
+        Make bläckfisken Not levande.
+      Else 
+        "Du har inget att döda den med!"
+      End If.
+  End Verb.
+  
+End The bläckfisken.
+
+The styrbords_hall_2 Isa location
+  
+  Description
+    "Förut syns den förliga änden av hallen. Rakt framför dig är ingången
+     till Hytt nummer 4. Hallen fortsätter akterut."
+  
+  Exit förut To styrbords_hall_1.
+  
+  Exit akterut To styrbords_hall_3.
+  
+  Exit 'in' To hytt4.
+  
+End The styrbords_hall_2.
+
+The hytt4 Isa location
+  
+  Exit styrbord To styrbords_hall_2.
+  
+End The hytt4.
+
+The styrbords_hall_3 Isa location
+  
+  Description
+    "Förut syns den förliga änden av hallen. Rakt framför dig är ingången
+     till Hytt nummer 5. Hallen fortsätter akterut."
+  
+  Exit förut To styrbords_hall_2.
+  
+  Exit akterut To styrbords_hall_4.
+  
+  Exit 'in' To hytt5.
+  
+End The styrbords_hall_3.
+
+The hytt5 Isa location
+  
+  Exit styrbord To styrbords_hall_3.
+  
+End The hytt5.
+
+The styrbords_hall_4 Isa location
+  
+  Description
+    "Hallen sträcker sig vidare förut. Framför dig är ingången till Hytt
+     Nummer 3. Akterut viker hallen av runt hörnet åt babord."
+  
+  Exit 'in' To hytt6.
+  
+  Exit förut To styrbords_hall_3.
+  
+  Exit akterut To hallslut.
+  
+  Exit babord To hallslut.
+  
+End The styrbords_hall_4.
+
+The hytt6 Isa location
+  
+  Exit styrbord To styrbords_hall_4.
+  
+End The hytt6.
+
+The kaptens_hytt Isa location
+  
+  Description
+    "Detta verkar vara kaptenens hytt."
+    Describe skrivbord.
+  
+  Exit akterut To babords_hall_1.
+  
+End The kaptens_hytt.
+
+The skrivbord Isa object
+  At kaptens_hytt 
+  Description
+    "Mot ena skottet, under en lucka står ett stort skrivbord av ek. På
+     bordet, liksom överallt annars ligger en seg slemmig hinna av
+     saltvatten, tång, sjögräs och halvruttna musslor."
+    Describe lådan.
+  
+  Verb undersök
+    Does
+      "Den slemmiga geggan smetar av sig på dina händer, men du kan ändå
+       inte finna några gömda fack eller annat intressant."
+  End Verb.
+  
+End The skrivbord.
+
+The lådan Isa object
+  At kaptens_hytt 
+  Is 
+    stängd.
+  Description
+    "I en av hutscharna sitter fortfarande en av lådorna kvar."
+    If lådan Is stängd Then
+      "Lådan är stängd."
+    Else 
+      "Lådan är öppen,"
+      If skrinet Is inuti Then
+        "och i den ligger ett skrin."
+      Else 
+        "och alldeles tom."
+      End If.
+    End If.
+  
+  Verb öppna
+    Does
+      If lådan Is stängd Then
+        "Ett tag verkar det som om lådan sitter fast, men efter att ha
+         slitit ett tag i den får du upp den."
+        If skrinet Is inuti Then
+          "I lådan ligger ett litet skrin."
+          Locate skrinet Here.
+        Else 
+          "Lådan är alldeles tom."
+        End If.
+        Make lådan Not stängd.
+      Else 
+        "Den är ju redan öppen!"
+      End If.
+  End Verb.
+  
+  Verb stäng
+    Does
+      If lådan Is stängd Then
+        "Den är ju redan stängd!"
+      Else 
+        "Stängd."
+        Locate skrinet At nowhere.
+        Make lådan stängd.
+      End If.
+  End Verb.
+  
+End The lådan.
+
+The skrinet Isa object
+  
+  Is 
+    inuti.
+  Description
+    If skrinet Is Not inuti Then
+      "På durken här ligger ett litet skrin av plåt."
+    End If.
+  
+  Verb tag
+    Does
+      If skrinet In inventory Then
+        "Du har det redan."
+      Else 
+        Make skrinet Not inuti.
+        Locate skrinet In inventory.
+      End If.
+  End Verb.
+  
+  Verb öppna
+    Does
+      "Efter lite lirkande får du upp locket till skrinet. Inuti hinner du
+       just få en glimt av något glittrande och något annat föremål som
+       verkar sprött, när du plötsligt mer anar än ser en rörelse snett
+       bakom dig. En oerhörd explosion i din hjärna, din blick mörknar,
+       stjärnor och raketer snurrar runt i en fanatisk dans. Till sist
+       försvinner också dessa och allt blir totalt mörker...."
+      Locate hero At mörker.
+  End Verb.
+  
+End The skrinet.
+
+The mörker Isa location
+  
+  Description
+    "Allt är totalt mörker."
+  
+  Exit akterut, förut, styrbord, babord, upp, ner To mörker
+    Check 
+      "Du kan naturligtvis inte röra dig heller!"
+  End Exit.
+  
+End The mörker.
+
+The salongen Isa location
+  
+  Description
+    "Den gamla salongen verkar ha används även som matsal, på borden och
+     även på golvet ligger gamla tallrikar och bestick strödda lite här och
+     där."
+  
+  Exit förut To hallslut.
+  
+End The salongen.
+
+Start At p_plats.
+  "Äntligen lördag! $pDet är en härlig känsla att få komma ned till
+   stranden igen. Första gången på året är alltid lika spännande. Där Du
+   sitter i baksätet i Dina föräldrars bil tänker Du med längtan på sanden
+   och det härliga vattnet. $pNu kan Du se havet genom framrutan på bilen.
+   Din far kör fram till parkeringen, betalar och ställer bilen på en plats
+   där det finns hopp om åtminstone en smula skugga. Så stiger ni ur, Dina
+   bägge föräldrar och Du. Din far och mor tar sitt pick och pack och går
+   norrut in på stranden. Själv stannar Du efter ett ögonblick och bara ser
+   Dig omkring."
+  Locate föräldrar At filtplats.
+  

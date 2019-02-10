@@ -1,0 +1,51 @@
+-- "99 Bottles of Beer" ALAN version
+-- Stephen Griffiths, 1999
+-- V3 conversion Thomas Nilsson, 2002
+
+The wall Isa location
+    NAME '99' Bottles 'of' Beer
+    HAS Bottles 99.
+End The wall.
+
+Event Sing
+    "$p"
+    SAY Bottles OF Wall.
+    "bottle"
+    IF Bottles OF Wall > 1 THEN
+        "$$s"
+    END IF.
+    "of beer on the wall,"
+    "$n"
+    SAY Bottles OF Wall.
+    "bottle"
+    IF Bottles OF Wall > 1 THEN
+        "$$s"
+    END IF.
+    "of beer."
+    "$nTake"
+    IF Bottles OF Wall > 1 THEN
+        "one"
+    ELSE
+        "it"
+    END IF.
+    "down, pass it around,"
+    DECREASE Bottles OF Wall.
+    IF Bottles OF Wall > 0 THEN
+        "$n"
+        SAY Bottles OF Wall.
+        "bottle"
+        IF Bottles OF Wall > 1 THEN
+        "$$s"
+        END IF.
+        "of beer on the wall."
+        SCHEDULE Sing AFTER 0.
+    ELSE
+        "$nNo bottles of beer on the wall,"
+        "$nNo bottles of beer."
+        QUIT.
+    END IF.
+END EVENT.
+
+START AT Wall.
+SCHEDULE Sing AFTER 0.
+

@@ -1,0 +1,21 @@
+########## warnForScheduleInRules ##########
+
+
+warnForScheduleInRules.alan
+
+    9.    Schedule x After 1.
+=====>    1
+
+  *1*   445 W : The event will be executed at no location.
+
+   10.    Schedule x Here After 1.
+=====>               1
+
+  *1*   443 E : There is no location defined in Rule context, so Here or Nearby
+                is not defined.
+
+
+        1 error(s).
+        1 warning(s).
+        1 informational message(s).
+

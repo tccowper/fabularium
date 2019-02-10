@@ -1,0 +1,19 @@
+Location l
+End Location l.
+
+Syntax test = 'test' (i)
+  Where i Isa Integer
+    Else "You can only test integers."
+
+Verb test
+  Does
+    If Hero At i Then
+      "The HERO is at $1."
+    Else 
+      "The HERO is NOT at $1, which is fortunate."
+    End If.
+End Verb.
+
+Start At l.
+
+  "$pTry 'test <integer>..."

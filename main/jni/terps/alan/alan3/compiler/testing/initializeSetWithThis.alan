@@ -1,0 +1,8 @@
+The l Isa location
+End The l.
+
+The advice_dummy Isa Entity
+   Has talkers {this}.
+End The advice_dummy.
+
+Start At l.

@@ -1,0 +1,16 @@
+The l Isa location
+  Exit l To l.
+
+  Verb l Does "" End Verb.
+
+End The l.
+
+Every l Isa location
+End Every l.
+
+Event l "" End Event.
+
+The loc Isa location
+End The loc.
+
+Start At loc.

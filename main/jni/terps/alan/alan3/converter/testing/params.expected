@@ -1,0 +1,34 @@
+########## params ##########
+
+Syntax
+  p = a (a) b (a).
+
+Verb p
+  Check a =a
+    Else 
+      "hej hopp $1."
+  Does
+    If a =p Then
+      "P 1."
+    Elsif x =y Then 
+      Score .
+    Elsif a =o Then 
+      Quit.
+    Elsif o =o Then 
+      Look.
+    Elsif o =l Then 
+      Save.
+    End If.
+End Verb.
+
+
+The o Isa object
+  
+End The o.
+
+The l Isa location
+  
+End The l.
+
+Start At l.
+  

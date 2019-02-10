@@ -1,0 +1,11 @@
+Add To Every location
+  Entered Say x. Say a Of this.
+End Add.
+
+The loc1 Isa location
+End The loc1.
+
+The loc2 Isa location
+End The loc2.
+
+Start At loc1.

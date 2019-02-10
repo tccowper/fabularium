@@ -1,0 +1,1101 @@
+# vi: set ts=2 shiftwidth=2 expandtab:
+#
+# Load and run a version 4.00 game.
+#
+# This script implements the shadowvault brief walkthrough for Humbug, without
+# comparing output strings.  Humbug is a large and complex game, and probably
+# tests more niche features and rarely used aspects of Adrift than any other
+# game we could pick.  This makes it useful for ensuring that the trickier
+# interactions of various game elements all work together in concert as they
+# should within SCARE.
+#
+# A few edits were required to get the game to complete with SCARE.  Mostly
+# these involved timing or turns related issues, removing worn objects before
+# dropping them, and a few variations to make random game elements agree with
+# those produced by SCARE's random number sequence.
+#
+
+~ game
+*Humbug* Compiled "07 Dec 2003"* Version 4.00*
+
+> look
+> x satchel
+> open satchel
+> w
+> in
+> hug horace
+> get shovel
+> look in dustbin
+> get banana
+> x can
+> drink petrol
+> get plane
+> drop plane
+> out
+> e
+> n
+> push button
+> x letterbox
+> get envelope
+> open door
+> n
+> n
+> pull cord
+> d
+> x crate
+> e
+> hit chimp
+> give banana to chimp
+> u
+> s
+> u
+> u
+> w
+> get coin
+> open wardrobe
+> get scarf
+> get gloves
+> wear gloves
+> e
+> d
+> d
+> drop all but torch
+> get torch
+> get shovel
+> s
+> s
+> e
+> dig
+> open trapdoor
+> n
+> x well
+> wish
+> turn on torch
+> d
+> dig
+> get carrot
+> hit wall
+> e
+> turn off torch
+> get crowbar
+> s
+> x statue
+> push button
+> n
+> w
+> u
+> s
+> w
+> n
+> n
+> n
+> d
+> open crate with crowbar
+> drop crowbar
+> u
+> s
+> remove gloves
+> drop all
+> n
+> d
+> sit in chair
+> e
+> e
+> x miner
+> kick miner
+> get lamp
+> get ladder
+> x arch
+> read sign
+> e
+> e
+> e
+> n
+> lean ladder on wall
+> x table
+> get amphora
+> x racquet
+> wear racquet
+> x slate
+> s
+> x table
+> put amphora on table
+> e
+> x table
+> get watch
+> get goggles
+> get musket
+> get doll
+> w
+> put watch on table
+> put goggles on table
+> s
+> x door
+> x table
+> get claw
+> get cap
+> get key
+> n
+> put claw on table
+> put cap on table
+> n
+> u
+> e
+> s
+> x cart
+> in
+> give doll to barman
+> give beer to digger
+> give musket to barman
+> give beer to digger
+> out
+> open coffin
+> put key in coffin
+> close coffin
+> in
+> wake digger
+> out
+> n
+> w
+> d
+> s
+> w
+> w
+> w
+> w
+> w
+> drop lamp
+> sit in chair
+> u
+> s
+> e
+> n
+> x desk
+> get nailfile
+> open door with nailfile
+> drop nailfile
+> e
+> d
+
+
+#
+# The dial puzzle is randomized.  Because scripts have predictable sequencing,
+# the solution here is always 0787 (the walkthrough happened upon 1758).
+#
+
+> turn dial to 0
+> e
+> e
+> turn dial to 7
+> w
+> s
+> turn dial to 8
+> get mattress
+> n
+> n
+> turn dial to 7
+> drop mattress
+> s
+> x case
+> push button
+> x case
+> get all from case
+> wear cap
+> wear goggles
+> w
+> u
+> w
+> get monocle
+> s
+> w
+> drop all but amphora
+> get torch
+> get monocle
+> get watch
+> n
+> d
+> turn on torch
+> e
+> get sweet
+> e
+> e
+> x chute
+> w
+> s
+> wear monocle
+> read runes
+
+
+#
+# SCARE requires worn objects to be removed before being dropped.
+#
+
+> remove monocle
+> drop monocle
+
+> e
+> y
+> turn off torch
+> read sign
+> x octopus
+> drop amphora
+> put sweet on plinth
+> drop watch
+> get 1 sweet
+> get 3 sweets
+> get 3 sweets
+> get 3 sweets
+> say moccasin beehive
+> drop dweezil
+
+
+#
+# SCARE requires worn objects to be removed before being dropped.
+#
+
+> remove goggles
+> drop goggles
+
+> turn on torch
+> w
+> s
+> e
+> s
+> turn off torch
+> x door
+> read sign
+> e
+> x chute
+> e
+> x pedestal
+> get hammer
+> x computer
+> type 1 on computer
+> read display
+> hit computer
+> get humbug
+> ask hacker about humbug
+> play humbug on computer
+> drop humbug
+> turn on torch
+> n
+> get parchment
+> sit on stool
+> w
+> w
+> drop hammer
+> n
+> n
+> w
+> w
+> turn off torch
+> u
+> s
+> drop all
+> get parchment
+> get shovel
+> get carrot
+> s
+> s
+> w
+> w
+> read sign
+> read parchment
+> drop parchment
+> w
+> s
+> e
+> w
+> w
+> n
+> e
+> s
+> n
+> w
+> n
+> s
+> e
+> x statue
+> read sign
+> dig
+> get emerald
+> w
+> e
+> e
+> e
+> n
+> x tree
+> get termites
+> d
+> give carrot to rabbit
+> n
+> kneel
+> eat orange flower
+> n
+> get ruby
+> s
+> eat blue flower
+> get all
+> wear trousers
+> wear shirt
+> wear cap
+> u
+> s
+> e
+> e
+> n
+> n
+> drop all
+> e
+> e
+> x grandad
+> get document
+> read document
+> drop document
+> get hat
+> x hat
+> get feather
+> w
+> w
+> drop hat
+> get torch
+> get termites
+> n
+> d
+> turn on torch
+> e
+> e
+> s
+> s
+> e
+> wake aardvark
+> give termites to aardvark
+> give feather to aardvark
+> read wall
+> s
+> turn off torch
+> read display
+
+
+#
+# The 7-segment puzzle is randomized.  Because scripts have predictable
+# sequencing, the solution here is 7296.  It takes a lot of pushing.
+#
+
+> push 4, push 5, push 6, push 7
+> push 6, push 2, push 1, push 0, push 7
+> push 3, push 1, push 6, push 7
+> push 1, push 5, push 7
+
+> read display
+> turn on torch
+> w
+> x chute
+> x machine
+> x buttons
+> push button 3
+> get leg
+> e
+> n
+> w
+> n
+> n
+> w
+> w
+> turn off torch
+> u
+> s
+> w
+> x table
+> get mousse
+> n
+> open door
+> e
+> x barrel
+> x wine
+> put leg in barrel
+> x wine
+> get casket
+> get fish
+> get bone
+> open casket
+> w
+> x kennel
+> x dog
+> give bone to dog
+> x table
+> get pot
+> get kettle
+> s
+> e
+> drop all
+> get jigsaw
+> get fish
+> get coin
+> s
+> s
+> e
+> s
+> s
+> x mug
+> x tea
+> get lump
+> x table
+> get bag
+> give jigsaw to viking
+> get filofax
+> s
+> d
+> x sealion
+> give fish to sealion
+> get tuck
+> open tuck
+> get sandwich
+> x sandwich
+> drop tuck
+> x dispenser
+> put coin in slot
+> x buttons
+> push button 5
+> hit machine
+> get ticket
+> n
+> n
+> w
+> n
+> n
+> remove cap
+> drop all
+> get sandwich
+> w
+> n
+> w
+> wait
+> get mouse
+
+
+#
+# For some reason, we've lost the cat here, and so need to lure it back.
+#
+
+> e, s, e
+> x cat
+> w, wait, n, wait, w
+> get mouse
+
+> stroke cat
+> get caddy
+> e
+> s
+> e
+> drop sandwich
+> get kettle
+> get gloves
+> wear gloves
+> u
+> u
+> u
+> w
+> get hedgehog
+> x boiler
+> x kettle
+> plug in kettle
+> wait
+> wait
+> wait
+> e
+> e
+> give mouse to owl
+> open skylight
+> u
+> e
+> get balloon
+> jump
+> w
+> d
+> w
+> w
+> drop kettle
+> plug in kettle
+> wait
+> wait
+> x kettle
+> get salt
+> e
+> d
+> d
+> d
+> e
+> s
+> throw salt at slug
+> open chest
+> get clippers
+> get zircon
+> n
+> w
+> remove gloves
+> drop all
+> get clippers
+> get shovel
+> s
+> s
+> e
+> n
+> cut fence with clippers
+> drop clippers
+> n
+> in
+> x door
+> open door
+> n
+> x door
+> n
+> x line
+> get peg
+> get chain
+> x bath
+> s
+> drop chain
+> dig
+> s
+> say boo
+> l
+> get battery
+> out
+> s
+> s
+> w
+> n
+> n
+> u
+> e
+> get trombone
+> x bed
+> get sheets
+> wear peg
+> get longjohns
+
+
+#
+# SCARE requires worn objects to be removed before being dropped.
+#
+
+> remove peg
+
+> drop peg
+> get pass
+> x chute
+> w
+> n
+> open cabinet
+> get plaster
+> x basin
+> s
+> d
+> drop all
+> get envelope
+> open envelope
+> get card
+> read card
+> drop envelope
+> get scarf
+> get claw
+> get trombone
+> get pass
+> get torch
+> get shovel
+> get lump
+> get ticket
+> get hat
+> wear hat
+> e
+> e
+> blow trombone
+> give card to grandad
+> give scarf to grandad
+> ask grandad about jasper
+> ask grandad about horace
+> get trombone
+> w
+> w
+> drop trombone
+> n
+> d
+> turn on torch
+> e
+> e
+> s
+> s
+> e
+> s
+> turn off torch
+> read sign
+> wait
+> wait
+> wait
+
+
+#
+# The main Runner walkthrough here uses one last "wait", but in SCARE this
+# misses the opportunity to follow Grandad past the bouncer; replacing the
+# "wait" with a one-turn "look" solves this...
+#
+#> wait
+
+> look
+
+> s
+> x table
+> get token
+> wait
+> wait
+> wait
+> wait
+> open package
+> n
+> n
+> w
+> s
+> y
+> s
+> x robot
+> push button
+> x coach
+> enter coach
+> x tombstone
+> dig
+> dig
+> dig
+> open coffin
+> give claw to zombie
+> get key
+> give lump to horse
+> ride horse
+> l
+> n
+> n
+> in
+> n
+> get chain
+> d
+> s
+> s
+> open door with key
+> drop key
+> s
+> drop chain
+> e
+> x tube
+> push button
+> w
+> w
+> u
+> s
+> w
+> n
+> n
+> remove hat
+> drop all
+> u
+> n
+> turn on tap
+> wash hands
+> wash hair
+> turn off tap
+> s
+> d
+> get gloves
+> wear gloves
+> get hedgehog
+> comb hair with hedgehog
+> x hair
+> remove gloves
+> drop all
+> w
+> n
+> w
+> say please
+> get caddy
+> open caddy
+> get toffee
+> drop caddy
+> e
+> s
+> e
+> get mousse
+> s
+> s
+> e
+> wait
+> wait
+> wait
+> wait
+> wait
+> wait
+> wait
+> wait
+> wait
+> wait
+> wait
+> wait
+> give mousse to wumpus
+> get wumpus
+> d
+> drop wumpus
+> u
+> close trapdoor
+> wait
+> wait
+> wait
+> give toffee to jasper
+> ask jasper about wumpus
+> wait
+> wait
+> wait
+> get tooth
+> wait
+> wait
+> wait
+> wait
+> l
+> get polaroid
+> open trapdoor
+> d
+> get wumpus
+> u
+> w
+> n
+> n
+> drop all
+> get balloon
+> get package
+> get filofax
+> get plaster
+> get tooth
+> get wumpus
+> get bag
+> get torch
+> n
+> d
+> turn on torch
+> e
+> e
+> s
+> s
+> s
+> turn off torch
+> x olaf
+> ask olaf about story
+> pop balloon
+> ask olaf about story
+> n
+> e
+> s
+> e
+> e
+> x hacker
+> give package to hacker
+> x computer
+> read filofax
+
+
+#
+# Numbers to type are randomized.  We have to use the ones assigned when the
+# game initialized.
+#
+# Note that it appears that the game here uses an undocumented extension to
+# pattern matching.  The pattern here is
+#
+#  "type 01047%phoneno_bb% {on {the} computer}"
+#
+# which seems to require that %phoneno_bb% should be (logically) interpolated
+# before pattern matching.
+#
+
+> type 010471309627 on computer
+> x computer
+> type 92073791 on computer
+> x computer
+> drop filofax
+> type log off on computer
+> w
+> w
+> n
+> w
+> s
+> say 010479576856
+> get rucksack
+> open rucksack
+> get powder
+> put powder in chute
+> x chute
+> pull lever
+> n
+> e
+> s
+> e
+> e
+> sit on pedestal
+> push button
+> get powder
+> x fairy
+> x wand
+> ask fairy about wand
+> give plaster to fairy
+> sit on pedestal
+> push button
+> get raspberry
+> blow raspberry at fairy
+> drop raspberry
+> kiss fairy
+> give tooth to fairy
+> turn on torch
+> n
+> put bag on stool
+> e
+> get amethyst
+> w
+> w
+> x machine
+> open door
+> put powder in machine
+> put wumpus in machine
+> close door
+> push button
+> open door
+> w
+> n
+> n
+> w
+> w
+> turn off torch
+> u
+> s
+> drop all
+> get torch
+> get mug
+> get sheets
+> n
+> d
+> turn on torch
+> e
+> e
+> s
+> s
+> get hammer
+> x alarm
+> break glass with hammer
+> drop hammer
+> e
+> s
+> e
+> turn off torch
+> wait
+> give mug to dennis
+> hit dennis
+> get helmet
+> get uniform
+> tie dennis with sheets
+> x dennis
+> x underwear
+> smell underwear
+> sign form
+> wear uniform
+> wear helmet
+> drop all
+> x uniform
+> s
+> turn off wheel
+> x chute
+> n
+> get torch
+> turn on torch
+> w
+> n
+> w
+> n
+> n
+> w
+> w
+> turn off torch
+> u
+> s
+> get battery
+> x torch
+> open torch
+> put battery in torch
+> close torch
+> get zircon
+> get ruby
+> get emerald
+> get sapphire
+> get amethyst
+> get diamond
+> get gloves
+> wear gloves
+> get hedgehog
+> u
+> e
+> x chute
+> put amethyst in chute
+> pull lever
+> w
+> d
+> n
+> d
+> turn on torch
+> e
+> e
+> e
+> x chute
+> put sapphire in chute
+> pull lever
+> w
+> s
+> s
+> s
+> x chute
+> put diamond in chute
+> pull lever
+> n
+> e
+> s
+> w
+> x chute
+> put emerald in chute
+> pull lever
+> e
+> e
+> x chute
+> put ruby in chute
+> pull lever
+> s
+> x chute
+> put zircon in chute
+> pull lever
+> n
+> w
+> n
+> w
+> n
+> get monocle
+> wear monocle
+> read runes
+
+
+#
+# SCARE requires worn objects to be removed before being dropped.
+#
+
+> remove monocle
+> drop monocle
+
+> n
+> w
+> w
+> turn off torch
+> drop gloves
+> say magic word
+> get map
+> x map
+> u
+> s
+> drop torch
+> get casket
+> x casket
+> get pepper
+> drop casket
+> get trombone
+> get pot
+> get polaroid
+> e
+> n
+> s
+> w
+> s
+> s
+> w
+> w
+> n
+> x trombone
+> x pot
+> open pot
+> pour honey in trombone
+> drop trombone
+> get trombone
+> get sock
+> x sock
+> wear sock
+> s
+> w
+> drop pot
+> drop sock
+> l
+> get plane
+> wait
+> wait
+> wait
+> wait
+> wait
+> wait
+> wait
+> wait
+> wait
+
+
+#
+# The main Runner walkthrough here uses one last "wait", but as with the
+# bouncer puzzle above, that's one turn too many here, so it's replaced with
+# a one-turn "look"...
+#
+#> wait
+
+> look
+
+> throw plane
+> get tin
+> open tin
+> put pepper in tin
+> close tin
+> put tin on bench
+> wait
+> wait
+> wait
+> wait
+> wait
+> wait
+> wait
+> wait
+> wait
+> get can
+> out
+> e
+> e
+> n
+> d
+> e
+> blow trombone
+> drop trombone
+> get chain
+> tie chain to bars
+> w
+> u
+> n
+> in
+> n
+> n
+> x bath
+> x can
+> pour petrol in funnel
+> drop can
+
+
+#
+# And finally...
+#
+
+> push button
+*We've won!*
+
+~ game
+*Not running* Completed*

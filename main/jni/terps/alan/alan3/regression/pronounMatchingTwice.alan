@@ -1,0 +1,19 @@
+Syntax ask_about = ask (x) about (y)
+  Where x Isa entity Else "You can't ask" Say the x. "about anything."
+  And y Isa entity Else "You can't ask anybody about" Say The y. "."
+
+Add To Every actor
+  Verb ask_about
+    When x Does
+      "The butler is the silent type."
+  End Verb.
+End Add.
+
+The butler Isa actor At l
+  Pronoun him.
+End The butler.
+
+The l Isa location
+End The l.
+
+Start At l.

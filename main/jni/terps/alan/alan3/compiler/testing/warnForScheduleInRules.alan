@@ -1,0 +1,14 @@
+The l Isa location
+End The l.
+
+Event x
+  ""
+End Event.
+
+When hero At l Then
+  Schedule x After 1.
+  Schedule x Here After 1.
+  Schedule x At l After 1.
+End When.
+
+Start At l.

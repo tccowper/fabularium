@@ -1,0 +1,31 @@
+
+SYNTAX put_in = 'put' (o) 'in' (c)
+  WHERE c ISA container
+    ELSE "You can not put anything in that."
+
+VERB put_in
+  DOES
+    LOCATE o in c.
+END VERB put_in.
+
+
+SYNTAX l = l.
+
+VERB l
+  DOES
+    LOOK.
+END VERB l.
+
+
+LOCATION loc
+END LOCATION.
+
+OBJECT box1 AT loc
+  CONTAINER
+END OBJECT box1.
+
+OBJECT box2 AT loc
+  CONTAINER
+END OBJECT box2.
+
+START AT loc.

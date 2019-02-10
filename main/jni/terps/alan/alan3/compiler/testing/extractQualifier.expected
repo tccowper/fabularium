@@ -1,0 +1,15 @@
+########## extractQualifier ##########
+
+
+extractQualifier.alan
+
+   15.      Extract Does Only "The waiter is annoyed by your presupposition."
+=====>              1
+
+  *1*   210 E : Action qualification not allowed here.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

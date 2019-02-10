@@ -1,0 +1,15 @@
+########## initialLocationInCurrentActor ##########
+
+
+initialLocationInCurrentActor.alan
+
+    1.  The o Isa object In Current Actor
+=====>                      1
+
+  *1*   412 E : Current Actor is not defined in declarations.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

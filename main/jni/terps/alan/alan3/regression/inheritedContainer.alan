@@ -1,0 +1,29 @@
+Every cont Isa object
+  Container
+    Header Say This. "contains"
+    Else Say This. "is empty."
+End Every cont.
+
+The t Isa object In c
+End The t.
+
+The c Isa cont At l
+End The c.
+
+The d Isa cont At l
+End The d.
+
+The l Isa location
+End The l.
+
+Syntax x = x.
+
+Verb x
+  Does
+    List c.
+    List d.
+End Verb x.
+
+
+Start At l.
+

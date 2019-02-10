@@ -1,0 +1,78 @@
+########## setSemantics ##########
+
+
+setSemantics.alan
+
+    5.      Set a Of Current Actor To 7.
+=====>          1
+
+  *1*   314 E : Attribute 'a' is not defined for the Current Actor since the
+                class 'actor' does not have it.
+
+    6.      Set a Of Current Location To 7.
+=====>          1
+
+  *1*   314 E : Attribute 'a' is not defined for the Current Location since the
+                class 'location' does not have it.
+
+    9.      Set a Of l To a Of Current Actor.
+=====>                    1
+
+  *1*   314 E : Attribute 'a' is not defined for the Current Actor since the
+                class 'actor' does not have it.
+
+   10.      Set a Of l To a Of Current Location.
+=====>                    1
+
+  *1*   314 E : Attribute 'a' is not defined for the Current Location since the
+                class 'location' does not have it.
+
+   12.      Set c Of c To 4.
+=====>               1
+
+  *1*   310 E : Identifier 'c' not defined.
+
+   16.      Set a Of This To 7.
+=====>               1
+
+  *1*   421 E : THIS instance is not defined in this context.
+
+   17.      Set a Of Current Actor To 7.
+=====>          1
+
+  *1*   314 E : Attribute 'a' is not defined for the Current Actor since the
+                class 'actor' does not have it.
+
+   18.      Set a Of Current Location To 7.
+=====>          1
+
+  *1*   314 E : Attribute 'a' is not defined for the Current Location since the
+                class 'location' does not have it.
+
+   20.      Set a Of l To a Of This.
+=====>                         1
+
+  *1*   421 E : THIS instance is not defined in this context.
+
+   21.      Set a Of l To a Of Current Actor.
+=====>                    1
+
+  *1*   314 E : Attribute 'a' is not defined for the Current Actor since the
+                class 'actor' does not have it.
+
+   22.      Set a Of l To a Of Current Location.
+=====>                    1
+
+  *1*   314 E : Attribute 'a' is not defined for the Current Location since the
+                class 'location' does not have it.
+
+   24.      Set c Of c To 4.
+=====>               1
+
+  *1*   310 E : Identifier 'c' not defined.
+
+
+        12 error(s).
+        No detected warnings.
+        1 informational message(s).
+

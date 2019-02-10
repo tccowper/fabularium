@@ -1,0 +1,11 @@
+Every x Isa object
+  Has relative y.
+End Every x.
+
+The y Isa x
+End The y.
+
+The l Isa location. End The l.
+
+Start At l.
+ Say relative Of y.

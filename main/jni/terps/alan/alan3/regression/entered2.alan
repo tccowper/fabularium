@@ -1,0 +1,20 @@
+-- demo of 'entered' recursing an actor relocate (sjg)
+
+the first isa location
+  entered
+"$nOoh! An actor has arrived here, let's move charlie here too"
+locate charlie here.
+end the first.
+
+the charlie isa actor
+end the charlie.
+
+syntax action = action.
+verb action
+does
+"$nAction ... moving charlie now"
+locate charlie at first.
+end verb.
+
+start at first.
+"try command action to crash the interpreter"

@@ -1,0 +1,185 @@
+#
+# ADRIFT Module
+# Exported 13-Nov-2006
+#
+
+# Author: A.N. Onymous
+
+Version 4.00 Release 45
+
+DEFINE Room "Room1"
+   SHORTDESC = "Printing Room"
+   LONGDESC = "Completely empty."
+END Room
+
+DEFINE Task "Task1"
+   COMMAND "showtags"
+   WHERE = All Rooms
+   MESSAGE = "<sxshowtags>Tags visible<test tag>"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task2"
+   COMMAND "dontshowtags"
+   WHERE = All Rooms
+   MESSAGE = "</sxshowtags>Tags hidden<test tag>"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task3"
+   COMMAND "print %text%"
+   WHERE = All Rooms
+   MESSAGE = "%text%"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task4"
+   COMMAND "tags"
+   WHERE = All Rooms
+   MESSAGE = "<i>italics</i><br><b>bold</b><br><u>underline</u><br><c>color</c><br><centre>centre<br></centre><center>center</center><right>right<br></right><font face=\"Copperplate Gothic Light\" size=14 colour=\"#008080\">font</font><br>wait 1.2<wait 1.2><br>less=&lt;, greater=&gt;<br><bgcolor=\"#008080\">bgcolor<wait 1><bgcolor=default><br><bgcolour=\"#008080\">bgcolor<wait 1><bgcolour=default>"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task5"
+   COMMAND "unknown"
+   WHERE = All Rooms
+   MESSAGE = "<mumble>mumble</mumble><br><tra la la>tra la la</tra la la><br>< spaced >spaced< spaced ><br><br><   i   >spaced italic<   /i   ><br><   >spaces alone</   >"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task6"
+   COMMAND "unterminated tag"
+   WHERE = All Rooms
+   MESSAGE = "Here is a < with no close."
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task7"
+   COMMAND "unterminated var"
+   WHERE = All Rooms
+   MESSAGE = "Here is a % with no close."
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task8"
+   COMMAND "waitkey"
+   WHERE = All Rooms
+   MESSAGE = "Press a key to continue...<waitkey><br>Key pressed"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task9"
+   COMMAND "clear screen"
+   WHERE = All Rooms
+   MESSAGE = "<cls>"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task10"
+   COMMAND "word word word"
+   WHERE = All Rooms
+   MESSAGE = "Synonym target ran."
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task11"
+   COMMAND "flat alrs"
+   WHERE = All Rooms
+   MESSAGE = "ALR1: alr1<br>ALR2: alr2<br>ALR3: alr number 3<br><br>Word boundaries: xalr1x, xalr2x, xalr number 3x"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task12"
+   COMMAND "recursive alrs"
+   WHERE = All Rooms
+   MESSAGE = "ALRR: alra"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task13"
+   COMMAND "recursive vars"
+   WHERE = All Rooms
+   MESSAGE = "VARR: %a%"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task14"
+   COMMAND "mixed"
+   WHERE = All Rooms
+   MESSAGE = "VALR: valr<br>VARE: %e%"
+   REPEATABLE = True
+END Task
+
+DEFINE Synonym "Synonym1"
+   SYSTEM = "word"
+   ALTERNATIVE = "syn1"
+END Synonym
+
+DEFINE Synonym "Synonym2"
+   SYSTEM = "word"
+   ALTERNATIVE = "syn2"
+END Synonym
+
+DEFINE Synonym "Synonym3"
+   SYSTEM = "word word word"
+   ALTERNATIVE = "w"
+END Synonym
+
+DEFINE Synonym "Synonym4"
+   SYSTEM = "word word word"
+   ALTERNATIVE = "a b c"
+END Synonym
+
+DEFINE Synonym "Synonym5"
+   SYSTEM = "word"
+   ALTERNATIVE = "$"
+END Synonym
+
+DEFINE Variable "Var1"
+   NAME = "a"
+   TYPE = Text
+   VALUE = "A %b%"
+END Variable
+
+DEFINE Variable "Var2"
+   NAME = "b"
+   TYPE = Text
+   VALUE = "B %c%"
+END Variable
+
+DEFINE Variable "Var3"
+   NAME = "c"
+   TYPE = Text
+   VALUE = "C %d%"
+END Variable
+
+DEFINE Variable "Var4"
+   NAME = "d"
+   TYPE = Text
+   VALUE = "D (end)"
+END Variable
+
+DEFINE Variable "Var5"
+   NAME = "e"
+   TYPE = Text
+   VALUE = "valr"
+END Variable
+
+DEFINE Introduction
+   MESSAGE = ""
+   STARTROOM = "Room1"
+   SHOWFIRST = True
+END Introduction
+
+DEFINE Winning
+   MESSAGE = ""
+END Winning
+
+DEFINE Player
+   NAME = "Ted Swippett"
+   GENDER = Male
+   DESCRIPTION = ""
+   INITIALPOSITION = Standing
+   MAXBULK = 10 Normal Objects
+   MAXWEIGHT = 10 Normal Objects
+END Player

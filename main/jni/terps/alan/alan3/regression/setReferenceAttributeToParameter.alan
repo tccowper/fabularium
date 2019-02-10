@@ -1,0 +1,17 @@
+The l Isa location
+  Has r l.
+End The l.
+
+Syntax c = c (p)!
+  Where p Isa location
+    Else "You can only c locations."
+
+Add To Every location
+  Verb c
+    Does
+      Set r Of l To p.
+      Say r Of l.
+  End Verb.
+End Add.
+
+Start At l.

@@ -1,0 +1,49 @@
+Location l1
+  Description
+    "This is location 1. E has no exit output, W has exit output."
+
+  Exit e To l2.
+
+  Exit w to l2
+    Does
+      "Going west to l2."
+  End Exit.
+End Location.
+
+Location l2
+  Description
+    "This is location 2. E has no exit output, W has exit output."
+
+  Exit e To l1.
+
+  Exit w to l1
+    Does
+      "Going west to l1."
+  End Exit.
+End Location.
+
+
+Actor motor At l2
+
+  Script 1.
+    Step
+      "The motor moves you to L1."
+      Locate motor At l1.
+      Locate hero At l1.
+
+    Step After 5
+      "The motor moves you to L2."
+      Locate motor At l2.
+      Locate hero At l2.
+
+    Step After 5
+      Use Script 1 For motor.
+
+End Actor.
+
+When hero here and random 1 to 3 = 1 =>
+  "Randomly moving you to first location."
+  Locate HERO At l1.
+
+Start At l1.
+  Use Script 1 For motor.

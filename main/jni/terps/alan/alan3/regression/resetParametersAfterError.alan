@@ -1,0 +1,14 @@
+The l Isa location
+End The l.
+
+Syntax x = x (o)
+  Where o Isa actor
+    Else "That's not something you can x."
+
+The o Isa object At l
+  Verb x
+    Check "You can't do that!"
+  End Verb.
+End The o.
+
+Start At l.

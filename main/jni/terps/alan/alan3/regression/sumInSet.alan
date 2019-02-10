@@ -1,0 +1,16 @@
+Every clothing Isa object
+  Has size 1.
+End Every clothing.
+
+The robe Isa clothing
+End The robe.
+
+The shirt Isa clothing
+End The shirt.
+
+The l Isa location
+  Has clothes {robe, shirt}.
+End The l.
+
+Start At l.
+  "Sum of size in the set is" Say Sum Of size In clothes Of l.

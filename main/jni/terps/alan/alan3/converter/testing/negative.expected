@@ -1,0 +1,59 @@
+########## negative ##########
+
+
+The dumbobject Isa object
+  At nowhere 
+  Has 
+    pos  1.
+  Has 
+    neg - 2.
+  Has 
+    zero  0.
+End The dumbobject.
+
+The nowhere Isa location
+  
+  Entered
+    "Pos of DumpObject ="
+    Say pos Of dumbobject.
+    "Neg of DumpObject ="
+    Say neg Of dumbobject.
+    "Zero of DumpObject ="
+    Say zero Of dumbobject.
+    If pos Of dumbobject >0 Then
+      "$p pos of DumbObject > 0 "
+    End If.
+    If neg Of dumbobject <0 Then
+      "$p neg of DumbObject < 0 "
+    End If.
+    If neg Of dumbobject Not =0 Then
+      "$p neg of DumbObject NOT = 0 "
+    End If.
+    If neg Of dumbobject Not >0 Then
+      "$p neg of DumbObject NOT > 0 "
+    End If.
+    If neg Of dumbobject <pos Of dumbobject Then
+      "$p neg of DumbObject < pos of DumbObject "
+    End If.
+    If zero Of dumbobject >neg Of dumbobject Then
+      "$p zero of DumbObject > neg of DumbObject "
+    End If.
+    If -1 <1 Then
+      "$p -1 < 1 "
+    End If.
+    If -1 =1 Then
+      "$p -1 = 1 "
+    End If.
+    If 0 =(-1 +1) Then
+      "$p 0= (-1+1) "
+    End If.
+    If -1 =(-2 +1) Then
+      "$p -1 = (-2+1) "
+    End If.
+    If -3 <-1 Then
+      "$p -3 < -1 "
+    End If.
+End The nowhere.
+
+Start At nowhere.
+  

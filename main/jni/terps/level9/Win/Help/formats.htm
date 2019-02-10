@@ -1,0 +1,46 @@
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <link rel="stylesheet" type="text/css" href="Level9.css">
+ </head>
+ <body>
+<h1>Supported Formats</h1>
+On several machines (such as the Amiga) Level 9 games were distributed as an interpreter plus a data file,
+usually called "gamedata.dat" or something similar. These games can be played with this interpreter simply by loading
+the "gamedata.dat" file.
+<p>
+For the Amiga (and some other formats) the v4 games were released in three parts, each in a separate data file:
+<p>
+<table border="0" cellpadding="0" cellspacing="0">
+  <tr><td nowrap width=40></td><td nowrap>gamedat1.dat</td></tr>
+  <tr><td nowrap width=40></td><td nowrap>gamedat2.dat</td></tr>
+  <tr><td nowrap width=40></td><td nowrap>gamedat3.dat</td></tr>
+</table>
+<p>
+Starting the first game gives a menu from which you can choose which part or game to play. For this to work the files
+must have the same basic structure with a number in it somewhere, e.g. file names
+<p>
+<table border="0" cellpadding="0" cellspacing="0">
+  <tr><td nowrap width=40></td><td nowrap>TimeAndMagick1.dat</td></tr>
+  <tr><td nowrap width=40></td><td nowrap>TimeAndMagick2.dat</td></tr>
+  <tr><td nowrap width=40></td><td nowrap>TimeAndMagick3.dat</td></tr>
+</table>
+<p>
+will work.
+<p>
+On other (especially older and smaller) computers the games were distributed as a single file containing both an interpreter
+and the game data. Level9 can cope with these files as well, as it automatically searches files for valid Level 9 games.
+This however requires that the file not be compressed in any way. For example, there are several Spectrum snapshots of
+Level 9 games available which this interpreter can play, but these snapshots must be in an uncompressed format (e.g. SNA).
+Commonly snapshots are available in the compressed Z80 format, but these files can be converted to SNA using the widely
+available conversion program <b>SPConv</b>, version 1.06 or higher.
+<p>
+Paul David Doherty has written <b>L9Cut</b>, which can extract Level 9 games from many different formats. L9Cut can also remove
+copy protection from Level 9 games. L9Cut can be downloaded from<br>
+<a href="http://www.ifarchive.org/indexes/if-archiveXlevel9Xtools.html">http://www.ifarchive.org/indexes/if-archiveXlevel9Xtools.html</a>
+<p>
+This program has been tested on files obtained from releases for the Amiga, Atari ST, IBM PC, C-64, Spectrum, Atari 800, BBC,
+Amstrad CPC, Apple 2, Apple Mac and MSX computers.
+ </body>
+</html>
+

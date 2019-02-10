@@ -1,0 +1,15 @@
+The l Isa location
+  Has l l.
+End The l.
+
+The co Isa object
+  Container
+End The co.
+
+The ct Isa thing
+  Container Taking thing.
+End The ct.
+
+
+Start At l.
+  If Current Actor In Current Actor Then "l in l" End If.

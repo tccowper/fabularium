@@ -1,0 +1,30 @@
+########## htmltext ##########
+
+Syntax
+  read = read (obj)
+    Where obj Isa object
+      Else 
+        " ""I think I may be losing my mind!"
+        Make says frodo.
+        ""
+  
+  just = now i had 'an' overwhelming urge.
+
+
+Start Here.
+  ""
+  Verb read
+  End Verb.
+  
+  
+  The a Isa actor
+    At l 
+  End The a.
+  
+  
+  The l Isa location
+    
+  End The l.
+  
+  Start At l.
+    

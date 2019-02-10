@@ -1,0 +1,22 @@
+########## same_syntax_with_different_parameter_types ##########
+
+        No warnings or errors detected.
+
+
+
+Office
+There is a keypad here.
+
+> type 123 on the keypad
+You type 123 on the keypad.
+
+> type "password" on the keypad
+You type password on the keypad. It was the correct password you typed on 
+the keypad.
+
+> type "password"
+You type password. It was the correct password you typed.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

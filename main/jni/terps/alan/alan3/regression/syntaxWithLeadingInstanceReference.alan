@@ -1,0 +1,15 @@
+The l Isa location
+End The l.
+
+The girl Isa actor At l
+  Verb walks
+    Does
+      "She walks, yes, she does..."
+  End Verb.
+End The girl.
+
+Syntax walks = (a) walks north
+  Where a Isa actor
+    Else "Nothing except people can walk."
+
+Start At l.

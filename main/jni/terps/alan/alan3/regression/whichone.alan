@@ -1,0 +1,22 @@
+Add To Every object
+  Verb x
+    Does "x"
+  End Verb.
+End Add To.
+
+The big_stone Isa object At l
+Name big stone
+End The big_stone.
+
+The medium_stone Isa object At l
+Name medium stone
+End The medium_stone.
+
+The small_stone Isa object At l
+Name small stone
+End The small_stone.
+
+The l Isa location
+End The l.
+
+Start At l.

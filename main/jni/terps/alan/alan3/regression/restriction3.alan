@@ -1,0 +1,34 @@
+Syntax
+  give = give (recip) (o)
+    Where recip Isa Container
+	Else Say recip. "can't carry anything."
+    And o Isa object
+        Else "You can't give" Say o. "to" Say recip. "."
+Add To Every actor
+  Definite Article
+  Indefinite Article
+End Add.
+
+Add To Every object
+  Verb give
+    Does
+      "GIVE says that (recip) is =" Say recip.
+  End Verb give.
+End Add.
+
+The o Isa object At l.
+End The o.
+
+The a Isa actor At l
+End The a.
+
+The c Isa actor At l
+  Container
+End The c.
+
+The l
+  Isa location.
+  Has anAttribute.
+End The l.
+
+Start At l.

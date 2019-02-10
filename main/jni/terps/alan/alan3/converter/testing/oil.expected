@@ -1,0 +1,32 @@
+########## oil ##########
+
+Syntax
+  oil_using = 'oil' 'using' (liq).
+
+Verb oil_using
+  Does
+    "Oiled."
+End Verb.
+
+
+The oil Isa object
+  At l 
+  Article
+    ""
+  
+End The oil.
+
+The water Isa object
+  At l 
+  Article
+    ""
+  
+End The water.
+
+The l Isa location
+  
+End The l.
+
+Start At l.
+  "'Oil using oil'!"
+  

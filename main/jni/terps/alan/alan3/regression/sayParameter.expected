@@ -1,0 +1,36 @@
+########## sayParameter ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a shiny sharp long thing here.
+
+> x the thing
+You 'x' the shiny sharp long thing.
+You 'x' the shiny sharp long thing.
+
+> x the shiny thing, w
+You 'x' the shiny sharp long thing.
+You 'x' the shiny sharp long thing.
+
+
+L
+There is a shiny sharp long thing here.
+
+> w
+L
+There is a shiny sharp long thing here.
+
+> x the shiny long sharp thing, e
+You 'x' the shiny sharp long thing.
+You 'x' the shiny sharp long thing.
+
+
+L
+There is a shiny sharp long thing here.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

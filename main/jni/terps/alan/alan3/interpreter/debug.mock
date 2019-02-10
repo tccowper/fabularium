@@ -1,0 +1,19 @@
+/* Mocking debug.c */
+#include "debug.h"
+
+/* Imports: */
+#include "types.h"
+
+/* Data: */
+int breakpointCount;
+Breakpoint breakpoint[100];
+
+/* Functions: */
+void saveInfo(void);
+void restoreInfo(void);
+int breakpointIndex(int file, int line);
+char *sourceFileName(int file) { return (char *)mock(file); }
+char *readSourceLine(int file, int line) { return (char *)mock(file, line); }
+void showSourceLine(int fileNumber, int line);
+void debug(bool calledFromBreakpoint, int line, int fileNumber);
+void traceSay(int item) { mock(item); }

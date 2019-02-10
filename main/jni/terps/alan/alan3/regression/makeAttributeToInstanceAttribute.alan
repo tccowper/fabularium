@@ -1,0 +1,16 @@
+Every roomWithDoors Isa location
+  Is open.
+End Every roomWithDoors.
+
+The l Isa roomWithDoors
+  Is open.
+End The l.
+
+The k Isa object
+  Has room l.
+End The k.
+
+Start At l.
+  If l Is open Then "L is open." End If.
+  Make room Of k Not open.
+  If l Is Not open Then "L is not open." End If.

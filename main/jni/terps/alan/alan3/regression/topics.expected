@@ -1,0 +1,42 @@
+########## topics ##########
+
+        No warnings or errors detected.
+
+
+
+Bar
+Mr Andersson is here. There is a bartender here. There is a waitress here.
+
+> talk about the weather with mr andersson
+'the weather, well, you know...' says mr Andersson.
+
+> ask bartender about the killer
+'the killer, well, you know...' says the bartender.
+
+> ask bartender about weather
+The bartender says 'I do not know anything about the weather.' The
+bartender leaves the bar through the front door.
+
+> x killer
+You can't do that.
+
+> x weather
+You examine the weather.
+
+> 
+
+> ask waitress about weather
+'the weather, well, you know...' says the waitress.
+
+> talk to waitress about killer
+The waitress says 'I do not know anything about the killer.' Through the
+front door the bartender enters the bar from the street.
+
+> 
+
+> ask bartender about weather
+'the weather, well, you know...' says the bartender.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

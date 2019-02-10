@@ -1,0 +1,16 @@
+#include <cgreen/cgreen.h>
+#include <cgreen/mocks.h>
+
+#include "decode.h"
+
+
+/* DATA */
+Aword *freq;     /* Cumulated character frequencies for text decoding */
+
+
+/* FUNCTIONS */
+void startDecoding(void) { mock(); }
+int decodeChar(void) { return (int)mock(); }
+void *pushDecode(void) { return (void *)mock(); }
+void popDecode(void *info) { mock(); }
+

@@ -1,0 +1,11 @@
+The a Isa actor
+  Script fullstop.
+    Step ""
+  Script no_fullstop
+    Step ""
+End The a.
+
+The l Isa location
+End The l.
+
+Start At l.

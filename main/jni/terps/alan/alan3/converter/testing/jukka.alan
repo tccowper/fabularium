@@ -1,0 +1,151 @@
+OBJECT ATTRIBUTES
+	NOT helpful.
+	NOT giveable.
+	NOT person.
+	NOT opened.
+	NOT openable.
+	takeable.
+
+SYNTAX
+	give_to = give (obj1) 'to' (obj2).
+	take = take (obj)*.
+	talk_to = talk 'to' (obj).
+	'look' = 'look'.
+	'quit' = 'quit'.
+	list_i = 'list'.
+	read = read (obj).
+	clean = clean (obj).
+
+VERB take
+	CHECK obj IS takeable
+	ELSE "You can't take that!"
+	DOES
+		LOCATE obj IN inventory.
+		"You drop the $o in your purse with a greedy smile."
+END VERB.
+
+VERB 'quit' DOES
+	QUIT.
+END VERB.
+
+VERB list_i DOES
+	LIST inventory.
+END VERB.
+
+VERB 'look' DOES
+	LOOK.
+END VERB.
+
+VERB give_to
+	CHECK obj1 IN inventory
+		ELSE "You don't have it!"
+	AND obj1 IS giveable
+		ELSE "You can't give it avay!"
+	AND obj2 IS person
+		ELSE "You can't give something to a non person!"
+	DOES
+		LOCATE obj1 IN limbo.
+		MAKE obj2 helpful.
+		"The $o dissapears in the persons hand."
+END VERB.
+
+LOCATION hall
+	NAME 'A big hall'
+	DESCRIPTION
+"A big hallway with a large gateway of dark almost
+black oaktree in the eastern end."
+	EXIT west TO mirror_room
+	CHECK mirror IS opened
+	ELSE
+	"The mirrorworld is not opened for you."
+	END EXIT.
+END LOCATION.
+
+
+LOCATION mirror_room
+	NAME 'A mirror image of the world."
+	DESCRIPTION
+		"The mirror world you have just entered is as fetched from the
+		imagination of a mad artist. Boiling clay puddles spitt out gasses
+		smelling like rotten eggs"
+	EXIT east TO hall.
+END LOCATION.
+
+LOCATION limbo
+END LOCATION.
+
+OBJECT man AT hall
+	IS person.
+	IS talkeable.
+	DESCRIPTION
+		"There is a man here."
+		IF man IS helpful THEN
+			"He looks very helpful!"
+		ELSE
+			"He doesn't look helpful."
+		END IF.
+	VERB talk_to DOES
+		IF man IS helpful THEN
+		"Go to the point located at this map.
+		There you will find the key to
+		leave this world. He drops a map on the floor. He
+		wasn't so helpful in spite of all."
+		LOCATE map HERE.
+		ELSE
+		"He looks at you as if he seen a disturbing cockroach."
+		END IF.
+	END VERB.
+END OBJECT.
+
+OBJECT map AT limbo
+DESCRIPTION
+"A map. Drawn on old pergament."
+VERB read DOES
+IF map IN inventory
+THEN
+"The map shows you the path to the nearby forrest and a large stone
+underneath which there should be a coffin."
+ELSE
+"You don't have the map."
+END IF.
+END VERB.
+END OBJECT.
+
+OBJECT coin AT hall
+IS giveable.
+DESCRIPTION
+"A golden shimmering coin."
+END OBJECT.
+
+OBJECT polish AT hall
+DESCRIPTION
+"A cotton cloth and spray polish."
+END OBJECT.
+
+OBJECT mirror AT hall
+IS openable.
+IS NOT takeable.
+DESCRIPTION
+"A magnificent mirror at the western end of the hall."
+IF mirror IS opened THEN
+"Staring back at you, you can see your own distorted face. But the background
+is not the hallway but a nigthmarisch landscape."
+ELSE
+"But the surface of the mirror is smerred with a fat oily substance."
+END IF.
+VERB clean DOES
+IF polish IN inventory THEN
+"You spray on the polish and vipe it of the surface of the mirror.
+But you see that the smerred surface of the mirror needs to be
+polished several times. After some time you see the distorted image of
+yourself glance back at you."
+MAKE mirror opened.
+LOCATE polish AT limbo.
+ELSE
+"You need something to polish with."
+END IF.
+END VERB.
+END OBJECT.
+
+START AT hall.
+

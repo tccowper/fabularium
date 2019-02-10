@@ -1,0 +1,80 @@
+Syntax
+  x = x (p1) (p2)
+    Where p1 Isa thing
+	Else Say thingAttribute Of p1. -- Not defined
+	     Say thingAttribute Of p2. -- Not defined
+    And p1 Isa object
+	Else Say thingAttribute Of p1.
+	     Say objectAttribute Of p1. -- Not defined
+	     Say thingAttribute Of p2. -- Not defined
+	     Say objectAttribute Of p2. -- Not defined
+    And p2 Isa thing
+	Else Say thingAttribute Of p1.
+	     Say objectAttribute Of p1.
+             Say actorAttribute Of p1. -- Not defined
+             Say locationAttribute Of p1. -- Not defined
+	     Say thingAttribute Of p2. -- Not defined
+	     Say objectAttribute Of p2. -- Not defined
+             Say actorAttribute Of p2. -- Not defined
+             Say locationAttribute Of p2. -- Not defined
+    And p1 Isa objectSubclass
+	Else Say thingAttribute Of p1.
+	     Say objectAttribute Of p1.
+	     Say objectSubclassAttribute Of p1. -- Not defined
+             Say actorAttribute Of p1. -- Not defined
+             Say locationAttribute Of p1. -- Not defined
+	     Say thingAttribute Of p2.
+	     Say objectAttribute Of p2. -- Not defined
+	     Say objectSubclassAttribute Of p2. -- Not defined
+             Say actorAttribute Of p2. -- Not defined
+             Say locationAttribute Of p2. -- Not defined
+    And p2 Isa object
+	Else Say thingAttribute Of p2.
+	     Say objectAttribute Of p2. -- Not defined
+             Say actorAttribute Of p2. -- Not defined
+             Say locationAttribute Of p2. -- Not defined
+	     Say thingAttribute Of p1.
+	     Say objectAttribute Of p1.
+	     Say objectSubclassAttribute Of p1.
+             Say actorAttribute Of p1. -- Not defined
+             Say locationAttribute Of p1. -- Not defined
+
+Every objectSubclass Isa object
+  Has objectSubclassAttribute 1.
+End Every objectSubclass.
+
+Add To Every thing
+  Has
+    thingAttribute 1.
+  Verb x
+    Does
+      "X"
+      Say p1. Say p2. "."
+  End Verb.
+End Add To.
+
+Add To Every object
+  Has
+    objectAttribute 1.
+End Add.
+
+Add To Every actor
+  Has
+    actorAttribute 1.
+End Add.
+
+Add To Every location
+  Has
+    locationAttribute 1.
+End Add.
+
+The o Isa object At l.
+End The o.
+
+The a Isa actor At l
+End The a.
+
+The l Isa location.
+End The l.
+
+Start At l.

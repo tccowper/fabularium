@@ -1,0 +1,17 @@
+
+Source Code for Windows Version of the Level 9 Interpreter
+----------------------------------------------------------
+
+Included in this archive is complete source code to rebuild the Windows version of
+the Level 9 interpreter, version 5.1. This source has been tested with Microsoft
+Visual C++. However, it should be relatively easy to get it to compile with others.
+
+If using Visual C++, just load the project and build it. To compile with other
+compilers, the first stage is to build the class library. All the .cpp files in
+"classlib" need to be built into a single library. The interpreter can now be
+built by compiling "level9.c", "lev9win.cpp" and linking with the class library.
+
+Note that the 16 bit Windows version is no longer supported. None of the 16 bit
+code has been removed however, so it may be possible to get a 16 bit version to
+build.
+

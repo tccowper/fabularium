@@ -1,0 +1,9 @@
+Every described_location Isa location
+  Description
+    "This is the description of a described location (inherited)."
+End Every.
+
+The l Isa described_location
+End The l.
+
+Start At l.

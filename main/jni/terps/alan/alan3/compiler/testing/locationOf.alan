@@ -1,0 +1,16 @@
+Add To Every location
+  Has existingAttribute 1.
+End Add.
+
+The l Isa location
+End The l.
+
+
+Start At l.
+	  If location Of me Then "hej" End If. -- me undefined
+	  Set location Of l To l. -- read-only attribute
+	  Set location Of hero To l. -- read-only attribute
+	  Set location Of hero To 4. -- read-only attribute & wrong type
+	  If location Of hero = l Then "hopp" End If. -- OK
+	  If existingAttribute Of location Of hero = 1 Then "Att = 1" End If. -- OK
+	  If nonExistingAttribute Of location Of hero = 1 Then "Att = 1" End If. -- Non-existing attribute

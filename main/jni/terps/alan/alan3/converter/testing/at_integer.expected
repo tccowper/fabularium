@@ -1,0 +1,26 @@
+########## at_integer ##########
+
+
+The l Isa location
+  
+End The l.
+Syntax
+  test = 'test' (i)
+    Where i Isa integer
+      Else 
+        "You can only test integers."
+  
+
+Verb test
+  Does
+    If hero At i Then
+      "The HERO is at $1."
+    Else 
+      "The HERO is NOT at $1, which is fortunate."
+    End If.
+End Verb.
+
+
+Start At l.
+  "$pTry 'test <integer>..."
+  

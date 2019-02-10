@@ -1,0 +1,34 @@
+########## locationOnEntity ##########
+
+
+locationOnEntity.alan
+
+    1.  The x Isa entity At l
+=====>                   1
+
+  *1*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
+
+    8.  The y Isa t At l
+=====>              1
+
+  *1*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
+
+   15.    Locate x At l.
+=====>           1
+
+  *1*   405 E : Only instances and classes inheriting from Thing can be used in
+                Locate statement.
+
+   16.    Locate y At l.
+=====>           1
+
+  *1*   405 E : Only instances and classes inheriting from Thing can be used in
+                Locate statement.
+
+
+        4 error(s).
+        No detected warnings.
+        1 informational message(s).
+

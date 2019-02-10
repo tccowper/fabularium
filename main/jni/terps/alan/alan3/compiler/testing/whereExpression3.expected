@@ -1,0 +1,16 @@
+########## whereExpression3 ##########
+
+
+whereExpression3.alan
+
+   15.    If object At object Then "" End If.
+=====>       1         2
+
+  *1*   319 E : Identifier 'object' is not of correct type for this context.
+  *2*   319 E : Identifier 'object' is not of correct type for this context.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -1,0 +1,45 @@
+########## atr ##########
+
+Add To Every actor
+  Is
+    a.
+End Add To.
+
+Add To Every object
+  Is
+    b.
+End Add To.
+
+
+The x Isa actor
+  Name mr x
+  At l 
+End The x.
+
+
+The o Isa object
+  At l 
+End The o.
+
+The l Isa location
+  
+End The l.
+
+Start At l.
+  If x Is a Then
+    "X is a."
+  Else 
+    "X isn't a."
+  End If.
+  If o Is b Then
+    "O is b."
+  Else 
+    "O isn't b."
+  End If.
+  If Current Actor Is a Then
+    "Actor is a."
+  Else 
+    "Actor isn't a."
+  End If.
+  Quit.
+  

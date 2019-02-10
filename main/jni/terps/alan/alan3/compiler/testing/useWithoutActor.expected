@@ -1,0 +1,27 @@
+########## useWithoutActor ##########
+
+
+useWithoutActor.alan
+
+    3.      Use Script a.
+=====>      1
+
+  *1*   356 E : Only instances or classes inheriting from 'actor' can have
+                scripts.
+
+    8.      Use Script a.
+=====>      1
+
+  *1*   356 E : Only instances or classes inheriting from 'actor' can have
+                scripts.
+
+   12.    Use Script a.
+=====>    1
+
+  *1*   401 E : Actor reference required outside Actor specification.
+
+
+        3 error(s).
+        No detected warnings.
+        1 informational message(s).
+

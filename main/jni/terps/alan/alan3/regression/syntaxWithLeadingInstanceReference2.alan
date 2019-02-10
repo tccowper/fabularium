@@ -1,0 +1,30 @@
+The l Isa location
+End The l.
+
+The girl Isa actor At l
+
+  Verb walks
+    Does
+      "She walks, yes, she does..."
+  End Verb.
+
+  Verb takes
+    Does
+      "Now she takes..."
+  End Verb.
+
+End The girl.
+
+
+Syntax walks = (a) walks north
+  Where a Isa actor
+    Else "Nothing except people can walk."
+
+Syntax takes = (a) takes (o)
+  Where a Isa actor
+    Else "Nothing except people can walk."
+
+The apple Isa object At l
+End The apple.
+
+Start At l.

@@ -1,0 +1,77 @@
+Syntax take = 'take' (o)*.
+Syntax drop = 'drop' (o)*.
+
+Add To Every thing
+  Verb take
+    Does
+	Locate o In hero.
+	"Taken."
+  End Verb.
+
+  Verb drop
+    Check o In hero
+	Else "You don't have" Say the o. "."
+    Does
+	Locate o Here.
+  End Verb.
+End Add To.
+
+Syntax l = 'l'.
+Verb l
+    Does
+	Look.
+End Verb.
+
+
+Syntax i = 'i'.
+Verb i
+  Does
+    List hero.
+End Verb i.
+
+
+Syntax q = 'q'.
+Verb q
+  Does
+    Quit.
+End Verb q.
+
+Every an_object Isa object
+  Article "an"
+  Definite Article "the inherited definite"
+End Every an_object.
+
+The ano Isa an_object
+  Name unknown 'object'
+  At l1
+End The.
+
+Every noarticle_object Isa object
+  Article ""
+End Every noarticle_object.
+
+The o Isa noarticle_object
+  Name something
+  At l1
+End The.
+
+The t Isa object
+  Name thing At l1
+End The.
+
+The u Isa an_object
+  Name 'unmentionable' thing
+  At l1
+  Mentioned
+    "unmentionable object"
+End The.
+
+The l1 Isa location
+End The l1.
+
+The hero Isa actor
+  container
+End the hero.
+
+Start At l1.
+

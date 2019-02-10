@@ -1,0 +1,92 @@
+The l Isa location
+  Has o o.
+  Has l l.
+  Has c c.
+  Has a a.
+End The l.
+
+Add To Every object
+  Is something.
+  Has i 0.
+End Add.
+
+Add To Every actor
+  Definite Article
+  Indefinite Article
+End Add.
+
+The a Isa actor At l
+End The a.
+
+Add To Every actor
+  Script s
+    Step "Script s."
+    Step "Script s."
+    Step "Script s (not to be shown)."
+    Step "Script s (not to be shown)."
+End Add To.
+
+The o Isa object
+End The o.
+
+Every cont Isa object
+  With Container
+End Every.
+
+The c Isa cont At l
+End The c.
+
+Verb x
+  Does
+    Locate o In c Of l.
+    List c Of l.
+End Verb.
+
+Verb y
+  Does
+    If o In c Of l Then "o In c" End If.
+End Verb.
+
+Verb z
+  Does
+    Locate o Of l At c Of l.
+    List c.
+    Locate o Of l In c Of l.
+    List c.
+    Empty c Of l At l Of l.
+    Look.
+End Verb.
+
+Verb p
+  Does
+    Make o Of l something.
+    If o Is something Then "o is something" End If.
+    Set i Of o Of l To 42.
+    Say i Of o.
+    Set i Of o To i Of o Of l + 1.
+    If i Of o = i Of o Of l Then "i Of o" End If.
+    Say i Of o.
+End Verb.
+
+Verb q
+  Does
+    Increase i Of o Of l By i Of o Of l.
+    Say i Of o.
+    Set i Of o To i Of o Of l + 1.
+    Say i Of o.
+End Verb.
+
+Verb r
+  Does
+    Stop a Of l.
+    Use Script s For a Of l.
+    Schedule stopActor after 1.
+End Verb.
+
+Event stopActor
+  Stop a Of l.
+End Event.
+
+Start At l.
+  Describe o Of l.
+  Locate o At l Of l.

@@ -1,0 +1,18 @@
+########## inheritedReferenceAttribute4 ##########
+
+
+inheritedReferenceAttribute4.alan
+
+   14.    Has otherside someDoor.
+=====>        1
+
+  *1*   329 E : Attribute is inherited from class 'lockableDoor', but the class
+                of the instance that it refers to in this declaration ('door')
+                is not a subclass of the class infered for the inherited
+                ('lockableDoor'), which it must be.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -1,0 +1,53 @@
+########## locate0 ##########
+
+
+locate0.alan
+
+    5.    Locate Current Actor At l.
+=====>           1
+
+  *1*   412 E : Current Actor is not defined in Events.
+
+   10.      Locate o In This.    
+=====>                  1
+
+  *1*   309 E : In this context is THIS not a Container. Neither does the
+                current entity inherit the Container property nor does it
+                declare it.
+
+   14.    Locate unknown At l.
+=====>           1
+
+  *1*   310 E : Identifier 'unknown' not defined.
+
+   18.    Locate This At l.
+=====>           1
+
+  *1*   421 E : THIS instance is not defined in this context.
+
+   19.    Locate actor At l.
+=====>           1
+
+  *1*   319 E : Identifier 'actor' is not of correct type for this context.
+
+   20.    Locate o At This.
+=====>                1
+
+  *1*   421 E : THIS instance is not defined in this context.
+
+   21.    Locate o In unknown.
+=====>                1
+
+  *1*   310 E : Identifier 'unknown' not defined.
+
+   22.    Locate o In o.
+=====>                1
+
+  *1*   318 E : The 'o' does not have the container property, which is required
+                in Expression after IN.
+
+
+        8 error(s).
+        No detected warnings.
+        1 informational message(s).
+

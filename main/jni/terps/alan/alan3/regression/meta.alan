@@ -1,0 +1,16 @@
+The loc Isa location
+End The loc.
+
+Meta Verb m
+  Does "No tick."
+End Verb.
+
+Meta Verb 'score'
+  Does Score.
+End Verb.
+
+Verb l
+  Does Look.
+End Verb.
+
+Start At loc.

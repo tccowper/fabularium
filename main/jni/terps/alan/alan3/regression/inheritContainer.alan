@@ -1,0 +1,22 @@
+Every person Isa actor
+  Container
+End Every.
+
+The man Isa person At l
+End The man.
+
+The woman Isa person At l
+End The woman.
+
+The axe Isa object In man
+End The axe.
+
+The rake Isa object In woman
+End The rake.
+
+
+The l Isa location
+End The l.
+
+
+Start At l.

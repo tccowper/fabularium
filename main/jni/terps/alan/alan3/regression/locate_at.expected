@@ -1,0 +1,19 @@
+########## locate_at ##########
+
+        No warnings or errors detected.
+
+
+At l : ok 
+At o1 : ok 
+At o2 : Ok 
+At o3 : Ok 
+In o1 : Ok 
+In o2 : Ok
+
+
+L
+There is a o1 here. The o1 contains a o2.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

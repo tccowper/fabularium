@@ -1,0 +1,16 @@
+########## make ##########
+
+        No warnings or errors detected.
+
+
+
+Room
+This is a room. It is not dark.
+
+> e
+Room
+This is a room. It is dark.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

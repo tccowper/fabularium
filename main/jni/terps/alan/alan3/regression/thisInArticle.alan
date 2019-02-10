@@ -1,0 +1,16 @@
+Every obj Isa object
+  Definite Article
+    "'This is the inherited definite article. THIS =" Say this. "$$'"
+End Every obj.
+
+The o Isa obj At l
+  Indefinite Article
+    "'This is the indefinite article. THIS =" Say this. "$$'"
+End The o.
+
+The l Isa location
+End The l.
+
+Start At l.
+  Say an o. Say the o.
+

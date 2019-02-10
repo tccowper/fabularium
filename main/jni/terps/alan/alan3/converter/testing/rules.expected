@@ -1,0 +1,827 @@
+########## rules ##########
+Options
+  debug.
+  
+
+
+
+The l Isa location
+  
+  Is 
+    Not lit.
+End The l.
+Syntax
+  z = z.
+
+Verb z
+  Does
+    "..."
+End Verb.
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+When l Is lit Then
+  "L is lit."
+
+
+The a1 Isa actor
+  At l 
+End The a1.
+
+
+The a2 Isa actor
+  At l 
+End The a2.
+
+
+The a3 Isa actor
+  At l 
+End The a3.
+
+
+The a4 Isa actor
+  At l 
+End The a4.
+
+
+The a5 Isa actor
+  At l 
+End The a5.
+
+
+The a6 Isa actor
+  At l 
+End The a6.
+
+
+The a7 Isa actor
+  At l 
+End The a7.
+
+
+The a8 Isa actor
+  At l 
+End The a8.
+
+
+The a9 Isa actor
+  At l 
+End The a9.
+
+
+The a10 Isa actor
+  At l 
+End The a10.
+
+
+The a11 Isa actor
+  At l 
+End The a11.
+
+
+The a12 Isa actor
+  At l 
+End The a12.
+
+
+The a13 Isa actor
+  At l 
+End The a13.
+
+
+The a14 Isa actor
+  At l 
+End The a14.
+
+
+The a15 Isa actor
+  At l 
+End The a15.
+
+
+The a16 Isa actor
+  At l 
+End The a16.
+
+
+The a17 Isa actor
+  At l 
+End The a17.
+
+
+The a18 Isa actor
+  At l 
+End The a18.
+
+
+The a19 Isa actor
+  At l 
+End The a19.
+
+
+The a120 Isa actor
+  At l 
+End The a120.
+
+
+The a121 Isa actor
+  At l 
+End The a121.
+
+
+The a122 Isa actor
+  At l 
+End The a122.
+
+
+The a123 Isa actor
+  At l 
+End The a123.
+
+
+The a124 Isa actor
+  At l 
+End The a124.
+
+
+The a125 Isa actor
+  At l 
+End The a125.
+
+
+The a126 Isa actor
+  At l 
+End The a126.
+
+
+The a127 Isa actor
+  At l 
+End The a127.
+
+
+The a128 Isa actor
+  At l 
+End The a128.
+
+
+The a129 Isa actor
+  At l 
+End The a129.
+
+
+The a130 Isa actor
+  At l 
+End The a130.
+
+
+The a131 Isa actor
+  At l 
+End The a131.
+
+
+The a132 Isa actor
+  At l 
+End The a132.
+
+
+The a133 Isa actor
+  At l 
+End The a133.
+
+
+The a134 Isa actor
+  At l 
+End The a134.
+
+
+The a135 Isa actor
+  At l 
+End The a135.
+
+
+The a136 Isa actor
+  At l 
+End The a136.
+
+
+The a137 Isa actor
+  At l 
+End The a137.
+
+
+The a138 Isa actor
+  At l 
+End The a138.
+
+
+The a139 Isa actor
+  At l 
+End The a139.
+
+
+The a140 Isa actor
+  At l 
+End The a140.
+
+
+The a141 Isa actor
+  At l 
+End The a141.
+
+
+The a142 Isa actor
+  At l 
+End The a142.
+
+
+The a143 Isa actor
+  At l 
+End The a143.
+
+
+The a144 Isa actor
+  At l 
+End The a144.
+
+
+The a145 Isa actor
+  At l 
+End The a145.
+
+
+The a146 Isa actor
+  At l 
+End The a146.
+
+
+The a147 Isa actor
+  At l 
+End The a147.
+
+
+The a148 Isa actor
+  At l 
+End The a148.
+
+
+The a149 Isa actor
+  At l 
+End The a149.
+
+
+The a150 Isa actor
+  At l 
+End The a150.
+
+
+The a151 Isa actor
+  At l 
+End The a151.
+
+
+The a152 Isa actor
+  At l 
+End The a152.
+
+
+The a153 Isa actor
+  At l 
+End The a153.
+
+
+The a154 Isa actor
+  At l 
+End The a154.
+
+
+The a155 Isa actor
+  At l 
+End The a155.
+
+
+The a156 Isa actor
+  At l 
+End The a156.
+
+
+The a157 Isa actor
+  At l 
+End The a157.
+
+
+The a158 Isa actor
+  At l 
+End The a158.
+
+
+The a159 Isa actor
+  At l 
+End The a159.
+
+
+The a160 Isa actor
+  At l 
+End The a160.
+
+
+The a161 Isa actor
+  At l 
+End The a161.
+
+
+The a162 Isa actor
+  At l 
+End The a162.
+
+
+The a163 Isa actor
+  At l 
+End The a163.
+
+
+The a164 Isa actor
+  At l 
+End The a164.
+
+
+The a165 Isa actor
+  At l 
+End The a165.
+
+
+The a166 Isa actor
+  At l 
+End The a166.
+
+
+The a167 Isa actor
+  At l 
+End The a167.
+
+
+The a168 Isa actor
+  At l 
+End The a168.
+
+
+The a169 Isa actor
+  At l 
+End The a169.
+
+
+The a170 Isa actor
+  At l 
+End The a170.
+
+
+The a171 Isa actor
+  At l 
+End The a171.
+
+
+The a172 Isa actor
+  At l 
+End The a172.
+
+
+The a173 Isa actor
+  At l 
+End The a173.
+
+
+The a174 Isa actor
+  At l 
+End The a174.
+
+
+The a175 Isa actor
+  At l 
+End The a175.
+
+
+The a176 Isa actor
+  At l 
+End The a176.
+
+
+The a177 Isa actor
+  At l 
+End The a177.
+
+
+The a178 Isa actor
+  At l 
+End The a178.
+
+
+The a179 Isa actor
+  At l 
+End The a179.
+
+
+The a180 Isa actor
+  At l 
+End The a180.
+
+
+The a181 Isa actor
+  At l 
+End The a181.
+
+
+The a182 Isa actor
+  At l 
+End The a182.
+
+
+The a183 Isa actor
+  At l 
+End The a183.
+
+
+The a184 Isa actor
+  At l 
+End The a184.
+
+
+The a185 Isa actor
+  At l 
+End The a185.
+
+
+The a186 Isa actor
+  At l 
+End The a186.
+
+
+The a187 Isa actor
+  At l 
+End The a187.
+
+
+The a188 Isa actor
+  At l 
+End The a188.
+
+
+The a189 Isa actor
+  At l 
+End The a189.
+
+
+The a190 Isa actor
+  At l 
+End The a190.
+
+
+The a191 Isa actor
+  At l 
+End The a191.
+
+
+The a192 Isa actor
+  At l 
+End The a192.
+
+
+The a193 Isa actor
+  At l 
+End The a193.
+
+
+The a194 Isa actor
+  At l 
+End The a194.
+
+
+The a195 Isa actor
+  At l 
+End The a195.
+
+
+The a196 Isa actor
+  At l 
+End The a196.
+
+
+The a197 Isa actor
+  At l 
+End The a197.
+
+
+The a198 Isa actor
+  At l 
+End The a198.
+
+
+The a199 Isa actor
+  At l 
+End The a199.
+
+
+The a1100 Isa actor
+  At l 
+End The a1100.
+
+
+Start At l.
+  "This test will execute 100000 rules..."
+  

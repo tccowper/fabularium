@@ -1,0 +1,11 @@
+The l Isa location
+  Description
+    "This is" Say this. ", and" Say This. "." -- Comma and Full stop, no space before
+End The l.
+
+Verb 'look'
+  Does
+    Look.	-- Test with "l.l.l.l" to test full stop in player input
+End Verb.
+
+Start At l.

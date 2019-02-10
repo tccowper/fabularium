@@ -1,0 +1,77 @@
+########## joff ##########
+
+Add To Every object
+  Is
+    Not takeable.
+End Add To.
+
+Syntax
+  get = get (obj).
+  put_on = 'put' (obj) 'on' (con)
+    Where con Isa container
+      Else 
+        "You can't put anything on $2."
+  
+
+Verb put_on
+  Check obj In inventory
+    Else 
+      "You don't have the $o."
+  Does
+    Locate obj In con.
+    "Done."
+End Verb.
+
+Verb get
+  Check obj Is takeable
+    Else 
+      "You can't take that!"
+  And obj Not In inventory
+    Else 
+      "You've already got it"
+  Does
+    Locate obj In inventory.
+    "Taken"
+End Verb.
+
+
+The outside3 Isa location
+  Name 'Northeast of fence'
+  
+  Description
+    "You are standing on a barren patch of ground between the woods, which
+     are to the east and north of you, and the corner of a high wire fence.
+     The fence stretches away to the west and south."
+    List fence.
+  
+End The outside3.
+
+The rug Isa object
+  Name a tartan rug
+  At outside3 
+  Is 
+    takeable.
+  Description
+    "A tartan rug (perhaps left by forgetful picnicers ?) lies here."
+  
+End The rug.
+
+The fence Isa object
+  At outside3 
+  With Container
+    Header
+      "On top of the fence you can see"
+  Description
+    ""
+  
+  Verb examine
+    Does
+      "The fence is made of a heavy guage wire and is around three metres
+       high."
+      List fence.
+  End Verb.
+  
+End The fence.
+
+Start At outside3.
+  

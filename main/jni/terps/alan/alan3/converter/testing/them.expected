@@ -1,0 +1,24 @@
+########## them ##########
+
+Add To Every thing
+  Is
+    'isa'.
+End Add To.
+
+
+The $genid#1 Isa object
+  At l 
+End The sunglasses.
+Verb wear
+  Does
+    "ok."
+End Verb.
+
+Add To Every location
+  Is
+    $genid#2.
+End Add To.
+
+
+Start At l.
+  

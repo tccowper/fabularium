@@ -1,0 +1,41 @@
+########## setInitializationExpression ##########
+
+
+setInitializationExpression.alan
+
+    4.    Has aSet {aSet Of l}.
+=====>             1     2
+
+  *1*   433 E : Initialization of attribute must be a constant value.
+  *2*   410 E : Incompatible types in Set literal expression. A Set can only
+                contain integers or instance references.
+
+    5.    Has bSet {something Of l}.
+=====>             1          2
+
+  *1*   433 E : Initialization of attribute must be a constant value.
+  *2*   410 E : Incompatible types in Set literal expression. A Set can only
+                contain integers or instance references.
+
+    6.    Has cSet {l Of l}.
+=====>             1
+
+  *1*   433 E : Initialization of attribute must be a constant value.
+
+   10.    Set aSet Of l To {aSet Of l}.
+=====>                           1
+
+  *1*   410 E : Incompatible types in Set literal expression. A Set can only
+                contain integers or instance references.
+
+   11.    Set bSet Of l To {something Of l}.
+=====>                                1
+
+  *1*   410 E : Incompatible types in Set literal expression. A Set can only
+                contain integers or instance references.
+
+
+        7 error(s).
+        No detected warnings.
+        1 informational message(s).
+

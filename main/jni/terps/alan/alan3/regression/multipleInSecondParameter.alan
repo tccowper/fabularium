@@ -1,0 +1,26 @@
+The l Isa location
+End The l.
+
+The key Isa object At l
+    Verb try
+      Does
+        "Tried."
+    End Verb.
+End The key.
+
+Every lock Isa object At l
+End Every lock.
+
+The big_lock Isa lock
+    Name big lock
+End The big_lock.
+
+The small_lock Isa lock
+    Name small lock
+End The small_lock.
+
+Syntax try = try (k) 'in' (l)* Where l Isa lock Else "You can only try the key in locks."
+
+Start At l.
+
+

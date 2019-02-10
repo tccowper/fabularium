@@ -1,0 +1,20 @@
+########## list ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a o, a c1 and a c2 here.
+
+> put o in c1
+The c1 contains a o. The c1 contains a o. The c2 is empty.
+
+> put c1 in c2
+The c2 contains a c1. The c1 contains a o. The c2 contains a c1.
+
+> 
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

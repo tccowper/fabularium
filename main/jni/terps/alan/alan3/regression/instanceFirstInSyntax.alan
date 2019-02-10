@@ -1,0 +1,16 @@
+The o Isa object At l
+End The o.
+
+The a Isa actor At l
+  Verb tell
+    Does
+      "ok"
+  End Verb.
+End The a.
+
+Syntax tell = (a) take (o) Where a Isa actor Else "You can't."
+
+The l Isa location
+End The l.
+
+Start At l.

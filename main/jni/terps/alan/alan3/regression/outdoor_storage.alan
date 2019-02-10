@@ -1,0 +1,40 @@
+The outdoor_things_storage Isa object At limbo
+    Container
+End The outdoor_things_storage.
+
+The outdoor_things Isa entity
+    Container
+End The outdoor_things.
+
+The air Isa object In outdoor_things_storage End The air.
+The sky Isa object In outdoor_things_storage End The sky.
+
+When location Of hero Is outdoors =>
+     Empty outdoor_things_storage In outdoor_things.
+When location Of hero Is Not outdoors =>
+     Empty outdoor_things In outdoor_things_storage.
+
+The limbo Isa location
+End The limbo.
+
+Add To Every location
+  Is outdoors.
+End Add To.
+
+Syntax examine = examine (o).
+Add To Every object
+  Verb examine
+    Does "There is nothing special with" Say The o. "."
+  End Verb.
+End Add To.
+
+The l1 Isa location
+  Exit n,e,s,w To l2.
+End The l1.
+
+The l2 Isa location
+  Is Not outdoors.
+  Exit n,e,s,w To l1.
+End The l2.
+
+Start At l1.

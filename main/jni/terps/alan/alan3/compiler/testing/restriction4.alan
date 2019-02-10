@@ -1,0 +1,25 @@
+Syntax
+  give = give (recip) (o)
+    Where recip Isa object
+	Else Set s Of o To 12.
+    And o Isa object
+        Else Set a Of o To 12. Set s Of o To 4.
+    And o Isa subclass
+        Else Set a Of o To 12. Set s Of o To 4.
+
+Add To Every object
+  Has a 3.
+  Verb give
+    Does
+      "GIVE says that (recip) is =" Say recip.
+  End Verb give.
+End Add.
+
+Every subclass Isa object
+  Has s 4.
+End Every subclass.
+
+The l Isa location
+End The l.
+
+Start At l.

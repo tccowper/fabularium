@@ -1,0 +1,26 @@
+Syntax
+	v_south = south.
+	v_look = 'look'.
+
+Verb v_south
+Does
+	"Verb south."
+End Verb.
+
+
+Verb v_look
+Does
+	"Looking."
+End Verb.
+
+Location l1
+	Exit south To l2.
+End Location.
+
+Location l2
+	Exit north To l1.
+End Location.
+
+Start At l1.
+
+  "Test of using same player word as a direction and a verb."

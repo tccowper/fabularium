@@ -1,0 +1,16 @@
+########## initialLocationAtClass ##########
+
+
+initialLocationAtClass.alan
+
+    1.  The x Isa thing At location
+=====>                     1
+
+  *1*   351 E : Initial location using AT must refer to an instance inheriting
+                from 'location'.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

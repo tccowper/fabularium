@@ -1,0 +1,22 @@
+The l Isa location
+End The l.
+
+Add To Every actor
+  Script walking
+    Step "Walking"
+    Use Script sleeping For villain.
+End Add.
+
+Add To Every actor
+  Script sleeping
+    Step "Sleeping"
+End Add.
+
+The villain Isa actor At l
+End The villain.
+
+Verb z Does "" End Verb z.
+
+Start At l.
+  Use script walking For villain.
+

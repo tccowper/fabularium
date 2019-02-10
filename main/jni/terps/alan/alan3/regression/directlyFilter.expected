@@ -1,0 +1,18 @@
+########## directlyFilter ##########
+
+        No warnings or errors detected.
+
+
+Count Isa Object, Here = 8 Should be 8.
+Count Isa Object, Directly Here = 3 Should be 3.
+Count Isa Object, In c = 5 Should be 5.
+Count Isa Object, Directly In c = 3 Should be 3.
+
+
+L
+There is a c here. The c contains a o5, a o2 and a d. There is a o1 and a 
+o4 here.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

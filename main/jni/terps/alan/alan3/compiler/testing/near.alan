@@ -1,0 +1,10 @@
+The l Isa location
+End The l.
+
+Event e
+ ""
+End Event e.
+
+Start At l.
+  If e near l Then "" End If.
+  If l near e Then "" End If.

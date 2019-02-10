@@ -1,0 +1,8 @@
+Message undone:
+  If parameter1 > 3 Then "Type error" End If.
+  If parameter2 Is something Then "No parameter2 defined." End If.
+
+The l Isa location
+End The l.
+
+Start At l.

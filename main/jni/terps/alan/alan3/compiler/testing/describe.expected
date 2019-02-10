@@ -1,0 +1,54 @@
+########## describe ##########
+
+
+describe.alan
+
+   19.    Describe Current Actor.
+=====>             1
+
+  *1*   412 E : Current Actor is not defined in Events.
+
+   24.    Describe unknown.
+=====>             1
+
+  *1*   310 E : Identifier 'unknown' not defined.
+
+   27.    Describe object.
+=====>             1
+
+  *1*   319 E : Identifier 'object' is not of correct type for this context.
+
+   29.    Describe w.
+=====>             1
+
+  *1*   319 E : Identifier 'w' is not of correct type for this context.
+
+   30.    Describe unknown of unknown.
+=====>                        1
+
+  *1*   310 E : Identifier 'unknown' not defined.
+
+   31.    Describe unknown of o.
+=====>             1
+
+  *1*   315 E : Attribute not defined for 'o'.
+
+   32.    Describe l Of ref Of o.
+=====>             1
+
+  *1*   317 E : Attribute 'l' is not defined for the expression since the class
+                it is guaranteed to be in this context ('location') does not
+                have it.
+
+   33.    Describe l Of cref Of o.
+=====>             1
+
+  *1*   317 E : Attribute 'l' is not defined for the expression since the class
+                it is guaranteed to be in this context ('cont') does not have
+                it.
+
+
+        8 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -1,0 +1,110 @@
+-------------------------------------------------------------
+-- ALAN test file from Robert Foo,
+-- Internet address: af685@Freenet.carleton.ca
+-- Please compile and then run
+
+Options
+	DEBUG.
+
+OBJECT ATTRIBUTES
+     mtest 0.
+
+SYNONYMS
+     k = 'choices'.
+
+SYNTAX
+     'choices' = 'choices'.
+   
+VERB 'choices' DOES
+     LOOK.
+END VERB.
+
+LOCATION case1
+     NAME 'James Farty'
+     DESCRIPTION
+              "Intro 1.  Mission.  Description. Character 
+              Selection.  Choices a, b, c."
+                 
+     EXIT a to case1a.
+     EXIT b to case1b.
+     EXIT c to case1c.
+
+END LOCATION.
+
+
+-- Hello, helllllllllllloooooooooo....  This is where the 
+-- problem starts.
+
+LOCATION case1a
+     NAME 'case 1a'
+--  I can't assign mtest = RANDOM 1 TO 4 for some reason, that's why I've 
+--  commented it out, I can only use another way below to do 
+--  the same thing.
+--  mtest = RANDOM 1 TO 4.
+     DESCRIPTION
+              "Case 1a with choice z."
+--  IF mtest > 2 THEN
+--  The following is how I have to do it.
+     IF RANDOM 1 TO 4 > 2 THEN
+          SAY "$nmtest > 2".
+--  Trying to go somewhere else with this LOCATE kills the 
+--  program with a "RECURSIVE LOOK" error.
+--          LOCATE HERO AT case1b.
+     ELSE
+          SAY "$nmtest < 2".
+--          LOCATE HERO AT case1b.
+     END IF. 
+DOES
+	locate hero at case1b.
+
+END LOCATION.
+
+LOCATION case1ab
+     NAME 'case 1ab'
+     DESCRIPTION
+              "Case 1ab with choices a,b"
+
+     EXIT a to case1 DOES
+	if random 1 to 2 > 1 then
+		locate hero at case1.
+	else
+		locate hero at case1b.
+	end if.
+     end exit.
+     EXIT b to case1.
+
+END LOCATION.
+
+LOCATION case1ac
+     NAME 'case 1ac'
+     DESCRIPTION
+              "case 1ac with choice a"
+     EXIT a to case1.
+
+END LOCATION.
+
+LOCATION case1b
+     NAME 'case 1b'
+     DESCRIPTION
+              "case 1b with choice a"
+     EXIT a to case1.
+
+END LOCATION.
+
+LOCATION case1c
+     NAME 'case 1c'
+     DESCRIPTION
+              "case 1c with choice a"
+     EXIT a to case1.
+
+END LOCATION.
+
+LOCATION case2
+     NAME 'case 2'
+     DESCRIPTION
+              "case 2"
+     EXIT a to case1b.
+
+END LOCATION.
+
+START AT case1.

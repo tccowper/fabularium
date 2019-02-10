@@ -1,0 +1,8 @@
+Prompt
+  Say Current Actor.
+  Say This.
+
+The loc Isa location
+End The loc.
+
+Start At loc.

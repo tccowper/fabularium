@@ -1,0 +1,16 @@
+########## addEntered ##########
+
+
+addEntered.alan
+
+    2.    Entered Say x. Say a Of this.
+=====>                1      2
+
+  *1*   310 E : Identifier 'x' not defined.
+  *2*   313 E : Attribute 'a' is not defined for THIS instance.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

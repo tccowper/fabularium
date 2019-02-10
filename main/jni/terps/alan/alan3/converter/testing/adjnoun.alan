@@ -1,0 +1,26 @@
+Synonyms
+	examine = x.
+
+Location l
+End Location l.
+
+Object metal_box Name Metal Box At l
+  Verb x
+    Does
+      "This is a metal box."
+  End Verb x.
+End Object metal_box.
+
+Object metal_piece Name Piece 'of' Metal At l
+  Verb x
+    Does
+      "This is a piece of metal."
+  End Verb x.
+End Object metal_piece.
+
+Start At l.
+
+	"Test the use of the same words as an adjective and an noun.
+	Try
+		$ix metal box
+		$ix piece of metal"

@@ -1,0 +1,14 @@
+To reproduce the “attribute 48” error of Sherlock (21-871214):
+
+knock on door
+u
+n
+take paper
+show it to holmes
+s
+d
+n
+take matchbook
+open it
+light match
+blow out match

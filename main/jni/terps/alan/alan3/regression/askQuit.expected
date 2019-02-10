@@ -1,0 +1,26 @@
+########## askQuit ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+L1
+
+> quit
+Do you really want to give up? Type 'yes' to quit, or to carry on just
+type your next command.
+
+> l
+L1
+
+> yes
+That does not seem to answer any question.
+
+> quit
+Do you really want to give up? Type 'yes' to quit, or to carry on just
+type your next command.
+
+> yes
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

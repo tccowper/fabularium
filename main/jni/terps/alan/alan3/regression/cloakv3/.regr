@@ -1,0 +1,1 @@
+../../bin/alan $1 -import ../../lib ; ../../bin/arun -n -r $1 < $1.input

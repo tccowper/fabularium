@@ -1,0 +1,45 @@
+If you're reading this file, you've either unpacked an archive copy of
+Inform6 for Unix or cloned the Github repository.  You will need to do
+some setup before you can build the package.
+
+
+==========
+ARCHIVE ||
+==========
+
+If you unpacked an archive copy, everything you need is right here.
+Type 'make install' as root to install Inform6.
+
+=========
+GITHUB ||
+=========
+
+If you cloned the Github repository, things are bit more complicated,
+but not onorously so.  To end up with a viable local repository, a bit
+more work has to be done than simply doing a git clone.  To start off,
+let's assume you haven't cloned the repository yet:
+
+1) Clone the repository:
+	git clone git@github.com:DavidGriffith/inform6unix.git
+
+You'll notice that the lib/ and src/ directories are empty.  This is
+because the Inform6 library and Inform6 compiler development are done in
+other repositories.  This repository is only for putting Inform6 into a
+package convenient for installing on Unix systems.  To get those two
+components, a second step is needed:
+
+2) Pull in the submodules:
+	cd inform6unix
+	git submodule init
+	git submodule update
+
+You may need to issue that last command twice.  Git is just like that. 
+From this point, build and installation is exactly as in the first 
+section.
+
+If you want to clean up things and delete files that weren't here when
+you cloned the repository, use this command:
+	git clean -fdx
+
+For more information on submodules, see
+http://git-scm.com/book/en/Git-Tools-Submodules

@@ -1,0 +1,55 @@
+object attributes
+	 openable.
+	closed.
+
+syntax examine = examine (obj)
+	where obj Isa container object
+		else "Not a container object"
+
+syntax examine_a = examine (act)
+	where act Isa container actor
+		else "Not a container actor"
+
+verb examine does
+"xxx"
+IF OBJECT IS openable THEN
+"yyy"
+	"$p"
+	IF OBJECT IS closed THEN
+		"The $o is closed."
+	ELSE
+"zzz"
+		LIST obj.
+	END IF.
+END IF.
+end verb.
+
+verb examine_a does
+"xxx"
+IF OBJECT IS openable THEN
+"yyy"
+	"$p"
+	IF OBJECT IS closed THEN
+		"The $o is closed."
+	ELSE
+"zzz"
+		LIST act.
+	END IF.
+END IF.
+end verb.
+
+actor a at l1
+end actor.
+ object o at l1
+end object.
+
+location l1
+	exit n to l2.
+end  location.
+
+location l2
+	exit s to l1.
+end location.
+
+start at l1.
+

@@ -1,0 +1,19 @@
+Add To Every object
+  Has atr 41.
+End Add.
+
+The a Isa thing
+End The a.
+
+The b Isa thing
+  Has ref a.
+End The b.
+
+The l Isa location
+End The l.
+
+Start At l.
+  If b:ref Isa object Then
+    Say atr Of b:ref. -- Should be ok, but a long way away since we need to compare WHAT_EXPRESSIONs
+  End If.
+  Say b:ref:atr. -- Error

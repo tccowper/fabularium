@@ -1,0 +1,30 @@
+########## numericAttributeFilters ##########
+
+
+numericAttributeFilters.alan
+
+   35.    "Sum Of i Isa object, At l, Has j 7 = "  Say Sum Of i Isa object, At 
+        l, Has j 7. ". Should be 3."
+=====>                                             1                           
+               2 3
+
+  *1*   337 E : You can not SAY values of Boolean type.
+  *2*   440 E : Aggregate filters can currently only accept boolean attributes.
+  *3*   101 E : Syntax error. Attempting to repair by inserting "'='" before
+                this symbol.
+
+   36.    "Sum Of i Isa object, At l, Has j 7 = "  Say Sum Of i Isa object, At 
+        l, Has j 7. ". Should be 3."
+=====>                                             1                           
+               2 3
+
+  *1*   337 E : You can not SAY values of Boolean type.
+  *2*   440 E : Aggregate filters can currently only accept boolean attributes.
+  *3*   101 E : Syntax error. Attempting to repair by inserting "'='" before
+                this symbol.
+
+
+        6 error(s).
+        No detected warnings.
+        1 informational message(s).
+

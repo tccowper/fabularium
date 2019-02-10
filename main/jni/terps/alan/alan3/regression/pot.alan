@@ -1,0 +1,37 @@
+
+
+The pot_plant Isa object
+  At l
+  Name pot plant
+End The pot_plant.
+
+The plant_pot Isa object
+  At l
+  Name plant pot
+  
+  Verb plant
+    Check o = pot_plant
+      Else 
+        "You can't $v the $1 in that."
+    Does
+      "Planted."
+  End Verb.
+  
+End The plant_pot.
+
+The l Isa location
+End The l.
+
+Syntax x = x (o).
+Add To Every thing
+  Verb x
+    Does
+      Say o.
+  End Verb.
+End Add.
+
+Syntax
+  plant = plant (o) 'in' (p).
+
+Start At l.
+  "Try 'x' on the objects, then 'plant the pot plant in the plant pot'."

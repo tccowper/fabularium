@@ -1,0 +1,12 @@
+The l Isa location
+End The l.
+
+The o Isa object At l
+End The o.
+
+Start At l.
+  Depending on o
+  At l Then "O At l. OK."
+  Else "O Not At l. *** ERROR ***"
+  End Depend.
+  

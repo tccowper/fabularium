@@ -1,0 +1,9 @@
+The l Isa location
+	Has events {e1}.
+End The l.
+
+Event e1
+  "Event 1"
+End Event.
+
+Start At l.

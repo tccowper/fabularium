@@ -1,0 +1,46 @@
+########## circularLocation ##########
+
+
+circularLocation.alan
+
+    1.  The c1 Isa location At c1
+=====>                      1
+
+  *1*   802 E : The inital location of Instance 'c1' forms a circular
+                reference.
+
+    4.  The c2 Isa location At c3
+=====>                      1
+
+  *1*   802 E : The inital location of Instance 'c2' forms a circular
+                reference.
+
+    7.  The c3 Isa location At c2
+=====>                      1
+
+  *1*   802 E : The inital location of Instance 'c3' forms a circular
+                reference.
+
+   10.  The c4 Isa location At c5
+=====>                      1
+
+  *1*   802 E : The inital location of Instance 'c4' forms a circular
+                reference.
+
+   13.  The c5 Isa location At c6
+=====>                      1
+
+  *1*   802 E : The inital location of Instance 'c5' forms a circular
+                reference.
+
+   16.  The c6 Isa location At c4
+=====>                      1
+
+  *1*   802 E : The inital location of Instance 'c6' forms a circular
+                reference.
+
+
+        6 error(s).
+        No detected warnings.
+        1 informational message(s).
+

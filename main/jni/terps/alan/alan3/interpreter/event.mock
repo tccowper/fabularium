@@ -1,0 +1,27 @@
+#include <cgreen/cgreen.h>
+#include <cgreen/mocks.h>
+
+/* IMPORTS */
+#include "acode.h"
+#include "types.h"
+
+/* CONSTANTS */
+
+
+/* TYPES */
+typedef struct EventQueueEntry { /* EVENT QUEUE ENTRIES */
+  int after;
+  int event;
+  int where;
+} EventQueueEntry;
+
+
+/* DATA */
+/* Event queue */
+int eventQueueSize;
+EventQueueEntry *eventQueue;
+int eventQueueTop;       /* Event queue top pointer */
+EventEntry *events;  /* Event table pointer */
+
+
+/* FUNCTIONS */

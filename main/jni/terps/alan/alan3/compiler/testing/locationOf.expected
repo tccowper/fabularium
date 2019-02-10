@@ -1,0 +1,39 @@
+########## locationOf ##########
+
+
+locationOf.alan
+
+   10.  	  If location Of me Then "hej" End If. -- me undefined
+=====>  	                 1
+
+  *1*   310 E : Identifier 'me' not defined.
+
+   11.  	  Set location Of l To l. -- read-only attribute
+=====>  	               1
+
+  *1*   436 E : Cannot modify readonly attribute.
+
+   12.  	  Set location Of hero To l. -- read-only attribute
+=====>  	               1
+
+  *1*   436 E : Cannot modify readonly attribute.
+
+   13.  	  Set location Of hero To 4. -- read-only attribute & wrong type
+=====>  	  1            2
+
+  *1*   331 E : Incompatible types in target and expression in SET statement.
+  *2*   436 E : Cannot modify readonly attribute.
+
+   16.  	  If nonExistingAttribute Of location Of hero = 1 Then "Att = 1" End I
+        f. -- Non-existing attribute
+=====>  	     1
+
+  *1*   317 E : Attribute 'nonExistingAttribute' is not defined for the
+                expression since the class it is guaranteed to be in this
+                context ('location') does not have it.
+
+
+        6 error(s).
+        No detected warnings.
+        1 informational message(s).
+

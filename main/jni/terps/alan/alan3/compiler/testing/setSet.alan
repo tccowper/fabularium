@@ -1,0 +1,26 @@
+The l Isa location
+  Has locationSet {l}.
+End The l.
+
+The o Isa object
+  Has integerSet {12}.
+End The o.
+
+Start At l.
+  Set locationSet Of l To {}.      -- Empty set is ok
+  Set locationSet Of l To {l}.     -- Ok
+  Set locationSet Of l To {o}.     -- Wrong set member class
+  Set locationSet Of l To {l, o}.  -- Infered class is entity, wrong class
+  Set locationSet Of l To {22}.    -- Wrong type
+  Set locationSet Of l To {22, l}. -- Can not mix types
+
+  Set integerSet Of o To {}.       -- Empty set is ok
+  Set integerSet Of o To {l}.      -- Wrong type
+  Set integerSet Of o To {o}.      -- Wrong type
+  Set integerSet Of o To {l, o}.   -- Infered type is instance, wrong type
+  Set integerSet Of o To {22}.     -- Ok
+  Set integerSet Of o To {22, l}.  -- Can not mix types
+
+  Set locationSet Of l To integerSet Of o. 	-- Different types of members
+  Set locationSet Of l To locationSet Of l.	-- Ok
+  Set integerSet Of o To integerSet Of o.	-- Ok

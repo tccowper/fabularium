@@ -1,0 +1,8 @@
+The region Isa location
+End The region.
+
+The place Isa location
+End The place.
+
+Start At place.
+  Locate place At region.

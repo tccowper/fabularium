@@ -1,0 +1,35 @@
+#include <cgreen/cgreen.h>
+#include <cgreen/mocks.h>
+/*----------------------------------------------------------------------*\
+
+	msg
+
+\*----------------------------------------------------------------------*/
+
+/* IMPORTS */
+#include "acode.h"
+#include "types.h"
+#include "params.h"
+
+/* CONSTANTS */
+
+
+/* TYPES */
+typedef struct MessageEntry {   /* MESSAGE TABLE */
+  Aaddr stms;           /* Address to statements*/
+} MessageEntry;
+
+
+/* DATA */
+MessageEntry *msgs;  /* Message table pointer */
+
+
+/* FUNCTIONS */
+void setErrorHandler(void (*handler)(MsgKind)) { mock(); }
+void abortPlayerCommand(void) { mock(); }
+void error(MsgKind msg) { mock(); }
+bool confirm(MsgKind msgno) { return (bool)mock(); }
+void printMessage(MsgKind msg) { mock(); }
+void printMessageWithParameters(MsgKind msg, Parameter *messageParameters) { mock(); }
+void printMessageWithInstanceParameter(MsgKind message, int i) { mock(); }
+void printMessageUsing2InstanceParameters(MsgKind message, int instance1, int instance2) { mock(); }

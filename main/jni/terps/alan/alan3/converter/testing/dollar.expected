@@ -1,0 +1,19 @@
+########## dollar ##########
+Options
+  debug.
+  
+
+
+
+The l Isa location
+  
+  Has 
+    str 
+    "HejHo".
+End The l.
+
+Start At l.
+  "$pOOH! There is a hand written remark in the margin here, it says '$$"
+  Say str Of l.
+  "$$'."
+  

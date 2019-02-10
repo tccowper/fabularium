@@ -1,0 +1,28 @@
+########## stop ##########
+
+
+stop.alan
+
+    8.        Stop a.
+=====>             1
+
+  *1*   351 E : STOP statement must refer to an instance inheriting from
+                'actor'.
+
+   13.    Stop l.
+=====>         1
+
+  *1*   351 E : STOP statement must refer to an instance inheriting from
+                'actor'.
+
+   14.    Stop act Of l.
+=====>             1
+
+  *1*   351 E : STOP statement must refer to an instance inheriting from
+                'actor'.
+
+
+        3 error(s).
+        No detected warnings.
+        1 informational message(s).
+

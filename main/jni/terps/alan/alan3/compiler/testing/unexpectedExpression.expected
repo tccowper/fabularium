@@ -1,0 +1,29 @@
+########## unexpectedExpression ##########
+
+
+unexpectedExpression.alan
+
+    1.  this is
+=====>  1
+
+  *1*   101 E : Syntax error. Inserting "when" before this token.
+  *1*   421 E : THIS instance is not defined in this context.
+
+    3.  my code.
+=====>     1
+
+  *1*   103 E : Syntax error. Replacing "<identifier> ." with "=> STRING".
+
+    5.  Start at some location.
+=====>  1        2    3
+
+  *1*   444 E : There is no location defined in Rules, so output can never be
+                seen by the player.
+  *2*   310 E : Identifier 'some' not defined.
+  *3*   102 E : Syntax error. Ignoring "location".
+
+
+        6 error(s).
+        No detected warnings.
+        1 informational message(s).
+

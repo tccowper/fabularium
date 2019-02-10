@@ -1,0 +1,104 @@
+The outer Isa location -- #2
+End The outer.
+
+The oc Isa object At outer -- #3
+  Container
+End The oc.
+
+The o Isa object In oc -- #4
+End The o.
+
+The inner1 Isa location At outer -- #5
+End The inner1.
+
+The ic1 Isa object At inner1 -- #6
+  Container
+End The ic1.
+
+The o1 Isa object In ic1 -- #7
+End The o1.
+
+The inner2 Isa location At outer -- #8
+End The inner2.
+
+The ic2 Isa object At inner2 -- #9
+  Container
+End The ic2.
+
+The o2 Isa object In ic2 -- #10
+End The o2.
+
+The innermost Isa location At inner1 -- #11
+End The innermost.
+
+The ocm Isa object At innermost -- #12
+  Container
+End The ocm.
+
+The om Isa object in ocm -- #13
+End The om.
+
+Start At inner1.
+  "$n"
+  "o At outer:"
+  If o At outer Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o At inner1:"
+  If o At inner1 Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o At inner2:"
+  If o At inner2 Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o At innermost:"
+  If o At innermost Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o1 At outer:"
+  If o1 At outer Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o1 At inner1:"
+  If o1 At inner1 Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o1 At inner2:"
+  If o1 At inner2 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o1 At innermost:"
+  If o1 At innermost Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o2 At outer:"
+  If o2 At outer Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o2 At inner1:"
+  If o2 At inner1 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o2 At inner2:"
+  If o2 At inner2 Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o2 At innermost:"
+  If o2 At innermost Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "om At outer:"
+  If om At outer Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "om At inner1:"
+  If om At inner1 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "om At inner2:"
+  If om At inner2 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "om At innermost"
+  If om At innermost Then "yes, ok" Else "no, *** error ***" End If.

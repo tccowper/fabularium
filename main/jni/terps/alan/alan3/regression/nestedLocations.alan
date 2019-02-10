@@ -1,0 +1,14 @@
+The sky Isa thing At outer
+  Verb x
+    Does
+      "The sky is falling..."
+  End Verb.
+End The sky.
+
+The outer Isa location
+End The outer.
+
+The inner Isa location At outer
+End The inner.
+
+Start At inner.

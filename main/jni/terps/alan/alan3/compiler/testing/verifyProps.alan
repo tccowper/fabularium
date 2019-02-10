@@ -1,0 +1,12 @@
+The l Isa location
+  Container
+End The l.
+
+The x Isa thing
+  Entered ""
+  Exit e To l.
+  Script s Step ""
+End The x.
+
+Start At l.
+

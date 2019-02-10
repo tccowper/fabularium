@@ -1,0 +1,25 @@
+Every door Isa object
+  Has other_side east_door.
+  Has matching_key some_key.
+
+  Initialize
+    SET matching_key OF other_side OF THIS TO matching_key OF THIS.
+
+End Every door.
+
+The some_key Isa object
+End The.
+
+The east_door Isa door At l
+  Has other_side west_door.
+End The east_door.
+
+The west_door Isa door At l
+  Has other_side east_door.
+End The west_door.
+
+
+The l Isa location
+End The l.
+
+Start At l.

@@ -1,0 +1,12 @@
+Location l
+  Verb x
+    Does
+      Depending On y Of l
+       = 4: "help"
+       > 1: Make l y.
+      Else "Hello"
+      End Depend.
+  End Verb.
+End Location.
+
+Start At l.

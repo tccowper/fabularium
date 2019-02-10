@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2017 Tim Cadogan-Cowper.
+  ~
+  ~ This file is part of Fabularium.
+  ~
+  ~ Fabularium is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU General Public License
+  ~ as published by the Free Software Foundation; either version 2
+  ~ of the License, or (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Fabularium; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+  -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen android:title="Typography">
+        <PreferenceCategory android:title="Main Screen">
+            <EditTextPreference
+                android:defaultValue="10"
+                android:key="pref_defaultLMarginWIN"
+                android:numeric="integer"
+                android:title="Left Margin" />
+            <EditTextPreference
+                android:defaultValue="10"
+                android:key="pref_defaultRMarginWIN"
+                android:numeric="integer"
+                android:title="Right Margin" />
+            <EditTextPreference
+                android:defaultValue="10"
+                android:key="pref_defaultTMarginWIN"
+                android:numeric="integer"
+                android:title="Top Margin" />
+            <EditTextPreference
+                android:defaultValue="10"
+                android:key="pref_defaultBMarginWIN"
+                android:numeric="integer"
+                android:title="Bottom Margin" />
+            <EditTextPreference
+                android:defaultValue="white"
+                android:key="pref_winBGColor"
+                android:title="Window Background Color" />
+            <SwitchPreference
+                android:defaultValue="1"
+                android:key="pref_syncScreenBackground"
+                android:summary="If enabled, Fabularium tries to keep status window and screen background colors synchronised with the main text buffer window. This should work in most cases; only disable this setting if something isn't displaying properly."
+                android:title="Sync screen background with main text window" />
+        </PreferenceCategory>
+        <PreferenceCategory android:title="Text Buffer">
+            <EditTextPreference
+                android:defaultValue="15"
+                android:key="pref_defaultFontSizeBUF"
+                android:numeric="integer"
+                android:title="Font Size" />
+            <EditTextPreference
+                android:defaultValue="1.2"
+                android:key="pref_defaultLeadingBUF"
+                android:numeric="decimal"
+                android:title="Line spacing multiplier" />
+            <EditTextPreference
+                android:defaultValue="5"
+                android:key="pref_defaultLMarginBUF"
+                android:numeric="integer"
+                android:title="Left Margin" />
+            <EditTextPreference
+                android:defaultValue="5"
+                android:key="pref_defaultRMarginBUF"
+                android:numeric="integer"
+                android:title="Right Margin" />
+            <EditTextPreference
+                android:defaultValue="5"
+                android:key="pref_defaultTMarginBUF"
+                android:numeric="integer"
+                android:title="Top Margin" />
+            <EditTextPreference
+                android:defaultValue="5"
+                android:key="pref_defaultBMarginBUF"
+                android:numeric="integer"
+                android:title="Bottom Margin" />
+        </PreferenceCategory>
+        <PreferenceCategory android:title="Text Grid">
+            <EditTextPreference
+                android:defaultValue="12"
+                android:key="pref_defaultFontSizeGRID"
+                android:numeric="integer"
+                android:title="Font Size" />
+            <EditTextPreference
+                android:defaultValue="1.2"
+                android:key="pref_defaultLeadingGRID"
+                android:numeric="decimal"
+                android:title="Line spacing multiplier" />
+            <EditTextPreference
+                android:defaultValue="0"
+                android:key="pref_defaultLMarginGRID"
+                android:numeric="integer"
+                android:title="Left Margin" />
+            <EditTextPreference
+                android:defaultValue="0"
+                android:key="pref_defaultRMarginGRID"
+                android:numeric="integer"
+                android:title="Right Margin" />
+            <EditTextPreference
+                android:defaultValue="0"
+                android:key="pref_defaultTMarginGRID"
+                android:numeric="integer"
+                android:title="Top Margin" />
+            <EditTextPreference
+                android:defaultValue="0"
+                android:key="pref_defaultBMarginGRID"
+                android:numeric="integer"
+                android:title="Bottom Margin" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+    <PreferenceScreen android:title="Windows">
+        <PreferenceCategory android:title="Cursor">
+            <EditTextPreference
+                android:defaultValue="1"
+                android:key="pref_cursorWidth"
+                android:numeric="integer"
+                android:title="Cursor width" />
+        </PreferenceCategory>
+        <PreferenceCategory android:title="Borders">
+            <ListPreference
+                android:defaultValue="1"
+                android:entries="@array/borderStyleNames"
+                android:entryValues="@array/borderStyleVals"
+                android:key="pref_borderStyle"
+                android:summary="Choose whether you want to show borders between windows or not."
+                android:title="Borders" />
+            <EditTextPreference
+                android:defaultValue="darkgrey"
+                android:key="pref_borderColor"
+                android:summary="Specify the color (#RRGGBB or a recognised color name, e.g. red) for GLK window borders."
+                android:title="Border color" />
+            <EditTextPreference
+                android:defaultValue="1"
+                android:key="pref_borderWidth"
+                android:numeric="integer"
+                android:title="Border width" />
+            <EditTextPreference
+                android:defaultValue="1"
+                android:key="pref_borderHeight"
+                android:numeric="integer"
+                android:title="Border height" />
+        </PreferenceCategory>
+        <PreferenceCategory android:title="Scrollbars">
+            <EditTextPreference
+                android:defaultValue="3"
+                android:key="pref_vscrollbarWidth"
+                android:numeric="integer"
+                android:title="Width of vertical scrollbar" />
+            <EditTextPreference
+                android:defaultValue=""
+                android:key="pref_vscrollbarStartColor"
+                android:title="Start color of vertical scrollbar gradient" />
+            <EditTextPreference
+                android:defaultValue=""
+                android:key="pref_vscrollbarEndColor"
+                android:title="End color of vertical scrollbar gradient" />
+            <ListPreference
+                android:defaultValue="6"
+                android:entries="@array/gradientOrientNames"
+                android:entryValues="@array/gradientOrientVals"
+                android:key="pref_vscrollbarGradOrient"
+                android:summary="Choose how you want to orient the vertical scrollbar gradient."
+                android:title="Orientation of vertical scrollbar gradient" />
+            <EditTextPreference
+                android:defaultValue="3"
+                android:key="pref_hscrollbarHeight"
+                android:numeric="integer"
+                android:title="Height of horizontal scrollbar" />
+            <EditTextPreference
+                android:defaultValue=""
+                android:key="pref_hscrollbarStartColor"
+                android:title="Start color of horizontal scrollbar gradient" />
+            <EditTextPreference
+                android:defaultValue=""
+                android:key="pref_hscrollbarEndColor"
+                android:title="End color of horizontal scrollbar gradient" />
+            <ListPreference
+                android:defaultValue="3"
+                android:entries="@array/gradientOrientNames"
+                android:entryValues="@array/gradientOrientVals"
+                android:key="pref_hscrollbarGradOrient"
+                android:summary="Choose how you want to orient the horizontal scrollbar gradient."
+                android:title="Orientation of horizontal scrollbar gradient" />
+        </PreferenceCategory>
+        <PreferenceCategory android:title="Scaling">
+            <EditTextPreference
+                android:defaultValue="1.0"
+                android:key="pref_textBufWidthMultiplier"
+                android:numeric="decimal"
+                android:title="Text buffer width multiplier" />
+            <EditTextPreference
+                android:defaultValue="1.0"
+                android:key="pref_textBufHeightMultiplier"
+                android:numeric="decimal"
+                android:title="Text buffer height multiplier" />
+            <EditTextPreference
+                android:defaultValue="1.0"
+                android:key="pref_textGridWidthMultiplier"
+                android:numeric="decimal"
+                android:title="Text grid width multiplier" />
+            <EditTextPreference
+                android:defaultValue="1.0"
+                android:key="pref_textGridHeightMultiplier"
+                android:numeric="decimal"
+                android:title="Text grid height multiplier" />
+            <EditTextPreference
+                android:defaultValue="1.0"
+                android:key="pref_graphicsWidthMultiplier"
+                android:numeric="decimal"
+                android:title="Graphics width multiplier" />
+            <EditTextPreference
+                android:defaultValue="1.0"
+                android:key="pref_graphicsHeightMultiplier"
+                android:numeric="decimal"
+                android:title="Graphics height multiplier" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+    <PreferenceScreen android:title="Gestalt">
+        <SwitchPreference
+            android:defaultValue="1"
+            android:key="pref_enableGraphics"
+            android:summary="If disabled, we will tell games that we do not support GLK graphics operations. This may be useful for those purists who only want to play text-only versions of games."
+            android:title="Graphics" />
+        <SwitchPreference
+            android:defaultValue="1"
+            android:key="pref_enableSounds"
+            android:summary="If disabled, we will tell games that we do not support GLK sound operations."
+            android:title="Sounds" />
+        <SwitchPreference
+            android:defaultValue="1"
+            android:key="pref_enableHyperlinks"
+            android:summary="If disabled, we will tell games that we do not support GLK hyperlinks."
+            android:title="Hyperlinks" />
+        <SwitchPreference
+            android:defaultValue="1"
+            android:key="pref_enableDateTime"
+            android:summary="If disabled, we will tell games that we do not support GLK date/time functions."
+            android:title="DateTime" />
+        <SwitchPreference
+            android:defaultValue="1"
+            android:key="pref_enableTimerEvents"
+            android:summary="If disabled, we will tell games that we do not support GLK timer events."
+            android:title="Timer" />
+    </PreferenceScreen>
+    <PreferenceScreen android:title="Speech-Text conversion">
+        <SwitchPreference
+            android:defaultValue="0"
+            android:key="pref_enableTTS"
+            android:summary="If enabled, text in text buffer windows will be read aloud."
+            android:title="Read aloud" />
+        <EditTextPreference
+            android:defaultValue="1.0"
+            android:key="pref_ttsRate"
+            android:numeric="decimal"
+            android:title="Speech rate (1.0 = normal)" />
+        <EditTextPreference
+            android:defaultValue="1.0"
+            android:key="pref_ttsPitch"
+            android:numeric="decimal"
+            android:title="Speech pitch (1.0 = normal)" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="pref_locale"
+            android:summary="Leave blank to use your system default, or specify a language tag for speech-text conversion, e.g. 'en'"
+            android:title="IETF BCP 47 language tag (for TTS voice)" />
+    </PreferenceScreen>
+    <PreferenceScreen android:title="HTML games">
+        <SwitchPreference
+            android:defaultValue="1"
+            android:key="pref_htmlEnableJavascript"
+            android:summary="If enabled, HTML games can use Javascript."
+            android:title="Enable Javascript" />
+        <SwitchPreference
+            android:defaultValue="1"
+            android:key="pref_htmlEnableDomStorageAPI"
+            android:summary="If enabled, HTML games can use the Android WebView's DOM storage API."
+            android:title="Enable DOM Storage API" />
+        <SwitchPreference
+            android:defaultValue="1"
+            android:key="pref_htmlEnableZoomControls"
+            android:summary="If enabled, the WebView will use its built-in zoom controls."
+            android:title="Enable Built-in Zoom Controls" />
+        <SwitchPreference
+            android:defaultValue="0"
+            android:key="pref_htmlDisplayZoomControls"
+            android:summary="If enabled, the WebView will display its built-in zoom controls."
+            android:title="Display Built-in Zoom Controls" />
+        <SwitchPreference
+            android:defaultValue="0"
+            android:key="pref_htmlLoadWithOverview"
+            android:summary="Sets whether the WebView loads HTML games in overview mode, that is, zooms out the content to fit on screen by width."
+            android:title="Load with Overview" />
+        <SwitchPreference
+            android:defaultValue="0"
+            android:key="pref_htmlUseWideViewport"
+            android:summary="Sets whether the WebView should enable support for the 'viewport' HTML meta tag or should use a wide viewport."
+            android:title="Use Wide Viewport" />
+    </PreferenceScreen>
+    <PreferenceScreen android:title="File management">
+        <EditTextPreference
+            android:defaultValue="txt;glkdata;rec;sol;ini;log;inf;t;t3m;h"
+            android:key="pref_fileMgmtTextFileExts"
+            android:summary="A semi-colon delimited list of file extensions that should open in the built-in text editor"
+            android:title="Extensions to open in text editor" />
+        <SwitchPreference
+            android:defaultValue="1"
+            android:key="pref_fileMgmtCopyGameFileOnInstall"
+            android:summary="If enabled, when you choose 'add to game list' a copy of that game file will be made to Fabularium's games folder, and that copy will be used for future playthroughs, etc. If disabled, no copy will be made and the original file will be used."
+            android:title="Copy game file when adding to library" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="pref_fileMgmtAppPath"
+            android:summary="By default, if this setting is invalid or blank, Fabularium's root directory will be located in the top-most directory of your shared / external storage. To override that default, specify another valid (absolute) path here."
+            android:title="Root path" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="pref_fileMgmtGamePath"
+            android:summary="By default, if this setting is invalid or blank, Fabularium stores game files at APP_DIR/Games. To override that default, specify another valid (absolute) path here."
+            android:title="Game path" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="pref_fileMgmtGameDataPath"
+            android:summary="By default, if this setting is invalid or blank, Fabularium stores game data (saves, transcripts, etc.) at APP_DIR/GameData. To override that default, specify another valid (absolute) path here."
+            android:title="Game data path" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="pref_fileMgmtProjectsPath"
+            android:summary="By default, if this setting is invalid or blank, Fabularium stores projects at APP_DIR/Projects. To override that default, specify another valid (absolute) path here."
+            android:title="Project path" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="pref_fileMgmtLibPath"
+            android:summary="By default, if this setting is invalid or blank, Fabularium stores compiler library files at APP_DIR/Lib. To override that default, specify another valid (absolute) path here."
+            android:title="Library path" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="pref_fileMgmtIncludePath"
+            android:summary="By default, if this setting is invalid or blank, Fabularium stores compiler header files at APP_DIR/Include. To override that default, specify another valid (absolute) path here."
+            android:title="Include path" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="pref_fileMgmtFontsPath"
+            android:summary="By default, if this setting is invalid or blank, Fabularium stores custom fonts at APP_DIR/Fonts. To override that default, specify another valid (absolute) path here."
+            android:title="Fonts path" />
+    </PreferenceScreen>
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/byteOrderNames"
+        android:entryValues="@array/byteOrderVals"
+        android:key="pref_byteOrder"
+        android:summary="Choose the byte order for Unicode (UTF32) line input. While auto-detection will work most of the time, you may come across Unicode games that do not understand your input.  In such cases try a different byte order."
+        android:title="Unicode (UTF32) Byte Order" />
+    <EditTextPreference
+        android:defaultValue="UTF-8"
+        android:key="pref_defCharset"
+        android:summary="Specify the default character set encoding for games. Use one of the java.nio canonical charset names from https://docs.oracle.com/javase/8/docs/technotes/guides/intl/encoding.doc.html. This will only be used when the encoding can't be automatically detected (e.g. TADS2)"
+        android:title="Default Character Encoding" />
+    <SwitchPreference
+        android:defaultValue="1"
+        android:key="pref_autoResizeLargeImages"
+        android:summary="If enabled, images that exceed their parent window's width will be rescaled to fit."
+        android:title="Auto-resize large images" />
+    <SwitchPreference
+        android:defaultValue="1"
+        android:key="pref_useBuiltinKeyboard"
+        android:summary="If enabled, input will be via the built-in keyboard, which is optimised for interactive fiction. If disabled, input will be via your selected system keyboard. If a hardware keyboard is connected, this setting has no effect. We recommend you enable this setting unless the built-in keyboard is causing issues for you. Note: you can customise the built-in keyboard to use non-Latin scripts by editing keyboards.ini."
+        android:title="Use built-in keyboard" />
+    <SwitchPreference
+        android:defaultValue="0"
+        android:key="pref_showRawHTML"
+        android:title="Show raw HTML (debug mode)" />
+    <EditTextPreference
+        android:defaultValue="https://ifdb.tads.org/viewgame?ifiction&amp;ifid="
+        android:key="pref_serverURL"
+        android:summary="The app will use this URL (+ the IFID) to download IF metadata. The URL should return an XML file in the format specified by the BABEL standard."
+        android:title="URL for downloading metadata" />
+</PreferenceScreen>

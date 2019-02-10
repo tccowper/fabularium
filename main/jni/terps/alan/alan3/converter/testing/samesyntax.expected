@@ -1,0 +1,25 @@
+########## samesyntax ##########
+
+Syntax
+  v1 = v (o1) s (o2).
+
+Syntax
+  v2 = v (a1) s (a2).
+
+Verb v1
+  Does
+    "v1"
+End Verb.
+
+Verb v2
+  Does
+    "v2"
+End Verb.
+
+
+The l Isa location
+  
+End The l.
+
+Start At l.
+  

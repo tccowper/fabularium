@@ -1,0 +1,23 @@
+########## hero_declared_as_location ##########
+
+
+hero_declared_as_location.alan
+
+    1.  The hero Isa location
+=====>      1        2
+
+  *1*   352 E : Instance 'hero' does not inherit from 'actor', but has SCRIPTs,
+                which can never be executed.
+  *2*   411 E : Inheritance from anything but 'actor' and its subclasses
+                ignored for Actor 'hero'.
+
+    2.    Script x
+=====>    1
+
+  *1*   411 W : Script ignored for Actor 'hero'.
+
+
+        2 error(s).
+        1 warning(s).
+        1 informational message(s).
+

@@ -1,0 +1,36 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=Magnetic.chm
+Contents file=Magnetic.hhc
+Default Window=help
+Default topic=overview.htm
+Display compile progress=No
+Full-text search=Yes
+Language=0x809 English (United Kingdom)
+Title=Windows Magnetic
+
+[WINDOWS]
+help=,"Magnetic.hhc",,"overview.htm",,,,,,0x42520,,0x3006,[600,32,1200,632],,,,,,,0
+
+
+[FILES]
+overview.htm
+stories.htm
+stories_dos.htm
+stories_c64.htm
+graphics.htm
+titles.htm
+docs.htm
+keys.htm
+menus.htm
+options.htm
+revision.htm
+credits.htm
+hints.htm
+music.htm
+
+[TEXT POPUPS]
+options.txt
+
+[INFOTYPES]
+

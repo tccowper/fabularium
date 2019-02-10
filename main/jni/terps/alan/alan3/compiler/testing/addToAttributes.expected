@@ -1,0 +1,15 @@
+########## addToAttributes ##########
+
+
+addToAttributes.alan
+
+    6.    Has open 5.
+=====>        1
+
+  *1*   336 E : You cannot Add an attribute which already exists.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

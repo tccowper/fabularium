@@ -1,0 +1,10 @@
+The weather Isa object
+  Verb x
+    Does "x"
+  End Verb.
+End The weather.
+
+The l Isa location
+End The l.
+
+Start At l.

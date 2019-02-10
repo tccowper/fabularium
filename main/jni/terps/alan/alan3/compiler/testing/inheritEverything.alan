@@ -1,0 +1,27 @@
+Every object2 Isa object
+  At l.
+  Name 'name'.
+  Container.
+  Indefinite Form "form"
+  Definite Form "form"
+  Pronoun 'pronoun'
+  Mentioned "mentioned"
+  Initialize "initialize"
+  Verb take End Verb.
+End Every.
+
+Every location2 Isa location
+  Indefinite Form "form"
+  Definite Form "form"
+  Entered "entered"
+  Exit w To l.
+End Every.
+
+Every actor2 Isa actor
+  Script script1. Step "Hello."
+End Every.
+
+The l Isa location
+End The l.
+
+Start At l.

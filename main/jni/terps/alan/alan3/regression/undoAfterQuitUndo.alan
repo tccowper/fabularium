@@ -1,0 +1,27 @@
+THE livingroom ISA LOCATION
+	NAME 'Living-Room'
+	DESCRIPTION  "This is your living-room. The kitchen is to the west."
+	EXIT west TO kitchen.
+END THE livingroom.
+
+
+THE kitchen ISA LOCATION
+	DESCRIPTION "This is your kitchen. The living-room is to the east."
+	EXIT east TO livingroom.
+END THE kitchen.
+
+
+THE apple ISA OBJECT
+	AT kitchen
+        ARTICLE "an"
+	VERB eat
+		DOES "You eat the apple. It tastes delicious.
+			$p* * *  You have won! * * *"
+			QUIT.
+	END VERB. 
+				
+END THE apple.
+
+VERB 'quit' DOES QUIT. END VERB.
+
+START AT livingroom.

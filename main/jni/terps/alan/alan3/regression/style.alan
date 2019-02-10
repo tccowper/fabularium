@@ -1,0 +1,36 @@
+The l Isa location
+  Description
+    Style Normal. "$pThis is normal text.$p"
+    Style Emphasized. "$pThis is emphasized text.$p"
+    Style Preformatted. "$pThis is preformatted text.$n"
+	"...../\$n"
+	"..../  \$n"
+	".../    \$n"
+	"../      \$n"
+	"./        \$n"
+	"/          \$n"
+"$p"
+    Style Normal. "$pThe same triangle in normal style:$n"
+	"     /\$n"
+	"    /  \$n"
+	"   /    \$n"
+	"  /      \$n"
+	" /        \$n"
+	"/          \$n"
+"$p"
+
+    Style Alert. "$pThis is alert text.$p"
+
+    Style Quote. "$p"
+	"This is quote text."
+	"This is quote text."
+	"This is quote text."
+	"This is quote text."
+	"This is quote text."
+	"This is quote text."
+	"$p"
+    Style Normal.
+End The l.
+
+Start At l.
+   "This test the various styles, such as" Style Emphasized. "emphasized" Style Normal. "text."

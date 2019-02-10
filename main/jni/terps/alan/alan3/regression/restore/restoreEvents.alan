@@ -1,0 +1,29 @@
+Syntax 'save' = 'save'.
+Verb 'save'
+  Does
+    Save.
+End Verb.
+
+Syntax 'restore' = 'restore'.
+Verb 'restore'
+  Does
+    Restore.
+    "Done."
+End Verb.
+
+The l Isa location
+  Exit n To l
+    Does
+      Schedule x At l After 1.
+  End Exit.
+  Exit e, s, w To l.
+End The l.
+
+Event x
+  "Event x..."
+End Event.
+
+Start At l.
+  "Welcome to restore testing adventures.$p"
+  "If you go north an event will be scheduled, if you go in any other direction it won't.
+   Go north, then save and quit. Restart game and restore."

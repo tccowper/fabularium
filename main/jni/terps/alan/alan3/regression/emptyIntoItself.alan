@@ -1,0 +1,30 @@
+The l Isa location
+End The l.
+
+Every cont Isa object
+  Container
+  Description
+    "There is" Say An This. "here." List This.
+End Every.
+
+The box Isa cont At l
+End The box.
+
+The bottle Isa cont In box
+End The bottle.
+
+Syntax
+  empty_into = 'empty' (o) into (c) Where c Isa container Else "You cannot put anything in" Say The c. "."
+
+Add To Every object
+  Verb empty_into
+    When o Does
+      Empty box In bottle.
+      "You empty" Say The o. "into" Say The c. "."
+      If bottle In bottle Then
+        Look.
+      End If.
+  End Verb.
+End Add.
+
+Start At l.

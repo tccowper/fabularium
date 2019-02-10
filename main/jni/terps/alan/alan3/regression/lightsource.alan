@@ -1,0 +1,43 @@
+Add To Every object
+  Is Not lightsource.
+End Add To.
+
+Add To Every location
+  Is lit.
+End Add To.
+
+Add To Every location
+  Description
+    Check Current Location Is lit
+      Or Count Isa object, Is lightsource, Here > 0
+    Else
+      "You cannot see anything without any light."
+End Add To.
+
+Verb 'look'
+  Check Current Location Is lit
+    Or Count Isa object, Is lightsource, Here > 0
+  Else
+      "You cannot see anything without any light."
+  Does
+    Look.
+End Verb.
+
+The dark_location Isa location
+  Is Not lit.
+  Description "This is a dark location."
+  Exit e,w,n,s To light_location.
+End The dark_location.
+
+The object_in_darkness Isa object At dark_location
+End The.
+
+The light_location Isa location
+  Description "This is a light location."
+  Exit e,w,n,s To dark_location.
+End The light_location.
+
+The object_in_light Isa object At light_location
+End The.
+
+Start At light_location.

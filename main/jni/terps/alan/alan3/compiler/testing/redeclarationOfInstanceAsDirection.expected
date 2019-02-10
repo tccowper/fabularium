@@ -1,0 +1,15 @@
+########## redeclarationOfInstanceAsDirection ##########
+
+
+redeclarationOfInstanceAsDirection.alan
+
+    6.  	exit east, living to living.
+=====>  	           1
+
+  *1*   304 E : 'living' also declared as an Instance (The).
+
+
+        1 error(s).
+        No detected warnings.
+        2 informational message(s).
+

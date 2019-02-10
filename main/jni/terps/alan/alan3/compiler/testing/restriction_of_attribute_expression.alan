@@ -1,0 +1,59 @@
+The l Isa location
+End The l.
+
+Every garden Isa object
+End Every garden.
+
+Every food Isa object
+End Every food.
+
+The dummy_food Isa food
+End The dummy_food.
+
+Syntax sell = sell (item) 'to' (act)
+  Where act Isa actor Else ""
+
+Add To Every actor
+  Has buying dummy_cont.
+End Add.
+
+Every cont Isa object
+  Container
+End Every cont.
+
+The dummy_cont Isa cont
+End The.
+
+The nobody Isa actor
+End The nobody.
+
+The worn Isa object
+  Container
+End The worn.
+
+Add To Every object
+  Is for_sale.
+  Has source worn.
+  Has owner nobody.
+End Add To.
+
+Add To Every object
+  VERB sell
+	CHECK item in hero or item in worn
+		Else "The" Say item. "is not in the objects you are carrying."
+	And item is for_sale
+		Else "The " Say item. "is not for sale."
+	DOES
+        if item isa food and dummy_food in buying of act  
+			Then	
+				Set owner of item to Nobody.	-- see: I classes.i/nobody	
+				If source of item isa garden	-- see: I classes.i/garden
+					Then
+						Set owner of item to Nobody.
+						""	-- leave Nobody as owner for food that grows in a garden
+				End if.
+		End if.				
+  END VERB.
+END ADD TO.
+
+Start At l.

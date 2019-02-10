@@ -1,0 +1,60 @@
+########## alternativeChecks ##########
+
+        No warnings or errors detected.
+
+
+
+Loc
+There is a obj1, a obj2 and a obj3 here.
+
+> v loc loc       ; loc as p1
+Loc as p1
+
+> v loc obj1      ; loc as p1
+Loc as p1
+
+> v loc obj2      ; loc as p1
+Loc as p1
+
+> v loc obj3      ; loc as p1
+Loc as p1
+
+> v obj1 loc      ; obj1 as p1
+Obj1 As p1
+
+> v obj1 obj1     ; obj1 as p1
+Obj1 As p1
+
+> v obj1 obj2     ; obj1 as p1
+Obj1 As p1
+
+> v obj1 obj3     ; obj1 as p1
+Obj1 As p1
+
+> v obj2 loc      ; loc as p2
+Loc as p2
+
+> v obj2 obj1     ; run body
+You can't do that.
+
+> v obj2 obj2     ; obj2 as p2
+Obj2 As p2
+
+> v obj2 obj3     ; obj3 as p2
+Obj3 As p2
+
+> v obj3 loc      ; obj3 as p1
+Obj3 As p1
+
+> v obj3 obj1     ; obj3 as p1
+Obj3 As p1
+
+> v obj3 obj2     ; obj3 as p1
+Obj3 As p1
+
+> v obj3 obj3     ; obj3 as p1
+Obj3 As p1
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

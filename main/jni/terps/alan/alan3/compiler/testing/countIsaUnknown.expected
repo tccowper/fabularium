@@ -1,0 +1,15 @@
+########## countIsaUnknown ##########
+
+
+countIsaUnknown.alan
+
+    6.    Set i Of l To Count Isa x.
+=====>                            1
+
+  *1*   310 E : Identifier 'x' not defined.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

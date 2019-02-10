@@ -1,0 +1,250 @@
+# vi: set ts=2 shiftwidth=2 expandtab:
+#
+# Room description and name tests.
+#
+# Covers room names and descriptions, and alternate room names and associated
+# descriptions.
+#
+# Unless otherwise noted, the input and responses in this script were created
+# from a transcript of the Adrift Runner, release 4.0.45 or 46.
+#
+
+~ game
+*Fruitless* Compiled "12 Sep 2007"* Version 4.00*
+
+> verbose
+
+
+#
+# Verify that room names and descriptions are handled correctly.
+#
+
+> look
+Not Alongside Tray
+Sparsely furnished.  Task append 1, task is not completed.  Task append 2,
+task is not completed.  Object append 1, cupboard is not open.  Object
+append 2, cupboard is closed.  Player append 1, not holding a sandwich.
+Player append 2, not holding a tray.  Player append 3, not wearing a hat.
+Player append 4, not wearing a hat.  Player append 5, not in same room as a
+tray.  Player append 6, not in same room as a tray.  Also here is a pinewood
+cupboard, a pinewood table and a chair.
+
+> open cupboard
+You open the pinewood cupboard.  Inside the pinewood cupboard is a book, a
+tray, a bag, a sandwich, a jelly and a floppy hat.
+
+> look
+Not Holding Sandwich
+Relatively sparsely furnished, though look at the cupboard.  Object append
+1, cupboard is open.  Object append 2, cupboard is not closed.  Player
+append 1, not holding a sandwich.  Player append 2, not holding a tray.
+Player append 3, not wearing a hat.  Player append 4, not wearing a hat.
+Player append 5, in same room as a tray.  Player append 6, in same room as a
+tray.  Also here is a pinewood cupboard, a pinewood table and a chair.
+
+> take sandwich
+You take the sandwich from the pinewood cupboard.
+
+> look
+Cupboard Open
+Relatively sparsely furnished, though look at the cupboard.  Object append
+1, cupboard is open.  Object append 2, cupboard is not closed.  Player
+append 1, holding a sandwich.  Player append 2, not holding a tray.  Player
+append 3, not wearing a hat.  Player append 4, not wearing a hat.  Player
+append 5, in same room as a tray.  Player append 6, in same room as a tray.
+Also here is a pinewood cupboard, a pinewood table and a chair.
+
+> close cupboard
+You close the pinewood cupboard.
+
+> look
+Not Alongside Tray
+Sparsely furnished.  Task append 1, task is not completed.  Task append 2,
+task is not completed.  Object append 1, cupboard is not open.  Object
+append 2, cupboard is closed.  Player append 1, holding a sandwich.  Player
+append 2, not holding a tray.  Player append 3, not wearing a hat.  Player
+append 4, not wearing a hat.  Player append 5, not in same room as a tray.
+Player append 6, not in same room as a tray.  Also here is a pinewood
+cupboard, a pinewood table and a chair.
+
+> open cupboard
+You open the pinewood cupboard.  Inside the pinewood cupboard is a book, a
+tray, a bag, a jelly and a floppy hat.
+
+> take tray
+You take the tray from the pinewood cupboard.
+
+> drop tray
+You drop the tray.
+
+> look
+Cupboard Open
+Relatively sparsely furnished, though look at the cupboard.  Object append
+1, cupboard is open.  Object append 2, cupboard is not closed.  Player
+append 1, holding a sandwich.  Player append 2, not holding a tray.  Player
+append 3, not wearing a hat.  Player append 4, not wearing a hat.  Player
+append 5, in same room as a tray.  Player append 6, in same room as a tray.
+Also here is a pinewood cupboard, a tray, a pinewood table and a chair.
+
+> close cupboard
+You close the pinewood cupboard.
+
+> look
+Activity Room
+Sparsely furnished.  Task append 1, task is not completed.  Task append 2,
+task is not completed.  Object append 1, cupboard is not open.  Object
+append 2, cupboard is closed.  Player append 1, holding a sandwich.  Player
+append 2, not holding a tray.  Player append 3, not wearing a hat.  Player
+append 4, not wearing a hat.  Player append 5, in same room as a tray.
+Player append 6, in same room as a tray.  Also here is a pinewood cupboard,
+a tray, a pinewood table and a chair.
+
+> open cupboard
+You open the pinewood cupboard.  Inside the pinewood cupboard is a book, a
+bag, a jelly and a floppy hat.
+
+> take hat
+You take the floppy hat from the pinewood cupboard.
+
+> look
+Cupboard Open
+Relatively sparsely furnished, though look at the cupboard.  Object append
+1, cupboard is open.  Object append 2, cupboard is not closed.  Player
+append 1, holding a sandwich.  Player append 2, not holding a tray.  Player
+append 3, not wearing a hat.  Player append 4, not wearing a hat.  Player
+append 5, in same room as a tray.  Player append 6, in same room as a tray.
+Also here is a pinewood cupboard, a tray, a pinewood table and a chair.
+
+> wear hat
+You put on the floppy hat.
+
+> look
+Obscured Activity Room
+Sparsely furnished.  The hat's covering your eyes, obscuring your view.
+Player append 1, holding a sandwich.  Player append 2, not holding a tray.
+Player append 3, wearing a hat.  Player append 4, wearing a hat.  Player
+append 5, in same room as a tray.  Player append 6, in same room as a tray.
+
+> take tray
+# SCARE and the Adrift Runner differ slightly on this message.
+#You take the tray.
+You pick up the tray.
+
+> remove hat
+You remove the floppy hat.
+
+> east
+You move east.
+Clean Room
+As bland as the Activity Room, but somehow cleaner.  There's a sign on the
+wall that proclaims "No food or drink, please."  You have the hat in your
+possession.  The janitor is here.
+
+> drop tray
+You drop the tray.
+
+> west
+You move west.
+Not Alongside Tray
+Relatively sparsely furnished, though look at the cupboard.  Object append
+1, cupboard is open.  Object append 2, cupboard is not closed.  Player
+append 1, holding a sandwich.  Player append 2, not holding a tray.  Player
+append 3, not wearing a hat.  Player append 4, not wearing a hat.  Player
+append 5, not in same room as a tray.  Player append 6, not in same room as
+a tray.  Also here is a pinewood cupboard, a pinewood table and a chair.
+
+> close cupboard
+You close the pinewood cupboard.
+
+> look
+Not Alongside Tray
+Sparsely furnished.  Task append 1, task is not completed.  Task append 2,
+task is not completed.  Object append 1, cupboard is not open.  Object
+append 2, cupboard is closed.  Player append 1, holding a sandwich.  Player
+append 2, not holding a tray.  Player append 3, not wearing a hat.  Player
+append 4, not wearing a hat.  Player append 5, not in same room as a tray.
+Player append 6, not in same room as a tray.  Also here is a pinewood
+cupboard, a pinewood table and a chair.
+
+> open cupboard
+You open the pinewood cupboard.  Inside the pinewood cupboard is a book, a
+bag and a jelly.
+
+> take jelly
+The jelly slips through your fingers. Apparently not enough gelatine in the
+mix. That's probably related to BSE.
+
+> close cupboard
+You close the pinewood cupboard.
+
+> look
+Not Alongside Tray
+Sparsely furnished.  Task append 1, task is completed.  Task append 2, task
+is completed.  Object append 1, cupboard is not open.  Object append 2,
+cupboard is closed.  Player append 1, holding a sandwich.  Player append 2,
+not holding a tray.  Player append 3, not wearing a hat.  Player append 4,
+not wearing a hat.  Player append 5, not in same room as a tray.  Player
+append 6, not in same room as a tray.  Also here is a pinewood cupboard, a
+pinewood table and a chair.
+
+> wear hat
+You put on the floppy hat.
+
+> look
+Not Alongside Tray
+Sparsely furnished.  The hat's covering your eyes, obscuring your view.
+Player append 1, holding a sandwich.  Player append 2, not holding a tray.
+Player append 3, wearing a hat.  Player append 4, wearing a hat.  Player
+append 5, not in same room as a tray.  Player append 6, not in same room as
+a tray.
+
+> east
+You move east.
+Obscured Room
+The hat completely obscures your view.  You have the hat in your possession.
+
+> look
+Obscured Room
+The hat completely obscures your view.  You have the hat in your possession.
+
+> x janitor
+Dressed head to toe in standard janitorial coveralls, this man appears to be
+the very model of efficiency.  No sign at all of sloppiness or laziness here.
+Also, not much sign of movement, it has to be said.
+
+> remove hat
+You remove the floppy hat.
+
+> look
+Clean Room
+As bland as the Activity Room, but somehow cleaner.  There's a sign on the
+wall that proclaims "No food or drink, please."  You have the hat in your
+possession.  Also here is a tray.  The janitor is here.
+
+> take tray
+# SCARE and the Adrift Runner differ slightly on this message.
+#You take the tray.
+You pick up the tray.
+
+> west
+You move west.
+Holding Tray
+Sparsely furnished.  Task append 1, task is completed.  Task append 2, task
+is completed.  Object append 1, cupboard is not open.  Object append 2,
+cupboard is closed.  Player append 1, holding a sandwich.  Player append 2,
+holding a tray.  Player append 3, not wearing a hat.  Player append 4, not
+wearing a hat.  Player append 5, in same room as a tray.  Player append 6,
+in same room as a tray.
+
+> drop tray
+You drop the tray.
+
+> look
+Task Completed
+Sparsely furnished.  Task append 1, task is completed.  Task append 2, task
+is completed.  Object append 1, cupboard is not open.  Object append 2,
+cupboard is closed.  Player append 1, holding a sandwich.  Player append 2,
+not holding a tray.  Player append 3, not wearing a hat.  Player append 4,
+not wearing a hat.  Player append 5, in same room as a tray.  Player append
+6, in same room as a tray.  Also here is a pinewood cupboard, a tray, a
+pinewood table and a chair.

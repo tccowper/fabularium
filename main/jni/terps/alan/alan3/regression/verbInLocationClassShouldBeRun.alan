@@ -1,0 +1,13 @@
+Syntax v = v.
+
+Every place Isa location
+  Verb v
+    Does
+      "V in class Place."
+  End Verb.
+End Every place.
+
+The firstPlace Isa place
+End The firstPlace.
+
+Start At firstPlace.

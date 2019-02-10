@@ -1,0 +1,24 @@
+Every inheritedEntity Isa entity
+End Every.
+
+The e_ntity Isa inheritedEntity
+  Name 'entity' e
+End The.
+
+The o_bject Isa object
+  Name 'object' e
+End The.
+
+The loc Isa location
+End The loc.
+
+Syntax x = x (e)* Where e Isa entity Else "only entities"
+Add To Every entity
+  Verb x
+    When e
+      Does
+        "you x" Say The e.
+  End Verb.
+End Add.
+
+Start At loc.

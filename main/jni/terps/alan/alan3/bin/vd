@@ -1,0 +1,13 @@
+#!/bin/sh
+f=${1%%\.}
+os=$(uname -s)
+case $os in
+  "Linux")
+        diff=meld ;;
+  "CYGWIN_NT-6.1")
+        diff=meld ;;
+        #diff=/cygdrive/c/Program/Winmerge/WinMergeU ;;
+  *)
+        echo "No visual diff defined for" $os ;;
+esac
+$diff $f.expected $f.output

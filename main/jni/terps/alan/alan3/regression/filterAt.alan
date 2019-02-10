@@ -1,0 +1,35 @@
+The l Isa location
+End The l.
+
+Add To Every object
+  Has y 2.
+End Add.
+
+The c Isa thing At l
+  Container
+End The c.
+
+The o1 Isa object In c
+  Has y 1.
+End The o1.
+The o2 Isa object At l
+  Has y 2.
+End The o2.
+The o3 Isa object At l
+  Has y 3.
+End The o3.
+The o4 Isa object
+  Has y 4.
+End The o4.
+
+Start At l.
+  "1:" If Sum Of y Isa object, Directly At l = 5 Then "Ok" Else "not ok" End If."$n"
+  "2:" If Sum Of y Isa object, At l = 6 Then "Ok" Else "not ok" End If."$n"
+  "3:" If Max Of y Isa object, At l = 3 Then "Ok" Else "not ok" End If."$n"
+  "4:" If Min Of y Isa object, At l = 1 Then "Ok" Else "not ok" End If."$n"
+  "5:" If Count Isa object, Directly At l = 2 Then "Ok" Else "not ok" End If."$n"
+  "6:" If Count Isa object, At l = 3 Then "Ok" Else "not ok" End If."$n"
+  "7:" If Sum Of y Isa object, At o1 = 6 Then "Ok" Else "not ok" End If."$n"
+  "8:" If Max Of y Isa object, At o2 = 3 Then "Ok" Else "not ok" End If."$n"
+  "9:" If Min Of y Isa object, At o3 = 1 Then "Ok" Else "not ok" End If."$n"
+  "10:" If Count Isa object, At o4 = 1 Then "Ok" Else "not ok" End If.

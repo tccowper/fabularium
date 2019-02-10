@@ -1,0 +1,34 @@
+The l Isa location
+End The l.
+
+The c Isa object At l
+  Container
+End The c.
+
+The d Isa object In c
+  Container
+End The d.
+
+The o1 Isa object At l.
+End The.
+
+The o2 Isa object In c.
+End The.
+
+The o3 Isa object In d.
+End The.
+
+The o4 Isa object At l.
+End The.
+
+The o5 Isa object In c.
+End The.
+
+The o6 Isa object In d.
+End The.
+
+Start At l.
+  Say "Count Isa Object, Here = ". Say Count Isa Object, Here. "Should be 8.$n"
+  Say "Count Isa Object, Directly Here = ". Say Count Isa Object, Directly Here. "Should be 3.$n"
+  Say "Count Isa Object, In c = ". Say Count Isa Object, In c. "Should be 5.$n"
+  Say "Count Isa Object, Directly In c = ". Say Count Isa Object, Directly In c. "Should be 3.$n"

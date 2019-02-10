@@ -1,0 +1,24 @@
+Syntax x = x (p1) (p2).
+
+The o1 Isa object At l
+  Verb x
+  When p1
+    Does
+      Say this.
+  End Verb.
+End The o1.
+
+The o2 Isa object At l
+  Verb x
+  When p2
+    Does
+      Say this.
+  End Verb.
+End The o2.
+
+The l Isa location
+  Exit w,e,s,n To l.
+End The l.
+
+Start At l.
+  "'X o1 o2'"

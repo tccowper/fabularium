@@ -1,0 +1,10 @@
+
+The cowboy Isa actor
+  Can shoot.
+End The cowboy.
+
+The l Isa location
+End The l.
+
+Start At l.
+  If cowboy Can shoot Then "Watch out!" End If.

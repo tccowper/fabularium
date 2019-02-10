@@ -1,0 +1,14 @@
+Options
+  Debug.
+
+Location l
+  Has
+    str "HejHo".
+End Location.
+
+Start At l.
+
+	"$pOOH! There is a hand written remark in the margin here,
+	 it says '$$"
+	SAY str Of l.
+	"$$'."

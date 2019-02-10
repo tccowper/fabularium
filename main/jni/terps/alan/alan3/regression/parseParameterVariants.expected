@@ -1,0 +1,62 @@
+########## parseParameterVariants ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a first object, a second object, a third object, a fourth object, 
+a fifth object and a sixth object here.
+
+> v the first object
+You v the first object.
+
+> v it
+You v the first object.
+
+> v the first object and the second object
+(first object) You v the first object.
+
+(second object) You v the second object.
+
+> v them
+(first object) You v the first object.
+
+(second object) You v the second object.
+
+> v all
+(first object) You v the first object.
+
+(second object) You v the second object.
+
+(third object) You v the third object.
+
+(fourth object) You v the fourth object.
+
+(fifth object) You v the fifth object.
+
+(sixth object) You v the sixth object.
+
+> v all except third object
+(first object) You v the first object.
+
+(second object) You v the second object.
+
+(fourth object) You v the fourth object.
+
+(fifth object) You v the fifth object.
+
+(sixth object) You v the sixth object.
+
+> v all but the fifth object and the sixth object
+(first object) You v the first object.
+
+(second object) You v the second object.
+
+(third object) You v the third object.
+
+(fourth object) You v the fourth object.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

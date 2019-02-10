@@ -1,0 +1,277 @@
+########## exp ##########
+
+Add To Every object
+  Is
+    global_object_boolean_attr.
+    global_object_int_attr  4.
+End Add To.
+
+Syntax
+  vo = v (object_parameter).
+
+Verb vo
+  Does
+    If object_parameter Then
+      ""
+    Elsif object_parameter Here Then 
+      ""
+    Elsif object_parameter =4 Then 
+      ""
+    Elsif object_parameter =
+    "" Then 
+      ""
+    Elsif object_parameter =an_object Then 
+      ""
+    Elsif an_object =object_parameter Then 
+      ""
+    Elsif object_parameter =object Then 
+      ""
+    Elsif object_parameter =Current Actor Then 
+      ""
+    Elsif object_parameter =Current Location Then 
+      ""
+    End If.
+End Verb.
+
+Syntax
+  vi = vi (integer_parameter)
+    Where integer_parameter Isa integer
+      Else 
+        "Not a number."
+  
+
+Verb vi
+  Does
+    If integer_parameter Then
+      ""
+    Elsif integer_parameter Here Then 
+      ""
+    Elsif integer_parameter =4 Then 
+      ""
+    Elsif integer_parameter =
+    "" Then 
+      ""
+    Elsif integer_parameter =an_object Then 
+      ""
+    Elsif an_object =integer_parameter Then 
+      ""
+    Elsif integer_parameter =object Then 
+      ""
+    Elsif integer_parameter =Current Actor Then 
+      ""
+    Elsif integer_parameter =Current Location Then 
+      ""
+    End If.
+End Verb.
+
+
+The a_location Isa location
+  
+  Is 
+    location_boolean_attr.
+  Has 
+    location_int_attr  1.
+End The a_location.
+
+The an_actor Isa actor
+  
+  Is 
+    actor_boolean_attr.
+  Has 
+    actor_int_attr  2.
+End The an_actor.
+
+
+The an_object Isa object
+  
+  Is 
+    object_boolean_attr.
+  Has 
+    object_int_attr  3.
+End The an_object.
+
+Start At a_location.
+  If 4 Then
+    ""
+  Elsif -4 Then 
+    ""
+  Elsif 
+  "hej" Then 
+    ""
+  End If.
+  If actor_boolean_attr Of Current Actor Then
+    ""
+  Elsif actor_boolean_attr Of an_actor Then 
+    ""
+  Elsif actor_int_attr Of an_actor Then 
+    ""
+  Elsif  (Sum Of object_boolean_attrIsa object, Here Then 
+    ""
+  Elsif  (Sum Of global_object_boolean_attrIsa object, Here Then 
+    ""
+  Elsif  (Sum Of global_object_int_attrIsa object, Here Then 
+    ""
+  Elsif Random 1 To 10 Then 
+    ""
+  Elsif an_actor Then 
+    ""
+  Elsif a_location Then 
+    ""
+  Elsif object_parameter Then 
+    ""
+  Elsif integer_parameter Then 
+    ""
+  Elsif Current Actor Then 
+    ""
+  Elsif Current Location Then 
+    ""
+  Elsif object Then 
+    ""
+  End If.
+  If 4 Here Then
+    ""
+  Elsif -4 Here Then 
+    ""
+  Elsif 
+  "string" Here Then 
+    ""
+  Elsif actor_boolean_attr Of Current Actor Here Then 
+    ""
+  Elsif  (Sum Of object_boolean_attrIsa object, Here Here Then 
+    ""
+  Elsif  (Sum Of global_object_boolean_attrIsa object, Here Here Then 
+    ""
+  Elsif Random 1 To 10 Here Then 
+    ""
+  Elsif an_actor Here Then 
+    ""
+  Elsif a_location Here Then 
+    ""
+  Elsif an_object Here Then 
+    ""
+  Elsif Current Actor Here Then 
+    ""
+  Elsif Current Location Here Then 
+    ""
+  Elsif object Here Then 
+    ""
+  Elsif object At Current Location Then 
+    ""
+  Elsif object At a_location Then 
+    ""
+  Elsif object At object Then 
+    ""
+  Elsif object At an_object Then 
+    ""
+  Elsif object At Current Actor Then 
+    ""
+  Elsif object At an_actor Then 
+    ""
+  End If.
+  If 4 =1 Then
+    ""
+  Elsif -4 =1 Then 
+    ""
+  Elsif 
+  "string" =1 Then 
+    ""
+  Elsif actor_boolean_attr Of Current Actor =1 Then 
+    ""
+  Elsif  (Sum Of object_boolean_attrIsa object, Here =1 Then 
+    ""
+  Elsif  (Sum Of global_object_int_attrIsa object, Here =1 Then 
+    ""
+  Elsif Random 1 To 10 =1 Then 
+    ""
+  Elsif an_actor =1 Then 
+    ""
+  Elsif a_location =1 Then 
+    ""
+  Elsif an_object =1 Then 
+    ""
+  Elsif Current Actor =1 Then 
+    ""
+  Elsif Current Location =1 Then 
+    ""
+  Elsif object =1 Then 
+    ""
+  End If.
+  If 4 =
+  "string" Then
+    ""
+  Elsif -4 =
+  "string" Then 
+    ""
+  Elsif 
+  "hej" =
+  "string" Then 
+    ""
+  Elsif actor_boolean_attr Of Current Actor =
+  "string" Then 
+    ""
+  Elsif  (Sum Of object_boolean_attrIsa object, Here =
+  "string" Then 
+    ""
+  Elsif Random 1 To 10 =
+  "string" Then 
+    ""
+  Elsif an_actor =
+  "string" Then 
+    ""
+  Elsif a_location =
+  "string" Then 
+    ""
+  Elsif an_object =
+  "string" Then 
+    ""
+  Elsif Current Actor =
+  "string" Then 
+    ""
+  Elsif Current Location =
+  "string" Then 
+    ""
+  Elsif object =
+  "string" Then 
+    ""
+  Elsif 4 =an_object Then 
+    ""
+  Elsif -4 =an_object Then 
+    ""
+  Elsif 
+  "hej" =an_object Then 
+    ""
+  Elsif actor_boolean_attr Of an_actor =an_object Then 
+    ""
+  Elsif  (Sum Of object_boolean_attrIsa object, Here =an_object Then 
+    ""
+  Elsif Random 1 To 10 =an_object Then 
+    ""
+  Elsif an_actor =an_object Then 
+    ""
+  Elsif a_location =an_object Then 
+    ""
+  Elsif an_object =an_object Then 
+    ""
+  Elsif Current Actor =an_object Then 
+    ""
+  Elsif Current Location =an_object Then 
+    ""
+  Elsif object =an_object Then 
+    ""
+  End If.
+  If  (Max Of global_int_attrIsa object, Here Then
+    ""
+  Elsif  (Max Of global_object_int_attrIsa object, At an_actor Then 
+    ""
+  Elsif  (Max Of global_object_int_attrIsa object, At Current Actor Then 
+    ""
+  Elsif  (Max Of global_object_int_attrIsa object, At an_object Then 
+    ""
+  Elsif  (Max Of global_object_int_attrIsa object, At object Then 
+    ""
+  Elsif  (Max Of global_object_int_attrIsa object, At a_location Then 
+    ""
+  Elsif  (Max Of global_object_int_attrIsa object, At Current Location Then 
+    ""
+  End If.
+  

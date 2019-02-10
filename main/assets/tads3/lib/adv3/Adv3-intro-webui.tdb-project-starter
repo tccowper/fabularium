@@ -1,0 +1,14 @@
+name: Adv3 - Introductory - Web UI
+sequence: 3
+desc: Create a game based on the Adv3 library for Web browser play.
+  Your new project will be set up for deployment on Web servers, so
+  that users can play in a browser without installing any TADS
+  software.  This project starter includes a working game scenario 
+  as an example to help you get started.
+source: samples\startI3.t $.t
+lib: adv3web.tl
+sysfile: webui.tl
+sysfile: tadsnet.t
+define: TADS_INCLUDE_NET
+define: LANGUAGE=en_us
+define: MESSAGESTYLE=neu

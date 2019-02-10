@@ -1,0 +1,636 @@
+Options
+  Language Swedish.
+--  Pack.
+
+
+
+------------------------------------------------------------------------------
+
+Object Attributes
+  Not tagbar.
+
+
+------------------------------------------------------------------------------
+
+SYNONYMS
+
+-- Directions
+
+	väst, väster = v.
+	ost, öster, öst, o = ö.
+	nord, norr = n.
+	syd, söder = s.
+	nordväst = nv.
+	nordost, nordöst, no = nö.
+	sydväst = sv.
+	sydost, sydöst, so = sö.
+
+
+-- Verb
+
+	'look' = l.
+	'quit' = q.
+	invent, inventarier = i.
+	ta, grip, grabba = tag.
+
+-- Objects
+
+
+------------------------------------------------------------------------------
+
+Container inventory
+
+  Limits
+    count 3 Then "Du har inte fler händer nu!"
+
+  Header
+    "Du släpar omkring på"
+
+  Else
+    "Du äger ingenting här i världen (kanske något att göra något åt?)."
+
+End Container inventory.
+
+
+------------------------------------------------------------------------------
+
+Syntax l = l.
+
+Verb l
+
+  Does
+    Look.
+
+End Verb l.
+
+
+Syntax q = q.
+
+Verb q
+
+  Does
+    Quit.
+
+End Verb q.
+
+
+Syntax i = i.
+
+Verb i
+
+  Does
+    List inventory.
+
+End Verb i.
+
+
+Syntax tag = 'tag' (o)*.
+
+Verb tag
+ 
+  Check 
+    Object Is tagbar
+      Else "Det kan du inte göra!"
+  And
+    Object Not In inventory
+      Else "Det har du redan gjort!"
+
+  Does
+    Locate Object In inventory.
+    "OK!"
+
+End Verb tag.
+
+
+Verb släpp
+
+  Check
+    Object In inventory
+      Else "Du har inte nåt sånt!"
+
+  Does
+    Locate Object Here.
+    "OK!"
+
+End Verb släpp.
+
+
+
+------------------------------------------------------------------------------
+
+Syntax gräv = gräv.
+
+Verb gräv
+  Check hero Not At mitten
+    Else
+      "Här går det inte att gräva."
+      If spade In inventory Then
+        "Oavsett vad för hjälpmedel man har!"
+      End If.
+
+  Does
+    If hero Not At s_stranden Then 
+      If spade Not In inventory Then
+        "Efter någon timmes idogt grävande med händerna i den torra fina sanden
+         är allt lyckas du åstadkomma en liten sandhög som av vinden snart
+         fördelas ut över stranden igen."
+      Else
+        "På en halvtimme lyckas du med hjälp av spaden få till ett hyfsat
+         sandslott som vilken tre-åring som helst skulle vara stolt över."
+        Locate sandslott Here.
+        Schedule rasera_slott Here after 2.
+      End If.
+    Else
+      If spade Not In inventory Then
+        "Sanden här är mycket tyngre än man kunde tro. Du lyckas faktiskt inte
+         åstadkomma någonting arkitektoniskt med dina bara händer."
+      Else
+        "Med spadens hjälp och tackvare den stadiga sanden bygger du snabbt ett
+         stort sandslott, ja så stort att man kunde tro att det vore byggt på
+         riktigt."
+        Locate slottet here.
+      End If.
+    End If.
+
+End Verb gräv.
+
+
+Verb skaka
+End Verb skaka.
+
+Verb undersök
+End Verb undersök.
+
+
+------------------------------------------------------------------------------
+
+Location havet
+End Location havet.
+
+
+
+------------------------------------------------------------------------------
+
+Location mitten Name mitten av ön
+
+  Description
+    "Du befinner dig mitt inne i en dunge av små palmer. Åt alla håll
+     syns lite ljus. En frisk bris med doft av salt havsvatten kommer från
+     söder."
+
+  Exit n to n_stranden.
+  Exit s to s_stranden.
+  Exit ö to ö_stranden.
+  Exit v to v_stranden.
+
+
+  Verb gräv
+
+    Check
+      "Här går det inte att gräva!"
+
+  End Verb gräv.
+
+End Location mitten.
+
+
+Synonyms palmen = palm.
+
+Object palm At mitten
+
+  Verb undersök
+    Does
+      "Palmen verkar alldeles för svag att klättra i, men högt uppe i toppen
+       skymtar något metalliskt."
+    End Verb undersök.
+
+  Verb skaka
+    Does Only
+      If spade Is hittad Then
+        "Det verkar inte som om det går att skaka fram något mer!"
+      Else
+        "Ur palmens krona faller plötsligt det metalliska föremålet ner
+         rakt emot dig. Det missar ditt huvud med bara några millimeter."
+        Locate spade Here.
+      End If.
+   End Verb skaka.
+
+End Object palm.
+
+
+Synonyms spaden = spade.
+
+Object spade
+  Is
+    Not hittad.
+    tagbar.
+
+  Description
+    "På marken ligger en spade."
+
+  Verb undersök
+    Does
+      "Spaden ser ut som en sådan man gräver med i sand. Plåtblad och
+       träskaft."
+    End Verb undersök.
+
+End Object spade.
+
+
+
+------------------------------------------------------------------------------
+
+Synonyms slottet = slott.
+
+Object sandslott Name litet slott
+
+  Description
+    "Någon har byggt ett litet sandslott i sanden här."
+
+  Verb undersök
+    Does
+      "Det lilla sandslottet ser lite osäkert ut, och mycket riktigt
+       äter sig vågorna in i dess fundament. Det kommer inte att hålla
+       lika länge som de medeltida feodalborgarna..."
+  End Verb undersök.
+
+End Object sandslott.
+
+
+Event rasera_slott
+
+  "Plötsligt förlorar det lilla sandslottet formen och rinner ut till en
+   sandhög för att sedan snabbt förena sig med den övriga sanden."
+  Locate sandslott At havet.
+
+End Event.
+
+------------------------------------------------------------------------------
+
+Location v_stranden Name västra stranden
+
+  Description
+    "En sandstrand med ljus, varm fin sand sträcker ut sig framför dig.
+     Åt väster finns bara havet, med vågor slående mot stranden och
+     längre ut syns några hajfenor cirkla snabbt, försvinna då och då, för
+     att sedan dyka upp på något annat ställe. Österut syns en palmdunge."
+
+  Exit ö To mitten.
+  Exit nö, n To n_stranden.
+  Exit sö, s To s_stranden.
+  Exit v To havet
+    Check "Försök inte smita iväg ut i havet, hajarna kommer att bita
+	  dig i tårna."
+  End Exit.
+
+End Location v_stranden.
+
+
+Synonyms sanden = sand.
+
+Object v_sand Name sand At v_stranden
+
+  Description
+    Make v_sand Not tagbar. -- Dummy för att inte synas!
+
+  Verb undersök
+
+    Does
+      "Sanden här på den västra sidan är fin och torr. Kanske byggmaterial
+       till ett sandslott?"
+
+  End Verb undersök.
+
+End Object v_sand.
+
+
+
+------------------------------------------------------------------------------
+
+Location n_stranden Name norra stranden
+
+  Description
+    "En sandstrand med ljus, varm fin sand sträcker ut sig framför dig.
+     Åt norr finns bara havet, med vågor slående mot stranden och
+     längre ut syns några hajfenor cirkla snabbt, försvinna då och då, för
+     att sedan dyka upp på något annat ställe. Söderut syns en palmdunge."
+
+  Exit s To mitten.
+  Exit sö, ö To ö_stranden.
+  Exit sv, v To v_stranden.
+  Exit n To havet
+    Check "Försök inte smita iväg ut i havet, hajarna kommer att bita
+	  dig i tårna."
+  End Exit.
+
+End Location n_stranden.
+
+
+Object n_sand Name sand At n_stranden
+
+  Description
+    Make n_sand Not tagbar. -- Dummy för att inte synas!
+
+  Verb undersök
+
+    Does
+      "Sanden här på den norra sidan är fin och torr. Kanske byggmaterial
+       till ett sandslott?"
+
+  End Verb undersök.
+
+End Object n_sand.
+
+
+
+------------------------------------------------------------------------------
+
+Location ö_stranden Name östra stranden
+
+  Description
+    "En sandstrand med ljus, varm fin sand sträcker ut sig framför dig.
+     Åt öster finns bara havet, med vågor slående mot stranden och
+     längre ut syns några hajfenor cirkla snabbt, försvinna då och då, för
+     att sedan dyka upp på något annat ställe. Västerut syns en palmdunge."
+
+  Exit v To mitten.
+  Exit nv, n To n_stranden.
+  Exit sv, s To s_stranden.
+  Exit ö To havet
+    Check "Försök inte smita iväg ut i havet, hajarna kommer att bita
+	  dig i tårna."
+  End Exit.
+
+End Location ö_stranden.
+
+
+Object ö_sand Name sand At ö_stranden
+
+  Description
+    Make ö_sand Not tagbar. -- Dummy för att inte synas!
+
+  Verb undersök
+
+    Does
+      "Sanden här på den östra sidan är fin och torr. Kanske byggmaterial
+       till ett sandslott?"
+
+  End Verb undersök.
+
+End Object ö_sand.
+
+
+
+------------------------------------------------------------------------------
+
+Location s_stranden Name södra stranden
+
+  Description
+    "En sandstrand med ljus, varm fin sand sträcker ut sig framför dig.
+     Åt söder finns bara havet, med höga vågor slående in över stranden och
+     längre ut syns några hajfenor cirkla snabbt, försvinna då och då, för
+     att sedan dyka upp på något annat ställe. Norrut syns en palmdunge."
+
+  Exit n To mitten.
+  Exit nö, ö To ö_stranden.
+  Exit nv, v To v_stranden.
+  Exit s To havet
+    Check "Försök inte smita iväg ut i havet, hajarna kommer att bita
+	  dig i tårna."
+  End Exit.
+  Exit 'in' To borggården
+    Check slottet Here
+      Else "Du kan inte gå åt det hållet."
+    Does
+      "Du passerar över vindbryggan och in i slottet. Över din bara, solstekta
+       rygg känner du kylan krypa (kan det verkligen vara kallare här inne?)."
+  End Exit.
+
+End Location s_stranden.
+
+
+Object s_sand Name sand At s_stranden
+
+  Description
+    Make s_sand Not tagbar. -- Dummy för att inte synas!
+
+  Verb undersök
+
+    Does
+      "Sanden här på den södra sidan är lite fuktig och verkar hålla ihop
+       riktigt bra. Kanske byggmaterial till ett sandslott?"
+
+  End Verb undersök.
+
+End Object s_sand.
+
+
+Object slottet Name stort medeltida slott
+
+  Description
+    "Här verkar det ha varit medeltida feodalherrar framme, för mitt på
+     stranden ståtar ett pampigt slott med tinnar och torn, och till och
+     med en vindbrygga som inbjudande är nerfälld."
+
+  Verb undersök
+    Does
+      "Det stora slottet ser ut som om det vore byggt igår. Stenarnas yta är
+       perfekt huggen och passformen värdig aztekerna. De fyra tornen, ett i
+       varje väderstreck, höjer sig tjugotalet meter över dig och deras
+       skottgluggar gör säkert slottet mot alla anfall."
+  end Verb undersök.
+
+End Object slottet.
+
+
+  
+------------------------------------------------------------------------------
+
+Location borggården
+
+  Description
+    "Den stensatta borggården känns kylig och mörk. Och det går knappast
+     längre att föreställa sig den heta söderhavsön utanför. Mörka
+     dörröppningar vätter åt norr, öst och väst. Söderut ser du vindbryggan."
+
+  Exit ö To skattkammaren.
+  Exit n To köket.
+  Exit v To sängkammaren.
+  Exit s To s_stranden.
+
+End Location borggården.
+
+
+
+------------------------------------------------------------------------------
+
+Location skattkammaren
+
+  Description
+    "Det enda som egentligen antyder att detta är en skattkammare är den
+     jättestora skattkistan i mitten av rummet."
+
+  Exit v To borggården.
+
+End Location skattkammaren.
+
+
+Synonyms skattkistan, kista, kistan = skattkista.
+
+Object skattkista At skattkammaren
+  Container
+    Header "Skattkistan innehåller"
+    Else "Skattkistan är tom."
+  Is Not öppen.
+
+  Description
+      "Skattkistan är stabil och försedd med ett redigt lås av guld."
+      If skattkista Is öppen Then
+        List skattkista.
+      Else
+        "Den är stängd."
+      End If.
+
+  Verb undersök
+    Does
+      Describe skattkista.
+  End Verb undersök.
+
+  Verb öppna
+    Does
+      "Som tur var glömde dom låsa skattkistan innan de for (vilka 'de'
+       nu var!?)."
+      Make skattkista öppen.
+      Empty skattkista_dummy In skattkista.
+  End Verb öppna.
+
+End Object skattkista.
+
+Object skattkista_dummy
+  Container
+End Object skattkista_dummy.
+
+
+Synonyms lapp, lappen, papperslappen = papperslapp.
+
+Object lapp Name gulnad papperslapp In skattkista_dummy
+  Is
+    tagbar.
+
+  Verb läs
+    Check lapp In inventory
+      Else "Du kan inte läsa lappen på det här avståndet."
+    Does
+      "På lappen står det:$p$i
+         'Till Oss Själva!$p$i
+         Vi är inte så dumma att Vi har Våra skatter i skattkistan. För att
+         lura tjuvar och andra obehöriga (detta gäller Dig, tjuv!) har Vi
+         istället lagt Våra skatter i Vår madrass.$p$i
+         Kung Lyckos T. den Glömske'$p"
+      Locate lott In madrass.
+  End Verb läs.
+     
+End Object lapp.
+
+
+
+------------------------------------------------------------------------------
+
+Location sängkammaren
+
+  Description
+    "Det enda som egentligen antyder att detta är en sängkammare är den
+     jättestora sängen i mitten av rummet."
+
+  Exit ö To borggården.
+
+End Location sängkammaren.
+
+
+Synonyms sängen = säng.
+
+Object säng At sängkammaren
+  Container
+    Header "I sängen finns"
+
+  Description
+    "Den jättestora sängen ser lite maläten ut."
+
+  Verb undersök
+    Does
+      List säng.
+  End Verb undersök.
+
+End Object säng.
+
+
+Synonyms madrassen = madrass.
+
+Object madrass In säng
+  Container
+    Header
+      "Madrassen innehåller"
+    Else
+      "Madrassen är tom förutom lite mal."
+
+  Verb undersök
+    Does
+      List madrass.
+  End Verb undersök.
+
+End Object madrass.
+
+
+Synonyms lotten = lott.
+
+Object lott
+  Is
+    tagbar.
+
+  Verb undersök
+    Check lott In inventory
+      Else "Du kan inte undersöka lotten på det här avståndet."
+    Does
+      "På lotten finns det både text och siffror."
+  End Verb undersök.
+
+  Verb läs
+    Check lott In inventory
+      Else "Du kan inte läsa lotten på det här avståndet."
+    Does
+      "På lotten står det:$i
+         Penninglotteriet 40kr$i
+         02 765  Nr 0146656$i
+         NOLL ETT FYRA SEX SEX FEM SEX$i
+         DRAGNING NR$I
+         765$i
+         15 mars 1990$i
+         Vinst utbetalas av Svenska Penninglotteriet ab$p"
+
+      "HARDENÄRAN! och hoppas på tur!!!$p"
+      Quit.
+  End Verb läs.
+
+End Object lott.
+ 
+------------------------------------------------------------------------------
+
+Location köket
+
+  Description
+    "Det enda som egentligen antyder att detta är ett kök är den jättestora
+     eldstaden i mitten av rummet."
+
+  Exit s To borggården.
+
+End Location köket.
+
+
+
+------------------------------------------------------------------------------
+
+Start At mitten.
+
+Visits 2.
+"$pVälkommen till ditt livs stora äventyr. I detta spel kommer du att
+ möta lyckan, eller olyckan, HA HA!!$p"

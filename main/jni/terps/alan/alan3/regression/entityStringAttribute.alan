@@ -1,0 +1,9 @@
+Add To Every entity
+  Has named "entity".
+End Add To.
+
+The l Isa location
+End The l.
+
+Start At l.
+	  Say named Of l.

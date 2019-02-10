@@ -1,0 +1,30 @@
+The outdoor Isa location
+End The outdoor.
+
+Every outdoorScenery Isa object At outdoor
+  Verb x
+    Does
+      Say The This.
+  End Verb.
+End Every outdoorScenery.
+
+The sky Isa outdoorScenery
+End The sky.
+
+The ground Isa outdoorScenery
+End The ground.
+
+Every outdoorLocation Isa location At outdoor
+End Every outdoorLocation.
+
+The l1 Isa outdoorLocation
+  Exit e To l2.
+End The l1.
+
+The l2 Isa location
+  Exit w To l1.
+End The l2.
+
+Syntax x = x (o).
+
+Start At l1.

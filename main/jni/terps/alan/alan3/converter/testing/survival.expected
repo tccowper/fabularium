@@ -1,0 +1,540 @@
+########## survival ##########
+
+Syntax
+  i = i.
+
+Synonyms
+  invent = i.
+  
+
+Verb i
+  Does
+    List inventory.
+End Verb.
+
+
+The oxygen_unit Isa object
+  Name oxygen module
+  In inventory 
+  Has 
+    oxygen  185.
+End The oxygen_unit.
+
+The power_unit Isa object
+  Name power unit
+  In inventory 
+  Has 
+    power  230.
+End The power_unit.
+
+The counter Isa object
+  
+  Has 
+    time  0.
+End The counter.
+Event tick
+  Set time Of counter To time Of counter +5.
+  If power_unit In inventory Then
+    Set power Of power_unit To power Of power_unit -5.
+  End If.
+  If oxygen_unit In inventory Then
+    Set oxygen Of oxygen_unit To oxygen Of oxygen_unit -5.
+  End If.
+  Schedule tick After 1.
+End Event tick.
+
+
+The serenitatis Isa location
+  Name mare serenitatis
+  
+  Exit n To eudoxus.
+  
+  Exit s To haemus.
+  
+  Exit e To posidonius.
+  
+  Exit w To crashsite.
+  
+End The serenitatis.
+
+The posidonius Isa location
+  Name 'Rim of Posidonius'
+  
+  Description
+    "There is total darkness to the east."
+  
+  Exit n To somniorum.
+  
+  Exit s To dawes.
+  
+  Exit w To serenitatis.
+  
+  Exit e To darkness.
+  
+End The posidonius.
+
+The dawes Isa location
+  Name 'between' dawes 'And' plinius
+  
+  Exit n To posidonius.
+  
+  Exit s To manilus.
+  
+  Exit w To haemus.
+  
+  Exit e To darkness.
+  
+End The dawes.
+
+The haemus Isa location
+  Name a pass 'In' 'the' haemus mountains
+  
+  Exit n To serenitatis.
+  
+  Exit e To dawes.
+  
+End The haemus.
+
+The manilus Isa location
+  Name manilus crater
+  
+  Exit n To dawes.
+  
+  Exit s To vaporum.
+  
+End The manilus.
+
+The vaporum Isa location
+  Name mare vaporum
+  
+  Exit n To manilus.
+  
+End The vaporum.
+
+The illuminator Isa object
+  At vaporum 
+End The illuminator.
+
+The eudoxus Isa location
+  Name mount eudoxus
+  
+  Exit n To aristoteles.
+  
+  Exit s To serenitatis.
+  
+  Exit w To imbrium.
+  
+  Exit e To somniorum.
+  
+End The eudoxus.
+
+The aristoteles Isa location
+  Name inside aristoteles
+  
+  Exit s To eudoxus.
+  
+  Exit e To mortis.
+  
+End The aristoteles.
+
+The somniorum Isa location
+  Name 'In' lacus somniorum
+  
+  Exit n To mortis.
+  
+  Exit s To posidonius.
+  
+  Exit w To serenitatis.
+  
+  Exit e To darkness.
+  
+End The somniorum.
+
+The mortis Isa location
+  Name lacus mortis
+  
+  Exit s To somniorum.
+  
+  Exit w To eudoxus.
+  
+  Exit e To darkness.
+  
+End The mortis.
+
+The imbrium Isa location
+  Name east side 'Of' mare imbrium
+  
+  Exit n To plato.
+  
+  Exit s To crashsite.
+  
+  Exit w To center1.
+  
+  Exit e To eudoxus.
+  
+End The imbrium.
+
+The plato Isa location
+  Name base 'Of' plato crater
+  
+  Exit s To imbrium.
+  
+  Exit w To before_shed.
+  
+End The plato.
+
+The before_shed Isa location
+  Name 'Before' a small shed
+  
+  Exit s To center2.
+  
+  Exit e To plato.
+  
+  Exit w To inside_shed.
+  
+End The before_shed.
+
+The darkness Isa location
+  Name east 'Of' mare serenitatis
+  
+  Description
+    "There is darkness..."
+  
+End The darkness.
+
+The crashsite Isa location
+  Name crashsite
+  
+  Exit n To imbrium.
+  
+  Exit s, 'in' To airlock.
+  
+  Exit e To serenitatis.
+  
+End The crashsite.
+
+The spaceship Isa object
+  At crashsite 
+End The spaceship.
+
+The center1 Isa location
+  Name center 'Of' mare imbrium
+  
+  Exit n To center2.
+  
+  Exit s To center1.
+  
+  Exit w To center1.
+  
+  Exit e To eudoxus.
+  
+End The center1.
+
+The center2 Isa location
+  Name center 'Of' mare imbrium
+  
+  Exit n To center1.
+  
+  Exit s To center2.
+  
+  Exit w To center2.
+  
+  Exit e To imbrium.
+  
+End The center2.
+
+The airlock Isa location
+  Name inside airlock
+  
+  Exit n To crashsite.
+  
+  Exit s To cargo.
+  
+End The airlock.
+
+The cargo Isa location
+  Name aft cargo 'And' fuel store
+  
+  Exit n To airlock.
+  
+  Exit e To engine.
+  
+End The cargo.
+
+The sealant Isa object
+  Name tube 'of' sealant
+  At cargo 
+End The sealant.
+
+The engine Isa location
+  Name spacecraft engine room
+  
+  Exit u To control.
+  
+  Exit w To cargo.
+  
+End The engine.
+
+The control Isa location
+  Name spacecraft control room
+  
+  Exit d To engine.
+  
+End The control.
+
+The key Isa object
+  Name electronic key
+  At control 
+End The key.
+
+The inside_shed Isa location
+  Name inside a ventilator shed
+  
+  Exit d To passage.
+  
+  Exit e, out To before_shed.
+  
+End The inside_shed.
+
+The passage Isa location
+  Name ventilator passage
+  
+  Exit u To inside_shed.
+  
+  Exit n To opening.
+  
+End The passage.
+
+The opening Isa location
+  Name 'At' 'an' opening 'In' a ventilator passage
+  
+  Exit s To passage.
+  
+  Exit d To corr2.
+  
+End The opening.
+
+The corr1 Isa location
+  Name south 'End' 'Of' lighted north south corridor
+  
+  Description
+    "Doorways to east and west."
+  
+  Exit n To corr2.
+  
+  Exit e To infirmary.
+  
+  Exit w To library.
+  
+End The corr1.
+
+The corr2 Isa location
+  Name lighted north south corridor
+  
+  Description
+    "Doorways east and west. An opening to the ventilation system."
+  
+  Exit n To corr3.
+  
+  Exit s To corr1.
+  
+  Exit w To mess.
+  
+  Exit e To sleeping_quarters.
+  
+  Exit u To opening.
+  
+End The corr2.
+
+The corr3 Isa location
+  Name north 'End' 'Of' lighted north south corridor
+  
+  Description
+    "Elevator to the east and a doorway to the north."
+  
+  Exit n To storage.
+  
+  Exit s To corr2.
+  
+  Exit e To elevator.
+  
+End The corr3.
+
+The elevator Isa location
+  Name inside elevator
+  
+  Is 
+    atlower.
+  Exit w To corr3
+    Does
+      If elevator Is Not atlower Then
+        Locate hero At corr4.
+      End If.
+  End Exit w.
+  
+End The elevator.
+
+The button Isa object
+  At elevator 
+  Verb press
+    Does
+      "Suddenly the doors closes, a silient whirr can be heard. Moments
+       later the elevator stops and the doors open again."
+      If elevator Is atlower Then
+        Make elevator Not atlower.
+      Else 
+        Make elevator atlower.
+      End If.
+  End Verb.
+  
+End The button.
+
+The corr4 Isa location
+  Name north 'End' 'Of' lighted north south coorridor
+  
+  Description
+    "Doorways to the north and west, the elevator to the east."
+  
+  Exit n To center.
+  
+  Exit s To corr5.
+  
+  Exit e To elevator.
+  
+End The corr4.
+
+The corr5 Isa location
+  Name south 'End' 'Of' lighted north south corridor
+  
+  Description
+    "Doorways to east and west."
+  
+  Exit n To corr4.
+  
+  Exit w To laboratory.
+  
+  Exit e To changing_area.
+  
+End The corr5.
+
+The infirmary Isa location
+  Name spacestation infirmary
+  
+  Exit w To corr1.
+  
+End The infirmary.
+
+The library Isa location
+  Name spacestation library
+  
+  Exit e To corr1.
+  
+End The library.
+
+The sleeping_quarters Isa location
+  Name sleeping quarters
+  
+  Exit w To corr2.
+  
+End The sleeping_quarters.
+
+The mirror Isa object
+  At sleeping_quarters 
+End The mirror.
+
+The mess Isa location
+  Name spacestation mess hall
+  
+  Exit e To corr2.
+  
+End The mess.
+
+The robot Isa actor
+  At mess 
+End The robot.
+
+
+The storage Isa location
+  Name spacestation storage room
+  
+  Exit s To corr3.
+  
+End The storage.
+
+The badge Isa object
+  Name coded identity badge
+  At storage 
+End The badge.
+
+The center Isa location
+  Name spacestation control center
+  
+  Exit s To corr4.
+  
+End The center.
+
+The transporter_unit Isa object
+  Name transporter unit
+  At center 
+End The transporter_unit.
+
+The 'message' Isa object
+  At center 
+  Description
+    "On one of the big screens there is a message."
+  
+End The 'message'.
+
+The transporter Isa location
+  Name spacestation transporter room
+  
+  Exit e To corr4.
+  
+End The transporter.
+
+The laboratory Isa location
+  Name spacestation laboratory
+  
+  Exit e To corr5.
+  
+End The laboratory.
+
+The power_pack Isa object
+  Name power pack
+  At laboratory 
+  Has 
+    power  50.
+End The power_pack.
+
+The changing_area Isa location
+  Name changing area
+  
+  Exit w To corr5.
+  
+  Exit s To hangerlock.
+  
+End The changing_area.
+
+The hangerlock Isa location
+  Name airlock
+  
+  Exit n To changing_area.
+  
+  Exit s To hanger.
+  
+End The hangerlock.
+
+The hanger Isa location
+  
+  Exit n To hangerlock.
+  
+End The hanger.
+
+The bomb Isa object
+  Name nuclear bomb
+  At hanger 
+End The bomb.
+
+Start At crashsite.
+  Schedule tick After 1.
+  

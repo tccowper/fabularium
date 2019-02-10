@@ -1,0 +1,117 @@
+
+If you are writing a game and want to make it work well with SCARE, it may
+help to know more about a few of SCARE's features.  There are unavoidable
+differences in places between SCARE and the Adrift Runner, and also areas where
+SCARE's cross platform portability leads to compromise.  SCARE has additional
+features to help smooth some of these differences.
+
+SCARE's display model is fundamentally different to Runner's, and is based on
+the ideas of logical rather than physical styles, and of graceful degradation.
+That is, if a display feature is not available, SCARE will either emulate it
+in some way, or failing that, just ignore it.
+
+Most SCARE builds, including Gargoyle and Spatterlight, use the Glk interface.
+This has some text formatting features, but not the full range that Runner can
+use.  Glk SCARE understands font faces "courier" and "terminal" to be fixed
+width text, and all others to be proportionally spaced.  It displays fixed
+width text without text attributes.  For proportionally spaced text, Glk SCARE
+translates font sizes larger than 15 to header text, 14 and 15 to subheader
+text, and 13 and below to normal sized text.  For normal sized text, it uses
+subheader text for bold, and emphasized text for italics, underlining, and
+secondary color.
+
+It is the Glk library, not SCARE, that controls the way that header, subheader,
+and emphasized text actually appear on the screen.  Some Glk libraries let you
+choose how these appear, while others are fixed.  A Glk library might use
+italics for emphasized text, and larger, maybe bold, text for header and
+subheader.  Or it might use monospaced courier font for everything, and ignore
+logical styles altogether.
+
+Glk SCARE does not support centered or right justified text.  It does support
+both <waitkey> and <wait x.x>, but some Glk libraries may not be able to fully
+implement <wait x.x>.
+
+For the Latin1 locale, SCARE's default setting, Glk SCARE uses Windows
+codepage 1252 for proportionally spaced fonts, and codepage 850 for fixed width
+text.  For the Cyrillic locale, it uses codepages 1251 and 866 instead.  Glk
+SCARE tries to automatically sense a game's locale on starting, but you can
+set it explicitly by setting either "Latin1" or "Cyrillic" in the environment
+variable SC_LOCALE before starting SCARE.  Locale support is not present in
+releases of SCARE earlier than 1.3.9.
+
+Some Glk SCARE builds, though very few, can display game graphics.  Although
+SCARE makes sound information available to the the interpreter, no current Glk
+builds implement it.  No SCARE build supports or implements maps.
+
+Besides Glk, the other main SCARE interface is the ANSI interface.  This is
+the most basic display model possible, with almost no text formatting
+capability.  ANSI SCARE has no codepage support.  It displays only fixed width
+text, with no text coloring, italics, bold, underlining, or any font or font
+size control.  It does not center or right justify text, and clears the screen
+by scrolling text.  It supports <waitkey> but not <wait x.x>.
+
+Runner uses a graphical toolbar to control some of its features.  SCARE cannot,
+however, rely on there being a graphical toolbar, so instead it adds some extra
+commands to control these features.  ">verbose" and ">brief" control whether
+the game displays the full location description each time you visit a location
+or only on the first visit.  ">notify on" and ">notify off" allow you to see
+messages when the score changes, and ">notify" tells you the current setting.
+
+Use ">save" and ">restore" in SCARE to save and load saved games.  Use ">undo"
+to undo a turn, and ">quit" to leave the game.  Use ">hint" to access any game
+hints, and ">history" and ">redo" to view and repeat recent game commands.
+
+In Runner, ">time" and ">date" show the current (real, not game) time and date.
+For ">time", SCARE instead prints the duration that the game has been running.
+For ">date", it does nothing useful.
+
+SCARE uses ">license" to print its licensing terms and conditions, and
+">version" to print details about the version of SCARE you are running.  It
+provides ">debug" to enter the game debugger, if enabled.  SCARE's version of
+">go to location" is weaker than Runner's.  In particular, it is limited to
+only those locations directly adjacent to the current player room.
+
+Because it can be built without a status window, SCARE offers the additional
+commands ">status" and ">statusline".  These display the game's status line
+that would have been shown if the display had a separate status window.
+
+Glk builds of SCARE offer an extra subcommand ">glk ...", to help you control
+special interpreter features.  Use ">glk help" for more.
+
+SCARE does not support "if(..." expressions where the item being tested is a
+string.  This feature arrived in Adrift with version 4.0.50, and is beyond
+SCARE's current capability.
+
+Unlike Runner, SCARE treats all variables equally.  You can use either system
+or game variables anywhere where variables are permitted.  Game variables
+always take precedence over system variables where the names are the same,
+though %scare_version% below describes a special case.
+
+Currently, SCARE will only replace each ALR once per set of output text.  This
+helps with recursion problems.  Runner permits more than one use, but can run
+into recursion problems that cause it to crash.  If you find that some ALRs or
+variable names are appearing in text output in SCARE, try looking for places in
+your game where an ALR is used more than once, and then creating a duplicate
+ALR with a different name and using that duplicate for the second occurrence.
+
+For getdynfromroom(), SCARE compares the room name found in parentheses with
+room names using a case-insensitive comparison where spaces are significant.
+This may, or may not, match Runner in this area.  When choosing an object to
+act on, it picks the first available object that is directly in the room (that
+is, on the floor).  Again, this may or may not match Runner.
+
+Game events may move static objects to the player inventory, and static objects
+have no weight or size attributes in Generator.  When looking at player weight
+and size limits, SCARE considers these objects to have no weight or size.  This
+may match Runner, or may not.  Similarly, object restrictions do not apply
+evenly to static objects.
+
+If a game wants to know if it is running in SCARE or in Runner, it can define
+the variable "%scare_version%", initialize it to zero, and then never change
+it.  If SCARE sees this variable in a game, it will change its initial value
+for you automatically to match the version number of SCARE, for example 10310
+for SCARE 1.3.10.  Runner will not change it.  A game can read this variable to
+determine which interpreter is running it, and from this it can vary messages
+or text formatting, or make any other useful adjustments.  This feature is not
+present in releases of SCARE earlier than 1.3.9.
+

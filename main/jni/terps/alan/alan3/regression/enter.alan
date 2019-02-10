@@ -1,0 +1,14 @@
+The shop Isa location
+End The shop.
+
+The sidewalk Isa location
+End The sidewalk.
+
+The shop_portal Isa object At sidewalk
+  Name shop
+  Verb enter
+    Does "You enter the shop."
+  End Verb.
+End The shop_portal.
+
+Start At sidewalk.

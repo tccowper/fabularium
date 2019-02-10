@@ -1,0 +1,45 @@
+-- waldo's pie rebaked
+-- mike arnaud © 2007
+-- dedicated to my grandson Aidan
+-----------------------
+-----------------------
+import 'reblib.i'. -- custom library files
+-----------------------
+-----------------------
+-- WALDO'S GAME WORLD --
+-----------------------
+-----------------------
+import 'boat.i'. -- boat,deck
+-- import 'shore.i'. -- pier,lboat
+-- import 'whoops.i'. -- eway,mway,wway,fdoor
+-- import 'northy.i'. -- inlog,onlog,circave
+-- import 'southy.i'. -- forest,car
+-- import 'henny.i'. -- hyard,hroof,hhouse
+-- import 'kitchen.i'. -- kitch,bment,dkroom
+-- import 'parler.i'. -- parlor
+-- import 'swamps.i'. -- swamp1,swamp2,swamp3
+-- import 'bazz.i'. -- nehi,hiphi,bmarsh
+-- import 'circ1.i'. -- gate,conc,cade
+-- import 'circ2.i'. -- tent,bkstg,cage,lab
+-----------------------
+-----------------------
+-- INTRODUCTION AND START --
+-----------------------
+-----------------------
+start at cabin.
+	visits 0.
+	"$p$p$iYOU are Waldo...$n"
+	show 'waldo.jpg'.
+	"$p...at least, you used to be, fourteen years ago. You were the star of
+	""Boffo's Bonanza Bigshow"", but now you're retired. You've hung up the
+	old clownsuit, you've tossed your last whipped-cream covered pie.
+	$pYou promised your two boys last Christmas that you would take them to
+	see the circus on Wheewhistle Island, and at last the time has come. You are
+	returning with Jimmy and Timmy to the island via paddlewheel boat -- not
+	as a clown, but as a parent keeping a promise to your two boys." 
+	"$p$t$t$t$t$t\~~~ WALDO'S PIE ~~~/ 
+	$n$t$t$t$t$t$t$t(rebaked version)
+	$n$t$t$t$t$tAn Interactive Text Adventure 
+	$n$tby Michael Arnaud © 2007 
+	$p(If you have not played this kind of game before, type 'help'.)$n"
+

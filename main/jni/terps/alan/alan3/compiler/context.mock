@@ -1,0 +1,32 @@
+#include <cgreen/mocks.h>
+
+#include "context.h"
+
+/* USE: */
+#include "id.h"
+#include "exp.h"
+
+/* DATA: */
+
+/* FUNCTIONS: */
+
+Context *newNullContext(void) {return (Context*)mock();}
+Context *newRuleContext(void) {return (Context*)mock();}
+Context *newStartContext(void) {return (Context*)mock();}
+Context *newEventContext(void) {return (Context*)mock();}
+Context *newClassContext(Class *theClass) {return (Context*)mock(theClass);}
+Context *newInstanceContext(Instance *theInstance) {return (Context*)mock(theInstance);}
+Context *newVerbContext(Symbol *theVerb) {return (Context*)mock(theVerb);}
+Context *pushContext(Context *previousContext) {return (Context*)mock(previousContext);}
+//        Context *context = NEW(Context);
+//        context->previous = previousContext;
+//        context->kind = previousContext->kind;
+//        return context;
+//}
+Symbol *symbolOfContext(Context *context) {return (Symbol*)mock(context);}
+Bool inEntityContext(Context *context) {return (Bool)mock(context);}
+Bool inLocationContext(Context *context) {return (Bool)mock(context);}
+Id *classIdInContext(Context *context) {return (Id*)mock(context);}
+Symbol *classOfIdInContext(Context *context, Id *id) { return (Symbol *)mock(context, id); }
+void addRestrictionInContext(Context *context, Expression *isa) {mock(context, isa);}
+Symbol *contextRestrictsIdTo(Context *context, Id *id) {return (Symbol*)mock(context, id);}

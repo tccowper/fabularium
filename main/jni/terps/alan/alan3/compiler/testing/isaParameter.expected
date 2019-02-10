@@ -1,0 +1,15 @@
+########## isaParameter ##########
+
+
+isaParameter.alan
+
+    5.        If p Isa p Then ""
+=====>                 1
+
+  *1*   319 E : Identifier 'p' is not a Class.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

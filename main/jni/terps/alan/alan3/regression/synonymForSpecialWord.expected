@@ -1,0 +1,20 @@
+########## synonymForSpecialWord ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a t1 and a t2 here.
+
+> take alles ohne the t1
+(t2) You take the t2.
+
+> take the t1 und the t2
+(t1) You take the t1.
+
+(t2) You take the t2.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

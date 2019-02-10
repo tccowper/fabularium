@@ -1,0 +1,52 @@
+########## multipleEntityAttributes ##########
+
+
+multipleEntityAttributes.alan
+
+   11.    Verb i Does Say i Of p. End Verb.
+=====>    1
+
+  *1*   426 W : Adding a Verb to the pre-defined class 'entity' will result in
+                multiple executions of it, since it will be inherited by both
+                all locations and all objects. This is probably not what you
+                want. Try adding it to 'thing' instead.
+
+
+        No detected errors.
+        1 warning(s).
+
+
+
+L
+There is a chair here.
+
+> i 3
+3 3
+
+> b 4
+B b
+
+> s 5
+String string
+
+> i chair
+4 4
+
+> b chair
+B b
+
+> s chair
+String string
+
+> i 6
+3 3
+
+> b 7
+B b
+
+> s 8
+String string
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

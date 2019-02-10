@@ -1,0 +1,25 @@
+########## gorfoguru ##########
+
+Syntax
+  v_what_is = what (obj).
+  v_describe = 'describe' (obj).
+
+Verb v_what_is, v_describe
+  Does
+    Describe obj.
+End Verb.
+
+
+The lc Isa location
+  
+End The lc.
+
+The o1 Isa object
+  At lc 
+  Description
+    "This is a witch."
+  
+End The o1.
+
+Start At lc.
+  

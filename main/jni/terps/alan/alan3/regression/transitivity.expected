@@ -1,0 +1,15 @@
+########## transitivity ##########
+
+        No warnings or errors detected.
+
+
+DEFAULT: - should print c2 and c3: c2 c3 
+DIRECTLY: should print only c2: c2 
+INDIRECTLY: - should print only c3: c3
+
+
+L
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

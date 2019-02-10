@@ -1,0 +1,21 @@
+########## initialLocationInNotContainer ##########
+
+
+initialLocationInNotContainer.alan
+
+    1.  The o1 Isa object In unknown
+=====>                       1
+
+  *1*   310 E : Identifier 'unknown' not defined.
+
+    4.  The o2 Isa object In notcontainer
+=====>                       1
+
+  *1*   318 E : The 'notcontainer' does not have the container property, which
+                is required in Expression after IN.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

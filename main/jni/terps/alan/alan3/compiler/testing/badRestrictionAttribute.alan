@@ -1,0 +1,28 @@
+
+Add To Every thing
+  Is
+    named.
+  Verb put_in
+  End Verb.
+End Add To.
+
+Syntax
+  put_in = put (obj1) 'in' (obj2)
+    Where obj1 Isa container
+      Else 
+        "You can't put that anywhere."
+    And obj2 Isa object
+      Else 
+        "You can't put anything in"
+        If obj2 Is named Then
+          Say obj2.
+        Else 
+          "the $2"
+        End If.
+        "$$."
+  
+The aaa Isa location
+  
+End The aaa.
+
+Start At aaa.

@@ -1,0 +1,32 @@
+Syntax q = 'q'.
+Verb q
+  Does
+    Quit.
+End Verb.
+
+Syntax restart = 'restart'.
+Verb restart
+  Does
+    Restart.
+End Verb.
+
+Syntax 'score' = 'score'.
+Verb 'score'
+  Does
+    Score.
+End Verb.
+
+Location l1
+  Exit w To l2
+    Does
+      Score 5.
+  End Exit.
+End Location.
+
+Location l2
+End Location.
+
+Start At l1.
+  "Going w will give you 5 points. Then restart (or q) to find out if
+	scores are cleared."
+

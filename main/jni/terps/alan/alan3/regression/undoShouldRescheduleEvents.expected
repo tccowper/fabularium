@@ -1,0 +1,21 @@
+########## undoShouldRescheduleEvents ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+L
+
+> x
+This is examinor moving.
+
+> undo
+'x' undone.
+
+> x
+This is examinor moving.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

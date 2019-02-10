@@ -1,0 +1,30 @@
+#include <cgreen/cgreen.h>
+#include <cgreen/mocks.h>
+
+#include "dictionary.h"
+
+
+/* DATA */
+DictionaryEntry *dictionary;
+int dictionarySize;
+int conjWord;        /* First conjunction in dictionary */
+
+
+/* FUNCTIONS */
+bool isVerbWord(int wordIndex) { return (bool)mock(); }
+bool isConjunctionWord(int wordIndex) { return (bool)mock(); }
+bool isExceptWord(int wordIndex) { return (bool)mock(); }
+bool isThemWord(int wordIndex) { return (bool)mock(); }
+bool isItWord(int wordIndex) { return (bool)mock(); }
+bool isNounWord(int wordIndex) { return (bool)mock(); }
+bool isAdjectiveWord(int wordIndex) { return (bool)mock(); }
+bool isPrepositionWord(int wordIndex) { return (bool)mock(); }
+bool isAllWord(int wordIndex) { return (bool)mock(); }
+bool isDirectionWord(int wordIndex) { return (bool)mock(); }
+bool isPronounWord(int wordIndex) { return (bool)mock(); }
+bool isLiteralWord(int wordIndex) { return (bool)mock(); }
+
+bool isConjunction(int wordCode) { return (bool)mock(); }
+bool isAll(int wordCode) { return (bool)mock(); }
+bool isNoise(int wordCode) { return (bool)mock(); }
+bool isPronoun(int wordCode) { return (bool)mock(); }

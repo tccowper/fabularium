@@ -1,0 +1,26 @@
+########## versions ##########
+
+
+versions.alan
+
+   19.    Say Count In o1.
+=====>              1
+
+  *1*   451 W : Filter using IN transitively can possibly return instances of
+                any type. If this is not what you want use 'Directly In'
+                instead. To silence this warning use an explict transitivity.
+
+
+        No detected errors.
+        1 warning(s).
+
+
+2 1 2
+
+
+Loc
+The loc is a location.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

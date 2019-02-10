@@ -1,0 +1,15 @@
+The l Isa Location
+End The l.
+
+
+The o Isa Object At l
+
+  Verb v
+    Does
+      "You $v the $1."
+  End Verb v.
+
+End The o.
+
+Start At l.
+  "v the o..."

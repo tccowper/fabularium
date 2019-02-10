@@ -1,0 +1,28 @@
+########## traceSectionVerbInLocation ##########
+
+        No warnings or errors detected.
+
+<Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
+
+adbg> trace section
+Section trace on.
+adbg> g
+
+<START:>
+
+
+<CURRENT LOCATION:>
+L
+There is a o here.
+adbg> g
+
+
+> v o
+
+<SYNTAX RESTRICTION WHERE parameter p1(#1) Isa object[4], PASSED>
+
+<VERB 1, in (location) l[3], DOES:>
+
+adbg> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

@@ -1,0 +1,9 @@
+########## ide-dos ##########
+"ide-dos.alan", line 1 10-11: 310 E : Identifier 'y' not defined.
+"ide-dos.alan", line 2 15-17: 405 E : Only instances and classes inheriting from Thing can have initial locations.
+"ide-dos.alan", line 2 18-19: 310 E : Identifier 'l' not defined.
+"ide-dos.alan", line 3 30-31: 200 W : Mismatched block identifier, 'x' assumed.
+"ide-dos.alan", line 5 42-43: 304 E : 'x' also declared as an Instance (The).
+"ide-dos.alan", line 6 56-57: 310 E : Identifier 's' not defined.
+"ide-dos.alan", line 6 58-64: 103 E : Syntax error. Replacing "before" with "after".
+"ide-dos.alan", line 7 73-74: 101 E : Syntax error. Inserting "event" before this token.

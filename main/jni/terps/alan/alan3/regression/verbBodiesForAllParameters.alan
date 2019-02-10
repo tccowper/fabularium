@@ -1,0 +1,13 @@
+Syntax v = v (p1) (p2) (p3).
+
+The o Isa object At l
+  Verb v
+    Does
+      "You v the o."
+  End Verb.
+End The o.
+
+The l Isa location
+End The l.
+
+Start At l.

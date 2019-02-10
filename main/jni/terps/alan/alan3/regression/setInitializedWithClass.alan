@@ -1,0 +1,9 @@
+The loc Isa location
+  Has aSet {location}.
+End The loc.
+
+Start At loc.
+  "set has" Say Count In aSet Of loc. "elements."
+  Include loc In aSet Of loc.
+  "set now has" Say Count In aSet Of loc. "elements."
+

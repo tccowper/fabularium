@@ -1,0 +1,30 @@
+Options
+  debug.
+
+
+Syntax
+  kill = 'kill' (a)
+    Where a Isa Actor
+      Else "It is already dead."
+
+Actor dwarf at place
+  Is
+    Not dead.
+
+  Verb kill
+    Does
+      Make dwarf dead.
+      "You killed him!"
+  End Verb kill.
+
+End Actor dwarf.
+
+Object stone At place
+End Object.
+
+
+Location place
+End Location place.
+
+Start at place.
+  "Kill the dwarf!"

@@ -1,0 +1,13 @@
+The l Isa location
+End The l.
+
+Syntax take = take (o)*.
+
+Add To object
+  Verb take
+  Does
+    "Take..."
+  End Verb.
+End Add.
+
+Start At l.

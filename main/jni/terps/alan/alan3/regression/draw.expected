@@ -1,0 +1,44 @@
+########## draw ##########
+
+
+draw.alan
+
+   13.    Verb draw
+=====>    1
+
+  *1*   426 W : Adding a Verb to the pre-defined class 'entity' will result in
+                multiple executions of it, since it will be inherited by both
+                all locations and all objects. This is probably not what you
+                want. Try adding it to 'thing' instead.
+
+
+        No detected errors.
+        1 warning(s).
+        1 informational message(s).
+
+
+
+School
+On the wall is a whiteboard.
+
+> draw a teacher on the whiteboard
+You think about it for a while, and then decide against it.
+
+> draw a horse on the whiteboard
+A bit like a childs drawing, but there on the whiteboard is a horse.
+
+> l
+School
+On the wall is a whiteboard. On the whiteboard someone has drawn a horse.
+
+> draw an apple on the whiteboard
+Reluctantly you erase the horse from the whiteboard. Then, a bit like a
+childs drawing, but there on the whiteboard is an apple.
+
+> l
+School
+On the wall is a whiteboard. On the whiteboard someone has drawn an apple.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

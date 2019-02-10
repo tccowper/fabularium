@@ -1,0 +1,25 @@
+Search paths
+============
+
+To attempt to emulate the search path facility of the C preprocessor,
+Inform is compiled with some built-in search paths.  For include files,
+this is (in order of searching):
+
+    .				current directory
+    PKGDATA/include		local include directory
+    PKGDATA/lib			local library directory
+    PKGDATA/VERSION/include	system include directory
+    PKGDATA/VERSION/lib		system library directory
+
+where PKGDATA is the package data prefix (default: /usr/local/share/inform)
+and VERSION is the Inform version.  For modules, the search path is:
+
+    .				current directory
+    PKGDATA/lib			local library directory
+    PKGDATA/VERSION/lib		system library directory
+
+This is as if Inform has been given the +include_file and +module_file
+arguments with the comma-separated lists of directories shown above.
+However, note that explicitly giving one of these arguments to Inform will
+override the default setting, not prepend to it, as with the C
+preprocessor.

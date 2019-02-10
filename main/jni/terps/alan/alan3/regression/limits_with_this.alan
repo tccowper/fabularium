@@ -1,0 +1,38 @@
+THE startroom ISA LOCATION
+END THE startroom.
+
+
+SYNTAX put_in = 'put' (o) 'in' (c)
+       WHERE c ISA container
+             ELSE "You can't put anything in that."
+
+The hole isa OBJECT at startroom
+    Container
+        Limits count 1
+            Else
+                "The hole currently contains" SAY COUNT ISA OBJECT, IN this. "thing."
+                List this.
+
+    Verb examine
+        Does only
+            Describe this.
+            List this.
+    End verb.
+
+    VERB put_in
+         WHEN c DOES
+              LOCATE o IN c.
+    END VERB.
+End the.
+
+
+THE spike ISA OBJECT AT startroom
+END THE.
+
+THE peg ISA OBJECT AT startroom
+END THE.
+
+THE rod ISA OBJECT AT startroom
+END THE.
+
+START AT startroom.

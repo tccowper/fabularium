@@ -1,0 +1,44 @@
+########## undoAfterQuitShouldNotUndoOldCommands ##########
+
+        No warnings or errors detected.
+        4 informational message(s).
+
+
+
+Loc
+The loc is not xed.
+
+> x
+Making loc xed.
+
+> l
+Loc
+The loc is xed.
+
+> l
+Loc
+The loc is xed.
+
+> q
+The loc is xed.
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? undo
+'q' undone.
+
+> l
+Loc
+The loc is xed.
+
+> y
+Making loc Not xed.
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? undo
+'y' undone.
+
+> l
+Loc
+The loc is xed.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

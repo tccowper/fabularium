@@ -1,0 +1,45 @@
+-- 2)  I've always wondered about the programming environment you folks used.
+-- What machines did you use to write a game on?  Something like a PDP or one of
+-- the other "big" computers of the day, or did you actually do development on
+-- machines like the Apple ][ or TRS-80?  Also, what did ZIL/ZIP (which is
+-- correct?) code look like:  For example, if you wanted to code a room such
+-- that:
+-- 
+-- 	1) the room's name was Gruble
+-- 	2) the description was "this is a description"
+-- 	3) north took you to room "Rumble"
+-- 	4) west took you to room "Tumble"
+-- 	5) if the user had foobared the barfoo then
+-- 		5a)  Add to description "hole in south wall"
+-- 		5b)  south leads to room "Arstol"
+-- 	6) item "nabble" is here
+-- 	7) item "krabble" is here, but can only be picked up if
+-- 	   the player wasn't carrying item "frabble"
+--
+
+Location gruble
+    Description
+	"This is a description."
+	If barfoo Is foobared Then
+	    "There is a hole in the south wall."
+	End If.
+
+    Exit north To Rumble.
+    Exit west To Tumble.
+    Exit south To Arstol
+	Check barfoo Is foobared
+	    Else "You can't go that way."
+    End Exit.
+End Location.
+
+
+Object nabble At gruble
+End Object.
+
+
+Object krabble At gruble
+    Verb take
+	Check frabble Not In inventory
+	    Else "You are carrying the frabble!"
+    End Verb.
+End Object.

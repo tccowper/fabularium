@@ -1,0 +1,9 @@
+The x Isa object At l
+  Verb take
+  End Verb.
+End The x.
+
+The l Isa location
+End The l.
+
+Start At l.

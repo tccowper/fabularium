@@ -1,0 +1,40 @@
+Syntax ask = ask (a) about (topic)!
+  Where a Isa actor
+    Else "You better stop talking to things, before somebody
+          declares you crazy..."
+  And topic Isa entity
+    Else "That's not worth talking about."
+
+The bar Isa location
+End The bar.
+
+Every conversationTopic Isa entity
+End Every conversationTopic.
+
+The drink Isa conversationTopic
+End The drink.
+
+The restaurant Isa conversationTopic
+End The restaurant.
+
+The bartender Isa actor At bar
+  Verb ask
+    When a Does
+      depending on topic
+      = drink Then
+        "The bartender replies ""You can't order from the bar. 
+         You'll have to order a drink from your waitress."""
+      = restaurant Then
+        "The bartender replies ""I hope you like the
+         Yellow Dog Cafe. The food is out of this world."""
+      = bartender Then
+        "The bartender replies ""I enjoy working here.
+         Great fringe benefits!"""
+      Else 
+        "The bartender takes her towel and works on
+        cleaning the bar."
+      End Depend.
+  End Verb.
+End The bartender.
+
+Start At bar.

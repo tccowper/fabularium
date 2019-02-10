@@ -1,0 +1,16 @@
+The x Isa entity At l
+  Container
+End The x.
+
+Every t Isa entity
+End Every t.
+
+The y Isa t At l
+End The y.
+
+The l Isa location
+End The l.
+
+Start At l.
+  Locate x At l.
+  Locate y At l.

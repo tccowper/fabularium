@@ -1,0 +1,13 @@
+The l Isa location
+End The l.
+
+Syntax v = v (i) Where i Isa integer Else ""
+
+The o Isa object
+  Verb v
+    Does
+      Say It i.
+  End Verb.
+End The o.
+
+Start At l.

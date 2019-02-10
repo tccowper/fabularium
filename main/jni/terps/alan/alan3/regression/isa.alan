@@ -1,0 +1,21 @@
+Every subthing Isa thing
+End Every.
+
+The t Isa thing
+End The t.
+
+The s Isa subthing
+End The s.
+
+The l Isa location
+End The l.
+
+Start At l.
+  If t Isa thing Then "t ISA thing$n" End If.
+  If t Isa subthing Then "t ISA subthing$n" End If.
+  If s Isa thing Then "s ISA thing$n" End If.
+  If s Isa subthing Then "s ISA subthing$n" End If.
+  If Current Actor Isa thing Then "Current Actor ISA thing$n" End If.
+  If Current Actor Isa subthing Then "Current Actor ISA subthing$n" End If.
+  If Current Location Isa thing Then "Current Location ISA thing$n" End If.
+  If Current Location Isa subthing Then "Current Location ISA subthing$n" End If.

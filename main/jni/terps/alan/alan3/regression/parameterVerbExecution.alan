@@ -1,0 +1,25 @@
+Syntax x = x (a) (b).
+
+The first Isa object
+  At l
+
+  Verb x
+    Does
+      "This is in first."
+  End Verb.
+End The first.
+
+The second Isa object
+  At l
+
+  Verb x
+    Does
+      "This is in second."
+  End Verb.
+End The second.
+
+The l Isa location
+End The l.
+
+Start At l.
+

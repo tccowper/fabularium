@@ -1,0 +1,15 @@
+########## initializeSetWithThis ##########
+
+
+initializeSetWithThis.alan
+
+    5.     Has talkers {this}.
+=====>                 1
+
+  *1*   433 E : Initialization of attribute must be a constant value.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -1,0 +1,9 @@
+The l Isa location
+  Has int 34.
+  Has str "als".
+End The l.
+
+Start At l.
+  Say An 4.
+  Say An int Of l.
+  Say An str Of l.

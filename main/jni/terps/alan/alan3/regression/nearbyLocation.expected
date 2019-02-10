@@ -1,0 +1,26 @@
+########## nearbyLocation ##########
+
+        No warnings or errors detected.
+
+
+L1 not nearby (OK).
+l2 not nearby (OK).
+l3 not nearby (OK).
+l4 not nearby (OK).
+
+L2
+L1 nearby (OK).
+l2 not nearby (OK).
+l3 not nearby (OK).
+l4 not nearby (OK).
+
+L3
+L1 not nearby (OK).
+l2 nearby (OK).
+l3 not nearby (OK).
+l4 not nearby (OK).
+
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

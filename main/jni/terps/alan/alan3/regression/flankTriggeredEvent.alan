@@ -1,0 +1,23 @@
+The l Isa location
+  Has x 4.
+End The l.
+
+When x Of l = 4 => Schedule nr4 At hero After 0.
+
+Event nr4
+  "I'm number 4."
+End Event.
+
+Event setThree
+  "Setting x To 3."
+  Set x Of l To 3.
+  Schedule setFour After 1.
+End Event.
+
+Event setFour
+  "Setting x To 4."
+  Set x Of l To 4.
+End Event.
+
+Start At l.
+  Schedule setThree After 1.

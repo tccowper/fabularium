@@ -1,0 +1,12 @@
+The x Isa object
+  Has s1 "this is a string".
+  Has s2 "a word".
+End The x.
+
+The l Isa location
+End The l.
+
+Start At l.
+ Say s1 of x + 1.	-- Expect type mismatch
+ Say 1 + s1 of x.	-- Expect type mismatch
+ Say 1 + s1 of x + 1.	-- Expect type mismatch

@@ -1,0 +1,21 @@
+########## addEntered2 ##########
+
+
+addEntered2.alan
+
+    2.    Entered ""
+=====>    1
+
+  *1*   345 W : This Entered clause will be overwritten by an Add.
+
+    6.    Entered ""
+=====>    1
+
+  *1*   344 W : Adding this Entered clause will overwrite an already existing
+                Entered clause for 'location'. Consider sub-classing 'location'
+                and adding the Entered clause to the subclass instead.
+
+
+        No detected errors.
+        2 warning(s).
+

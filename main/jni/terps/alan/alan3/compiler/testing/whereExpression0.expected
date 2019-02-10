@@ -1,0 +1,21 @@
+########## whereExpression0 ##########
+
+
+whereExpression0.alan
+
+    3.    Has c c.
+=====>          1
+
+  *1*   310 E : Identifier 'c' not defined.
+
+   16.    If l In l Then "l in l" End If.
+=====>            1
+
+  *1*   318 E : The 'l' does not have the container property, which is required
+                in Expression after IN.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

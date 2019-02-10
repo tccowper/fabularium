@@ -1,0 +1,32 @@
+.topic 1
+Determines whether either no pictures are displayed, pictures are displayed in a separate window,
+or pictures are displayed in the top half of the interpreter window.
+Note that graphics will only appear if an appropriate graphics file has been found.
+.topic 2
+This number determines the size of the displayed pictures. If the factor is greater than one,
+the pictures are scaled up; if less than one, they are scaled down. Non-integer values are
+allowed and valid scale factors must be in the range of 0.5 to 5.0.
+.topic 3
+Clicking on this button opens a colour dialog to set the text colour of the main interpreter window.
+.topic 4
+Clicking on this button opens a colour dialog to set the background colour of the main interpreter window.
+.topic 5
+This number determines the size of the title pictures. If the factor is greater than one,
+the title pictures are scaled up; if less than one, they are scaled down. Non-integer values
+are allowed and valid scale factors must be in the range of 0.5 to 5.0.
+.topic 6
+This number determines the gamma correction applied to pictures. A value of 1.0 means do nothing;
+values less than 1.0 will make the picture darker and values greater than 1.0 will make the picture
+lighter. Non-integer values are allowed and the value must be in the range of 0.5 to 5.0.
+.topic 7
+Clicking on this button opens a colour dialog to set the colour used as the background for pictures.
+This colour is only used when Pictures is set to Main Window.
+.topic 8
+Determines if the interpreter’s random number generator is seeded from an arbitrary or fixed value,
+and, in the latter case, what that fixed value is. This option is only of use when debugging the
+interpreter.
+.topic 9
+If this checkbox is selected, the replaying of scripts pauses to allow animations to finish.
+.topic 10
+If this checkbox is selected, hints for the Magnetic Windows games are shown in a separate window.
+

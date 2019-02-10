@@ -1,0 +1,21 @@
+########## play ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a piano here.
+
+> play "c" on the piano
+You play c.
+
+> play piano
+You are good at this.
+
+> play "c"
+That's not something you can play.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

@@ -1,0 +1,663 @@
+This is version 6.33 of the Inform compiler,
+copyright (c) Graham Nelson 1993 - 2010
+Full release notes and instructions are available at
+http://www.inform-fiction.org/
+and
+http://www.ifarchive.org/indexes/if-archiveXinfocomXcompilersXinform6.html
+
+Inform Release Notes
+Inform Compiler 6.33, 6.32, 6.31, 6.30
+
+This is a maintenance release of the Inform system for creating
+adventure games, intended to address issues that have arisen since the
+6.21 compiler and 6/10 library files were released in 1999, and
+subsequently since the 6.30 compiler was released in 2004. The focus is
+primarily on fixing problems, but a small number of enhancements are
+included.
+
+Although just about all known bugs are fixed, the approach to enhancing
+Inform is more conservative. The selection of suggestions to implement
+has been governed by three factors:
+  * Avoidance of changes which might cause existing games to misbehave;
+  * Minimisation of features which would require updates to the
+    Inform Designer’s Manual;
+  * Essential simplicity. With Graham Nelson’s permission, this release
+    has been produced by a volunteer taskforce, whose enthusiasm has
+    been tempered by a certain lack of familiarity with the internals
+    of Inform. Thus, we have concentrated on ‘safe’ changes; the
+    implementation of some good ideas has been postponed until we are
+    more confident that we know what we’re doing.
+
+Having said that, this release does incorporate one major advance. It is
+based on Andrew Plotkin’s bi-platform -- Z-machine and Glulx -- compiler
+and library files, which were in turn derived from the the 6.21 compiler
+and 6/10 library. The result is that the two Virtual Machine (VM)
+strands have merged into a single compiler and library which, although
+continuing by default to produce Z-code, can alternatively generate code
+for the Glulx VM if you supply the -G compiler switch. There’s more on
+this topic in Support for Glulx section below. Before that, though,
+we’ll summarise the changes to the compiler and to the library files.
+
+Acknowledgements
+----------------
+
+Far too many people contributed towards this release — reporting and
+resolving bugs, making helpful suggestions, providing support and
+facilities, testing, and so on — for their names to be individually
+listed. So instead, this is a general thank-you to everybody who has
+made this release happen, and specific ones to Graham for permitting it
+in the first place, and to Andrew for his pioneering work on Glulx.
+There are, naturally, sure to be imperfections in the release, and these
+should be reported through the Inform bug tracker
+(http://inform7.com/mantis/)
+
+
+Compiler 6.33
+=============
+
+These are the changes delivered in version 6.33 of the Inform compiler.
+
+Features Added
+--------------
+
+* Unused routines can now be detected and omitted from the compiled
+  game, through two new settings. If $WARN_UNUSED_ROUTINES is set to 1,
+  unused routines (other than those in the Inform library) are reported
+  during compilation; if it is set to 2, unused routines anywhere, even
+  in the library, are reported. If $OMIT_UNUSED_ROUTINES is set to 1,
+  unused routines are omitted.
+
+* A new command line switch -Cu can be used to specify that the source
+  file character set is UTF-8, allowing source files to contain Unicode
+  characters beyond those defined in ISO 8859-1 to 8859-9.
+
+* A new #Undef directive will cause a previously defined constant to
+  become undefined.
+
+* #Ifdef directives are now allowed within an object declaration.
+
+* Action statements can have an optional extra 'actor' argument,
+  allowing action statements of the form
+      <Take pie, orc>; ! simple form
+      <<Look, floyd>>; ! auto-returning form
+
+  Note that this also requires a library change to be useful.
+
+* A previously declared routine can be renamed with a new form of the
+  Replace directive. For example, if a source file contained
+      Replace Banner OriginalBanner;
+
+  It could then (after including the library) contain this definion of a
+  function:
+      [ Banner;
+        OriginalBanner();
+        print "Extra version info!^";
+      ];
+
+  The library's banner code would then be in OriginalBanner().
+
+* The previously deprecated Dictionary directive can now have the
+  following forms:
+      Dictionary 'word';
+      Dictionary 'word' val1;
+      Dictionary 'word' val1 val3;
+
+  The first of these forms just adds the word to the dictionary, with
+  all flags set to zero, if it is not already in the dictionary. The
+  second form also sets the dict_par1 flag to the given value, or
+  bitwise-or's the value in if the word already exists. The third form
+  also sets the dict_par3 in the same way as for dict_par1.
+
+  The values can be numeric literals or constants. They can be 0-255 for
+  Z-code, or 0-65535 for Glulx.
+
+* The "font on" and "font off" statements now call the @set_font opcode
+  for Z-code V5 and higher.
+
+* The Glulx version of the Unsigned__Compare() veneer routine has been
+  changed to a more efficient implementation, using Glulx’s unsigned
+  comparison opcodes.
+
+* The debugging output file, generated when the -k is used, has been
+  changed to a new, XML-based format.
+
+* Two new Z-code settings have been added to support the extra words in
+  the header extension table specified in section 11.1.7 of the
+  Z-Machine Standards Document version 1.1. $ZCODE_HEADER_EXT_WORDS
+  specifies how many extra words to add (so for all three words defined
+  in the 1.1 standard, this would be set to 3). $ZCODE_HEADER_FLAGS_3
+  specifies the value to put in the first of these three words, which
+  is the "flags3" field.
+
+* A new Glulx setting $GLULX_OBJECT_EXT_BYTES has been added, which
+  specifies an amount of additional space to add to each object record.
+  The default is 0. 
+
+
+Bugs Fixed
+----------
+
+Items of the form [Mantis 510] quote the bug's reference number in
+Inform 7’s Mantis bug tracker.
+
+* Function calls of the form f(g)(h) (that is, where f() returns the
+  address of a function that is called with h as its argument) are now
+  compiled correctly: previously, such calls were compiled as if the
+  code was f(g(h)). [Mantis 510]
+
+* The bounds checking related to internal arrays that are are sized from
+  various compiler settings has been improved, so that it should not be
+  possible to crash the compiler if these settings are too small. In
+  addition, a start has been made on allowing the compiler to grow its
+  internal buffers, rather than relying on these settings to specify
+  sufficient buffer sizes. [Mantis 601,603,610,614,758,842,844]
+
+* The error message shown when too many global variables are declared
+  now tells the user to increase the $MAX_GLOBAL_VARIABLES setting.
+  [Mantis 611]
+
+* The setting $MAX_CLASS_TABLE_SIZE, which was not used anywhere, has
+  been removed. [Mantis 612]
+
+* The compiler no longer crashes if run with the -k switch and passed a
+  source file containing no routines at all. [Mantis 843]
+
+* Floating-point constants in "#Ifdef TARGET_GLULX;" sections do not now
+  cause an error when compiling to Z-code. [Mantis 927]
+
+* The error message produced if an action routine is not found for an
+  action name has been improved to include the action name, and a
+  sensible line number. [Mantis 1014]
+
+* The compiler is now better at not producing spurious additional errors
+  after it has encountered a directive that contains an error.
+  [Mantis 1018,1035]
+
+* The compiler no longer crashes when reporting errors after line 65,535
+  in long Inform 6 source files. [Mantis 1023]
+
+* The compiler now reports a meaningful text compression rate when
+  outputting statistics for Glulx with the -Gs switches. [Mantis 1026]
+
+* An error is now reported if a source file ends with an unterminated
+  object definition. [Mantis 1036]
+
+* The three argument form of the read statement no longer assumes that
+  the routine passed as the third argument to the statement will not
+  change the global variable that the statement uses internally.
+  [Mantis 1084]
+
+* The 'Abbreviate' statement now works with words containing non-English
+  characters. [Mantis 1130]
+
+* Attempting to use @pop opcode for V5 or higher no longer results in a
+  crash. [Mantis 1172]
+
+* The Glulx setting $NUM_ATTR_BYTES, which determines the number of 
+  bytes in an object set aside for attribute flags, now works correctly. 
+  Note that this has required a change to the veneer routines that 
+  conflicts with the definition of FUNC_2_CP__Tab() in the 'Accelerated 
+  Functions' section of the Glulx 3.1.2 specification. If you change 
+  this setting, you should take great care if you also use the Glulx 
+  accelerated functions feature (as Inform 7 does by default).
+  [Mantis 1197] 
+
+* The syntax of declaring a function so that it prints its name and arguments:
+      [ Whatever * x y;
+          ! Whatever function logic ...
+      ];
+  is now supported for Glulx. [Mantis 1214]
+
+* The statistics produced by the -s compiler switch are now correct for Glulx.
+  [Mantis 1267]
+
+
+Compiler 6.32
+=============
+
+These are the changes delivered in version 6.32 of the Inform compiler.
+
+Features Added
+--------------
+
+Items of the form [C63104] quote the feature's reference number in the
+'Compiler' section of the Inform Patch List
+(http://inform-fiction.org/patches/compiler.html)
+
+* The Z-machine opcodes for pushing and pulling values from the stack
+  are @push and @pull, used like this:
+
+      @push x;
+      @pull x;
+
+  However for Glulx the opcode syntax is different: instead the @copy
+  opcode is used:
+
+      @copy x sp;
+      @copy sp x;
+
+  The compiler now supports the @push and @pull syntax under Glulx as an
+  alias for @copy, allowing the same code to be used for both the
+  Z-machine and Glulx. [C63104]
+
+* Custom Glulx opcodes (such as opcodes that post-date the compiler) can
+  now be specified with the custom opcode syntax. The format of this
+  syntax is
+
+  @"FlagsCount:Code"
+
+  Flags (which are optional) can include "S" for store, "SS" for two
+  stores, "B" for branch format, or "R" if execution never continues
+  after the opcode. Count is the number of arguments (currently limited to 
+  0-9), and Code is a decimal integer representing the opcode number.
+
+  For example, @"S3:123" is the syntax for a three-argument opcode 
+  (load, load, store) whose opcode number in decimal is 123, and 
+  @"2:234" is the syntax for a two-argument opcode (load, load) whose 
+  number is 234. [C63107] 
+
+* When compiling to Glulx, the Glulx format version number of the 
+  resulting story file is usually determined by which Glulx opcodes are 
+  used in the source code. This version number can now be over-ridden by 
+  providing a -v command line argument after the -G switch to select 
+  Glulx mode. For example, the arguments -G -v3.1.0 set the Glulx 
+  version number to "3.1.0". [C63108] 
+
+* The Unicode related opcode added to the Glulx 3.0.0 specification, 
+  @streamunichar, is now supported.
+
+* When compiling to Glulx, characters outside of the ISO 8859-1 range 
+  can now be used in strings. The maximum number of such characters 
+  allowed is determined by a new memory setting, $MAX_UNICODE_CHARS. 
+
+* When compiling to Glulx, the syntax
+
+    print (char) value;
+
+  now works for values greater than 255, printing the appropriate
+  Unicode character. (For such values @streamunichar is used; for those
+  less than or equal to 255, @streamchar is used as before.)
+
+* The memory heap related opcodes added to the Glulx 3.1.0 specification
+  (that is, @mzero, @mcopy, @malloc and @mfree) are now supported.
+
+* The acceleration related opcodes added to the Glulx 3.1.1
+  specification (that is, @accelfunc and @accelparam) are now supported.
+  There is also a new syntax to get the address of a global variable
+  var, with the expression "#g$var": this is provided so that such 
+  addresses can be provided to the @accelparam opcode.
+
+* The floating point related opcodes added to the Glulx 3.1.2
+  specification (that is, @numtof, @ftonumz, @ftonumn, @ceil, @floor,
+  @fadd, @fsub, @fmul, @fdiv, @fmod, @sqrt, @exp, @log, @pow, @sin,
+  @cos, @tan, @asin, @acos, @atan, @atan2, @jfeq, @jfne, @jflt, @jfle,
+  @jfgt, @jfge, @jisnan and @jisinf) are now supported.
+
+* Floating point constants can be used in the Inform source code. These
+  constants are expressed in the form "$+1.0e+1": that is, a dollar
+  sign, followed by a plus or minus sign, followed by a floating point
+  number, and then optionally a positive or negative integer exponent.
+  Inform does not attempt anything other than converting these
+  constants to their 32-bit integer representation: there is no
+  constant folding as there is with integers, so the expression
+  "$+1.0 + $+1.0” is not meaningful, and does not produce the floating
+  point value "2.0".
+
+  As an example of the use of these constants, the following adds
+  together 100 and 123.45:
+
+    @fadd $+100 $+1.2345e+2 result;
+
+  The compiler also defines the constants "FLOAT_INFINITY", 
+  "FLOAT_NINFINITY" and "FLOAT_NAN" for positive infinity, negative 
+  infinity and "not a number", respectively. 
+
+* Glulx has a simple memory extension feature, where the game's header
+  declares the memory space to be larger than the game file. The extra
+  space is filled out with zeroes when the game starts. This is now
+  supported by a new option $MEMORY_MAP_EXTENSION. This defaults to 0:
+  if it is redefined to a larger value then the size of the game's
+  memory space is extended by that amount.
+
+* The number of verbs allowed by the compiler when compiling to Glulx is
+  no longer limited to fewer than 256. As part of producing the game
+  file, the compiler creates a dictionary table that contains verb
+  numbers. However, despite in Glulx there being space for a verb
+  number between 0 and 65535 in this table, only one byte of it (that
+  is, values between 0 and 255) was used. This has been fixed.
+
+  However, this also requires library changes to be useful, as the 
+  library makes use of this dictionary table. The library used by
+  Inform 7 has been adjusted to take advantage of this, but the Inform 
+  6/11 library has not.
+
+* The dictionary of Glulx games can now contain characters outside of 
+  ISO 8859-1. There is a new memory setting, $DICT_CHAR_SIZE: by default 
+  this is 1, but setting it to 4 causes the compiler to create a 
+  dictionary containing 32-bit Unicode characters.
+
+  However, this also requires library changes to be useful, as the 
+  library makes use of this dictionary table. 
+
+
+Bugs Fixed
+----------
+
+Items of the form [C63102] quote the bug's reference number in the
+'Compiler' section of the Inform Patch List
+(http://inform-fiction.org/patches/compiler.html).
+
+* Strict mode is no longer enabled by default when generating V3 and V4
+  Z-code files, as strict mode makes use of opcodes that are V5+ only.
+  [C63007]
+
+* The base unit of Inform’s internal memory allocation for various
+  structures (for example the buffer used to hold the generated code) is
+  no longer fixed: it is now controlled by a setting $ALLOC_CHUNK_SIZE.
+  This allows, for example, the maximum Glulx code size to be greater
+  than 640Kb. [C63102]
+
+* When compiling to Glulx, the stack size of the resulting story file is
+  no longer fixed at 4096: it can be changed by the setting
+  $MAX_STACK_SIZE. [C63108]
+
+* The compiler could crash if the size of the grammar table exceeded the
+  size of the Z-machine readable memory: this is now fixed. [C63110]
+
+* Creating a Z-code game file with precisely 64Kb of readable memory
+  produced an invalid file. This is now prevented, so that the largest
+  readable memory size is 64Kb minus 2 bytes. [C63112]
+
+* Previously, under Glulx the print_to_array() function could be called
+  with either two arguments, specifying both the array to print to and
+  its length, or just one argument, the later matching what is allowed
+  when compiling to Z-code. This one argument form has now been
+  withdrawn under Glulx as a security hole, and a source to problems
+  with writing beyond the end of the array: now the array length must
+  be specified. (See also Features available only in Glulx.)
+
+* Veneer routines are no longer excluded from Inform's assembly output
+  (which is accessed with the -a command line switch).
+
+* For Linux and other Unix variants the default memory settings have
+  been increased, which should remove the need to change the compiler
+  settings when building large projects on these platforms.
+
+* For Mac OS X, the maximum length of a file path is now 8192
+  characters, which should prevent any further problems with long paths
+  on this platform.
+
+
+Compiler 6.31
+=============
+
+These are the changes delivered in version 6.31 of the Inform compiler.
+
+Bugs Fixed
+----------
+
+Items of the form [C63016] quote the bug's reference number in the
+'Compiler' section of the Inform Patch List 
+(http://inform-fiction.org/patches/compiler.html).
+
+* When individual properties are read (successfully), there is no longer
+  a futile attempt to look up the property index in the common property
+  table. [C63016]
+
+* Complex if statements, of the form if (x == 1 or 3 or 5 ... or 99),
+  now don’t crash the compiler. [C63013]
+
+* The compiler is better at handling lengthy path names. [C63009] 
+
+* Backpatching and other strange errors no longer occur if the code size
+  of a V8 game exceeds 256K. [C63005]
+
+* An Object or Class definition with more than 32 common property values
+  now doesn’t cause an internal compiler error. [C63001]
+
+
+Compiler 6.30
+=============
+
+These are the changes delivered in version 6.30 of the Inform compiler.
+
+Features Added
+--------------
+
+* The compiler automatically defines a WORDSIZE constant, whose value is 
+  2 when compiling for the Z-machine, and 4 when the target is Glulx. 
+  The constant specifies the number of bytes in a VM word, and we 
+  recommend that you use it in the small number of circumstances where 
+  this value is significant. The compiler also defines a constant 
+  TARGET_GLULX if you supply the -G switch, or TARGET_ZCODE otherwise; 
+  in both cases the constant value is 0. For more information on the 
+  use of these constants, see Support for Glulx. 
+
+* The Switches directive, which enables certain compiler switches to be 
+  set from within the source file rather than on the compiler command 
+  line, has been superseded by a more powerful mechanism. The special 
+  comment characters "!%", occurring on the very first line or lines of 
+  the source file, enable you to specify Inform Command Language (ICL) 
+  commands to control the compilation. For example: 
+
+    !% -E1G                                    ! Glulx, 'Microsoft' errors
+    !% -~S                                     ! disable Strict mode
+    !% +include_path=./test,./,../lib/contrib  ! look in 'test' library
+    !% $MAX_STATIC_MEMORY=20000
+    Constant STORY "RUINS";
+    ...
+
+  ICL is described in section 39 of the Inform Designer’s Manual. In
+  brief: each line specifies a single command, starting with "-" to
+  define one or more switches, "+" to define a path variable, or "$" to
+  define a memory setting. Comments are introduced by "$". The ICL
+  command "compile" is not permitted at the head of a source file.
+
+* Two new ICL memory settings are available; both of these could
+  previously be changed only by rebuilding the compiler.
+  $MAX_SOURCE_FILES has a default of 256, and $MAX_INCLUSION_DEPTH has
+  a default value of 5.
+
+* A new directive, similar to Array ... string and Array ... table, is
+  provided:
+
+    Array array buffer N;
+    Array array buffer expr1 expr2 ... exprN;
+    Array array buffer "string";
+
+  This creates a hybrid array of the form used by
+  string.print_to_array() and the new library routine PrintToBuffer(),
+  in which the first word array-->0 contains N and the following N
+  bytes array->WORDSIZE, array->(WORDSIZE+1) ... array->(WORDSIZE+N-1)
+  contain the specified expression values or string characters.
+
+* A new (A) print rule -- similar to the existing (The) -- prints an
+  object’s indirect article with its first letter capitalised. The
+  printed article is "A" or "An" by default, or else taken from the
+  object's article property.
+
+* The minimum size of the Z-code header extension table can be set using
+  the command line switch -Wn. For example, -W6 makes the table at least
+  six words long.
+
+* Source code in character sets other than ISO 8859-1 to 8859-9 is now
+  supported, provided that the character set can be mapped onto one of
+  the ISO 8859 sets.
+
+* A mapping file is used to define how the source code is to be
+  processed. This file consists of a directive indicating the ISO 8859
+  set to be mapped to, followed by 256 numbers giving the mapping. As
+  an example, under Microsoft Windows, Russian text is encoded with the
+  character set defined as Microsoft code page 1251. The following text
+  defines a mapping to the ISO 8859-5 set:
+
+    ! Windows Cyrillic (code page 1251) to ISO 8859-5
+    C5
+      0, 63, 63, 63, 63, 63, 63, 63, 63, 32, 10, 63, 10, 10, 63, 63
+     63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63
+     32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47
+     48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63
+     64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79
+     80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95
+     96, 97, 98, 99,100,101,102,103,104,105,106,107,108,109,110,111
+    112,113,114,115,116,117,118,119,120,121,122,123,124,125,126, 63
+    162,163, 44,243, 34, 46, 63, 63, 63, 63,169, 60,170,172,171,175
+    242, 39, 39, 34, 34, 46, 45, 45,152, 84,249, 62,250,252,251,255
+     32,174,254,168, 36, 63,124,253,161, 67,164, 60, 63, 45, 82,167
+     63, 63,166,246, 63, 63, 63, 46,241,240,244, 62,248,165,245,247
+    176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191
+    192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207
+    208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223
+    224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239
+
+  Lines starting with "!" are treated as comments. The next line, 
+  beginning with "C", defines the ISO set to map to in the same way as 
+  the -Cn command line switch.
+
+  To use the mapping, Inform treats each character in the source file as
+  a number between 0 and 255, and uses that number as an index into the
+  mapping table. For example, suppose that the character read in from a
+  Russian Windows text file is the Cyrillic small letter "ya". This
+  character is represented in the Russian Windows character set by the
+  number 255. Inform takes the 255th entry in the mapping, which is 239.
+  Therefore the character is regarded as being 239 in ISO 8859-5.
+
+  The name of the mapping file is specified by a new compiler path
+  variable +charset_map. If the above mapping is held in a text file
+  win1251.map, a Russian game could be compiled with a command line of
+  the form:
+
+    inform +charset_map=win1251.map +language_name=Russian mygame.inf
+
+* The @check_unicode and @print_unicode opcodes, introduced in the
+  Z-Machine Standards Document version 1.0, can now be called by name
+  rather than by using the clumsier generic syntax @"EXT:11S" and
+  @"EXT:12S". For example:
+
+    @print_unicode $0401; ! Cyrillic capital letter IO
+
+* Strict mode (which compiles run-time integrity checks into your game)
+  has been decoupled from Debug mode (which defines debugging verbs like
+  TRACE and SHOWOBJ). This means that it’s no longer necessary to turn
+  off Strict checking (in order to disable the Debug verbs) before
+  releasing a game, though of course you can do so if you wish to save
+  space and increase performance. By default, Strict mode is enabled
+  (turn it off with -~S) and Debug mode is disabled (turn it on with -D).
+
+* The compiler now issues a warning if you use array->n on an array of
+  words, or array-->n on an array of bytes. Use the new Array ... buffer
+  directive to create a hybrid array which can be accessed without these
+  warnings.
+
+* The compiler also issues a warning if you refer to an unqualified
+  property name within a routine, for example by typing (number==0) when
+  you intended (self.number==0).
+
+* Another new warning appears if you include something other than a
+  dictionary word in an object’s name property. This is most commonly
+  triggered if you try to add a single-letter word by typing name 'g'
+  'string' when you intended name 'g//' 'string'.
+
+
+Bugs Fixed
+----------
+
+Items of the form [C62127] quote the bug’s reference number in the 
+'Compiler' section of the Inform Patch List
+(http://inform-fiction.org/patches/compiler.html).
+
+* A problem with multiple assignment involving pointer arithmetic in
+  Strict mode giving the wrong answer has been fixed. [C62127]
+
+* After using Extend only to separate off an element of an existing Verb
+  definition, new synonyms for the separated verb now work correctly;
+  previously they were applied to the residue of the original
+  definition. [C62126]
+
+* Strict mode now tests for the use of @put_prop or @get_prop opcodes
+  when a common property is longer than two bytes -- the Z-Machine
+  Standards Document says that this is illegal, and that the result is
+  unspecified. The error message is of the form "[** Programming error:
+  obj (object number N) has a property prop, but it is longer than 2
+  bytes so you cannot use "." to read **]". This means that you have
+  used the obj.prop construct in the situation where prop is a common
+  property containing two or more values; typically prop is being
+  explicitly used as an array, or it’s an additive property and both
+  obj and its parent class have defined values for it. The problem does
+  not occur if prop is an individual property. [C62125]
+
+* Handling of European quotes is (finally) correct: the "«" symbol is
+  produced by any of @<<, @@163 and @{00AB}, while any of @>>, @@162 and
+  @{00BB} produce the matching "»". Note, however, that this problem
+  originated in an error in the previous version of the Z-Machine
+  Standards Document, and therefore older interpreters written to that
+  specification, or more recent ones adjusted to work with the incorrect
+  fix introduced at Inform 6.12, may still not give the correct results.
+  [C62124]
+
+* The "no such constant" compilation error message now quotes the number
+  of the appropriate source line. [C62123]
+
+* The metaclass() and ZRoutine() routines no longer report large
+  unsigned values -- above the game's Static memory area -- as of type
+  String. More usefully, the constant NULL (-1) is not reported as a
+  String. [C62122]
+
+* Complex expressions combining a routine call and the ofclass and or
+  operators no longer generate incorrect code. [C62121]
+
+* Negative constants in assembly operations -- for example,
+  @set_colour 4 (-1); -- no longer cause the compiler to report an
+  unexpected expression. [C62119]
+
+* Various problems with handling ISO 8859 characters in the range
+  128-255, and also in the use of @@ escape sequences, have been
+  resolved. [C62117, C62115, C6211, C62003]
+
+* An Abbreviate directive containing a substring of
+  "<unknown attribute>" may crash the compiler; hopefully, no more.
+  [C62116]
+
+* The 320Kb size limit placed by Inform on v6 and v7 games has been
+  raised to 512Kb. [C62114]
+
+* Following a Zcharacter directive replacing the entire alphabet table,
+  dictionary entries are no longer corrupted. [C62113]
+
+* The compiler now generates conditional branches spanning up to 63
+  bytes, lifting the previous unnecessary limit of a 31-byte span and
+  leading to slightly shorter code. [C62112]
+
+* Putting an object in itself doesn’t now loop indefinitely. [C62110]
+
+* Various problems with the @store, @inc_chk, @dec_chk, @not and @je 
+  opcodes have been resolved. [C62109, C62108, C62105]
+
+* Problems with nested conditional compilation directives
+  #Ifndef...#Ifnot...#Endif have been resolved. [C62107]
+
+* A long dictionary word -- such as 'elephants//p' -- now correctly sets 
+  the plural bit. [C62103]
+
+* Problems with constant folding -- that is, having the expression
+  evaluated at compile-time -- partly addressed in the previous
+  bi-platform compiler, have been fixed. [C62102]
+
+* When compiling for Glulx, the compiler uses the @callf, @callfi,
+  @callfii or @callfiii opcodes where applicable for generated calls
+  instead of always pushing arguments onto the stack and using @call.
+
+* The presence of a Switches G; directive no longer causes the compiler 
+  to crash.
+
+* An unexpected limit of 1024 labels per routine in the Z-machine
+  assembly language generated by the compiler has been raised to 32768.
+  The most likely way to encounter this limit is by creating a switch
+  statement with an extremely large number of cases.
+
+* A problem with the read statement generating the wrong opcode in a
+  version 4 game has been corrected.
+
+* A dynamic class declaration such as Class Pebble(NUM_PEBBLES) ... ; no
+  longer creates a mysteriously large number of instances if NUM_PEBBLES
+  isn’t defined.

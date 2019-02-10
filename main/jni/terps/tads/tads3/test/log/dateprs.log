@@ -1,0 +1,66 @@
+	Files to build: 5
+	symbol_export _main.t -> _main.t3s
+	symbol_export dateprs.t -> dateprs.t3s
+	compile _main.t -> _main.t3o
+	compile dateprs.t -> dateprs.t3o
+	link -> dateprs.t3
+
+(T3VM) Memory blocks still in use:
+
+Total blocks in use: 0
+1995-Nov-15 + nil ->
+   [1995-11-15 00:00:00, nil, nil, ['ye _  .-* month _ .-* d'], [nil, '1995',
+'Nov', '15', nil, nil, nil, nil, nil, nil, nil, nil, nil]]
+
+Nov 15, 99 AD 1:25 pm + nil ->
+   [0099-11-15 13:25:00, nil, nil, ['month _.  -* ddth _,. + ye', 'h .: mi _?
+ampm'], ['AD', '99', 'Nov', '15', nil, nil, 'pm', '1', '25', nil, nil, nil,
+nil]]
+
+Nov 15, 95 4:30 pm PST + nil ->
+   [1995-11-15 19:30:00, America/Los_Angeles, -28800, ['month _.   -* ddth _,.
++ ye', 'h .: mi _? ampm', 'tz'], [nil, '95', 'Nov', '15', nil, nil, 'pm', '4',
+'30', nil, nil, nil, 'PST']]
+
+May 15, 95 4:30 pm America/Los_Angeles + nil ->
+   [1995-05-15 19:30:00, America/Los_Angeles, nil, ['month _.  -* ddth _,. +
+ye', 'h .: mi _? ampm', 'tz'], [nil, '95', 'May', '15', nil, nil, 'pm', '4',
+'30', nil, nil, nil, 'America/Los_Angeles']]
+
+May 15, 95 4:30 pm PST + nil ->
+   [1995-05-15 20:30:00, America/Los_Angeles, -28800, ['month _.   -* ddth _,.
++ ye', 'h .: mi _? ampm', 'tz'], [nil, '95', 'May', '15', nil, nil, 'pm', '4',
+'30', nil, nil, nil, 'PST']]
+
+May 15, 95 4:30 pm PDT + nil ->
+   [1995-05-15 19:30:00, America/Los_Angeles, -25200, ['month _.   -* ddth _,.
++ ye', 'h .: mi _? ampm', 'tz'], [nil, '95', 'May', '15', nil, nil, 'pm', '4',
+'30', nil, nil, nil, 'PDT']]
+
+Dec 15, 95 4:30 pm America/Los_Angeles + nil ->
+   [1995-12-15 19:30:00, America/Los_Angeles, nil, ['month _.  -* ddth _,. +
+ye', 'h .: mi _? ampm', 'tz'], [nil, '95', 'Dec', '15', nil, nil, 'pm', '4',
+'30', nil, nil, nil, 'America/Los_Angeles']]
+
+Dec 15, 95 4:30 pm PST + nil ->
+   [1995-12-15 19:30:00, America/Los_Angeles, -28800, ['month _.   -* ddth _,.
++ ye', 'h .: mi _? ampm', 'tz'], [nil, '95', 'Dec', '15', nil, nil, 'pm', '4',
+'30', nil, nil, nil, 'PST']]
+
+Dec 15, 95 4:30 pm PDT + nil ->
+   [1995-12-15 18:30:00, America/Los_Angeles, -25200, ['month _.   -* ddth _,.
++ ye', 'h .: mi _? ampm', 'tz'], [nil, '95', 'Dec', '15', nil, nil, 'pm', '4',
+'30', nil, nil, nil, 'PDT']]
+
+15!1995!Nov + ['d ! y ! month', 'month ! y ! d'] ->
+   [1995-11-15 00:00:00, nil, nil, ['d ! y ! month'], [nil, '1995', 'Nov',
+'15', nil, nil, nil, nil, nil, nil, nil, nil, nil]]
+
+Nov!1995!15 + ['d ! y ! month', 'month ! y ! d'] ->
+   [1995-11-15 00:00:00, nil, nil, ['month ! y ! d'], [nil, '1995', 'Nov',
+'15', nil, nil, nil, nil, nil, nil, nil, nil, nil]]
+
+
+(T3VM) Memory blocks still in use:
+
+Total blocks in use: 0

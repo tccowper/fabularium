@@ -1,0 +1,108 @@
+########## cloakv3 ##########
+
+
+cloakv3.alan
+
+  197.      Does Only
+=====>      1
+
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'put_on', depending on the parameter
+                restrictions. You might want to use a WHEN clause to specify
+                for which parameter this alternative is to be run.
+
+
+        No detected errors.
+        1 warning(s).
+
+
+
+
+Hurrying through the rainswept November night, you're glad to see the
+bright lights of the Opera House. It's surprising that there aren't more
+people about but, hey, what do you expect in a cheap demo game...? 
+
+
+Cloak of Darkness 
+A basic IF demonstration. 
+Version 1, Sept 2008. (Implemented using ALAN 3.0alpha6, lib 0.6.1) 
+Auto-converted to Alan v3 from the Alan v2 Version by Thomas Nilsson
+
+
+Foyer of the Opera House
+You are standing in a spacious hall, splendidly decorated in red and
+gold, with glittering chandeliers overhead. The entrance from the street
+is to the north, and there are doorways south and west.
+
+> n
+You've only just arrived, and besides, the weather outside seems to be
+getting worse.
+
+> s
+Darkness
+It's pitch black here. You can't see a thing.
+
+> look
+In the dark? You could easily disturb something!
+
+> n
+Foyer of the Opera House
+You are standing in a spacious hall, splendidly decorated in red and
+gold, with glittering chandeliers overhead. The entrance from the street
+is to the north, and there are doorways south and west.
+
+> w
+Cloakroom
+The walls of this small room were clearly once lined with hooks, though
+now only one remains. The exit is a door to the east.
+
+> examine hook
+It's just a small brass hook screwed to the wall.
+
+> take it
+You can't take that!
+
+> i
+You are carrying a black velvet cloak.
+
+> examine me
+As handsome as ever.
+
+> examine the cloak
+A handsome cloak, of velvet trimmed with satin, and slightly spattered
+with raindrops. Its blackness is so deep that it almost seems to suck
+light from the room.
+
+> remove cloak
+You are not wearing the black velvet cloak.
+
+> put cloak on hook
+You put the black velvet cloak on the small brass hook.
+
+> l
+Cloakroom
+The walls of this small room were clearly once lined with hooks, though
+now only one remains. The exit is a door to the east. 
+
+On the small brass hook is a velvet cloak.
+
+> e
+Foyer of the Opera House
+You are standing in a spacious hall, splendidly decorated in red and
+gold, with glittering chandeliers overhead. The entrance from the street
+is to the north, and there are doorways south and west.
+
+> s
+Foyer bar
+The bar, much rougher than you'd have guessed after the opulence of the
+foyer to the north, is completely empty. There seems to be some sort of
+message scrawled in the sawdust on the floor.
+
+> read message
+The message, neatly marked in the sawdust, reads...
+
+    *** You have won ***
+
+You have scored 2 points out of 2.
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

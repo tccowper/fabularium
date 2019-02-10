@@ -1,0 +1,41 @@
+OBJECT ATTRIBUTES
+    global_object_attribute.
+
+LOCATION ATTRIBUTES
+    global_location_attribute.
+
+CONTAINER container_id
+END CONTAINER container_id.
+
+OBJECT object_id
+    IS
+	local_object_attribute.
+END OBJECT object_id.
+
+LOCATION location_id
+    IS
+	local_location_attribute.
+END LOCATION location_id.
+
+EVENT event_id
+    "This is EVENT_ID happening."
+END EVENT event_id.
+
+START AT location_id.
+
+-- 'MAKE' what something '.'
+    MAKE OBJECT unknown_attribute.
+    MAKE OBJECT global_object_attribute.
+    MAKE OBJECT local_object_attribute.
+    MAKE object_id unknown_attribute.
+    MAKE object_id global_object_attribute.
+    MAKE object_id local_object_attribute.
+    MAKE unknown_id unknown_attribute.
+    MAKE unknown_id global_object_attribute.
+    MAKE unknown_id local_object_attribute.
+    MAKE LOCATION unknown_attribute.
+    MAKE LOCATION global_location_attribute.
+    MAKE LOCATION local_location_attribute.
+    MAKE location_id unknown_attribute.
+    MAKE location_id global_object_attribute.
+    MAKE location_id local_object_attribute.

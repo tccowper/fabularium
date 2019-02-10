@@ -1,0 +1,89 @@
+Object Attributes
+  lightsource 0.	-- This is really a boolean but we need to do SUM on it
+
+Location Attributes
+  lit.
+
+Syntax
+  'look' = l.
+
+Verb 'look'
+  Does
+    If Sum Of lightsource Here = 0 And Location Is Not lit Then
+      "You cannot see anything without any light."
+    Else
+      Look.
+    End If.
+End Verb 'look'.
+
+
+Syntax
+  i = i.
+
+Verb i
+  Does
+    List Hero.
+End Verb i.
+
+
+Verb take
+  Check
+    Object Not In Hero
+  Else
+    "You already have that."
+  Does
+    Locate Object In Hero.
+End Verb take.
+
+Verb drop
+  Check
+    Object In Hero
+  Else
+    "You don't have that."
+  Does
+    Locate Object Here.
+End Verb drop.
+
+Location indoors
+  Is
+    Not lit.
+
+  Description
+    If Sum Of lightsource Here > 0 Then		-- Any light source here
+      "This is usually a very dark room. But in this light you can see..."
+    Else
+      "You can not see anything in the dark."
+    End If.
+
+  Exit out To outdoors.
+
+End Location.
+
+Location outdoors
+
+  Description
+    "Out here in the sun you can see everything."
+
+  Exit 'in' To indoors.
+
+End Location.
+
+
+Object lamp In inventory
+
+  Verb light
+    Does
+      If Sum Of lightsource Here = 0 And Location Is Not lit Then
+        Set lightsource Of lamp To 1.
+	Look.
+      Else
+        Set lightsource Of lamp To 1.
+      End If.
+  End Verb light.
+
+End Object lamp.
+
+
+Start At outdoors.
+  "Try moving 'in' and 'out' with and without the lamp. You can light
+   the lamp and drop it. Also try 'look' in various situations."

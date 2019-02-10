@@ -1,0 +1,7 @@
+The l Isa location
+End The l.
+
+Start At l.
+  If l Isa l Then
+    ""
+  End If.

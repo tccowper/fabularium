@@ -1,0 +1,80 @@
+########## importListing5 ##########
+
+
+importListing5.alan
+
+    1.  import 'importListing5a.i'.
+
+
+importListing5a.i
+
+    1.1 -- importListing5a from std.i
+    2.1 -- Library version 0.6.1
+    3.1 
+    4.1 -- All verb definitions have a small, simple default body. To make
+    5.1 -- them do other things use DOES ONLY in your specialised verb body.
+    6.1 
+    7.1 -- player character, etc
+    8.1 import 'importListing5b.i'.
+
+
+importListing5b.i
+
+    1.2 -- importLisiting5b from hero.i
+    2.2 -- Library version 0.6.1dev
+    3.2 
+
+
+
+importListing5a.i
+
+    9.1 import 'importListing5c.i'.
+
+
+importListing5c.i
+
+    1.2 -- importListing5c.i from global.i
+    2.2 -- Library version 0.6.1
+    3.2 
+
+
+
+importListing5a.i
+
+   10.1 
+   11.1 -- People, male/female etc.
+   12.1 import 'importListing5d.i'.
+
+
+importListing5d.i
+
+    1.2 -- person.i
+    2.2 -- Library version 0.6.0
+    3.2 
+    4.2 
+    5.2 -- Classes for people
+    6.2 
+
+
+
+importListing5a.i
+
+   13.1 
+
+
+
+importListing5.alan
+
+    2.  
+    3.  
+    4.  Start At l.
+=====>           1
+
+  *1*   310 E : Identifier 'l' not defined.
+
+    5.  
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

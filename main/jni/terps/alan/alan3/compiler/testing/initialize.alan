@@ -1,0 +1,8 @@
+The x Isa location
+  Initialize
+    Say unknown.
+  Initialize
+    Say x.
+End The x.
+
+Start At x.

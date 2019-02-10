@@ -1,0 +1,7 @@
+The l Isa location
+End The l.
+
+Start At l.
+  Depending on l
+  Isa location Then ""
+  End Depend.

@@ -1,0 +1,16 @@
+Syntax put_in = put (direct) 'in' (indirect)
+  Where io Isa container
+    Else "You can only put things in containers"
+
+Add To Every object
+  Verb put_in
+    Does
+      Locate obj In cont.
+  End Verb.
+End Add.
+
+the aaa isa location
+end the aaa.
+
+start at aaa.
+

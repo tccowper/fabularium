@@ -1,0 +1,26 @@
+The l Isa location
+End The l.
+
+Every cont Isa object
+  With Container
+End Every cont.
+
+The c Isa cont
+End The c.
+
+The o Isa object
+  Has ref l.
+  Has cref c.
+End The o.
+
+Start At l.
+  Empty unknown Here.
+  Empty o Nearby.
+  Empty l At unknown.
+  Empty unknown of unknown In o.
+  Empty unknown of o In c.
+  Empty ref Of o At ref Of o.
+  Empty cref Of o At Current Actor.
+  Empty cref Of o In ref Of o.
+  Empty cref Of o In cref Of o.
+

@@ -1,0 +1,24 @@
+The l Isa location
+End The l.
+
+Syntax v = v (c) Where c Isa object Else ""
+
+Every cont Isa object
+  Container
+End Every.
+
+Add To Every object
+  Verb v
+    Does
+      If c Isa cont Then
+        If This In c Then -- OK, since restricted to cont in the IF
+          ""
+        End If.
+      End If.
+      If This In c Then -- Error, since it's not restricted to cont
+        ""
+      End If.
+  End Verb.
+End Add.
+
+Start At l.

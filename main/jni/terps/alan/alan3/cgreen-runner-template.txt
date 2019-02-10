@@ -1,0 +1,10 @@
+
+TestSuite *our_tests() {
+    TestSuite *suite = create_test_suite();
+    add_test_with_context(suite, Parse, TheTest);
+    return suite;
+}
+
+int main(int argc, char **argv) {
+    return run_single_test(our_tests(), "TheTest", create_text_reporter());
+}

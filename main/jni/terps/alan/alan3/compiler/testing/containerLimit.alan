@@ -1,0 +1,28 @@
+The l Isa location
+End The l.
+
+The dr_phil Isa actor At l
+  Name dr phil
+End The dr_phil.
+
+Add To Every actor
+  Verb put_in
+    When i Does
+      Locate i In c.
+  End Verb.
+End Add.
+
+The cont Isa object At l
+  Container
+    Limits
+      size 2 Else "Too big..."
+End The cont.
+
+Syntax
+  put_in = put (i) 'in' (c)
+    Where c Isa container Else
+      "You can not put anything in that."
+    And i Isa thing Else
+      "You can not put that in there."
+
+Start At l.

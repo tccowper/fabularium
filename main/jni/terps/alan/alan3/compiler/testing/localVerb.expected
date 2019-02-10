@@ -1,0 +1,17 @@
+########## localVerb ##########
+
+
+localVerb.alan
+
+    3.    Verb x
+=====>         1
+
+  *1*   232 W : Default syntax for this verb restricted the parameter to class
+                'location', which is probably not what you wanted. Suggest you
+                add an explicit syntax instead.
+
+
+        No detected errors.
+        1 warning(s).
+        1 informational message(s).
+

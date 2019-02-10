@@ -1,0 +1,26 @@
+The l Isa location
+  Exit w To l
+    Check hero Is true
+      And l Is true
+    Else
+      "Both hero and l has to be true."
+    Does
+      "Both are true."
+  End Exit.
+End The l.
+
+Add To Every entity
+  Is true.
+End Add To.
+
+Event makeHeroFalse
+  Make hero Not true.
+End Event.
+
+Event makeLFalse
+  Make l Not true.
+End Event.
+
+Start At l.
+  Schedule makeHeroFalse After 1.
+  Schedule makeLFalse After 2.

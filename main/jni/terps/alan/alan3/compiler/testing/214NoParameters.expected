@@ -1,0 +1,16 @@
+########## 214NoParameters ##########
+
+
+214NoParameters.alan
+
+    3.      When a
+=====>           1
+
+  *1*   214 E : Parameter 'a' not defined in syntax for 'x'. The verb 'x' has
+                no parameters.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

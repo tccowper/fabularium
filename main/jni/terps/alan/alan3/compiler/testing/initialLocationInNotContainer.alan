@@ -1,0 +1,13 @@
+The o1 Isa object In unknown
+End The o1.
+
+The o2 Isa object In notcontainer
+End The o2.
+
+The notcontainer Isa object
+End The notcontainer.
+
+The l Isa location
+End The l.
+
+Start At l.

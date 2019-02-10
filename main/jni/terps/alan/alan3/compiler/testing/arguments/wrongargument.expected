@@ -1,0 +1,3 @@
+########## wrongargument ##########
+Parameter error: Unrecognized option, -sadfj
+Usage: ALAN <adventure> [-help] [options]

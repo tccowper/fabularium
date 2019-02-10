@@ -1,0 +1,29 @@
+########## pat ##########
+
+Syntax
+  unlock = unlock (obj).
+
+Syntax
+  cast_unlock = cast unlock 'on' (obj).
+
+Verb unlock
+  Does
+    "Unlocked."
+End Verb.
+
+Verb cast_unlock
+  Does
+    "Cast."
+End Verb.
+
+
+The l Isa location
+  
+End The l.
+
+The o Isa object
+  At l 
+End The o.
+
+Start At l.
+  

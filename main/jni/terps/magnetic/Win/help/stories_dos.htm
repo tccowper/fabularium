@@ -1,0 +1,40 @@
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <link rel="stylesheet" type="text/css" href="Magnetic.css">
+  <title>MS-DOS Story Files</title>
+ </head>
+ <body>
+<h1>MS-DOS Story Files</h1>
+Story files can be created by extracting the data from both the original MS-DOS releases and the
+later "Magnetic Windows" releases of "Wonderland" and "The Magnetic Scrolls Collection, Volume 1".
+The latter of these comprised new versions of "The Guild of Thieves", "Corruption" and "Fish!".
+<p>
+To convert these files to the interpreter's own format the <b>XtractPC</b> (for the original releases)
+or <b>XtractMW</b> (for the "Magnetic Windows" releases) programs, which are included with this interpreter,
+must be used. <b>XtractPC</b> and <b>XtractMW</b> are Win32 console programs, so must be run from an MS-DOS prompt
+under Windows. Run <b>XtractPC</b> or <b>XtractMW</b> without any arguments to read a help screen.
+<p>
+The syntax for <b>XtractPC</b> is:
+<pre>
+    XtractPC game game.mag
+</pre>
+where "game" is the full path to the data files, minus any trailing numbers. For example, the data
+files for "The Pawn" are called "pawn1" to "pawn6". If these files are in a directory
+"c:\Games\Magnetic\Pawn", the command line might be:
+<pre>
+    XtractPC c:\Games\Magnetic\Pawn\pawn Pawn.mag
+</pre>
+The syntax for <b>XtractMW</b> is:
+<pre>
+    XtractMW game.rdf game.mag
+</pre>
+where "game.rdf" is the full path to the game’s main rdf file ("all.rdf" for "Wonderland"; "corr.rdf",
+"fish.rdf" and "guild.rdf" for the games in "Collection Volume 1"). For example, for "Wonderland", the
+command line might be:
+<pre>
+    XtractMW c:\Games\Magnetic\Wonder\all.rdf Wonder.mag </body>
+</pre>
+ </body>
+</html>
+

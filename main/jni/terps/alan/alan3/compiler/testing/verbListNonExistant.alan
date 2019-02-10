@@ -1,0 +1,11 @@
+Syntax x1 = x1 (obj).
+
+The t Isa object
+  Verb x1, x2
+  End Verb.
+End The t.
+
+The l Isa location
+End The l.
+
+Start At l.

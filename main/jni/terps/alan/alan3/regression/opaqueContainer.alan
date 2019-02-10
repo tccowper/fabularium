@@ -1,0 +1,51 @@
+Syntax
+  open = open (o)
+    Where o Isa Container
+      Else "You can only do that to containers."
+  close = close (o)
+    Where o Isa Container
+      Else "You can only do that to containers."
+
+The box Isa object At p
+  Is Not open.
+  Opaque Container
+  Verb open
+    Does
+      Make This Not opaque.
+      List This.
+  End Verb.
+  Verb close
+    Does
+      Make This opaque.
+  End Verb.
+End The box.
+
+The case Isa object In box
+  Container
+End The case.
+
+The lemon Isa object In box
+End The lemon.
+
+The apple Isa object In case
+End The apple.
+
+The p Isa location
+End The p.
+
+Syntax x = x (o) Where o Isa container Else "You can only do that to containers."
+Add To Every object
+  Verb x
+    Does
+      Describe o.
+  End Verb.
+End Add To object.
+
+Syntax l = l.
+Verb l
+  Does
+    Look.
+End Verb l.
+
+Start At p.
+

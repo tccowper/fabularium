@@ -1,0 +1,16 @@
+The l Isa location
+End The l.
+
+Add To Every thing
+  Verb d
+    Does Describe This.
+  End Verb.
+End Add To.
+
+The t Isa thing At l
+End The t.
+
+The o Isa object At l
+End The o.
+
+Start At l.

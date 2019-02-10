@@ -1,0 +1,18 @@
+start at darkroom.
+      "Welcome to the dark room."
+
+location darkroom 
+      name Dark Room
+      description
+      "This is a dark and dusty room."
+      exit north to anotherroom.
+end darkroom.
+
+
+location anotherroom 
+      name Another Room
+      description
+      "You're in another room."
+      exit south to darkroom.
+end anotherroom.
+

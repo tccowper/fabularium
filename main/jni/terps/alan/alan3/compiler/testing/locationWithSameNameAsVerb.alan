@@ -1,0 +1,10 @@
+The l Isa location
+End The l.
+
+Syntax l = l.
+Verb l
+  Does
+    Look.
+End Verb.
+
+Start At l.

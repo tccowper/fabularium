@@ -1,0 +1,16 @@
+########## multipleDefinite ##########
+
+
+multipleDefinite.alan
+
+    4.    Definite Article "again"
+=====>             1
+
+  *1*   204 E : Multiple use of Definite Article/Form clause in this
+                class/instance.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

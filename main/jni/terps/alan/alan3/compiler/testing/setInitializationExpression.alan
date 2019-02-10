@@ -1,0 +1,12 @@
+The l Isa location
+  Is something.
+  Has l l.
+  Has aSet {aSet Of l}.
+  Has bSet {something Of l}.
+  Has cSet {l Of l}.
+End The l.
+
+Start At l.
+  Set aSet Of l To {aSet Of l}.
+  Set bSet Of l To {something Of l}.
+  Set cSet Of l To {l Of l}.

@@ -1,0 +1,24 @@
+Every loc Isa location
+  Entered
+    "Entered by" Say Current Actor. "."
+End Every loc.
+
+The l Isa loc
+  Name 'Location'
+  Entered "Local Entered"
+End The l.
+
+The mr_x Isa actor
+  Name mr x
+End The mr_x.
+
+Event move_mr_x
+  Locate mr_x At l.
+End Event.
+
+The l2 Isa location
+  Exit w To l.
+End The l2.
+
+Start At l2.
+  Schedule move_mr_x After 1.

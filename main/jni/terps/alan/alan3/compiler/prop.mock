@@ -1,0 +1,59 @@
+#include <cgreen/mocks.h>
+
+#include "prop_x.h"
+
+/* USE: */
+#include "acode.h"
+#include "ins.h"
+#include "initialize.h"
+#include "description.h"
+#include "article.h"
+#include "context.h"
+
+
+/* DATA: */
+
+/* METHODS: */
+
+Properties *newEmptyProps(void) { return (Properties*)NEW(Properties); }
+
+Properties *newProps(Where *whr,
+                     List *names,
+                     Srcp pronounsSrcp, List *pronouns,
+                     List *attributes,
+                     Initialize *init,
+                     Description *description,
+                     Srcp mentionedSrcp, List *mentioned,
+                     Article *definite,
+                     Article *indefinite, Article *negative,
+                     Container *cnt,
+                     List *vrbs,
+                     Srcp enteredSrcp, List *entered,
+                     List *exts,
+                     List *scrs) {
+    Properties *props = newEmptyProps();
+    props->whr = whr;
+    props->names = names;
+    props->pronouns = pronouns;
+    props->attributes = attributes;
+    props->initialize = init;
+    props->description = description;
+    props->mentioned = mentioned;
+    props->definite = definite;
+    props->indefinite = indefinite;
+    props->negative = negative;
+    props->container = cnt;
+    props->verbs = vrbs;
+    props->enteredStatements = entered;
+    props->exits = exts;
+    props->scripts = scrs;
+    return props;
+}
+
+void symbolizeProps(Properties *props, Bool inClassDeclaration) { mock(props, inClassDeclaration); }
+void analyzeProps(Properties *props, Context *context) { mock(props, context); }
+void addOpaqueAttribute(Properties *props, Bool opaque) { mock(props, opaque); }
+void generateCommonPropertiesData(Properties *props) { mock(props); }
+void generateInstancePropertiesData(Properties *props) { mock(props); }
+void generatePropertiesEntry(InstanceEntry *entry, Properties *props) { mock(entry, props); }
+void dumpProps(Properties *props) { mock(props); }

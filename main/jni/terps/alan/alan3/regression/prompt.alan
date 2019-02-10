@@ -1,0 +1,6 @@
+The loc Isa location
+End The loc.
+
+Prompt "hello sailor=$$" Say Current Actor. "$$@$$" Say Current Location.
+
+Start At loc.

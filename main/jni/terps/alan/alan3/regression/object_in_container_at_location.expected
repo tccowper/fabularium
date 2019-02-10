@@ -1,0 +1,30 @@
+########## object_in_container_at_location ##########
+
+        No warnings or errors detected.
+
+
+
+O At outer: yes, ok 
+o At inner1: yes, ok 
+o At inner2: yes, ok 
+o At innermost: yes, ok 
+o1 At outer: no, ok 
+o1 At inner1: yes, ok 
+o1 At inner2: no, ok 
+o1 At innermost: yes, ok 
+o2 At outer: no, ok 
+o2 At inner1: no, ok 
+o2 At inner2: yes, ok 
+o2 At innermost: no, ok 
+om At outer: no, ok 
+om At inner1: no, ok 
+om At inner2: no, ok 
+om At innermost yes, ok
+
+
+Inner1
+There is a ic1 here. The ic1 contains a o1.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

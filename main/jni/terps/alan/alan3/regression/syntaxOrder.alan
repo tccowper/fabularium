@@ -1,0 +1,64 @@
+ADD TO EVERY THING 
+IS
+NOT SQUEEZEABLE.
+NOT SQUEEZE_THRUABLE.
+END ADD TO THING.
+
+SYNONYMS
+hug, squish = squeeze.
+'between' = 'through'.
+
+SYNTAX
+squeeze = squeeze (obj)
+WHERE obj ISA THING
+ELSE "You can't squeeze that."
+
+Add To Every object
+Verb squeeze
+Check obj Is squeezeable
+Else "You can't squeeze that."
+Does
+"You squeeze" Say The obj. "."
+End Verb.
+End Add To.
+
+SYNTAX
+squeeze_through = squeeze 'through' (obj)
+WHERE obj Isa OBJECT
+ELSE "You can't squeeze through that. "
+            
+squeeze_inthrough = squeeze 'in' 'through' (obj)            
+WHERE obj Isa OBJECT
+ELSE "You can't squeeze through that. "
+                                    
+ADD TO EVERY OBJECT
+VERB squeeze_through, squeeze_inthrough
+CHECK obj IS SQUEEZE_THRUABLE
+ELSE "You can't squeeze through that. "
+DOES
+"You squeeze through" Say The obj. ". "
+END VERB.
+END ADD TO.
+
+THE room Isa LOCATION NAME 'Test Room'
+DESCRIPTION "You are in a room with a doll and bars."
+EXIT out TO room
+CHECK "No way out."
+END EXIT.
+END THE room.
+
+THe doll Isa OBJECT AT room
+IS SQUEEZEABLE.
+VERB squeeze DOES ONLY
+"""Mama!"""
+END VERB.
+END THE doll.
+
+THE bars Isa OBJECT AT room
+IS SQUEEZE_THRUABLE.
+VERB squeeze_through DOES ONLY
+"It's a tight fit."
+END VERB.
+END THE bars.
+
+START AT room.

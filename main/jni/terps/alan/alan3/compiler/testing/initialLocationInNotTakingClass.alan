@@ -1,0 +1,17 @@
+The l Isa location
+End The l.
+
+Every subobject1 Isa object
+End Every.
+
+Every subobject2 Isa object
+End Every.
+
+The cont Isa object At l
+  Container Taking subobject1.
+End The cont.
+
+The t Isa subobject2 In cont
+End The t.
+
+Start At l.

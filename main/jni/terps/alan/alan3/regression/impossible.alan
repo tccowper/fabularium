@@ -1,0 +1,26 @@
+THE room1 ISA LOCATION
+       DESCRIPTION "" 
+END THE.
+
+THE boy ISA ACTOR AT room1
+END THE.
+
+THE ball ISA OBJECT AT room1
+END THE.
+
+SYNTAX b_take = (act) take (obj).
+
+ADD TO EVERY THING
+VERB b_take
+       DOES "Persuasion fails. Try asking the boy."
+END VERB.
+END ADD TO.
+
+SYNTAX take = take (obj).
+ADD TO EVERY THING
+      VERB take 
+          DOES "Try asking someone to take it for you."
+      END VERB.
+END ADD TO.
+
+START AT room1.

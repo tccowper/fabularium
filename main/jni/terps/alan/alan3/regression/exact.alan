@@ -1,0 +1,10 @@
+The l isa location
+End The l.
+
+Start At l.
+  If "a" == "A" Then
+    "Error: a == A."
+  End If.
+  If "A" == "A" Then
+    "OK: A == A."
+  End If.

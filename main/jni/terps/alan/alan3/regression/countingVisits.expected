@@ -1,0 +1,31 @@
+########## countingVisits ##########
+
+        No warnings or errors detected.
+
+
+
+L1
+
+> e
+Outer has been visited 1 times before. L2 has been visited 1 times before.
+
+L2
+
+> e
+Outer has been visited 2 times before. L1 has been visited 1 times before.
+
+L1
+
+> e
+Outer has been visited 3 times before. L2 has been visited 2 times before.
+
+L2
+
+> e
+Outer has been visited 4 times before. L1 has been visited 2 times before.
+
+L1
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

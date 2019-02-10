@@ -1,0 +1,262 @@
+#
+# ADRIFT Module
+# Exported 08-Nov-2006
+#
+
+# Author: A.N. Onymous
+
+Version 4.00 Release 45
+
+DEFINE Room "Room1"
+   SHORTDESC = "Examination Room"
+   LONGDESC = "Completely empty."
+END Room
+
+DEFINE Task "Task1"
+   COMMAND "set a %number%"
+   WHERE = All Rooms
+   MESSAGE = "a = %a%"
+   ACTION Change Variable "Var1" to Referenced Number
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task2"
+   COMMAND "set a res"
+   WHERE = All Rooms
+   MESSAGE = "a = %a%"
+   ACTION Change Variable "Var1" to Expression "%res%"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task3"
+   COMMAND "set x %number%"
+   WHERE = All Rooms
+   MESSAGE = "x = %x%"
+   ACTION Change Variable "Var3" to Referenced Number
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task4"
+   COMMAND "set x res"
+   WHERE = All Rooms
+   MESSAGE = "x = %x%"
+   ACTION Change Variable "Var3" to Expression "%res%"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task5"
+   COMMAND "set y %number%"
+   WHERE = All Rooms
+   MESSAGE = "y = %y%"
+   ACTION Change Variable "Var4" to Referenced Number
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task6"
+   COMMAND "set y res"
+   WHERE = All Rooms
+   MESSAGE = "y = %y%"
+   ACTION Change Variable "Var4" to Expression "%res%"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task7"
+   COMMAND "set res %number%"
+   WHERE = All Rooms
+   MESSAGE = "res = %res%"
+   ACTION Change Variable "Var5" to Referenced Number
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task8"
+   COMMAND "if ne x y"
+   WHERE = All Rooms
+   MESSAGE = "res = %res%"
+   ACTION Change Variable "Var5" to Expression "if(%x%!=%y%,%a%,-%a%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task9"
+   COMMAND "if ne_alternate x y"
+   WHERE = All Rooms
+   MESSAGE = "res = %res%"
+   ACTION Change Variable "Var5" to Expression "if(%x%<>%y%,%a%,-%a%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task10"
+   COMMAND "if eq x y"
+   WHERE = All Rooms
+   MESSAGE = "res = %res%"
+   ACTION Change Variable "Var5" to Expression "if(%x%=%y%,%a%,-%a%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task11"
+   COMMAND "if eq_alternate x y"
+   WHERE = All Rooms
+   MESSAGE = "res = %res%"
+   ACTION Change Variable "Var5" to Expression "if(%x%==%y%,%a%,-%a%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task12"
+   COMMAND "if gt x y"
+   WHERE = All Rooms
+   MESSAGE = "res = %res%"
+   ACTION Change Variable "Var5" to Expression "if(%x%>%y%,%a%,-%a%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task13"
+   COMMAND "if lt x y"
+   WHERE = All Rooms
+   MESSAGE = "res = %res%"
+   ACTION Change Variable "Var5" to Expression "if(%x%<%y%,%a%,-%a%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task14"
+   COMMAND "if ge x y"
+   WHERE = All Rooms
+   MESSAGE = "res = %res%"
+   ACTION Change Variable "Var5" to Expression "if(%x%>=%y%,%a%,-%a%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task15"
+   COMMAND "if le x y"
+   WHERE = All Rooms
+   MESSAGE = "res = %res%"
+   ACTION Change Variable "Var5" to Expression "if(%x%<=%y%,%a%,-%a%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task16"
+   COMMAND "if or x y gt 0"
+   WHERE = All Rooms
+   MESSAGE = "res = %res%"
+   ACTION Change Variable "Var5" to Expression "if(%x%>0or%y%>0,%a%,-%a%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task17"
+   COMMAND "if or_alternate x y gt 0"
+   WHERE = All Rooms
+   MESSAGE = "res = %res%"
+   ACTION Change Variable "Var5" to Expression "if(%x%>0|%y%>0,%a%,-%a%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task18"
+   COMMAND "if or_alternate2 x y gt 0"
+   WHERE = All Rooms
+   MESSAGE = "res = %res%"
+   ACTION Change Variable "Var5" to Expression "if(%x%>0||%y%>0,%a%,-%a%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task19"
+   COMMAND "if _and x y gt 0"
+   WHERE = All Rooms
+   MESSAGE = "res = %res%"
+   ACTION Change Variable "Var5" to Expression "if(%x%>0and%y%>0,%a%,-%a%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task20"
+   COMMAND "if and_alternate x y gt 0"
+   WHERE = All Rooms
+   MESSAGE = "res = %res%"
+   ACTION Change Variable "Var5" to Expression "if(%x%>0&%y%>0,%a%,-%a%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task21"
+   COMMAND "if and_alternate2 x y gt 0"
+   WHERE = All Rooms
+   MESSAGE = "res = %res%"
+   ACTION Change Variable "Var5" to Expression "if(%x%>0&&%y%>0,%a%,-%a%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task22"
+   COMMAND "if or x y _and _a gt 0"
+   WHERE = All Rooms
+   MESSAGE = "res = %res%"
+   ACTION Change Variable "Var5" to Expression "if(%x%>0or%y%>0and%a%>0,1,-1)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task23"
+   COMMAND "if or_paren x y _and _a gt 0"
+   WHERE = All Rooms
+   MESSAGE = "res = %res%"
+   ACTION Change Variable "Var5" to Expression "if((%x%>0or%y%>0)and%a%>0,1,-1)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task24"
+   COMMAND "if _and x y or _a gt 0"
+   WHERE = All Rooms
+   MESSAGE = "res = %res%"
+   ACTION Change Variable "Var5" to Expression "if(%x%>0and%y%>0or%a%>0,1,-1)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task25"
+   COMMAND "if _and x y or_paren _a gt 0"
+   WHERE = All Rooms
+   MESSAGE = "res = %res%"
+   ACTION Change Variable "Var5" to Expression "if(%x%>0and(%y%>0or%a%>0),1,-1)"
+   REPEATABLE = True
+END Task
+
+DEFINE Variable "Var1"
+   NAME = "a"
+   TYPE = Integer
+   VALUE = 0
+END Variable
+
+DEFINE Variable "Var2"
+   NAME = "b"
+   TYPE = Integer
+   VALUE = 0
+END Variable
+
+DEFINE Variable "Var3"
+   NAME = "x"
+   TYPE = Integer
+   VALUE = 0
+END Variable
+
+DEFINE Variable "Var4"
+   NAME = "y"
+   TYPE = Integer
+   VALUE = 0
+END Variable
+
+DEFINE Variable "Var5"
+   NAME = "res"
+   TYPE = Integer
+   VALUE = 0
+END Variable
+
+DEFINE Introduction
+   MESSAGE = ""
+   STARTROOM = "Room1"
+   SHOWFIRST = True
+END Introduction
+
+DEFINE Winning
+   MESSAGE = ""
+END Winning
+
+DEFINE Player
+   NAME = ""
+   GENDER = Male
+   DESCRIPTION = ""
+   INITIALPOSITION = Standing
+   MAXBULK = 10 Normal Objects
+   MAXWEIGHT = 10 Normal Objects
+END Player

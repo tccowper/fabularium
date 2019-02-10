@@ -1,0 +1,46 @@
+The l Isa location
+End The l.
+
+Every box Isa object
+  Container
+End Every box.
+
+The bigbox Isa box At l
+  Name big box
+  Container Taking box.
+    Extract Check "You can't extract anything from the big box."
+  Description
+    "There is a big box here." List This.
+    For Each i Directly In This Do
+      List i.
+    End For.
+End The bigbox.
+
+The mediumbox Isa box In bigbox
+  Name medium box
+  Container
+    Extract Check "You can't extract anything from the medium box."
+End The mediumbox.
+
+The smallbox Isa box In bigbox
+  Name small box
+  Container
+End The smallbox.
+
+The thing1 Isa object In mediumbox
+End The thing1.
+
+The thing2 Isa object In smallbox
+End the thing2.
+
+Syntax take = take (o).
+
+Add To Every object
+  Verb take
+    Does
+      Locate o In hero.
+      "You take" Say The o. "."
+  End Verb.
+End Add.
+
+Start At l.

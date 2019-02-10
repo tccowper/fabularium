@@ -1,0 +1,19 @@
+The loc Isa location
+  Has string "string".
+
+  Description
+    "The loc has string" Say string of loc.
+
+End The loc.
+
+Verb s
+  Does
+    Set string Of loc To "another".
+End Verb s.
+
+Verb l
+  Does
+    Look.
+End Verb l.
+
+Start At loc.

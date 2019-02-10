@@ -1,0 +1,19 @@
+The l Isa location
+End The l.
+
+The nowhere Isa location
+End The nowhere.
+
+Syntax take = take (o).
+
+Add To Every object
+  Verb take
+    Does
+      Locate This At nowhere.
+  End Verb.
+End Add.
+
+The o Isa object At l
+End The o.
+
+Start At l.

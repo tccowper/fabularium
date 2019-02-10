@@ -1,0 +1,48 @@
+########## undoWithComma ##########
+
+        No warnings or errors detected.
+        2 informational message(s).
+
+
+
+L
+There is a book here.
+
+> w, e, e
+L
+There is a book here.
+
+
+L
+There is a book here.
+
+
+L
+There is a book here.
+
+> undo
+'e' undone.
+
+> undo
+'e' undone.
+
+> undo
+'w' undone.
+
+> take the book and read it
+You take the book.
+
+You read the book.
+
+> undo
+'read it' undone.
+
+> undo
+'take the book' undone.
+
+> undo
+Nothing to undo.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

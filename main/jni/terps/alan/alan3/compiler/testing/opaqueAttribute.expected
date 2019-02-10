@@ -1,0 +1,15 @@
+########## opaqueAttribute ##########
+
+
+opaqueAttribute.alan
+
+    3.      If t Is opaque Then "" End If.
+=====>              1
+
+  *1*   315 E : Attribute not defined for 't'.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

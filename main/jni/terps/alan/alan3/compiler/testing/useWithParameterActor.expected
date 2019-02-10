@@ -1,0 +1,15 @@
+########## useWithParameterActor ##########
+
+
+useWithParameterActor.alan
+
+   12.        Use Script unknown For a.
+=====>                   1
+
+  *1*   400 E : Script 'unknown' not defined for class 'actor'.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -1,0 +1,41 @@
+The l1 Isa location
+End the l1.
+
+The o1 Isa object At l1
+End The o1.
+
+The l2 Isa location
+  Exit w to l1.
+End the l2.
+
+The o2 Isa object At l2
+End The o2.
+
+The l3 Isa location
+  Exit w to l2.
+End the l3.
+
+The o3 Isa object At l3
+End The o3.
+
+The l4 Isa location
+End the l4.
+
+The o4 Isa object At l4
+End The o4.
+
+Start At l1.
+  If o1 Near o1 Then "o1 near o1 (ERROR)$n" Else "o1 not near o1 (OK)$n" End If.
+  If o2 Near o1 Then "o2 near o1 (OK)$n" Else "o2 not near o1 (ERROR)$n" End If.
+  If o3 Near o1 Then "o3 near o1 (ERROR)$n" Else "o3 not near o1 (OK)$n" End If.
+  If o4 Near o1 Then "o4 near o1 (ERROR)$n" Else "o4 not near o1 (OK)$n" End If.
+
+  If o1 Near o2 Then "o1 near o2 (ERROR)$n" Else "o1 not near o2 (OK)$n" End If.
+  If o2 Near o2 Then "o2 near o2 (ERROR)$n" Else "o2 not near o2 (OK)$n" End If.
+  If o3 Near o2 Then "o3 near o2 (OK)$n" Else "o3 not near o2 (ERROR)$n" End If.
+  If o4 Near o2 Then "o4 near o2 (ERROR)$n" Else "o4 not near o2 (OK)$n" End If.
+
+  If l1 Near l2 Then "l1 near l2 (ERROR)$n" Else "l1 not near l2 (OK)$n" End If.
+  If l2 Near l2 Then "l2 near l2 (ERROR)$n" Else "l2 not near l2 (OK)$n" End If.
+  If l3 Near l2 Then "l3 near l2 (OK)$n" Else "l3 not near l2 (ERROR)$n" End If.
+  If l4 Near l2 Then "l4 near l2 (ERROR)$n" Else "l4 not near l2 (OK)$n" End If.

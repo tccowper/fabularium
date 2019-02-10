@@ -1,0 +1,45 @@
+Every firstClass
+  Isa location.
+  Has
+	a1 1.
+	a12 12.
+End Every firstClass.
+
+Every secondClass
+  Isa firstClass.
+  Has
+	a1 101.
+	a21 21.
+End Every secondClass.
+
+The firstInstance
+  Isa firstClass.
+  Has
+	a11 11.
+	a12 112.
+
+  Description
+    "This location has a1 =" Say a1 of firstInstance.
+    "and a11 =" Say a11 of firstInstance.
+    "and a12 =" Say a12 of firstInstance.
+
+  Exit w To secondInstance.
+End The firstInstance.
+
+The secondInstance
+  Isa secondClass.
+  Has
+	a1 201.
+	a22 22.
+
+  Description
+    "This location has a1 =" Say a1 of secondInstance.
+    "and a12 =" Say a12 of secondInstance.
+    "and a21 =" Say a21 of secondInstance.
+    "and a22 =" Say a22 of secondInstance.
+    Set a1 Of firstInstance To 111.
+
+  Exit e To firstInstance.
+End The secondInstance.
+
+Start At firstInstance.

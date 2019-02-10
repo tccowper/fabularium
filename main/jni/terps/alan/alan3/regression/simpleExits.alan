@@ -1,0 +1,15 @@
+The room
+  Isa location.
+  Description
+    "This is a room."
+  Exit w To room.
+  Exit e To other_room.
+End The room.
+
+The other_room
+  Isa location.
+  Exit e To other_room.
+  Exit w To room.
+End The other_room.
+
+Start At room.

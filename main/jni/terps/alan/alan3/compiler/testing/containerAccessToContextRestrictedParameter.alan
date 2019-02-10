@@ -1,0 +1,26 @@
+The l Isa location
+    Verb v
+        Does
+            If o Isa cont Then
+                List o. -- OK, because of the surrounding IF
+            Else
+                List o. -- Error, since the parameter is only restricted to thing
+            End If.
+    End Verb.
+End The l.
+
+The o Isa object At l
+End The o.
+
+Every cont Isa object
+  Container
+End Every.
+
+Syntax v = v (o) Where o Isa thing
+                 Else
+                     List o. -- Error, here the parameter is known only to *not* be an object => entity
+                     If o Isa cont Then
+                       List o. -- Ok, since restricted by the surrounding If
+                     End If.
+
+Start At l.

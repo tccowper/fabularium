@@ -1,0 +1,81 @@
+The o1 Isa object In c1
+End The o1.
+
+The o2 Isa object In c2
+End The o2.
+
+The o3 Isa object In c2
+End The o3.
+
+The o4 Isa object In c3
+End The o4.
+
+The o5 Isa object In c3
+End The o5.
+
+The o6 Isa object In c3
+End The o6.
+
+The o7 Isa object In a1
+End The o7.
+
+The o8 Isa object In a2
+End The o8.
+
+The o9 Isa object In a2
+End The o9.
+
+The o10 Isa object In a3
+End The o10.
+
+The o11 Isa object In a3
+End The o11.
+
+The o12 Isa object In a3
+End The o12.
+
+The a0 Isa actor At l
+  Container
+End The.
+
+The a1 Isa actor At l
+  Container
+End The.
+
+The a2 Isa actor At l
+  Container
+End The.
+
+The a3 Isa actor At l
+  Container
+End The.
+
+The c0 Isa object At l
+  Container
+End The c0.
+
+The c1 Isa object At l
+  Container
+End The c1.
+
+The c2 Isa object At l
+  Container
+End The c2.
+
+The c3 Isa object At l
+  Container
+End The c3.
+
+The l Isa location
+End The l.
+
+
+Start At l.
+  List c0.
+  List c1.
+  List c2.
+  List c3.
+  List a0.
+  List a1.
+  List a2.
+  List a3.

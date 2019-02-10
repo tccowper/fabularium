@@ -1,0 +1,20 @@
+########## expression ##########
+
+
+expression.alan
+
+    5.    If dark Of This Not = 1 Then "It is pitch dark 1." End If.
+=====>               1
+
+  *1*   421 E : THIS instance is not defined in this context.
+
+    6.    If object Not In hero Then "" End If.
+=====>       1
+
+  *1*   319 E : Identifier 'object' is not of correct type for this context.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

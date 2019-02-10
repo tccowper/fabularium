@@ -1,0 +1,17 @@
+Option
+  Language german.
+
+The o Isa object Name schwere Ding
+  Verb nehm
+    Check object Here
+      Else "Sie kan es nicht nehmen."
+    Does
+      "Sie nehmt das" Say object. "."
+  End Verb.
+End The o.
+
+The l Isa location
+End The l.
+
+Start At l.
+

@@ -1,0 +1,26 @@
+########## scriptname ##########
+
+
+scriptname.alan
+
+   15.    Script swimming.
+=====>    1
+
+  *1*   403 E : Script multiply defined for Actor 'torbjorn'.
+
+   19.    Script s33.
+=====>    1
+
+  *1*   403 E : Script multiply defined for Actor 'torbjorn'.
+
+   30.    Use script nonexistant for torbjorn.  Use script s31 for torbjorn.
+=====>               1                                     2
+
+  *1*   400 E : Script 'nonexistant' not defined for actor 'torbjorn'.
+  *2*   400 E : Script 's31' not defined for actor 'torbjorn'.
+
+
+        4 error(s).
+        No detected warnings.
+        1 informational message(s).
+

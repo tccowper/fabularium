@@ -1,0 +1,21 @@
+The loc Isa location
+  Description
+    "The loc is a location."
+End The loc.
+
+The o1 Isa object
+  Container
+End The o1.
+
+The o2 Isa object In o1
+  Container
+End The o2.
+
+The o3 Isa object In o2
+End The o3.
+
+Start At loc.
+-- Test IN since it changed between beta3, beta4 and beta5
+  Say Count In o1.
+  Say Count Directly In o1.
+  Say Count Indirectly In o1.

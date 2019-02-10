@@ -1,0 +1,11 @@
+#include <cgreen/cgreen.h>
+#include <cgreen/mocks.h>
+
+#include "checkentry.h"
+
+/* DATA */
+typedef CheckEntry CheckEntryArray[];
+
+
+/* FUNCTIONS */
+bool checksFailed(Aaddr adr, bool execute) { return (bool)mock(); }

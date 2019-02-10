@@ -1,0 +1,33 @@
+SYNTAX l = l.
+
+VERB l
+  DOES
+    LOOK.
+END VERB.
+
+LOCATION w
+END LOCATION w.
+
+OBJECT o AT w
+  DESCRIPTION
+END OBJECT o.
+
+SYNTAX examine = examine (a)
+			WHERE a ISA ACTOR ELSE "You can't do that to that."
+
+VERB x
+  DOES
+    IF OBJECT = fred THEN
+      "x fred!"
+    END IF.
+END VERB.
+
+
+ACTOR Fred At w
+  VERB examine DOES
+    "Describe Fred."
+  END VERB.
+END ACTOR Fred.
+
+START AT w.
+  "Examine Fred!"

@@ -1,0 +1,48 @@
+########## elsiferr ##########
+Options
+  debug.
+  
+
+
+
+The l1 Isa location
+  
+End The l1.
+
+The l2 Isa location
+  
+End The l2.
+
+The l3 Isa location
+  
+End The l3.
+
+The l4 Isa location
+  
+End The l4.
+
+Start At l1.
+  If 1 =l1 Then
+    ""
+  Elsif l2 =l2 Then 
+    ""
+  Elsif l3 =l3 Then 
+    ""
+  Elsif 4 =l4 Then 
+    ""
+  Else 
+    ""
+  End If.
+  If l1 =1 Then
+    ""
+  Elsif l2 =l2 Then 
+    ""
+  Elsif l3 =l3 Then 
+    ""
+  End If.
+  If l1 =l1 Then
+    ""
+  Else 
+    ""
+  End If.
+  

@@ -1,0 +1,13 @@
+The l1 Isa location At l2
+End The l1.
+
+The l2 Isa location In c
+End The l2.
+
+The c Isa object
+  Container
+End The c.
+
+Start At l1.
+  Locate l1 At l2.
+  Locate l2 In c.

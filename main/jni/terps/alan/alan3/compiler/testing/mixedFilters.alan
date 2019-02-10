@@ -1,0 +1,11 @@
+The l Isa location
+End The l.
+
+Start At l.
+  For i Between 1 And 12, Isa location Do
+    Say i.
+  End For.
+
+  For i Isa location, Between 1 And 12, Is x Do
+    Say i.
+  End For.

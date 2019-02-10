@@ -1,0 +1,14 @@
+Every r Isa object
+  Has n location.
+  Description
+    Say The n Of this.
+End Every r.
+
+The rr Isa r At l
+  Has n l.
+End The rr.
+
+The l Isa location
+End The l.
+
+Start At l.

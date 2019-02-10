@@ -1,0 +1,33 @@
+########## simpleExits ##########
+
+        No warnings or errors detected.
+
+
+
+Room
+This is a room.
+
+> e
+Other_room
+
+> e
+Other_room
+
+> w
+Room
+This is a room.
+
+> w
+Room
+This is a room.
+
+> w
+Room
+This is a room.
+
+> e
+Other_room
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

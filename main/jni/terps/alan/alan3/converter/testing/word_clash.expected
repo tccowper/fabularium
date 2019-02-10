@@ -1,0 +1,40 @@
+########## word_clash ##########
+Options
+  debug.
+  
+
+
+Syntax
+  take = take (o)*.
+
+Verb take
+  Does
+    Locate o In inventory.
+    "Taken."
+End Verb.
+
+Syntax
+  drop = drop (o)*.
+
+Verb drop
+  Does
+    Locate o Here.
+    "Dropped."
+End Verb.
+
+
+The screwdriver Isa object
+  Name screw driver
+  At l 
+End The screwdriver.
+
+The screw Isa object
+  At l 
+End The screw.
+
+The l Isa location
+  
+End The l.
+
+Start At l.
+  

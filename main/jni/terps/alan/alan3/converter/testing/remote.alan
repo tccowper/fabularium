@@ -1,0 +1,27 @@
+Location present
+End Location present.
+
+Location remote
+End Location remote.
+
+Object r At remote
+End Object r.
+
+Object p At present
+End Object p.
+
+Verb x
+  Does
+    "x" say object.
+End Verb.
+
+Syntax y = y (o)!.
+
+Verb y
+  Does
+    "y" say object.
+End Verb.
+
+Start At present.
+  "Try 'x r' and 'x p' for present and remote object."
+

@@ -1,0 +1,24 @@
+The l Isa location
+    Verb v
+        Does
+            If o Isa object Then
+                Say attribute Of o. -- Ok, since restricted by Isa object
+            Else
+                Say attribute Of o. -- Error, since parameter is only restricted to thing
+            End If.
+    End Verb.
+End The l.
+
+The o Isa object At l
+End The o.
+
+Add To Every object
+  Has attribute 42.
+End Add.
+
+Syntax v = v (o) Where o Isa thing
+                 Else
+                     Say attribute Of o. -- Error, since here the parameter is known only to *not* be an object => entity
+
+
+Start At l.

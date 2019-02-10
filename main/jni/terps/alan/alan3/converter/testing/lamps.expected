@@ -1,0 +1,102 @@
+########## lamps ##########
+
+Add To Every object
+  Is
+    takeable.
+End Add To.
+
+Syntax
+  pick = pick (o)*.
+
+Syntax
+  take = take (o)*.
+
+Syntax
+  get = get (o)*.
+
+Verb take, get, pick
+  Check object Not In inventory
+    Else 
+      "You already have the $o."
+  And object Is takeable
+    Else 
+      "You can't take the $o."
+  Does
+    Locate object In inventory.
+    "Taken."
+End Verb.
+
+Verb drop
+  Check object In inventory
+    Else 
+      "You don't have the $o!"
+  Does
+    Locate object Here.
+    "Dropped."
+End Verb.
+
+Syntax
+  l = l.
+
+Verb l
+  Does
+    Look.
+End Verb.
+
+Syntax
+  i = i.
+
+Verb i
+  Does
+    List inventory.
+End Verb.
+
+Syntax
+  q = q.
+
+Verb q
+  Does
+    Quit.
+End Verb.
+
+
+The outside Isa location
+  Name outside 'the' big building
+  
+  Exit n To inside.
+  
+End The outside.
+
+The dusty_blue_lamp Isa object
+  Name dusty blue lamp
+  At outside 
+End The dusty_blue_lamp.
+
+The dusty_golden_lamp Isa object
+  Name dusty golden lamp
+  At outside 
+End The dusty_golden_lamp.
+
+The clean_blue_lamp Isa object
+  Name clean blue lamp
+  At outside 
+End The clean_blue_lamp.
+
+The clean_golden_lamp Isa object
+  Name clean golden lamp
+  At outside 
+End The clean_golden_lamp.
+
+The inside Isa location
+  
+  Exit n To outside.
+  
+End The inside.
+
+The ball Isa object
+  Name rubber ball
+  At inside 
+End The ball.
+
+Start At outside.
+  

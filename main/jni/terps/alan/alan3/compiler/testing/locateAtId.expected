@@ -1,0 +1,22 @@
+########## locateAtId ##########
+
+
+locateAtId.alan
+
+    5.    Locate unknown At unknown.
+=====>           1          2
+
+  *1*   310 E : Identifier 'unknown' not defined.
+  *2*   310 E : Identifier 'unknown' not defined.
+
+    6.    Locate object At object.
+=====>           1         2
+
+  *1*   319 E : Identifier 'object' is not of correct type for this context.
+  *2*   319 E : Identifier 'object' is not of correct type for this context.
+
+
+        4 error(s).
+        No detected warnings.
+        1 informational message(s).
+

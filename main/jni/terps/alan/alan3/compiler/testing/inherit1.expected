@@ -1,0 +1,26 @@
+########## inherit1 ##########
+
+
+inherit1.alan
+
+    1.  The y
+=====>      1
+
+  *1*   429 E : No inheritance defined, everything must inherit from some
+                class.
+
+    5.    Isa y
+=====>        1
+
+  *1*   350 E : Cannot inherit from something not a class.
+
+    8.  Start At l.
+=====>           1
+
+  *1*   310 E : Identifier 'l' not defined.
+
+
+        3 error(s).
+        No detected warnings.
+        1 informational message(s).
+

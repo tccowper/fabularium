@@ -1,0 +1,12 @@
+Every door Isa object
+  Is not open.
+End Every door.
+
+Every open_door Isa door
+  Has open 5.
+End Every open_door.
+
+The l Isa location
+End The l.
+
+Start At l.

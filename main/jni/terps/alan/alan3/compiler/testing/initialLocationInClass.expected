@@ -1,0 +1,15 @@
+########## initialLocationInClass ##########
+
+
+initialLocationInClass.alan
+
+    1.  The x Isa thing In location
+=====>                     1
+
+  *1*   319 E : Identifier 'location' is not an Instance.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

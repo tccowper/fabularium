@@ -1,0 +1,20 @@
+########## outdoor_storage ##########
+
+        No warnings or errors detected.
+
+
+
+L1
+
+> examine sky
+There is nothing special with the sky.
+
+> n
+L2
+
+> examine air
+I can't see any air here.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

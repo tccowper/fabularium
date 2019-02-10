@@ -1,0 +1,17 @@
+Options
+    Debug.
+
+The o Isa object In l
+End The o.
+
+The cont Isa object In object
+  Container
+End The cont.
+
+The l Isa location In cont
+End The l.
+
+The l2 Isa location In o
+End The l2.
+
+Start At l.

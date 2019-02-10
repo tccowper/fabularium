@@ -1,0 +1,26 @@
+########## andor ##########
+
+
+andor.alan
+
+    5.    If "a" and 1 Then -- Error!
+=====>       1       2
+
+  *1*   330 E : Wrong type of expression in context of AND/OR. Must be of
+                boolean type.
+  *2*   330 E : Wrong type of expression in context of AND/OR. Must be of
+                boolean type.
+
+    8.    If l or "1" Then -- Error!
+=====>       1    2
+
+  *1*   330 E : Wrong type of expression in context of AND/OR. Must be of
+                boolean type.
+  *2*   330 E : Wrong type of expression in context of AND/OR. Must be of
+                boolean type.
+
+
+        4 error(s).
+        No detected warnings.
+        1 informational message(s).
+

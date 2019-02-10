@@ -1,0 +1,61 @@
+########## abort_command ##########
+
+        No warnings or errors detected.
+
+
+
+Loc
+There is a key and a chair here. There is a act here. The act carries a 
+coin.
+
+> n, n, n
+You can't go that way.
+
+> e, e, e
+You can't go there (unconditional exit check).
+
+> w, w, w
+You must be small to go there (exit check).
+
+> take act, take act, take act
+You can only take objects (syntax restriction).
+
+> take key, take key, take key
+Taken.
+
+Taken.
+
+Taken.
+
+> take coin, take coin, take coin
+You can't take it from the act (extract check).
+
+> take chair, take chair, take chair
+You can't take the chair (verb check).
+
+> take chair, coin, act and key
+(act) You can only take objects (syntax restriction).
+
+(chair) You can't take the chair (verb check).
+
+(coin) You can't take it from the act (extract check).
+
+(key) Taken.
+
+> steal coin, steal coin, steal coin
+You can't take it from the act (extract check).
+
+> take all, take all, take all
+(key) Taken.
+
+(coin) You can't take it from the act (extract check).
+
+> steal all, steal all, steal all
+(coin) You can't take it from the act (extract check).
+
+> pat all, pat all, pat all
+I don't know what you mean by 'all'.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

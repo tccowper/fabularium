@@ -1,0 +1,28 @@
+########## lines ##########
+Options
+  language english.
+  
+
+
+Syntax
+  quit_verb = 'quit'.
+
+Verb quit_verb
+  Does
+    Quit.
+End Verb.
+
+
+The nowhere Isa location
+  
+  Description
+    "You are nowhere."
+  
+  Exit north, south, east, west To nowhere.
+  
+End The nowhere.
+
+Start At nowhere.
+  "$p$t$t$t************************"
+  "$p$t$t$t************************"
+  

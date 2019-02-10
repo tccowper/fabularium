@@ -1,0 +1,26 @@
+########## syserr1 ##########
+
+
+syserr1.alan
+
+    3.      Increase v Of l.
+=====>                    1
+
+  *1*   319 E : Identifier 'l' is not of correct type for this context.
+
+   11.  The l Isa location
+=====>      1
+
+  *1*   303 E : 'l' also declared as a Verb.
+
+   17.  Start At l.
+=====>           1
+
+  *1*   351 E : START statement must refer to an instance inheriting from
+                'location'.
+
+
+        3 error(s).
+        No detected warnings.
+        4 informational message(s).
+

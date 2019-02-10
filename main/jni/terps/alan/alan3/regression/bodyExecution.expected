@@ -1,0 +1,116 @@
+########## bodyExecution ##########
+
+
+bodyExecution.alan
+
+   92.      Does
+=====>      1
+
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'v', depending on the parameter restrictions.
+                You might want to use a WHEN clause to specify for which
+                parameter this alternative is to be run.
+
+   99.      Does
+=====>      1
+
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'v', depending on the parameter restrictions.
+                You might want to use a WHEN clause to specify for which
+                parameter this alternative is to be run.
+
+  106.      Does
+=====>      1
+
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'v', depending on the parameter restrictions.
+                You might want to use a WHEN clause to specify for which
+                parameter this alternative is to be run.
+
+  114.      Does
+=====>      1
+
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'v', depending on the parameter restrictions.
+                You might want to use a WHEN clause to specify for which
+                parameter this alternative is to be run.
+
+  122.      Does
+=====>      1
+
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'v', depending on the parameter restrictions.
+                You might want to use a WHEN clause to specify for which
+                parameter this alternative is to be run.
+
+  129.      Does
+=====>      1
+
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'v', depending on the parameter restrictions.
+                You might want to use a WHEN clause to specify for which
+                parameter this alternative is to be run.
+
+  136.      Does
+=====>      1
+
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'v', depending on the parameter restrictions.
+                You might want to use a WHEN clause to specify for which
+                parameter this alternative is to be run.
+
+  144.      Does
+=====>      1
+
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'v', depending on the parameter restrictions.
+                You might want to use a WHEN clause to specify for which
+                parameter this alternative is to be run.
+
+  152.      Does
+=====>      1
+
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'v', depending on the parameter restrictions.
+                You might want to use a WHEN clause to specify for which
+                parameter this alternative is to be run.
+
+  159.      Does
+=====>      1
+
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'v', depending on the parameter restrictions.
+                You might want to use a WHEN clause to specify for which
+                parameter this alternative is to be run.
+
+  166.      Does
+=====>      1
+
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'v', depending on the parameter restrictions.
+                You might want to use a WHEN clause to specify for which
+                parameter this alternative is to be run.
+
+  174.      Does
+=====>      1
+
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'v', depending on the parameter restrictions.
+                You might want to use a WHEN clause to specify for which
+                parameter this alternative is to be run.
+
+
+        No detected errors.
+        12 warning(s).
+
+
+
+Loc
+There is a firstParameter, a secondParameter and a thirdParameter here.
+
+> v firstParameter secondParameter thirdParameter
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

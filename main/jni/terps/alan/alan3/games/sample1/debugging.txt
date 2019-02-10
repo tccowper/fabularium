@@ -1,0 +1,9 @@
+Ok, Anssis problem was that running the sample1.rec (recorded
+commands) would not take the white key with the final command.
+
+I have found out that this is caused by the Check on line 325 which
+seems to cause the possible() check to fail since that builds a list
+of all checks and tries them to remove all impossible choices.
+
+However this should not occur since it is completely possible to take
+the white key as a separate command.

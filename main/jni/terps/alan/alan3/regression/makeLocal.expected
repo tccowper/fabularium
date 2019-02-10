@@ -1,0 +1,16 @@
+########## makeLocal ##########
+
+        No warnings or errors detected.
+
+
+
+Room
+This is a room. It is not lit.
+
+> e
+Other_room
+It is not lit.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

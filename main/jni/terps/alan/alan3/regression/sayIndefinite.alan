@@ -1,0 +1,12 @@
+The t Isa object
+End The t.
+
+The u Isa object
+  Article "an"
+End The u.
+
+The l Isa location
+End The l.
+
+Start At l.
+  Say An t. Say An u. Say t. Say u.

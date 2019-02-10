@@ -1,0 +1,8 @@
+The e1 Isa entity At l
+End The e1.
+
+The l Isa location
+End The l.
+
+Start At l.
+  Locate e1 At l.

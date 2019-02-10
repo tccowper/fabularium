@@ -1,0 +1,30 @@
+########## thing ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+The purse is empty.
+
+
+L1
+There is a purse here.
+
+> x e1
+X the e1.
+
+> x purse
+X the purse.
+
+> w
+L2
+
+> x e1
+I can't see any e1 here.
+
+> x purse
+I can't see any purse here.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

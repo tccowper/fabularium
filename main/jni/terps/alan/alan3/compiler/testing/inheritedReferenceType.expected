@@ -1,0 +1,30 @@
+########## inheritedReferenceType ##########
+
+
+inheritedReferenceType.alan
+
+   21.    Has s l.
+=====>        1
+
+  *1*   329 E : Attribute is inherited from class 'talker', but the class of
+                the instance that it refers to in this declaration ('location')
+                is not a subclass of the class infered for the inherited
+                ('aTopic'), which it must be.
+
+   22.    Has r 4.
+=====>        1
+
+  *1*   332 E : Attribute is inherited from class 'talker' but does not match
+                the original type (Instance) which is required.
+
+   33.    Set t of aSubTalker To l.	-- Should only allow topics
+=====>                           1
+
+  *1*   430 E : Incompatible assignment. You can only assign instances of class
+                'topic' and its subclasses.
+
+
+        3 error(s).
+        No detected warnings.
+        1 informational message(s).
+

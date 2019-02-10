@@ -1,0 +1,16 @@
+########## disambiguate10N ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+Loc
+There is a adj1 o1 here.
+
+> vp adj1 o1
+You vp the adj1 o1.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

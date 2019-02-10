@@ -1,0 +1,95 @@
+The l Isa location
+End The l.
+
+The outer Isa object -- #2
+  Container
+End The outer.
+
+The o Isa object In outer -- #3
+End The o.
+
+The inner1 Isa object In outer -- #4
+  Container
+End The inner1.
+
+The o1 Isa object In inner1 -- #5
+End The o1.
+
+The inner2 Isa object In outer -- #6
+  Container
+End The inner2.
+
+The o2 Isa object In inner2 -- #7
+End The o2.
+
+The innermost Isa object In inner1 -- #8
+  Container
+End The innermost.
+
+The om Isa object In innermost -- #9
+End The om.
+
+Start At l.
+  "$n"
+  "o Indirectly In outer:"
+  If o Indirectly In outer Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o Indirectly In inner1:"
+  If o Indirectly In inner1 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o Indirectly In inner2:"
+  If o Indirectly In inner2 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o Indirectly In innermost:"
+  If o Indirectly In innermost Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o1 Indirectly In outer:"
+  If o1 Indirectly In outer Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o1 Indirectly In inner1:"
+  If o1 Indirectly In inner1 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o1 Indirectly In inner2:"
+  If o1 Indirectly In inner2 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o1 Indirectly In innermost:"
+  If o1 Indirectly In innermost Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o2 Indirectly In outer:"
+  If o2 Indirectly In outer Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o2 Indirectly In inner1:"
+  If o2 Indirectly In inner1 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o2 Indirectly In inner2:"
+  If o2 Indirectly In inner2 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o2 Indirectly In innermost:"
+  If o2 Indirectly In innermost Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "om Indirectly In outer:"
+  If om Indirectly In outer Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "om Indirectly In inner1:"
+  If om Indirectly In inner1 Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "om Indirectly In inner2:"
+  If om Indirectly In inner2 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "om Indirectly In innermost"
+  If om Indirectly In innermost Then "yes, *** error ***" Else "no, ok" End If.

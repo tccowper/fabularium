@@ -1,0 +1,23 @@
+-- Names of the disambiguateXXX tests relate to the table
+-- of possible cases listed in parse.c
+-- This one is for 1 present, 1 non-present, non-omnipotent parameter
+
+The loc Isa location
+End The loc.
+
+The o1 Isa object At loc
+  Name adj1 o1
+End The o1.
+
+The o2 Isa object
+  Name adj2 o1
+End The o2.
+
+Add To Every object
+  Verb vp
+    Does
+      "You $v $+1."
+  End Verb.
+End Add.
+
+Start At loc.

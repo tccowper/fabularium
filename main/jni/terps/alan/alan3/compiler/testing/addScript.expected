@@ -1,0 +1,34 @@
+########## addScript ##########
+
+
+addScript.alan
+
+   12.    Script saving. Step ""
+=====>    1
+
+  *1*   240 E : Script 'saving' already defined for class 'hero'. You cannot
+                add it. You can override it by subclassing from class 'hero'.
+
+   16.    Script courting. Step ""
+=====>    1
+
+  *1*   240 E : Script 'courting' already defined for class 'hero'. You cannot
+                add it. You can override it by subclassing from class 'hero'.
+
+   21.    Script sleeping. Step ""
+=====>    1
+
+  *1*   240 E : Script 'sleeping' already defined for class 'hero'. You cannot
+                add it. You can override it by subclassing from class 'hero'.
+
+   25.    Script x. Step ""
+=====>    1
+
+  *1*   336 E : You cannot Add scripts to a class which is not a subclass of
+                the predefined class 'actor'.
+
+
+        4 error(s).
+        No detected warnings.
+        1 informational message(s).
+

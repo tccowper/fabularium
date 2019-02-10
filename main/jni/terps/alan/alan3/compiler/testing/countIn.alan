@@ -1,0 +1,10 @@
+The l Isa location
+End The l.
+
+The c Isa object
+  Container
+End The c.
+
+Start At l.
+  Say Count In c. -- This should not generate error 225 since
+                  -- it is known to only count objects

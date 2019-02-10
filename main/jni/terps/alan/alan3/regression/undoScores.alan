@@ -1,0 +1,16 @@
+The p Isa location
+  Description
+    Score.
+End The p.
+
+The o Isa object At p
+  Verb v
+    Does Score 5. Score.
+  End Verb.
+End The o.
+
+Verb l
+  Does Look.
+End Verb l.
+
+Start At p.

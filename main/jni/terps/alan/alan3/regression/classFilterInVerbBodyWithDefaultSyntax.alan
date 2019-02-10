@@ -1,0 +1,15 @@
+The notebook Isa object At l.
+  Verb read
+  Does
+    If object Isa object Then
+      "Yes."
+    Else
+      "No."
+    End If.
+  End Verb.
+End The notebook.
+
+The l Isa location.
+End The l.
+
+Start At l.

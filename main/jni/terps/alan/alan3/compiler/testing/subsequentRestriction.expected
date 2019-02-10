@@ -1,0 +1,15 @@
+########## subsequentRestriction ##########
+
+
+subsequentRestriction.alan
+
+    8.      And t Isa entity -- but this should
+=====>                1
+
+  *1*   427 W : A subsequent restriction for the same parameter ('t') should
+                restrict it further, to a subclass of 'topic'.
+
+
+        No detected errors.
+        1 warning(s).
+

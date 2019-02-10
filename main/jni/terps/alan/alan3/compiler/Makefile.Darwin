@@ -1,0 +1,17 @@
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# Makefile settings for compiling Alan compiler on MacOSX
+#
+
+COMPILER = gcc
+EXTRA_COMPILER_FLAGS = -g -Wall -funsigned-char -Wno-invalid-source-encoding
+
+LINKER = gcc
+EXTRA_LINKER_FLAGS = 
+
+CGREEN = yes
+CGREENROOT = /usr/local
+CGREENINCLUDE = -I$(CGREENROOT)/include
+CGREENLIB = -lcgreen
+
+release: EXTRA_COMPILER_FLAGS = -O4

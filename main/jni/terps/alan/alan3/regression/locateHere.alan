@@ -1,0 +1,10 @@
+The x Isa object
+End The x.
+
+The l Isa location
+End The l.
+
+Start At l.
+  Look.
+  "Locating x here."
+  Locate x here.

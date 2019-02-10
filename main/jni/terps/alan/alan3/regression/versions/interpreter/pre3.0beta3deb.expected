@@ -1,0 +1,29 @@
+########## pre3.0beta3deb ##########
+2 1
+
+
+Loc
+The loc is a location. There is a t here.
+
+> l
+Loc
+The loc is a location. There is a t here.
+
+> x t
+X t
+
+> x hero
+That's impossible with the hero.
+
+> x "c"
+That's impossible with c.
+
+> v "c"
+You can't v c.
+
+> put t in t
+That would be to put something inside itself.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

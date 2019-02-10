@@ -1,0 +1,12 @@
+#include <cgreen/cgreen.h>
+#include <cgreen/mocks.h>
+
+#include "class.h"
+
+
+/* DATA */
+ClassEntry *classes;		/* Class table pointer */
+
+
+/* FUNCTIONS */
+char *idOfClass(int theClass) { return (char*)mock(); }

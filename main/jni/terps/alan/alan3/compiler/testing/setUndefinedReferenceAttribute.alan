@@ -1,0 +1,6 @@
+The l Isa location
+  Has ref ref.
+End The l.
+
+Start At l.
+  Set ref Of l To l.

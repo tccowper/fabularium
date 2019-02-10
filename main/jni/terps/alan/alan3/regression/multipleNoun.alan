@@ -1,0 +1,20 @@
+The oldclock Isa object At loc
+  Name old clock
+  Verb take
+    Does
+      "Taken."
+  End Verb.
+End The.
+
+The clockchain Isa object At loc
+  Name clock chain
+  Verb take
+    Does
+      "Taken."
+  End Verb.
+End The.
+
+The loc Isa location
+End The loc.
+
+Start At loc.

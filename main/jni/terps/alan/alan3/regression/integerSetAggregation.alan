@@ -1,0 +1,21 @@
+The l Isa location
+End The l.
+
+The o Isa object
+  Has integerSet {12}.
+End The o.
+
+Start At l.
+  "integerSet should = 1, actual =" Say Count In integerSet Of o. ".$p"
+  Set integerSet Of o to {}.       -- Empty set is ok
+  "integerSet should = 1, actual =" Say Count In integerSet Of o. ".$p"
+  Set integerSet Of o to {22}.     -- Ok
+  "integerSet should = 1, actual =" Say Count In integerSet Of o. ".$p"
+  For Each i In integerSet Of o Do
+    Say i.
+  End For Each.
+
+  Set integerSet Of o To {1, 2, 3}.
+  "Max In integerSet should be 3, =" Say Max In integerSet Of o. ".$p"
+  "Min In integerSet should be 1, =" Say Min In integerSet Of o. ".$p"
+  "Sum In integerSet should be 6, =" Say Sum In integerSet Of o. ".$p"

@@ -1,0 +1,29 @@
+
+Add To Every thing
+  Is firstAttribute.
+End Add.
+
+Add To Every thing
+  Is secondAttribute.
+End Add.
+
+Add To Every thing
+  Is thirdAttribute.
+End Add.
+
+The t Isa object
+End The t.
+
+The l Isa Location
+End The l.
+
+Start At l.
+  If t Has firstAttribute Then
+    "Has first"
+  End If.
+  If t Has secondAttribute Then
+    "Has second"
+  End If.
+  If t Has thirdAttribute Then
+    "Has third"
+  End If.

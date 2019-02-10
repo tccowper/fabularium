@@ -1,0 +1,30 @@
+Syntax z = 'z'.
+
+Verb z
+  Does
+    ""
+End Verb z.
+
+The torbjörn Isa actor At l
+  Definite Article
+  Description Say This. "is here."
+  Script swimming.
+    Step
+      "Swimming."
+      Use script s12 For torbjörn.
+ 
+ Script s12.
+   Step
+     "Doing 12."
+
+  Script s33.
+    Step
+      "Doing 33."
+
+End The.
+
+The l Isa location
+End The l.
+
+Start at l.
+  Use Script swimming For torbjörn.

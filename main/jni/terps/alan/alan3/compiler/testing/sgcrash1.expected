@@ -1,0 +1,20 @@
+########## sgcrash1 ##########
+
+
+sgcrash1.alan
+
+    5.  the glasses isa object at oldbooks
+=====>                            1
+
+  *1*   310 E : Identifier 'oldbooks' not defined.
+
+   32.  the chocolate isa object in box
+=====>                              1
+
+  *1*   310 E : Identifier 'box' not defined.
+
+
+        2 error(s).
+        No detected warnings.
+        3 informational message(s).
+

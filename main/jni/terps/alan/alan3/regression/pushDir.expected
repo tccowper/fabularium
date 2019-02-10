@@ -1,0 +1,19 @@
+########## pushDir ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a box here.
+
+> east
+L
+There is a box here.
+
+> push box east
+You push the box to the east.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

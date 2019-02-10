@@ -1,0 +1,900 @@
+########## dungeon ##########
+Options
+  language english.
+  
+
+
+Add To Every location
+  Is
+    Not in_forest.
+End Add To.
+
+Add To Every object
+  Is
+    Not openable.
+    closed.
+    takable.
+End Add To.
+
+Synonyms
+  north = n.
+  south = s.
+  west = w.
+  east = e.
+  down = d.
+  up = u.
+  l = 'look'.
+  q = 'quit'.
+  i = 'inventory'.
+  pile = leaves.
+  lunch = sandwich.
+  lamp = lantern.
+  magazine, report, newspaper, paper = issue.
+  get = take.
+  
+
+Syntax
+  'look' = 'look'.
+  'quit' = 'quit'.
+  take_inventory = 'inventory'.
+  take = take (obj)*.
+  drop = drop (obj)*.
+  turn_on = turn 'on' (obj).
+  light = light (obj).
+  turn_off = turn off (obj).
+  open = open (obj).
+  close = close (obj).
+
+Verb 'look'
+  Does
+    Look.
+End Verb.
+
+Verb 'quit'
+  Does
+    Quit.
+End Verb.
+
+Verb take_inventory
+  Does
+    List inventory.
+End Verb.
+
+Verb take
+  Check obj Is takable
+    Else 
+      "You can't take that!"
+  And obj Not In inventory
+    Else 
+      "You've already got it."
+  Does
+    Locate obj In inventory.
+    "Taken!"
+End Verb.
+
+Verb drop
+  Check obj In inventory
+    Else 
+      "You havn't got it."
+  Does
+    Locate obj Here.
+    "Dropped!"
+End Verb.
+
+Verb open
+  Check obj Is openable
+    Else 
+      "You can't open that!"
+  And obj Is closed
+    Else 
+      "It is already open."
+  Does
+    Make obj Not closed.
+    "The $o is now open."
+End Verb.
+
+Verb close
+  Check obj Is openable
+    Else 
+      "You can't close that!"
+  And obj Is Not closed
+    Else 
+      "It is not open."
+  Does
+    Make obj closed.
+    "The $o is now closed."
+End Verb.
+
+Verb examine
+  Does
+    "I see nothing special about the $o."
+End Verb.
+
+Event bird_chirp
+  If Current Location Is in_forest Then
+    "You hear in the distance the chirping of a song bird."
+  End If.
+  Schedule bird_chirp At hero After 5.
+End Event bird_chirp.
+
+
+The w_of_house Isa location
+  Name 'West of House'
+  
+  Description
+    "Welcome to Dungeon (ALAN Demo). This version created 29-FEB-92. $pYou
+     are in an open field west of a big white house with a boarded front
+     door."
+  
+  Exit n To n_of_house.
+  
+  Exit s To s_of_house.
+  
+  Exit e To inside_house
+    Check 
+      "The door is locked, and there is evidently no key."
+  End Exit.
+  
+  Exit w To forest3.
+  
+End The w_of_house.
+
+The mail_box Isa object
+  Name small mailbox
+  At w_of_house 
+  With Container
+  Is 
+    openable.
+  Description
+    "There is a small mailbox here."
+    If mail_box Is Not closed Then
+      List mail_box.
+    End If.
+  
+  Verb open
+    Does
+      List mail_box.
+  End Verb.
+  
+End The mail_box.
+
+The leaflet Isa object
+  In mail_box 
+  Verb read
+    Does
+      "'I hope you have noticed that this isn't your usual Dungeon but
+       rather an ALAN implementation brought to you by $n$iThoNi & GorFo
+       Adventure Factories $pHappy Adventuring!'"
+  End Verb.
+  
+End The leaflet.
+
+The n_of_house Isa location
+  Name 'North of House'
+  
+  Description
+    "You are facing the north side of a white house. There is no door here,
+     and all the windows are barred."
+  
+  Exit n To dimly_lit_forest.
+  
+  Exit s To inside_house
+    Check 
+      "The windows are all barred."
+  End Exit.
+  
+  Exit e To behind_house.
+  
+  Exit w To w_of_house.
+  
+End The n_of_house.
+
+The dimly_lit_forest Isa location
+  Name forest
+  
+  Is 
+    in_forest.
+  Description
+    "You are in a dimly lit forest, with large trees all around."
+  
+  Exit n To dimly_lit_forest2.
+  
+  Exit e, s To clearing.
+  
+  Exit w To n_of_house.
+  
+  Exit u To tree_top.
+  
+End The dimly_lit_forest.
+
+The tree Isa object
+  At dimly_lit_forest 
+  Is 
+    Not takable.
+  Description
+    "One particularly large tree with some low branches stands here."
+  
+  Verb climb
+    Does
+      Locate hero At tree_top.
+  End Verb.
+  
+End The tree.
+
+The tree_top Isa location
+  Name 'Up a Tree'
+  
+  Is 
+    in_forest.
+  Description
+    "You are about ten feet above the ground nestled among some large
+     branches. The nearest branch above you is beyond your reach."
+  
+  Exit d To dimly_lit_forest.
+  
+End The tree_top.
+
+The birds_nest Isa object
+  Name small birds nest
+  At tree_top 
+  With Container
+  Description
+    If birds_nest At tree_top Then
+      "On the branch is a small birds nest."
+    Else 
+      "There is a small birds nest here."
+    End If.
+    List birds_nest.
+  
+End The birds_nest.
+
+The jewel_egg Isa object
+  Name jewel encrusted egg
+  In birds_nest 
+End The jewel_egg.
+
+The dimly_lit_forest2 Isa location
+  Name forest
+  
+  Is 
+    in_forest.
+  Description
+    "You are in a dimly lit forest, with large trees all around. To the
+     east, there appears to be sunlight."
+  
+  Exit n To s_of_house.
+  
+  Exit s To forest1.
+  
+  Exit w To forest3.
+  
+  Exit e To clearing.
+  
+End The dimly_lit_forest2.
+
+The s_of_house Isa location
+  Name 'South of House'
+  
+  Description
+    "You are facing the south side of a white house. There is no door here,
+     and all the windows are barred."
+  
+  Exit n To inside_house
+    Check 
+      "The windows are all barred."
+  End Exit.
+  
+  Exit e To behind_house.
+  
+  Exit w To w_of_house.
+  
+  Exit s To dimly_lit_forest2.
+  
+End The s_of_house.
+
+The behind_house Isa location
+  Name 'Behind House'
+  
+  Description
+    "You are behind the white house."
+  
+  Exit e To clearing.
+  
+  Exit n To n_of_house.
+  
+  Exit s To s_of_house.
+  
+  Exit w, 'in' To kitchen
+    Check outside_window Is Not closed
+      Else 
+        "The window is closed."
+  End Exit.
+  
+End The behind_house.
+
+The outside_window Isa object
+  Name window
+  At behind_house 
+  Is 
+    Not takable.
+  Is 
+    openable.
+  Description
+    "In one corner of the house there is a window which is"
+    If outside_window Is Not closed Then
+      "open."
+    Else 
+      "slightly ajar."
+    End If.
+  
+  Verb open
+    Does Only
+      Make inside_window Not closed.
+      Make outside_window Not closed.
+      "With great effort, you open the window far enough to allow passage."
+  End Verb.
+  
+  Verb close
+    Does Only
+      Make inside_window closed.
+      Make outside_window closed.
+      "The window closes (more easily than it opened)."
+  End Verb.
+  
+End The outside_window.
+
+The clearing Isa location
+  
+  Is 
+    in_forest.
+  Description
+    "You are in a clearing, with a forest surrounding you on the west and
+     south."
+  
+  Exit e, n To clearing.
+  
+  Exit w To dimly_lit_forest.
+  
+  Exit s To dimly_lit_forest2.
+  
+End The clearing.
+
+The leaves Isa object
+  At clearing 
+  Description
+    If leaves In inventory Then
+      "You are carrying a pile of leaves."
+    Else 
+      "There is a pile of leaves on the ground."
+    End If.
+  
+  Verb take
+    Does
+      If grating Here Then
+        "A grating appears on the ground."
+      End If.
+  End Verb.
+  
+End The leaves.
+
+The grating Isa object
+  At clearing 
+  Is 
+    Not takable.
+  Is 
+    openable.
+  Is 
+    Not unlocked.
+  Description
+    If leaves Here And leaves Not In inventory Then
+      ""
+    Else 
+      "There is a grating securely fastened into the ground."
+    End If.
+  
+  Verb open
+    Check grating Is unlocked
+      Else 
+        "The grating is locked."
+  End Verb.
+  
+End The grating.
+
+The forest1 Isa location
+  Name forest
+  
+  Is 
+    in_forest.
+  Description
+    "You are in a large forest, with trees obstructing all views except to
+     the east, where a small clearing may be seen."
+  
+  Exit s To forest1.
+  
+  Exit n To forest2.
+  
+  Exit e To canyon_view.
+  
+  Exit w To dimly_lit_forest2.
+  
+End The forest1.
+
+The forest2 Isa location
+  Name forest
+  
+  Is 
+    in_forest.
+  Description
+    "You are in a forest, with trees in all directions around you."
+  
+  Exit s To forest1.
+  
+  Exit n To forest2.
+  
+  Exit w To dimly_lit_forest2.
+  
+End The forest2.
+
+The forest3 Isa location
+  Name forest
+  
+  Is 
+    in_forest.
+  Description
+    "You are in a forest, with trees in all directions around you."
+  
+  Exit n, w To forest3.
+  
+  Exit e To dimly_lit_forest.
+  
+  Exit s To dimly_lit_forest2.
+  
+End The forest3.
+
+The canyon_view Isa location
+  Name 'Canyon View'
+  
+  Description
+    "You are at the top of the great canyon on its south wall. From here
+     there is a marvelous view of the canyon and parts of the Frigid River
+     upstream. Across the canyon, the walls of the white cliffs still appear
+     to loom far above. Following the canyon upstream (north and northwest),
+     Aragain Falls may be seen, complete with rainbow. Fortunately, my
+     vision is better than average, and I can discern the top of flood
+     control dam #3 far to the distant north. To the west and south can be
+     seen an immense forest, stretching for miles around. It is possible to
+     climb down into the canyon from here."
+  
+  Exit s, w To forest1.
+  
+  Exit d To ledge.
+  
+End The canyon_view.
+
+The ledge Isa location
+  
+  Description
+    "You are on a ledge about halfway up the wall of the river canyon. You
+     can see from here that the main flow from Aragain Falls twists along a
+     passage which it is impossible to enter. Below you is the canyon
+     bottom. Above you is more cliff, which still appears climbable."
+  
+  Exit d To canyon_bottom.
+  
+  Exit u To canyon_view.
+  
+End The ledge.
+
+The canyon_bottom Isa location
+  Name 'Canyon Bottom'
+  
+  Description
+    "You are beneath the walls of the river canyon, which may be climbable
+     here. There is a small stream here, which is the lesser part of the
+     runoff of Aragain Falls. To the north is a narrow path."
+  
+  Exit u To ledge.
+  
+  Exit n To beach.
+  
+End The canyon_bottom.
+
+The beach Isa location
+  
+  Description
+    "You are on a small beach on the continuation of the Frigid River past
+     the falls. The beach is narrow due to the presence of the white cliffs.
+     The river canyon opens here, and sunlight shines in from above. A
+     rainbow crosses over the falls to the west, and a narrow path continues
+     to the southeast."
+  
+  Exit se To canyon_bottom.
+  
+End The beach.
+
+The kitchen Isa location
+  
+  Description
+    "You are in the kitchen of the white house."
+    Describe table.
+    "A passage leads to the west, and a dark staircase can be seen leading
+     upward."
+    Describe inside_window.
+  
+  Exit e, out To behind_house
+    Check inside_window Is Not closed
+      Else 
+        "The window is closed."
+  End Exit.
+  
+  Exit u To upstairs.
+  
+  Exit w To inside_house.
+  
+End The kitchen.
+
+The table Isa object
+  At kitchen 
+  With Container
+    Header
+      "On the table you can see"
+  Is 
+    Not takable.
+  Description
+    "A table seems to have been used recently for the preparation of food."
+    List table.
+  
+End The table.
+
+The sack Isa object
+  Name elongated brown sack
+  In table 
+  With Container
+  Is 
+    openable.
+  Article
+    "an"
+  
+  Mentioned
+    "elongated brown sack, smelling of hot peppers"
+  
+  Verb open
+    Does
+      Empty sack_content In sack .
+      List sack.
+  End Verb.
+  
+  Verb close
+    Does
+      Empty sack In sack_content .
+  End Verb.
+  
+End The sack.
+
+The sack_content Isa object
+  
+  With Container
+End The sack_content.
+
+The lunch Isa object
+  Name hot pepper sandwich
+  In sack_content 
+  Mentioned
+    "a lunch"
+  
+End The lunch.
+
+The garlic Isa object
+  Name clove 'of' garlic
+  In sack_content 
+End The garlic.
+
+The bottle Isa object
+  Name clear glass bottle
+  In table 
+  With Container
+  Is 
+    openable.
+  Description
+    "There is a clear glass bottle here."
+    List bottle.
+  
+End The bottle.
+
+The water Isa object
+  Name quantity 'of' water
+  In bottle 
+  Verb take
+    Check bottle Is Not closed
+      Else 
+        "I can't reach the quantity of water."
+    Does Only
+      "The water slips through your fingers."
+  End Verb.
+  
+  Verb drink
+    Check bottle Is Not closed
+      Else 
+        "I can't reach the quantity of water."
+    Does
+      "Thank you very much. I was rather thirsty, probably from all this
+       talking."
+      Locate water At nowhere.
+  End Verb.
+  
+End The water.
+
+The inside_window Isa object
+  Name window
+  At kitchen 
+  Is 
+    Not takable.
+  Is 
+    openable.
+  Description
+    "To the east is a small window which is"
+    If inside_window Is Not closed Then
+      "open."
+    Else 
+      "closed."
+    End If.
+  
+  Verb open
+    Does Only
+      Make inside_window Not closed.
+      Make outside_window Not closed.
+      "With great effort, you open the window far enough to allow passage."
+  End Verb.
+  
+  Verb close
+    Does Only
+      Make inside_window closed.
+      Make outside_window closed.
+      "The window closes (more easily than it opened)."
+  End Verb.
+  
+End The inside_window.
+
+The inside_house Isa location
+  Name 'Living room'
+  
+  Description
+    "You are in the living room. There is a door to the east."
+    Describe wooden_door.
+    Describe trophy_case.
+  
+  Exit e To kitchen.
+  
+  Exit w To w_of_house
+    Check 
+      "The door is nailed shut."
+  End Exit.
+  
+  Exit d To magnificient_view
+    Check trap_door Here
+      Else 
+        "You can't go that way."
+    And trap_door Is Not closed
+      Else 
+        "The door is closed."
+  End Exit.
+  
+End The inside_house.
+
+The wooden_door Isa object
+  Name wooden door
+  At inside_house 
+  Is 
+    openable.
+  Is 
+    Not takable.
+  Description
+    "To the west is a wooden door with strange gothic lettering, which
+     appears to be nailed shut."
+  
+  Verb read
+    Does
+      "The engravings translate to, 'This space intentionally left blank'."
+  End Verb.
+  
+  Verb open
+    Does Only
+      "The door cannot be opened."
+  End Verb.
+  
+End The wooden_door.
+
+The trophy_case Isa object
+  Name trophy case
+  At inside_house 
+  Is 
+    Not takable.
+  Is 
+    openable.
+End The trophy_case.
+
+The rug Isa object
+  At inside_house 
+  Description
+    "In the center of the room is a large oriental rug."
+  
+  Verb take
+    Does Only
+      "The rug is extremely heavy and cannot be carried."
+  End Verb.
+  
+  Verb move
+    Does
+      "With a great effort, the rug is moved to one side of the room."
+      Locate trap_door Here.
+      Describe trap_door.
+  End Verb.
+  
+End The rug.
+
+The trap_door Isa object
+  Name trap door
+  
+  Is 
+    Not takable.
+  Is 
+    openable.
+  Description
+    "With the rug moved, the dusty cover of a closed trap door appears."
+  
+  Verb open
+    Does Only
+      "The door reluctantly opens to reveal a rickety staircase descending
+       into darkness."
+      Make trap_door Not closed.
+  End Verb.
+  
+End The trap_door.
+
+The sword Isa object
+  Name elvish sword
+  At inside_house 
+  Is 
+    Not taken.
+  Description
+    If sword Is Not taken Then
+      "On hooks above the mantlepiece hangs an elvish sword of great
+       antiquity."
+    Else 
+      "There is an antique elvish sword here."
+    End If.
+  
+  Verb take
+    Does
+      Make sword taken.
+  End Verb.
+  
+End The sword.
+
+The lantern Isa object
+  Name battery brass lantern
+  At inside_house 
+  Is 
+    Not lit.
+  Is 
+    Not taken.
+  Description
+    If lantern Is Not taken Then
+      "A battery-powered brass lantern is on the trophy case."
+    Else 
+      "A battery-powered brass lantern is here."
+    End If.
+  
+  Verb take
+    Does
+      Make lantern taken.
+  End Verb.
+  
+  Verb light, turn_on
+    Does
+      Make lantern lit.
+      "The lamp is now on."
+  End Verb.
+  
+  Verb turn_off
+    Does
+      Make lantern Not lit.
+      "The lamp is now off."
+  End Verb.
+  
+End The lantern.
+
+The issue Isa object
+  At inside_house 
+  Description
+    "There is an issue of US NEWS & DUNGEON REPORT dated 29-FEB-92 here."
+  
+  Verb read
+    Does
+      "$tUS NEWS & DUNGEON REPORT $n29-FEB-92.........................Late
+       Dungeon Edition $n$t--- LATE NEWS FLASH!! --- $n$nThe Dungeon prelude
+       is now available as an ALAN implementation. $nThe Dungeon game was
+       selected as an example that everybody interested in adventure gaming
+       should recognize."
+  End Verb.
+  
+End The issue.
+
+The upstairs Isa location
+  
+  Description
+    "You are in the attic. The only exit is stairs that lead down."
+  
+  Exit d To kitchen.
+  
+End The upstairs.
+
+The rope Isa object
+  At upstairs 
+  Description
+    "A large coil of rope is lying in the corner."
+  
+End The rope.
+
+The brick Isa object
+  Name square clay brick
+  At upstairs 
+  Description
+    "There is a square brick here which feels like clay."
+  
+End The brick.
+
+The nasty_knife Isa object
+  Name nasty knife
+  At upstairs 
+  Description
+    "A nasty-looking knife is lying here."
+  
+End The nasty_knife.
+
+The magnificient_view Isa location
+  Name 'Breath-Taking View'
+  
+  Description
+    "And here we have a very special guest, straight from Colossal Cave -
+     the Breath-Taking View!"
+    "$p"
+    "You are on the edge of a breath-taking view. Far below you is an
+     active volcano, from which great gouts of molten lava come surging out,
+     cascading back down into the depths. The glowing rock fills the
+     farthest reaches of the cavern with a blood-red glare, giving
+     everything an eerie, macabre appearance. The air is filled with
+     flickering sparks of ash and a heavy smell of brimstone. The walls are
+     hot to the touch, and the thundering of the volcano drowns out all
+     other sounds. Embedded in the jagged roof far overhead are myriad
+     twisted formations composed of pure white alabaster, which scatter the
+     murky light into sinister apparitions upon the walls. To one side is a
+     deep gorge, filled with a bizarre chaos of tortured rock which seems to
+     have been crafted by the devil himself. An immense river of fire
+     crashes out from the depths of the volcano, burns its way through the
+     gorge, and plummets into a bottomless pit far off to your left. Across
+     the gorge, the entrance to a valley is dimly visible. To the right, an
+     immense geyser of blistering steam erupts continuously from a barren
+     island in the center of a sulfurous lake, which bubbles ominously. The
+     far right wall is aflame with an incandescence of its own, which lends
+     an additional infernal splendor to the already hellish scene. A dark,
+     foreboding passage exits to the south."
+    "$p"
+    "You have now reached the end of this ALAN demo, but it sure shouldn't
+     be the end of of adventuring. It is now up to You, the adventure writer
+     to ensure the continuation of the era of the adventure games. So just
+     don't sit there. Get your plots ready and get down to serious adventure
+     writing."
+  
+  Entered
+    Quit.
+End The magnificient_view.
+
+The nowhere Isa location
+  
+End The nowhere.
+
+Start At w_of_house.
+  Visits 3.
+  Schedule bird_chirp At hero After 3.
+  

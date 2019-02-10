@@ -1,0 +1,17 @@
+Syntax
+  push_east = push (o) east
+    Where o Isa object
+      Else "You can not push" Say The o. "."
+
+The l Isa location
+  Exit east To l.
+End The l.
+
+The box Isa object At l.
+  Verb push_east
+    Does
+      "You push the box to the east."
+  End Verb.
+End The box.
+
+Start At l.

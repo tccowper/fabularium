@@ -1,0 +1,14 @@
+The x1 Isa object In c
+End The x1.
+
+The c Isa object
+  Container
+End The c.
+
+The l Isa location
+End The l.
+
+Start At l.
+  Say Random In c. -- x1 is in C
+  Locate x1 At l.  -- move x1 out of c
+  Say Random In c. -- which is now empty, boom!

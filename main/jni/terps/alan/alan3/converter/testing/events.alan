@@ -1,0 +1,60 @@
+SYNTAX take = 'take' (o)*.
+VERB take
+    DOES
+	LOCATE o IN inventory.
+	"Taken."
+END VERB.
+
+
+SYNTAX drop = 'drop' (o)*.
+VERB drop
+    CHECK OBJECT IN inventory
+	ELSE "You don't have the $o."
+    DOES
+	LOCATE OBJECT HERE.
+END VERB.
+
+
+SYNTAX l = 'l'.
+VERB l
+    DOES
+	LOOK.
+END VERB.
+
+
+SYNTAX i = 'i'.
+VERB i
+  DOES
+    LIST inventory.
+END VERB i.
+
+
+SYNTAX q = 'q'.
+VERB q
+  DOES
+    QUIT.
+END VERB q.
+
+
+SYNTAX z = 'z'.
+VERB z
+  DOES
+    ""
+END VERB z.
+
+EVENT e1
+  "Happens every turn."
+  SCHEDULE e1 AFTER 1.
+END EVENT e1.
+
+EVENT e2
+  "Happens every 2."
+  SCHEDULE e2 AFTER 2.
+END EVENT e2.
+
+LOCATION loc
+END LOCATION loc.
+
+START AT loc.
+  SCHEDULE e1 AFTER 1.
+  SCHEDULE e2 AFTER 2.

@@ -1,0 +1,5 @@
+-- Minimal game to ensure WinAlan actually runs
+The loc Isa location
+End The loc.
+
+Start At loc.

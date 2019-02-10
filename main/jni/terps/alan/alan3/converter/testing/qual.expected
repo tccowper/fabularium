@@ -1,0 +1,24 @@
+########## qual ##########
+
+Verb v
+  Does
+    "global."
+End Verb.
+
+
+The o Isa object
+  At l 
+  Verb v
+    Does After
+      "Object."
+  End Verb.
+  
+End The o.
+
+The l Isa location
+  
+End The l.
+
+Start At l.
+  "Try 'v o'."
+  

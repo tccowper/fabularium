@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (C) 2018 Tim Cadogan-Cowper.
+  ~
+  ~ This file is part of Fabularium.
+  ~
+  ~ Fabularium is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU General Public License
+  ~ as published by the Free Software Foundation; either version 2
+  ~ of the License, or (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Fabularium; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+  -->
+<html>
+
+<head>
+    <style>
+    li
+    {
+    background-image: url(arrow.gif);
+    background-repeat: no-repeat;
+    background-position: 100% .4em;
+    padding-right: .6em;
+    margin: 1em 0;
+    }
+
+button.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 12px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+}
+
+button.accordion.active, button.accordion:hover {
+    background-color: #ddd;
+}
+
+button.accordion:after {
+    content: '\002B';
+    color: #777;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+
+button.accordion.active:after {
+    content: "\2212";
+}
+
+div.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+pre {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+    </style>
+</head>
+
+<body>
+
+<h2>Help</h2>
+
+<button class="accordion">What is Fabularium?</button>
+<div class="panel">
+    <p>Fabularium helps you to write and play interactive fiction.</p>
+
+    <p>It is both an Android implementation of Andrew Plotkin's <a
+            href="http://eblong.com/zarf/glk">GLK
+        API
+        Specification</a> (with some extensions) and an integrated game / file management system. It
+        is
+        packaged with third-party compilers and interpreters ('terps'), to allow you to write and
+        play
+        interactive fiction across a wide range of formats.</p>
+
+    <p>Fabularium was written by Tim Cadogan-Cowper. It is free, open source software (FOSS). The
+        bundled terps and
+        compilers, and other useful libraries, were released by their respective authors under FOSS
+        licences. Tap
+        Licences under the app's main menu to see the complete list.</p>
+</div>
+
+<button class="accordion">How do I play a game?</button>
+<div class="panel">
+    <ol>
+        <li>
+            <b>Get it: </b>
+            Download a game that Fabularium supports. Currently: adrift, advsys, agt,
+            alan, glulx, html (e.g. Twine), hugo, level9, magnetic scrolls,
+            scott, tads2, tads3, zcode.<br><br>You can find many free games at <a
+                href="http://ifdb.tads.org">http://ifdb.tads.org</a> and
+            <a href="http://www.ifarchive.org/">http://www.ifarchive.org/</a>. Good games for
+            beginners
+            include Admiral Jota's
+            <a href="http://ifdb.tads.org/viewgame?id=mohwfk47yjzii14w">Lost Pig</a> and Emily
+            Short's
+            <a href="http://ifdb.tads.org/viewgame?id=9p8kh3im2j9h2881">Bronze</a>. For more
+            advanced
+            players I would recommend full interactive novels, such as <a
+                href="http://ifdb.tads.org/viewgame?id=op0uw1gn1tjqmjt7">
+            Anchorhead</a> by Michael Gentry (strongly influenced by the works of HP Lovecraft and
+            not suitable for
+            children), <a href="http://ifdb.tads.org/viewgame?id=ez2mcyx4zi98qlkh">Blue Lacuna</a>
+            by Aaron Reed,
+            <a href="http://ifdb.tads.org/viewgame?id=77rsl9mezn5iogto">The Plant</a> by Michael
+            Roberts and
+            <a href="http://ifdb.tads.org/viewgame?id=9s66qxkt22kq5wv9">Blighted Isle</a> by Eric
+            Eve. Or try something completely
+            different - Victor Gijsber's <a
+                href="http://ifdb.tads.org/viewgame?id=f7zdhxmiraht53d1">Kerkerkruip</a>, a
+            short-form
+            roguelike in the IF medium. If you have any old Infocom (zcode) games lying around -
+            such as Douglas Adams'
+            <a href="http://ifdb.tads.org/viewgame?id=ouv80gvsl32xlion">The Hitchhiker's Guide to
+                the Galaxy</a> - they should all work
+            under Fabularium also.
+        </li>
+
+        <li>
+            <b>Add it: </b>
+            Once you have downloaded the game or compressed archive (e.g. ZIP) to your device:
+            <ol>
+                <li>Open Fabularium.</li>
+                <li>Go to the Explore tab and look for the file - it will usually be in the
+                    Downloads
+                    folder.
+                </li>
+                <li><i>(only for compressed archives)</i> Select the file and choose "Uncompress"
+                    from
+                    the menu. The archive will
+                    extract to the same directory.
+                </li>
+                <li>Select the game, then choose "Add to Game List (auto)" from the menu. This
+                    command
+                    attempts to auto-detect the details of the game using the Babel library. In most
+                    cases
+                    this should work fine. However if the game is not recognised by Babel you may
+                    need to
+                    add it manually. To do that, simply choose "Add to Game List (manual)" and fill
+                    in the
+                    game details (IFID, title and game format). <i>Note: you can also select
+                        multiple games and/or
+                        directories and add them in one go using these commands.</i></li>
+                <li>Go to the Play tab. The new games have now been added to your
+                    Fabularium library and should appear in the window.
+                </li>
+            </ol>
+        <li>
+            <b>Play it: </b>
+            Short-press a game to play it.
+        </li>
+    </ol>
+
+    <p><i>Note: When you add games as above, Fabularium copies each game to the
+        Fabularium/Games folder. So
+        you can delete the original file if you want. You can also copy the game into the
+        Fabularium/Games folder yourself and hit refresh. Should you
+        want to remove a game from your library, simply delete it from the Fabularium/Games folder
+        (and
+        again hit refresh).</i></p>
+</div>
+
+<button class="accordion">How do I remove a game from my library?</button>
+<div class="panel">
+    <p>Long-press on the game in the PLAY tab, then select REMOVE. This command will only remove the
+        game, not the game's data. I.e. if you
+        add the
+        game back to your library afterwards, you will still be able to use saved games, etc. To
+        remove the
+        game's data as well, you need to delete the relevant folder under Fabularium/GameData. These
+        folders
+        are titled according to IFIDs (unique identifiers for each game). You can determine the IFID
+        for any
+        game in the library by long-pressing its icon in the PLAY tab and selecting ABOUT.</p>
+</div>
+
+<button class="accordion">How do I view metadata?</button>
+<div class="panel">
+    <p>
+        You can see the metadata for any game in your library by long-pressing its icon in the PLAY
+        tab, then selecting ABOUT.
+        Update this metadata (and the game's
+        icon, if any) by pressing the GET METADATA button - assuming you have an internet
+        connection.
+    </p>
+</div>
+
+<button class="accordion">Do I need internet access to use Fabularium?</button>
+<div class="panel">
+    <p>No. All games are played <q>offline</q>. Currently Fabularium only accesses the
+        internet when you ask it to download metadata for a game. If you are paranoid
+        about your device leaking information to unknown servers
+        and don't care about downloading metadata, feel free to disable Fabularium's internet
+        permission
+        altogether - how to do this varies from device to device. You might also consider installing
+        a firewall app.</p>
+</div>
+
+<button class="accordion">Aargh! I want to input Unicode characters into a game! What can I do?
+</button>
+<div class="panel">
+    <p>No sweat! You've got two options:</p>
+    <ol>
+        <li><b>Customise the built-in keyboard to do what you want.</b> This is our recommended
+            option,
+            as once you learn how to do it you can set the keyboard up pretty much however you want
+            (want
+            a bilingual or trilingual keyboard? no problems). In fact you can make the built-in
+            keyboard
+            output <i>any</i> Unicode character or sequence of characters. The trick is to edit two
+            files:
+            fab.ini and keyboards.ini. First open keyboards.ini and study the Cyrillic example
+            included
+            there. Once you have an idea of how it works, define your own keyboard. Then go into
+            fab.ini
+            and use the "keyboard 'name of your keyboard'" command to use that keyboard. For example
+            "keyboard cyrillic" would load the standard Cyrillic example. The beauty of this
+            approach
+            is that you can define different keyboards for different games, or terps, or you can
+            just
+            define one keyboard to use for everything, depending on where you place the "keyboard"
+            command(s)
+            in the fab.ini file.
+        </li>
+        <li><b>Use your normal system keyboard.</b> This is less powerful than the above option, but
+            probably easier for people who don't want to mess around with Fabularium's
+            config
+            files. To do this, simply go into the app settings, find the option "Use built-in
+            keyboard"
+            and disable it.
+        </li>
+    </ol>
+    <p>If you have any questions on this, feel free to contact me at <a
+            href=mailto:tcowperapps@gmail.com>tcowperapps@gmail.com</a></p>
+</div>
+
+<button class="accordion">Aargh! My game looks awful!</button>
+<div class="panel">
+    <p>Fabularium goes to considerable effort to choose intelligent layout defaults - margins, line
+        spacing, etc. However these settings
+        may not always work so well depending on the device/terp/game combination. That's the bad
+        news.
+        The good news is that Fabularium
+        is also highly customisable, so you can try to fix the problem yourself.
+    </p>
+
+    <p>There are three ways you can customise Fabularium:</p>
+
+    <ol>
+        <li>
+            <b>Via the user interface: </b> Go into the settings menu, change things as you see fit,
+            test with
+            your game until you have something that
+            works for you.
+        </li>
+        <li>
+            <b>Via the main config file (advanced users):</b> Go to the EXPLORE tab and open fab.ini
+            under the
+            Fabularium directory. You can edit and save this
+            file directly in Fabularium's built-in bare-bones text editor. Again, make changes, test
+            with you game; hopefully you can find something
+            that works for you.
+        </li>
+        <li>
+            <b>Via a game-specific config file (advanced users):</b> Same as the main config file,
+            but this a .ini file
+            in the game's data directory (under Fabularium/GameData/&lt;IFID of game file&gt;).
+        </li>
+    </ol>
+
+    <p><i>Note: You can revert fab.ini to its original form at any time using the menu command
+        "Reset config files".</i></p>
+</div>
+
+<button class="accordion">Aargh! How do I change my config settings back to the defaults?</button>
+<div class="panel">
+    <p>No, you don't need to uninstall and reinstall the app. Here is what you should do:</p>
+
+    <ol>
+        <li><b>Configuration files (fab.ini, keyboards.ini, etc.)</b> To restore the default
+            settings
+            in Fabularium's config files, run the menu command "Reset config files".
+        </li>
+        <li><b>In-app settings.</b> To restore the default in-app settings, you'll need to clear the
+            app's data.
+            How to do this varies from device to device - read your device's manual or look up
+            instructions on the internet.
+            Note: this will also clear any metadata you have downloaded for the games in your
+            library.
+        </li>
+    </ol>
+</div>
+
+<button class="accordion">Aargh! I love playing IF but hate typing on small devices!</button>
+<div class="panel">
+    <p>Yes, I hear you.</p>
+
+    <p>Fabularium already supports a few tricks that might save you some typing time:</p>
+
+    <ul>
+        <li>Double-tap any word in a text buffer window to add that word to the text you are
+            composing.
+        </li>
+        <li>Long press in a text buffer window to paste the current contents of your system
+            clipboard. If that
+            pasted text is multi-line, each line will be treated as a separate command. That is,
+            Fabularium
+            will paste the first line, wait for the game's response, paste the second line, wait for
+            the response,
+            and so on.
+        </li>
+        <li>
+            (Advanced users) Program the keys of the built-in keyboard to send custom letters, words
+            or
+            entire commands when those keys are pressed.
+        </li>
+    </ul>
+
+    <p>And there will be more tricks to come in the future, including:</p>
+
+    <ul>
+        <li>Ability to define what gestures in a text buffer window should do. E.g. you might say
+            that
+            a two-finger swipe up should send a "go north" command; a two-finger swipe down should
+            send
+            a "go south" command; etc.
+        </li>
+        <li>Command history - cycle up and down through the command history using the built-in
+            keyboard's arrow keys.
+        </li>
+    </ul>
+
+    <p>If you have any other suggestions or comments on innovative input methods, I'd love to hear
+        them. Send an email to <a
+                href=mailto:tcowperapps@gmail.com>tcowperapps@gmail.com</a></p>
+</div>
+
+<button class="accordion">My game has multimedia in separate resource files - does Fabularium
+    support this?
+</button>
+<div class="panel">
+    <p>In most cases yes, but you may need to do a bit of fiddling, depending on the game
+        format:</p>
+    <ol>
+        <li>
+            <b>Hugo:</b> Add the extension ".glkdata" to the resource file and save it to the game's
+            data folder
+            (Fabularium/GameData/&lt;IFID of game file&gt;). For example,
+            <a href="http://ifdb.tads.org/viewgame?id=fsujzka1ua0h5att">Tales of a Travelling
+                Swordsman</a> includes
+            a resource file "TALES_TS". In this case, you'd copy that file to
+            Fabularium/GameData/HUGO-25-54-06-09-29-06/TALES_TS.glkdata.
+            The next time you play the game you should then see pictures, etc.
+        </li>
+        <li>
+            <b>Magnetic Scrolls / Level 9:</b> Put the multimedia files in the same directory as the
+            game file (under Fabularium/Games). To avoid any issues with name clobbering (e.g. Level
+            9
+            games often have supplementary files called 1.PIC, 2.PIC, etc.) you can group game files
+            in
+            separate subdirectories under Fabularium/Games. E.g. for the game Gnome Ranger you might
+            make
+            a subdirectory Fabularium/Games/gnome containing the dat and pic files; another
+            subdirectory
+            Fabularium/Games/scapeghost might contain files for that game; and so on. You can call
+            those
+            subdirectories whatever you want.
+        </li>
+        <li>
+            <b>TADS:</b> Fabularium supports resources that are bundled into one TADS file, but does
+            not currently support
+            TADS resources in separate files (typically ".rs0", ".rs1", etc.).
+        </li>
+    </ol>
+
+    <p><i>Also ensure you haven't disabled the GLK graphics / sounds gestalts in the settings
+        menu!</i></p>
+</div>
+
+<button class="accordion">Where does Fabularium store its data?</button>
+<div class="panel">
+    <p>By default, Fabularium's data is stored under one folder - <b>Fabularium</b> - in the
+        top-most
+        directory of your device's <q>primary shared/external storage directory</q>. In the settings
+        we refer to this as the "root path". This folder contains fab.ini and all of Fabularium's
+        generated
+        log files (glk.log, fab.log, terp.log).
+    </p>
+    <p>By default, there are are then a number of sub-folders under the "root path", arranged as
+        follows:</p>
+    <ul>
+        <li><b>Fonts</b> - this is initially empty. If you specify custom font files (ttf or otf) in
+            your
+            configuration settings, you should put those files here.
+        </li>
+        <li><b>GameData</b> - contains all supplementary data that Fabularium generates for each
+            game in your
+            library (e.g. save game files, transcripts, cover art). There is a separate subfolder
+            for each game,
+            named according to the game's IFID code - which should be unique to each game. We also
+            could have
+            used game paths / names but that would then break if you moved those files around or
+            renamed them.
+        </li>
+        <li><b>Games</b> - contains the game files. By default, whenever you add a new game to your
+            game list that
+            game file will be copied into this folder. You can also copy game files into this folder
+            manually, then
+            hit the refresh button in the PLAY tab to display that game in the app. Some games are
+            spread
+            across multiple files and may have supplementary resource data - e.g. Level 9 games. You
+            can create
+            subdirectories under this folder to manage those cases (see answer to question about
+            multimedia resource
+            files above).
+        </li>
+        <li><b>Include</b> - contains header files for the built-in Inform and Tads 3 compilers. If
+            you an advanced
+            user making games with this app and want to add some additional header files or edit
+            existing ones,
+            you might be interested in this folder. Other users can safely ignore it.
+        </li>
+        <li><b>Lib</b> - contains library files for the built-in Inform and Tads 3 compilers. Again,
+            this is probably
+            only of interest if you are an advanced user interested in compiling your own games with
+            this app.
+        </li>
+        <li><b>Projects</b> - similar to the Games folder, this folder contains source files for any
+            games that you
+            are creating. It also supports sub-folders.
+        </li>
+    </ul>
+    <p>If you don't like these default locations, you can change them in the settings menu (under
+        File Management). You will need to specify absolute (complete) paths to the new folders.
+        If you ever want to go back to the default settings, just leave the paths blank.
+        PLEASE TAKE EXTRA CARE USING THIS OPTION AND ONLY OVERRIDE THESE SETTINGS IF YOU
+        KNOW WHAT YOU ARE DOING!! In particular, while Fabularium goes to considerable lengths to
+        check
+        any path overrides, don't try to put your files in Android system folders, etc!!
+        Unlike with the default paths, as a safety precaution Fabularium will NOT automatically
+        create
+        any non-default folders you specify - you will need to do that yourself. You will also need
+        to migrate any
+        existing data you want to continue using across to the new locations manually. Finally, to
+        recreate the default config files, etc. in the new locations, run the "Reset config files"
+        menu command.
+    </p>
+</div>
+
+<button class="accordion">How do I make a game?</button>
+<div class="panel">
+    <p>Fabularium currently includes two compilers: <b>Inform</b> and <b>Tads 3</b>. They can
+        produce games
+        in three of the leading IF formats -
+        zcode, glulx and tads3. Please see the Licences page to find more info about the awesome
+        people
+        behind these compilers (chiefly Graham Nelson, Andrew Plotkin and Mike Roberts).
+    </p>
+
+    <p>It is beyond the scope of this short document to explain how to code IF games in detail, but
+        this should
+        help to get you started:</p>
+
+    <ol>
+        <li><b>Create a new project:</b> Go to the EXPLORE tab and make a new folder under
+            Fabularium/Projects. Then create
+            one (in the case of Inform) or more (optionally for Tads 3) empty source files under
+            that directory. These files must have an extension of ".inf" or ".t3".
+            Then go to the CREATE tab and hit 'refresh'. You should see an
+            icon for your project appear (if you do not double-check you have at least one
+            source file with an extension of ".inf" or ".t3"). You can
+            long-press this icon to change the compiler arguments, etc.
+        </li>
+
+        <li><b>Code, compile, test, code, compile, test...:</b> Short-press the relevant project
+            icon. Enter code into
+            the source files. Save each file and choose 'build' from the text editor's menu. A
+            message from the
+            compiler will pop up telling you whether you were successful or not. Once you
+            have got your game successfully compiling, you can test it by choosing 'run' from the
+            text editor menu.
+        </li>
+    </ol>
+
+    <p>Here's a "Hello World" example to illustrate:</p>
+
+    <ol>
+        <li>Create a folder Fabularium/Projects/hello</li>
+        <li>Create a file Fabularium/Projects/hello.inf</li>
+        <li>Paste this source code into that file:
+            <pre>
+! "Hello world" example program
+[ Main;
+  print "Hello world!^";
+];</pre>
+        </li>
+        <li>Go to the create tab and hit refresh</li>
+        <li>You should see a new project appear - "hello"</li>
+        <li>Tap it, to open it in the IDE</li>
+        <li>Compile it by tapping the build button - a message should pop up
+            saying "Success Inform 6.34" - close the message
+        </li>
+        <li>Now run the game by choosing Run from the IDE menu</li>
+        <li>You should see your game screen pop up, saying "Hello world!"</li>
+    </ol>
+
+    <p>For more information on how to write games for these compilers, see
+        the <a href="http://www.tads.org/t3doc/doc/techman/toc.htm">TADS 3 Technical Manual</a> and
+        the <a href="http://inform-fiction.org/manual/html/">Inform Designer's Manual</a>.</p>
+
+    <p>This feature of Fabularium is a work in progress. While the basic
+        functionality is there, in future releases - if there is sufficient demand -
+        I intend to make this component more user friendly.
+    </p>
+</div>
+
+<button class="accordion">What permissions does Fabularium need and why?</button>
+<div class="panel">
+    <p>Here are the permissions Fabularium needs and why:</p>
+
+    <ol>
+        <li><b>Read/write external storage: </b>
+            Fabularium requires this permission to work properly - to read and write games, save
+            files,
+            logs,
+            transcipts, etc. You need to allow this permission if you want to use Fabularium.
+        </li>
+    </ol>
+</div>
+
+<button class="accordion">I think I've found a bug!</button>
+<div class="panel">
+    <p>Well come on then, help me squash it!</p>
+
+    <p>First some important background. When you play a game in Fabularium, four layers need to work
+        in harmony:</p>
+
+    <ol>
+        <li><b>Game</b> - <i>e.g. Curses.z5</i>
+            <br>
+            A compiled program that contains byte code instructions and data.
+        </li>
+        <li><b>Terp</b> - <i>e.g. Bocfel</i>
+            <br>
+            The interpreter or "terp" is a virtual machine that is capable of runnning games
+            in specific formats (e.g. Bocfel knows how to run zcode games). The terp sends output
+            and display instructions to the next layer, GLK, and receives user input back from that
+            layer. Because GLK sits between the operating system and the terp, the terp typically
+            doesn't
+            have to worry too much about the specifics of what system it is running on - from the
+            terp's
+            perspective it's all GLK (well in theory anyway). Fabularium currently includes around
+            14
+            different terps, which between them can run the vast majority of open IF game formats
+            you
+            are likely to come across.
+        </li>
+        <li><b>GLK</b> - <i>Fabularium</i>
+            <br>
+            The GLK layer, in this case Fabularium, receives input-output instructions from the terp
+            and then works out how to implement them on the underlying operating system. For example
+            the terp, after interpreting instructions in the game, might tell Fabularium to make a
+            window and then display some text in it. The terp doesn't worry about how that happens,
+            that's Fabularium's job.
+        </li>
+        <li><b>Operating System</b> - <i>Android</i>
+            <br>
+            The final layer is the actual operating system, which in the case of Fabularium is
+            Android.
+        </li>
+    </ol>
+
+    <p>Now, if something goes wrong, it could be due to a bug in any of these four layers. The least
+        likely culprit is the terp. All of the terps included in Fabularium are mature code,
+        developed
+        over many years and now considered very stable. That leaves the other three. If the game is
+        more mature,
+        well-known and extensively tested, it's highly unlikely to be the culprit either, so
+        in such cases it's probably Fabularium's fault. But don't entirely rule out bugs in Android
+        either.</p>
+
+    <p>So what sort of information would help me to isolate and fix the problem? Well, aside from
+        recording
+        the config settings you were using and what you were doing immediately before the issue
+        occurred, you should also look at the log files of your play session, located in the
+        Fabularium folder -
+        glk.log and terp.log. These log files are regenerated every time there is a playthough:</p>
+
+    <ol>
+        <li>
+            <b>glk.log</b> contains messages from Fabularium's GLK layer, generated while you are
+            playing a game,
+            which explain what is going on under the hood and any problems Fabularium encounters.
+            For example,
+            occasionally a terp / game may make an invalid request, such as asking Fabularium to
+            print text to a window
+            that doesn't exist. Fabularium goes to considerable effort to manage and recover from
+            such issues
+            gracefully, but there may be rare occasions where recovery is impossible and the
+            playthough must terminate.
+        </li>
+        <li>
+            <b>terp.log</b> captures messages generated by the terp, as you play the game. If you
+            encounter a
+            problem, and that problems stems from the game itself, hopefully the terp will leave an
+            explanatory
+            message in this file before everything falls apart.
+        </li>
+    </ol>
+
+    <p>Once you have as much of this info as possible, please email me at <a
+            href=mailto:tcowperapps@gmail.com>
+        tcowperapps@gmail.com</a> to tell me about the issue. I want people to enjoy using this app
+        and I hate
+        bugs. The most frequent and informative bug reporters shall be immortalised in the Credits
+        screen! :-)</p>
+</div>
+
+<button class="accordion">Fabularium is great! Can I give something back?</button>
+<div class="panel">
+    <p>I'm glad you feel that way. A lot of hard work has gone into it, not just from myself, but
+        also from all of the generous people who wrote the terps, compilers and libraries that
+        Fabularium
+        incorporates and builds on. See the licences screen for more info.</p>
+    <p>And let's not forget all those generous authors who write interactive fiction and then freely
+        distribute it
+        for people like you and me to enjoy.</p>
+    <p>Fabularium is actually <i>my</i> way of saying a big thank you to these people after many
+        years of
+        enjoying the fruits of their labours.</p>
+    <p>If you want to give something back, here is what you can do:</p>
+    <ol>
+        <li>If you like a particular game (e.g. Blue Lacuna) or interpreter (e.g. Alan), track down
+        its author and tell them so. Or write a review on one of the IF websites. Or consider
+        donating.
+            While for simplicity's sake we often refer to works of IF as "games", many authors
+            see IF as an art form and, as with most artists, they like to know that their art is
+            evoking
+            a reaction, even if they make little or no actual money out of it.
+        </li>
+        <li>If you like Fabularium, please consider rating it in the
+            <a href="https://play.google.com/store/apps/details?id=com.luxlunae.fabularium&hl=en">Google
+                Play Store</a>
+            - or wherever else you downloaded it from. Good ratings: (a) increase search rankings,
+            helping other people to find
+            the app; and (b) motivate the app's author to continue improving it. :-)
+        </li>
+    </ol>
+</div>
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].onclick = function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight){
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    }
+  }
+}
+</script>
+
+</body>
+</html>

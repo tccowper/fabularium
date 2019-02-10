@@ -1,0 +1,29 @@
+#include <cgreen/mocks.h>
+
+#include "resource_x.h"
+
+
+#include "resource.h"
+
+/* USE other definitions */
+#include "lst.h"
+
+
+
+/* Data: */
+
+
+/* FUNCTIONS: */
+
+Resource *newResource(Srcp srcp, Id *fileName) {   Resource *new = NEW(Resource);
+
+  new->srcp = srcp;
+  new->fileName = fileName;
+  new->kind = NULL_RESOURCE;
+
+  return new;
+}
+void analyzeResource(Resource *resource) { mock(resource); }
+List *analyzeResources(List *resources) { return (List *)mock(resources); }
+void generateResources(List *resources) { mock(resources); }
+void dumpResource(Resource *resource) { mock(resource); }

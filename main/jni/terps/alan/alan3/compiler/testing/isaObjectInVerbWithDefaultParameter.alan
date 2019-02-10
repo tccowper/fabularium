@@ -1,0 +1,31 @@
+-- A verb with default syntax gets parameters with the name of
+-- their class as parameter names.
+--     read = 'read' (object) where object isa object
+-- If an Isa filter or expression is used in such a verb the class
+-- should be picked up, not the parameter
+
+the notebook isa object
+	verb read does only
+	    -- Trying ISA as an expression
+	    if obj isa object then
+	      if alph of obj = 2 then
+		  describe this.
+	      end if. 
+	    end if.	
+	    -- Trying ISA as a loop filter
+	    for each obj isa object do
+	      if alph of obj = 2 then
+		  describe this.
+	      end if. 
+ 	    end for.
+	end verb read.
+end the notebook.
+
+the loc isa location
+end the loc.
+
+Start At loc.
+
+
+
+

@@ -1,0 +1,29 @@
+SRC = emu.c amiga.c main.c xtract64.c xtractpc.c xtractmw.c \
+      gfxlink.c gfxlink2.c
+OBJ = $(SRC:"*.c":"*.o")
+
+all: Magnetic MagStdIO Xtract64 XtractPC XtractMW GfxLink GfxLink2
+
+Magnetic : emu.o amiga.o
+    dcc %(right) -o %(left)
+
+MagStdIO : emu.o main.o
+    dcc %(right) -o %(left)
+
+Xtract64 : xtract64.o
+    dcc %(right) -o %(left)
+
+XtractPC : xtractpc.o
+    dcc %(right) -o %(left)
+
+XtractMW : xtractmw.o
+    dcc %(right) -o %(left)
+
+GfxLink : gfxlink.o
+    dcc %(right) -o %(left)
+
+GfxLink2 : gfxlink2.o
+    dcc %(right) -o %(left)
+
+$(OBJ) : $(SRC)
+    dcc -DNO_ANIMATION -c %(right) -o %(left)

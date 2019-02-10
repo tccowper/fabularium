@@ -1,0 +1,20 @@
+Every gadget Isa object
+  Has weight 1.
+End Every gadget.
+
+The case Isa gadget At l
+  Container Taking gadget.
+End The case.
+
+The wallet Isa gadget In case
+  Container
+End The wallet.
+
+The receipt Isa object In wallet
+End The receipt.
+
+The l Isa location
+End The l.
+
+Start At l.
+  "The case weighs" Say Sum Of weight Directly In case + weight Of case. "."

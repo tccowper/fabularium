@@ -1,0 +1,39 @@
+The l Isa location
+End The l.
+
+Add To Every object
+  Has y 2.
+End Add.
+
+The c Isa thing
+  Container
+End The c.
+
+The o1 Isa object In c
+  Has y 1.
+End The o1.
+The o2 Isa object At l
+  Has y 2.
+End The o2.
+The o3 Isa object At l
+  Has y 3.
+End The o3.
+The o4 Isa object In c
+  Has y 4.
+End The o4.
+
+Start At l.
+  If Sum Of y Isa object = 10 Then "Ok" Else "not ok" End If.
+  If Max Of y Isa object = 4 Then "Ok" Else "not ok" End If.
+  If Min Of y Isa object = 1 Then "Ok" Else "not ok" End If.
+  If Count Isa object = 4 Then "Ok" Else "not ok" End If.
+
+  If Sum Of y Isa object, At l = 5 Then "Ok" Else "not ok" End If.
+  If Max Of y Isa object, At l = 3 Then "Ok" Else "not ok" End If.
+  If Min Of y Isa object, At l = 2 Then "Ok" Else "not ok" End If.
+  If Count Isa object, At l = 2 Then "Ok" Else "not ok" End If.
+
+  If Sum Of y Isa object, In c = 5 Then "Ok" Else "not ok" End If.
+  If Max Of y Isa object, In c = 4 Then "Ok" Else "not ok" End If.
+  If Min Of y Isa object, In c = 1 Then "Ok" Else "not ok" End If.
+  If Count Isa object, In c = 2 Then "Ok" Else "not ok" End If.

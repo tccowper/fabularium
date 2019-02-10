@@ -1,0 +1,14 @@
+Every topic Isa entity
+  Has i 2.
+End Every topic.
+
+Every subtopic Isa topic
+  Has i 3.
+  Has i 4.
+End Every subtopic.
+
+The l Isa location
+End The l.
+
+Start At l.
+

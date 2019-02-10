@@ -1,0 +1,38 @@
+Syntax take = take (o).
+
+Verb q
+  Does Quit.
+End Verb q.
+
+Every fruit Isa object
+  Name fruit
+  Verb take
+    Does
+      "You take" Say the o. "."
+  End Verb.
+End Every fruit.
+
+Every apple Isa fruit
+  Name apple
+End Every apple.
+
+Every pear Isa fruit
+  Name pear
+End Every pear.
+
+The green_apple Isa apple At l
+  Name green apple
+End The green_apple.
+
+The red_apple Isa apple At l
+  Name red apple
+End The red_apple.
+
+The gravensteiner Isa pear At l
+  Name gravensteiner
+End The gravensteiner.
+
+The l Isa location
+End The l.
+
+Start At l.

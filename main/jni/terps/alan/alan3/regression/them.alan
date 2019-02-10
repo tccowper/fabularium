@@ -1,0 +1,19 @@
+Syntax x = x (o)*.
+
+Add To Every object
+  Verb x
+    Does Describe o.
+  End Verb.
+End Add.
+
+The trousers Isa object At l
+  Pronoun them
+End The.
+
+The o Isa object At l
+End The o.
+
+The l Isa location
+End The l.
+
+Start At l.

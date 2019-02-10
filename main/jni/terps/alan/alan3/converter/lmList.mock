@@ -1,0 +1,85 @@
+/* Mocked lmList */
+
+#include "alanCommon.h"
+
+
+/* Insert string separator */
+#define lmSEPARATOR ((char)0xff)
+
+/* Severity type and codes */
+typedef int lmSev;
+#define sevNONE 0
+#define sevOK   (1<<0)
+#define sevINF  (1<<1)
+#define sevWAR  (1<<2)
+#define sevERR  (1<<3)
+#define sevFAT  (1<<4)
+#define sevSYS  (1<<5)
+
+#define sevALL (sevOK|sevINF|sevWAR|sevERR|sevFAT|sevSYS)
+
+
+/* Listing types */
+typedef int lmTyp;
+#define liNONE  0
+#define liSUM   (1<<0)		/* Summary */
+#define liMSG	(1<<1)		/* Source lines with messages */
+#define liOK    (1<<2)		/* Correct source lines */
+#define liINCL  (1<<3)		/* Look also in PUSHed files */
+#define liHEAD  (1<<4)		/* Heading */
+
+#define liTINY (liSUM|liMSG|liHEAD|liINCL)
+#define liFULL (liTINY|liOK)
+
+typedef enum lmMessages {
+    lm_ENGLISH_Messages
+} lmMessages;
+
+
+/* UNINITIALISED: */
+/* Initialise the lmLister System */
+void lmLiInit(char header[], char src[], lmMessages msect) {mock(header, src, msect);}
+
+/* COLLECTING: */
+/* Log a message at a source position */
+void lmLog(Srcp *pos, int ecode, lmSev sev, char *istrs) {mock(pos, ecode, sev, istrs);}
+
+/* Log a message at a source position using va_arg handling */
+void lmLogv(Srcp *pos, int ecode, lmSev sev, ...) {mock(pos, ecode, sev);}
+
+/* Turn listing completely off after a particular source position */
+void lmLiOff(Srcp *pos) {mock(pos);}
+
+/* Turn listing on again at a particular source position */
+void lmLiOn(Srcp *pos) {mock(pos);}
+
+/* Start reading an included file at a particular source position */
+void lmLiEnter(Srcp *pos, Srcp *start, char fnm[]) {mock(pos, start, fnm);}
+
+/* Stop reading from an included file prematurely */
+void lmLiExit(Srcp *pos) {mock(pos);}
+
+/* (Un)conditionally skip to a new page at a source position */
+void lmLiPage(Srcp *pos, int lins) {mock(pos, lins);}
+
+/* Read worst severity logged so far */
+lmSev lmSeverity(void) {return mock();}
+lmSev lmLocSeverity(void) {return mock();}
+void lmResLocSeverity(void) {mock();}
+
+/* RETRIEVING: */
+/* Create a listing of a selected type in a file or the screen */
+void lmList(char ofnm[], int lins, int cols, lmTyp typ, lmSev sevs) {mock(ofnm, lins, cols, typ, sevs);}
+
+/* Return the i'th formatted message, return 0 if not found */
+int lmMsg(int i, Srcp *pos, char *msg) {return mock(i, pos, msg);}
+
+/* Print a string on a line in the output file */
+void lmLiPrint(char str[]) {mock(str);}
+
+/* (Un)conditionally skip to a new page in the output file */
+void lmSkipLines(int lins) {mock(lins);}
+
+/* Terminate the lmLister system */
+void lmLiTerminate(void) {mock();}
+

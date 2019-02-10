@@ -1,0 +1,182 @@
+OPTIONS
+  pack.
+
+OBJECT ATTRIBUTES
+  NOT entnehmbar.
+  NOT zu_öffnen.
+  NOT zu_schliessen.
+  geschlossen.
+  NOT verschliessbar.
+  verschlossen.
+
+SYNONYMS
+   -- für Kommandos: Nord/Süd/Ost/West/hoch/runter/rein/raus
+   nord,norden= n.
+   süd,süden =s.
+   west,westen=w.
+   ost,osten=o.
+   hinauf,rauf = hoch.
+   hinunter,hinab = runter.
+   hinein,eintreten = rein.
+   hinaus,rausgehen = raus.
+   -- alle mal benutzen, damitÂs keine Warnungen gibt
+   LOCATION wasweissich EXIT
+     n,s,o,w,hoch,runter,rein,raus TO wasweissich.
+   end location.
+
+
+SYNONYMS
+   -- für eingebaute Worte
+   der,die,das, den, dem  = the.
+   alle, alles = all.
+   ausser = but.
+
+
+-- Verben, 1 Wort
+
+VERB   'ende'   DOES QUIT. END VERB.
+SYNTAX 'ende' = 'ende'.
+synonyms bye,'exit','quit'=ende.
+
+VERB   'schau'  DOES LOOK. END VERB.
+SYNTAX 'schau' = 'schau'.
+synonyms sieh = schau.
+
+VERB   'save'   DOES SAVE. END VERB.
+SYNTAX 'save' = 'save'.
+
+VERB   'load'   DOES RESTORE. END VERB.
+SYNTAX 'load' = 'load'.
+
+VERB   inventar DOES LIST inventory. END VERB.
+SYNTAX inventar = 'inventar'.
+SYNONYMS was,i = 'inventar'.
+
+
+-- Verben, 2 und mehr Wörter
+VERB weglegen,weglegen1, wegwerfen,hinlegen,hinlegen1
+     CHECK obj IN inventory
+     ELSE "Du hast so was gar nicht."
+     DOES LOCATE obj HERE. "Weggelegt."
+END VERB.
+SYNTAX
+ weglegen = 'lege' (obj) 'weg' .
+ weglegen1 = 'leg' (obj) 'weg' .
+ wegwerfen = 'wirf' (obj) 'weg' .
+ hinlegen = 'leg' (obj) 'hin' .
+ hinlegen1 = 'lege' (obj) 'hin' .
+
+VERB nimm
+  CHECK obj is entnehmbar ELSE "Das kannst Du nicht nehmen."
+  AND obj NOT IN inventory ELSE "Du hast es bereits."
+  DOES LOCATE obj IN inventory. "Ich hab es genommen."
+END VERB.
+SYNTAX nimm = nimm (obj) * WHERE obj ISA OBJECT
+ELSE "You kannst keine Personen nehmen!"
+
+
+-- Getragene Gegenstände
+CONTAINER inventory
+   LIMITS COUNT 20 THEN
+	 "$nDu kannst nichts mehr targen, es rutscht Dir aus den Händen."
+   HEADER "Du trägst:"
+   ELSE "Du stehst mit leeren Händen da."
+END CONTAINER.
+
+LOCATION limbo
+-- für verschwundene Objekte
+   exit pause to limbo.
+END LOCATION.
+
+-- Syntaces
+syntax lies = lies (obj).
+
+-- Eindeutschung
+-----------------------------------------------
+MESSAGE WHAT:     "Ich verstehe nicht."
+MESSAGE WHATALL:  "Ich verstehe nicht, was Du mit 'alles' meinst."
+MESSAGE WHATIT:   "Ich vertsehe nicht, welches Du meinst."
+MESSAGE WHATTHEM: "Ich verstehe nicht, was Du mit 'sie' meinst."
+MESSAGE MULTIPLE: "Du kannst nicht auf mehrere Objekte mit '$v' beziehen."
+MESSAGE WANT:     "Ich kann nicht rauskriegen, was Du mit '$v' willst."
+MESSAGE NOUN:     "Du mußt ein Ding angeben."
+MESSAGE AFTERBUT: "Es muß ein Ding nach 'aber' folgen."
+MESSAGE BUTALL:   "Du kannst 'ausser' nur nach 'alles' benutzen. "
+MESSAGE NOTMUCH:  "'$v' kannst Du nicht mit vielen Dingen machen.."
+MESSAGE WHICHONE: "Ich weiß nicht, welches $1 Du meinst."
+MESSAGE NOSUCH:   "Weit und breit kein $1."
+MESSAGE NOWAY:    "Dalang gehts nicht."
+MESSAGE CANT0:    "Das kannst Du nicht tun."
+MESSAGE CANT:     "'$v d. $1' ist nicht möglich."
+MESSAGE NOTHING:  "$v was? Hier gibt es nichts, was dazu geeignet ist."
+MESSAGE SEEOBJECT1: "Es gibt"
+MESSAGE SEEOBJECTAND: "und"
+MESSAGE SEEOBJECTEND: "hier."
+MESSAGE SEEACTOR: "ist hier."
+MESSAGE CONTAINS: "enthält"
+MESSAGE CONTAINSAND:  "und"
+MESSAGE EMPTY1:   ""
+MESSAGE ISEMPTY:  "ist leer."
+MESSAGE HAVESCORED: "Punkte:"
+MESSAGE SCOREOUTOF: "von "
+MESSAGE UNKNOWNWORD: "Dieses Wort kenne ich gar nicht."
+MESSAGE MORE: "<mehr>"
+MESSAGE AGAIN: "(noch mal)"
+MESSAGE SAVEWHERE:  "Dateiname zum Speichern"
+MESSAGE SAVEOVERWRITE: "Datei überschreiben?"
+MESSAGE SAVEFAILED: "Sorry, SAVE ging nicht."
+MESSAGE SAVEMISSING:  "Sorry, ich kann die Datei nicht öffnen."
+MESSAGE SAVEVERSION: "Sorry, die Datei wurde von einer anderen Version erzeugt."
+MESSAGE SAVENAME: "Sorry, diese Datei enthält keinen Spielstand für dieses Adventure."
+MESSAGE RESTOREFROM: "Dateiname zun einlesen"
+MESSAGE DEFARTICLE: "ein"
+
+-- Dies ist die Eindeutschung des
+-- jingle-Adventures.
+
+-------------
+LOCATION Bahnsteig  NAME  'Bahnsteig von Elsenberg.  S: Bahnhof.'
+-------------
+DESCRIPTION
+  "Der Bahnsteig besteht aus einem 2 Meter breiten betonierten Streifen,
+  an dessen Enden Brennesseln und Strauchwerk wachsen."
+    EXIT s TO Bahnhof.
+END LOCATION.
+
+OBJECT Beton AT Bahnsteig
+--    is not entnehmbar.
+DESCRIPTION
+    "Auch im Rißmuster des Betons haben sich bereits Pflanzen angesiedelt."
+END OBJECT.
+
+OBJECT Schild AT Bahnsteig
+DESCRIPTION    
+    "Die sonnenbeschienenen Gleise strömen den Geruch von altem Öl aus.
+     Ein Schild warnt vor dem Überschreiten der Gleise."
+ VERB lies DOES
+ "$n     ___________________________
+  $n    /                           \
+  $n    | Überschreiten der Gleise  |
+  $n    | streng verboten.          |
+  $n    |                           |
+  $n    |       Deutsche Reichsbahn |
+  $n    \___________________________/"
+  end verb.
+END OBJECT.
+
+
+-------------
+LOCATION Bahnhof  NAME 'Bahnhofsgebäude.  N: Bahnsteig, S: Straße, O: Telefonzelle, W: Bahnhofstoilette.'
+-------------
+DESCRIPTION
+ "Eine flackernede Leuchtstofflampe erhellt das menschenleere Gebäude. Die
+ hölzernen Laden des Schalters sind herabgelassen."
+    EXIT n TO Bahnsteig.
+--    EXIT s TO Strasse.
+--    EXIT o to Telefonzelle. 
+--    exit w Toilette
+END LOCATION.
+
+
+start at Bahnsteig.
+

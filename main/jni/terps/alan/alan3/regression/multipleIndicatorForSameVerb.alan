@@ -1,0 +1,47 @@
+-- Multiple indicators was used from the first encountered syntax element for the merged
+-- syntaxes for the same verb word.
+-- This tests that no matter where the multiple indicator is put it works as specified
+
+Syntax
+  put = put (o)*.
+  put_in = put (o) 'in' (c).
+
+  get = get (o).
+  get_in = get (o)* 'in' (c).
+
+Add To Every object
+  Verb put
+  Does
+    "You put" Say The This. "."
+  End Verb.
+
+  Verb put_in
+  Does
+    "You put" Say The This. "."
+  End Verb.
+
+  Verb get
+  Does
+    "You get" Say The This. "."
+  End Verb.
+
+  Verb get_in
+  Does
+    "You get" Say The This. "."
+  End Verb.
+
+End Add.
+
+The o1 Isa object At l1
+End The o1.
+
+The o2 Isa object At l1
+End The o2.
+
+The o3 Isa object At l1
+End The o3.
+
+The l1 Isa location
+End The l1.
+
+Start At l1.

@@ -1,0 +1,1299 @@
+########## mbo ##########
+Options
+  language english.
+  
+
+
+Add To Every object
+  Is
+    Not openable.
+    Not open.
+    weight  0.
+End Add To.
+
+Add To Every actor
+  Is
+    x  0.
+    y  0.
+    weight  0.
+    light  0.
+End Add To.
+
+Synonyms
+  'e' = 'east'.
+  'w' = 'west'.
+  'n' = 'north'.
+  's' = 'south'.
+  'nw' = 'northwest'.
+  'ne' = 'northeast'.
+  'sw' = 'southwest'.
+  'se' = 'southeast'.
+  'store' = 'save'.
+  'load' = 'restore'.
+  'q' = 'quit'.
+  
+
+Syntax
+  'look' = 'look'.
+  'save' = 'save'.
+  'restore' = 'restore'.
+  'quit' = 'quit'.
+  yes = 'yes'.
+  no = 'no'.
+  open = 'open' (obj)
+    Where obj Isa object
+      Else 
+        "$nYou cannot open that."
+  
+  close = 'close' (obj)
+    Where obj Isa object
+      Else 
+        "$nYou cannot close that."
+  
+
+Verb 'look'
+  Does
+    Set delay_time Of global_data To 0.
+    Look.
+End Verb.
+
+Verb 'save'
+  Does
+    Save.
+End Verb.
+
+Verb 'restore'
+  Does
+    Restore.
+    Look.
+End Verb.
+
+Verb 'quit'
+  Does
+    Locate questioneer Here.
+    Use Script s1 For questioneer.
+End Verb.
+
+Verb yes
+  Check global_data Is waiting_reply
+    Else 
+      "$nYes what ?"
+  Does
+    If expected_reply Of global_data =
+    "yes" Then
+      Make global_data answered_right.
+    Else 
+      Make global_data Not answered_right.
+    End If.
+End Verb.
+
+Verb no
+  Check global_data Is waiting_reply
+    Else 
+      "$nNo what ?"
+  Does
+    If expected_reply Of global_data =
+    "no" Then
+      Make global_data answered_right.
+    Else 
+      Make global_data Not answered_right.
+    End If.
+End Verb.
+
+Verb open
+  Check obj Is openable
+    Else 
+      "$nA strange thing to open."
+  Does
+    Make obj open.
+    "$nDone."
+End Verb.
+
+Verb close
+  Check obj Is openable
+    Else 
+      "$nA strange thing to close."
+  Does
+    Make obj Not open.
+    "$nDone."
+End Verb.
+
+
+The nowhere Isa location
+  
+  Exit north, south, east, west To nowhere.
+  
+End The nowhere.
+
+The in_front_of_castle Isa location
+  Name outer ward
+  
+  Description
+    "< in front of the castle >"
+  
+  Exit north To inner_ward_entrance
+    Check castle_gate Is open
+      Else 
+        "< portcullis blocks your passage >"
+  End Exit.
+  
+End The in_front_of_castle.
+
+The inner_ward_entrance Isa location
+  Name castle gate
+  
+  Description
+    "< castle entrance >"
+  
+  Exit north To in_front_of_building.
+  
+  Exit south To in_front_of_castle
+    Check castle_gate Is open
+      Else 
+        "< portcullis blocks your way >"
+  End Exit.
+  
+End The inner_ward_entrance.
+
+The in_front_of_building Isa location
+  Name 'In' front 'of' main building
+  
+  Description
+    "< in front of main building >"
+  
+  Exit north To entrance_foyer
+    Check castle_door Is open
+      Else 
+        "$nOpen the door first."
+  End Exit.
+  
+  Exit south To inner_ward_entrance.
+  
+  Exit east To se_inner_ward.
+  
+  Exit west To sw_inner_ward.
+  
+End The in_front_of_building.
+
+The sw_inner_ward Isa location
+  Name inner ward
+  
+  Description
+    "< south-west corner of inner ward >"
+  
+  Exit east To in_front_of_building.
+  
+  Exit north To west_inner_ward.
+  
+End The sw_inner_ward.
+
+The se_inner_ward Isa location
+  Name inner ward
+  
+  Description
+    "< south-east corner of inner ward >"
+  
+  Exit west To in_front_of_building.
+  
+  Exit north To east_inner_ward.
+  
+End The se_inner_ward.
+
+The nw_inner_ward Isa location
+  Name inner ward
+  
+  Description
+    "< north-west corner of inner ward >"
+  
+  Exit east To behind_building.
+  
+  Exit south To west_inner_ward.
+  
+End The nw_inner_ward.
+
+The ne_inner_ward Isa location
+  Name inner ward
+  
+  Description
+    "< north-east corner of inner ward >"
+  
+  Exit west To behind_building.
+  
+  Exit south To east_inner_ward.
+  
+End The ne_inner_ward.
+
+The west_inner_ward Isa location
+  Name west 'of' main building
+  
+  Description
+    "< west of inner building >"
+  
+  Exit north To nw_inner_ward.
+  
+  Exit south To sw_inner_ward.
+  
+  Exit west To west_inner_corridor
+    Check west_inner_door Is open
+      Else 
+        "$nOpen the door first."
+  End Exit.
+  
+End The west_inner_ward.
+
+The east_inner_ward Isa location
+  Name east 'of' main building
+  
+  Description
+    "< west of inner building >"
+  
+  Exit north To nw_inner_ward.
+  
+  Exit south To sw_inner_ward.
+  
+  Exit east To east_inner_corridor
+    Check east_inner_door Is open
+      Else 
+        "$nOpen the door first."
+  End Exit.
+  
+End The east_inner_ward.
+
+The behind_building Isa location
+  Name behind 'the' castle
+  
+  Description
+    "< behind the main building >"
+  
+  Exit east To ne_inner_ward.
+  
+  Exit west To nw_inner_ward.
+  
+  Exit south To lab_entrance
+    Check lab_outer_door Is found
+      Else 
+        "$nA wall blocks your passage."
+  End Exit.
+  
+End The behind_building.
+
+The west_inner_corridor Isa location
+  Name inner wall passage
+  
+  Description
+    "< west side of inner passage >"
+  
+  Exit north To nw_inner_corridor.
+  
+  Exit south To castle_armory.
+  
+  Exit east To west_inner_ward
+    Check west_inner_door Is open
+      Else 
+        "$nOpen the door first."
+  End Exit.
+  
+End The west_inner_corridor.
+
+The east_inner_corridor Isa location
+  Name inner wall passage
+  
+  Description
+    "< east side of inner passage >"
+  
+  Exit north To ne_inner_corridor.
+  
+  Exit south To castle_storeroom.
+  
+  Exit west To east_inner_ward
+    Check east_inner_door Is open
+      Else 
+        "$nOpen the door first."
+  End Exit.
+  
+End The east_inner_corridor.
+
+The nw_inner_corridor Isa location
+  Name inner wall passage
+  
+  Description
+    "< north-west inner wall passage >"
+  
+  Exit south To west_inner_corridor.
+  
+  Exit east To north_inner_corridor.
+  
+  Exit down To dungeon_entrance
+    Check dungeon_grating Is open
+      Else 
+        "$nOpen the grating first."
+  End Exit.
+  
+End The nw_inner_corridor.
+
+The ne_inner_corridor Isa location
+  Name inner wall passage
+  
+  Description
+    "< north-east inner wall passage >"
+  
+  Exit south To east_inner_corridor.
+  
+  Exit west To north_inner_corridor.
+  
+  Exit down To store_entrance
+    Check store_trapdoor Is open
+      Else 
+        "$nOpen the trapdoor first."
+  End Exit.
+  
+End The ne_inner_corridor.
+
+The north_inner_corridor Isa location
+  Name inner wall passage
+  
+  Description
+    "< north inner passage >"
+  
+  Exit west To nw_inner_corridor.
+  
+  Exit east To ne_inner_corridor.
+  
+  Exit up To north_castle_wall.
+  
+End The north_inner_corridor.
+
+The castle_armory Isa location
+  Name armory
+  
+  Description
+    "< armory description >"
+  
+  Exit north To west_inner_corridor.
+  
+End The castle_armory.
+
+The castle_storeroom Isa location
+  Name storeroom
+  
+  Description
+    "< storeroom description >"
+  
+  Exit north To east_inner_corridor.
+  
+End The castle_storeroom.
+
+The entrance_foyer Isa location
+  Name entrance 'of' 'the' castle
+  
+  Description
+    "< entrance foyer >"
+  
+  Exit north To fountain_hall.
+  
+  Exit south To in_front_of_building
+    Check castle_door Is open
+      Else 
+        "$nOpen the door first."
+  End Exit.
+  
+End The entrance_foyer.
+
+The fountain_hall Isa location
+  Name fountain hall
+  
+  Description
+    "< fountain hall >"
+  
+  Exit west To meeting_hall.
+  
+  Exit east To canteen.
+  
+  Exit south To entrance_foyer.
+  
+End The fountain_hall.
+
+The meeting_hall Isa location
+  Name meeting hall
+  
+  Description
+    "< meeting hall >"
+  
+  Exit north To castle_ladder_bottom.
+  
+  Exit east To fountain_hall.
+  
+End The meeting_hall.
+
+The canteen Isa location
+  Name canteen
+  
+  Description
+    "< canteen >"
+  
+  Exit west To fountain_hall.
+  
+  Exit north To kitchen.
+  
+End The canteen.
+
+The kitchen Isa location
+  Name castle kitchen
+  
+  Description
+    "< kitchen >"
+  
+  Exit south To canteen.
+  
+End The kitchen.
+
+The castle_ladder_bottom Isa location
+  Name ladder bottom
+  
+  Is 
+    Not with_door_forced.
+  Description
+    "< ladder bottom >"
+  
+  Exit south To meeting_hall.
+  
+  Exit east To secret_storeroom
+    Check castle_ladder_bottom Is with_door_forced
+      Else 
+        "$nMassive iron door blocks your passage."
+  End Exit.
+  
+  Exit up To castle_ladder_middle.
+  
+End The castle_ladder_bottom.
+
+The secret_storeroom Isa location
+  Name small storeroom
+  
+  Description
+    "< small storeroom >"
+  
+  Exit west To castle_ladder_bottom.
+  
+  Exit east To castle_escape_room
+    Check escape_room_door Is open
+      Else 
+        "$nSolid stone door blocks your passage."
+  End Exit.
+  
+End The secret_storeroom.
+
+The castle_escape_room Isa location
+  Name secret room
+  
+  Description
+    "< escape room >"
+  
+  Exit west To secret_storeroom
+    Check escape_room_door Is open
+      Else 
+        "$nSolid stone door blocks your passage."
+  End Exit.
+  
+End The castle_escape_room.
+
+The castle_ladder_middle Isa location
+  Name ladder middle
+  
+  Description
+    "< ladder middle >"
+  
+  Exit south To guest_chamber.
+  
+  Exit down To castle_ladder_bottom.
+  
+End The castle_ladder_middle.
+
+The guest_chamber Isa location
+  Name corridor
+  
+  Description
+    "< guest rooms chamber >"
+  
+  Exit northwest To castle_ladder_middle.
+  
+  Exit northeast To guest_room1.
+  
+  Exit southwest To guest_room2.
+  
+  Exit southeast To guest_room3.
+  
+  Exit east To private_chamber.
+  
+End The guest_chamber.
+
+The guest_room1 Isa location
+  Name guest room
+  
+  Description
+    "< guest room 1 >"
+  
+  Exit south To guest_chamber.
+  
+End The guest_room1.
+
+The guest_room2 Isa location
+  Name guest room
+  
+  Description
+    "< guest room 2 >"
+  
+  Exit north To guest_chamber.
+  
+End The guest_room2.
+
+The guest_room3 Isa location
+  Name guest room
+  
+  Description
+    "< guest room 3 >"
+  
+  Exit north To guest_chamber.
+  
+End The guest_room3.
+
+The private_chamber Isa location
+  Name private chamber
+  
+  Description
+    "< private chamber >"
+  
+  Exit north To keeper_apartments.
+  
+  Exit south To library_chamber.
+  
+  Exit west To guest_chamber.
+  
+End The private_chamber.
+
+The keeper_apartments Isa location
+  Name keeper apartments
+  
+  Description
+    "< keeper apartments >"
+  
+  Exit south To private_chamber.
+  
+End The keeper_apartments.
+
+The library_chamber Isa location
+  Name small chamber
+  
+  Description
+    "< chamber >"
+  
+  Exit north To private_chamber.
+  
+  Exit south To library.
+  
+End The library_chamber.
+
+The library Isa location
+  Name castle library
+  
+  Description
+    "< library >"
+  
+  Exit north To library_chamber.
+  
+  Exit east To castle_closet.
+  
+End The library.
+
+The castle_closet Isa location
+  Name closet
+  
+  Description
+    "< closet >"
+  
+  Exit west To library.
+  
+End The castle_closet.
+
+The castle_roof Isa location
+  Name castle roof
+  
+  Description
+    "< castle roof >"
+  
+  Exit down To castle_ladder_middle.
+  
+End The castle_roof.
+
+The dungeon_entrance Isa location
+  Name ladder bottom
+  
+  Has 
+    light  0.
+  Description
+    If (light Of dungeon_entrance +light Of hero) >0 Then
+      "< bottom of ladder >"
+    Else 
+      "$nIt's too dark here."
+    End If.
+  
+  Exit up To nw_inner_corridor
+    Check dungeon_grating Is open
+      Else 
+        "$nOpen the grating first."
+  End Exit.
+  
+  Exit east To dungeon_east_corridor.
+  
+  Exit west To dungeon_west_corridor1.
+  
+End The dungeon_entrance.
+
+The dungeon_east_corridor Isa location
+  Name dungeon corridor
+  
+  Has 
+    light  0.
+  Description
+    If (light Of dungeon_east_corridor +light Of hero) >0 Then
+      "< east corridor >"
+    Else 
+      "$nIt's too dark here."
+    End If.
+  
+  Exit west To dungeon_entrance.
+  
+  Exit east To dungeon_basin.
+  
+End The dungeon_east_corridor.
+
+The dungeon_west_corridor1 Isa location
+  Name dungeon corridor
+  
+  Has 
+    light  0.
+  Description
+    If (light Of dungeon_west_corridor1 +light Of hero) >0 Then
+      "< west corridor >"
+    Else 
+      "$nIt's too dark here."
+    End If.
+  
+  Exit east To dungeon_entrance.
+  
+  Exit west To dungeon_west_corridor2.
+  
+End The dungeon_west_corridor1.
+
+The dungeon_west_corridor2 Isa location
+  Name dungeon corridor
+  
+  Has 
+    light  0.
+  Description
+    If (light Of dungeon_west_corridor2 +light Of hero) >0 Then
+      "< prison cells >"
+    Else 
+      "$nIt's too dark here."
+    End If.
+  
+  Exit east To dungeon_west_corridor1.
+  
+  Exit west To dungeon_west_corridor3.
+  
+End The dungeon_west_corridor2.
+
+The dungeon_west_corridor3 Isa location
+  Name dungeon corridor
+  
+  Has 
+    light  0.
+  Description
+    If (light Of dungeon_west_corridor3 +light Of hero) >0 Then
+      "< store and training hall >"
+    Else 
+      "$nIt's too dark here."
+    End If.
+  
+  Exit north To dungeon_training_hall.
+  
+  Exit south To dungeon_store.
+  
+  Exit east To dungeon_west_corridor2.
+  
+End The dungeon_west_corridor3.
+
+The dungeon_store Isa location
+  Name storeroom
+  
+  Has 
+    light  0.
+  Description
+    If (light Of dungeon_store +light Of hero) >0 Then
+      "< dungeon store >"
+    Else 
+      "$nIt's too dark here."
+    End If.
+  
+  Exit north To dungeon_west_corridor3.
+  
+End The dungeon_store.
+
+The dungeon_training_hall Isa location
+  Name training hall
+  
+  Has 
+    light  0.
+  Description
+    If (light Of dungeon_training_hall +light Of hero) >0 Then
+      "< training hall >"
+    Else 
+      "$nIt's too dark here."
+    End If.
+  
+  Exit south To dungeon_west_corridor3.
+  
+End The dungeon_training_hall.
+
+The dungeon_basin Isa location
+  Name water source
+  
+  Has 
+    light  0.
+  Description
+    If (light Of dungeon_basin +light Of hero) >0 Then
+      "< training hall >"
+    Else 
+      "$nIt's too dark here."
+    End If.
+  
+  Exit west To dungeon_east_corridor.
+  
+End The dungeon_basin.
+
+The store_entrance Isa location
+  Name ladder bottom
+  
+  Has 
+    light  0.
+  Description
+    If (light Of store_entrance +light Of hero) >0 Then
+      "< bottom of ladder >"
+    Else 
+      "$nIt is too dark here."
+    End If.
+  
+  Exit up To ne_inner_corridor
+    Check store_trapdoor Is open
+      Else 
+        "$nOpen the trapdoor first."
+  End Exit.
+  
+  Exit east To store_east_corridor.
+  
+End The store_entrance.
+
+The store_east_corridor Isa location
+  Name store passage
+  
+  Has 
+    light  0.
+  Description
+    If (light Of store_east_corridor +light Of hero) >0 Then
+      "< bottom of ladder >"
+    Else 
+      "$nIt is too dark here."
+    End If.
+  
+  Exit west To store_entrance.
+  
+  Exit east To store_north_corridor.
+  
+End The store_east_corridor.
+
+The store_north_corridor Isa location
+  Name store passage
+  
+  Has 
+    light  0.
+  Description
+    If (light Of store_north_corridor +light Of hero) >0 Then
+      "< bottom of ladder >"
+    Else 
+      "$nIt is too dark here."
+    End If.
+  
+  Exit west To store_east_corridor.
+  
+  Exit south To store_cellar.
+  
+End The store_north_corridor.
+
+The store_cellar Isa location
+  Name cellar
+  
+  Has 
+    light  0.
+  Description
+    If (light Of store_cellar +light Of hero) >0 Then
+      "< bottom of ladder >"
+    Else 
+      "$nIt is too dark here."
+    End If.
+  
+  Exit north To store_north_corridor.
+  
+End The store_cellar.
+
+The lab_entrance Isa location
+  Name 'Dead' 'end'
+  
+  Is 
+    Not scored.
+  Description
+    "< sparkling wall >"
+  
+  Exit north, up To behind_building
+    Does
+      "< door closes ! >"
+      Make lab_outer_door Not open.
+  End Exit.
+  
+End The lab_entrance.
+
+The north_castle_wall Isa location
+  Name north side 'of' castle wall
+  
+  Description
+    "< north castle wall >"
+  
+  Exit down To north_inner_corridor.
+  
+End The north_castle_wall.
+
+The global_data Isa object
+  At nowhere 
+  Is 
+    Not waiting_reply.
+  Is 
+    Not answered_right.
+  Is 
+    Not mist_now.
+  Has 
+    expected_reply 
+    "none".
+  Has 
+    current_day  1.
+  Has 
+    current_hour  9.
+  Has 
+    current_minute  0.
+  Has 
+    delay_time_was  0.
+  Has 
+    delay_time  1.
+  Has 
+    current_score  0.
+  Has 
+    maximum_score  200.
+  Description
+  
+End The global_data.
+The inventory
+  Container
+    Limits
+      weight  100
+        Else
+          "You cannot lift so much."
+    Header
+      "$nYou carry"
+    Else
+      "$nYou have nothing of note."
+End The inventory.
+
+The body_parts
+  Container
+End The body_parts.
+
+
+The eyes Isa object
+  At nowhere 
+  Is 
+    openable.
+  Has 
+    weight  1000.
+  Description
+    ""
+  
+  Verb open
+    Does Only
+      If hero Is with_eyes_closed Then
+        Make hero Not with_eyes_closed.
+        Increase light Of hero By 10.
+        "$nYou open eyes again."
+      Else 
+        "$nYour eyes are not closed."
+      End If.
+  End Verb.
+  
+  Verb close
+    Does Only
+      If hero Is Not with_eyes_closed Then
+        Make hero with_eyes_closed.
+        Decrease light Of hero By 10.
+        "$nYou close your eyes."
+      Else 
+        "$nYour eyes are closed already."
+      End If.
+  End Verb.
+  
+End The eyes.
+
+The weather Isa object
+  At nowhere 
+End The weather.
+
+The castle Isa object
+  At nowhere 
+End The castle.
+
+The castle_gate Isa object
+  Name heavy iron portcullis
+  At in_front_of_castle 
+  Is 
+    openable.
+  Is 
+    open.
+  Is 
+    found.
+  Has 
+    weight  1000.
+  Description
+    "< heavy iron portcullis > is"
+    If castle_gate Is open Then
+      "raised."
+    Else 
+      "lowered."
+    End If.
+  
+  Verb open
+    Does Only
+      "$nHow ?"
+  End Verb.
+  
+  Verb close
+    Does Only
+      "$nHow ?"
+  End Verb.
+  
+End The castle_gate.
+
+The castle_door Isa object
+  Name gray marble door
+  At in_front_of_building 
+  Is 
+    openable.
+  Is 
+    open.
+  Is 
+    found.
+  Has 
+    weight  1000.
+  Description
+    "< dark marble door > is"
+    If castle_gate Is open Then
+      "open."
+    Else 
+      "closed."
+    End If.
+  
+End The castle_door.
+
+The west_inner_door Isa object
+  Name sturdy iron door
+  At west_inner_ward 
+  Is 
+    openable.
+  Is 
+    Not open.
+  Is 
+    found.
+  Has 
+    weight  1000.
+  Description
+    "< sturdy iron door > is"
+    If west_inner_door Is open Then
+      "open."
+    Else 
+      "closed."
+    End If.
+  
+End The west_inner_door.
+
+The east_inner_door Isa object
+  Name sturdy oaken door
+  At east_inner_ward 
+  Is 
+    openable.
+  Is 
+    Not open.
+  Is 
+    found.
+  Has 
+    weight  1000.
+  Description
+    "< sturdy oaken door > is"
+    If east_inner_door Is open Then
+      "open."
+    Else 
+      "closed."
+    End If.
+  
+End The east_inner_door.
+
+The dungeon_grating Isa object
+  Name heavy iron grating
+  At nw_inner_corridor 
+  Is 
+    openable.
+  Is 
+    Not open.
+  Is 
+    locked.
+  Is 
+    found.
+  Has 
+    weight  1000.
+  Description
+    "< heave iron grating > is"
+    If dungeon_grating Is locked Then
+      "closed and locked."
+    Elsif dungeon_grating Is open Then 
+      "open."
+    Else 
+      "closed."
+    End If.
+  
+  Verb open
+    Check dungeon_grating Is Not locked
+      Else 
+        "$nIt seems the grating is locked."
+  End Verb.
+  
+End The dungeon_grating.
+
+The store_trapdoor Isa object
+  Name wooden trapdoor
+  At ne_inner_corridor 
+  Is 
+    openable.
+  Is 
+    Not open.
+  Is 
+    found.
+  Has 
+    weight  1000.
+  Description
+    "< old wooden trapdoor > is"
+    If store_trapdoor Is open Then
+      "open."
+    Else 
+      "closed."
+    End If.
+  
+End The store_trapdoor.
+
+The lab_outer_door Isa object
+  Name hidden door
+  At behind_building 
+  Is 
+    openable.
+  Is 
+    Not found.
+  Is 
+    Not scored.
+  Is 
+    Not open.
+  Has 
+    weight  1000.
+  Description
+    If lab_outer_door Is found Then
+      "< lab outer door >"
+    End If.
+  
+  Verb open
+    Does Only
+      If lab_outer_door Is found Then
+        "$nYou cannot open the door."
+      End If.
+  End Verb.
+  
+  Verb close
+    Does Only
+      If lab_outer_door Is found Then
+        "$nThe door resists."
+      End If.
+  End Verb.
+  
+End The lab_outer_door.
+
+The escape_room_door Isa object
+  Name solid stone door
+  At secret_storeroom 
+  Is 
+    openable.
+  Is 
+    Not open.
+  Is 
+    Not scored.
+  Has 
+    weight  1000.
+  Description
+    "< stone door with code lock >"
+  
+  Verb open
+    Does Only
+      "$nIt seems the door is locked."
+  End Verb.
+  
+  Verb close
+    Does Only
+      "$nYou hear a soft click as the door locks."
+      Make escape_room_door Not open.
+  End Verb.
+  
+End The escape_room_door.
+
+The castle_ladder1 Isa object
+  Name ladder
+  At castle_ladder_bottom 
+  Has 
+    weight  1000.
+  Description
+    "< wooden ladder leading up >"
+  
+End The castle_ladder1.
+Event timer
+  Increase current_minute Of global_data By delay_time Of global_data.
+  If current_minute Of global_data >59 Then
+    Decrease current_minute Of global_data By 60.
+    Increase current_hour Of global_data.
+    If current_hour Of global_data >23 Then
+      Set current_hour Of global_data To 0.
+      Increase current_day Of global_data.
+    End If.
+  End If.
+  Schedule timer After 1.
+  Set delay_time_was Of global_data To delay_time Of global_data.
+  Set delay_time Of global_data To 1.
+End Event timer.
+
+When hero At in_front_of_castle And castle_gate Not At in_front_of_castle Then
+  Locate castle_gate At in_front_of_castle.
+  Describe castle_gate.
+
+When hero At inner_ward_entrance And castle_gate Not At inner_ward_entrance Then
+  Locate castle_gate At inner_ward_entrance.
+  Describe castle_gate.
+
+When hero At in_front_of_building And castle_door Not At in_front_of_building Then
+  Locate castle_door At in_front_of_building.
+  Describe castle_door.
+
+When hero At entrance_foyer And castle_door Not At entrance_foyer Then
+  Locate castle_door At entrance_foyer.
+  Describe castle_door.
+
+When ((hero At west_inner_ward) Or (hero At west_inner_corridor)) And west_inner_door Not Here Then
+  Locate west_inner_door Here.
+  "The door is at"
+  Say Current Location.
+  "$$."
+  Describe west_inner_door.
+
+When hero At east_inner_ward And east_inner_door Not At east_inner_ward Then
+  Locate east_inner_door At east_inner_ward.
+  Describe east_inner_door.
+
+When hero At east_inner_corridor And east_inner_door Not At east_inner_corridor Then
+  Locate east_inner_door At east_inner_corridor.
+  Describe east_inner_door.
+
+When hero At nw_inner_corridor And dungeon_grating Not At nw_inner_corridor Then
+  Locate dungeon_grating At nw_inner_corridor.
+  Describe dungeon_grating.
+
+When hero At dungeon_entrance And dungeon_grating Not At dungeon_entrance Then
+  Locate dungeon_grating At dungeon_entrance.
+  Describe dungeon_grating.
+
+When hero At ne_inner_corridor And store_trapdoor Not At ne_inner_corridor Then
+  Locate store_trapdoor At ne_inner_corridor.
+  Describe store_trapdoor.
+
+When hero At store_entrance And store_trapdoor Not At store_entrance Then
+  Locate store_trapdoor At store_entrance.
+  Describe store_trapdoor.
+
+When hero At secret_storeroom And escape_room_door Not At secret_storeroom Then
+  Locate escape_room_door At secret_storeroom.
+  Describe escape_room_door.
+
+When hero At castle_escape_room And escape_room_door Not At castle_escape_room Then
+  Locate escape_room_door At castle_escape_room.
+  Describe escape_room_door.
+
+
+The hero Isa actor
+  Name me
+  
+  Is 
+    Not with_eyes_closed.
+  Has 
+    x  6.
+  Has 
+    y  1.
+  Has 
+    light  0.
+  Has 
+    strength  14.
+  Description
+    "You are a pleasant looking Melrine."
+    List inventory.
+  
+End The hero.
+
+
+The questioneer Isa actor
+  
+  Description
+  
+  Script s1.
+    Step
+      "$nDo you really want to quit ?"
+      Set expected_reply Of global_data To 
+      "yes".
+      Make global_data waiting_reply.
+      Make global_data Not answered_right.
+    Step
+      If global_data Is answered_right Then
+        "$nYou have collected"
+        Say current_score Of global_data.
+        "score points of maximum"
+        Say maximum_score Of global_data.
+        "possible."
+        Quit.
+      Else 
+        "$nChanged your mind ?"
+      End If.
+      Make global_data Not waiting_reply.
+      Locate questioneer At nowhere.
+End The questioneer.
+
+
+Start At in_front_of_castle.
+  "< introduction >"
+  Schedule timer After 1.
+  Locate eyes In body_parts.
+  Visits 0.
+  

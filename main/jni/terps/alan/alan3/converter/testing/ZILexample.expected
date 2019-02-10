@@ -1,0 +1,39 @@
+########## ZILexample ##########
+
+
+The gruble Isa location
+  
+  Description
+    "This is a description."
+    If barfoo Is foobared Then
+      "There is a hole in the south wall."
+    End If.
+  
+  Exit north To rumble.
+  
+  Exit west To tumble.
+  
+  Exit south To arstol
+    Check barfoo Is foobared
+      Else 
+        "You can't go that way."
+  End Exit.
+  
+End The gruble.
+
+The nabble Isa object
+  At gruble 
+End The nabble.
+
+The krabble Isa object
+  At gruble 
+  Verb take
+    Check frabble Not In inventory
+      Else 
+        "You are carrying the frabble!"
+  End Verb.
+  
+End The krabble.
+
+Start Here.
+  

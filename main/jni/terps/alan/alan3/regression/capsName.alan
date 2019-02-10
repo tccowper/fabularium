@@ -1,0 +1,9 @@
+The x Isa location
+  Exit w To first.
+End The x.
+
+The first Isa location
+  Name 'The' First Floor.
+End The first.
+
+Start At first.

@@ -1,0 +1,2 @@
+../../compiler/alan debug -debug
+../../interpreter/arun -r -n -t -d debug < debug.input

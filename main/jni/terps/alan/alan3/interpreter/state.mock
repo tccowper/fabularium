@@ -1,0 +1,20 @@
+/* Mocking state.c */
+
+#include "state.h"
+#include "types.h"
+
+
+/* DATA */
+struct game_state;
+typedef struct game_state GameState;
+
+/* FUNCTIONS */
+bool anySavedState(void) {return (bool)mock();}
+void initStateStack(void) {mock();}
+void rememberGameState(void) {mock();}
+void forgetGameState(void) {mock();}
+void rememberCommands(void) {mock();}
+void recallGameState(void) {mock();}
+char *recreatePlayerCommand(void) {return (char *)mock();}
+void terminateStateStack(void) {mock();}
+void deallocateGameState(GameState *gameState) {mock();}

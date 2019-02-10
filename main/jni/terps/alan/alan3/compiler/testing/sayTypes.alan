@@ -1,0 +1,10 @@
+The l Isa location
+  Is b.
+End The l.
+
+Start At l.
+  Say l Isa location.
+  Say 2.
+  Say l.
+  Say b Of l.
+  

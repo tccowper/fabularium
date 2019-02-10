@@ -1,0 +1,26 @@
+The x Isa location
+  Has s1 "".
+  Has s2 "".
+  Is a.
+  Is i 3.
+End The x.
+
+Start At x.
+  -- Test count part
+  Strip a of x From s1. -- Expect type error, integer
+  Strip "" From s1. -- Expect type error, integer
+  Strip 4 From s1. -- Should be ok
+  Strip i of x From s1. -- Should be ok
+
+  -- Test from part
+  Strip From a of x. -- Expect type error, string
+  Strip From i of x. -- Expect type error, string
+  Strip From s1 of x. -- Should be ok
+  Strip From "". -- Must refer to an attribute
+
+  -- Test into part
+  Strip From s1 of x Into a of x. -- Expect type error, string
+  Strip From s1 of x into x. -- Expect type error, string
+  Strip From s1 of x into i of x. -- Expect type error, string
+  Strip From s1 of x into s2 of x. -- Should be ok
+  Strip From s1 of x into "". -- Must refer to an attribute

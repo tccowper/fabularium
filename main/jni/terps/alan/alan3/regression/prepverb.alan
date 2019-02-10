@@ -1,0 +1,29 @@
+The l Isa location
+End The l.
+
+Syntax xmail = x mail (o).
+
+Add To Every object
+  Verb mail
+    Does
+      "Verb mail"
+  End Verb.
+  Verb xmail
+    Does
+      "Verb x mail"
+  End Verb.
+End Add To.
+
+The letter Isa object
+  At l 
+End The letter.
+
+The mail_box Isa object
+  Name box
+  At l 
+End The mail_box.
+
+
+Start At l.
+  "Test the use of the same words as a preposition and a verb. Try $imail
+   letter $ix mail box"

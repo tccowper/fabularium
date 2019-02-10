@@ -1,0 +1,15 @@
+########## currentActor ##########
+
+
+currentActor.alan
+
+    6.    Say Current Actor.
+=====>        1
+
+  *1*   412 E : Current Actor is not defined in Events.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

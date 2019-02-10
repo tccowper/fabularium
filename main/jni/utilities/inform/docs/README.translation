@@ -1,0 +1,56 @@
+Information for translators
+===========================
+
+The library is designed to be easily translatable, and there are
+currently versions available in French, German and several other
+languages. If you maintain one of these translations, the following
+information may be useful to you.
+
+English.h
+---------
+
+This is the "language definition file", and in translation is replaced
+by French.h, German.h, etc. The following changes have been made:
+
+  * Class CompassDirection and its objects have been extensively revised.
+
+  * Routine LanguageVerb() has been reworked.
+
+  * Routines LanguageVerbIsDebugging(), LanguageVerbLikesAdverb() and
+    LanguageVerbMayBeName() have been added to isolate language-specific
+    tests previously embedded in parserm.h.
+
+  * Constants YOU__TX and COMMA__TX have been added.
+
+  * Routine LanguageLM() has been sorted alphabetically.
+
+  * In that routine, CommandsOff, CommandsOn and CommandsRead have been added.
+
+  * Also in that routine, Exit, Inv, Look, Miscellany, Places, Pronouns
+    and Score have been extended, and Go has been modified.
+
+  * Constant LIBRARY_ENGLISH has been added. We suggest that translated
+    versions instead define LIBRARY_DUTCH, LIBRARY_FRENCH,
+    LIBRARY_GERMAN, LIBRARY_ITALIAN, LIBRARY_SPANISH, LIBRARY_SWEDISH
+    etc, in case it becomes useful at some time to determine which
+    language is in force.
+
+
+Grammar.h
+---------
+
+This file contains grammars for English verbs like TAKE and DROP, and in
+translation is replaced by FrenchG.h, GermanG.h, etc. The following
+changes have been made:
+
+  * The grammars have been sorted alphabetically.
+
+  * Verb definitions 'recording' and 'replay' are no longer conditional
+    on DEBUG.
+
+  * Verb definitions 'showobj', 'ask', 'exit', 'look' and 'tell' have
+    been extended.
+
+  * Verb definition 'pry' 'prise' etc has been added.
+
+  * Constant LIBRARY_GRAMMAR has been added.

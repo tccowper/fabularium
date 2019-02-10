@@ -1,0 +1,14 @@
+The loc Isa location
+End The loc.
+
+Verb q
+  Does
+    Quit.
+End Verb q.
+
+Verb 'save'
+  Does
+    Save.
+End Verb 'save'.
+
+Start At loc.

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding = "Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="7.00"
+	Name="Level9"
+	SccProjectName=""
+	SccLocalPath="">
+	<Platforms>
+		<Platform
+			Name="Win32"/>
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory=".\Debug"
+			IntermediateDirectory=".\Debug"
+			ConfigurationType="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="classlib,.."
+				PreprocessorDefinitions="WIN32,_DEBUG,_WINDOWS,BITMAP_DECODER"
+				RuntimeLibrary="5"
+				UsePrecompiledHeader="0"
+				PrecompiledHeaderFile=".\Debug/Level9.pch"
+				AssemblerListingLocation=".\Debug/"
+				ObjectFile=".\Debug/"
+				ProgramDataBaseFileName=".\Debug/"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="3"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="classlib/debug/classlib.lib odbc32.lib odbccp32.lib htmlhelp.lib"
+				OutputFile=".\Debug/Level9.exe"
+				LinkIncremental="2"
+				SuppressStartupBanner="TRUE"
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile=".\Debug/Level9.pdb"
+				SubSystem="2"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\Debug/Level9.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="2057"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory=".\Release"
+			IntermediateDirectory=".\Release"
+			ConfigurationType="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="classlib,.."
+				PreprocessorDefinitions="WIN32,NDEBUG,_WINDOWS,BITMAP_DECODER"
+				StringPooling="TRUE"
+				RuntimeLibrary="4"
+				EnableFunctionLevelLinking="TRUE"
+				UsePrecompiledHeader="0"
+				PrecompiledHeaderFile=".\Release/Level9.pch"
+				AssemblerListingLocation=".\Release/"
+				ObjectFile=".\Release/"
+				ProgramDataBaseFileName=".\Release/"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="classlib/release/classlib.lib odbc32.lib odbccp32.lib htmlhelp.lib"
+				OutputFile=".\Release/Level9.exe"
+				LinkIncremental="1"
+				SuppressStartupBanner="TRUE"
+				ProgramDatabaseFile=".\Release/Level9.pdb"
+				SubSystem="2"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\Release/Level9.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="2057"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
+	</Configurations>
+	<Files>
+		<File
+			RelativePath=".\Lev9win.cpp">
+		</File>
+		<File
+			RelativePath="Help\Level9.hhp">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Making help file..."
+					CommandLine="hhc &quot;Help\Level9.hhp&quot;
+if not exist &quot;Help\Level9.chm&quot; goto :HelpError
+copy &quot;Help\Level9.chm&quot; &quot;$(OutDir)\Level9.chm&quot;
+goto :HelpDone
+:HelpError
+echo Help\Level9.hhp(1) : error:Problem encountered creating help file
+echo.
+:HelpDone
+echo.
+"
+					Outputs="$(OutDir)\$(ProjectName).chm"/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Making help file..."
+					CommandLine="hhc &quot;Help\Level9.hhp&quot;
+if not exist &quot;Help\Level9.chm&quot; goto :HelpError
+copy &quot;Help\Level9.chm&quot; &quot;$(OutDir)\Level9.chm&quot;
+goto :HelpDone
+:HelpError
+echo Help\Level9.hhp(1) : error:Problem encountered creating help file
+echo.
+:HelpDone
+echo.
+"
+					Outputs="$(OutDir)\$(ProjectName).chm"/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\Level9.ico">
+		</File>
+		<File
+			RelativePath="Level9.manifest">
+		</File>
+		<File
+			RelativePath=".\Level9.rc">
+		</File>
+		<File
+			RelativePath="Resource.h">
+		</File>
+		<File
+			RelativePath="..\bitmap.c">
+		</File>
+		<File
+			RelativePath="..\level9.c">
+		</File>
+		<File
+			RelativePath="..\level9.h">
+		</File>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

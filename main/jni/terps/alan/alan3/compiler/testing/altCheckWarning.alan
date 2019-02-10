@@ -1,0 +1,22 @@
+The l Isa location
+End The l.
+
+Syntax v1 = v1 (l) using (v).
+
+Add To object
+  Verb v1
+    Check l Isa location
+      Else "check!"
+  End Verb.
+End Add.
+
+Syntax v2 = v2 (l) using (v).
+
+Add To object
+  Verb v2
+    Does "does"
+  End Verb.
+End Add.
+
+Start At l.
+

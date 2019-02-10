@@ -1,0 +1,23 @@
+########## literalStringAttribute ##########
+
+        No warnings or errors detected.
+
+
+'Play "c"' then 'play piano' and then 'play "c"'
+
+
+L
+There is a piano here.
+
+> play "c"
+Wonderful!
+
+> play piano
+It sounds wonderful. It sounds terrible.
+
+> play "c"
+Wonderful!
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

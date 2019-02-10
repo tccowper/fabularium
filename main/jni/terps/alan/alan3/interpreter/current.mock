@@ -1,0 +1,13 @@
+/* Mocking current.c */
+#include "current.h"
+
+/* IMPORTS */
+#include "types.h"
+
+/* DATA */
+CurVars current;
+bool gameStateChanged;
+
+
+/* FUNCTIONS */
+

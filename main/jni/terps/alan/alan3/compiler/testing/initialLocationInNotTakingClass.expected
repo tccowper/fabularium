@@ -1,0 +1,16 @@
+########## initialLocationInNotTakingClass ##########
+
+
+initialLocationInNotTakingClass.alan
+
+   14.  The t Isa subobject2 In cont
+=====>                          1
+
+  *1*   404 E : Container is restricted to only contain instances of
+                'subobject1' and its subclasses.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

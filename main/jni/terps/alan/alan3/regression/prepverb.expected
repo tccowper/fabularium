@@ -1,0 +1,23 @@
+########## prepverb ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+Test the use of the same words as a preposition and a verb. Try
+    mail letter
+    x mail box
+
+
+L
+There is a letter and a box here.
+
+> mail letter
+Verb mail
+
+> x mail box
+Verb x mail
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

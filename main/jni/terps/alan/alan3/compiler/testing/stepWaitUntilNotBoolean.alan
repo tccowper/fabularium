@@ -1,0 +1,10 @@
+The thief Isa actor
+  Script thieving
+    Step Wait Until "hello"
+      "hello"
+End The thief.
+
+The l Isa location
+End The l.
+
+Start At l.

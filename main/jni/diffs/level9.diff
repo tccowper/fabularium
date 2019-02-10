@@ -1,0 +1,11 @@
+diff -r Level9_5.1_Source/level9.h terps/level9/level9.h
+23a24
+> #include <stdint.h>
+25,27c26,28
+< typedef unsigned char L9BYTE;
+< typedef unsigned short L9UINT16;
+< typedef unsigned long L9UINT32;
+---
+> typedef uint8_t L9BYTE;
+> typedef uint16_t L9UINT16;
+> typedef uint32_t L9UINT32;

@@ -1,0 +1,23 @@
+########## traceEvent ##########
+
+        No warnings or errors detected.
+
+<Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
+
+adbg> trace section
+Section trace on.
+adbg> g
+
+<START:>
+
+
+<CURRENT LOCATION:>
+L
+
+adbg> g
+
+<EVENT eventname[1] (at l [2]):>
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

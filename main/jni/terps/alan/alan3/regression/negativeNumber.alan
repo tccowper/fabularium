@@ -1,0 +1,7 @@
+The l Isa location
+  Has size -5.
+  Description
+    "The l is" Say -4. "acres wide and" Say size Of l. "long."
+End The l.
+
+Start At l.

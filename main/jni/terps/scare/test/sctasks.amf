@@ -1,0 +1,263 @@
+#
+# ADRIFT Module
+# Exported 09-Dec-2006
+#
+
+# Author: A.N. Onymous
+
+Version 4.00 Release 46
+
+DEFINE Room "Room1"
+   SHORTDESC = "Activity Room"
+   LONGDESC = "Sparsely furnished, the walls are white and unadorned, and the carpet is a bland shade of grey. Frankly, very little promise here for diversionary activity."
+   EAST = "Room2"
+END Room
+
+DEFINE Room "Room2"
+   SHORTDESC = "Clean Room"
+   LONGDESC = "As bland as the Activity Room, but somehow cleaner.  There's a sign on the wall that proclaims \"No food or drink, please.\""
+   WEST = "Room1"
+END Room
+
+DEFINE Object "Object1"
+   PREFIX = "a pinewood"
+   NAME = "cupboard"
+   ALIASES = "tallboy", "dresser", "bookcase", "armoire"
+   DESCRIPTION = "Large and, well, very woody. It looks a bit like something built from an MFI kit. Perhaps by a one-handed blind man with a drink problem."
+   LOCATION = "Room1"
+   TYPE = Static
+   CONTAINER = True ANDHOLDS 5 NORMAL OBJECTS
+   OPENABLE = True
+   OPENSTATE = Closed
+   LISTOB = True
+   ARMOUR VALUE = 0
+END Object
+
+DEFINE Object "Object2"
+   PREFIX = "a"
+   NAME = "book"
+   ALIASES = "tome", "manual", "guide", "pamphlet", "article", "magazine"
+   DESCRIPTION = "A copy, apparently, of the Adrift manual. Version 4.00 no less. It looks like it might be almost new; the dust cover still wraps nicely around it."
+   LOCATION = Inside "Object1"
+   TYPE = Dynamic
+   READABLE = True
+   READTEXT = "\"Background: When I was at school back in 1989, I was introduced to a text adventure...\"<br><br>All very interesting in its own way, I suppose, but oddly mute on some of the more esoteric actions that the Adrift Runner is capable of."
+   SIZE = Normal
+   WEIGHT = Normal
+   ARMOUR VALUE = 0
+END Object
+
+DEFINE Object "Object3"
+   PREFIX = "a"
+   NAME = "tray"
+   DESCRIPTION = "Decorated with purple flowers of some kind. It could be worse, though. Kittens nestling in lace-lined baskets, for example."
+   LOCATION = Inside "Object1"
+   TYPE = Dynamic
+   SURFACE = True
+   SIZE = Normal
+   WEIGHT = Normal
+   ARMOUR VALUE = 0
+END Object
+
+DEFINE Object "Object4"
+   PREFIX = "a"
+   NAME = "bag"
+   ALIASES = "carpetbag"
+   DESCRIPTION = "This looks like the carpetbag from \"To Hell in a Hamper.\"  How on earth did this get here?"
+   LOCATION = Inside "Object1"
+   TYPE = Dynamic
+   CONTAINER = True ANDHOLDS 5 NORMAL OBJECTS
+   OPENABLE = True
+   OPENSTATE = Closed
+   SIZE = Normal
+   WEIGHT = Normal
+   ARMOUR VALUE = 0
+END Object
+
+DEFINE Object "Object5"
+   PREFIX = "a"
+   NAME = "sandwich"
+   ALIASES = "snack"
+   DESCRIPTION = "Jam -- strawberry, by the look of it.  No peanut butter, and made that much more appetizing by the lack thereof."
+   LOCATION = Inside "Object1"
+   TYPE = Dynamic
+   EDIBLE = True
+   SIZE = Normal
+   WEIGHT = Normal
+   ARMOUR VALUE = 0
+END Object
+
+DEFINE Object "Object6"
+   PREFIX = "a pinewood"
+   NAME = "table"
+   ALIASES = "desk"
+   DESCRIPTION = "Somewhat sturdier than the cupboard, at any rate. The table looks a bit the worse for wear -- it's probably come from some charity shop. Not likely to collapse if you were to climb on it, though."
+   LOCATION = "Room1"
+   TYPE = Static
+   SURFACE = True
+   SITABLE = True
+   LYABLE = True
+   LISTOB = True
+   ARMOUR VALUE = 0
+END Object
+
+DEFINE Object "Object7"
+   PREFIX = "a"
+   NAME = "chair"
+   DESCRIPTION = "Strategically placed right by the desk. Very handy for sitting on when doing desk-related things, then."
+   LOCATION = "Room1"
+   TYPE = Static
+   SITABLE = True
+   LISTOB = True
+   ARMOUR VALUE = 0
+END Object
+
+DEFINE Object "Object8"
+   PREFIX = "a"
+   NAME = "jelly"
+   ALIASES = "jello"
+   DESCRIPTION = "Wobbly, and green. The archetypical party jelly, it seems."
+   LOCATION = Inside "Object1"
+   TYPE = Dynamic
+   EDIBLE = True
+   SIZE = Normal
+   WEIGHT = Normal
+   ARMOUR VALUE = 0
+END Object
+
+DEFINE Object "Object9"
+   PREFIX = "a floppy"
+   NAME = "hat"
+   ALIASES = "cap"
+   DESCRIPTION = "Tatty and somewhat faded, this is one of those hats that only someone style-challenged could possibly wear. Someone like you, perhaps."
+   LOCATION = Inside "Object1"
+   TYPE = Dynamic
+   WEARABLE = True
+   SIZE = Normal
+   WEIGHT = Normal
+   ARMOUR VALUE = 0
+END Object
+
+DEFINE Task "Task1"
+   COMMAND "relocate"
+   WHERE = All Rooms
+   MESSAGE = "As if by magic, everything relocates."
+   ACTION Move All held objects to Room "Room2"
+   ACTION Move All worn objects to Room "Room2"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task2"
+   COMMAND "rearrange"
+   WHERE = All Rooms
+   MESSAGE = "As if by magic, everything moves."
+   ACTION Move Object "Object8" inside object "Object4"
+   ACTION Move Object "Object4" onto object "Object3"
+   ACTION Move Object "Object3" to carried by Character "Char1"
+   ACTION Move Object "Object9" to worn by Player
+   ACTION Move Object "Object2" to carried by Player
+   ACTION Move Player to sitting on Object "Object7"
+   ACTION Move Character "Char1" to same room as Player
+   ACTION Move Object "Object5" to same room as Character "Char1"
+   ACTION Execute Task "Task3"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task3"
+   COMMAND "# called from rearrange"
+   WHERE = All Rooms
+   MESSAGE = "Rearrange task called."
+   REVERSIBLE = True
+   REPEATABLE = True
+   REVCOMMAND "# reversed from rearrange"
+   REVERSETEXT = "Rearrange task reversed."
+END Task
+
+DEFINE Task "Task4"
+   COMMAND "hide %character%"
+   WHERE = All Rooms
+   MESSAGE = "Character hidden."
+   ACTION Move Referenced Character to Hidden
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task5"
+   COMMAND "hide %object%"
+   WHERE = All Rooms
+   MESSAGE = "Object hidden."
+   ACTION Move Referenced Object to Hidden
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task6"
+   COMMAND "move player"
+   WHERE = "Room1"
+   MESSAGE = "Player moved."
+   ACTION Move Player to Room "Room2"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task7"
+   COMMAND "win game"
+   WHERE = All Rooms
+   MESSAGE = "Game won."
+   ACTION End Game with status Win
+END Task
+
+DEFINE Task "Task8"
+   COMMAND "lose game"
+   WHERE = All Rooms
+   MESSAGE = "Game lost."
+   ACTION End Game with status No Win
+END Task
+
+DEFINE Task "Task9"
+   COMMAND "suicide"
+   WHERE = All Rooms
+   MESSAGE = "Game end, player dies."
+   ACTION End Game with status Lose
+END Task
+
+DEFINE Task "Task10"
+   COMMAND "quiet suicide"
+   WHERE = All Rooms
+   MESSAGE = "Game end, player dies quietly."
+   ACTION End Game with status Lose silent
+END Task
+
+DEFINE Character "Char1"
+   NAME = "the janitor"
+   PREFIX = ""
+   ALIASES = "cleaner", "attendant", "janitor", "handyman"
+   LOCATION = "Room2"
+   DESCRIPTION = "Dressed head to toe in standard janitorial coveralls, this man appears to be the very model of efficiency.  No sign at all of sloppiness or laziness here.<br><br>Also, not much sign of movement, it has to be said."
+   GENDER = Male
+   TEXTHERE = "the janitor is here."
+   CONVERSATION
+      SUBJECTS = "book"
+      REPLY = "A bit of a dusty tome, if you ask me. Can't say I've ever read it myself, though.  Too much cleaning to do."
+   END CONVERSATION
+   CONVERSATION
+      SUBJECTS = "jelly, jello, sandwich"
+      REPLY = "I can't be letting that in here, I'm afraid. It's more than my job's worth."
+   END CONVERSATION
+END Character
+
+DEFINE Introduction
+   MESSAGE = "Empty."
+   STARTROOM = "Room1"
+   SHOWFIRST = True
+END Introduction
+
+DEFINE Winning
+   MESSAGE = ""
+END Winning
+
+DEFINE Player
+   NAME = ""
+   GENDER = Male
+   DESCRIPTION = ""
+   INITIALPOSITION = Standing
+   MAXBULK = 10 Normal Objects
+   MAXWEIGHT = 10 Normal Objects
+END Player

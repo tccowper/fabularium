@@ -1,0 +1,10 @@
+name: Adv3 - Advanced
+sequence: 2
+desc: Create a game based on the Adv3 library, with a skeleton
+  source file containing the minimal definitions needed to compile
+  the project.  Use this project starter if you want to start your
+  new game from scratch.
+source: samples\startA3.t $.t
+lib: adv3.tl
+define: LANGUAGE=en_us
+define: MESSAGESTYLE=neu

@@ -1,0 +1,14 @@
+The l Isa location
+  Has unknownAtr unknown.
+  Has l l.
+End The l.
+
+The o Isa object
+End The o.
+
+Start At l.
+  Locate o At unknown Of unknown.
+  Locate o At unknown Of l.
+  Locate o At unknownAtr Of l.
+  Locate o At l Of l.
+

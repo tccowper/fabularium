@@ -1,0 +1,17 @@
+The ball Isa object
+End The ball.
+
+Syntax think_about = think about (o)!.
+       think_about = consider (o).
+
+Add To Every object
+  Verb think_about
+    Does
+      "You think about" Say The o. "."
+  End Verb.
+End Add To object.
+
+The loc Isa location
+End The loc.
+
+Start At loc.

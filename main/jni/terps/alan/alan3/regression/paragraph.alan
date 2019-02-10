@@ -1,0 +1,34 @@
+The l Isa location
+End The l.
+
+Start At l.
+  "This is a sample string 
+     and it is wrapped over a few lines.
+     $p$tTERSE$tThis is the terse verb$n
+     $tEAT$t$tThis is the eat verb$n
+    "
+
+"$p$p"
+  "This is a sample string 
+     and it is wrapped over a few lines.
+     $p$tTERSE$tThis is the terse verb$n
+     $tEAT$t$tThis is the eat verb$n
+    "
+
+"$p$p"
+
+    "This is a sample string 
+     and it is wrapped over a few lines.$p
+     $tTERSE$tThis is the terse verb$n
+     $tEAT$t$tThis is the eat verb$n
+    "
+
+"$p$p"
+
+  "This is a sample string 
+     and it is wrapped over a few lines.
+     $p$tTERSE$tThis is the terse verb$n
+     $tEAT$t$tThis is the eat verb$n
+    "
+
+"$p$p"

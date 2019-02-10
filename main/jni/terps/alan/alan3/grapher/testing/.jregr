@@ -1,0 +1,1 @@
+.alan : python ../alangrapher.py $1

@@ -1,0 +1,23 @@
+#include <cgreen/mocks.h>
+
+#include "elm_x.h"
+
+/* USE: */
+
+
+/* DATA: */
+
+
+/* FUNCTIONS: */
+
+/* Create a new Syntax Element node */
+Element *newWordElement(Srcp srcp, Id *id) { return (Element*)mock(&srcp, id); }
+Element *newParameterElement(Srcp srcp, Id *id, int flags) { Element *element = NEW(Element); element->srcp = srcp; element->id = id; element->flags = flags; return element; }
+Element *newEndOfSyntax(void) { return (Element*)mock(); }
+
+/* Analyze a list of Syntax elements and return a list of the parameters */
+List *analyzeElements(List *elms, List *ress, struct Syntax *stx) { return (List*)mock(elms, ress, stx); }
+
+Aaddr generateElements(List *elms, struct Syntax *stx) { return (Aaddr)mock(elms, stx); }
+void dumpElement(Element *elm) { mock(elm); }
+

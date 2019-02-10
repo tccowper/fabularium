@@ -1,0 +1,16 @@
+location l
+  exit w to l.
+  exit w, w to l.
+  exit w to l.
+end location.
+
+location n
+  exit w,w to l.
+end location n.
+
+location m
+  exit w to l.
+  exit w to l.
+end location.
+
+start at l.

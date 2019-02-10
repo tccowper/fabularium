@@ -1,0 +1,24 @@
+The l Isa location
+End The l.
+
+The o Isa object At l
+  Container
+End The o.
+
+Syntax
+  put_in = put (o) 'in' (c) Where c Isa container Else "You cannot put anything in" Say The c. "."
+
+Add To Every object
+  Verb put_in
+    When o Does
+      Locate o In c.
+      "You put" Say The o. "in" Say The c. "."
+      If o At l Then
+        Look.
+      Else
+        Look.
+      End If.
+  End Verb.
+End Add.
+
+Start At l.

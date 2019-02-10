@@ -1,0 +1,24 @@
+########## incompatibleSyntaxSynonyms ##########
+
+
+incompatibleSyntaxSynonyms.alan
+
+    1.  Syntax give_to = give (o) 'to' (a)
+=====>         1
+
+  *1*   205 W : This is the first occurrence of syntax for 'give_to', see
+                errors below.
+
+    4.  Syntax give_to = give (b) (o).
+=====>         1
+
+  *1*   206 E : Incompatible parameters lists for multiple syntax definitions
+                for verb 'give_to'. Multiple syntaxes for the same verb must
+                contain the same number of parameters with the same name, but
+                the order of the parameters can be changed.
+
+
+        1 error(s).
+        1 warning(s).
+        1 informational message(s).
+

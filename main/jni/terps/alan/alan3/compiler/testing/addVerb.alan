@@ -1,0 +1,14 @@
+Every obj Isa object
+  Verb x Does "x"
+  End Verb.
+End Every.
+
+Add To Every obj
+  Verb x Does "x/y"
+  End Verb.
+End Add.
+
+The l Isa location
+End The l.
+
+Start At l.

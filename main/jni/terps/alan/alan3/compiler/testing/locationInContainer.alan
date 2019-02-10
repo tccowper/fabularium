@@ -1,0 +1,12 @@
+The a Isa location
+End the a.
+
+The c Isa object At l
+  Container Taking location.
+End The c.
+
+The l Isa location
+End The l.
+
+Start At l.
+  Locate a In c.

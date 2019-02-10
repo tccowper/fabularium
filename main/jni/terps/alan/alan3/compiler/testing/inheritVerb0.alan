@@ -1,0 +1,8 @@
+Every x
+  Isa object.
+  Verb v
+    Does Say c.
+  End Verb.
+End Every x.
+
+Start At l.

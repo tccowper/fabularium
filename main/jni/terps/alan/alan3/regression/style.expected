@@ -1,0 +1,44 @@
+########## style ##########
+
+        No warnings or errors detected.
+
+
+This test the various styles, such as emphasized text.
+
+
+L
+
+This is normal text.
+
+
+This is emphasized text.
+
+
+This is preformatted text.
+...../\
+..../ \
+.../ \
+../ \
+./ \
+/ \
+
+
+The same triangle in normal style:
+ /\
+ / \
+ / \
+ / \
+ / \
+/ \
+
+
+This is alert text.
+
+
+This is quote text. This is quote text. This is quote text. This is quote
+text. This is quote text. This is quote text. 
+
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

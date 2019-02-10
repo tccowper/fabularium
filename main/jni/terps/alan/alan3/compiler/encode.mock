@@ -1,0 +1,15 @@
+#include <cgreen/mocks.h>
+
+#include "acode.h"
+
+
+/* DATA */
+int txtlen;		/* Number of bytes of text data */
+
+/* FUNCTIONS */
+
+void initEncoding(char textFileName[], char dataFileName[]) {mock(textFileName, dataFileName);}
+void incFreq(int ch) {mock(ch);}
+void encode(long *fpos, long *len) {mock(fpos, len);}
+void terminateEncoding(void) {}
+Aaddr gefreq(void) {return (Aaddr)mock();}

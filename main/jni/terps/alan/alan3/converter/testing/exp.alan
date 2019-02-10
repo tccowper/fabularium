@@ -1,0 +1,150 @@
+object attributes
+  global_object_boolean_attr.
+  global_object_int_attr 4.
+  
+syntax vo = v (object_parameter).
+verb vo
+ does
+  if object_parameter then ""
+  elsif object_parameter here then ""
+  elsif object_parameter = 4 then ""
+  elsif object_parameter = "" then ""
+  elsif object_parameter = an_object then ""
+  elsif an_object = object_parameter then ""
+  elsif object_parameter = object then ""
+  elsif object_parameter = actor then ""
+  elsif object_parameter = location then ""
+  end if.
+end verb vo.
+
+syntax vi = vi (integer_parameter)
+  where integer_parameter isa integer
+    else "Not a number."
+verb vi
+ does
+  if integer_parameter then ""
+  elsif integer_parameter here then ""
+  elsif integer_parameter = 4 then ""
+  elsif integer_parameter = "" then ""
+  elsif integer_parameter = an_object then ""
+  elsif an_object = integer_parameter then ""
+  elsif integer_parameter = object then ""
+  elsif integer_parameter = actor then ""
+  elsif integer_parameter = location then ""
+  end if.
+end verb vi.
+
+location a_location
+  is location_boolean_attr.
+  has location_int_attr 1.
+end location.
+
+actor an_actor
+  is actor_boolean_attr.
+  has actor_int_attr 2.
+end actor.
+
+object an_object
+  is object_boolean_attr.
+  has object_int_attr 3.
+end object.
+
+start at a_location.
+-- primary
+  if 4 then ""
+  elsif -4 then ""
+  elsif "hej" then ""
+  end if.
+
+  if actor_boolean_attr of actor then ""
+  elsif actor_boolean_attr of an_actor then ""
+  elsif actor_int_attr of an_actor then ""
+  elsif sum of object_boolean_attr here then ""
+  elsif sum of global_object_boolean_attr here then ""
+  elsif sum of global_object_int_attr here then ""
+  elsif random 1 to 10 then ""
+  elsif an_actor then ""
+
+  elsif a_location then ""
+  elsif object_parameter then ""
+  elsif integer_parameter then ""
+  elsif actor then ""
+  elsif location then ""
+  elsif object then ""
+  end if.
+  
+-- primary optional_not where
+  if 4 here then ""
+  elsif -4 here then ""
+  elsif "string" here then ""
+  elsif actor_boolean_attr of actor here then ""
+  elsif sum of object_boolean_attr here here then ""
+  elsif sum of global_object_boolean_attr here here then ""
+  elsif random 1 to 10 here then ""
+  elsif an_actor here then ""
+  elsif a_location here then ""
+  elsif an_object here then ""
+  elsif actor here then ""
+  elsif location here then ""
+
+  elsif object here then ""
+  elsif object at location then ""
+  elsif object at a_location then ""
+  elsif object at object then ""
+  elsif object at an_object then ""
+  elsif object at actor then ""
+  elsif object at an_actor then ""
+  end if.
+
+-- primary optional_not relop primary
+  if 4 = 1 then ""
+  elsif -4 = 1 then ""
+  elsif "string" = 1 then ""
+  elsif actor_boolean_attr of actor = 1 then ""
+  elsif sum of object_boolean_attr here = 1 then ""
+  elsif sum of global_object_int_attr here = 1 then ""
+  elsif random 1 to 10 = 1 then ""
+  elsif an_actor = 1 then ""
+  elsif a_location = 1 then ""
+  elsif an_object = 1 then ""
+  elsif actor = 1 then ""
+  elsif location = 1 then ""
+  elsif object = 1 then ""
+  end if.
+
+  if 4 = "string" then ""
+  elsif -4 = "string" then ""
+  elsif "hej" = "string" then ""
+  elsif actor_boolean_attr of actor = "string" then ""
+  elsif sum of object_boolean_attr here = "string" then ""
+  elsif random 1 to 10 = "string" then ""
+  elsif an_actor = "string" then ""
+  elsif a_location = "string" then ""
+  elsif an_object = "string" then ""
+  elsif actor = "string" then ""
+  elsif location = "string" then ""
+  elsif object = "string" then ""
+
+  elsif 4 = an_object then ""
+  elsif -4 = an_object then ""
+  elsif "hej" = an_object then ""
+  elsif actor_boolean_attr of an_actor = an_object then ""
+  elsif sum of object_boolean_attr here = an_object then ""
+  elsif random 1 to 10 = an_object then ""
+  elsif an_actor = an_object then ""
+  elsif a_location = an_object then ""
+  elsif an_object = an_object then ""
+  elsif actor = an_object then ""
+  elsif location = an_object then ""
+  elsif object = an_object then ""
+  end if.
+
+-- aggregate 'OF' ID where
+  if max of global_int_attr here then ""
+  elsif max of global_object_int_attr at an_actor then ""
+  elsif max of global_object_int_attr at actor then ""
+  elsif max of global_object_int_attr at an_object then ""
+  elsif max of global_object_int_attr at object then ""
+  elsif max of global_object_int_attr at a_location then ""
+  elsif max of global_object_int_attr at location then ""
+  end if.

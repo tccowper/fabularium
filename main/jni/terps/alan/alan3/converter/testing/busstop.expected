@@ -1,0 +1,64 @@
+########## busstop ##########
+
+Add To Every thing
+  Is
+    examinable.
+End Add To.
+
+Syntax
+  examine = examine (i)
+    Where i Isa actor ****OR**** object
+      Else 
+        "Try examining something worth bothering with."
+  
+
+Verb examine
+  Check i Is examinable
+    Else 
+      "You can not examine the"
+      Say i.
+      "$$."
+  Does
+    "There is nothing special about it."
+End Verb.
+
+
+The martha Isa actor
+  At bus_stop 
+  Verb examine
+    Does Only
+      "Martha resents being scrutinized in that way."
+  End Verb.
+  
+End The martha.
+
+
+The bus Isa object
+  At bus_stop 
+  Verb examine
+    Does Only
+      "The bus is red. ... and stopped at the bus stop."
+  End Verb.
+  
+End The bus.
+
+The sign Isa object
+  At bus_stop 
+End The sign.
+
+The car Isa object
+  At bus_stop 
+  Is 
+    Not examinable.
+  Description
+    "A car drives by."
+  
+End The car.
+
+The bus_stop Isa location
+  Name 'At the Bus Stop'
+  
+End The bus_stop.
+
+Start At bus_stop.
+  

@@ -1,0 +1,25 @@
+########## lockableDoors ##########
+
+
+lockableDoors.alan
+
+   26.    Has otherside aDoor.			-- This should not be ok.
+=====>        1
+
+  *1*   329 E : Attribute is inherited from class 'lockableDoor', but the class
+                of the instance that it refers to in this declaration ('door')
+                is not a subclass of the class infered for the inherited
+                ('lockableDoor'), which it must be.
+
+   29.  The frontDoor Isa lockableDoor
+=====>      1
+
+  *1*   328 E : Attribute 'otherside' is inherited from 'lockableDoor' as an
+                abstract attribute which is not initilized, only defined.
+                Instances are required to initialize all abstract attributes.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

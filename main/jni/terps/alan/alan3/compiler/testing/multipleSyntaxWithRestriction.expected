@@ -1,0 +1,23 @@
+########## multipleSyntaxWithRestriction ##########
+
+
+multipleSyntaxWithRestriction.alan
+
+    1.  Syntax give_to = give (o) 'to' (a)
+=====>         1
+
+  *1*   205 W : This is the first occurrence of syntax for 'give_to', see
+                errors below.
+
+    5.      Where a Isa actor Else "Only actors will appreciate gifts."
+=====>      1
+
+  *1*   250 E : You can only declare restrictions for the first syntax for verb
+                'give_to'. The restrictions for subsequent syntaxes must be
+                empty and will use the same as for the first.
+
+
+        1 error(s).
+        1 warning(s).
+        1 informational message(s).
+

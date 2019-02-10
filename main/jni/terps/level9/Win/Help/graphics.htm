@@ -1,0 +1,101 @@
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <link rel="stylesheet" type="text/css" href="Level9.css">
+ </head>
+ <body>
+<h1>Graphics</h1>
+The first games from Level 9 were text only, but later games included
+line-drawn graphics, and then bitmap graphics for the last games. These
+graphics are supported by some versions of the interpreter, including
+the Windows version.
+<p>
+On some platforms the line-drawn graphics were placed into separate
+files (For example, in the Amiga release of "Jewels of Darkness" the
+game is in "gamedata.dat" and the graphics in "picture.dat".). In order
+to show the pictures the graphics file should be given the same name as
+the game data file, but with an extension of ".pic", ".cga" or ".hrc"
+(the latter two being used for graphics files in MS-DOS Level 9
+releases).
+<p>
+If no line-drawn graphics file is specified, Level 9 will search the
+given game data file for graphics data. This is useful when the game
+data is a Spectrum SNA snapshot or a similar memory dump of an emulator.
+<p>
+The last Level 9 games use bitmap graphics. The interpreter can display
+the bitmap graphics from C64, Amiga, Atari ST, MS-DOS, Apple Macintosh,
+BBC B, Amstrad CPC and Spectrum +3 versions of the games (though for the
+last three, there is currently no way to extract the A-code game data in
+a usable form).
+<p>
+The graphics files contain a number somewhere in the file name, and
+there may also be a title picture with a different file name. The
+interpreter searches for suitably named graphics files using the
+following rules. In all cases copy the graphics and title files to the
+same directory as the game.
+<p>
+<table border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td colspan=2><b>Amiga, Macintosh and earlier Atari ST</b></td>
+  </tr>
+  <tr>
+    <td width=40></td><td>The graphics file name is just the number
+(e.g. "1", "2", etc.). The title file is called "title".</td>
+  </tr>
+  <tr><td height=16></td></tr>
+  <tr>
+    <td colspan=2><b>Later Atari ST</b></td>
+  </tr>
+  <tr>
+    <td width=40></td><td>The graphics file name is the number with a
+"squ" file extension (e.g. "1.squ", "2.squ", etc.). The title file is
+just one of the normal graphics files.</td>
+  </tr>
+  <tr><td height=16></td></tr>
+  <tr>
+    <td colspan=2><b>MS-DOS</b></td>
+  </tr>
+  <tr>
+    <td width=40></td><td>The graphics file name is the number with a
+"pic" file extension (e.g. "1.pic", "2.pic", etc.). The title file is
+just one of the normal graphics files.</td>
+  </tr>
+  <tr><td height=16></td></tr>
+  <tr>
+    <td colspan=2><b>C64</b></td>
+  </tr>
+  <tr>
+    <td width=40></td><td>The graphics file name is "pic" followed by
+the number (e.g. "pic1", "pic2", etc.). The title file is called
+"title mpic".</td>
+  </tr>
+  <tr><td height=16></td></tr>
+  <tr>
+    <td colspan=2><b>BBC B "Lancelot"</b></td>
+  </tr>
+  <tr>
+    <td width=40></td><td>As for C64, except that the title file is
+called "title".</td>
+  </tr>
+  <tr><td height=16></td></tr>
+  <tr>
+    <td colspan=2><b>BBC B except "Lancelot"</b></td>
+  </tr>
+  <tr>
+    <td width=40></td><td>The graphics file name is "P.Pic" followed
+by the number (e.g. "P.Pic1", "P.Pic2", etc.). The title file is
+called "P.Title".</td>
+  </tr>
+  <tr><td height=16></td></tr>
+  <tr>
+    <td colspan=2><b>Amstrad CPC and Spectrum +3</b></td>
+  </tr>
+  <tr>
+    <td width=40></td><td>All but the first graphic are contained in a
+single file called "allpics.pic". The first graphics file is "1.pic"
+and the title file is "title.pic".</td>
+  </tr>
+</table>
+  </body>
+</html>
+

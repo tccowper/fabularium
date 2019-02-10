@@ -1,0 +1,12 @@
+The l Isa location
+  Has janitor janitor.
+  Has nonactor 4.
+End The l.
+
+The janitor Isa actor
+End The janitor.
+
+Start At l.
+  Use Script unknownScript For nonactor Of l.
+  Use Script unknownScript For janitor Of l.
+  Use Script unknownScript For janitor.

@@ -1,0 +1,12 @@
+SYNTAX
+  q = q.
+  q = q.
+
+SYNTAX
+  q = q.
+
+LOCATION l
+END LOCATION l.
+
+START AT l.
+  QUIT.

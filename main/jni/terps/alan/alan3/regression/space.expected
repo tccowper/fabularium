@@ -1,0 +1,26 @@
+########## space ##########
+
+        No warnings or errors detected.
+
+
+Demonstration of spacing bug 
+
+A double-quoted string is not started with a space if it is printed
+immediately after a double-quoted string that ended with a dollar-o or
+dollar-1 (and other dollar-things perhaps?) 
+
+'clean gizmo' to see a missing space before word 'enthusiastically'
+
+
+Aaa
+There is a dirty gizmo here.
+
+> clean gizmo
+You clean the dirty gizmo enthusiastically.
+
+> clean gizmo
+You clean the gizmo enthusiastically.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

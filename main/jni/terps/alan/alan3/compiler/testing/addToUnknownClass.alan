@@ -1,0 +1,10 @@
+Add To Every unknown_class
+  Verb x
+  Does "x"
+  End Verb.
+End Add To.
+
+The l Isa location
+End The l.
+
+Start At l.

@@ -1,0 +1,567 @@
+########## alice ##########
+
+Add To Every location
+  Is
+    Not wet.
+End Add To.
+
+Add To Every object
+  Is
+    Not openable.
+    closed.
+    takeable.
+    moveable.
+    reachable.
+End Add To.
+
+Syntax
+  take = take (obj)*.
+  'look' = 'look'.
+  'save' = 'save'.
+  'restore' = 'restore'.
+  inv = inv.
+  drop = drop (obj)*.
+  give_to = give (obj) 'to' (recip)
+    Where recip Isa object ****OR**** 'actor'
+      Else 
+        "You can't do that."
+  
+  move = move (obj)*.
+
+Verb inv
+  Does
+    List inventory.
+End Verb.
+
+Verb 'look'
+  Does
+    Look.
+End Verb.
+
+Verb 'save'
+  Does
+    Save.
+End Verb.
+
+Verb 'restore'
+  Does
+    Restore.
+End Verb.
+
+Verb take
+  Check obj Is takeable
+    Else 
+      "You can't take that!"
+  And obj Not In inventory
+    Else 
+      "You already have it."
+  And obj Is reachable
+    Else 
+      "You can't reach it."
+  Does
+    Locate obj In inventory.
+    "Taken."
+End Verb.
+
+Verb drop
+  Check obj In inventory
+    Else 
+      "You don't appear to have it."
+  Does
+    Locate obj Here.
+    "Dropped."
+End Verb.
+
+Verb give_to
+  Check obj In inventory
+    Else 
+      "You don't have $o"
+  And recip Here
+    Else 
+      "There is no $2 here"
+  Does
+    Locate obj At nowhere.
+    "The $2 accepts your gift."
+End Verb.
+
+Verb examine
+  Does
+    "You see nothing unusual about the $o."
+End Verb.
+
+Verb move
+  Check obj Is moveable
+    Else 
+      "It won't budge."
+  And obj Not In inventory
+    Else 
+      "You are carrying it already."
+  Does
+    "You move it, but nothing seems to happen."
+End Verb.
+
+Synonyms
+  north = n.
+  south = s.
+  east = e.
+  west = w.
+  l = 'look'.
+  i = inv.
+  t = take.
+  ex, read, inspect, search = examine.
+  
+
+
+The hero Isa actor
+  
+  Is 
+    Not quitting.
+  Has 
+    size  2.
+  Is 
+    Not toobig.
+  Is 
+    Not toosmall.
+  Is 
+    Not in_bath.
+End The hero.
+
+Syntax
+  'quit' = 'quit'.
+  yes = yes.
+
+Synonyms
+  y = yes.
+  q = 'quit'.
+  
+
+Verb 'quit'
+  Does
+    "Do you really want to give up? Type 'yes' to quit, or to carry on type
+     your next command."
+    Make hero quitting.
+    Schedule unquit After 1.
+End Verb.
+
+Verb yes
+  Check hero Is quitting
+    Else 
+      "That does not seem to answer any question."
+  Does
+    Quit.
+End Verb.
+
+Event unquit
+  Make hero Not quitting.
+End Event unquit.
+
+The inventory
+  Container
+    Header
+      "You are carrying a"
+    Else
+      "You don't seem to be carrying anything!"
+End The inventory.
+
+
+The lamp Isa object
+  
+  Has 
+    fullness  2.
+  Description
+    "A lamp "
+    If fullness Of lamp =2 Then
+      "is shining brightly."
+    Elsif fullness Of lamp =1 Then 
+      "lets out a little light."
+    Else 
+      "is here but appears to have gone out."
+    End If.
+  
+  Mentioned
+    "lamp "
+    If fullness Of lamp =2 Then
+      "which is shining brightly"
+    Elsif fullness Of lamp =1 Then 
+      "which lets out a little light"
+    Else 
+      "which appears to have gone out"
+    End If.
+  
+  Verb fill
+    Check oilcan In inventory
+      Else 
+        "You don't seem to have anything to fill it with."
+    And oilcan Is full
+      Else 
+        "The oilcan is empty."
+    Does
+      "The lamp is now full of oil and shining brightly."
+      Set fullness Of lamp To 2.
+      Schedule lamp_low After 100.
+      Cancel lamp_out.
+      Make oilcan Not full.
+  End Verb.
+  
+  Verb oil
+    Does Only
+      "Yes, it is an oil lamp."
+  End Verb.
+  
+  Verb rub
+    Does
+      If lamp In inventory Then
+        "Were you hoping for a genie?!"
+      Else 
+        "You don't appear to have a lamp."
+      End If.
+  End Verb.
+  
+End The lamp.
+
+The oilcan Isa object
+  
+  Is 
+    full.
+  Description
+    "An old oilcan stands on the floor."
+  
+  Mentioned
+    If oilcan Is full Then
+      "grimy oilcan which is almost full of oil"
+    Else 
+      "grimy, empty oilcan"
+    End If.
+  
+End The oilcan.
+Verb oil
+  Check oilcan In inventory
+    Else 
+      "You don't seem to have anything to oil it with."
+  And oilcan Is full
+    Else 
+      "The oilcan is empty."
+  Does
+    "You drip a few drops of oil onto the $o."
+End Verb.
+
+
+The banana Isa object
+  
+  Mentioned
+    "nice ripe banana"
+  
+  Verb eat
+    Check banana In inventory
+      Else 
+        "You don't have it."
+    Does
+      "That was very nice."
+      Locate banana At nowhere.
+  End Verb.
+  
+End The banana.
+Event lamp_low
+  "The lamp is burning rather low now, and lets out only a faint light."
+  Set fullness Of lamp To 1.
+  Schedule lamp_out At lamp After 10.
+End Event lamp_low.
+
+Event lamp_out
+  "The lamp goes out."
+  Set fullness Of lamp To 0.
+End Event lamp_out.
+
+Event go_dark
+  Locate hero At darkplace.
+End Event go_dark.
+
+
+The darkplace Isa location
+  Name 'in' 'the' dark
+  
+  Description
+    "You cannot see where you are going or what you are doing."
+    Empty inventory At nowhere .
+  
+  Exit n, s, e, w To nowhere
+    Check 
+      "Blundering about in the dark you disturb a deadly poisonous spider.
+       One bite and..."
+      Schedule wakeup After 0.
+  End Exit.
+  
+End The darkplace.
+
+The nowhere Isa location
+  
+End The nowhere.
+Event wakeup
+  "You wake up suddenly from a dream that has become a nightmare. This is
+   the end of your adventure in Wonderland - or should we say
+   'Blunderland'?"
+  Quit.
+End Event wakeup.
+
+
+The cellar Isa location
+  Name wine cellar
+  
+  Description
+    If lamp Here And fullness Of lamp >0 Then
+      "The wine cellar must have been a marvellous place when the racks all
+       around the walls were filled with enticing and dusty bottles of wine.
+       Unfortunately, they are now all empty. There are passages leading
+       east and west."
+    Else 
+      Schedule go_dark After 0.
+    End If.
+  
+  Exit n To cage
+    Check cage_door Is Not closed
+      Else 
+        "The door is closed"
+    Does
+      If gorilla Is Not fed Then
+        Schedule gorilla_kill At cage After 6.
+      End If.
+  End Exit n.
+  
+  Exit e To bolt_hole.
+  
+End The cellar.
+
+The cage_door Isa object
+  Name cage door
+  At cellar 
+  With Container
+  Is 
+    Not takeable.
+  Description
+    If cage_door Is Not closed Then
+      "To the north an open door leads into a dark room."
+    Else 
+      "To the north is a heavy door with a barred window."
+    End If.
+  
+  Verb open
+    Does Only
+      Make cage_door Not closed.
+      Make cage_door1 Not closed.
+      If cage_door_hinge Is Not oiled Then
+        "It opens noisily on rusty hinges. A fearsome noise erupts from
+         within the dark room to the north."
+      Else 
+        "It opens smoothly on well-oiled hinges."
+      End If.
+  End Verb.
+  
+  Verb close
+    Does Only
+      Make cage_door closed.
+      Make cage_door1 closed.
+      If cage_door_hinge Is Not oiled Then
+        "It closes noisily on rusty hinges. A fearsome noise erupts from
+         beyond the door to the north."
+      Else 
+        "It closes smoothly on well-oiled hinges."
+      End If.
+  End Verb.
+  
+  Verb examine
+    Does Only
+      If cage_door_hinge Is Not oiled Then
+        "The hinges are rusty, as if it has not been opened for a very long
+         time."
+      Else 
+        "The hinges are nicely oiled."
+      End If.
+  End Verb.
+  
+End The cage_door.
+
+The cage_door_hinge Isa object
+  Name hinges
+  In cage_door 
+  Is 
+    Not oiled.
+  Is 
+    Not takeable.
+  Is 
+    Not moveable.
+  Verb oil
+    Does
+      Make cage_door_hinge oiled.
+  End Verb.
+  
+End The cage_door_hinge.
+
+The cage Isa location
+  
+  Description
+    If lamp Here And fullness Of lamp >0 Then
+      "Somehow the lamp fails to make much impression here. Shine as
+       brightly as it may, the room is gloomy and menacing. As your eyes
+       adjust to the dark, you see . . ."
+    Else 
+      Schedule go_dark After 0.
+    End If.
+  
+  Exit s To cellar
+    Check cage_door Is Not closed
+      Else 
+        "The door is closed."
+    And gorilla Is fed
+      Else 
+        "The gorilla will not let you go."
+  End Exit s.
+  
+End The cage.
+Event gorilla_kill
+  "The gorilla suddenly seems to lose patience with you. With a deafening
+   bellow he leaps at you and ...."
+  Schedule wakeup After 0.
+End Event gorilla_kill.
+
+Event gorilla_hungry
+  Make gorilla Not fed.
+  If Current Location =cage Then
+    "The gorilla is looking restless again. Perhaps it is time to leave! Or
+     are you already too late?"
+    Schedule gorilla_kill After 2.
+  End If.
+End Event gorilla_hungry.
+
+
+The gorilla Isa object
+  At cage 
+  Is 
+    Not takeable.
+  Is 
+    Not moveable.
+  Is 
+    Not fed.
+  Description
+    If gorilla Is Not fed Then
+      "a huge and menacing gorilla."
+    Else 
+      "a huge gorilla sitting in a corner."
+    End If.
+  
+  Verb give_to
+    When recip
+      Does Only
+        If obj =banana Then
+          "The gorilla takes the banana gently from your hand, and with a
+           grateful smile (or the nearest thing a gorilla can get to a
+           grateful smile anyway) peels it and eats it in one practised
+           movement. He sits down contentedly in a corner of his cage. For
+           the time being, at least, he looks docile enough."
+          Make gorilla fed.
+          Locate banana At nowhere.
+          Cancel gorilla_kill.
+          Schedule gorilla_hungry After 8.
+        Else 
+          "The gorilla takes your $o, sniffs it and then with a dreadful
+           snarl thrusts it back into your hand."
+        End If.
+  End Verb.
+  
+End The gorilla.
+
+The cage_door1 Isa object
+  Name cage door
+  At cage 
+  With Container
+  Is 
+    Not takeable.
+  Description
+    If cage_door Is Not closed Then
+      "To the south an open door leads into the wine cellar."
+    Else 
+      "To the south is a heavy door with a barred window."
+    End If.
+  
+  Verb open
+    Does Only
+      Make cage_door Not closed.
+      Make cage_door1 Not closed.
+      If cage_door_hinge Is Not oiled Then
+        "It opens noisily on rusty hinges."
+      Else 
+        "It opens smoothly on well-oiled hinges."
+      End If.
+  End Verb.
+  
+  Verb close
+    Does Only
+      Make cage_door closed.
+      Make cage_door1 closed.
+      If cage_door_hinge Is Not oiled Then
+        "It closes noisily on rusty hinges."
+      Else 
+        "It closes smoothly on well-oiled hinges."
+      End If.
+  End Verb.
+  
+  Verb examine
+    Does Only
+      If cage_door_hinge Is Not oiled Then
+        "The hinges are rusty, as if it has not been opened for a very long
+         time."
+      Else 
+        "The hinges are nicely oiled."
+      End If.
+  End Verb.
+  
+End The cage_door1.
+
+The cage_door_hinge1 Isa object
+  Name hinges
+  In cage_door1 
+  Is 
+    Not takeable.
+  Is 
+    Not moveable.
+  Verb oil
+    Does
+      Make cage_door_hinge oiled.
+  End Verb.
+  
+End The cage_door_hinge1.
+
+The fork Isa object
+  At cage 
+  Verb take
+    Does Only
+      If Current Location =cage And gorilla Is Not fed Then
+        "The gorilla will not let you!"
+      Else 
+        "Taken."
+        Locate fork In inventory.
+      End If.
+  End Verb.
+  
+End The fork.
+
+The bolt_hole Isa location
+  Name bolt hole
+  
+  Description
+    If lamp Here And fullness Of lamp >0 Then
+      "At this junction in the passage there is a little, roughly cut
+       hollow where a small creature could hide. The passage splits and goes
+       north, south and west."
+    Else 
+      Schedule go_dark After 0.
+    End If.
+  
+  Exit n, s, w To cellar.
+  
+End The bolt_hole.
+
+Start At cellar.
+  Locate oilcan In inventory.
+  Locate lamp In inventory.
+  Locate banana In inventory.
+  

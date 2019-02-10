@@ -1,0 +1,10 @@
+The o Isa object
+End The o.
+
+The l Isa location
+End The l.
+
+Start At l.
+  Locate o At unknown.
+  If o At unkown Then "at unknown" End If.
+

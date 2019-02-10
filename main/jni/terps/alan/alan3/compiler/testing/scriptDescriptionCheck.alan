@@ -1,0 +1,13 @@
+The l Isa location
+  Is a.
+End The l.
+
+The a Isa actor
+  Script s1
+    Description
+      Check l Is a
+	Else Make l a.
+    Step "a"
+End The a.
+
+Start At l.

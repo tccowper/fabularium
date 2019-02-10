@@ -1,0 +1,14 @@
+Location l1
+  Description
+    System "echo echoing l1".
+
+  Exit s,e,w,n To l2.
+End Location.
+
+Location l2
+  Description
+    System "echo echoing l2".
+  Exit s,e,w,n To l1.
+End Location.
+
+Start At l1.

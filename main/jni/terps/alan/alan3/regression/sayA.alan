@@ -1,0 +1,12 @@
+The l Isa location
+End The l.
+
+The a Isa object At l.
+  Article "an"
+End The a.
+
+Start At l.
+  "Say a = "
+  Say a.
+  "Say an a = "
+  Say an a.

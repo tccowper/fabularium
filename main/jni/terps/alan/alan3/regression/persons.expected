@@ -1,0 +1,30 @@
+########## persons ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a mr nocaps here. There is a mr Caps here. There is a janitor 
+here.
+
+> x mr nocaps
+Verb: mr nocaps End Verb. Event e: mr nocaps, mr Caps, janitor. Mr nocaps, 
+mr Caps, the janitor. There is a mr nocaps here. There is a mr Caps here. 
+There is a janitor here. End Event. Event ll:
+
+L
+There is a mr nocaps here. There is a mr Caps here. There is a janitor 
+here. End Event.
+
+> x caps
+Verb: mr Caps End Verb.
+
+> x the janitor
+Verb: janitor End Verb.
+
+> 
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

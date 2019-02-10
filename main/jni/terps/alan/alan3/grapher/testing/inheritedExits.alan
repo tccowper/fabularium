@@ -1,0 +1,11 @@
+Every indoors_location Isa location
+  Exit up To nowhere.
+End Every.
+
+The nowhere Isa location
+End The.
+
+The l Isa indoors_location
+End The l.
+
+Start At l.

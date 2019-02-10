@@ -1,0 +1,16 @@
+The brother Isa actor
+  Has sister sister.
+  Has size 4.
+End The brother.
+
+The sister Isa actor
+End The sister.
+
+The l Isa location
+End The l.
+
+Start At l.
+  Say unknown Of sister Of brother.
+  Say unknown Of size Of brother.
+  Say unknown Of unknown Of brother.
+  Say unknown Of sister Of unknown.

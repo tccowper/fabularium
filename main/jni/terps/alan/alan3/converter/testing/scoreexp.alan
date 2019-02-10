@@ -1,0 +1,10 @@
+Location l
+End Location l.
+
+Start At l.
+  If score Not > 0 Then
+    "You have no scores."
+  Else
+    "You have" Say Score." points."
+  End If.
+  Quit.

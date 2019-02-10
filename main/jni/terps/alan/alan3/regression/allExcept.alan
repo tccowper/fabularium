@@ -1,0 +1,22 @@
+Syntax x = x (o)*.
+ 
+Add To Every object
+  Verb x
+    Does "You x" Say The o. "$$..."
+  End Verb.
+End Add.
+
+The o2 Isa object At l
+  Name small o
+End The o2.
+The o3 Isa object At l
+  Name medium o
+End The o3.
+The o4 Isa object At l
+  Name large o
+End The o4.
+
+The l Isa location
+End The l.
+
+Start At l.

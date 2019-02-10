@@ -1,0 +1,10 @@
+#include <cgreen/cgreen.h>
+#include <cgreen/mocks.h>
+
+#include "score.h"
+
+/* DATA */
+Aword *scores;
+
+
+/* FUNCTIONS */

@@ -1,0 +1,20 @@
+The loc Isa location
+  Is Not changed.
+  Description
+    "It is" If This Is Not changed Then "not" End If. "changed."
+End The loc.
+
+Verb l
+  Does
+    Look.
+End Verb l.
+
+Verb change
+  Does
+    Make loc changed.	-- This changes state
+    Quit.		-- But this does not find a changed state
+			-- So Quit must somehow terminate the gamestate push
+			-- before it does it's thing
+End Verb change.
+
+Start At loc.

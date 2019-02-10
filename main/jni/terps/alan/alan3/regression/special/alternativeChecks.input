@@ -1,0 +1,16 @@
+v loc loc       ; loc as p1
+v loc obj1      ; loc as p1
+v loc obj2      ; loc as p1
+v loc obj3      ; loc as p1
+v obj1 loc      ; obj1 as p1
+v obj1 obj1     ; obj1 as p1
+v obj1 obj2     ; obj1 as p1
+v obj1 obj3     ; obj1 as p1
+v obj2 loc      ; loc as p2
+v obj2 obj1     ; run body
+v obj2 obj2     ; obj2 as p2
+v obj2 obj3     ; obj3 as p2
+v obj3 loc      ; obj3 as p1
+v obj3 obj1     ; obj3 as p1
+v obj3 obj2     ; obj3 as p1
+v obj3 obj3     ; obj3 as p1

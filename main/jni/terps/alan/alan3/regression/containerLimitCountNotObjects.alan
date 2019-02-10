@@ -1,0 +1,35 @@
+The cont Isa object At l
+  Container Taking Entity.
+    Limits Count 3 Else "Too many..."
+End The cont.
+
+The e1 Isa thing
+End The e1.
+
+The e2 Isa thing
+End The e2.
+
+The o1 Isa object
+End The o1.
+
+The o2 Isa object
+End The o2.
+
+The l Isa location
+End The l.
+
+Start At l.
+  "Empty:"
+  Describe cont. "Count =" Say Count In cont.
+  "$pLocating e1..."
+  Locate e1 In cont.
+  Describe cont. "Count =" Say Count In cont.
+  "$pLocating o1..."
+  Locate o1 In cont.
+  Describe cont. "Count =" Say Count In cont.
+  "$pLocating e1..."
+  Locate e2 In cont.
+  Describe cont. "Count =" Say Count In cont.
+  "$pLocating o2..."
+  Locate o2 In cont.
+  Describe cont. "Count =" Say Count In cont.

@@ -1,0 +1,25 @@
+########## undoAfterRestore ##########
+
+        No warnings or errors detected.
+        2 informational message(s).
+
+
+Loc
+
+> save
+Enter file name to save in (undoAfterRestore.sav) : undoAfterRestore.sav
+
+> 
+
+> q
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? restore
+Enter file name to
+restore from (undoAfterRestore.sav) : 
+
+> undo
+Nothing to undo.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

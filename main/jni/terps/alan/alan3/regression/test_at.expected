@@ -1,0 +1,22 @@
+########## test_at ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+Loc1
+There is a jacket here. The jacket contains a wallet.
+
+> test jacket
+The jacket  is at loc1. The jacket IS DIRECTLY at loc1.
+
+> test wallet
+The wallet  is at loc1. The wallet IS INDIRECTLY at loc1.
+
+> test coin
+The coin  is at loc1. The coin IS INDIRECTLY at loc1.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

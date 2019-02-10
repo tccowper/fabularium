@@ -1,0 +1,51 @@
+########## jdbugs ##########
+
+Syntax
+  yes = yes.
+  no = no.
+
+Verb 'look'
+  Check hero Not At yesno
+    Else 
+      "Please answer the question."
+  Does
+    Look.
+End Verb.
+
+Verb yes
+  Does
+    "I don't understand that!"
+End Verb.
+
+Verb no
+  Does
+    "I don't understand that!"
+End Verb.
+
+
+The yesno Isa location
+  Name 'Please answer yes or no'
+  
+  Has 
+    light.
+  Exit s, w, e, d, u, 'in', out To yesno
+    Check 1 =2
+      Else 
+        "Please answer the question."
+  End Exit.
+  
+  Verb yes
+    Check 1 =2
+      Else 
+        Empty dumper In inventory .
+        If general Of dumper =1 Then
+          "Print instructions here."
+          Locate hero At end_of_road.
+        End If.
+        "TESTING"
+  End Verb.
+  
+End The yesno.
+
+Start Here.
+  

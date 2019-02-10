@@ -1,0 +1,9 @@
+The loc Isa location
+End The loc.
+
+Verb q
+  Does
+    Quit.
+End Verb q.
+
+Start At loc.

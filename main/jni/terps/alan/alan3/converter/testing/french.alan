@@ -1,0 +1,505 @@
+OBJECT ATTRIBUTES
+	takable.
+	real_object.
+	NOT consumable.
+--------------------------------------------------------------------
+OBJECT world
+END OBJECT.
+--------------------------------------------------------------------
+OBJECT self
+	IS NOT seated.
+	IS NOT ordered.
+	DESCRIPTION
+		IF self IS seated
+		THEN "You are uncomfortably seated."
+		END IF.
+		IF coat IN inventory
+		THEN DESCRIBE coat.
+		END IF.
+END OBJECT.
+--------------------------------------------------------------------
+OBJECT coat NAME Brown fur coat IN inventory
+	DESCRIPTION 
+	IF coat IN inventory
+	THEN "You are wearing a warm brown fur coat."
+	ELSE "A brown coat is in a heap on the floor."
+	END IF.
+END OBJECT.
+--------------------------------------------------------------------
+OBJECT tag IN wardrobe
+	DESCRIPTION
+	"This is a tag that you'll need to claim your checked
+	belongings."
+	VERB show 
+	CHECK tag IN inventory
+		ELSE "You can't find your wardrobe tag."
+	DOES
+	"You examine your pockets one after one and finally find
+	your wardrobe tag. You pick it up and wave it in front of you."
+	END VERB.
+END OBJECT.
+--------------------------------------------------------------------
+OBJECT wardrobe AT coat_check
+	CONTAINER
+	IS NOT takable.
+END OBJECT.
+--------------------------------------------------------------------
+OBJECT thing AT restaurant_entrance
+END OBJECT.
+--------------------------------------------------------------------
+OBJECT escargot AT window_table
+	IS NOT takable.
+	IS NOT real_object.
+	IS consumable.
+	DESCRIPTION ""
+	VERB order, take
+		DOES "In your best kitchen french you ask for some $o."
+	END VERB.
+END OBJECT.
+--------------------------------------------------------------------
+OBJECT poisson AT window_table
+	IS NOT takable.
+	IS NOT real_object.
+	IS consumable.
+	DESCRIPTION ""
+	VERB  take, order
+		DOES "In your best kitchen french you ask for some $o."
+	END VERB.
+END OBJECT.
+--------------------------------------------------------------------
+OBJECT ourse AT window_table
+	IS NOT takable.
+	IS NOT real_object.
+	IS consumable.
+	DESCRIPTION ""
+	VERB order 
+		DOES "In your best kitchen french you ask for some $o."
+	END VERB.
+END OBJECT.
+--------------------------------------------------------------------
+OBJECT menu
+	DESCRIPTION
+	"A menu with the name 'Le Grande Ourse' is here."
+
+	VERB examine, read
+		CHECK menu IN inventory
+		ELSE "You can't read the menu at that distance!"
+	DOES
+		"You scan through the menu and realizes that french
+		is a tough language. However, three things stays in
+		your mind: 'Escargot', 'Poisson' and 'Ourse'"
+	END VERB.
+	
+		
+END OBJECT.
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+CONTAINER inventory
+	HEADER "You are carrying "
+	ELSE "You are not carrying anything."
+END CONTAINER.
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+
+--------------------------------------------------------------------
+--	Verbs
+--------------------------------------------------------------------
+
+-----------------------------------
+--
+--	Global verbs
+--
+-----------------------------------
+Syntax sit = 'sit'.
+
+Syntax l = 'look'.
+Synonyms l = 'look'.
+VERB l DOES
+	LOOK.
+END VERB.
+
+
+Syntax q = 'quit'.
+VERB q DOES
+	QUIT.
+END VERB.
+
+
+Syntax 'score' = 'score'.
+Synonyms sco, sc = 'score'.
+VERB 'score' DOES
+	SCORE.
+END VERB.
+
+--------------------------------------------------------------------
+Syntax stand = 'stand'.
+VERB stand 
+	CHECK self IS seated
+	ELSE "You are not sitting down."
+	DOES 
+		"With a tremendous gathering of strength you raise
+		to an upright position."
+		MAKE self NOT seated.
+END VERB.
+--------------------------------------------------------------------
+Syntax i = 'i'.
+Synonyms invent = i.
+VERB i DOES
+	LIST inventory.
+END VERB.
+--------------------------------------------------------------------
+VERB order
+--	DOES "Global verb"
+END VERB.
+--------------------------------------------------------------------
+VERB examine
+	CHECK OBJECT IS real_object
+		ELSE "That's not an object."
+	AND OBJECT HERE
+		ELSE "I cant see any $o here."
+	DOES
+		DESCRIBE OBJECT.
+END VERB.
+--------------------------------------------------------------------
+Synonyms pick = get.
+VERB get, take
+	CHECK OBJECT HERE
+		ELSE "I cant see any $o here."
+	AND OBJECT IS takable
+		ELSE "You can't take that!"
+	AND OBJECT NOT IN inventory
+		ELSE "You are already carrying that."
+	DOES
+		LOCATE OBJECT IN inventory.
+		"OK. Taken."
+END VERB.
+--------------------------------------------------------------------
+Synonyms put = drop.
+VERB drop, leave
+	CHECK 
+		OBJECT HERE
+		ELSE "I cant see any $o here."
+	AND 
+		OBJECT IN inventory
+		ELSE "You are not carrying that."
+	DOES
+		LOCATE OBJECT HERE.
+		"OK. Dropped."
+END VERB.
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+
+--------------------------------------------------------------------
+--	Actors
+--------------------------------------------------------------------
+ACTOR hero
+	IS NOT seated.
+	IS NOT ordered.
+	DESCRIPTION
+		IF hero IS seated
+		THEN "You are uncomfortably seated."
+		END IF.
+		IF coat IN inventory
+		THEN DESCRIBE coat.
+		END IF.
+END ACTOR.
+--------------------------------------------------------------------
+ACTOR Waiter1 NAME Waiter
+	IS sulking.
+	IS NOT angry.
+	IS NOT raving.
+	DESCRIPTION
+	"There is a waiter here."
+	IF waiter1 IS raving
+	THEN "He is raving mad."
+	ELSIF waiter1 IS angry
+	THEN "He seems rather angry."
+	ELSIF waiter1 IS sulking
+	THEN "He looks like somebody who's trying
+	hard NOT to see you, but unfortunatly failed."
+	END IF.
+	SCRIPT 1.
+		STEP
+		LOCATE waiter1 AT Private_Hell.
+
+	SCRIPT 2.
+		STEP AFTER 1
+		LOCATE waiter1 AT HERO.
+		"'Bonjour, monsieur' a voice says somewhere behind you."
+
+		STEP
+		"The waiter waves at you and goes east into the
+		restaurant."
+		LOCATE  waiter1 AT first_room.
+
+		STEP WAIT UNTIL HERO HERE
+		"The waiter waves impatiently at you and vanish behind
+		the tables at the east end of the room."
+		LOCATE waiter1 AT second_room.
+		USE SCRIPT 3.
+
+	SCRIPT 3.
+		STEP WAIT UNTIL HERO HERE
+		"The waiter continues towards a small table at the eastmost
+		part of the restaurant."
+		LOCATE waiter1 AT window_table.
+
+		STEP WAIT UNTIL self is ordered
+		"The waiter makes a note and vanish through the kitchen
+		door."
+		LOCATE waiter1 AT kitchen.
+
+	SCRIPT 4.
+		STEP AFTER 1
+		IF self IS seated
+		THEN
+			MAKE waiter1 angry.
+		END IF.
+		LOCATE waiter1 AT HERO.
+
+		STEP
+		IF self IS seated
+		THEN
+			MAKE waiter1 raving.
+		END IF.
+		USE SCRIPT 3.
+
+
+END ACTOR.
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+
+--------------------------------------------------------------------
+--	The Map
+--------------------------------------------------------------------
+LOCATION Outside_Restaurant NAME 'Outside Le Grande Ourse'
+
+	DESCRIPTION
+	"You are standing on the sidewalk outside a little french
+	restaurant. Behind you (to the south) is a street with cars
+	driving wildly, seemingly at random."
+
+	EXIT s, south, street TO busy_street.
+	EXIT n, north, 'in' TO restaurant_entrance
+	DOES
+		"In spite of the frighting french name of the restaurant
+		you decide to try it. You gather all your mental strength
+		and walk into the restaurant."
+		USE SCRIPT 2 FOR waiter1.
+		SCORE 10.
+	END EXIT.
+	EXIT e, east TO busy_street
+	DOES
+		"You try to walk down the sidewalk, but in the rush 
+		somebody pushes you straight into to street."
+	END EXIT.
+	EXIT w, west TO busy_street
+	DOES
+		"You try to walk down the sidewalk, but in the rush 
+		somebody pushes you straight into to street."
+	END EXIT.
+
+END LOCATION.
+--------------------------------------------------------------------
+LOCATION Restaurant_Entrance NAME 'Inside Le Grande Ourse'
+
+	DESCRIPTION
+	"You are standing just inside the main entrance of Le Grande Ourse,
+	wondering what do do now."
+	EXIT s, south, out TO outside_restaurant
+	DOES
+		USE SCRIPT 1 FOR waiter1.
+	END EXIT.
+	EXIT e, east TO first_room.
+	EXIT w, west TO coat_check.
+
+END LOCATION.
+--------------------------------------------------------------------
+LOCATION Busy_Street NAME Middle 'of' the Road
+
+	DESCRIPTION
+	"This is the middle of a busy street. It seems like a pretty
+	dangerous place to me!"
+
+	DOES
+	"Bad luck! You just got squashed by a cement truck."
+	LOCATE HERO AT Private_Hell.
+	SCORE 15.
+
+END LOCATION.
+--------------------------------------------------------------------
+LOCATION Private_Hell NAME Flaming hell
+
+	DESCRIPTION
+	"Unfortunately you seem to have died and wound up in Hell."
+
+END LOCATION.
+--------------------------------------------------------------------
+LOCATION Window_Table NAME 'Dirty Little Table By The Window'
+
+	DESCRIPTION
+	"In a small corridor near the kitchen entrance a dirty
+	little table is standing all alone by the window."
+
+	EXIT w, west TO second_room
+		CHECK self IS NOT seated
+		ELSE "Better stand up first."
+	END EXIT.
+	EXIT n, north TO kitchen
+		CHECK self IS NOT seated
+		ELSE "Better stand up first."
+	END EXIT.
+
+	VERB sit DOES
+		"You choose the chair that seems least probably to
+		break down for the next hour and sit down."
+		MAKE self seated.
+		SCORE 10.
+		"On the table you find a menu."
+		LOCATE menu AT window_table.
+	END VERB.
+
+	VERB order 
+		CHECK OBJECT IS consumable
+		ELSE "You can't order $o"
+		DOES MAKE self ordered.
+	END VERB.
+		
+	VERB l DOES BEFORE
+		DESCRIBE self.
+	END VERB.
+END LOCATION.
+--------------------------------------------------------------------
+LOCATION Coat_check NAME Coat 'check' room
+
+	DESCRIPTION
+	"You are standing in front of the coat check-in."
+
+	EXIT e, east TO restaurant_entrance.
+
+	VERB 'check', leave 
+		CHECK 
+			OBJECT HERE
+			ELSE "I cant see any $o here."
+		AND 
+			OBJECT IN inventory
+			ELSE "You are not carrying that."
+		DOES ONLY
+		"You leave your $o to the tired man behind the counter."
+		LOCATE OBJECT IN wardrobe.
+		SCORE 10.
+		IF tag IN wardrobe
+		THEN
+			LOCATE tag IN inventory.
+			"You get a tag to claim your belongings."
+		END IF.
+	END VERB.
+
+	VERB claim, get
+		CHECK
+			tag IN inventory
+			ELSE "The man behind the counter refuses to
+			give you anything unless you are able to show
+			him your wardrobe tag."
+		AND
+			OBJECT IN wardrobe
+			ELSE "There is no $o checked here."
+		DOES ONLY
+		"The tired man give you your $o"
+		LOCATE OBJECT IN inventory.
+	END VERB.
+
+	VERB get
+		CHECK
+			OBJECT NOT IN wardrobe
+			ELSE "The $o is checked in the wardobe. You
+			can't just take it."
+	END VERB.
+
+END LOCATION.
+--------------------------------------------------------------------
+LOCATION First_Room NAME Big room near the entrance
+
+	DESCRIPTION
+	"This is a big room with many tables. Most of them seems
+	to be vacant."
+
+	EXIT e, east TO second_room
+		CHECK self IS NOT seated
+		ELSE "Better stand up first."
+	END EXIT.
+	EXIT w, west TO restaurant_entrance
+		CHECK self IS NOT seated
+		ELSE "Better stand up first."
+	END EXIT.
+
+	VERB sit DOES
+		"You choose a nice table that seems to be vacant
+		and sit down looking for a waiter."
+		MAKE self seated.
+	END VERB.
+
+END LOCATION.
+--------------------------------------------------------------------
+LOCATION Second_Room NAME Nice Inner Room
+
+	DESCRIPTION
+	"The inner room is smaller than the first room, but it is
+	quite nice. In one corner a fire place has a fire burning."
+
+	EXIT e, east TO window_table
+		CHECK self IS NOT seated
+		ELSE "Better stand up first."
+	END EXIT.
+	EXIT w, west TO first_room
+		CHECK self IS NOT seated
+		ELSE "Better stand up first."
+	END EXIT.
+
+	VERB sit DOES
+		"You choose the chair that seems least probably to
+		break down for the next hour and sit down."
+		MAKE self seated.
+	END VERB.
+
+END LOCATION.
+--------------------------------------------------------------------
+LOCATION Kitchen
+
+	DESCRIPTION
+	"The kitchen looks like you could expect. People are working
+	here and there and waiters keep running through the door to
+	the south to the restaurant. To the west is the wash room."
+
+	EXIT s, south TO window_table.
+	EXIT w, west TO wash_room.
+
+END LOCATION.
+--------------------------------------------------------------------
+LOCATION Wash_Room NAME Room with dirty plates
+
+	DESCRIPTION
+	"This is the place where all the dirty plates wind up.
+	Piles and piles of plates and glasses can be seen."
+
+	EXIT e, east TO kitchen.
+
+END LOCATION.
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+
+--------------------------------------------------------------------
+--	Rules
+--------------------------------------------------------------------
+WHEN waiter1 IS raving AND self IS NOT seated
+	=> MAKE waiter1 NOT raving.
+	   USE SCRIPT 3 FOR waiter1.
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+START AT Outside_Restaurant.
+	"Well through the customs at Orly, you finally succeed in
+	getting hold of a cab. Since you're not expected at the
+	subsidary until four a'clock, you ask the driver to get you
+	to a place where you can do something about your growing hunger.
+	Somehow you manage to explain what you want and after a 
+	neck-breaking ride he lets you off outside a restaurant."

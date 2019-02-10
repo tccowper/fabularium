@@ -1,0 +1,183 @@
+Every outermostLocationBaseClass Isa location
+  Verb v
+    Does
+      "1"
+  End Verb.
+End Every outermostLocationBaseClass.
+
+Every outermostLocationIntermediateClass Isa outermostLocationBaseClass
+  Verb v
+    Does
+      "2"
+  End Verb.
+End Every outermostLocationIntermediateClass.
+
+Every outermostLocationClass Isa outermostLocationIntermediateClass
+  Verb v
+    Does
+      "3"
+  End Verb.
+End Every outermostLocationClass.
+
+The outermostLocation Isa outermostLocationClass
+  Verb v
+    Does
+      "4"
+  End Verb.
+End The outermostLocation.
+
+
+Every intermediateLocationBaseClass Isa location
+  Verb v
+    Does
+      "5"
+  End Verb.
+End Every intermediateLocationBaseClass.
+
+Every intermediateLocationIntermediateClass Isa intermediateLocationBaseClass
+  Verb v
+    Does
+      "6"
+  End Verb.
+End Every intermediateLocationIntermediateClass.
+
+Every intermediateLocationClass Isa intermediateLocationIntermediateClass
+  Verb v
+    Does
+      "7"
+  End Verb.
+End Every intermediateLocationClass.
+
+The intermediateLocation Isa intermediateLocationClass
+  At outermostLocation
+  Verb v
+    Does
+      "8"
+  End Verb.
+End The intermediateLocation.
+
+
+Every locationBaseClass Isa location
+  Verb v
+    Does
+      "9"
+  End Verb.
+End Every locationBaseClass.
+
+Every locationIntermediateClass Isa locationBaseClass
+  Verb v
+    Does
+      "10"
+  End Verb.
+End Every locationIntermediateClass.
+
+Every locationClass Isa locationIntermediateClass
+  Verb v
+    Does
+      "11"
+  End Verb.
+End Every locationClass.
+
+The loc Isa locationClass
+  At intermediateLocation.
+  Verb v
+    Does
+      "12"
+  End Verb.
+End The loc.
+
+
+Every firstParameterBaseClass Isa object
+  Verb v
+    Does
+      "13"
+  End Verb.
+End Every firstParameterBaseClass.
+
+Every firstParameterIntermediateClass Isa firstParameterBaseClass
+  Verb v
+    Does
+      "14"
+  End Verb.
+End Every firstParameterIntermediateClass.
+
+Every firstParameterClass Isa firstParameterIntermediateClass
+  Verb v
+    Does
+      "15"
+  End Verb.
+End Every firstParameterClass.
+
+The firstParameter Isa firstParameterClass
+  At loc.
+  Verb v
+    Does
+      "16"
+  End Verb.
+End The firstParameter.
+
+
+Every secondParameterBaseClass Isa object
+  Verb v
+    Does
+      "17"
+  End Verb.
+End Every secondParameterBaseClass.
+
+Every secondParameterIntermediateClass Isa secondParameterBaseClass
+  Verb v
+    Does
+      "18"
+  End Verb.
+End Every secondParameterIntermediateClass.
+
+Every secondParameterClass Isa secondParameterIntermediateClass
+  Verb v
+    Does
+      "19"
+  End Verb.
+End Every secondParameterClass.
+
+The secondParameter Isa secondParameterClass
+  At loc.
+  Verb v
+    Does
+      "20"
+  End Verb.
+End The secondParameter.
+
+
+Every thirdParameterBaseClass Isa object
+  Verb v
+    Does
+      "21"
+  End Verb.
+End Every thirdParameterBaseClass.
+
+Every thirdParameterIntermediateClass Isa thirdParameterBaseClass
+  Verb v
+    Does
+      "22"
+  End Verb.
+End Every thirdParameterIntermediateClass.
+
+Every thirdParameterClass Isa thirdParameterIntermediateClass
+  Verb v
+    Does
+      "23"
+  End Verb.
+End Every thirdParameterClass.
+
+The thirdParameter Isa thirdParameterClass
+  At loc.
+  Verb v
+    Does
+      "24"
+  End Verb.
+End The thirdParameter.
+
+Syntax
+  v = v (p1) (p2) (p3).
+
+Start At loc.
+

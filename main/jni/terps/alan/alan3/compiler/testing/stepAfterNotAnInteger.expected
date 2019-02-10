@@ -1,0 +1,16 @@
+########## stepAfterNotAnInteger ##########
+
+
+stepAfterNotAnInteger.alan
+
+    3.      Step After "hello"
+=====>                 1
+
+  *1*   330 E : Wrong type of expression in context of Step After. Must be of
+                Integer type.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

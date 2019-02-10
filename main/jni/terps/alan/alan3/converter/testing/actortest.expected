@@ -1,0 +1,17 @@
+########## actortest ##########
+
+Event e
+  Locate Current Actor In cont.
+End Event e.
+
+
+The loc Isa location
+  
+End The loc.
+The cont
+  Container
+End The cont.
+
+
+Start At loc.
+  

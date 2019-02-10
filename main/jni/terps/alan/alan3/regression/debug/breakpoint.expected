@@ -1,0 +1,56 @@
+########## breakpoint ##########
+
+        No warnings or errors detected.
+        9 informational message(s).
+
+<Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
+
+adbg> break 1346
+Breakpoint set at breakpoint.alan:1346
+<01346>:     "$pWelcome to the game of SAVIOUR!$pIn this game your mission
+
+adbg> g
+
+adbg:  Breakpoint hit at breakpoint.alan:1346
+<01346>:     "$pWelcome to the game of SAVIOUR!$pIn this game your mission
+adbg> break 318
+Breakpoint set at breakpoint.alan:318
+<00318>:         "To the north is a tall ancient building with a large entrance.
+
+adbg> break
+Breakpoints set:
+    breakpoint.alan:1346
+    breakpoint.alan:318
+
+adbg> d 1346
+Breakpoint at breakpoint.alan:1346 deleted
+
+adbg> g
+
+
+Welcome to the game of SAVIOUR!
+
+In this game your mission is to salvage the last copy of the famous
+ADVENTURE game. Legends have it that somewhere inside an ancient building
+the last copy of this game is still spinning on some old disks.
+
+If you need help just type 'help'.
+
+So go forth and be the salvaging hero of all Adventurers!
+
+
+This game was produced with the ALAN Adventure Development System and is
+brought to you by ThoNi&GorFo Adventure Factories. 
+    Visit the Alan Home Pages at: 
+
+
+    http://www.alanif.se
+
+
+Outside The Tall Building
+
+adbg:  Breakpoint hit at breakpoint.alan:318
+<00318>:         "To the north is a tall ancient building with a large entrance.
+adbg> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

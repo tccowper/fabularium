@@ -1,0 +1,22 @@
+########## outputInRules ##########
+
+
+outputInRules.alan
+
+    5.    Say The l.
+=====>    1
+
+  *1*   444 E : There is no location defined in Rules, so output can never be
+                seen by the player.
+
+    6.    ""
+=====>    1
+
+  *1*   444 E : There is no location defined in Rules, so output can never be
+                seen by the player.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

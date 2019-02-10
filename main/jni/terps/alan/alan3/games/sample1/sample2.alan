@@ -1,0 +1,736 @@
+-- ALAN v3 alpha 2 sample game 1/AR
+
+
+
+IMPORT 'std.i'.
+
+
+
+
+-- WALKTHRU
+-- In this simple sample game there are five rooms of which you are initially in the middle one. There is 
+-- one room to your north, one to your south, one to your east and one to your west. All the doors to the 
+-- other rooms are locked. In the startroom there is a table and on it there's an empty bowl under which is a red key. 
+-- It fits the red door, the one to the north. Soon after you enter, the roof there starts lowering so be quick.
+-- Take the green key, unlock the red door with the red key again and go back south.
+-- Use the green key to go south of the startroom. There you'll find a boy who has a blue key. Ask him about
+-- it and he'll give it to you. Go back north, unlock the blue door with the blue key and go east. In the blue
+-- room there are some monkeys throwing a white key to each other. Catch the white key, go w, w (after
+-- unlocking the white door) and read the note. Put all the keys in the bowl in the middle room and the game ends.
+
+
+-- In the code below you will find the following new V3 features used:
+
+-- ADD TO
+-- ENTERED
+-- EVERY	(the using of inheritance)
+-- SHOW
+-- THIS
+
+-- In addition, there are examples of e.g. DEPENDING ON, WHEN and EVENT
+
+
+
+
+
+
+
+
+--===== THE LOCATIONS =====--
+
+
+THE middleroom ISA LOCATION
+	NAME 'The Middle Room'
+	DESCRIPTION "You are in a featureless room expect for a small, round table in the middle of the room. A red door
+			 leads north, a green door leads south, a blue door leads east and a white door leads west."
+
+	EXIT north TO nroom
+		CHECK reddoor IS NOT locked
+			ELSE "The red door is locked."
+		DOES LOCATE reddoor AT nroom.				-- to avoid implementing the door two times
+		     "You" 
+			IF reddoor IS NOT open
+				THEN "open the door and"
+					MAKE reddoor open.
+			END IF.
+		     "enter the north room."
+	END EXIT.
+
+	EXIT south TO sroom
+		CHECK greendoor IS NOT locked
+			ELSE "The green door is locked."
+		DOES LOCATE greendoor AT sroom.
+		     "You" 
+			IF greendoor IS NOT open
+				THEN "open the door and"
+					MAKE greendoor open.
+			END IF.
+		     "enter the south room."
+	END EXIT.
+
+	EXIT east TO eroom
+		CHECK bluedoor IS NOT locked
+			ELSE "The blue door is locked."
+		DOES LOCATE bluedoor AT eroom.
+	           "You" 
+			IF bluedoor IS NOT open
+				THEN "open the door and"
+					MAKE bluedoor open.
+			END IF.
+		     "enter the east room."
+	END EXIT.
+
+	EXIT west TO wroom
+		CHECK whitedoor IS NOT locked
+			ELSE "The white door is locked."
+		DOES LOCATE whitedoor AT wroom.
+		     "You" 
+			IF whitedoor IS NOT open
+				THEN "open the door and"
+					MAKE whitedoor open.
+			END IF.
+		     "enter the west room."
+	END EXIT.
+
+END THE middleroom.
+
+THE nroom ISA LOCATION
+	NAME 'The North Room'
+	DESCRIPTION "You are in a red room."
+	ENTERED 
+		"$pYou hear an ominous click somewhere."
+		SCHEDULE lowering_ceiling AT nroom AFTER 1.
+	EXIT south TO middleroom
+		CHECK reddoor IS NOT locked
+			ELSE "The red door is locked."
+		DOES LOCATE reddoor AT middleroom.
+		     "You"
+				IF reddoor IS NOT open
+					THEN "open the door and"
+						MAKE reddoor open.
+				END IF. 
+			"hurry out of the room."
+			IF value OF r_ceiling > 0
+				THEN "There's another click, and the ceiling returns to its
+					original position."
+					SET value OF r_ceiling TO 0.
+					CANCEL lowering_ceiling.
+				ELSE "There's another click."
+					CANCEL lowering_ceiling.
+			END IF.
+	END EXIT.
+END THE nroom.
+
+THE sroom ISA LOCATION
+	NAME 'The South Room'
+	DESCRIPTION "You are in a green room. There's a boy standing here."
+	EXIT north TO middleroom
+		CHECK greendoor IS NOT locked
+			ELSE "The green door is locked."
+		DOES LOCATE greendoor AT middleroom.
+	END EXIT.
+END THE sroom.
+
+THE eroom ISA LOCATION
+	NAME 'The East Room'
+	ENTERED 
+		IF whitekey IS NOT caught
+			THEN 
+				DEPENDING ON RANDOM 1 TO 3
+				= 1 THEN LOCATE whitekey IN brownmonkey.
+				= 2 THEN LOCATE whitekey IN hairymonkey.
+				= 3 THEN LOCATE whitekey IN blackmonkey.
+				END DEPEND.
+				SCHEDULE monkeys_play AT eroom AFTER 0.
+		END IF.
+	DESCRIPTION "You are in a blue room."
+		IF whitekey IS NOT caught
+			THEN "$pThere are three monkeys here - a black monkey, a brown monkey and a hairy monkey - 
+				running about on the floor and throwing a white key to each other."
+			ELSE "$pThere are three monkeys here, doing nothing."
+		END IF.
+	EXIT west TO middleroom
+		CHECK bluedoor IS NOT locked
+			ELSE "The blue door is locked."
+		DOES LOCATE bluedoor AT middleroom.
+	END EXIT.
+END THE.								-- note that 'END THE.' is enough; you don't have to
+									   -- repeat the name of the location (or any other entity). 
+
+THE wroom ISA LOCATION
+	NAME 'The West Room'
+	DESCRIPTION "You are in a white room."
+	EXIT east TO middleroom
+		CHECK whitedoor IS NOT locked
+			ELSE "The white door is locked."
+		DOES LOCATE whitedoor AT middleroom.
+	END EXIT.
+END THE.
+
+
+------------------------------------------------------------------------------------------
+
+
+--===== THE OBJECTS =====--
+
+
+
+-- The doors
+
+
+
+EVERY door ISA OBJECT					-- by defining the class we don't need to repeat these
+	IS NOT takeable.					-- qualities, or define 'examine', for each door separately
+	IS openable.
+	IS NOT open.
+	IS lockable.
+	IS locked.
+	IS closeable.
+
+	VERB examine, look_at
+		DOES ONLY "You see nothing special about the" SAY obj. "."
+			IF THIS IS locked
+				THEN "It is currently locked."
+			ELSIF THIS IS NOT open
+				THEN "It is currently closed."
+			ELSE "It is open."
+			END IF.
+	END VERB.
+
+	VERB look_behind
+		DOES ONLY 
+			IF THIS IS NOT open
+				THEN "You can't, since it is closed."
+				ELSE "You find nothing of interest."
+			END IF.
+	END VERB.
+
+END EVERY.
+
+
+
+
+THE reddoor ISA door
+	NAME red door 
+	AT middleroom
+	DESCRIPTION ""					-- by leaving the description empty the object is not mentioned
+								-- in the default room description 
+
+	VERB unlock_with
+		WHEN obj
+		DOES ONLY 
+			IF key = redkey
+				THEN "You unlock the red door."
+					MAKE reddoor NOT locked.
+				ELSE "That doesn't seem to fit the lock."
+			END IF.
+	END VERB. 
+
+END THE.
+
+THE greendoor ISA door
+	NAME green door 
+	AT middleroom
+	DESCRIPTION ""
+
+	VERB unlock_with
+		WHEN obj
+		DOES ONLY 
+			IF key = greenkey
+				THEN "You unlock the green door."
+					MAKE greendoor NOT locked.
+				ELSE "That doesn't seem to fit the lock."
+			END IF.
+	END VERB. 
+END THE.
+
+THE bluedoor ISA door
+	NAME blue door 
+	AT middleroom
+	DESCRIPTION ""
+
+	VERB unlock_with
+		WHEN obj
+		DOES ONLY 
+			IF key = bluekey
+				THEN "You unlock the blue door."
+					MAKE bluedoor NOT locked.
+				ELSE "That doesn't seem to fit the lock."
+			END IF.
+	END VERB. 
+END THE.
+
+THE whitedoor ISA door
+	NAME white door 
+	AT middleroom
+	DESCRIPTION ""
+
+	VERB unlock_with
+		WHEN obj
+		DOES ONLY 
+			IF key = whitekey
+				THEN "You unlock the white door."
+					MAKE whitedoor NOT locked.
+				ELSE "That doesn't seem to fit the lock."
+			END IF.
+	END VERB. 
+END THE.
+
+
+
+-- The keys
+
+EVERY key ISA object
+	HAS weight 10.
+	VERB examine, look_at
+		DOES ONLY "It is just a small, ordinary-looking " SAY obj. "."
+	END VERB.
+
+END EVERY.
+
+THE redkey ISA key 
+	NAME red key
+	MENTIONED "red key"
+	AT nowhere
+END THE.
+
+THE greenkey ISA key 
+	NAME green key
+	MENTIONED "green key"
+	AT nroom
+
+END THE.
+
+THE bluekey ISA key
+	NAME blue key
+	MENTIONED "blue key"
+	IN boy
+
+	VERB take, pick_up1, pick_up2
+		DOES ONLY 
+			IF bluekey IN boy
+				THEN "That might be rude without asking him first."
+				ELSE "Taken."
+					LOCATE bluekey IN hero.
+			END IF.
+	END VERB.
+
+END THE.
+
+THE whitekey ISA key
+	NAME white key
+	MENTIONED "white key"
+	IS NOT caught.
+	VERB take, pick_up1, pick_up2
+		CHECK whitekey IS caught
+			ELSE "The monkey doesn't seem to want you to have it."
+	END VERB.
+
+	VERB catch
+		DOES ONLY "You manage to catch the white key as it flies in the air. The monkeys stop
+				and look at you perplexed."
+			LOCATE whitekey IN hero.
+			MAKE whitekey caught.
+			CANCEL monkeys_play.
+			SCHEDULE sad_monkeys AT eroom AFTER 1.
+	END VERB.
+
+	VERB drop
+		DOES
+			IF hero AT eroom
+				THEN
+				"$pThe monkeys grab the key and start playing with it."
+					MAKE whitekey NOT caught.
+					CANCEL sad_monkeys.
+				SCHEDULE monkeys_play AT eroom AFTER 0.
+			ELSE ""
+			END IF.
+	END VERB.
+
+END THE.
+
+SYNTAX catch = catch (obj)
+	WHERE obj ISA OBJECT
+		ELSE "You can't do that."
+
+
+ADD TO EVERY THING
+	VERB catch
+		DOES "That seems difficult to do."
+	END VERB.
+END ADD TO.
+
+
+-- The other objects
+
+THE table ISA OBJECT
+	NAME small round table
+	MENTIONED "small table"
+	AT middleroom
+	IS NOT takeable.
+	DESCRIPTION 
+		
+	VERB examine, look_at
+		DOES ONLY "There's a wooden bowl on the table." LIST bowl. 				
+	END VERB.
+
+	VERB look_under, look_behind
+		DOES ONLY "You find nothing of interest."
+	END VERB.
+				
+END THE.
+
+THE bowl ISA OBJECT
+	NAME wooden bowl
+	AT middleroom
+	CONTAINER
+	DESCRIPTION ""
+	VERB examine, look_at
+		DOES ONLY 
+			LIST bowl. 
+	END VERB.
+
+	VERB take, pick_up1, pick_up2
+		DOES ONLY 
+			IF redkey AT nowhere
+				THEN "Lifting the bowl, you find a red key under it on the table. You take the key and
+				place the bowl back on the table."
+				LOCATE redkey IN hero.
+				ELSE "That wouldn't accomplish anything."
+			END IF.
+	END VERB.
+
+	VERB look_under
+		DOES ONLY 
+			IF redkey AT nowhere
+				THEN "You find a red key, which you take."
+				LOCATE redkey IN hero.
+				ELSE "There's nothing else under the bowl."
+			END IF.
+	END VERB.
+
+	
+
+	VERB lift
+		DOES ONLY 
+			IF redkey AT nowhere
+				THEN "You find a red key, which you take. You place the bowl back on the table."
+				LOCATE redkey IN hero.
+				ELSE "There's nothing else under the bowl."
+			END IF.
+	END VERB.
+
+	VERB put_in
+		WHEN obj2
+			DOES 
+				IF obj1 = note
+					THEN INCREASE weight OF bowl BY 5.
+					ELSE INCREASE weight OF bowl BY 10.
+				END IF.
+	END VERB.
+
+
+END THE.
+
+
+
+SYNTAX look_under = 'look' under (obj)
+	WHERE obj ISA OBJECT 
+		ELSE "You can't do that."
+
+	look_behind = 'look' behind (obj)
+	WHERE obj ISA OBJECT 
+		ELSE "You can't do that."
+	
+
+         lift = lift (obj)
+			WHERE obj ISA OBJECT 
+		ELSE "You can't do that."
+
+
+
+ADD TO EVERY OBJECT
+VERB look_under
+	DOES "You find nothing of interest."
+END VERB.
+END ADD TO.
+
+ADD TO EVERY OBJECT
+VERB look_behind
+	DOES "You find nothing of interest."
+END VERB.
+END ADD TO.
+
+
+ADD TO EVERY OBJECT
+	VERB lift 
+		DOES "That wouldn't accomplish anything."
+	END VERB.
+END ADD TO.
+
+
+
+
+THE r_ceiling ISA OBJECT 				-- r_ceiling = ceiling in the red room
+	AT nroom
+	NAME ceiling
+	HAS value 0.			-- when lowering, the value increases
+	DESCRIPTION 
+
+	VERB examine, look_at
+		DOES ONLY
+			IF value OF r_ceiling = 0
+				THEN "You see nothing unusual about it."
+				ELSE "It keeps getting closer to your head!"
+			END IF.
+	END VERB. 
+
+
+END THE.
+
+
+
+
+THE note ISA OBJECT
+	AT wroom
+	IS readable.
+
+	VERB examine, look_at
+		DOES ONLY "The paper says: ""Put all four keys in the bowl in the middle room. Then you'll find an exit."""
+	END VERB.
+
+	VERB read
+		DOES ONLY "The paper says: ""Put all four keys in the bowl in the middle room. Then you'll find an exit."""
+	END VERB.
+
+END THE.
+
+
+--==== THE ACTORS ====--
+
+
+THE boy ISA ACTOR
+	AT sroom
+	CONTAINER
+	DESCRIPTION ""
+
+	VERB examine, look_at
+		DOES ONLY SHOW 'boyicon.jpg'.
+			IF bluekey IN boy 
+				THEN "$pYou notice that he is carrying a blue key."
+			END IF.
+	END VERB.
+
+	VERB take_from
+		WHEN holder
+			DOES ONLY "That might be rude without asking him first."
+	END VERB.
+
+	VERB ask
+		WHEN act
+			DOES ONLY
+				IF topic = bluekey
+					THEN 
+						IF bluekey IN boy
+							THEN """Oh, here you are"", he says, handing you the keys and 
+								adding:""Sorry this wasn't more of a puzzle,
+								this being a sample game only."""
+								LOCATE bluekey IN hero.
+							ELSE """Just keep it."""
+						END IF.
+					ELSE "He doesn't respond."
+				END IF.
+	END VERB.
+
+END THE.
+
+
+EVERY monkey ISA ACTOR
+	IS NOT named.
+	CONTAINER
+
+	VERB examine, look_at
+		DOES ONLY "It's just a non-descript" SAY THIS. "."
+	END VERB.
+
+	VERB take_from
+		WHEN holder
+			DOES ONLY "He doesn't seem to want you to have it."
+	END VERB.
+			
+		      
+END EVERY.
+
+
+THE monkeys ISA monkey
+	AT eroom
+	IS NOT named.
+	CONTAINER
+	DESCRIPTION ""
+
+	VERB examine, look_at
+		DOES ONLY
+			IF whitekey IS NOT caught
+				THEN "$pThere are three monkeys here - a black monkey, a brown monkey and a hairy monkey - 
+				running about on the floor and throwing a white key to each other."
+				ELSE "$pThere are three monkeys here, doing nothing."
+			END IF.
+	END VERB.
+
+END THE.
+
+THE brownmonkey ISA monkey
+	AT eroom
+	NAME brown monkey
+	DESCRIPTION ""
+END THE.
+
+
+THE hairymonkey ISA monkey
+	AT eroom
+	NAME hairy monkey
+	DESCRIPTION ""
+END THE.
+
+THE blackmonkey ISA monkey
+	AT eroom
+	NAME black monkey
+	DESCRIPTION ""
+END THE.
+	
+
+
+
+--==== THE EVENTS ====--
+
+EVENT lowering_ceiling
+	IF value OF r_ceiling = 0
+		THEN "$pThere's a creak, and you notice that ceiling starts to lower! Moreover, the red door slams shut!"
+			INCREASE value OF r_ceiling.
+			MAKE reddoor locked. MAKE reddoor NOT open.
+	ELSIF value OF r_ceiling = 1
+		THEN "$pThe ceiling keeps on lowering! Whatever you plan to do here, you'd better do it fast!"
+			INCREASE value OF r_ceiling.
+	ELSIF value OF r_ceiling = 2
+		THEN "$pYou are forced to bow down as the ceiling now touches your head!"
+			INCREASE value OF r_ceiling.
+	ELSIF value OF r_ceiling = 3
+		THEN "$pThe ceiling crushes you!" 
+			IF hero AT nroom 
+				THEN QUIT.
+			END IF.
+			SET value OF r_ceiling TO 0.
+			CANCEL lowering_ceiling.
+	END IF.
+
+	SCHEDULE lowering_ceiling AT nroom AFTER 1.
+END EVENT.
+
+
+EVENT monkeys_play
+	
+	
+	IF whitekey IN brownmonkey
+		THEN "$pThe brown monkey"
+	ELSIF whitekey IN hairymonkey
+		THEN "$pThe hairy monkey"
+	ELSE "$pThe black monkey"
+	END IF.
+	DEPENDING ON RANDOM 1 TO 3
+			= 1 THEN "is fiddling with the key. Getting tired of it, he throws it to the"
+			= 2 THEN "eyes curiously the key that he's holding. Finding no use for it, he tosses it to the"
+			= 3 THEN "turns the key in his hands, takes a couple of victorious 
+                        leaps around the room and passes it on to the"
+	END DEPEND.
+	IF whitekey IN brownmonkey
+		THEN 
+			IF RANDOM 1 TO 2 = 1
+				THEN "hairy monkey."
+					LOCATE whitekey IN hairymonkey.
+				ELSE "black monkey."
+					LOCATE whitekey IN blackmonkey.
+			END IF.
+	ELSIF whitekey IN hairymonkey
+		THEN
+			
+			IF RANDOM 1 TO 2 = 1
+				THEN "brown monkey."
+					LOCATE whitekey IN brownmonkey.
+				ELSE "black monkey."
+					LOCATE whitekey IN blackmonkey.
+			END IF.
+	ELSE
+			IF RANDOM 1 TO 2 = 1
+				THEN "hairy monkey."
+					LOCATE whitekey IN hairymonkey.
+				ELSE "brown monkey."
+					LOCATE whitekey IN brownmonkey.
+			END IF.
+	END IF.
+	SCHEDULE monkeys_play AT eroom AFTER 1.
+END EVENT.
+
+EVENT sad_monkeys
+	"$pThe monkeys are standing here, wondering what to play next now that you took the key from them."
+	SCHEDULE sad_monkeys AT eroom AFTER 1.
+END EVENT.
+
+
+EVENT Ending
+	"$pThe table sinks to a hole that has opened in the floor. An elevator shoots up from the hole. You enter it,
+		push a button and exit gracefully through the floor."
+		QUIT.
+END EVENT.
+
+
+
+----------------------------------------------------------------------------------------------
+
+
+--==== RULES ====--
+
+
+WHEN hero AT middleroom AND weight OF bowl >= 40
+	=> SCHEDULE ending AT hero AFTER 0.
+
+
+
+------------------------------------------------------------------------------------------------
+
+
+SYNONYMS paper = note.
+	   walkthrough = walkthru.
+
+VERB walkthru
+	DOES "Look under bowl.
+            $nUnlock red door with red key.
+		$nNorth.
+		$nTake green key.
+            $nUnlock red door with red key.
+		$nSouth.
+		$nUnlock green door with green key.
+		$nSouth.
+		$nExamine boy.
+		$nAsk boy about blue key.
+		$nNorth.
+		$nUnlock blue door with blue key.
+		$nEast.
+		$nCatch white key.
+		$nWest.
+		$nUnlock white door with white key.
+		$nWest.
+		$nRead note.
+		$nEast.
+		$nPut all in bowl."
+END VERB.
+
+SYNTAX walkthru = walkthru.
+
+-------------------------------------------------------------------------------------------------
+
+
+
+START AT middleroom.
+	"ALAN Version 3 Sample Game 1/AR
+       $p(ALAN Version 3, alpha 2)"
+

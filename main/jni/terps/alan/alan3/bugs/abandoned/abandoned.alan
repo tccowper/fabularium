@@ -1,0 +1,2139 @@
+-- Ted Paladin And The Case Of The Abandoned House
+
+
+IMPORT 'classes.i'.
+IMPORT 'locations.i'.
+IMPORT 'messages.i'.
+IMPORT 'verbs.i'.
+
+
+-- THE OUTSIDE ---------------------------------------------------------------------------------------------------------
+
+THE oh_e ISA SITE
+	NAME Outside 'the' house '(to' 'the' 'east)'
+	ENTERED LOCATE house AT oh_e. 
+
+	DESCRIPTION "You are standing east of a desolate wooden two-storey house with two boards nailed across the front door.
+			 There is also a boarded upstairs window above the front door.
+			 The house is located in the middle of a largish estate stretching the whole block. 
+			 Otherwise the estate is an empty wasteland with overgrown grass abounding.
+			 Beyond the estate, the modern city expands in all directions.
+			 You can walk around the house to the northwest and to the southwest.
+			 $pYou can see an old, dirty garden gnome some way off in the long grass."
+
+	EXIT north, northwest TO oh_n.
+	EXIT south, southwest TO oh_s.
+	EXIT west, 'in' TO nowhere
+		CHECK "There is no obvious way of entering the house from here."
+	END EXIT.
+	EXIT east, northeast, southeast TO nowhere
+		CHECK "You don't want to escape the task you agreed to take care of."
+	END EXIT.	
+	
+END THE.
+
+
+THE gnome ISA OBJECT AT oh_e
+	NAME garden gnome NAME old NAME dirty
+
+	DESCRIPTION ""
+	VERB examine
+		DOES ONLY "In its degraded state the gnome is merely pitiful and not at all pleasant to look at."
+	END VERB.
+
+	VERB take
+		DOES ONLY "You can't think of any reason why you should carry the gnome around so you leave it where it is."
+	END VERB.
+END THE.	
+
+
+THE house ISA OBJECT AT oh_e.
+	NAME house NAME wall
+	IS NOT takeable.
+	IS NOT movable.
+	IS NOT 'entered'.
+	NAME house
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "The house has two storeys and is rather big. Back in its day it must have looked exquisite; now it emanates mainly 
+			     a depressing impression in its uncared state. The paint has faded and peeled off to such an extent that it is rather 
+			     impossible to say what the original colour has been."
+	END VERB.
+
+	VERB put_against
+		WHEN bulk
+			CHECK obj = garden_ladder
+				ELSE "That wouldn't accomplish anything."
+			AND house AT oh_n
+				ELSE "It wouldn't be of much use to lean the ladder against this wall."
+			AND garden_ladder IS NOT leaning
+				ELSE "The piece of garden fence is already leaning against the wall."
+			DOES ONLY "You lift the remnants of the garden fence to an upright position and lean them on the wall.
+				The ladder you have thus created just about reaches to the unboarded upstairs window on this side of the house."
+				LOCATE garden_ladder AT hero.
+				MAKE garden_ladder leaning.
+	END VERB.
+
+	VERB search
+		DOES ONLY "You are not inside the house."
+	END VERB.
+							
+END THE.
+
+
+THE front_door ISA DOOR AT oh_e
+	NAME front door NAME front
+	IS lockable. IS locked.
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "Three boards have been nailed across the door. It's obvious you're supposed to find another way in."
+	END VERB.
+
+END THE.
+
+THE boards ISA OBJECT AT oh_e
+	IS plural.
+	IS NOT takeable.
+	IS NOT movable.
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY 
+			IF boards AT oh_e
+				THEN "Three boards have been nailed across the door. It's obvious you're supposed to find another way in."
+				ELSE "Three boards have been nailed across the door. You can't exit at present."
+			END IF.
+	END VERB.
+
+	VERB saw
+		DOES 
+			IF handsaw IN hero
+				THEN "You saw the boards quickly to bits."
+					SCHEDULE ending AT hero AFTER 0.
+				ELSE "You don't have a saw."
+			END IF.
+	END VERB.
+
+	VERB cut_with
+		WHEN obj
+			DOES ONLY
+				IF handsaw IN hero
+				THEN "You saw the boards quickly to bits."
+					SCHEDULE ending AT hero AFTER 0.
+				ELSE "You don't have a saw."
+				END IF.
+	END VERB.
+
+END THE.
+
+
+THE upstair_window_e ISA WINDOW AT oh_e
+	NAME upstair upstairs window
+	MENTIONED "upstairs window"
+	IS NOT reachable.
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "The upstairs window is boarded shut."
+	END VERB.
+
+END THE.
+
+
+
+THE oh_n ISA SITE
+	NAME outside 'the' house '(to' 'the' 'north)'
+	ENTERED LOCATE house AT oh_n. 
+		
+	DESCRIPTION "You are standing north of the desolate house. On this side there are two downstairs windows with boards nailed across each,
+			 and one upstairs window which, out of some oversight, is not boarded.
+			 Beyond the barren estate, the modern city expands in all directions.
+			 You can walk around the house to the southeast and to the southwest.
+			 $pIn the long grass around the house you see an old, broken bicycle lying about."		
+
+	EXIT east, southeast TO oh_e.
+	EXIT west, southwest TO oh_w.
+	EXIT south, 'in' TO nowhere
+		CHECK "There is no obvious way of entering the house from here."
+	END EXIT.
+	EXIT north, northeast, northwest TO nowhere
+		CHECK "You don't want to escape the task you agreed to take care of."
+	END EXIT.	
+
+	EXIT up TO wbr
+		CHECK garden_ladder IS leaning
+			ELSE "You can't go that way."
+			DOES "You climb up the shaky ladder construction and reach the upstairs window.
+					The window is easy to force open as the frame is rather decayed. However,
+					the rickety ladder gives way under you and collapses onto the ground.
+					You manage to grab the window sill just in time to pull yourself into the house.
+					An old dresser has been pulled half in front of the window but you manage to make your way
+					into the room past it." 
+					LOCATE hero AT wbr. SCHEDULE welcome AT hero AFTER 0.
+					MAKE house 'entered'.
+	END EXIT.
+
+END THE.
+
+
+THE downstair_windows ISA WINDOW AT oh_n
+	NAME downstair downstairs first second right left 'window' NAME downstair downstairs windows
+	IS plural.
+	IS NOT closeable.
+	MENTIONED "downstairs windows"
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "Both downstairs windows on this wall are boarded shut."
+	END VERB.
+
+END THE.
+
+
+THE upstair_window_n ISA WINDOW AT oh_n
+	NAME upstair upstairs window
+	MENTIONED "upstairs window"
+	IS NOT reachable.
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "The upstairs window is not boarded. Maybe it could provide an entrance into the house
+				if you could reach it."
+	END VERB.
+
+END THE.
+
+
+THE bicycle ISA OBJECT AT oh_n
+	NAME old bike NAME old broken bicycle NAME old	
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "It's a rusty bicycle with one wheel missing."
+	END VERB.
+
+
+	VERB take
+		DOES ONLY "You can't think of any reason why you would need the bike so you leave it be."
+	END VERB.
+
+
+	VERB ride
+		DOES "The rusty bicycle is not fit for riding."
+	END VERB.
+
+END THE.
+
+
+THE oh_w ISA SITE
+	ENTERED LOCATE house AT oh_w. 
+		
+	NAME outside 'the' house '(to' 'the' 'west)'
+	DESCRIPTION "You are standing west of the abandoned house. On the wall on this side you see one upstairs window 
+			 and one downstairs window, both boarded.
+			 Beyond the barren estate, the modern city expands in all directions.
+			 
+			 You can walk around the house to the northeast and to the southeast."
+	EXIT north, northeast TO oh_n.
+	EXIT south, southeast TO oh_s.
+	EXIT east, 'in' TO nowhere
+		CHECK "There is no obvious way of entering the house from here."
+	END EXIT.
+	EXIT west, northwest, southwest TO nowhere
+		CHECK "You don't want to escape the task you agreed to take care of."
+	END EXIT.	
+
+END THE.
+
+
+THE foil ISA OBJECT 
+	IS NOT found.
+END THE.
+
+THE garden_ladder ISA OBJECT AT oh_w
+	NAME garden fence NAME garden ladder NAME remnants
+	MENTIONED "piece of garden fence"
+	IS NOT leaning.
+
+	DESCRIPTION 
+				IF garden_ladder IS leaning       -- (= at oh_n)
+					THEN "$pYou have erected the remnants of the garden fence against the wall,
+						and it serves as a passable ladder leading to the unboarded upstairs window."
+					ELSE "$pThere is a piece of garden fence lying in the grass."
+							IF garden_ladder AT oh_w AND garden_ladder NOT IN hero AND foil IS NOT found
+								THEN "You spot something glittering under it."
+			   				END IF.
+				END IF.
+
+
+
+	VERB examine
+		DOES ONLY 
+			 "It's a short piece of a decayed garden fence, about ten feet long and fallen down to the ground. 
+				Who knows where the rest of the fence has disappeared in the course of years. 
+				Some of the crossbars in it are missing."
+			  IF garden_ladder AT oh_w AND garden_ladder NOT IN hero AND foil IS NOT found
+					THEN "You spot something glittering under the fallen piece of fence."
+			   END IF.
+	END VERB.
+
+
+	VERB take
+		DOES ONLY 
+				IF garden_ladder IS NOT leaning THEN
+				"You pick the piece of garden fence up and lift it upright." 
+				IF foil IS NOT found
+					THEN "The glittering object under it was, however, just a small piece of foil that flies away in the wind."
+						MAKE foil found.
+			      END IF.
+				"Turning to look again at the fence you're holding you come to think
+				that it could serve as a passable ladder.  It is of quite a light structure and you manage to carry it 
+				with some effort."
+				LOCATE garden_ladder IN hero.
+				ELSE "There is no reason to take the fence now."
+				END IF.
+	END VERB.
+
+
+	VERB lift
+		DOES ONLY 
+				IF garden_ladder IS NOT leaning THEN
+				"You pick the piece of garden fence up and lift it upright."
+				IF foil IS NOT found
+					THEN "The glittering object under it was, however, just a small piece of foil that flies away in the wind."
+			      		MAKE foil found.
+				END IF.
+				"Turning to look again at the fence you're holding you come to think
+				that it could serve as a passable ladder.  It is of quite a light structure and you manage to carry it
+				with some effort."
+				LOCATE garden_ladder IN hero.
+				ELSE "You see nothing unusual under the fence."
+				END IF.
+	END VERB.
+
+	
+	VERB search
+		DOES ONLY 
+				IF garden_ladder IS NOT leaning AND garden_ladder NOT IN hero
+					THEN "You should lift the fallen fence in order to search better under it."
+					ELSE "You find nothing further of interest."
+				END IF.
+	END VERB.
+
+
+	VERB look_under
+		DOES ONLY 
+				IF garden_ladder IS NOT leaning AND garden_ladder NOT IN hero 
+					THEN "You should lift the fence in order to search better under it."
+					ELSE "You notice nothing unusual under the fence."
+				END IF.
+	END VERB.
+
+
+	VERB climb
+		DOES ONLY
+			IF garden_ladder IS leaning
+				THEN "You climb up the shaky ladder construction and reach the upstairs window.
+					The window is easy to force open as the frame is rather decayed. However,
+					the rickety ladder gives way under you and collapses onto the ground.
+					You manage to grab the window sill just in time to pull yourself into the house.
+					An old dresser has been pulled half in front of the window but you manage to make your way
+					into the room past it." 
+					LOCATE hero AT wbr. SCHEDULE welcome AT hero AFTER 0.	MAKE house 'entered'.
+				ELSE "You'll have to have the ladder leaning against something before you can successfully climb it."
+			END IF.
+	END VERB.	
+
+
+END THE.
+
+
+THE upstair_window_w ISA WINDOW AT oh_w
+	NAME upstair upstairs window
+	MENTIONED "upstairs window"
+	IS NOT reachable.
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "The upstairs window is boarded shut."
+	END VERB.
+
+END THE.
+
+
+THE downstair_window_w ISA WINDOW AT oh_w
+	NAME downstair downstairs window
+	MENTIONED "boarded downstairs window"
+	IS NOT closeable.
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "The downstairs window is boarded shut."
+	END VERB.
+
+END THE.
+
+
+
+THE oh_s ISA SITE
+	ENTERED LOCATE house AT oh_s. 
+		
+	NAME outside 'the' house '(to' 'the' 'south)'
+	DESCRIPTION "You are standing south of the house. On this wall there is only a single boarded downstairs window."
+			IF vine IS NOT broken
+				THEN  "Some vines climb along the wall, 
+			 supported by a very fragile frame."
+			 END IF.  
+			 "Beyond the estate, which stretches the whole block, the modern city expands in all directions. You can walk around the house 
+			 to the northeast and to the northwest.
+			 $pIn the long grass around the house you see a pile of forsaken firewood."		
+
+	EXIT west, northwest TO oh_w.
+	EXIT east, northeast TO oh_e.
+	EXIT north, 'in' TO nowhere
+		CHECK "There is no obvious way of entering the house from here."
+	END EXIT.
+	EXIT south, southwest, southeast TO nowhere
+		CHECK "You don't want to escape the task you agreed to take care of."
+	END EXIT.	
+
+END THE.
+
+
+
+THE downstair_window_s ISA WINDOW AT oh_s
+	NAME single boarded downstairs downstairs window NAME boarded
+	MENTIONED "window"
+	IS NOT closeable.
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "The window is boarded shut."
+	END VERB.
+
+END THE.
+
+
+
+THE firewood ISA SCENERY AT oh_s
+	IS NOT takeable.
+	NAME firewood NAME pile
+
+	DESCRIPTION ""
+
+	VERB burn
+		DOES ONLY "How would that help matters?"
+	END VERB.
+
+END THE.
+
+
+
+THE vine ISA OBJECT AT oh_s
+	NAME vine NAME vines NAME fragile frame NAME fragile
+	IS NOT broken.
+	DESCRIPTION 
+		IF vine IS broken
+			THEN "$pThe vines and the frame that supported them are now lying on the ground, useless for your purposes."
+		END IF.
+
+	VERB examine 
+		DOES ONLY 
+			IF vine IS NOT broken 
+				THEN "Some vines climb along the wall on this side of the house, beside the boarded window. They almost reach the roof." 
+				ELSE "The vines and the frame that supported them are now lying on the ground, useless for your purposes."
+			END IF.
+	END VERB.
+
+	VERB climb 
+		DOES ONLY 
+			IF vine IS NOT broken
+				THEN "You try to climb the frame but it gives in under your weight, breaks apart and falls to the ground, useless."
+					MAKE vine broken.
+				ELSE "You can't climb the vine now."
+			END IF.
+	END VERB. 
+
+
+	VERB take
+		DOES ONLY "That wouldn't accomplish anything."
+	END VERB.
+
+
+END THE.
+
+
+THE roof ISA OBJECT AT oh_s
+	IS NOT reachable. 
+	DESCRIPTION ""	
+END THE.
+
+
+THE city ISA BACKGROUND AT outdoor
+	DESCRIPTION ""
+	VERB examine
+		DOES ONLY "High-rise buildings, neonlights, sounds of traffic. All the usual fare of a modern city."
+	END VERB. 
+END THE.
+
+
+THE estate ISA OBJECT AT outdoor
+	NAME estate NAME grass
+	MENTIONED "grassy estate"
+	IS NOT takeable. IS NOT movable.
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "Overgrown grass dominates the estate all around the house."
+	END VERB.
+
+END THE.
+
+
+-- THE INSIDE -------------------------------------------------------------------------------------------------------------
+
+
+-- UPSTAIRS ---------------------------------------------------------------------------------------------------------------
+
+
+
+THE wbr ISA ROOM
+	NAME white bedroom
+	DESCRIPTION 
+
+		IF piano IS NOT found
+			THEN "--"
+			ELSE "An antique black piano against one of the walls gives 
+				the otherwise plain room quite a dignified impression
+				even in its abandoned state."
+		END IF.
+
+
+		IF bed IS NOT found 
+			THEN "--"
+			ELSE "The worn-out bed here with nothing, not even a mattress, on it looks rather mundane and uninviting beside it." 
+		END IF.
+
+
+		IF wardrobe IS NOT found
+			THEN "--"
+			ELSE "A tall oaken wardrobe juts out from one of the corners."
+		END IF.
+
+
+		IF dresser IS NOT found
+			THEN "--"
+			ELSE "You can see also a white-painted wooden dresser here."
+		END IF.
+
+
+		IF wwindow IS NOT found
+			THEN "--"
+			ELSE "The window through which you entered faces north and allows bright daylight into the room."
+		END IF.
+
+
+		IF wdoor IS NOT found
+			THEN "--"
+			ELSE "There is a door to the south" 
+				    IF wdoor IS closed
+					THEN "which is currently closed"
+					ELSE "which is currently open"
+				    END IF.				 
+				"and beside which you see a small device on the wall."
+		END IF.
+
+
+		EXIT north, out TO oh_n
+			CHECK "Looking out of the window you can see the collapsed ladder construction on the ground. You can't get out that way."
+				MAKE wwindow found.
+		END EXIT.
+
+		
+		EXIT south TO landing
+			CHECK wdoor IS NOT closed
+				ELSE "You can't, since the door is closed."
+					MAKE wdoor found.
+				DOES "You exit the white bedroom."
+					MAKE wdoor found.
+				IF COUNT ISA OBJECT, IN hero > 0
+					THEN 
+						IF handsaw IN hero
+							THEN 
+								IF bottle NOT IN hero
+									THEN "Before leaving, you politely return everything but the handsaw into their places."
+										EMPTY hero AT wbr.
+											LOCATE jacket IN wardrobe.
+											LOCATE note IN jacket.
+											LOCATE shoes IN drawer.
+										LOCATE handsaw IN hero.
+									ELSE "Before leaving, you politely return everything but the handsaw and the bottle into
+										their places."
+										EMPTY hero AT wbr.
+											LOCATE jacket IN wardrobe.
+											LOCATE note IN jacket.
+											LOCATE shoes IN drawer.
+										LOCATE handsaw IN hero.
+										LOCATE bottle IN hero.
+								END IF.
+						ELSIF bottle IN hero
+							THEN 
+								IF handsaw NOT IN hero
+									THEN "Before leaving, you politely return everything but the bottle into their places."
+										EMPTY hero AT wbr.
+										LOCATE bottle IN hero.
+									ELSE "Before leaving, you politely return everything but the handsaw and the bottle into
+										their places."
+										EMPTY hero AT wbr.
+											LOCATE jacket IN wardrobe.
+											LOCATE note IN jacket.
+											LOCATE shoes IN drawer.
+										LOCATE handsaw IN hero.
+										LOCATE bottle IN hero.
+								END IF.
+						ELSE EMPTY hero AT wbr.
+								LOCATE jacket IN wardrobe.
+								LOCATE note IN jacket.
+								LOCATE shoes IN drawer.
+								"Before leaving, you politely return everything into their places."
+						END IF.
+				END IF.
+		END EXIT.
+	
+
+
+
+END THE.
+
+
+
+THE piano ISA OBJECT AT wbr
+	IS NOT takeable.
+	IS NOT found.
+	HAS value 0.
+	DESCRIPTION ""
+
+	VERB examine 
+		DOES ONLY
+				"It's an exquisite-looking, antique piano. The white keys have turned yellowish with age."
+				IF piano IS NOT found
+					THEN MAKE piano found.	
+				END IF.
+	END VERB.
+
+
+	VERB 'play'
+		DOES ONLY "You play the piano a bit at random. With your perfect pitch you notice right away that the piano is
+				two whole steps out of tune.
+				$n(To press the individual piano keys, type ""PRESS/PLAY ""C"" ON THE PIANO, PRESS/PLAY ""D"" ON THE PIANO etc. (C and D being 
+				any notes between A and G.)"
+				MAKE piano found.
+	END VERB.
+
+
+END THE.
+
+
+SYNTAX play_note = 'play' (str) 'on' 'piano' 
+	WHERE str ISA STRING
+		ELSE "Please use the formulation PRESS/PLAY ""C"" ON THE PIANO (where C is any note between A and G) to play a note on the piano."
+
+      play_note = 'play' (str) 'on' 'the' 'piano'.
+	play_note = press (str) 'on' 'piano'.
+	play_note = press (str) 'on' 'the' 'piano'.
+
+
+ADD TO EVERY STRING
+VERB play_note 
+	DOES
+		IF str ="a" OR str ="b" OR str = "c" OR str = "d" OR str = "e" OR str = "e" OR str = "f" OR str = "g"
+			THEN
+			
+			"You press the note" SAY str. "on the piano."
+			IF str = "f" THEN SET value OF piano TO 1. 
+			ELSIF str = "g"
+				THEN IF value OF piano = 1
+					THEN INCREASE value OF piano BY 1.
+					ELSE SET value OF piano TO 0.
+				     END IF.
+			ELSIF str = "d"
+				THEN IF value OF piano = 2
+					THEN "$pHaving pushed the F, G and D notes, there is a click from the sound detector by the door.
+						A small secret compartment in it opens and spits out a small plastic bottle onto the floor. The compartment
+						closes again."
+						SET value OF piano TO 0.
+						LOCATE bottle AT wbr.
+					ELSE SET value OF piano TO 100.
+					END IF.
+			ELSIF str = "e" 
+				THEN 
+					IF value OF piano = 100
+						THEN SET value OF piano TO 200.
+						ELSE SET value OF piano TO 0.
+					END IF.
+			ELSIF str = "b"
+				THEN IF value OF piano = 200
+					THEN "$pHaving pushed the D, E and B notes, nothing happens. Hmm. You were sure this would work.
+						Could the fact that the piano is two steps out of tune have something to do with the
+						sound detector not identifying the notes?"
+						SET value OF piano TO 0.
+					ELSE SET value OF piano TO 0.
+					END IF.
+			ELSIF str = "a"
+				THEN SET value OF piano TO 0.
+			ELSIF str = "c"
+				THEN SET value OF piano TO 0.
+			END IF.	
+			ELSE "That doesn't seem to be a note you can play."
+	  
+			
+		END IF.
+END VERB.	
+END ADD TO.	
+
+
+
+THE dresser ISA SUPPORTER AT wbr
+	IS NOT found.
+	IS NOT takeable.
+	DESCRIPTION ""
+	
+
+	VERB examine
+		DOES ONLY "The dresser, pulled half in front of the window, looks worn out and has many scratches on the surface. It has one drawer"
+					IF drawer IS closed
+						THEN "which is closed."
+						ELSE "which is open."
+					END IF.
+				IF dresser IS NOT found
+					THEN MAKE dresser found.	
+				END IF.
+				IF drawer IS NOT found
+					THEN MAKE drawer found.	
+				END IF.
+				MAKE wwindow found.
+	END VERB.
+
+END THE.
+
+
+
+
+THE drawer ISA LISTABLE_CONTAINER AT wbr
+	OPAQUE CONTAINER
+	IS closeable. IS closed.
+	IS NOT takeable.
+	IS NOT found.
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY 
+			IF drawer IS closed
+				THEN "The drawer is closed."
+				ELSE "The drawer is open."
+					LIST drawer.
+			END IF.
+	END VERB.
+
+END THE.
+
+
+THE shoes ISA CLOTHING IN drawer
+	NAME shoes NAME pair 'of' shoes NAME pair NAME shoe
+	MENTIONED "pair of shoes"
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "It's a pair of men's walking shoes with nothing special about them."
+		IF shoes IN drawer
+			THEN "Funny that somebody should have put them in the dresser; the wardrobe would have been a more
+				natural place for them."
+		END IF.
+	END VERB.
+
+	VERB search
+			DOES ONLY "It's a pair of men's walking shoes. You find nothing of interest in or about them."
+		IF shoes IN drawer
+			THEN "Funny that somebody should have put them in the dresser; the wardrobe would have been a more
+				natural place for them." 
+		END IF.
+	END VERB.
+
+	VERB take
+		DOES ONLY "They're not your size. Besides, you're wearing your own shoes already."
+	END VERB.
+
+	VERB wear 
+		DOES ONLY "They're not your size. Besides, you're wearing your own shoes already."
+	END VERB.
+
+END THE.
+
+
+
+THE note ISA OBJECT IN jacket
+	IS readable.
+	IS NOT found.
+	DESCRIPTION ""
+
+	VERB examine 
+		DOES ONLY
+			"The note only says ""DEB"". Well well, who might that be?"
+	END VERB.
+
+
+	VERB read
+		DOES ONLY
+			"The note only says ""DEB"". Well well, who might that be?"
+	END VERB.
+
+END THE.
+
+
+
+
+THE bed ISA SUPPORTER AT wbr
+	IS NOT takeable.
+	IS NOT found.
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "The bed doesn't have anything on it, not even a mattress."
+			IF bed IS NOT found
+				THEN MAKE bed found.	
+			END IF.
+	END VERB.
+
+	VERB search
+		DOES ONLY "You find some sheets of music under the bed. They have probably fallen off from the 
+			     piano."
+				LOCATE sheets AT wbr.
+				MAKE bed found.
+	END VERB.
+
+	VERB look_under
+		DOES ONLY "You find some sheets of music. They have probably fallen off from the 
+			     piano."
+				LOCATE sheets AT wbr.
+				MAKE bed found.
+	END VERB.
+
+END THE.
+
+
+THE sheets ISA SCENERY 
+	NAME sheets NAME sheet NAME music NAME moonlight sonata
+	IS plural.
+	IS readable.
+	MENTIONED "sheets of music"
+	DESCRIPTION ""
+	
+	VERB examine
+		DOES ONLY "It's the sheet music for Beethoven's ""Moonlight Sonata"", 1st movement."
+	END VERB.
+
+	VERB read
+		DOES ONLY "It's the sheet music for Beethoven's ""Moonlight Sonata"", 1st movement."
+	END VERB.
+
+	VERB 'play'
+		DOES ONLY "The piano is so out of tune - two whole steps - you don't feel like playing the piece."
+	END VERB.
+
+END THE.
+
+
+
+THE wardrobe ISA LISTABLE_CONTAINER AT wbr
+	OPAQUE CONTAINER
+	IS closeable. IS closed.
+	IS NOT takeable.
+	IS NOT found.
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "It's a sturdy oaken wardrobe."
+			IF wardrobe IS NOT closed
+				THEN LIST wardrobe.
+				ELSE "It is closed."
+			END IF.
+			IF wardrobe IS NOT found
+				THEN MAKE wardrobe found.	
+			END IF.
+	END VERB.
+
+	VERB open
+		DOES MAKE wardrobe found.
+	END VERB.
+
+END THE.
+
+
+
+THE jacket ISA CLOTHING IN wardrobe
+	NAME brown jacket NAME brown
+	CONTAINER
+	IS NOT found.
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY 
+				"It's an old brown jacket."
+				IF note IN jacket
+					THEN "Something seems to protrude out of one of the pockets."
+				END IF.
+					MAKE jacket found.
+	END VERB.
+
+	VERB look_in
+		DOES ONLY "You find a small note which you take."
+			LOCATE note IN hero.
+	END VERB.
+
+	VERB search
+		DOES ONLY
+			IF note IS NOT found 
+				THEN
+			"You find a small note which you take."
+			LOCATE note IN hero. MAKE note found.
+				ELSE
+			"You find nothing else of interest."
+			END IF.
+	END VERB.
+
+	VERB take
+		DOES ONLY "You don't feel it's much use taking the jacket."
+	END VERB.
+
+	VERB 'empty'
+		DOES ONLY
+			IF note IN jacket
+			     THEN"You find a small note which you take."
+					LOCATE note In hero.
+			     ELSE "You find nothing else of interest in the pocket."
+			END IF.
+	END VERB.
+
+END THE.
+
+
+THE pocket ISA OBJECT
+	NAME pocket NAME pockets
+	CONTAINER
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY
+			IF note IN jacket
+			     THEN"You find a small note which you take."
+					LOCATE note In hero.
+			     ELSE "You find nothing else of interest in the pocket."
+			END IF.
+	END VERB.
+
+	VERB search
+		DOES ONLY
+			IF note IN jacket
+			     THEN"You find a small note which you take."
+					LOCATE note In hero.
+			     ELSE "You find nothing else of interest in the pocket."
+			END IF.
+	END VERB.
+
+	VERB 'empty'
+		DOES ONLY
+			IF note IN jacket
+			     THEN"You find a small note which you take."
+					LOCATE note In hero.
+			     ELSE "You find nothing else of interest in the pocket."
+			END IF.
+	END VERB.
+
+
+END THE.
+
+
+THE wdoor ISA DOOR AT wbr
+	NAME door
+	MENTIONED "door"
+	IS NOT found.
+	IS NOT closed.
+	DESCRIPTION ""
+ 
+	VERB examine
+		DOES ONLY "It's a white-painted wooden door. There is a small device next to it."
+			IF wdoor IS NOT found
+				THEN MAKE wdoor found.	
+			END IF.
+	END VERB.
+
+END THE.
+
+
+
+THE wdevice ISA OBJECT AT wbr
+	NAME small device NAME sound detector
+	IS NOT takeable. 
+	DESCRIPTION ""
+
+	VERB examine 
+		DOES ONLY "It is merely a flat, square surface with a small grille, resembling some kind of detector.
+				Sure enough, a small text at a corner of the device says ""AMCE (sic) Sound Detector"". You're
+				supposed to produce some kind of sound to solve the riddle of this room. But what kind of sound?"
+	END VERB.
+
+
+	VERB push
+		DOES ONLY "Nothing happens."
+	END VERB.
+
+			     	
+END THE.
+
+
+THE deb ISA OBJECT
+END THE.
+
+THE bottle ISA OBJECT 
+	NAME oil bottle NAME oil NAME small
+	ARTICLE "an"
+	DESCRIPTION "$pThere is a small bottle of oil here."
+
+	VERB examine
+		DOES ONLY "It's a small plastic bottle containing a quantity of lubricating oil."
+				IF hero AT lr 
+					THEN
+				    "$p$p(The Kitchen)$nIt's a small plastic bottle containing a quantity of lubricating oil."
+				END IF.
+	END VERB.
+	
+
+	VERB drop
+		DOES ONLY "You feel you'd better hold on to the bottle. It was rewarded to you for a reason."
+				IF hero AT lr 
+					THEN
+				    "$p$p(The Kitchen)$nYou feel you'd better hold on to the bottle. It was rewarded to you for a reason."
+				END IF.
+	END VERB.
+
+END THE.
+
+
+THE wwindow ISA WINDOW AT wbr
+	IS NOT takeable.
+	IS NOT found.
+	IS NOT closed.
+	NAME window
+	MENTIONED "window"
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "An old dresser has partly been pulled in front of the window."
+				IF wwindow IS NOT closed THEN "The window is currently open." ELSE "The window is currently closed." END IF.
+			IF wwindow IS NOT found
+				THEN MAKE wwindow found.	
+			END IF.
+	END VERB.
+
+
+	VERB close 
+		DOES ONLY "You close the window."
+			MAKE wwindow closed.
+	END VERB.
+
+
+	VERB open
+		DOES ONLY "You open the window."
+			MAKE wwindow NOT closed.
+	END VERB.  
+
+
+	VERB look_through
+		DOES ONLY "You see nothing special looking out of the window."
+	END VERB.
+
+	VERB look_out_of
+		DOES ONLY "You see nothing special looking out of the window."
+	END VERB.
+
+
+END THE.
+
+
+
+
+----------------------------------
+
+
+
+THE bbr ISA ROOM
+	NAME Red bedroom
+	DESCRIPTION "This room, with red-painted walls, is much darker than the first bedroom because the window is boarded and only a few rays of sunlight
+			find their way in. The room is devoid of furniture except for a small table in the middle and a framed note on the wall. 
+			On the table is an old-fashioned balance weight scale with two cups." 
+
+			IF described OF bbr = 1
+				THEN "There are seven objects around the scale:$n"
+			ELSIF COUNT ISA OBJECT, IN table > 0
+				 THEN "On the table you see also:$n"
+			END IF.
+
+			IF photo IN table THEN DESCRIBE photo. END IF.
+			IF doll IN table THEN DESCRIBE doll. END IF.
+			IF novel IN table THEN DESCRIBE novel. END IF.
+			IF mirror IN table THEN DESCRIBE mirror. END IF.
+			IF lp IN table THEN DESCRIBE lp. END IF.
+			IF pepper_dispenser IN table THEN DESCRIBE pepper_dispenser. END IF.
+			IF candle IN table THEN DESCRIBE candle. END IF.
+
+	EXIT 'out', north TO landing
+		CHECK bdoor IS NOT closed
+			ELSE "You can't, since the door is closed."
+		DOES 
+			IF COUNT ISA OBJECT, IN hero > 0
+				THEN 
+					IF handsaw IN hero
+						THEN 
+							IF bottle NOT IN hero
+								THEN "Before leaving, you politely return everything but the handsaw onto the table."
+										EMPTY hero IN table.
+										LOCATE handsaw IN hero.
+								ELSE "Before leaving, you politely return everything but the handsaw and the bottle onto
+										the table."
+										EMPTY hero IN table.
+										LOCATE handsaw IN hero.
+										LOCATE bottle IN hero.
+							END IF.
+					ELSIF bottle IN hero
+						THEN 
+							IF handsaw NOT IN hero
+								THEN "Before leaving, you politely return everything but the bottle onto the table."
+										EMPTY hero IN table.
+										LOCATE bottle IN hero.
+								ELSE "Before leaving, you politely return everything but the handsaw and the bottle onto
+										the table."
+										EMPTY hero IN table.
+										LOCATE handsaw IN hero.
+										LOCATE bottle IN hero.
+							END IF.
+					ELSE EMPTY hero IN table.
+						"Before leaving, you politely return everything onto the table."
+					END IF.
+			END IF.
+	END EXIT.
+
+END THE.
+
+ADD TO EVERY OBJECT
+	IS figured_out.
+END ADD TO.
+
+THE note2 ISA OBJECT AT bbr
+	NAME framed note
+	IS readable.
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY
+			"The framed note says: ""Valued guest: put three objects on the scale. 
+							Only a certain three will do, the rest are *red* herrings.
+					    		When you have acted correctly, you will gain a prize."""
+	END VERB.
+
+	VERB read
+		DOES ONLY
+			"The framed note says: ""Valued guest: put three objects on the scale. 
+							Only a certain three will do, the rest are *red* herrings.
+					    		When you have acted correctly, you will gain a prize."""
+	END VERB.
+
+
+	VERB take
+		DOES ONLY "There is no reason to take the note."
+	END VERB.
+
+END THE.
+
+
+THE table ISA SUPPORTER AT bbr
+	IS NOT takeable.
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "There is a balance scale on the table."
+			IF COUNT ISA OBJECT, IN table > 0
+				THEN "You also see:"
+
+			IF photo IN table THEN DESCRIBE photo. END IF.
+			IF doll IN table THEN DESCRIBE doll. END IF.
+			IF novel IN table THEN DESCRIBE novel. END IF.
+			IF mirror IN table THEN DESCRIBE mirror. END IF.
+			IF lp IN table THEN DESCRIBE lp. END IF.
+			IF pepper_dispenser IN table THEN DESCRIBE pepper_dispenser. END IF.
+			IF candle IN table THEN DESCRIBE candle. END IF.
+
+			END IF.
+	END VERB.
+				
+END THE.
+
+
+
+THE scale ISA LISTABLE_CONTAINER AT bbr
+	NAME cups NAME right left cup NAME scale NAME scales
+	MENTIONED "scale"
+	CONTAINER
+		LIMITS 
+		    COUNT 3 THEN
+				"You can't put anything more in the scale."
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "It is an old-fashioned decorated balance scale with two large cups hanging from chains."
+				"In one cup is a black weight."
+				IF COUNT ISA OBJECT, IN scale < 1
+					THEN "The other cup is empty. Consequently the two cups are not level."
+					ELSE 
+						IF handsaw NOT AT bbr 
+						THEN
+						"You have placed something in the other cup but the two cups are still not level."
+								LIST scale.
+						ELSE
+							IF candle IN scale AND mirror IN scale AND photo IN scale
+								THEN "The other cup contains a candle, a mirror and a photo. The two cups are level."
+								ELSE "You have placed something in the other cup but the two cups are still not level."
+									LIST scale.
+							END IF.
+						END IF.
+				END IF.
+	END VERB.
+
+	VERB take
+		DOES ONLY "There is no reason to take the scale."
+	END VERB.
+
+END THE.
+
+
+THE black_weight ISA OBJECT AT bbr
+	NAME black 'weight' NAME black
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "In one of the cups in the weight device is a small black weight."
+	END VERB.
+
+	VERB take
+		DOES ONLY "It wouldn't serve any purpose to take the weight."
+	END VERB.
+
+END THE.
+
+
+THE photo ISA OBJECT
+	IN table
+	IS NOT found.
+	NAME photo NAME family
+	MENTIONED "photo"
+	DESCRIPTION 
+		IF photo IS NOT found
+			THEN "$nThis one was shot by Mr Joseph O'Toole. You could have told that from his name, too." 
+			ELSE "$nA withered black-and-white photo."
+		END IF.
+
+	VERB examine DOES ONLY "A black-and-white photo of a group of people, presumably the family that used to live here, standing in an outdoor setting.
+				The photo itself doesn't rouse much interest in you."
+			MAKE photo found. 
+	END VERB.
+
+	VERB drop
+		DOES ONLY LOCATE photo IN table.
+			"You put the photo back on the table."
+	END VERB.
+
+END THE.
+			
+
+
+
+THE lp ISA OBJECT
+	IN table
+	IS NOT found.
+	NAME lp NAME vinyl record NAME vinyl
+	DESCRIPTION 
+		IF lp IS NOT found
+			THEN "$n""Black, 33, 12,"" Sir Lionel Peasley, a lyric vendor, described one of his sales articles." 
+			ELSE "$nA vinyl record."
+		END IF.
+
+
+	VERB examine
+		DOES ONLY "It's an old King Crimson LP."
+					MAKE lp found. 
+	END VERB.
+
+
+	VERB listen_to
+		DOES ONLY "Just show me a record player and I'll be happy to."
+					MAKE lp found.
+	END VERB.
+
+	VERB drop
+		DOES ONLY LOCATE lp IN table.
+			"You put the lp back on the table."
+	END VERB.
+
+
+END THE.
+
+
+
+THE novel ISA OBJECT
+	IN table
+	IS NOT found.
+	IS readable.
+	NAME novel 
+	DESCRIPTION
+		IF novel IS NOT found
+			THEN "$nThe opposite of Levon can be appreciated in Reading."
+			ELSE "$nAn old romance novel."
+		END IF.
+
+	VERB examine
+		DOES ONLY "Leafing quickly through the novel, you find it contains mostly purple prose."
+				MAKE novel found.
+	END VERB.
+
+	VERB read
+		DOES ONLY "Leafing quickly through the novel, you find it contains mostly purple prose."
+				MAKE novel found.
+	END VERB.
+
+	VERB drop
+		DOES ONLY LOCATE novel IN table.
+			"You put the novel back on the table."
+	END VERB.
+
+
+END THE.
+
+		
+SYNONYMS book = novel.
+
+
+THE mirror ISA OBJECT
+	NAME mirror NAME looking glass
+	CONTAINER
+	IN table
+	IS NOT found.
+
+	DESCRIPTION
+		IF mirror IS NOT found
+			THEN "$nLooking at it she saw a young lass. Only the beginning and the end count."
+			ELSE "$nA hand mirror."
+		END IF.
+
+	VERB examine
+		DOES ONLY "You barely see your face in the blurry glass."
+			MAKE mirror found.
+	END VERB.
+
+
+	VERB look_in
+		DOES ONLY "You barely see your face in the blurry glass."
+			MAKE mirror found.
+	END VERB.
+
+	VERB drop
+		DOES ONLY LOCATE mirror IN table.
+			"You put the mirror back on the table."
+	END VERB.
+
+END THE.
+
+
+THE doll ISA OBJECT
+	IN table
+	IS NOT found.
+	DESCRIPTION
+		IF doll IS NOT found
+			THEN "$n""Can this one laugh or cry?"" asked little Moll while the month turned into a day."
+			ELSE "$nA ragdoll."
+		END IF.
+
+	VERB examine
+		DOES ONLY "It's an old ragdoll with red hair. One of the eyes has dropped over the course of years."
+			MAKE doll found.
+	END VERB.
+
+	VERB drop
+		DOES ONLY LOCATE doll IN table.
+			"You put the doll back on the table."
+	END VERB.
+	
+END THE.
+
+
+THE pepper_dispenser ISA OBJECT
+	NAME pepper dispenser
+	IN table
+	IS NOT found.
+	DESCRIPTION
+		IF pepper_dispenser IS NOT found
+			THEN "$nDid the late Lady D. (what was her last name again?) use one of these to spice her food?"
+			ELSE "$nA pepper dispenser."
+		END IF.
+
+	VERB examine
+		DOES ONLY "A spice dispenser made of glass. It seems to contain ground rosé pepper."
+				MAKE pepper_dispenser found.
+	END VERB.
+
+	VERB drop
+		DOES ONLY LOCATE pepper_dispenser IN table.
+			"You put the dispenser back on the table."
+	END VERB.
+
+END THE.
+
+
+THE candle ISA OBJECT
+	IN table
+	IS NOT found.
+	DESCRIPTION
+		IF candle IS NOT found
+			THEN "$nInstructions for use: handle with c. and drop your h's. Should be burnt at one end only."
+			ELSE "$nA yellow candle."
+		END IF.
+
+	VERB examine
+		DOES ONLY "A thick yellow candle, only slightly used."
+			MAKE candle found.
+	END VERB.
+
+	VERB burn
+		DOES ONLY "There is no time for that now. (For some reason, you feel you have to get out of here in max. two hours.)"
+	END VERB.
+
+	VERB drop
+		DOES ONLY LOCATE candle IN table.
+			"You put the candle back on the table."
+	END VERB.
+
+END THE.
+
+
+THE handsaw ISA OBJECT 
+	NAME saw NAME handsaw
+	DESCRIPTION "$pThere is a small handsaw here."
+
+	VERB examine 
+		DOES ONLY "It's a small handsaw."
+			IF hero AT lr THEN "$p$p(The Kitchen)$nIt's a small handsaw." END IF.
+	END VERB.
+
+	VERB drop
+		DOES ONLY "You decide to hold on to the handsaw. It was rewarded to you for a reason."
+			IF hero AT lr THEN "$p$p(The Kitchen)$nYou decide to hold on to the handsaw. 
+				It was rewarded to you for a reason." END IF.
+	END VERB.
+
+END THE.
+
+
+THE bdoor ISA DOOR AT bbr
+	NAME door
+	MENTIONED "door"
+	IS NOT closed.
+	DESCRIPTION ""
+ 
+	VERB examine
+		DOES ONLY "It's a white-painted wooden door."
+	END VERB.
+
+END THE.
+
+
+THE bwindow ISA WINDOW AT bbr
+	NAME window
+	IS closed.
+	DESCRIPTION ""
+END THE.
+
+WHEN COUNT ISA OBJECT, IN scale = 3
+	THEN IF candle IN scale AND mirror IN scale AND photo IN scale
+			THEN SCHEDULE scale_solved_message AT hero AFTER 0.
+			ELSE SCHEDULE scale_losing_message AT hero AFTER 0.
+	     END IF.
+
+
+EVENT scale_solved_message
+   IF scale IS figured_out THEN
+ "$pWhen you place the candle, the mirror and the photo onto the scale, the two weights become now exactly level. 
+  There is a quiet click and a secret compartment in the table turns open spitting out, of all things, a small handsaw.
+  The compartment closes again." 
+   LOCATE handsaw AT bbr.
+   MAKE scale NOT figured_out.
+   ELSE "$pNothing special happens."
+   END IF.	
+END EVENT.
+
+
+
+EVENT scale_losing_message
+ "$pWhen you place the three objects onto the scale, nothing special happens. The two cups of the scale
+  are still unbalanced. You'll have to try something else. You empty the scale and place the objects again onto the table."
+		EMPTY scale IN table.
+END EVENT.
+
+
+SYNTAX hint_1 = hint 'on' first.
+SYNTAX hint_2 = hint 'on' second.
+SYNTAX hint_3 = hint 'on' third.
+SYNTAX hint_4 = hint 'on' fourth.
+SYNTAX hint_5 = hint 'on' fifth.
+SYNTAX hint_6 = hint 'on' sixth.
+SYNTAX hint_7 = hint 'on' seventh.
+
+
+
+	 	
+VERB hint_1 DOES "Did you try ""tool""? That doesn't work, so the answer must be something else. Could it be ""jos""? Or ""sepho""? Wait,
+		those are not objects... (No more hints for the first object.)" END VERB. 
+
+VERB hint_2 DOES "Month is an M and day is a D. (No more hints for the second object.)" END VERB.
+
+VERB hint_3 DOES "An opposite often means the other way around. (No more hints for the third object.)" END VERB.
+
+VERB hint_4 DOES "The beginning and the end of the first sentence count. See what you get and use its more common synonym.
+					(No more hints for the fourth object.)" END VERB.
+
+VERB hint_5 DOES "Unscrambling ""lyric vendor"" will help. So do also the initials given in the riddle. (No more hints for the fifth
+				object.)" END VERB.
+
+VERB hint_6 DOES "Lady Diana's family name will reveal ca. 80% of this object's name. Where could the rest come from? 
+			(No more hints for the sixth object.)" END VERB.
+
+VERB hint_7 DOES """Handle"" plus ""c"" equals something. Drop the ""h"" and you have the solution. (No more hints for the seventh object.)"
+			END VERB.
+
+
+------------------------------------
+
+
+
+
+THE landing ISA ROOM
+	DESCRIPTION "You are standing on a small landing upstairs. There is a white bedroom to the north and
+			a darker, red-painted bedroom to the south. You can also go down the stairs to the living-room."
+	EXIT north TO wbr.
+	EXIT south TO bbr
+		DOES SCHEDULE bbr_briefing AT hero AFTER 0.
+	END EXIT.
+	EXIT down TO lr
+		DOES SCHEDULE livingroom_briefing AT hero AFTER 0.
+	END EXIT.
+END THE.
+
+
+
+-- DOWNSTAIRS ----------------------------------------------------------------------------------------------------------
+
+THE lr ISA ROOM
+	NAME 'The' 'Living-Room' 
+
+	DESCRIPTION "Most furniture has been taken away from here. You only see an old threadbare sofa against the boarded
+			window which allows just enough sunlight in for you to see around well enough. On the northern wall there 
+			is a small fireplace. The front door is to the east and currently"
+
+			IF f_door IS locked
+				THEN "locked." 
+			ELSIF f_door IS closed
+				THEN "unlocked but closed."
+				ELSE "open."
+			END IF.
+			
+			"Another door leads west into the kitchen." 
+			
+			IF kitchen_door IS locked
+				THEN
+				     "It is currently locked."
+			 ELSIF kitchen_door IS closed 
+				THEN "It is currently unlocked but closed."
+			 ELSE "It is currently open."
+			END IF.
+			
+			IF ring AT lr 
+				THEN "$pA silver ring lies in the ashes of the fireplace." 
+			END IF.
+
+			"$p$p(The Kitchen)$n"
+			DESCRIBE kitchen.
+
+			
+	EXIT east, 'out' TO oh_e
+		CHECK 
+			IF f_door IS locked
+				THEN "The front door is locked.
+				      $p$p(The Kitchen)
+					$nThe door east to the living-room is locked."
+			ELSIF f_door IS closed
+				THEN  "The front door is closed.
+				      $p$p(The Kitchen)
+					$nThe door east to the living-room is locked."
+			ELSIF f_door IS NOT closed
+				THEN "The boards block your way.
+					$p$p(The Kitchen)$nThe door east to the living-room is locked."
+			END IF.
+		
+	END EXIT.
+
+	
+	EXIT 'up' TO landing.
+	
+
+	EXIT west TO kitchen
+		CHECK
+			IF kitchen_door IS locked
+				THEN "The door west to the kitchen is locked.
+					$p$p(The Kitchen)
+					$nYou can't go that way."
+			ELSIF kitchen_door IS closed
+				THEN "The door west to the kitchen is closed.
+						$p$p(The Kitchen)
+					$nYou can't go that way."
+			ELSE LOCATE hero AT kitchen.
+			END IF.
+	END EXIT.	
+
+
+
+	VERB 'wait'
+		DOES ONLY
+			"Time passes...
+			$p$p(The Kitchen)
+			$nTime passes..."
+
+	END VERB.
+
+
+END THE.
+
+
+
+THE f_door ISA DOOR AT lr
+	NAME front door NAME front
+	MENTIONED "front door"
+	DESCRIPTION ""
+	IS lockable. IS locked.
+	IS bolted.
+
+	VERB examine
+		DOES ONLY "The white front door is equipped with both a lock and a bolt."
+				
+				IF f_door IS locked
+					THEN "The door is locked."
+					ELSE IF f_door IS closed
+							THEN
+						"The door is unlocked but closed."
+							ELSE
+						"The door is open."
+						END IF.
+						
+				END IF.
+
+				IF bolt IS closed
+					THEN "You still have to open the bolt before the door can be opened."
+				END IF.
+				
+				
+				IF f_door IS locked
+					THEN
+				"$p(To try unlocking the door with a key, it is enough to type
+				UNLOCK DOOR WITH KEY; it is not necessary to refer to the lock.)
+				$p$p(The Kitchen)$nYou can't see any such thing."
+				END IF.
+
+				IF f_door IS NOT closed
+					THEN "Three boards have been nailed across the door, blocking your way out."
+				END IF.
+
+	END VERB.
+
+	VERB unlock_with
+		WHEN obj
+		DOES ONLY
+			"You unlock the door.
+				$p$p(The Kitchen)$nYou can't see any such thing."
+			MAKE f_door NOT locked.
+	END VERB.
+	
+	VERB open
+		DOES ONLY 
+			IF bolt IS closed OR bolt IS NOT oiled
+				THEN "You can't open the door since it is bolted.
+						$p$p(The Kitchen)$nYou can't see any such thing."	
+				ELSE "You open the door.
+				The three boards that have been nailed across the front door block your passage out.
+				$p$p(The Kitchen)$nYou can't see any such thing."
+				LOCATE boards AT lr. MAKE f_door NOT closed.
+			END IF.
+	END VERB.
+
+	VERB unbolt
+		DOES 
+			IF bolt IS NOT oiled
+				THEN "The bolt won't budge however much you try to pull it. It seems to be rather rusty."
+					 	"$p$p(The Kitchen)$nYou can't see any such thing."
+				ELSE "You pull the oiled bolt open with relative ease."
+							"$p$p(The Kitchen)$nYou can't see any such thing."
+					MAKE bolt NOT closed. MAKE f_door NOT bolted.
+			END IF.		
+	END VERB.
+
+	VERB oil
+		DOES ONLY "The door itself doesn't seem to need oiling.
+			$p$p(The Kitchen)$nYou can't see any such thing."
+	END VERB.
+
+	VERB push
+		DOES "$p$p(The Kitchen)$nYou can't see any such thing."
+	END VERB.
+
+	VERB pull
+		DOES "$p$p(The Kitchen)$nYou can't see any such thing."
+	END VERB.
+	 
+	
+
+END THE.
+
+
+THE f_lock ISA OBJECT AT lr
+	NAME lock NAME keyhole
+	IS NOT takeable.
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "It's a normal keyhole accepting a medium-sized key."
+				"$p(To try unlocking the door, it is enough to UNLOCK DOOR WITH KEY; you don't have to refer to the lock."
+					"$p$p(The Kitchen)$nYou can't see any such thing."
+	END VERB.
+
+END THE.
+
+
+
+THE bolt ISA OBJECT AT lr
+	NAME bolt NAME metal bar
+	IS closeable. IS closed.
+	IS NOT oiled.
+	IS NOT takeable.
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY
+			IF bolt IS closed
+				THEN "The metal bar of the bolt is in the socket in the door frame. You'll have to pull the bolt open
+					for the door to open."
+						"$p$p(The Kitchen)$nYou can't see any such thing."
+				ELSE "You have pulled the bolt open."
+						"$p$p(The Kitchen)$nYou can't see any such thing."
+			END IF.	
+	END VERB.
+
+
+	VERB open
+		DOES ONLY
+			IF bolt IS NOT oiled
+				THEN "The bolt won't budge however much you try to pull it. It seems to be rather rusty."
+					 	"$p$p(The Kitchen)$nYou can't see any such thing."
+				ELSE "You pull the oiled bolt open with relative ease."
+							"$p$p(The Kitchen)$nYou can't see any such thing."
+					MAKE bolt NOT closed. MAKE f_door NOT bolted.
+			END IF.		
+	END VERB.
+
+
+	VERB pull
+		DOES ONLY
+			IF bolt IS NOT oiled
+				THEN "The bolt won't budge however much you try to pull it. It seems to be rather rusty."
+					 	"$p$p(The Kitchen)$nYou can't see any such thing."
+				ELSE "You pull the oiled bolt open with relative ease."
+							"$p$p(The Kitchen)$nYou can't see any such thing."
+					MAKE bolt NOT closed. MAKE f_door NOT bolted.
+			END IF.		
+	END VERB.
+
+
+	VERB close
+		DOES ONLY "It wouldn't serve any of your purposes to close the bolt."	
+					"$p$p(The Kitchen)$nYou can't see any such thing."
+	END VERB.
+
+
+	VERB oil
+		DOES ONLY
+			IF bottle IN hero
+				THEN "You oil the bolt using the bottle you found in the white bedroom."
+						MAKE bolt oiled.
+						"$p$p(The Kitchen)$nYou can't see any such thing."
+				ELSE "You don't have anything to oil the bolt with."
+							"$p$p(The Kitchen)$nYou can't see any such thing."
+			END IF.
+	END VERB.
+
+
+END THE.
+
+
+SYNTAX oil = oil (obj)
+	WHERE obj ISA OBJECT
+		ELSE "That doesn't need oiling."
+
+ADD TO EVERY OBJECT
+VERB oil DOES "That doesn't need oiling." END VERB.
+END ADD TO.
+
+
+THE sofa ISA SUPPORTER AT lr
+	DESCRIPTION ""
+	IS NOT takeable.
+	
+	VERB examine
+		DOES ONLY "It's a threadbare, dusty sofa."
+				"$p$p(The Kitchen)$nYou can't see any such thing."
+	END VERB.
+
+	VERB search
+		DOES ONLY "You find nothing further of interest."
+				"$p$p(The Kitchen)$nYou can't see any such thing."
+	END VERB.
+
+	VERB look_under
+		DOES ONLY "You notice nothing unusual under the sofa."
+				"$p$p(The Kitchen)$nYou can't see any such thing."
+	END VERB.
+
+	VERB look_behind
+		DOES ONLY "You notice nothing unusual behind the sofa."
+				"$p$p(The Kitchen)$nYou can't see any such thing."
+	END VERB.
+
+END THE.
+
+
+THE fireplace ISA OBJECT AT lr
+	NAME fireplace NAME ashes
+	DESCRIPTION ""
+	IS NOT takeable.
+
+	VERB examine
+		DOES ONLY "It's a small fireplace built of red bricks. Some ashes have been left in the fireplace."	
+					IF ring NOT AT lr
+						THEN "$pSomething glitters among the ashes."
+					END IF.
+				"$p$p(The Kitchen)$nYou can't see any such thing."
+	END VERB.
+
+	VERB search
+		DOES ONLY 
+				IF ring NOT AT lr
+					THEN
+				"You find a blackened silver ring amongst the ashes."	
+				"$p$p(The Kitchen)$nYou can't see any such thing."
+				LOCATE ring AT lr. LOCATE silver AT lr.
+					ELSE
+				"You find nothing else of interest."
+				END IF.
+	END VERB.
+
+END THE.
+
+
+THE ring ISA OBJECT
+	NAME silver ring NAME blackened
+	HAS value 1.
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "It's a small silver ring, blackened from having lied in the ashes for who knows how long."
+				"$p$p(The Kitchen)$nYou can't see any such thing."
+	END VERB.
+
+
+	VERB search
+		DOES ONLY "You find nothing further of interest."
+				"$p$p(The Kitchen)$nYou find nothing further of interest."
+	END VERB.
+
+	VERB take
+		DOES ONLY
+			IF value OF ring = 1
+					THEN
+				"You pick up the silver ring and turn it in your hands for a while. Well well, what should you make of this?
+				A final scene of divorce before the people who used to live here moved out altogether? You'll never know,
+				and you won't have to. Carefully you put the ring back to where you found it."
+				INCREASE value OF ring.
+					ELSE 
+				"You don't feel like picking the ring up another time."
+			END IF.
+			"$p$p(The Kitchen)$nYou can't see any such thing."
+	END VERB.
+
+	VERB wear
+		DOES ONLY "You don't feel like wearing somebody else's ring."
+				IF key AT kitchen
+					THEN "$p$p(The Kitchen)$nThat's not something you can wear."
+				END IF.
+	END VERB.
+
+END THE.
+
+
+THE silver ISA OBJECT
+	MENTIONED "ring"
+	HAS value 1.
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "It's a small silver ring, blackened from having lied in the ashes for who knows how long."
+			IF key AT kitchen
+				THEN "$p$p(The Kitchen)$nIt's a shiny silver key."
+			END IF.
+	END VERB.
+
+
+	VERB search
+		DOES ONLY "You find nothing further of interest."
+				"$p$p(The Kitchen)$nYou find nothing further of interest."
+	END VERB.
+
+
+	VERB take
+		DOES ONLY 
+				IF value OF ring = 1
+					THEN
+				"You pick up the silver ring and turn it in your hands for a while. Well well, what should you make of this?
+				A final scene of divorce before the people who used to live here moved out altogether? You'll never know,
+				and you won't have to. Carefully you put the ring back to where you found it."
+				INCREASE value OF ring.
+					ELSE 
+				"You don't feel like picking the ring up another time."
+				END IF.
+				IF key AT kitchen
+					THEN "$p$p(The Kitchen)$nTaken."
+						LOCATE key IN hero.
+						LOCATE silver AT nowhere.
+				END IF.
+	END VERB.
+
+	VERB wear
+		DOES ONLY "You don't feel like wearing somebody else's ring."
+				IF key AT kitchen
+					THEN "$p$p(The Kitchen)$nThat's not something you can wear."
+				END IF.
+	END VERB.
+
+END THE.
+
+
+THE lr_window ISA WINDOW AT lr
+	NAME window
+	DESCRIPTION ""
+END THE.
+
+
+
+
+THE kitchen_door ISA DOOR AT lr
+	NAME kitchen door
+	IS lockable. IS locked.
+	DESCRIPTION ""
+END THE.
+
+
+THE kitchen ISA ROOM
+	DESCRIPTION "An old oven stands against one wall,
+			and you can also see a rusty fridge and some cupboards here."
+			IF key AT kitchen
+				THEN IF key NOT IN hero
+					THEN "On a table in the middle of the room there is a shiny silver key."
+					END IF.
+			END IF. 
+			"Otherwise there is nothing of importance to be seen around. The door to
+			the living-room is to the east."  
+END THE.
+
+
+
+
+
+
+THE oven ISA SCENERY AT kitchen
+END THE.
+
+THE fridge ISA SCENERY AT kitchen
+	NAME fridge NAME cupboards
+END THE.
+
+THE k_table ISA SCENERY AT kitchen
+	NAME table
+END THE.
+
+THE kitchen_window ISA WINDOW AT kitchen
+	NAME window
+END THE.
+
+THE key ISA OBJECT AT kitchen
+	NAME silver key NAME silver NAME shiny
+	MENTIONED "key"
+
+	VERB examine
+		DOES ONLY "It's a shiny silver key."
+	END VERB.
+
+	VERB drop
+		DOES ONLY "Never throw away the keys you've found - that's what you've learned from 
+				countless text adventures."
+			IF key IN hero
+				THEN "$p$p(The Kitchen)$nNever throw away the keys you've found - that's what you've learned from 
+				countless text adventures."
+			END IF.
+	END VERB.
+
+END THE.
+
+
+
+
+-- EVENTS -------------------------------------------------------------------------------------------------------------------
+
+
+
+EVENT welcome
+	"$p$p$pFor a while you look around, somewhat perplexed. Then the inevitable question pops into your mind: where the heck is
+	the location description? It looks as if you have to figure it out yourself, and that's what you will definitely do - until each of those
+	dotted lines is replaced by a sentence." 
+	IF visited OF wbr < 2
+		THEN
+	"You have the feeling that the house is playing
+	tricks on you in its attempts to resist being torn down."
+	END IF.
+END EVENT.
+
+
+THE bbr_object ISA OBJECT
+	HAS value 0.
+END THE.
+
+EVENT bbr_briefing
+	IF value OF bbr_object < 2
+		THEN
+	"$pIt seems that the names of the objects on the table have been obscured." 
+	IF visited OF bbr < 2 THEN
+	"The house insists on giving you a hard time."
+	END IF.
+	"$p(To guess an object, just examine it straight with its real name.)"
+		INCREASE value OF bbr_object.
+	END IF.
+END EVENT.
+
+
+EVENT livingroom_briefing
+	IF visited OF lr < 2
+		THEN
+	"$p$pHmm. Whats' up with the double location description, of both the living-room and the kitchen?"
+	SCHEDULE livingroom_briefing2 AT hero AFTER 1.
+	END IF.
+END EVENT.
+
+
+EVENT livingroom_briefing2
+		"$p$pYou slowly deduce what's going on.
+		Here your every command is carried out first in the living-room and immediately afterwards in the kitchen, 
+		 as if you were present in the two locations simultaneously. It's also quite obvious that trying to do something unsuccessfully 
+		in the living-room will stop the action, and the command won't be carried out in the kitchen. You'll have to be careful."
+END EVENT.
+
+
+EVENT ending
+      "$pYou emerge out of the house. 
+	The constructors, having spotted you a while ago, are already waiting outside with their bulldozers, some way off. 
+	$p""Well, what's your verdict, Paladin?"" they shout eagerly.
+	$pStanding in the doorway, it's suddenly crystal-clear what you have to say. With a loud voice, you shout back your message to them:
+	$p""I'm sorry to tell you, good sirs,"" you answer, ""that there will be no work for your machines today - this house is to stay erect. 
+	It has given me great pleasure to roam through it; I've learned something of its character and 
+	have actually grown quite fond of it. 
+	I know that it has to go from this spot - I will have it transferred to a pleasant estate on the outskirts of town where it
+	shall stand in a location it deserves and where it shall receive a renovation that will do it justice.
+	You see, this house has got that spirit of adventure I know how to appreciate. 
+	Gentlemen, it's been a pleasure working for you.""
+	$pWith all of that said you turn away, re-enter the house and close the door.
+	$p> sleep on sofa
+	$p$i * * * $tYou take a well-earned nap.$t* * *$p"
+	QUIT.
+END EVENT. 
+
+
+VERB xyzzy DOES "Yeeeeeeeeeehaaaaaaaaaaaaa!" END VERB.
+VERB plugh DOES "Sorry, we only serve coffee here." END VERB.
+VERB clap DOES "Nothing happens against the empty echo of your clapping." END VERB.
+	
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+VERB walkthru
+
+	DOES
+
+	"Getting into the house: nw, sw, lift fence, ne, put ladder against wall, u.
+	 
+	$pWhite bedroom: x door, look under bed, x piano, play piano, x dresser, x drawer, open drawer, x shoes,
+				open wardrobe, x jacket, search jacket, read note, play ""f"" on the piano, play ""g"" on the piano, 
+				play ""d"" on the piano, take bottle, s.
+	
+	 $pRed bedroom: read note, x photo, x doll, x novel, x lp, x mirror, x dispenser, x candle, put photo on scale,
+			    put mirror on scale, put candle on scale, take handsaw, n, d.
+	
+	 $pLiving-room: oil bolt, open bolt, x fireplace, search ashes, take silver, unlock front door with key, open front door, saw boards, out."  
+
+END VERB.
+
+
+SYNONYMS walkthrough = walkthru.
+
+
+THE banner ISA OBJECT
+	DESCRIPTION 
+	STYLE alert. "$pTed Paladin And The Case of The Abandoned House" STYLE normal.  
+      "$nby Anssi Räisänen" -- enter your name here.
+	"$nVersion 1"  -- provide a version number if you want, otherwise delete this entire line.
+	"$nProgrammed with ALAN 3 beta2 for IFComp 2011
+	$nIf you're stuck, type 'help' or 'hint'.
+	$nType 'walkthru' to see the walkthrough. 
+	$nType 'credits' for credits and acknowledgments.
+	$nAll rights reserved."
+	
+END THE.
+
+
+START AT oh_e. 
+		SHOW 'TPCover1.png'.
+    "$pProgress is unstoppable. The world is in constant motion towards a brighter tomorrow.
+     Old things, when no longer of use, must yield to new concepts and ideas. 
+     $pThis is where you come in. An age-old, abandoned house stands in the way of a new shopping complex scheduled to be built downtown. 
+     All attempts at locating the legal proprietor of the house have failed, and you were approached in hopes of making 
+     sure that it is safe to bulldoze the building with nothing of value left inside. 
+     They couldn't have picked a better man for the job; after all, you're Ted Paladin, a seasoned text adventurer,
+     an intruder into the most impossibly implemented houses and an exposer of their darkest secrets. You're ready for another mission.$p" 
+
+      	
+DESCRIBE banner.
+
+
+
+

@@ -1,0 +1,134 @@
+options debug.
+
+the choose isa location
+description "This game contains two zones$p
+Go west to the zone where scripts are named$n
+or east to where scripts are numbered."
+exit west to named1.
+exit east to numbered1.
+end the.
+
+
+the named1 isa location
+description "You're at a place with an exit to the west.
+$p(or you could go east back to the choose location.)"
+exit west to named2.
+exit east to choose.
+end the.
+
+the named2 isa location
+description "you can exit east from this place."
+exit east to named1.
+end the.
+
+Add To every ACtor
+     Definite Article
+End Add.
+
+the annabelle isa ACTOR AT named2
+     IS NOT greeted.
+     SCRIPT howdy.
+          STEP
+               "$nannabelle says ""HI!"", which really annoys you."
+               MAKE annabelle greeted.
+               USE SCRIPT follow FOR annabelle.
+
+     SCRIPT follow.
+          STEP
+               LOCATE annabelle AT hero.
+               "$p""hi its me again"" says annabelle."
+               USE SCRIPT follow FOR annabelle.
+
+END THE.
+
+
+
+-- To make annabelle greet the hero only once (which works):
+WHEN hero AT annabelle AND annabelle IS NOT greeted =>
+     USE SCRIPT howdy FOR annabelle.
+
+
+
+the numbered1 isa location
+description "You're at a place with an exit to the east.
+$p(or you could go west back to the choose location.)"
+exit east to numbered2.
+exit west to choose.
+end the.
+
+the numbered2 isa location
+description "you can exit east from this place."
+exit west to numbered1.
+end the.
+
+
+
+the bosse isa ACTOR AT numbered2
+     IS NOT greeted.
+
+     SCRIPT s111.
+          STEP
+               "$nbosse says ""HI!"", which really annoys you."
+               MAKE bosse greeted.
+               USE SCRIPT s222 FOR bosse.
+
+     SCRIPT s222.
+          STEP
+               LOCATE bosse AT hero.
+               "$p""hi its me again"" says bosse."
+               USE SCRIPT s222 FOR bosse.
+
+END THE.
+
+
+
+-- To make bosse greet the hero only once (which works):
+WHEN hero AT bosse AND bosse IS NOT greeted =>
+     USE SCRIPT s111 FOR bosse.
+
+
+
+
+
+
+
+
+
+SYNTAX 'wait' = 'wait'.
+SYNONYMS
+  z = 'wait'.
+VERB 'wait' DOES
+   "Time passes..."
+END VERB.
+
+SYNTAX 'quit'='quit'.
+SYNONYMS q ='quit'.
+VERB 'quit' DOES
+    QUIT.
+END VERB.
+
+SYNTAX 'look' = 'look'.
+SYNONYMS
+  l = 'look'.
+VERB 'look' DOES
+  LOOK.
+END VERB.
+
+SYNONYMS
+e=east.
+w=west.
+
+
+
+
+
+
+start at choose.
+"Example for named scripts 'bug'.$n
+by stevgrif@moc.govt.nz$n
+scripts based on raif post by Peter Nilsson, elindh.pnilsson@ebox.tninet.se$p
+
+(Commands available:look,wait,quit.)$p
+
+(Compiled with Alan 2.7xxx for xxxxx OS.)"
+

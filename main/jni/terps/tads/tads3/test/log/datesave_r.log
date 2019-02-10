@@ -1,0 +1,15 @@
+--- Initial conditions ---
+date1 = 2011-11-11 00:00:00
+date2 = 1994-04-04 00:00:00
+tz1 = Australia/Sydney
+locale formatting: mardi, ao–t 23e, AD 2010
+
+--- With updates ---
+date1 = 2011-11-11 00:00:00
+date2 = 1994-04-04 00:00:00
+tz1 = Australia/Sydney
+locale formatting: mardi, ao–t 23e, AD 2010
+
+(T3VM) Memory blocks still in use:
+
+Total blocks in use: 0

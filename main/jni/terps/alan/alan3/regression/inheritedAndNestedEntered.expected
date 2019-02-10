@@ -1,0 +1,31 @@
+########## inheritedAndNestedEntered ##########
+
+        No warnings or errors detected.
+
+
+
+Outer
+
+> in
+Outer have visits = 1. Inner2 have visits = 1.
+
+Inner2
+
+> e
+Outer have visits = 2. Inner1 have visits = 1.
+
+Inner1
+
+> w
+Outer have visits = 3. Inner2 have visits = 2.
+
+Inner2
+
+> out
+Outer have visits = 4.
+
+Outer
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

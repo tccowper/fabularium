@@ -1,0 +1,21 @@
+########## eachIn ##########
+
+
+eachIn.alan
+
+    6.    Each i In unknown Of l Do
+=====>              1
+
+  *1*   315 E : Attribute not defined for 'l'.
+
+   14.    Each i Directly In l Do
+=====>                       1
+
+  *1*   318 E : The 'l' does not have the container property, which is required
+                in Expression after IN.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

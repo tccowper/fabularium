@@ -1,0 +1,22 @@
+Location loc Name Grand 'Location'
+  Description
+    "You are at a Grand Location."
+End Location.
+
+Object o At loc
+End Object.
+
+Syntax l = l.
+Verb l
+  Does
+    Look.
+End Verb.
+
+Syntax d = d.
+Verb d
+  Does
+    Describe Location.
+End Verb.
+
+Start At loc.
+  "'d' for describe, 'l' for look."

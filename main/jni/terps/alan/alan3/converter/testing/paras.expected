@@ -1,0 +1,54 @@
+########## paras ##########
+
+
+The l1 Isa location
+  
+  Description
+    "This is location 1. E has no exit output, W has exit output."
+  
+  Exit e To l2.
+  
+  Exit w To l2
+    Does
+      "Going west to l2."
+  End Exit.
+  
+End The l1.
+
+The l2 Isa location
+  
+  Description
+    "This is location 2. E has no exit output, W has exit output."
+  
+  Exit e To l1.
+  
+  Exit w To l1
+    Does
+      "Going west to l1."
+  End Exit.
+  
+End The l2.
+
+The motor Isa actor
+  At l2 
+  Script s1.
+    Step
+      "The motor moves you to L1."
+      Locate motor At l1.
+      Locate hero At l1.
+    Step After 5
+      "The motor moves you to L2."
+      Locate motor At l2.
+      Locate hero At l2.
+    Step After 5
+      Use Script s1 For motor.
+End The motor.
+
+When hero Here And Random 1 To 3 =1 Then
+  "Randomly moving you to first location."
+  Locate hero At l1.
+
+
+Start At l1.
+  Use Script s1 For motor.
+  

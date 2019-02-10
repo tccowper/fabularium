@@ -1,0 +1,25 @@
+Every menuEntry Isa entity
+  Has entries {menuEntry}.
+End Every menuEntry.
+
+Every menu Isa menuEntry
+End Every menu.
+
+The noMenu Isa menuEntry
+End The noMenu.
+
+The l Isa location
+End The l.
+
+The hero Isa actor
+  Has menuSelection noMenu.
+  IS tired.
+End The hero.
+
+Start At l.
+  If hero:menuSelection Isa menu Then  -- OK
+    ""
+  End If.
+  If hero:tired Isa menu Then  -- Not OK
+    ""
+  End If.

@@ -1,0 +1,9 @@
+The l1 Isa location
+    Exit e,w,n,s To l2.
+End The l1.
+
+The l2 Isa location
+    Entered "We're at" Say Current Location. "."
+End The l2.
+
+Start At l1.

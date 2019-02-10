@@ -1,0 +1,20 @@
+The outer Isa location
+  Entered "You are now entering the outer area."
+End The outer.
+
+The inner Isa location At outer
+  Entered "You are now entering the inner area."
+  Exit w To second.
+  Exit e To other.
+End The inner.
+
+The second Isa location At outer
+  Entered "You are now entering the second inner area."
+  Exit e To inner.
+End The second.
+
+The other Isa Location
+  Exit w To inner.
+End The other.
+
+Start At other.

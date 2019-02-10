@@ -1,0 +1,11 @@
+The l Isa xl
+End THe l
+
+Every xl Isa location
+  Exit w to unknown.
+  Exit e to l Check unknown Is hot Else Make unknown hot.
+    Does Make unknown hot.
+  End Exit.
+End Every xl.
+
+Start At l.

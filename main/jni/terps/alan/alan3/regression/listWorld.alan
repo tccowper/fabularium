@@ -1,0 +1,25 @@
+The l Isa location
+  Has Not found.
+End The l.
+
+The t Isa object At l
+  Name t
+  Name s
+End The t.
+
+Start At l.
+  "The world consists of"
+  For Each i Do
+    If found Of l Then "," End If.
+    Say i.
+    Make l found.
+  End For.
+  "."
+  "The things in it are"
+  Make l Not found.
+  For Each i Not Isa location Do
+    If found Of l Then "," End If.
+    Say i.
+    Make l found.
+  End For.
+  "."

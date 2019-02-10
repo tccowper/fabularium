@@ -1,0 +1,55 @@
+Syntax take = take (o)*.
+Syntax drop = drop (o)*.
+
+Add To Every object
+  Verb take
+    Check o Not In hero
+      Else "You already have the" Say o. "$$."
+    Does
+      Locate o In hero.
+      "Taken."
+  End Verb take.
+
+  Verb drop
+    Check o In hero
+      Else "You don't have the $1."
+    Does
+      Locate o Here.
+      "Dropped."
+  End Verb drop.
+End Add.
+
+Syntax l = 'look'.
+Verb l
+  Does
+    Look.
+End Verb l.
+
+Syntax i = i.
+Verb i
+  Does
+    List hero.
+End Verb i.
+
+The hero Isa actor
+Container
+  Header "You are carrying"
+  Else "You are empty handed."
+End The hero.
+
+The loc Isa location
+End The loc.
+
+The thing1 Isa Object Name shiny long thing
+End The thing1.
+
+The thing2 Isa Object Name rusty long thing At loc
+End The thing2.
+
+The thing3 Isa Object Name shiny short thing At loc
+End The thing3.
+
+The thing4 Isa Object Name rusty short thing At loc
+End The thing4.
+
+Start At loc.

@@ -1,0 +1,27 @@
+Syntax 'play' = 'play' (s)
+  Where s Isa object
+    Else Say sound Of s.
+
+Add To Every entity
+  Has sound "Wonderful!".
+End Add.
+
+Add To Every object
+  Verb 'play'
+    Does "It sounds wonderful."
+  End Verb.  
+End Add To.
+
+The piano Isa object At l
+  Verb 'play'
+    Does
+		"It sounds terrible."
+		Set sound Of this To "terrible".
+  End Verb.  
+End The piano.
+
+The l Isa location
+End The l.
+
+Start At l.
+  "'Play ""c""' then 'play piano' and then 'play ""c""'"

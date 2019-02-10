@@ -1,0 +1,40 @@
+Every dark_location Isa location
+  Is dark 1.
+  Description
+    Check dark Of This Not = 1 else "It is pitch dark 1."
+End Every dark_location.
+
+Every darker_location Isa dark_location
+  Description
+    Check dark Of This Not = 2 else "It is pitch dark 2."
+End Every darker_location.
+
+The l1 Isa darker_location
+  Has dark 1.
+  Description
+    "This is the first location."
+
+  Exit w To l2.
+
+End The l1.
+
+
+The o1 Isa object At l1.
+End The o1.
+
+
+The l2 Isa darker_location
+  Has dark 2.
+  Description
+    "This is the second location."
+
+  Exit w To l1.
+
+End The l2.
+
+
+The o2 Isa object At l2.
+End The o2.
+
+ 
+Start At l1.

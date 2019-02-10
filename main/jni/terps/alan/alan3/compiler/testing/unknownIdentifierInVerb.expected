@@ -1,0 +1,31 @@
+########## unknownIdentifierInVerb ##########
+
+
+unknownIdentifierInVerb.alan
+
+    2.    Where io Isa container
+=====>          1
+
+  *1*   222 E : Identifier 'io' in class restriction is not a parameter.
+
+    7.      Does
+=====>      1
+
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'put_in', depending on the parameter
+                restrictions. You might want to use a WHEN clause to specify
+                for which parameter this alternative is to be run.
+
+    8.        Locate obj In cont.
+=====>               1      2
+
+  *1*   310 E : Identifier 'obj' not defined. The verb 'put_in' has the
+                parameters 'direct' and 'indirect'.
+  *2*   310 E : Identifier 'cont' not defined. The verb 'put_in' has the
+                parameters 'direct' and 'indirect'.
+
+
+        3 error(s).
+        1 warning(s).
+        1 informational message(s).
+

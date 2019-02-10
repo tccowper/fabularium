@@ -1,0 +1,30 @@
+########## object_directly_at_object ##########
+
+        No warnings or errors detected.
+
+
+
+O Directly At o: yes, ok 
+o Directly At oi1: no, ok 
+o Directly At oi2: no, ok 
+o Directly At om: no, ok 
+oi1 Directly At o: no, ok 
+oi1 Directly At oi1: yes, ok 
+oi1 Directly At oi2: no, ok 
+oi1 Directly At om: no, ok 
+oi2 Directly At o: no, ok 
+oi2 Directly At oi1: no, ok 
+oi2 Directly At oi2: yes, ok 
+oi2 Directly At om: no, ok 
+om Directly At o: no, ok 
+om Directly At oi1: no, ok 
+om Directly At oi2: no, ok 
+om Directly At om yes, ok
+
+
+Inner1
+There is a oi1 here.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

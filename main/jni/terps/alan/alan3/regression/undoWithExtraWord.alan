@@ -1,0 +1,10 @@
+The loc Isa location
+  Is full.
+End The loc.
+
+Verb x
+  Does
+    Make loc Not full.
+End Verb x.
+
+Start At loc.

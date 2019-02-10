@@ -1,0 +1,23 @@
+########## addExit ##########
+
+
+addExit.alan
+
+   16.    Exit w, s To unknown.
+=====>         1       2
+
+  *1*   240 E : Exit 'w' already defined for class 'xl'. You cannot add it. You
+                can override it by subclassing from class 'xl'.
+  *2*   310 E : Identifier 'unknown' not defined.
+
+   24.    Exit n To unknown.
+=====>    1
+
+  *1*   336 E : You cannot Add Exits to something not inheriting from the
+                predefined class 'location'.
+
+
+        3 error(s).
+        No detected warnings.
+        1 informational message(s).
+

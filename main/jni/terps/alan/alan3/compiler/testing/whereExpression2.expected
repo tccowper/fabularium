@@ -1,0 +1,16 @@
+########## whereExpression2 ##########
+
+
+whereExpression2.alan
+
+   15.    If Current Location In Current Location Then "l in l" End If.
+=====>       1
+
+  *1*   324 E : Cannot refer to Current Location in the What-clause of a Where
+                expression.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

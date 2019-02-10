@@ -1,0 +1,14 @@
+The l Isa location
+  Has ref l.
+  Has i 0.
+  Description
+    If o At ref Of This Then "" End If.
+End The l.
+
+The o Isa object
+End The o.
+
+Start At l.
+  If o At unknownRef Of l Then "" End If.
+  If o At ref Of l Then "" End If.
+  If o At i Of l Then "" End If.

@@ -1,0 +1,7 @@
+The l Isa location
+  Has l {l}.
+End The l.
+
+Start At l.
+  If l Directly In l Of l Then "" End If. -- Can't use DIRECTLY with INSET
+

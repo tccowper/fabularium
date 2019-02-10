@@ -1,0 +1,26 @@
+########## giveSyntaxes ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a ball here. There is a policeman here.
+
+> give policeman the ball
+OBJECT: Give policeman ball. Give ball to policeman. ACTOR: Give policeman 
+ball. Give ball to policeman.
+
+> give the ball to the policeman
+OBJECT: Give policeman ball. Give ball to policeman. ACTOR: Give policeman 
+ball. Give ball to policeman.
+
+> give ball the policeman
+Only actors will appreciate gifts.
+
+> give policeman to the ball
+Only actors will appreciate gifts.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

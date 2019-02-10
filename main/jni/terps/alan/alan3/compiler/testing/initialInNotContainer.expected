@@ -1,0 +1,21 @@
+########## initialInNotContainer ##########
+
+
+initialInNotContainer.alan
+
+    4.  The o Isa object In l
+=====>                      1
+
+  *1*   318 E : The 'l' does not have the container property, which is required
+                in Expression after IN.
+
+    7.  The cont Isa object In object
+=====>                         1
+
+  *1*   319 E : Identifier 'object' is not an Instance.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

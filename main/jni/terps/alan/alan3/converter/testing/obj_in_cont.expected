@@ -1,0 +1,33 @@
+########## obj_in_cont ##########
+Options
+  debug.
+  
+
+
+Syntax
+  examine = 'examine' (obj).
+
+Verb examine
+  Does
+    Describe obj.
+End Verb.
+
+
+The toolbox Isa object
+  At l 
+  With Container
+End The toolbox.
+
+The hammer Isa object
+  In toolbox 
+End The hammer.
+
+The l Isa location
+  
+End The l.
+
+Start At l.
+  "$pThe hammer should be in the toolbox:"
+  List toolbox.
+  "$pNow try 'examine toolbox'."
+  

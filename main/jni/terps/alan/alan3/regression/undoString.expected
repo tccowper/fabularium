@@ -1,0 +1,30 @@
+########## undoString ##########
+
+        No warnings or errors detected.
+        2 informational message(s).
+
+
+
+Loc
+The loc has string string
+
+> l
+Loc
+The loc has string string
+
+> s
+
+> l
+Loc
+The loc has string another
+
+> undo
+'s' undone.
+
+> l
+Loc
+The loc has string string
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

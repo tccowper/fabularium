@@ -1,0 +1,58 @@
+########## messageParameter ##########
+
+
+messageParameter.alan
+
+    3.    Verb x
+=====>    1
+
+  *1*   426 W : Adding a Verb to the pre-defined class 'entity' will result in
+                multiple executions of it, since it will be inherited by both
+                all locations and all objects. This is probably not what you
+                want. Try adding it to 'thing' instead.
+
+   67.    Verb kick
+=====>         1
+
+  *1*   232 W : Default syntax for this verb restricted the parameter to class
+                'location', which is probably not what you wanted. Suggest you
+                add an explicit syntax instead.
+
+
+        No detected errors.
+        2 warning(s).
+        2 informational message(s).
+
+
+
+L
+There is a large s, a small s and a medium s here.
+
+> x p
+Ich kann hier keiner p (not neuter: large p) nicht sehen.
+
+> x q
+Ich kann hier kein q (neuter: small q) nicht sehen.
+
+> x small p
+Ich kann hier keiner small p (not neuter: large p) nicht sehen.
+
+> x large q
+Ich kann hier kein large q (neuter: small q) nicht sehen.
+
+> x large r
+Ich kann hier kein large r (neuter: small q) nicht sehen.
+
+> kick large s
+You can't do that.
+
+> x s
+Try again and specify either neuter a large s, neuter the small s or 
+neuter the medium s.
+
+> x them
+??? Them ???
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

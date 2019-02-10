@@ -1,0 +1,15 @@
+########## makeInteger ##########
+
+
+makeInteger.alan
+
+    5.    Make 1 something.
+=====>         1
+
+  *1*   442 E : Only instances have attributes.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

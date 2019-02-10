@@ -1,0 +1,34 @@
+Every topic Isa entity
+End Every topic.
+
+The aTopic Isa topic
+End The aTopic.
+
+Every subtopic Isa topic
+End Every subtopic.
+
+The aSubTopic Isa subtopic
+End The aSubTopic.
+
+Every talker Isa actor
+  Has t aTopic.
+  Has s aTopic.
+  Has r aTopic.
+End Every talker.
+
+Every subtalker Isa talker
+  Has t aSubTopic.
+  Has s l.
+  Has r 4.
+End Every subtalker.
+
+The aSubtalker Isa subtalker
+End The aSubtalker.
+
+The l Isa location
+End The l.
+
+Start At l.
+  Set t of aSubtalker To aTopic.   -- Should be OK
+  Set t of aSubTalker To l.	-- Should only allow topics
+

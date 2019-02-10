@@ -1,0 +1,19 @@
+The l Isa location
+    Verb v
+        Does
+            If o Isa object Then
+                Say attribute Of o.
+            End If.
+    End Verb.
+End The l.
+
+The o Isa object At l
+End The o.
+
+Add To Every object
+  Has attribute 42.
+End Add.
+
+Syntax v = v (o) Where o Isa thing Else ""
+
+Start At l.

@@ -1,0 +1,11 @@
+event e
+  locate actor in cont.
+end event.
+
+location loc
+end location.
+
+container cont
+end container.
+
+start at loc.

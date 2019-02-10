@@ -1,0 +1,124 @@
+-- From:	VAZ::GORFO        "GorFo at EpiTec"  6-APR-1988 10:12
+-- To:	GOLLUM::THONI,GORFO       
+-- Subj:	Vad h{nder med EVENTen ?
+-- 
+-- Hall} d{r!
+-- 
+-- Hur {r det egentligen med exekveringen av EVENTs ?
+-- 
+-- Jag inser att ordningen mellan tv} (i princip) samtidiga
+-- h{ndelser beror p} implementeringen, men hur kommer det
+-- sig att de inte alltid sl}r till efter den tid man skulle
+-- tro?
+-- 
+-- Skickar med en fil, som du (f|rhoppningsvis) kan kompilera.
+-- G|r detta, och s{tt dig och g|r 'WAIT' ett antal g}nger
+-- och se vad som h{nder.
+-- 
+-- Kylan kommer t.ex. efter 4 och sedan 9 (inte 8) drag. Vinden
+-- speper in efter 5 och 10 drag (som v{ntat). Fast efter c:a
+-- 17-18 drag s} skiljer det 2 drag och mer blir det.
+-- 
+-- Det har v{l att g|ra med om man nollst{ller flaggan innan man 
+-- tittar p} den, men effekten {r i alla fall ganska intressant.
+-- 
+-- OK, h{r kommer texten:
+--------------------------------------------------------------
+LOCATION outside
+	DESCRIPTION
+		"You are outside in the Sibirian winter night."
+END LOCATION.
+
+
+SYNTAX w = 'wait'.
+SYNONYMS 'w' = 'wait'.
+
+VERB w DOES
+	"Time goes by."
+END VERB.
+
+
+SYNTAX l = 'look'.
+SYNONYMS 'l' = 'look'.
+VERB l DOES
+	LOOK.
+END VERB.
+
+
+OBJECT weather
+
+	IS NOT snowing.
+	NOT snow_coming.
+	NOT wind_coming.
+	NOT cold_coming.
+
+	DESCRIPTION
+		IF weather IS snowing
+		THEN
+			"Big snow flakes are falling."
+		END IF.
+
+END OBJECT.
+
+
+EVENT weather_scheduler
+
+	DESCRIBE weather.
+	IF weather IS NOT snow_coming
+	THEN 
+		SCHEDULE start_snowing AFTER 8.
+		MAKE weather snow_coming.
+	END IF.
+	IF weather IS NOT wind_coming
+	THEN
+		SCHEDULE wind_coming AFTER 5.
+		MAKE weather wind_coming.
+	END IF.	
+	IF weather IS NOT cold_coming
+	THEN
+		SCHEDULE cold_coming AFTER 4.
+		MAKE weather cold_coming.
+	END IF.
+	SCHEDULE weather_scheduler AFTER 1.
+
+END EVENT.
+
+
+EVENT start_snowing
+
+	MAKE weather snowing.
+	"You feel something gently touching your chin. It's a snow
+	flake."
+	SCHEDULE stop_snowing AFTER 5.
+
+END EVENT.
+
+
+EVENT stop_snowing
+
+	MAKE weather NOT snowing.
+	"The snowing appears to be lighter."
+	MAKE weather NOT snow_coming.
+
+END EVENT.
+
+
+EVENT wind_coming
+
+	"You can feel a cold wind sweeping down
+	from the Sibirian wastelands."
+	MAKE weather NOT wind_coming.
+
+END EVENT.
+
+
+EVENT cold_coming
+
+	"The temperature is NOT that of sunny Southern
+	California. It's rather quite chilly."
+	MAKE weather NOT cold_coming.
+
+END EVENT.
+
+START AT outside.
+SCHEDULE weather_scheduler AFTER 0.

@@ -1,0 +1,31 @@
+The l Isa location
+End The l.
+
+Add To Every object
+  Has objectAttribute 3.
+End Add.
+
+Add To Every thing
+  Has thingAttribute 4.
+End Add.
+
+Add To Every thing
+  Verb x
+  End Verb x.
+End Add.
+
+Syntax x = x (i) (j)
+  Where i Isa thing
+    Else
+	Say thingAttribute Of j.
+	Say objectAttribute Of j.
+	Say thingAttribute Of i.
+	Say objectAttribute Of i.
+  And i Isa object
+    Else
+	Say thingAttribute Of j.
+	Say objectAttribute Of j.
+	Say thingAttribute Of i.
+	Say objectAttribute Of i.
+
+Start At l.

@@ -1,0 +1,53 @@
+########## vastspace ##########
+Options
+  language english.
+  
+
+
+Synonyms
+  'e' = 'east'.
+  'w' = 'west'.
+  
+
+Syntax
+  q = 'quit'.
+
+Add To Every actor
+  Is
+    x  0.
+End Add To.
+
+Verb q
+  Does
+    Quit.
+End Verb.
+
+
+The line Isa location
+  Name endless line
+  
+  Description
+    "$nYou are at position"
+    Say x Of hero.
+    "- you may go east or west."
+  
+  Exit west To line
+    Does
+      Decrease x Of hero.
+  End Exit.
+  
+  Exit east To line
+    Does
+      Increase x Of hero.
+  End Exit.
+  
+End The line.
+
+The hero Isa actor
+  Name me
+  
+End The hero.
+
+
+Start At line.
+  

@@ -1,0 +1,21 @@
+########## depend ##########
+
+
+The l Isa location
+  
+  Verb x
+    Does
+      Depending On y Of l
+        =4 Then 
+          "help"
+        >1 Then 
+          Make l y.
+        Else 
+          "Hello"
+      End Depend.
+  End Verb.
+  
+End The l.
+
+Start At l.
+  

@@ -1,0 +1,8 @@
+The l Isa location
+  Exit e to l.
+End The l.
+
+Start At l.
+  For Each e Isa object Do
+    Say a Of e.
+  End For.

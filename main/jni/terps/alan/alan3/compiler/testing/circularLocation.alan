@@ -1,0 +1,19 @@
+The c1 Isa location At c1
+End The c1.
+
+The c2 Isa location At c3
+End The c2.
+
+The c3 Isa location At c2
+End The c3.
+
+The c4 Isa location At c5
+End The c4.
+
+The c5 Isa location At c6
+End The c5.
+
+The c6 Isa location At c4
+End The c6.
+
+Start At c1.

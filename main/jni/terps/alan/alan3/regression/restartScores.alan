@@ -1,0 +1,13 @@
+The l Isa location
+  Description
+    Score 5.
+    Score.
+    "You have" Say Score. "points."
+End The l.
+
+Verb 'restart'
+  Does
+    Restart.
+End Verb.
+
+Start At l.

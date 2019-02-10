@@ -1,0 +1,8 @@
+The l Isa location
+  Has level 0.
+  Description
+    Increase level Of This.
+    "Increasing level to" Say level Of this.
+End The l.
+
+Start At l.

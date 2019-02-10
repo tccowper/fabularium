@@ -1,0 +1,87 @@
+########## clock ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+Waiting for a train
+
+
+Platform
+You are standing on a subway platform, clutching a timetable, hoping your
+train will arrive soon. There is a clock here. 
+
+The clock reads 4:50 pm
+
+> read timetable
+The next train is at 5:03 pm. You check the clock. Only 12 minutes to go. 
+
+The clock reads 4:51 pm
+
+> z
+Another minute passes as you impatiently watch the clock. 
+
+The clock reads 4:52 pm
+
+> z
+Another minute passes as you impatiently watch the clock. 
+
+The clock reads 4:53 pm
+
+> z
+Another minute passes as you impatiently watch the clock. 
+
+The clock reads 4:54 pm
+
+> z
+Another minute passes as you impatiently watch the clock. 
+
+The clock reads 4:55 pm
+
+> read timetable
+The next train is at 5:03 pm. You check the clock. Only 7 minutes to go. 
+
+The clock reads 4:56 pm
+
+> z
+Another minute passes as you impatiently watch the clock. 
+
+The clock reads 4:57 pm
+
+> z
+Another minute passes as you impatiently watch the clock. 
+
+The clock reads 4:58 pm
+
+> z
+Another minute passes as you impatiently watch the clock. 
+
+The clock reads 4:59 pm
+
+> read timetable
+The next train is at 5:03 pm. You check the clock. Only 3 minutes to go. 
+
+The clock reads 5:00 pm
+
+> z
+Another minute passes as you impatiently watch the clock. 
+
+The clock reads 5:01 pm
+
+> z
+Another minute passes as you impatiently watch the clock. 
+
+The clock reads 5:02 pm
+
+> z
+Another minute passes as you impatiently watch the clock. The train
+arrives.
+
+The doors open. You step aboard and take a seat. As the train moves off
+again you breathe a sigh of relief, happy to be on your way.
+
+
+
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

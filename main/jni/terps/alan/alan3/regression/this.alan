@@ -1,0 +1,14 @@
+
+Syntax y = y (o).
+
+The l Isa location
+End The l.
+
+The x Isa object At l
+  Verb y
+    Does
+      Say This.
+  End Verb.
+End The x.
+
+Start At l.

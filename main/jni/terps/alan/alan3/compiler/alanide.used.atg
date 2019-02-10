@@ -1,0 +1,730 @@
+COMPILER adventure
+
+IGNORECASE
+
+CHARACTERS
+	tab	=	'\t'.	/*  9 = tabulator */
+	lf	=	'\n'.	/* 10 = line feed */
+	cr	=	'\r'.	/* 13 = carriage return */
+
+	zero		= '0'.
+	zeroToThree	= zero + "123" .
+	octalDigit	= zero + "1234567" . 
+	nonZeroDigit	= "123456789".
+	digit     	= '0' + nonZeroDigit .
+	hexDigit	= digit + "ABCDEFabcdef" .
+	letter    	= 'A' .. 'Z' + 'a' .. 'z' + '_' + '$' +
+                          '\u00e0'..'\u00f6' + '\u00f8'..'\u00fe'.
+
+	char		= ANY - "'" - '\\' - cr - lf.
+	stringChar	= ANY - "\"".
+
+TOKENS
+	Identifier	= (letter {letter | digit | '_'})
+	                | ('\'' {char} '\'').
+	Integer		= digit {digit}.
+	STRING		= '"' {stringChar | "\"\"" } '"'.
+	Import		= "import".
+
+COMMENTS FROM "--" TO lf
+
+IGNORE lf + cr + tab
+
+PRODUCTIONS
+
+ adventure = optionaloptions declarations start 
+            .
+
+ optionaloptions = 
+                  | genSym0 options 
+                   .
+
+ genSym0 = "options" 
+          | "option" 
+           .
+
+ options = option 
+         | options option 
+          .
+
+ option = ID "." 
+        | ID ID "." 
+        | ID Integer "." 
+         .
+
+ declarations = 
+              | declarations declaration 
+               .
+
+ declaration = "import" 
+             | messages 
+             | class 
+             | instance 
+             | rule 
+             | synonyms 
+             | syntax 
+             | verb 
+             | addition 
+             | event 
+              .
+
+ attributes = attributedefinition "." 
+            | attributes attributedefinition "." 
+             .
+
+ attributedefinition = ID 
+                      | "not" ID 
+                      | ID optionalminus Integer 
+                      | ID STRING 
+                      | ID ID 
+                      | ID "{" optionalmembers "}" 
+                       .
+
+ optionalmembers = 
+                  | setmembers 
+                   .
+
+ setmembers = setmember 
+             | setmembers "," setmember 
+              .
+
+ setmember = what 
+            | optionalminus Integer 
+            | STRING 
+             .
+
+ synonyms = "synonyms" synonymlist 
+           .
+
+ synonymlist = synonymdeclaration 
+              | synonymlist synonymdeclaration 
+               .
+
+ synonymdeclaration = idlist "=" ID "." 
+                      .
+
+ messages = "message" messagelist 
+           .
+
+ messagelist = message 
+              | messagelist message 
+               .
+
+ message = ID ":" statements 
+          .
+
+ syntax = "syntax" syntaxlist 
+         .
+
+ syntaxlist = syntaxitem 
+             | syntaxlist syntaxitem 
+              .
+
+ syntaxitem = ID "=" syntaxelements optionalsyntaxrestrictions 
+              .
+
+ syntaxelements = syntaxelement 
+                 | syntaxelements syntaxelement 
+                  .
+
+ syntaxelement = ID 
+                | "(" ID ")" optionalindicators 
+                 .
+
+ optionalindicators = 
+                     | optionalindicators indicator 
+                      .
+
+ indicator = "*" 
+           | "!" 
+            .
+
+ syntaxrestrictionclauses = syntaxrestriction 
+                            | syntaxrestrictionclauses "and" 
+                                 syntaxrestriction 
+                             .
+
+ syntaxrestriction = ID "isa" restrictionclass "else" statements 
+                     .
+
+ restrictionclass = ID 
+                   | "container" 
+                    .
+
+ optionalsyntaxrestrictions = "." 
+                              | "where" syntaxrestrictionclauses 
+                               .
+
+ verb = verbheader verbbody verbtail 
+       .
+
+ verbheader = "verb" idlist 
+              .
+
+ verbbody = simpleverbbody 
+           | verbalternatives 
+            .
+
+ verbalternatives = verbalternative 
+                   | verbalternatives verbalternative 
+                    .
+
+ verbalternative = "when" ID simpleverbbody 
+                   .
+
+ simpleverbbody = optionalchecks optionaldoes 
+                   .
+
+ verbtail = "end" "verb" optionalid "." 
+            .
+
+ optionalchecks = 
+                 | "check" statements 
+                 | "check" checklist 
+                  .
+
+ checklist = check 
+            | checklist "and" check 
+             .
+
+ check = expression "else" statements 
+        .
+
+ optionaldoes = 
+               | does 
+                .
+
+ does = "does" optionalqual statements 
+       .
+
+ class = "every" ID optionalheritage properties classtail 
+        .
+
+ classtail = "end" "every" optionalid genSym1 
+             .
+
+ genSym1 = 
+          | "." 
+           .
+
+ addition = "add" "to" genSym2 ID optionalheritage properties 
+               addtail 
+           .
+
+ genSym2 = 
+          | "every" 
+           .
+
+ addtail = "end" "add" genSym3 optionalid genSym4 
+           .
+
+ genSym3 = 
+          | "to" 
+           .
+
+ genSym4 = 
+          | "." 
+           .
+
+ instance = "the" ID optionalheritage properties instancetail 
+           .
+
+ instancetail = "end" "the" optionalid genSym5 
+                .
+
+ genSym5 = 
+          | "." 
+           .
+
+ optionalheritage = 
+                   | heritage 
+                    .
+
+ heritage = "isa" ID genSym6 
+           .
+
+ genSym6 = 
+          | "." 
+           .
+
+ properties = 
+            | properties property 
+             .
+
+ property = where genSym7 
+          | containerproperties 
+          | description 
+          | genSym8 articleorform 
+          | name 
+          | pronoun 
+          | initialize 
+          | entered 
+          | mentioned 
+          | "definite" articleorform 
+          | "negative" articleorform 
+          | is attributes 
+          | script 
+          | exit 
+          | verb 
+           .
+
+ genSym7 = 
+          | "." 
+           .
+
+ genSym8 = 
+          | "indefinite" 
+           .
+
+ exit = "exit" idlist "to" ID optionalexitbody "." 
+       .
+
+ optionalexitbody = 
+                    | optionalchecks optionaldoes "end" "exit" 
+                         optionalid 
+                     .
+
+ is = "is" 
+    | "are" 
+    | "has" 
+     .
+
+ optionaldescription = 
+                      | description 
+                       .
+
+ description = "description" optionalchecks optionaldoes 
+             | "description" statements 
+              .
+
+ articleorform = article 
+                 | form 
+                  .
+
+ article = "article" 
+         | "article" statements 
+          .
+
+ form = "form" 
+      | "form" statements 
+       .
+
+ entered = "entered" statements 
+          .
+
+ initialize = "initialize" statements 
+             .
+
+ mentioned = "mentioned" statements 
+            .
+
+ name = "name" ids optionalfullstop 
+       .
+
+ pronoun = "pronoun" idlist optionalfullstop 
+          .
+
+ optionalfullstop = 
+                    | "." 
+                     .
+
+ containerproperties = genSym9 optionallyopaque "container" 
+                           containerbody 
+                       .
+
+ genSym9 = 
+          | "with" 
+           .
+
+ optionallyopaque = 
+                   | "opaque" 
+                    .
+
+ containerbody = optionaltaking optionallimits optionalheader 
+                     optionalempty optionalextract 
+                | "." 
+                 .
+
+ optionaltaking = 
+                 | "taking" ID "." 
+                  .
+
+ optionallimits = 
+                 | "limits" limits 
+                  .
+
+ limits = limit 
+        | limits limit 
+         .
+
+ limit = limitattribute elseorthen statements 
+        .
+
+ elseorthen = "else" 
+              | "then" 
+               .
+
+ limitattribute = attributedefinition 
+                 | "count" Integer 
+                  .
+
+ optionalheader = 
+                 | "header" statements 
+                  .
+
+ optionalempty = 
+                | "else" statements 
+                 .
+
+ optionalextract = 
+                  | "extract" optionalchecks optionaldoes 
+                  | "extract" statements 
+                   .
+
+ event = eventheader statements eventtail 
+        .
+
+ eventheader = "event" ID 
+               .
+
+ eventtail = "end" "event" optionalid "." 
+             .
+
+ script = "script" ID genSym10 optionaldescription steplist 
+         .
+
+ genSym10 = 
+           | "." 
+            .
+
+ steplist = step 
+           | steplist step 
+            .
+
+ step = "step" statements 
+      | "step" "after" expression statements 
+      | "step" "wait" "until" expression statements 
+       .
+
+ rule = "when" expression then statements optionalendwhen 
+       .
+
+ then = "=>" 
+      | "then" 
+       .
+
+ optionalendwhen = 
+                   | "end" "when" genSym11 
+                    .
+
+ genSym11 = 
+           | "." 
+            .
+
+ start = "start" where "." optionalstatements 
+        .
+
+ optionalstatements = 
+                     | statements 
+                      .
+
+ statements = statement 
+            | statements statement 
+             .
+
+ statement = outputstatement 
+           | specialstatement 
+           | manipulationstatement 
+           | actorstatement 
+           | eventstatement 
+           | assignmentstatement 
+           | repetitionstatement 
+           | conditionalstatement 
+            .
+
+ outputstatement = STRING 
+                  | "describe" what "." 
+                  | "say" sayform expression "." 
+                  | "list" primary "." 
+                  | "show" ID "." 
+                  | "play" ID "." 
+                  | "style" ID "." 
+                   .
+
+ sayform = 
+          | "the" 
+          | "an" 
+          | "it" 
+          | "no" 
+           .
+
+ manipulationstatement = "empty" primary optionalwhere "." 
+                        | "locate" primary where "." 
+                        | "include" primary "in" what "." 
+                        | "exclude" primary "from" what "." 
+                         .
+
+ eventstatement = "cancel" what "." 
+                 | "schedule" what optionalwhere "after" 
+                      expression "." 
+                  .
+
+ assignmentstatement = "make" primary something "." 
+                      | "strip" optionalfirstorlast 
+                           optionalexpression 
+                           optionalwordorcharacter "from" expression 
+                           optionalinto "." 
+                      | "increase" attributereference 
+                           optionalbyclause "." 
+                      | "decrease" attributereference 
+                           optionalbyclause "." 
+                      | "set" attributereference "to" expression 
+                           "." 
+                       .
+
+ optionalbyclause = 
+                    | "by" expression 
+                     .
+
+ optionalfirstorlast = 
+                        | "first" 
+                        | "last" 
+                         .
+
+ optionalwordorcharacter = 
+                            | "word" 
+                            | "words" 
+                            | "character" 
+                            | "characters" 
+                             .
+
+ optionalinto = 
+               | "into" expression 
+                .
+
+ conditionalstatement = ifstatement 
+                       | dependingstatement 
+                        .
+
+ ifstatement = "if" expression "then" statements 
+                   optionalelsiflist optionalelsepart "end" "if" 
+                   "." 
+               .
+
+ optionalelsiflist = 
+                     | elsiflist 
+                      .
+
+ elsiflist = "elsif" expression "then" statements 
+            | elsiflist "elsif" expression "then" statements 
+             .
+
+ optionalelsepart = 
+                    | "else" statements 
+                     .
+
+ dependingstatement = "depending" "on" primary dependcases "end" 
+                          genSym12 "." 
+                      .
+
+ genSym12 = "depend" 
+           | "depending" 
+            .
+
+ dependcases = dependcase 
+              | dependcases dependcase 
+               .
+
+ dependcase = "else" statements 
+             | righthandside "then" statements 
+              .
+
+ repetitionstatement = foreach ID optionalloopfilters "do" 
+                           statements "end" foreach genSym13 
+                       .
+
+ genSym13 = 
+           | "." 
+            .
+
+ optionalloopfilters = 
+                       | filters 
+                       | "between" arithmetic "and" arithmetic 
+                        .
+
+ foreach = "for" 
+          | "each" 
+          | "for" "each" 
+           .
+
+ actorstatement = "stop" what "." 
+                 | "use" "script" ID optionalforactor "." 
+                  .
+
+ optionalforactor = 
+                    | "for" what 
+                     .
+
+ specialstatement = "quit" "." 
+                   | "look" "." 
+                   | "save" "." 
+                   | "restore" "." 
+                   | "restart" "." 
+                   | "score" optionalinteger "." 
+                   | "visits" Integer "." 
+                   | "system" STRING "." 
+                    .
+
+ optionalexpression = 
+                     | expression 
+                      .
+
+ expression = term 
+            | expression "or" term 
+             .
+
+ term = factor 
+      | term "and" factor 
+       .
+
+ factor = arithmetic 
+        | factor optionalnot where 
+        | factor optionalnot relop arithmetic 
+        | factor optionalnot "contains" arithmetic 
+        | factor optionalnot "between" arithmetic "and" 
+             arithmetic 
+         .
+
+ arithmetic = primary 
+            | aggregate filters 
+            | primary "isa" ID 
+            | primary is something 
+            | arithmetic binop primary 
+             .
+
+ filters = filter 
+         | filters "," filter 
+          .
+
+ filter = optionalnot where 
+        | optionalnot "isa" ID 
+        | is something 
+         .
+
+ righthandside = filter 
+                 | optionalnot relop primary 
+                 | optionalnot "contains" factor 
+                 | optionalnot "between" arithmetic "and" 
+                      arithmetic 
+                  .
+
+ primary = optionalminus Integer 
+         | STRING 
+         | what 
+         | "score" 
+         | "{" optionalmembers "}" 
+         | "(" expression ")" 
+         | "random" optionaldirectly "in" primary 
+         | "random" primary "to" primary 
+          .
+
+ aggregate = "count" 
+           | aggregator "of" ID 
+            .
+
+ aggregator = "max" 
+            | "min" 
+            | "sum" 
+             .
+
+ something = optionalnot ID 
+            .
+
+ what = simplewhat 
+      | attributereference 
+       .
+
+ simplewhat = ID 
+             | "this" 
+             | "current" "actor" 
+             | "current" "location" 
+              .
+
+ attributereference = ID "of" what 
+                     | what ":" ID 
+                      .
+
+ optionalwhere = 
+                | where 
+                 .
+
+ where = optionaldirectly "here" 
+       | optionaldirectly "nearby" 
+       | optionaldirectly "at" what 
+       | optionaldirectly "in" primary 
+       | optionaldirectly "near" what 
+        .
+
+ binop = "+" 
+       | "-" 
+       | "*" 
+       | "/" 
+        .
+
+ relop = "<>" 
+       | "=" 
+       | "==" 
+       | ">=" 
+       | "<=" 
+       | ">" 
+       | "<" 
+        .
+
+ optionalqual = 
+               | "before" 
+               | "after" 
+               | "only" 
+                .
+
+ optionalnot = 
+              | "not" 
+               .
+
+ optionaldirectly = 
+                   | "directly" 
+                    .
+
+ optionalid = 
+             | ID 
+              .
+
+ ids = ID 
+     | ids ID 
+      .
+
+ idlist = ID 
+         | idlist "," ID 
+          .
+
+ optionalinteger = 
+                  | Integer 
+                   .
+
+ optionalminus = 
+                | "-" 
+                 .
+
+ ID = Identifier 
+  | "location" 
+  | "actor" 
+  | "opaque" 
+  | "on" 
+  | "it" 
+  | "of" 
+  | "first" 
+  | "into" 
+  | "taking" 
+   .
+
+END adventure.
+

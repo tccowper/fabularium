@@ -1,0 +1,15 @@
+########## locateAtRandomIn ##########
+
+
+locateAtRandomIn.alan
+
+   11.    Locate npc At Random In integers Of npc.
+=====>                  1
+
+  *1*   428 E : Expression after AT must refer to an instance.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

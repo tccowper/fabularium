@@ -1,0 +1,21 @@
+Options
+	debug.
+
+
+Location binary
+  Has int 0.
+End Location binary.
+
+
+Start at binary.
+
+	"Binary has now int =" Say int Of binary.
+	Set int Of binary To int Of binary + 2.
+	"Adding 2 gives =" Say int Of binary.
+	Set int Of binary To int Of binary * 3.
+	"Multiplying by 3 gives =" Say int Of binary.
+	Set int Of binary To int Of binary / 2.
+	"Division by 2 gives =" Say int Of binary.
+	Set int Of binary To int Of binary - 3.
+	"Subtracting 3 gives =" Say int Of binary.
+	Quit.

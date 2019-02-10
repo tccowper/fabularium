@@ -1,0 +1,22 @@
+########## locateInsideItselfTransitive ##########
+
+        No warnings or errors detected.
+
+
+The o2 contains a o3.
+
+
+L
+There is a o1 here. The o1 contains a o2.
+
+> put o1 in o2
+Putting the o1 in the o2 is impossible since the o2 already is inside the 
+o1.
+
+> put o1 in o3
+Putting the o1 in the o3 is impossible since the o3 already is inside the 
+o1.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

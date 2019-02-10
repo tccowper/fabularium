@@ -1,0 +1,79 @@
+########## mbo2 ##########
+Options
+  language english.
+  
+
+
+Add To Every object
+  Is
+    bool1.
+    bool2.
+    bool3.
+    attr1  0.
+    attr2  0.
+    attr3  0.
+    attr4  0.
+End Add To.
+
+Add To Every location
+  Is
+    bool4.
+    bool5.
+    attr4  1.
+    attr5  0.
+End Add To.
+
+Add To Every actor
+  Is
+    bool6.
+    bool7.
+    attr6  0.
+    attr7  0.
+End Add To.
+
+Syntax
+  quit_verb = 'quit'.
+
+Verb quit_verb
+  Does
+    Quit.
+End Verb.
+
+
+The nowhere Isa location
+  
+  Exit east, west, north, south To nowhere.
+  
+End The nowhere.
+
+The start_location Isa location
+  Name 'Northern part of island'
+  
+  Description
+    "$p$tThis is northern part of the island. A sandy beach leads to west
+     and east from here."
+  
+  Exit east, west To start_location.
+  
+End The start_location.
+
+The test_object Isa object
+  At nowhere 
+  Is 
+    bool8.
+  Is 
+    Not bool9.
+  Has 
+    attr4  0.
+  Has 
+    attr8  0.
+  Has 
+    attr9  1000.
+End The test_object.
+When attr4 Of Current Location >0 Then
+  Increase attr4 Of test_object By attr4 Of Current Location.
+  Set attr4 Of Current Location To 0.
+
+
+Start At start_location.
+  

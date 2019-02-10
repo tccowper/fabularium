@@ -1,0 +1,22 @@
+########## incompatibleFilters ##########
+
+
+incompatibleFilters.alan
+
+    6.    Say Count Isa actor, Isa location, In s Of l.
+=====>                         1             2
+
+  *1*   441 E : Incompatible filter. All filters must enumerate instances or
+                values which are compatible, such as subclasses or compatible
+                types.
+  *1*   224 W : Multiple use of Isa (class) in filter list for COUNT
+                Aggregation.
+  *2*   441 E : Incompatible filter. All filters must enumerate instances or
+                values which are compatible, such as subclasses or compatible
+                types.
+
+
+        2 error(s).
+        1 warning(s).
+        1 informational message(s).
+

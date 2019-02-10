@@ -1,0 +1,7 @@
+########## cc ##########
+"error.alan", line 3(11): 310 E : Identifier 'error' not defined.
+"error.alan", line 6(10): 351 E : START statement must refer to an instance inheriting from 'location'.
+"error2.i", line 1(12): 310 E : Identifier 'error' not defined.
+"error2.i", line 1(18): 101 E : Syntax error. Inserting "at" before this token.
+"error2.i", line 1(18): 310 E : Identifier 'too' not defined.
+"error2.i", line 1(18): 405 E : Only instances and classes inheriting from Thing can have initial locations.

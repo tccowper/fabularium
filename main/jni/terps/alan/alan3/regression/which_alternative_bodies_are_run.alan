@@ -1,0 +1,12 @@
+Syntax v = v (p1) (p2) (p3).
+
+The l Isa location
+End The l.
+
+The o1 Isa object At l
+  Verb v
+    Does "The body of o1."
+  End Verb.
+End The.
+
+Start At l.

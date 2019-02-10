@@ -1,0 +1,34 @@
+########## instanceAttribute ##########
+
+
+instanceAttribute.alan
+
+    5.    Has iaix p.
+=====>             1
+
+  *1*   310 E : Identifier 'p' not defined.
+
+    8.  The oi Isa o		-- Error: iac is not initialized
+=====>      1
+
+  *1*   328 E : Attribute 'iac' is inherited from 'o' as an abstract attribute
+                which is not initilized, only defined. Instances are required
+                to initialize all abstract attributes.
+
+    9.    Has ian x.
+=====>        1
+
+  *1*   332 E : Attribute is inherited from class 'o' but does not match the
+                original type (Integer) which is required.
+
+   18.    Has father object.
+=====>               1
+
+  *1*   428 E : Attribute value in reference attribute declaration must refer
+                to an instance or event.
+
+
+        4 error(s).
+        No detected warnings.
+        1 informational message(s).
+

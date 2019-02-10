@@ -1,0 +1,13 @@
+The l Isa location
+  Name 'The l has a name'
+  Mentioned
+    "The l is mentioned"
+End The l.
+
+The o Isa object At l
+  Name 'The o has a name'
+  Mentioned
+    "The o is mentioned"
+End The o.
+
+Start At l.

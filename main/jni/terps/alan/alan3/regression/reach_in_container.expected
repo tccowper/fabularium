@@ -1,0 +1,23 @@
+########## reach_in_container ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a c here. The c contains a o1 and a d.
+
+> reach o1
+You reach the o1.
+
+> reach o2
+You reach the o2.
+
+> reach o3
+I can't see any o3 here.
+
+> 
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

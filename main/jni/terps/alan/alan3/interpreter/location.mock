@@ -1,0 +1,11 @@
+#include <cgreen/cgreen.h>
+#include <cgreen/mocks.h>
+
+#include "Location.h"
+
+
+/* FUNCTIONS */
+
+bool exitto(int to, int from) { return (bool)mock(); }
+void go(int location, int dir) { mock(); }
+void look(void) { mock(); }

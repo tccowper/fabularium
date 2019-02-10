@@ -1,0 +1,22 @@
+Every human Isa actor
+  Script eating
+    Step Say The this. "is starting to eat."
+    Step Say The this. "is full and stops eating." Use Script sleeping.
+  Script sleeping
+    Step Say The this. "is tired and starts to sleep."
+    Step Say The this. "is rested and wakes up." Use Script eating.
+End Every human.
+
+The man Isa human At l
+End The man.
+
+The woman Isa human At l
+End The woman.
+
+The l Isa location
+End The l.
+
+Start At l.
+  Use Script eating For man.
+  Use Script sleeping For woman.
+

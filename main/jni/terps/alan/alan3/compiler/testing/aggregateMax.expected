@@ -1,0 +1,83 @@
+########## aggregateMax ##########
+
+
+aggregateMax.alan
+
+    9.    If Max Of y = 9 Then "" End If.
+=====>              1 2
+
+  *1*   316 E : Attribute 'y' is not defined for instances aggregated over
+                using 'MAX' since the class it is guaranteed to be in this
+                context ('entity') does not have it.
+  *2*   101 E : Syntax error. Inserting "here" before this token.
+
+   10.    If Max Of y Here, At l = 9 Then "" End If.
+=====>              1       2
+
+  *1*   316 E : Attribute 'y' is not defined for instances aggregated over
+                using 'MAX' since the class it is guaranteed to be in this
+                context ('entity') does not have it.
+  *2*   224 E : Multiple use of Where in filter list for MAX Aggregation.
+
+   11.    If Max Of y At l =at 9 Then "" End If.
+=====>              1      23  4
+
+  *1*   316 E : Attribute 'y' is not defined for instances aggregated over
+                using 'MAX' since the class it is guaranteed to be in this
+                context ('entity') does not have it.
+  *2*   428 E : The What clause of a Where expression must refer to an
+                instance.
+  *3*   101 E : Syntax error. Inserting "<identifier>" before this token.
+  *4*   428 E : Expression after AT or NEAR must refer to an instance.
+
+   12.    If Max Of y Is x Then "" End If.
+=====>       1      2 3
+
+  *1*   330 E : Wrong type of expression in context of 'IF'. Must be of boolean
+                type.
+  *2*   226 E : Attributes cannot be used for filtering applied to instances of
+                unknown class. Filter out instances of a particular class e.g.
+                by adding a 'Isa <class>' filter.
+  *3*   226 E : Attributes cannot be used for filtering applied to instances of
+                unknown class. Filter out instances of a particular class e.g.
+                by adding a 'Isa <class>' filter.
+
+   13.    If Max Of y Isa x = 7 Then "" End If.
+=====>                    1
+
+  *1*   310 E : Identifier 'x' not defined.
+
+   14.    If Max Of y Isa l = 7 Then "" End If.
+=====>                    1
+
+  *1*   319 E : Identifier 'l' is not a Class.
+
+   15.    If Max Of y Isa object = 12 Then "" End If.
+=====>              1
+
+  *1*   316 E : Attribute 'y' is not defined for instances aggregated over
+                using 'MAX' since the class it is guaranteed to be in this
+                context ('object') does not have it.
+
+   16.    If Max Of y Isa object, Isa thing = 12 Then "" End If.
+=====>              1             2
+
+  *1*   316 E : Attribute 'y' is not defined for instances aggregated over
+                using 'MAX' since the class it is guaranteed to be in this
+                context ('object') does not have it.
+  *2*   224 W : Multiple use of Isa (class) in filter list for MAX Aggregation.
+
+   17.    If Max Of y Isa object, Is z Then "" End If.
+=====>       1      2
+
+  *1*   330 E : Wrong type of expression in context of 'IF'. Must be of boolean
+                type.
+  *2*   316 E : Attribute 'y' is not defined for instances aggregated over
+                using 'MAX' since the class it is guaranteed to be in this
+                context ('object') does not have it.
+
+
+        17 error(s).
+        1 warning(s).
+        1 informational message(s).
+

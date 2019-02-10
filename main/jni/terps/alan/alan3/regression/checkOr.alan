@@ -1,0 +1,24 @@
+THE loc1 ISA LOCATION
+END THE.
+
+ADD TO EVERY OBJECT
+    IS reachable. IS NOT distant.
+END ADD.
+
+THE ball ISA OBJECT AT loc1
+    IS NOT reachable.
+END THE.
+
+SYNTAX touch = touch (o)
+    WHERE o ISA OBJECT
+        ELSE "No."
+
+ADD TO EVERY OBJECT
+    VERB touch 
+        CHECK o IS reachable And o IS NOT distant
+            ELSE "Can't reach."
+        DOES "You touch" SAY THE o. "."
+    END VERB.
+END ADD TO.
+ 
+START AT loc1.

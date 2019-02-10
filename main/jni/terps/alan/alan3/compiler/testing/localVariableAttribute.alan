@@ -1,0 +1,7 @@
+The l Isa location
+End The l.
+
+Start At l.
+  For Each x Isa object Do
+    Say a Of x.
+  End For.

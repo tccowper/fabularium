@@ -1,0 +1,11 @@
+The l isa location
+End The l.
+
+Start At l.
+  If "a" == 1 Then -- Error!
+    ""
+  End If.
+  If l == "1" Then -- Error!
+    ""
+  End If.
+

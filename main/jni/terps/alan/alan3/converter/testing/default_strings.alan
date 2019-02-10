@@ -1,0 +1,27 @@
+Options
+  Debug.
+
+
+Location Attributes
+  lstr "lstr".
+
+Object Attributes
+  ostr "ostr".
+
+Location l3
+  Has
+    lstr "Hej hopp i lingonskogen.".
+End Location l3.
+
+Location l1
+End Location l1.
+
+Location l2
+End Location l2.
+
+
+Start At l3.
+  Say lstr Of l1.
+  Say lstr Of l2.
+  Say lstr Of l3.
+

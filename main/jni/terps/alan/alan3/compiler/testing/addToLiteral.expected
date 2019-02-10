@@ -1,0 +1,67 @@
+########## addToLiteral ##########
+
+
+addToLiteral.alan
+
+    2.    Is a1.
+=====>       1
+
+  *1*   424 E : You cannot add attributes to non-instantiable class 'literal'.
+
+    3.    Script x. step ""
+=====>    1
+
+  *1*   424 E : You cannot add scripts to non-instantiable class 'literal'.
+  *1*   336 E : You cannot Add scripts to a class which is not a subclass of
+                the predefined class 'actor'.
+
+    4.    At l.
+=====>    1
+
+  *1*   424 E : You cannot add initial location to non-instantiable class
+                'literal'.
+  *1*   405 E : Only instances and classes inheriting from Thing can have
+                initial locations.
+
+    5.    Mentioned "hej"
+=====>    1
+
+  *1*   424 E : You cannot add mentioned to non-instantiable class 'literal'.
+
+    6.    Article "the"
+=====>    1
+
+  *1*   424 E : You cannot add article to non-instantiable class 'literal'.
+
+    7.    Description ""
+=====>    1
+
+  *1*   424 E : You cannot add description to non-instantiable class 'literal'.
+
+    8.    Container
+=====>    1
+
+  *1*   424 E : You cannot add container to non-instantiable class 'literal'.
+
+    9.    Exit e To l.
+=====>    1
+
+  *1*   424 E : You cannot add exits to non-instantiable class 'literal'.
+  *1*   336 E : You cannot Add Exits to something not inheriting from the
+                predefined class 'location'.
+
+   13.    Is a1.
+=====>       1
+
+  *1*   424 E : You cannot add attributes to non-instantiable class 'integer'.
+
+   17.    Is a1.
+=====>       1
+
+  *1*   424 E : You cannot add attributes to non-instantiable class 'string'.
+
+
+        13 error(s).
+        No detected warnings.
+        1 informational message(s).
+

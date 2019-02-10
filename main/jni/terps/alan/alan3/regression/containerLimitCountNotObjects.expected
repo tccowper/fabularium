@@ -1,0 +1,18 @@
+########## containerLimitCountNotObjects ##########
+
+        No warnings or errors detected.
+
+
+Empty: There is a cont here. Count = 0 
+
+Locating e1... There is a cont here. Count = 1 
+
+Locating o1... There is a cont here. The cont contains a o1. Count = 2 
+
+Locating e1... There is a cont here. The cont contains a o1. Count = 3 
+
+Locating o2... Too many...
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

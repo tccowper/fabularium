@@ -1,0 +1,319 @@
+# vi: set ts=2 shiftwidth=2 expandtab:
+#
+# SCARE debugger tests.
+#
+# Covers basic debugger input parsing, inspecting game details, and setting
+# (though not trapping) game watchpoints.
+#
+# There are some limitations to what can be done here.  For example, the
+# debugger is removed from the game by scripting on standard (non-debug)
+# commands, so watchpoints can't be checked.  Also, the test game contains no
+# variables or events, so these cannot be tested thoroughly (though this does
+# let us check the debugger response where there are no items of a particular
+# class).  We can't check invalid debugger commands (the script rejects them),
+# nor can we catch the game with buffered output text.
+#
+
+~ game
+*Pointless* Compiled "29 Oct 2006"* Version 4.00*
+
+
+# Insert an end-of-pre-interpretation command here to start the game running.
+# This ensures that initial objects, rooms, and so on are marked seen.
+~
+Pointless *
+
+
+#
+# Verify a few basic commands.
+#
+
+~ help
+The following debugging commands examine game state: *
+
+~ help help
+Give the name of the command you want help on, for example 'help continue'.
+
+~ buffer
+There is no game text buffered.
+
+~ resources
+There is no game resource activity.
+
+~ random
+The congruential random number generator is selected.
+~ random 0
+The seed value may not be zero.
+~ random 1
+Set seed 1 for the congruential random number generator.
+~ random 2147483647
+Set seed 2147483647 for the congruential random number generator.
+
+# Not testable, as these are rejected by the script.
+#~ step
+#~ continue
+#~ quit
+
+
+#
+# Check the output formats, at least for available items.
+#
+
+~ game
+Game "Pointless"
+    Compiled "29 Oct 2006", Author "A.N. Onymous"
+    Version 4.00, Second person, Waitturns 3
+    Room count 2, Object count 9, NPC count 1
+    Event count 0, Task count 1, Variable count 0
+    Running, Not completed, Not verbose, Bold, No undo
+    Score 0, Turns 0, Seconds 0
+
+~ player
+Player ""
+    In Room 0 "Activity Room"
+    Standing
+
+~ rooms
+Room 0 "Activity Room"
+    Visited
+    Player ""
+    Static 0 "a pinewood" "cupboard"
+    Static 5 "a pinewood" "table"
+    Static 6 "a" "chair"
+
+~ objects
+Static 0 "a pinewood" "cupboard"
+    Seen, Not relocated, Closed
+    Static default
+Static 5 "a pinewood" "table"
+    Seen, Not relocated
+    Static default
+Static 6 "a" "chair"
+    Seen, Not relocated
+    Static default
+
+~ npcs
+Nothing of type "NPC" is relevant.
+Try "NPC [*]" to show all items of this type.
+
+~ npcs *
+NPC 0 "" "the janitor"
+    Not seen
+    In Room 1 "Clean Room"
+    Standing
+
+~ events
+There is nothing of type "Event" to print.
+
+~ tasks
+Task 0 "[[]get/take/pick up[]] {the} [[]jelly/jello[]]"
+    Runnable, Not done, Not scored
+
+~ variables
+There is nothing of type "Variable" to print.
+
+
+#
+# Verify responses on invalid ranges.  The script doesn't catch these, so we
+# can test for them here.
+#
+
+~ game *
+The Game command takes no arguments.
+~ game 0
+The Game command takes no arguments.
+~ game 0 1
+The Game command takes no arguments.
+~ game 0-1
+The Game command takes no arguments.
+~ game 0 to 1
+The Game command takes no arguments.
+
+~ player *
+The Player command takes no arguments.
+~ player 0
+The Player command takes no arguments.
+~ player 0 1
+The Player command takes no arguments.
+~ player 0-1
+The Player command takes no arguments.
+~ player 0 to 1
+The Player command takes no arguments.
+
+~ rooms 2
+Invalid item or range for "Room"; valid values are 0 to 1.
+~ rooms 0-2
+Invalid item or range for "Room"; valid values are 0 to 1.
+~ rooms 0 to 2
+Invalid item or range for "Room"; valid values are 0 to 1.
+
+~ objects 9
+Invalid item or range for "Object"; valid values are 0 to 8.
+~ objects 0-9
+Invalid item or range for "Object"; valid values are 0 to 8.
+~ objects 0 to 9
+Invalid item or range for "Object"; valid values are 0 to 8.
+
+~ objects 8-0
+Invalid item or range for "Object"; valid values are 0 to 8.
+
+~ npcs 1
+Invalid item or range for "NPC"; only 0 is valid.
+~ npcs 0-1
+Invalid item or range for "NPC"; only 0 is valid.
+~ npcs 0 to 1
+Invalid item or range for "NPC"; only 0 is valid.
+
+~ events 0
+There is nothing of type "Event" to print.
+
+~ tasks 1
+Invalid item or range for "Task"; only 0 is valid.
+~ tasks 0-1
+Invalid item or range for "Task"; only 0 is valid.
+~ tasks 0 to 1
+Invalid item or range for "Task"; only 0 is valid.
+
+~ variables 0
+There is nothing of type "Variable" to print.
+
+~ random 0 1
+The Random command takes either one argument or no arguments.
+
+
+#
+# Check no previous game state yet, then advance state and check old values.
+#
+
+~ game
+*No undo *Turns 0*
+~ oldplayer
+There is no previous game state to examine.
+~ oldrooms *
+There is no previous game state to examine.
+~ oldobjects *
+There is no previous game state to examine.
+~ oldnpcs *
+There is no previous game state to examine.
+~ oldevents *
+There is no previous game state to examine.
+~ oldtasks *
+There is no previous game state to examine.
+~ oldvariables *
+There is no previous game state to examine.
+
+# Advance game by three turns (one wait).
+> wait
+~ game
+*Undo *Turns 3*
+
+# The "old..." responses should be the same as above.
+~ oldplayer
+Player ""
+    In Room 0 "Activity Room"
+    Standing
+
+~ oldrooms
+Room 0 "Activity Room"
+    Visited
+    Player ""
+    Static 0 "a pinewood" "cupboard"
+    Static 5 "a pinewood" "table"
+    Static 6 "a" "chair"
+
+~ oldobjects
+Static 0 "a pinewood" "cupboard"
+    Seen, Not relocated, Closed
+    Static default
+Static 5 "a pinewood" "table"
+    Seen, Not relocated
+    Static default
+Static 6 "a" "chair"
+    Seen, Not relocated
+    Static default
+
+~ oldnpcs
+Nothing of type "NPC" is relevant.
+Try "NPC [*]" to show all items of this type.
+
+~ oldnpcs *
+NPC 0 "" "the janitor"
+    Not seen
+    In Room 1 "Clean Room"
+    Standing
+
+~ oldevents
+There is nothing of type "Event" to print.
+
+~ oldtasks
+Task 0 "[[]get/take/pick up[]] {the} [[]jelly/jello[]]"
+    Runnable, Not done, Not scored
+
+~ oldvariables
+There is nothing of type "Variable" to print.
+
+
+#
+# Set and clear some watchpoints.  Note the we can't actually use these within
+# the script framework.
+#
+
+~ watchall
+No Player watchpoint is set; to set one, use "Watchplayer 0".
+No Object watchpoints are set.
+No NPC watchpoints are set.
+There is nothing of type "Event" to watch.
+No Task watchpoints are set.
+There is nothing of type "Variable" to watch.
+
+~ watchplayer 0
+Set Player watchpoint.
+~ watchobjects *
+Set 9 Object watchpoints.
+~ watchnpcs *
+Set 1 NPC watchpoint.
+~ watchevents *
+There is nothing of type "Event" to watch.
+~ watchtasks *
+Set 1 Task watchpoint.
+~ watchvariables *
+There is nothing of type "Variable" to watch.
+
+~ watchall
+Player watchpoint is set.
+Watchpoints are set for Object { 0 1 2 3 4 5 6 7 8 }.
+Watchpoints are set for NPC { 0 }.
+There is nothing of type "Event" to watch.
+Watchpoints are set for Task { 0 }.
+There is nothing of type "Variable" to watch.
+
+~ clearall
+Cleared all watchpoints.
+~ watchall
+No Player watchpoint is set; to set one, use "Watchplayer 0".
+No Object watchpoints are set.
+No NPC watchpoints are set.
+There is nothing of type "Event" to watch.
+No Task watchpoints are set.
+There is nothing of type "Variable" to watch.
+
+# Use objects to verify setting and clearing specific ranges.
+~ watchobjects 1
+Set 1 Object watchpoint.
+~ watchobjects 3-4
+Set 2 Object watchpoints.
+~ watchobjects 6-7
+Set 2 Object watchpoints.
+~ watchobjects
+Watchpoints are set for Object { 1 3 4 6 7 }.
+~ clearobjects
+Watchpoints are set for Object { 1 3 4 6 7 }.
+~ clearobjects 4-6
+Cleared 3 Object watchpoints.
+~ watchobjects
+Watchpoints are set for Object { 1 3 7 }.
+
+# Advancing the game causes the script framework to drop debugger settings.
+> wait
+~ watchobject
+No Object watchpoints are set.

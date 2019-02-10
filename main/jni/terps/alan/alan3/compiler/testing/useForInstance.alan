@@ -1,0 +1,17 @@
+The l Isa location
+End The l.
+
+The o Isa object
+End The o.
+
+The a Isa actor
+End The a.
+
+Start At l.
+  Use Script x For o. -- Error, not an actor
+  Use Script x For a. -- Error, does not have the script
+  If o Isa actor Then
+    Use Script x For o. -- Error, not an actor since instance id's are not considered for restriction
+    Use Script x For a. -- Error, does not have the script
+  End If.
+

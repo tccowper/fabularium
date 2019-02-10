@@ -1,0 +1,38 @@
+VERB inventory DOES "i" END VERB.
+
+OBJECT door1 NAME large door AT loc
+END OBJECT door1.
+
+OBJECT door2 NAME large door AT loc
+END OBJECT door2.
+
+OBJECT obj1 HERE
+END OBJECT obj1.
+
+OBJECT obj2 NEARBY
+END OBJECT obj2.
+
+OBJECT obj3 AT LOCATION
+END OBJECT obj3.
+
+OBJECT obj4 AT ACTOR
+END OBJECT obj4.
+
+OBJECT obj5 AT OBJECT
+END OBJECT obj5.
+
+EVENT e1
+END EVENT.
+
+LOCATION loc
+    Does
+	Locate obj1 Nearby.
+	Schedule e1 At Actor After 1.
+	Schedule e1 At Object After 1.
+	Schedule e1 Nearby After 1.
+END LOCATION loc.
+
+
+START at loc.
+	"Chicken.$p"
+	SCORE.

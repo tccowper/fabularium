@@ -1,0 +1,15 @@
+The AlanGrapher
+===============
+
+The AlanGrapher takes an Alan source and extracts information from it so that a graph of the map with locations and exits can be build.
+
+It uses various utilities to work but should be packaged into a fairly usable package (.exe etc.). This is done using PyInstaller which creates a all-in-one executable except for one package, GraphViz.
+
+You need to install Graphviz (from http://graphviz.org) somewhere, preferably in a folder without spaces in the names (on Windows C:/Graphviz would work). This directory must also be included in the system path so that any program will be able to find the executables therein.
+
+One way to check this is to open a command window or terminal and type "dot -h". This should result in some output and not "No such command" or something.
+
+Once this works you can just run AlanGrapher. It will prompt for a file. You can instruct it to ignore some locations from the Alan source. This can be handy to filter out "nowhere" and other non-important locations from the graph.
+
+/Thomas 2014-08-20
+ 

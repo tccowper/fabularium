@@ -1,0 +1,22 @@
+The l1 Isa location
+  Name 'The l1 has a name'
+  Mentioned
+    "The l1 is mentioned"
+  Exit e To l2.
+End The l1.
+
+The l2 Isa location
+  Mentioned
+    "The l2 is mentioned"
+  Exit e To l3.
+End The l2.
+
+The l3 Isa location
+  Name 'The l3 has a name'
+  Exit e To l4.
+End The l3.
+
+The l4 Isa location
+End The l4.
+
+Start At l1.

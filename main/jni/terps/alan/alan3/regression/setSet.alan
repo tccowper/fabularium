@@ -1,0 +1,25 @@
+The l1 Isa location
+  Has locationSet {l1}.
+End The l1.
+
+The l2 Isa location
+End The l2.
+
+Start At l1.
+  "locationSet should = 1, actual =" Say Count In locationSet Of l1. ".$p"
+  Set locationSet Of l1 to {}.      -- Empty set is ok
+  "locationSet should = 0, actual =" Say Count In locationSet Of l1. ".$p"
+
+  Set locationSet Of l1 to {l1}.     -- Ok
+  "locationSet should = 1, actual =" Say Count In locationSet Of l1. ".$p"
+  For Each loc In locationSet Of l1 Do
+    Say loc.
+  End For Each.
+  "should be ""l1"".$p"
+
+  Set locationSet Of l1 to {l1, l2}.     -- Ok
+  "locationSet should = 2, actual =" Say Count In locationSet Of l1. ".$p"
+  For Each loc In locationSet Of l1 Do
+    Say loc.
+  End For Each.
+  "Should be ""l1 & l2"".$p"

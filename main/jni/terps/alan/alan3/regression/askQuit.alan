@@ -1,0 +1,38 @@
+The hero Isa actor
+	Is Not quitting.
+End The hero.
+
+Syntax
+	'quit' = 'quit'.
+	yes = yes.
+
+Synonyms
+	y = yes.
+	q = 'quit'.
+
+Verb 'quit'
+	Does "Do you really want to give up?
+			Type 'yes' to quit, or to carry on just
+			type your next command."
+	Make hero quitting.
+	Schedule unquit After 1.
+End Verb 'quit'.
+
+Verb yes
+	Check hero Is quitting
+		Else "That does not seem to answer any question."
+	Does Quit.
+End Verb yes.
+
+Event unquit Make hero Not quitting.
+End Event unquit.
+
+Verb l
+  Does
+    Look.
+End Verb l.
+
+The l1 Isa location
+End The l1.
+
+Start At l1.

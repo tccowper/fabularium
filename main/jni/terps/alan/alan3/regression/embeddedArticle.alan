@@ -1,0 +1,23 @@
+The obj Isa object AT l
+End The obj.
+
+The Manny Isa actor At l
+  Indefinite Article ""
+  Definite Article ""
+End The manny.
+
+Syntax talk_to = talk 'to' (x)
+  Where x Isa thing
+    Else "You can only talk to things..."
+
+Add To Thing
+  Verb talk_to
+    Does "You talk to $+1."
+  End Verb.
+End Add.
+
+The l Isa location
+End The l.
+
+Start At l.
+

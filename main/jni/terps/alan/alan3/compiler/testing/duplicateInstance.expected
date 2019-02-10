@@ -1,0 +1,15 @@
+########## duplicateInstance ##########
+
+
+duplicateInstance.alan
+
+    4.  The x Isa object At l
+=====>      1
+
+  *1*   304 E : 'x' also declared as an Instance (The).
+
+
+        1 error(s).
+        No detected warnings.
+        2 informational message(s).
+

@@ -1,0 +1,20 @@
+########## literalAttributes ##########
+
+
+literalAttributes.alan
+
+   14.        Set a Of l To 5.             -- Setting not
+=====>        1
+
+  *1*   406 E : You cannot modify attributes to Integer and String parameters.
+
+   16.        Make l what.                 -- Setting not
+=====>        1
+
+  *1*   406 E : You cannot modify attributes to Integer and String parameters.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

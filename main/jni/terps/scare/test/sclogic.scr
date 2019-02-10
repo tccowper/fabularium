@@ -1,0 +1,284 @@
+# vi: set ts=2 shiftwidth=2 expandtab:
+#
+# Expression logic operation tests.
+#
+# Covers more expression parsing and value comparisons, including some limited
+# operator precedence and parenthesis checks.
+#
+# Unless otherwise noted, the input and responses in this script were created
+# from a transcript of the Adrift Runner, release 4.0.45 or 46.
+#
+
+~ game
+*Restless* Compiled "08 Nov 2006"* Version 4.00*
+
+
+#
+# Verify the test primitives themselves first.
+#
+
+> set a 2147483647, set x 2147483647, set y 2147483647
+a = 2147483647 x = 2147483647 y = 2147483647
+
+> set a -2147483648, set x -2147483648, set y -2147483648
+a = -2147483648 x = -2147483648 y = -2147483648
+
+> set res 1, set a res, set x res, set y res
+res = 1 a = 1 x = 1 y = 1
+
+> set res 0, set a res, set x res, set y res
+res = 0 a = 0 x = 0 y = 0
+
+> set res -1, set a res, set x res, set y res
+res = -1 a = -1 x = -1 y = -1
+
+
+#
+# Check basic integer comparison.
+#
+
+# Tests return a if true, -a if false, so set a.
+> set a 100
+a = 100
+
+# Cycle through combinations of true- and false-ness.
+> set x 0, set y 0, if ne x y
+x = 0 y = 0 res = -100
+
+> set x 0, set y 1, if ne x y
+x = 0 y = 1 res = 100
+
+> set x 1, set y 0, if ne x y
+x = 1 y = 0 res = 100
+
+> set x 0, set y 0, if ne_alternate x y
+x = 0 y = 0 res = -100
+
+> set x 0, set y 1, if ne_alternate x y
+x = 0 y = 1 res = 100
+
+> set x 1, set y 0, if ne_alternate x y
+x = 1 y = 0 res = 100
+
+> set x 0, set y 0, if eq x y
+x = 0 y = 0 res = 100
+
+> set x 0, set y 1, if eq x y
+x = 0 y = 1 res = -100
+
+> set x 1, set y 0, if eq x y
+x = 1 y = 0 res = -100
+
+> set x 0, set y 0, if eq_alternate x y
+x = 0 y = 0 res = 100
+
+> set x 0, set y 1, if eq_alternate x y
+x = 0 y = 1 res = -100
+
+> set x 1, set y 0, if eq_alternate x y
+x = 1 y = 0 res = -100
+
+> set x 0, set y 0, if gt x y
+x = 0 y = 0 res = -100
+
+> set x 0, set y 1, if gt x y
+x = 0 y = 1 res = -100
+
+> set x 1, set y 0, if gt x y
+x = 1 y = 0 res = 100
+
+> set x 0, set y 0, if lt x y
+x = 0 y = 0 res = -100
+
+> set x 0, set y 1, if lt x y
+x = 0 y = 1 res = 100
+
+> set x 1, set y 0, if lt x y
+x = 1 y = 0 res = -100
+
+> set x 0, set y 0, if ge x y
+x = 0 y = 0 res = 100
+
+> set x 0, set y 1, if ge x y
+x = 0 y = 1 res = -100
+
+> set x 1, set y 0, if ge x y
+x = 1 y = 0 res = 100
+
+> set x 0, set y 0, if le x y
+x = 0 y = 0 res = 100
+
+> set x 0, set y 1, if le x y
+x = 0 y = 1 res = 100
+
+> set x 1, set y 0, if le x y
+x = 1 y = 0 res = -100
+
+> set x 0, set y 0, if or x y gt 0
+x = 0 y = 0 res = -100
+
+> set x 0, set y 1, if or x y gt 0
+x = 0 y = 1 res = 100
+
+> set x 1, set y 0, if or x y gt 0
+x = 1 y = 0 res = 100
+
+> set x 1, set y 1, if or x y gt 0
+x = 1 y = 1 res = 100
+
+> set x 0, set y 0, if or_alternate x y gt 0
+x = 0 y = 0 res = -100
+
+> set x 0, set y 1, if or_alternate x y gt 0
+x = 0 y = 1 res = 100
+
+> set x 1, set y 0, if or_alternate x y gt 0
+x = 1 y = 0 res = 100
+
+> set x 1, set y 1, if or_alternate x y gt 0
+x = 1 y = 1 res = 100
+
+> set x 0, set y 0, if or_alternate2 x y gt 0
+x = 0 y = 0 res = -100
+
+> set x 0, set y 1, if or_alternate2 x y gt 0
+x = 0 y = 1 res = 100
+
+> set x 1, set y 0, if or_alternate2 x y gt 0
+x = 1 y = 0 res = 100
+
+> set x 1, set y 1, if or_alternate2 x y gt 0
+x = 1 y = 1 res = 100
+
+> set x 0, set y 0, if _and x y gt 0
+x = 0 y = 0 res = -100
+
+> set x 0, set y 1, if _and x y gt 0
+x = 0 y = 1 res = -100
+
+> set x 1, set y 0, if _and x y gt 0
+x = 1 y = 0 res = -100
+
+> set x 1, set y 1, if _and x y gt 0
+x = 1 y = 1 res = 100
+
+> set x 0, set y 0, if and_alternate x y gt 0
+x = 0 y = 0 res = -100
+
+> set x 0, set y 1, if and_alternate x y gt 0
+x = 0 y = 1 res = -100
+
+> set x 1, set y 0, if and_alternate x y gt 0
+x = 1 y = 0 res = -100
+
+> set x 1, set y 1, if and_alternate x y gt 0
+x = 1 y = 1 res = 100
+
+> set x 0, set y 0, if and_alternate2 x y gt 0
+x = 0 y = 0 res = -100
+
+> set x 0, set y 1, if and_alternate2 x y gt 0
+x = 0 y = 1 res = -100
+
+> set x 1, set y 0, if and_alternate2 x y gt 0
+x = 1 y = 0 res = -100
+
+> set x 1, set y 1, if and_alternate2 x y gt 0
+x = 1 y = 1 res = 100
+
+# Adrift appears to implement 'and' and 'or' with equal precedence.
+> set x 0, set y 0, set a 0, if or x y _and _a gt 0
+x = 0 y = 0 a = 0 res = -1
+
+> set x 0, set y 0, set a 1, if or x y _and _a gt 0
+x = 0 y = 0 a = 1 res = -1
+
+> set x 0, set y 1, set a 0, if or x y _and _a gt 0
+x = 0 y = 1 a = 0 res = -1
+
+> set x 0, set y 1, set a 1, if or x y _and _a gt 0
+x = 0 y = 1 a = 1 res = 1
+
+> set x 1, set y 0, set a 0, if or x y _and _a gt 0
+x = 1 y = 0 a = 0 res = -1
+
+> set x 1, set y 0, set a 1, if or x y _and _a gt 0
+x = 1 y = 0 a = 1 res = 1
+
+> set x 1, set y 1, set a 0, if or x y _and _a gt 0
+x = 1 y = 1 a = 0 res = -1
+
+> set x 1, set y 1, set a 1, if or x y _and _a gt 0
+x = 1 y = 1 a = 1 res = 1
+
+> set x 0, set y 0, set a 0, if or_paren x y _and _a gt 0
+x = 0 y = 0 a = 0 res = -1
+
+> set x 0, set y 0, set a 1, if or_paren x y _and _a gt 0
+x = 0 y = 0 a = 1 res = -1
+
+> set x 0, set y 1, set a 0, if or_paren x y _and _a gt 0
+x = 0 y = 1 a = 0 res = -1
+
+> set x 0, set y 1, set a 1, if or_paren x y _and _a gt 0
+x = 0 y = 1 a = 1 res = 1
+
+> set x 1, set y 0, set a 0, if or_paren x y _and _a gt 0
+x = 1 y = 0 a = 0 res = -1
+
+> set x 1, set y 0, set a 1, if or_paren x y _and _a gt 0
+x = 1 y = 0 a = 1 res = 1
+
+> set x 1, set y 1, set a 0, if or_paren x y _and _a gt 0
+x = 1 y = 1 a = 0 res = -1
+
+> set x 1, set y 1, set a 1, if or_paren x y _and _a gt 0
+x = 1 y = 1 a = 1 res = 1
+
+> set x 0, set y 0, set a 0, if _and x y or _a gt 0
+x = 0 y = 0 a = 0 res = -1
+
+> set x 0, set y 0, set a 1, if _and x y or _a gt 0
+x = 0 y = 0 a = 1 res = 1
+
+> set x 0, set y 1, set a 0, if _and x y or _a gt 0
+x = 0 y = 1 a = 0 res = -1
+
+> set x 0, set y 1, set a 1, if _and x y or _a gt 0
+x = 0 y = 1 a = 1 res = 1
+
+> set x 1, set y 0, set a 0, if _and x y or _a gt 0
+x = 1 y = 0 a = 0 res = -1
+
+> set x 1, set y 0, set a 1, if _and x y or _a gt 0
+x = 1 y = 0 a = 1 res = 1
+
+> set x 1, set y 1, set a 0, if _and x y or _a gt 0
+x = 1 y = 1 a = 0 res = 1
+
+> set x 1, set y 1, set a 1, if _and x y or _a gt 0
+x = 1 y = 1 a = 1 res = 1
+
+> set x 0, set y 0, set a 0, if _and x y or_paren _a gt 0
+x = 0 y = 0 a = 0 res = -1
+
+> set x 0, set y 0, set a 1, if _and x y or_paren _a gt 0
+x = 0 y = 0 a = 1 res = -1
+
+> set x 0, set y 1, set a 0, if _and x y or_paren _a gt 0
+x = 0 y = 1 a = 0 res = -1
+
+> set x 0, set y 1, set a 1, if _and x y or_paren _a gt 0
+x = 0 y = 1 a = 1 res = -1
+
+> set x 1, set y 0, set a 0, if _and x y or_paren _a gt 0
+x = 1 y = 0 a = 0 res = -1
+
+> set x 1, set y 0, set a 1, if _and x y or_paren _a gt 0
+x = 1 y = 0 a = 1 res = 1
+
+> set x 1, set y 1, set a 0, if _and x y or_paren _a gt 0
+x = 1 y = 1 a = 0 res = 1
+
+> set x 1, set y 1, set a 1, if _and x y or_paren _a gt 0
+x = 1 y = 1 a = 1 res = 1

@@ -1,0 +1,25 @@
+########## overriddenInheritedVerb ##########
+
+        No warnings or errors detected.
+
+
+V t1
+v o1
+v oc1
+
+
+L
+There is a o1 and a oc1 here.
+
+> v t1
+You v the t1, in the class. You v the t1, in the instance.
+
+> v o1
+You v the o1, in the instance.
+
+> v oc1
+You v the oc1, in the class.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

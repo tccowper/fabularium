@@ -1,0 +1,26 @@
+Add To Every thing
+  Verb x
+    Does "x" Say the thing. "."
+  End Verb.
+End Add To.
+
+The e1 Isa thing At l1
+End The e1.
+
+The e2 Isa thing In purse
+End The e2.
+
+The purse Isa object At l1
+  Container Taking thing.
+End The purse.
+
+The l1 Isa location
+  Exit w To l2.
+End The l1.
+
+The l2 Isa location
+End The l2.
+
+Start At l1.
+  Locate e2 In purse.
+  List purse.

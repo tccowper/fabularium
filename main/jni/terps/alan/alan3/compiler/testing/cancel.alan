@@ -1,0 +1,13 @@
+The l Isa location
+  Has anEvent e.
+End The l.
+
+Event e
+  "An event..."
+End Event.
+
+Start At l.
+  Cancel e.
+  Cancel anEvent of l.
+  Cancel l.
+

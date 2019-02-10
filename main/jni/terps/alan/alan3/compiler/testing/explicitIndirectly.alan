@@ -1,0 +1,12 @@
+The l Isa location
+End The l.
+
+The o Isa object
+  Container
+End The o.
+
+Start At l.
+  List o.
+  For Each f Indirectly In o Do
+    Say attr Of f.
+  End For.

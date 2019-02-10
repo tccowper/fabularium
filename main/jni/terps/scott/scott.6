@@ -1,0 +1,60 @@
+.Dd April 19, 2014
+.Dt SCOTT 6
+.Os
+.Sh NAME
+.Nm scott
+.Nd Scott Adams game interpreter
+.Sh SYNOPSIS
+.Nm
+.Op Fl dpstwy
+.Ar file
+.Sh DESCRIPTION
+.Nm
+is an interpreter for Scott Adams games.  The following options are
+available:
+.Bl -tag -width indent
+.It Fl d
+Enable
+.Dq debugging ,
+which simply means printing status messages to standard output (see
+.Xr stdout 3 )
+as the game file is loaded.
+.It Fl p
+Tell
+.Nm
+that the specified game uses a prehistoric database which does not
+support bit 16.
+.It Fl s
+Enable Scott Adams-style light messages, namely:
+.Dq Light has run out!
+instead of
+.Dq Your light has run out. ,
+and
+.Dq Light runs out in N turns.
+instead of
+.Dq Your light is growing dim. .
+.It Fl t
+Enable a TRS-80-style display, meaning a 64 character screen width
+instead of the default 80, and an 11 character status screen (if
+enabled) instead of the default 10.  In addition, a horizontal rule is
+displayed below the status screen, and full stops instead of hyphens
+separate listed items.
+See also the
+.Fl w
+option.
+.It Fl w
+Disable a split-screen display.  By default, room information is
+displayed in a separate window at the top of the screen, and user input
+is handled in the bottom window.  To interleave the two, similar to
+Infocom-style games, this option may be used.
+.It Fl y
+Generate
+.Dq You are
+style messages instead of the default
+.Dq I am .
+.El
+.Sh AUTHORS
+.An Alan Cox
+wrote the original ScottFree.
+.An "Chris Spiegel" Aq cspiegel@gmail.com
+ported ScottFree to Glk.

@@ -1,0 +1,88 @@
+The outer Isa location -- #2
+End The outer.
+
+The o Isa object At outer -- #3
+End The o.
+
+The inner1 Isa location At outer -- #4
+End The inner1.
+
+The oi1 Isa object At inner1 -- #5
+End The oi1.
+
+The inner2 Isa location At outer -- #6
+End The inner2.
+
+The oi2 Isa object At inner2 -- #7
+End The oi2.
+
+The innermost Isa location At inner1 -- #8
+End The innermost.
+
+The om Isa object At innermost -- #9
+End The om.
+
+Start At inner1.
+  "$n"
+  "o Directly At o:"
+  If o Directly At o Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o Directly At oi1:"
+  If o Directly At oi1 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o Directly At oi2:"
+  If o Directly At oi2 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o Directly At om:"
+  If o Directly At om Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "oi1 Directly At o:"
+  If oi1 Directly At o Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "oi1 Directly At oi1:"
+  If oi1 Directly At oi1 Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "oi1 Directly At oi2:"
+  If oi1 Directly At oi2 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "oi1 Directly At om:"
+  If oi1 Directly At om Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "oi2 Directly At o:"
+  If oi2 Directly At o Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "oi2 Directly At oi1:"
+  If oi2 Directly At oi1 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "oi2 Directly At oi2:"
+  If oi2 Directly At oi2 Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "oi2 Directly At om:"
+  If oi2 Directly At om Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "om Directly At o:"
+  If om Directly At o Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "om Directly At oi1:"
+  If om Directly At oi1 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "om Directly At oi2:"
+  If om Directly At oi2 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "om Directly At om"
+  If om Directly At om Then "yes, ok" Else "no, *** error ***" End If.

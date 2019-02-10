@@ -1,0 +1,18 @@
+The livingroom isa location
+End The livingroom.
+
+The butler Isa Actor At livingroom
+  Script goingOut
+    Step After 3
+      "The butler steps out of the room."
+      Locate butler At nowhere.
+    Step After 3
+      Locate butler At livingroom.
+      "The butler steps into the room."
+End The butler.
+
+The nowhere Isa location
+End The nowhere.
+
+Start At livingroom.
+  Use Script goingOut For butler.

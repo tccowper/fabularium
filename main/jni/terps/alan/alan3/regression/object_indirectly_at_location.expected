@@ -1,0 +1,30 @@
+########## object_indirectly_at_location ##########
+
+        No warnings or errors detected.
+
+
+
+O Indirectly At outer: no, ok 
+o Indirectly At inner1: yes, ok 
+o Indirectly At inner2: yes, ok 
+o Indirectly At innermost: yes, ok 
+o1 Indirectly At outer: no, ok 
+o1 Indirectly At inner1: no, ok 
+o1 Indirectly At inner2: no, ok 
+o1 Indirectly At innermost: yes, ok 
+o2 Indirectly At outer: no, ok 
+o2 Indirectly At inner1: no, ok 
+o2 Indirectly At inner2: no, ok 
+o2 Indirectly At innermost: no, ok 
+om Indirectly At outer: no, ok 
+om Indirectly At inner1: no, ok 
+om Indirectly At inner2: no, ok 
+om Indirectly At innermost no, ok
+
+
+Inner1
+There is a o1 here.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

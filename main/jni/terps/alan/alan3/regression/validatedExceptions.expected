@@ -1,0 +1,22 @@
+########## validatedExceptions ##########
+
+        No warnings or errors detected.
+
+
+There are two t's, t1 is present and t2 is not.
+ > takep everything except t2.
+ > taked everything except t2
+
+
+L1
+There is a t1 here.
+
+> takep everything except t2
+I can't see any t2 here.
+
+> taked everything except t2
+(t1) Taken.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

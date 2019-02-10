@@ -1,0 +1,9 @@
+The l Isa location
+End The l.
+
+Start At l.
+  If "a" == "A" Then
+    "STREXACT does not work."
+  Else
+    "STREXACT works."
+  End If.

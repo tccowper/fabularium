@@ -1,0 +1,16 @@
+The l Isa location
+  Is Not xed.
+End The l.
+
+Verb x
+  Does
+    Make l xed.
+End Verb.
+
+Event examinorMove
+  "This is examinor moving."
+  Schedule examinorMove After 1.
+End Event.
+
+Start At l.
+  Schedule examinorMove After 1.

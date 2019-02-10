@@ -1,0 +1,38 @@
+########## entered3 ##########
+
+        No warnings or errors detected.
+
+
+'Look' to move the npc to other room, shout to bring him to current
+
+
+Startroom
+You can follow the sunset to the west.
+
+> w
+'Entered' has been triggered: hero has entered the Room2.
+
+Room2
+You can go east.
+
+> look
+Room2
+You can go east.
+
+> shout
+The npc comes looking, wondering what all the noise is for. 'Entered' has
+been triggered: npc has entered the Room2.
+
+> e
+'Entered' has been triggered: hero has entered the Startroom.
+
+Startroom
+You can follow the sunset to the west.
+
+> shout
+The npc comes looking, wondering what all the noise is for. 'Entered' has
+been triggered: npc has entered the Startroom.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

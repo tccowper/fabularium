@@ -1,0 +1,56 @@
+The l Isa location
+  Is
+    a 1.
+End The l.
+
+Start At l.
+
+	Depending On a Of l 
+	= 1 Then "execute1"
+	> 0 Then "don't execute1"
+		Depending On a Of l
+		= 1 Then "don't execute2"
+		Else "don't execute3"
+		End Depend.
+	Else 
+		Depending On a Of l
+		= 1 Then "don't execute4"
+		Else "don't execute5"
+		End Depend.
+	End Depend.
+	
+	Depending On a of l
+	< 0 Then "don't execute6"
+		Depending On a Of l
+		= 1 Then "don't execute7"
+			Depending On a Of l
+			= 1 Then "don't execute8"
+			Else "don't execute9"
+			End Depend.
+		End Depend.
+	= 1 Then "execute2"
+	Else 
+		Depending On a Of l
+		= 1 Then "don't execute10"
+		Else "don't execute11"
+		End Depend.
+	End Depend.
+	
+	Depending On a of l
+	> 0 Then "execute3"
+		Depending On a Of l
+		= 1 Then "execute4"
+			Depending On a Of l
+			= 1 Then "execute5"
+			Else "don't execute12"
+			End Depend.
+		End Depend.
+	< 0 Then "don't execute14"
+	Else 
+		Depending On a Of l
+		= 1 Then "don't execute"
+		Else "don't execute"
+		End Depend.
+	End Depend.
+
+	"execute this last"

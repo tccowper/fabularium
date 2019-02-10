@@ -1,0 +1,66 @@
+#######################################################################
+# This Makefile is for building the Alan Compiler from scratch
+# on ThoNi's machine. It is basically a Cygwin environment so it
+# includes Makefile.cygwin but adds all the rules to build using
+# ToolMaker compiler tools, etc.
+#
+# It is also the environment that will be used when running within
+# the Hudson Continuous Integration server, since that is running on
+# ThoNi's machine too
+#######################################################################
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# Default target on thoni is :
+#
+all: tm unit build
+
+include Makefile.cygwin
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# Build all binaries
+#
+# 'build' is the target the continuous integration will use
+.PHONY: build
+build : alan winalan
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# release
+#
+release: OPTIMIZE = -O4
+.PHONY: release
+release: clean build
+	@if ldd alan | grep -q cygwin1.dll ; then \
+		echo Warning - alan is dependent on cygwin1.dll ; \
+		exit 1 ; \
+	fi
+	@if ldd winalan | grep -q cygwin1.dll ; then \
+		echo Warning - alan is dependent on cygwin1.dll ; \
+		exit 1 ; \
+	fi
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+## rndalan - Progam to generate a randomized Alan source
+#
+rndalan: rndalan.o
+	$(LINK) $(LINKFLAGS) -o rndalan rndalan.o
+	-@if ! test -f ../bin; then mkdir ../bin 2> /dev/null ; fi
+	cp rndalan ../bin
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# ToolMaker stuff
+#
+.tmstamp: $(TMSRCS)
+	$(MAKE) -f Makefile.tm
+
+.PHONY: tm
+tm:
+	-@if test "`uname -n`" = "thoni"; then \
+		$(MAKE) -f Makefile.tm ; \
+	fi
+
+include ../venum.mk

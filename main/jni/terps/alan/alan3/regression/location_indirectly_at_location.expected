@@ -1,0 +1,18 @@
+########## location_indirectly_at_location ##########
+
+        No warnings or errors detected.
+
+
+
+Inner1 Indirectly At outer: no, ok 
+inner2 Indirectly At outer: no, ok 
+innermost Indirectly At inner1: no, ok 
+innermost Indirectly At inner2: no, ok 
+innermost Indirectly At outer: yes, ok
+
+
+Inner1
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

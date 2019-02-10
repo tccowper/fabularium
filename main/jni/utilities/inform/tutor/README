@@ -1,0 +1,8 @@
+This directory contains some Inform tutorial files:
+
+     alice.txt		Tutorial by Gareth Rees
+     alice.inf		Source code to the tutorial game
+
+     houseXX.inf	Tutorial files by David Cornelson
+
+     aloneice.inf	Another tutorial game by Ethan Dicks

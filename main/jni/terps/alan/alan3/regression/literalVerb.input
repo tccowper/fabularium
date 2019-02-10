@@ -1,0 +1,16 @@
+obj 1
+obj l
+obj "hej"
+obj hero
+lit 1
+lit l
+lit "hej"
+lit hero
+int 1
+int l
+int "hej"
+int hero
+str 1
+str l
+str "hej"
+str hero

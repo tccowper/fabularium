@@ -1,0 +1,16 @@
+########## arithmeticAggregates ##########
+
+        No warnings or errors detected.
+
+
+Max Of i Isa thing, At l = 12. Should be 12.
+Min Of i Isa actor, At l = 3. Should be 3 (hero).
+Sum Of i Isa object, At l = 6. Should be 6.
+
+
+L
+There is a o1, a o2 and a o3 here. There is a a1 here. There is a a2 here.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

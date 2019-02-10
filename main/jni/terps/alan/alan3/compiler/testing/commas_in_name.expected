@@ -1,0 +1,33 @@
+########## commas_in_name ##########
+
+
+commas_in_name.alan
+
+    1.  THE hero ISA ACTOR
+=====>      1
+
+  *1*   303 E : 'hero' also declared as a Verb.
+
+    3.      NAME me, myself, hero
+=====>             1
+
+  *1*   103 E : Syntax error. Replacing "," with "verb".
+
+    5.  END THE hero.
+=====>      1
+
+  *1*   101 E : Syntax error. Inserting "verb . end" before this token.
+
+
+
+
+        333 E : The word 'me' is defined to be both a synonym and another word
+                class.
+        333 E : The word 'myself' is defined to be both a synonym and another
+                word class.
+
+
+        5 error(s).
+        No detected warnings.
+        4 informational message(s).
+

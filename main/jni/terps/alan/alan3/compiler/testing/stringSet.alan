@@ -1,0 +1,8 @@
+The l Isa location
+  Has strings {""}.
+End The l.
+
+Start At l.
+  Include "me" In strings Of l.
+  Include 3 In strings Of l.
+  Include l In strings Of l.

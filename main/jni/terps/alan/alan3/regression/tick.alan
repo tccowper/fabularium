@@ -1,0 +1,11 @@
+The l Isa location
+End The l.
+
+Event ticks
+  Score.
+  Schedule ticks After 1.
+End Event.
+
+Start At l.
+  Schedule ticks After 1.
+  

@@ -1,0 +1,26 @@
+########## inheritedReferenceAttributeUndefinedClass ##########
+
+
+inheritedReferenceAttributeUndefinedClass.alan
+
+    5.  	HAS vessel zero_vessel.
+=====>  	           1
+
+  *1*   310 E : Identifier 'zero_vessel' not defined.
+
+    9.  	In bottle
+=====>  	   1
+
+  *1*   318 E : The 'bottle' does not have the container property, which is
+                required in Expression after IN.
+
+   15.  The bottle Isa listable_container
+=====>                 1
+
+  *1*   310 E : Identifier 'listable_container' not defined.
+
+
+        3 error(s).
+        No detected warnings.
+        1 informational message(s).
+

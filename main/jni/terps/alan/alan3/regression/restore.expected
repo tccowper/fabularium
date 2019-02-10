@@ -1,0 +1,24 @@
+########## restore ##########
+
+        No warnings or errors detected.
+
+
+
+L
+This is is l. it has x = 4.
+
+> save
+Enter file name to save in (restore.sav) : 
+
+> 
+
+> restore
+Enter file name to restore from (restore.sav) : 
+Done.
+
+L
+This is is l. it has x = 3.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

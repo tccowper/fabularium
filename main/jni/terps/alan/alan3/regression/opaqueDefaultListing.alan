@@ -1,0 +1,18 @@
+The l Isa location
+End The l.
+
+The opaqueuContainer Isa object At l
+  Opaque Container
+End The opaqueuContainer.
+
+The i1 Isa object In opaqueuContainer
+End The i1.
+
+The nonopaqueuContainer Isa object At l
+  Container
+End The nonopaqueuContainer.
+
+The i2 Isa object In nonopaqueuContainer
+End The i2.
+
+Start At l.

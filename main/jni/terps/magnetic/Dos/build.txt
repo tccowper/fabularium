@@ -1,0 +1,4 @@
+To build 16 bit MS-DOS Magnetic, install Borland C++ 4.5, make sure that the
+BC45\BIN directory is in the path, then in this directory enter the command
+
+  MAKE

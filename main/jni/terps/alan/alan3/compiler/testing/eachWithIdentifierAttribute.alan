@@ -1,0 +1,24 @@
+The room
+  Isa location.
+  Has a 4.
+  Description
+    "This is a room."
+  Exit w To room.
+  Exit e To other_room.
+End The room.
+
+The other_room
+  Isa location.
+  Has a 5.
+  Exit e To other_room.
+  Exit w To room.
+End The other_room.
+
+The obj Isa object
+End The obj.
+
+Start At room.
+  For Each l Isa Location Do
+    Say a. "has a ="
+    Say a Of l.
+  End For.

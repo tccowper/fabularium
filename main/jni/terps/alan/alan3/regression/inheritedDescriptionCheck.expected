@@ -1,0 +1,21 @@
+########## alan inheritedDescriptionCheck ##########
+
+        No warnings or errors detected.
+
+########## arun inheritedDescriptionCheck ##########
+
+
+L1
+It is pitch dark.
+
+> w
+L2
+This is the second location. There is a o2 here.
+
+> w
+L1
+It is pitch dark.
+
+> 
+
+Do you want to RESTART, RESTORE or QUIT ? 

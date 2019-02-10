@@ -1,0 +1,31 @@
+Add To Every object
+  Verb throw
+  End Verb throw.
+End Add To.
+
+The l1 Isa location
+  Verb throw
+    Does Only
+      "You can not throw anything in here."
+  End Verb.
+  Exit e,w,s,n To l2.
+End The l1.
+
+The l2 Isa location
+  Exit e,w,s,n To l1.
+End The l2.
+
+The hero
+  Container
+End The hero.
+
+The ball Isa object
+  In hero
+  Verb throw
+    Does "You throw the ball."
+  End Verb.
+End The ball.
+
+Start At l1.
+  "Throw the ball. Then go east to l2 and throw it there."
+

@@ -1,0 +1,34 @@
+########## stringSet ##########
+
+
+stringSet.alan
+
+    2.    Has strings {""}.
+=====>                 1
+
+  *1*   410 E : Incompatible types in Set literal expression. A Set can only
+                contain integers or instance references.
+
+    6.    Include "me" In strings Of l.
+=====>            1
+
+  *1*   410 E : Incompatible types in INCLUDE statement. This Set can only
+                contain unknown class.
+
+    7.    Include 3 In strings Of l.
+=====>            1
+
+  *1*   410 E : Incompatible types in INCLUDE statement. This Set can only
+                contain unknown class.
+
+    8.    Include l In strings Of l.
+=====>            1
+
+  *1*   410 E : Incompatible types in INCLUDE statement. This Set can only
+                contain unknown class.
+
+
+        4 error(s).
+        No detected warnings.
+        1 informational message(s).
+

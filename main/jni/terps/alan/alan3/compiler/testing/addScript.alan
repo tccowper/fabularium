@@ -1,0 +1,28 @@
+The l Isa location
+End The l.
+
+Every hero Isa actor
+  Script saving Step ""
+  Script playing Step ""
+  Script sleeping Step ""
+  Script courting Step ""
+End Every hero.
+
+Add To Every hero
+  Script saving. Step ""
+End Add To.
+
+Add To Every hero
+  Script courting. Step ""
+End Add.
+
+Add To Every hero
+  Script eating. Step ""
+  Script sleeping. Step ""
+End Add To.
+
+Add To Every thing
+  Script x. Step ""
+End Add.
+
+Start At l.

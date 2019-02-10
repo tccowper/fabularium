@@ -1,0 +1,22 @@
+########## undoAfterQuit2 ##########
+
+        No warnings or errors detected.
+        2 informational message(s).
+
+
+
+Loc
+It is not changed.
+
+> change
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? undo
+'change' undone.
+
+> l
+Loc
+It is not changed.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

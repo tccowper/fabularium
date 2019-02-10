@@ -1,0 +1,20 @@
+########## long ##########
+
+Syntax
+  text = 'text'.
+
+Verb text
+  Does
+    "This is a very very very very very very very long string too see if
+     very very very very long strings are properly formatted on the screen.
+     If it isn't then there is a problem but who knows where it may be!"
+End Verb.
+
+
+The l Isa location
+  
+End The l.
+
+Start At l.
+  "Try 'text'."
+  

@@ -1,0 +1,15 @@
+########## multipleDefinitionsShouldGiveInfo ##########
+
+
+multipleDefinitionsShouldGiveInfo.alan
+
+    4.  The coin Isa object
+=====>      1
+
+  *1*   304 E : 'coin' also declared as an Instance (The).
+
+
+        1 error(s).
+        No detected warnings.
+        2 informational message(s).
+

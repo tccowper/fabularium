@@ -1,0 +1,15 @@
+########## verbInOuterLocationShouldGetExecuted ##########
+
+        No warnings or errors detected.
+
+
+
+Inner
+The inner is described.
+
+> x
+This is x'ing the outer. This is x'ing the inner.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

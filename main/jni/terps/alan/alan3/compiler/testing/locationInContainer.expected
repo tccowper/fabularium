@@ -1,0 +1,20 @@
+########## locationInContainer ##########
+
+
+locationInContainer.alan
+
+    5.    Container Taking location.
+=====>                     1
+
+  *1*   402 E : A Location cannot be inside a Container.
+
+   12.    Locate a In c.
+=====>           1
+
+  *1*   402 E : A Location cannot be inside a Container.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

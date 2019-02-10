@@ -1,0 +1,12 @@
+The l Isa location
+End The l.
+
+Start At l.
+  For Each i Between 1 And 4 Do
+    Depending on i
+    = 1 Then "1"
+    = 2 Then "2"
+    = 3 Then "3"
+    = 4 Then "4"
+    End Depend.
+  End For.

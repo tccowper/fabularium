@@ -1,0 +1,19 @@
+The l Isa location
+  Is x.
+End The l.
+
+Syntax z = z.
+Verb z
+  Does "..."
+End Verb.
+
+Event x
+  "Event x at"
+  Say Current Location.
+End Event.
+
+Start At l.
+  "Start at"
+  Say Current Location.
+  Schedule x After 2.
+

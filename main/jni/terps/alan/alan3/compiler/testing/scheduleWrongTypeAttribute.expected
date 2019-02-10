@@ -1,0 +1,26 @@
+########## scheduleWrongTypeAttribute ##########
+
+
+scheduleWrongTypeAttribute.alan
+
+    2.    Has loc location.
+=====>            1
+
+  *1*   428 E : Attribute value in reference attribute declaration must refer
+                to an instance or event.
+
+    9.    Schedule l Of l After 0.
+=====>               1
+
+  *1*   331 E : Incompatible types in SCHEDULE statement. Event type required.
+
+   10.    Cancel l Of l.
+=====>             1
+
+  *1*   331 E : Incompatible types in CANCEL statement. Event type required.
+
+
+        3 error(s).
+        No detected warnings.
+        1 informational message(s).
+

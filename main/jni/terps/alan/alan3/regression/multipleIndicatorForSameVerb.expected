@@ -1,0 +1,61 @@
+########## multipleIndicatorForSameVerb ##########
+
+
+multipleIndicatorForSameVerb.alan
+
+   19.    Does
+=====>    1
+
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'put_in', depending on the parameter
+                restrictions. You might want to use a WHEN clause to specify
+                for which parameter this alternative is to be run.
+
+   29.    Does
+=====>    1
+
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'get_in', depending on the parameter
+                restrictions. You might want to use a WHEN clause to specify
+                for which parameter this alternative is to be run.
+
+
+        No detected errors.
+        2 warning(s).
+
+
+
+L1
+There is a o1, a o2 and a o3 here.
+
+> put all
+(o1) You put the o1.
+
+(o2) You put the o2.
+
+(o3) You put the o3.
+
+> put all in o1
+(o1) You put the o1. You put the o1.
+
+(o2) You put the o2. You put the o1.
+
+(o3) You put the o3. You put the o1.
+
+> get all
+(o1) You get the o1.
+
+(o2) You get the o2.
+
+(o3) You get the o3.
+
+> get all in o1
+(o1) You get the o1. You get the o1.
+
+(o2) You get the o2. You get the o1.
+
+(o3) You get the o3. You get the o1.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

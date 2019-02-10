@@ -1,0 +1,41 @@
+########## arun3.0beta3 ##########
+
+
+versions.alan
+
+   12.    Verb v
+=====>    1
+
+  *1*   426 W : Adding a Verb to the pre-defined class 'entity' will result in
+                multiple executions of it, since it will be inherited by both
+                all locations and all objects. This is probably not what you
+                want. Try adding it to 'thing' instead.
+
+
+        No detected errors.
+        1 warning(s).
+
+
+
+Loc
+The loc is a location. There is a t here.
+
+> l
+Loc
+The loc is a location. There is a t here.
+
+> x t
+X t
+
+> x hero
+That's impossible with the hero.
+
+> x "c"
+That's impossible with c.
+
+> v "c"
+Plural: as
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

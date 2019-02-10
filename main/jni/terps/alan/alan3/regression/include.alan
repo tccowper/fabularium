@@ -1,0 +1,21 @@
+The l Isa location
+  Has nSet {3}.
+  Has iSet {t}.
+End The l.
+
+The t Isa thing
+  Has size 44.
+End The t.
+
+Start At l.
+  Include t In iSet Of l.
+  Include hero In l:iSet.
+  If hero In iSet Of l Then "hero in iset," Else "Not ok," End If.
+  If t In iSet Of l Then "t in iset," Else "Not ok," End If.
+
+  Include 4 In nSet Of l.
+  Include size Of t in l:nSet.
+  If 3 In nSet of L Then "ok," Else "Not ok," End If.
+  If 4 In nSet of L Then "ok," Else "Not ok," End If.
+  If 44 In nSet of L Then "ok," Else "Not ok," End If.
+

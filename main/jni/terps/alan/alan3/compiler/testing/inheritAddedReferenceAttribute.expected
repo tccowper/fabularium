@@ -1,0 +1,12 @@
+########## inheritAddedReferenceAttribute ##########
+
+
+        328 E : Attribute 'r' is inherited from 'actor' as an abstract
+                attribute which is not initilized, only defined. Instances are
+                required to initialize all abstract attributes.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

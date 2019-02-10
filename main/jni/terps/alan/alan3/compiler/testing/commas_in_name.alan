@@ -1,0 +1,15 @@
+THE hero ISA ACTOR
+
+    NAME me, myself, hero
+
+END THE hero.
+
+
+SYNONYMS me, myself = hero.
+
+
+THE loc1 ISA LOCATION
+END THE.
+
+
+START AT loc1.

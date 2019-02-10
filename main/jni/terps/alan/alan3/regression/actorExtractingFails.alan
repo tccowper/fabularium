@@ -1,0 +1,20 @@
+The a Isa actor At l
+  Container
+  Script stealing
+    Step "'Stealing the treasure', says" Say The a. "." Locate treasure In This. "'Stole the treasure', says" Say The a. "."
+    Step "'I'm continuing after stealing the treasure', says" Say The a. "."
+End The a.
+
+The hero
+  Container
+    Extract Check "I will not give it up..."
+End The hero.
+
+The treasure Isa object In hero
+End The treasure.
+
+The l Isa location
+End The l.
+
+Start At l.
+  Use Script stealing For a.

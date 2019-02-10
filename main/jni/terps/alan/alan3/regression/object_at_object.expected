@@ -1,0 +1,30 @@
+########## object_at_object ##########
+
+        No warnings or errors detected.
+
+
+
+O At o: yes, ok 
+o At o1: no, ok 
+o At o2: no, ok 
+o At om: no, ok 
+o1 At o: yes, ok 
+o1 At o1: yes, ok 
+o1 At o2: no, ok 
+o1 At om: no, ok 
+o2 At o: yes, ok 
+o2 At o1: no, ok 
+o2 At o2: yes, ok 
+o2 At om: no, ok 
+om At o: yes, ok 
+om At o1: yes, ok 
+om At o2: no, ok 
+om At om yes, ok
+
+
+Inner1
+There is a o1 here.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

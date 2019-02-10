@@ -1,0 +1,14 @@
+Every x Isa thing
+  Initialize
+    Say unknown.
+  Initialize
+    Say x.
+End Every x.
+
+The y Isa x
+End The y.
+
+The l Isa location
+End the l.
+
+Start At l.

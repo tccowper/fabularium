@@ -1,0 +1,21 @@
+########## directly_nearby ##########
+
+        No warnings or errors detected.
+
+
+N1 Nearby: No, ok 
+N2 Nearby: Yes, ok. 
+N3 Nearby: No, ok 
+N4 Nearby: Yes, ok. 
+N1 Directly Nearby: No, ok 
+N2 Directly Nearby: No, ok 
+N3 Directly Nearby: No, ok 
+N4 Directly Nearby: Yes, ok. 
+
+
+L1
+There is a c1 here. The c1 contains a n1. There is a n3 here.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

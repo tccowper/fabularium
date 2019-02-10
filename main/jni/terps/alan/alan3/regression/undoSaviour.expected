@@ -1,0 +1,98 @@
+########## undoSaviour ##########
+
+        No warnings or errors detected.
+        9 informational message(s).
+
+
+
+Welcome to the game of SAVIOUR!
+
+In this game your mission is to salvage the last copy of the famous
+ADVENTURE game. Legends have it that somewhere inside an ancient building
+the last copy of this game is still spinning on some old disks.
+
+If you need help just type 'help'.
+
+So go forth and be the salvaging hero of all Adventurers!
+
+
+This game was produced with the ALAN Adventure Development System and is
+brought to you by ThoNi&GorFo Adventure Factories. Visit the Alan Home
+Pages at: 
+
+http://www.alanif.se
+
+
+Outside The Tall Building
+To the north is a tall ancient building with a large entrance. On the top
+there is a clock tower. Most of the windows in the building are broken,
+and a sign with three oval objects are hanging lose from the wall.
+
+> n,w
+Hall
+Inside the entrance is a hallway full of dust and pieces of the ceiling
+has fallen to the floor. At the west end is a staircase, and to the south
+is the exit. To the east is a folding door. It is closed.
+
+
+Stairs
+You are at the landing of an old staircase. It seem steady enough to walk
+in, but be careful if you are going to use it. There is a passage leading
+up, and another leading down into a dark cellar. To the east is the
+hallway. A strange smell emerges from below.
+
+> undo
+'w' undone.
+
+> kick the door
+You can't do that.
+
+> undo
+'n' undone.
+
+> l
+Outside The Tall Building
+To the north is a tall ancient building with a large entrance. On the top
+there is a clock tower. Most of the windows in the building are broken,
+and a sign with three oval objects are hanging lose from the wall.
+
+> undo
+Nothing to undo.
+
+> undo
+Nothing to undo.
+
+> n,w,d,u
+Hall
+Inside the entrance is a hallway full of dust and pieces of the ceiling
+has fallen to the floor. At the west end is a staircase, and to the south
+is the exit. To the east is a folding door. It is closed.
+
+
+Stairs
+You are at the landing of an old staircase. It seem steady enough to walk
+in, but be careful if you are going to use it. There is a passage leading
+up, and another leading down into a dark cellar. To the east is the
+hallway. A strange smell emerges from below.
+
+
+Cellar
+In front of you is a dark cellar. To the west is a doorway into a dark
+room. The stairs lead up. A thin beam of light has found its way all the
+way down here. In the light from the sun some rats can be seen.
+
+
+Stairs (again)
+
+> undo
+'u' undone.
+
+> l
+Cellar
+In front of you is a dark cellar. To the west is a doorway into a dark
+room. The stairs lead up. A thin beam of light has found its way all the
+way down here. In the light from the sun some rats can be seen.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

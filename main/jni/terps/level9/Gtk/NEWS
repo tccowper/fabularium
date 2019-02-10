@@ -1,0 +1,52 @@
+2005-08-XX - 1.3 (The "Keeping up with the Baldwins" release.)
+
+Bugfixes
+
+- Don't assume that "/" is the directory separator when building the
+  config filename.
+
+Other changes
+
+- Updated the README file; GlkLevel9 supports graphics now.
+
+- Usability fixes for the file selector. It always has a default
+  widget now, and it remembers the most recently used directory.
+
+2005-07-31 - 1.2 (The "Raising shields" release.)
+
+Bugfixes
+
+- When using #save and #restore, the file selector dialog didn't work.
+  That was apparently because the game kept running in the background,
+  so os_input() was called again. I guess calling gtk_main() while in
+  a file dialog is a really bad idea...
+
+- Don't crash if quitting while waiting for keypress to skip picture.
+
+Other changes
+
+- Flush the output before waiting for keypress to skip picture. This
+  could make the input prompt non-editable, however, so now the input
+  buffer is always scrolled and made editable on os_input.
+
+- Try to make the data filename absolute before loading the file. This
+  should ensure that the same filename is stored in savegames,
+  regardless of if the user specified it with a file chooser or on the
+  command line.
+
+2005-07-29 - 1.1 (The "More beta than schmeta" release.)
+
+Bugfixes
+
+- Minor fixes to the file chooser dialog.
+
+Other changes
+
+- We used to execute only one game instruction every time the program
+  was idle, but it's probably more efficient (and not noticeable to the
+  user) to run several. Now we run up to 20.
+
+2005-07-28 - 1.0 (The "Beta Schmeta" release.)
+
+Well, it seems to be working now, but I don't know much about the
+Level 9 games...

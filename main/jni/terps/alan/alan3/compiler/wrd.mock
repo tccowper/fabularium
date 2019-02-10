@@ -1,0 +1,35 @@
+#include <cgreen/mocks.h>
+
+#include "wrd.h"
+
+
+/* USE: */
+#include "acode.h"
+#include "ins.h"
+#include "stx.h"
+
+
+/* DATA: */
+
+int words[1000];
+
+
+
+/* FUNCTIONS: */
+
+/* Find a Word in the dictonary */
+Word *findWord(char str[]) { return (Word *)mock(str); }
+
+/* Insert a Word into the dictionary */
+int newPronounWord(char *theWord, Instance *reference) { return (int)mock(theWord, reference); }
+int newPrepositionWord(char *theWord) { return (int)mock(theWord); }
+int newSynonymWord(char *theWord, Word *original) { return (int)mock(theWord, original); }
+int newAdjectiveWord(char *theWord, Instance *reference) { return (int)mock(); }
+int newVerbWord(char *theWord, Syntax *syntax) { return (int)mock(theWord, syntax); }
+int newDirectionWord(char *theWord, int code) { return (int)mock(theWord, code); }
+int newNounWord(char *theWord, int code, Instance *reference) { return (int)mock(theWord, reference); }
+
+void prepareWords(void) { (void)mock(); }
+void analyzeAllWords(void) { (void)mock(); }
+void finalizeWords(void) { (void)mock(); }
+Aaddr generateAllWords(void) { return (int)mock(); }

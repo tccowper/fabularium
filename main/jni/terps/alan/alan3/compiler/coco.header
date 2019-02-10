@@ -1,0 +1,33 @@
+COMPILER adventure
+
+IGNORECASE
+
+CHARACTERS
+	tab	=	'\t'.	/*  9 = tabulator */
+	lf	=	'\n'.	/* 10 = line feed */
+	cr	=	'\r'.	/* 13 = carriage return */
+
+	zero		= '0'.
+	zeroToThree	= zero + "123" .
+	octalDigit	= zero + "1234567" . 
+	nonZeroDigit	= "123456789".
+	digit     	= '0' + nonZeroDigit .
+	hexDigit	= digit + "ABCDEFabcdef" .
+	letter    	= 'A' .. 'Z' + 'a' .. 'z' + '_' + '$' +
+                          '\u00e0'..'\u00f6' + '\u00f8'..'\u00fe'.
+
+	char		= ANY - "'" - '\\' - cr - lf.
+	stringChar	= ANY - "\"".
+
+TOKENS
+	Identifier	= (letter {letter | digit | '_'})
+	                | ('\'' {char} '\'').
+	Integer		= digit {digit}.
+	STRING		= '"' {stringChar | "\"\"" } '"'.
+	Import		= "import".
+
+COMMENTS FROM "--" TO lf
+
+IGNORE lf + cr + tab
+
+PRODUCTIONS

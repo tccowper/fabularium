@@ -1,0 +1,29 @@
+########## galon ##########
+Options
+  debug.
+  
+
+
+Syntax
+  take_obj = 'take' (o)
+    Where o Isa object ****OR**** 'actor'
+      Else 
+        "You can't take that."
+  
+
+Verb take_obj
+  Does
+    "Taken."
+End Verb.
+
+
+The obj Isa object
+  At l 
+End The obj.
+
+The l Isa location
+  
+End The l.
+
+Start At l.
+  

@@ -1,0 +1,64 @@
+########## restriction3 ##########
+
+
+restriction3.alan
+
+   14.      Does
+=====>      1
+
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'give', depending on the parameter
+                restrictions. You might want to use a WHEN clause to specify
+                for which parameter this alternative is to be run.
+
+
+        No detected errors.
+        1 warning(s).
+
+
+
+L
+There is a o here. There is a here. There is c here.
+
+> give a o
+A can't carry anything.
+
+> give a a
+A can't carry anything.
+
+> give o o
+O can't carry anything.
+
+> give c a
+You can't give a to c.
+
+> give a c
+A can't carry anything.
+
+> give c c
+You can't give c to c.
+
+> give o c
+O can't carry anything.
+
+> give c o
+GIVE says that (recip) is = c
+
+> give 3 4 
+3 can't carry anything.
+
+> give a 4
+A can't carry anything.
+
+> give c 3
+You can't give 3 to c.
+
+> give a "hej"
+A can't carry anything.
+
+> give c "hej"
+You can't give hej to c.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

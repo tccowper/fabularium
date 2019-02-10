@@ -1,0 +1,640 @@
+########## byron ##########
+Options
+  pack.
+  
+
+
+Add To Every object
+  Is
+    Not takeable.
+    take_refuse_msg 
+    "You can't take that.".
+    weight  0.
+    length  0.
+    width  0.
+    height  0.
+    position 
+    "on the ground".
+    general_details 
+    "You see nothing special.".
+    interior_details 
+    "You can't look in that.".
+    nether_details 
+    "You can't look under that.".
+    astral_details 
+    "You can't look on top of that.".
+End Add To.
+
+Add To Every actor
+  Is
+    Not takeable.
+    take_refuse_msg 
+    "You can't take that.".
+    weight  150.
+    length  150.
+    width  40.
+    height  20.
+    general_details 
+    "You see nothing special.".
+    interior_details 
+    "You can't look in that.".
+    nether_details 
+    "You can't look under that.".
+    astral_details 
+    "You can't look on top of that.".
+End Add To.
+
+Syntax
+  'quit' = 'quit'.
+  'save' = 'save'.
+  'restore' = 'restore'.
+  'look' = 'look'.
+  look_at = 'look' 'at' (obj).
+  examine = 'examine' (obj).
+  look_in = 'look' 'in' (obj)
+    Where obj Isa **** container object ****
+      Else 
+        Say interior_details Of obj.
+  
+  look_under = 'look' 'underneath' (obj).
+  look_over = 'look' 'over' (obj).
+  look_on_top_of = 'look' 'on' 'top' 'of' (obj).
+  get = 'get' (obj)*
+    Where obj Isa object
+      Else 
+        "Why don't you just talk to $o?"
+  
+  put = 'put' (obj)*.
+  put_in = 'put' (obj1)* 'in' (obj2)
+    Where obj1 Isa object
+      Else 
+        "How would you like it if someone tried to do that to you?"
+    And obj2 Isa **** container object ****
+      Else 
+        "You have to tell me how to put the $1 in the $2."
+  
+  put_on = 'put' (obj1)* 'on' (obj2)
+    Where obj1 Isa object
+      Else 
+        "How would you like it if someone tried to do that to you?"
+    And obj2 Isa object
+      Else 
+        "$2 would rather you didn't."
+  
+  put_under = 'put' (obj1)* 'underneath' (obj2)
+    Where obj1 Isa object
+      Else 
+        "How would you like it if someone tried to do that to you?"
+    And obj2 Isa object
+      Else 
+        "$2 would rather you didn't."
+  
+  put_next_to = 'put' (obj1)* 'next' 'to' (obj2)
+    Where obj1 Isa object
+      Else 
+        "How would you like it if someone tried to do that to you?"
+    And obj2 Isa object
+      Else 
+        "$2 would rather you didn't."
+  
+  put_in_front_of = 'put' (obj1)* 'in' 'front' 'of' (obj2)
+    Where obj1 Isa object
+      Else 
+        "How would you like it if someone tried to do that to you?"
+    And obj2 Isa object
+      Else 
+        "$2 would rather you didn't."
+  
+  put_behind = 'put' (obj1)* 'behind' (obj2)
+    Where obj1 Isa object
+      Else 
+        "How would you like it if someone tried to do that to you?"
+    And obj2 Isa object
+      Else 
+        "$2 would rather you didn't."
+  
+  pry_back = 'pry' 'back' (obj).
+  take_inventory = 'inventory'.
+
+Synonyms
+  u = up.
+  d = down.
+  n = north.
+  e = east.
+  s = south.
+  w = west.
+  q = 'quit'.
+  l = 'look'.
+  take = get.
+  drop = put.
+  x, exam = examine.
+  i, invent = inventory.
+  through, 'into', inside = 'in'.
+  under, below = underneath.
+  apart, away = back.
+  
+
+Verb 'save'
+  Does
+    Save.
+    "Saved."
+End Verb.
+
+Verb 'restore'
+  Does
+    "Restoring..."
+    Restore.
+    Look.
+End Verb.
+
+Verb 'quit'
+  Does
+    Quit.
+End Verb.
+
+Verb 'look'
+  Does
+    Look.
+End Verb.
+
+Verb look_at, examine
+  Does
+    Say general_details Of obj.
+End Verb.
+
+Verb look_in
+  Does
+    If interior_details Of obj =
+    "CONTAINER" Then
+      List obj.
+    Else 
+      Say interior_details Of obj.
+    End If.
+End Verb.
+
+Verb look_under
+  Does
+    Say nether_details Of obj.
+End Verb.
+
+Verb look_over, look_on_top_of
+  Does
+    Say astral_details Of obj.
+End Verb.
+
+Verb put
+  Does
+    If obj Not In inventory Then
+      "You don't have that."
+    Else 
+      Locate obj Here.
+      Set position Of obj To 
+      "on the ground".
+      "You drop the $o."
+    End If.
+End Verb.
+
+Verb put_in
+  Does
+    If obj1 Not In inventory Then
+      If obj1 Is takeable Then
+        Locate obj1 In inventory.
+        "You take the $o."
+      End If.
+    End If.
+    If obj1 Not In inventory Then
+      Say take_refuse_msg Of obj1.
+    Else 
+      Locate obj1 In obj2.
+      Set position Of obj1 To 
+      "in $2".
+      "You put the $1 in the $2."
+    End If.
+End Verb.
+
+Verb put_on
+  Does
+    If obj1 Not In inventory Then
+      If obj1 Is takeable Then
+        Locate obj1 In inventory.
+        "You take the $o."
+      End If.
+    End If.
+    If obj1 Not In inventory Then
+      Say take_refuse_msg Of obj1.
+    Else 
+      Set position Of obj1 To 
+      "on $2".
+      "You put the $1 on the $2."
+    End If.
+End Verb.
+
+Verb put_under
+  Does
+    If obj1 Not In inventory Then
+      If obj1 Is takeable Then
+        Locate obj1 In inventory.
+        "You take the $o."
+      End If.
+    End If.
+    If obj1 Not In inventory Then
+      Say take_refuse_msg Of obj1.
+    Else 
+      Set position Of obj1 To 
+      "under $2".
+      "You put the $1 under the $2."
+    End If.
+End Verb.
+
+Verb put_next_to
+  Does
+    If obj1 Not In inventory Then
+      If obj1 Is takeable Then
+        Locate obj1 In inventory.
+        "You take the $o."
+      End If.
+    End If.
+    If obj1 Not In inventory Then
+      Say take_refuse_msg Of obj1.
+    Else 
+      Set position Of obj1 To 
+      "next to $2".
+      "You put the $1 next to the $2."
+    End If.
+End Verb.
+
+Verb put_in_front_of
+  Does
+    If obj1 Not In inventory Then
+      If obj1 Is takeable Then
+        Locate obj1 In inventory.
+        "You take the $o."
+      End If.
+    End If.
+    If obj1 Not In inventory Then
+      Say take_refuse_msg Of obj1.
+    Else 
+      Set position Of obj1 To 
+      "in front of $2".
+      "You put the $1 in front of the $2."
+    End If.
+End Verb.
+
+Verb put_behind
+  Does
+    If obj1 Not In inventory Then
+      If obj1 Is takeable Then
+        Locate obj1 In inventory.
+        "You take the $o."
+      End If.
+    End If.
+    If obj1 Not In inventory Then
+      Say take_refuse_msg Of obj1.
+    Else 
+      Set position Of obj1 To 
+      "behind $2".
+      "You put the $1 behind the $2."
+    End If.
+End Verb.
+
+Verb get
+  Does
+    If obj Is takeable Then
+      Locate obj In inventory.
+      Set position Of obj To 
+      "in inventory".
+      "You take the $o."
+    Else 
+      Say take_refuse_msg Of obj.
+    End If.
+End Verb.
+
+Verb take_inventory
+  Does
+    List inventory.
+End Verb.
+
+The inventory
+  Container
+    Limits
+      weight  50
+        Else
+          "You can't carry any more weight."
+      height  80
+        Else
+          "You wouldn't be able to see where you are going, carrying all
+           that."
+      width  45
+        Else
+          "Your load would be too awkward to carry."
+    Header
+      "You are carrying "
+    Else
+      "You are empty-handed."
+End The inventory.
+
+
+The begin_door Isa object
+  Name 'an' 'iron-clad' oak door
+  At starting 
+  Is 
+    Not open.
+  Has 
+    general_details 
+    "This is a huge oaken door, easily 12 feet tall, it has ornate bands of
+     cast iron an inch thick running across it from the hinges.".
+  Has 
+    nether_details 
+    "From below the door you can see an empty room beyond.".
+  Has 
+    default_nether_details 
+    "From below the door you can see an empty room beyond.".
+  Description
+    "There is a huge door to the north."
+    If begin_door Is open Then
+      "It is open."
+    Else 
+      "It is closed."
+    End If.
+  
+  Verb open
+    Does
+      If begin_door Is Not open Then
+        "The door opens with a errie creaking sound."
+        Make begin_door open.
+        Make end_door open.
+        Set nether_details Of begin_door To 
+        "You see nothing special.".
+        Set nether_details Of end_door To 
+        "You see nothing special.".
+      Else 
+        "It is already open."
+      End If.
+  End Verb.
+  
+  Verb close
+    Does
+      If begin_door Is open Then
+        "The door closes with a loud BANG!"
+        Make begin_door Not open.
+        Make end_door Not open.
+        Set nether_details Of begin_door To default_nether_details Of begin_door.
+        Set nether_details Of end_door To default_nether_details Of end_door.
+      Else 
+        "It is already closed."
+      End If.
+  End Verb.
+  
+End The begin_door.
+
+The end_door Isa object
+  Name 'iron-clad' oak door
+  At porch 
+  Is 
+    Not open.
+  Has 
+    general_details 
+    "This is a huge oaken door, easily 12 feet tall, it has ornate bands of
+     cast iron an inch thick running across it from the hinges.".
+  Has 
+    nether_details 
+    "From below the door you can see an empty room beyond.".
+  Has 
+    default_nether_details 
+    "From below the door you can see an empty room beyond.".
+  Description
+    "There is a huge door to the south."
+    If end_door Is open Then
+      "It is open."
+    Else 
+      "It is closed."
+    End If.
+  
+  Verb open
+    Does
+      If end_door Is Not open Then
+        "The door opens with a errie creaking sound."
+        Make end_door open.
+        Make begin_door open.
+        Set nether_details Of begin_door To 
+        "You see nothing special.".
+        Set nether_details Of end_door To 
+        "You see nothing special.".
+      Else 
+        "It is already open."
+      End If.
+  End Verb.
+  
+  Verb close
+    Does
+      If end_door Is open Then
+        "The door closes with a loud BANG!"
+        Make end_door Not open.
+        Make begin_door Not open.
+        Set nether_details Of begin_door To default_nether_details Of begin_door.
+        Set nether_details Of end_door To default_nether_details Of end_door.
+      Else 
+        "It is already closed."
+      End If.
+  End Verb.
+  
+End The end_door.
+
+The scroll1 Isa object
+  Name musty scroll
+  
+  Is 
+    takeable.
+  Has 
+    length  30.
+  Has 
+    width  10.
+  Has 
+    height  4.
+  Has 
+    position 
+    "in step".
+  Has 
+    general_details 
+    "The parchment is old and rather musty, there is some writing on it.".
+  Mentioned
+    "a Scroll of Admittance"
+  
+  Verb read
+    Does
+      If scroll1 In inventory Then
+        "The words are blurred and scuffed but the runes $pWGreLth
+         $n$nstand out clearly."
+        Score 1.
+      Else 
+        "I can't read that from here."
+      End If.
+  End Verb.
+  
+End The scroll1.
+
+The 'broken_step' Isa object
+  Name broken 'step'
+  At stairs 
+  With Container
+    Limits
+      height  10
+        Else
+          "The $o won't fit in there."
+      width  10
+        Else
+          "The $o won't fit in there."
+      length  100
+        Else
+          "The $o won't fit in there."
+    Header
+      "Within the space of the step is"
+  Is 
+    Not open.
+  Is 
+    Not found.
+  Has 
+    general_details 
+    "The step is warped and is sad need of repair.".
+  Has 
+    interior_details 
+    "You can't make out anything in the step, it's too dark.".
+  Description
+    If 'broken_step' Is found Then
+      If 'broken_step' Is Not open Then
+        "$nThe step you are on seems warped, one end is bent upward an
+         inch, pulling some nails along with it."
+      Else 
+        "$nThe step below you has been pried back to reveal an empty hollow
+         beneath."
+        List 'broken_step'.
+      End If.
+    End If.
+  
+  Verb pry_back
+    Does
+      "You pry back the wood of the step."
+      Score 1.
+      Make 'broken_step' open.
+      Locate scroll1 In 'broken_step'.
+      Set interior_details Of 'broken_step' To 
+      "CONTAINER".
+  End Verb.
+  
+  Verb examine, look_at
+    Does
+      Make 'broken_step' found.
+      Describe 'broken_step'.
+  End Verb.
+  
+End The 'broken_step'.
+
+The starting Isa location
+  Name 'the' beginning
+  
+  Description
+    "In the beginning, there was the void..."
+  
+  Exit north To porch
+    Check begin_door Is open
+      Else 
+        "The door is closed."
+  End Exit.
+  
+End The starting.
+
+The porch Isa location
+  Name 'The End'
+  
+  Description
+    "At the end of time, there was void again... There is a staircase to
+     the east leading up."
+  
+  Exit south To starting
+    Check end_door Is open
+      Else 
+        "The door is closed."
+  End Exit.
+  
+  Exit east To stairs.
+  
+End The porch.
+
+The stairs Isa location
+  Name 'Staircase'
+  
+  Has 
+    section  0.
+  Has 
+    top  5.
+  Has 
+    hidden_section  5.
+  Description
+    "You are "
+    If section Of stairs =0 Then
+      "at the bottom of a long and winding staircase which opens to the
+       west."
+    Elsif section Of stairs =top Of stairs Then 
+      "on top of a long and winding staircase. There is nowhere else to go
+       except down."
+    Else 
+      "on a long and winding staircase."
+    End If.
+  
+  Exit west To porch
+    Check section Of stairs =0
+      Else 
+        "You can't go that way."
+  End Exit.
+  
+  Exit up To stairs
+    Check 
+      If section Of stairs <top Of stairs Then
+        Increase section Of stairs.
+        "You climb up a few flights of stairs."
+        If section Of stairs =top Of stairs Then
+          "You have reached the top!"
+        End If.
+      Else 
+        "You are at the top of the stairs, you can't go up any further."
+      End If.
+  End Exit.
+  
+  Exit down To stairs
+    Check 
+      If section Of stairs >0 Then
+        Decrease section Of stairs.
+        "You climb down a few flights of stairs."
+        If section Of stairs =0 Then
+          "You have reached the bottom!"
+        End If.
+      Else 
+        "You are at the bottom of the stairs, you can't go down any
+         further."
+      End If.
+      If section Of stairs =hidden_section Of stairs Then
+        If 'broken_step' Is Not open Then
+          If 'broken_step' Is Not found Then
+            "CREAK!"
+          End If.
+        Else 
+          "You trip on a broken step and fall down the stairs."
+          "$p You Have died!"
+          Score .
+          Quit.
+        End If.
+      End If.
+  End Exit.
+  
+End The stairs.
+Event disaster
+  "Pop goes the weasal!"
+  Schedule disaster At hero After 3.
+End Event disaster.
+
+
+Start At starting.
+  "Hamburgers make excellent pets!"
+  Schedule disaster At hero After 3.
+  Set hidden_section Of stairs To Random 2 To 4.
+  

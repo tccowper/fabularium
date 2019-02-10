@@ -1,0 +1,21 @@
+-- Found by Anssi in his library 2010-08-15/ThoNi
+
+Every liquid Isa object
+	Container
+	HAS vessel zero_vessel.
+End Every liquid.
+
+The juice Isa liquid
+	In bottle
+	Has vessel bottle.
+	Is drinkable.
+	Article "some"
+End The.
+
+The bottle Isa listable_container
+End The.
+
+The l Isa location
+End The l.
+
+Start At l.

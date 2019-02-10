@@ -1,0 +1,26 @@
+########## exits ##########
+
+        No warnings or errors detected.
+
+
+
+Room1
+You are in a small empty room. The only way out is an archway leading
+north.
+
+> exits
+Available exits : north
+
+> south
+You can't go that way. Available exits : north
+
+> north
+Room2
+Another boring room. You can go south from here through an archway.
+
+> exits
+Exit list not available for this location.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

@@ -1,0 +1,32 @@
+The belt Isa entity
+    Container
+        Header
+            If Count Directly In hero > 0 Then "and"
+            Else "but" End If.
+            "in your belt you have"
+        Else
+            ""         
+End The belt.
+
+Verb invent
+	Does
+		List hero.
+		List belt.
+End Verb invent.
+
+The hero Isa actor
+  Container
+    Header "You are carrying"
+    Else "You are empty-handed" If Count Directly In belt = 0 Then "." End If.
+End The hero.
+
+The l Isa location
+End The l.
+
+The stone Isa object
+End The stone.
+
+The knife Isa object In belt
+End The knife.
+
+Start At l.

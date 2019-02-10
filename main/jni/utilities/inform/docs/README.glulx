@@ -1,0 +1,583 @@
+Support for Glulx
+=================
+
+One of the limitations of the Z-machine is the size of the largest game
+that it supports: 256Kb if you compile a version 5 game, or 512Kb if you
+compile for version 8. If you find yourself up against this limit and
+you’ve tried all the standard tricks to save a few bytes here and there,
+then it’s time to switch to Glulx. That's easy to do: you just supply
+the -G compiler switch, the compiler generates Glulx code, and any Glulx
+interpreter will be able to run it.
+
+Actually, it isn’t always quite that simple...
+
+
+Knowing which is which
+----------------------
+
+As mentioned earlier, the compiler automatically defines a couple of
+useful constants. If you’re compiling for the Z-machine then
+TARGET_ZCODE is defined; if you’re compiling for Glulx then you’re given
+TARGET_GLULX instead. You can use these with the Ifdef directive, like
+this:
+
+    #Ifdef TARGET_ZCODE;
+    ! Z-machine code here
+    #Endif;
+    #Ifdef TARGET_GLULX;
+    ! Equivalent Glulx code here
+    #Endif;
+
+or more commonly like this:
+
+    #Ifdef TARGET_ZCODE;
+    ! Z-machine code here
+    #Ifnot;
+    ! Equivalent Glulx code here
+    #Endif;
+
+You'll find a lot of this if you look in the library files, but it's 
+less frequently needed in a source file.
+
+
+Glulx differences
+-----------------
+
+The two VMs are not identical, and you need to be aware of their
+differences.
+
+Word Size:
+
+The most basic difference between Glulx and the Z-machine is that words
+are four bytes long instead of two. All Glulx variables are 32-bit
+values, the stack contains 32-bit values, property entries are 32-bit
+values, and so on.
+
+In most Inform programming, you don't need to worry about this change at 
+all. For example, if you have an array
+
+    Array mylist --> 10;
+
+...then Z-code Inform allocates ten words -- that is, twenty bytes --
+and you can access these values as mylist-->0 through mylist-->9. If you
+compile the same code under Glulx Inform, the compiler again allocates
+ten words -- now forty bytes -- and you can still access them as
+mylist-->0 through mylist-->9. Everything works the same, except that
+the array can contain values greater than the Z-machine’s limit of
+65535.
+
+Table arrays also refer to two- or four-byte word values, and the first
+word is the length of the array. String and -> arrays, and the ->
+notation, still refer to single bytes. You should not have to modify
+your code here, either.
+
+There are two important cases where you will have to modify your code.
+First is the .# operator. The expression obj.#prop returns the length of
+the property in bytes. Since properties almost always contain words
+rather than bytes, it is very common to have Z-machine code like:
+
+    len = (obj.#prop) / 2;
+    for (i=0 : i<len : i++)
+        print (string) (obj.&prop)-->i;
+
+In Glulx Inform programs, it is necessary to divide by 4 instead of by
+2, so you should replace the above code with:
+
+    len = (obj.#prop) / WORDSIZE;
+    for (i=0 : i<len : i++)
+        print (string) (obj.&prop)-->i;
+
+This will compile and run correctly in both VMs.
+
+The other circumstance where your code may need modifying in this manner 
+is when using the ‘print to array’ feature. Code like this: 
+
+    Array mybuf buffer 100; ! must be big enough for largest string you'll print
+    mystr = "hello";
+    mystr.print_to_array(mybuf);
+
+results in the first word of mybuf containing 5 (the number of
+characters in mystr), and the following five bytes containing 'h', 'e',
+'l', 'l' and 'o'. In the Z-machine, you could then output the characters
+from the array with either of these code fragments:
+
+    len = 2 + mybuf-->0;
+    for (i=2 : i<len : i++)
+        print (char) mybuf->i;
+
+    len = mybuf-->0;
+    for (i=0 : i<len : i++)
+        print (char) mybuf->(i+2);
+
+Again, you can make the code safe for both VMs if you change "2" to "WORDSIZE":
+
+    len = WORDSIZE + mybuf-->0;
+    for (i=WORDSIZE : i<len : i++)
+        print (char) mybuf->i;
+
+    len = mybuf-->0;
+    for (i=0 : i<len : i++)
+        print (char) mybuf->(i+WORDSIZE);
+
+See also _Features_available_only_in_Glulx_ for details of 
+print_to_array under Glulx.
+
+
+Directives
+----------
+
+Glulx handles the majority of Inform directives, with two exceptions:
+
+* The Zcharacter directive causes a compilation error, since Glulx does 
+  not use the ZSCII character set. Your best approach is to bypass the 
+  directive when compiling for Glulx: 
+
+    #Ifdef TARGET_ZCODE;
+    Zcharacter ... ;
+    #Endif;
+
+* The (obsolete) Lowstring directive causes a run-time error when used
+like this:
+
+    Lowstring mystr "hello";
+    string 0 mystr;
+    print "@00 and goodbye.";
+
+  This simpler form, avoiding the use of Lowstring, works successfully: 
+
+    string 0 "hello";
+    print "@00 and goodbye.";
+
+  See also _Features_available_only_in_Glulx_ for additional printing 
+  variable support.
+
+
+Statements
+----------
+
+Glulx handles the majority of Inform statements, with a few exceptions.
+If you try to use any of these statements in Glulx, you will cause a
+compilation error:
+
+* save, restore: These are more complicated procedures in Glulx than in
+  Z-code, and cannot be implemented without involving library variables
+  and routines. If you want to do this sort of thing, modify or copy the
+  library SaveSub() and RestoreSub() routines.
+
+* read: Similarly, reading a line of text in Glulx involves the library;
+  the compiler cannot generate stand-alone code to do it. See instead
+  the library KeyboardPrimitive() routine.
+
+* @opcode: The Z-machine assembly language is completely different from
+  that of Glulx. If you have used any assembly instructions, you will
+  need to conceal them when compiling for Glulx, as described in
+  _Knowing_which_is_which_. See also _Features_available_only_in_Glulx_
+  for details of the glk() function call.
+
+Glulx now supports the Inform style statement, mapping the Z-machine
+forms onto Glk styles:
+
+  |---------------------------------------------| 
+  | Inform statement	Equivalent Glk style	|
+  | --------------------------------------------|
+  | style roman;	style_Normal		|
+  | style reverse;	style_Alert		|
+  | style bold;		style_Subheader		|
+  | style underline;	style_Emphasized	|
+  | style fixed;	style_Preformatted	|
+  |---------------------------------------------|
+
+However, it is important to remember that, with Glulx, the appearance of
+a game is under the player’s control -- Glulx interpreters enable the
+font parameters associated with each style to be specified at run-time.
+Therefore, you should use styles with caution, and if necessary alert
+the player to the settings which your game expects.
+
+
+Character handling
+------------------
+
+Unlike the Z-machine, which internally uses the ZSCII character set (see
+the Inform Designer's Manual Table 2 on p. 519), Glulx uses strings
+consisting of either 8-bit characters in the ISO 8859-1 (Latin-1)
+encoding (which is the same as ZSCII for character values 0-127, but
+different for character values 128-255), or 32-bit Unicode characters.
+In general you don't need to worry about which string representation is
+used: the compiler will figure it out for you. The impact is as follows:
+
+* @escape_sequence: Escape sequences such as @:a and @LL (for "ä" and
+  "£" respectively) are accepted identically by both VMs.
+
+* @@decnum: The number is the character's internal decimal value, so
+  @@65 is "A" in both VMs, but @@165 is "ï" in the Z-machine and "¥" in
+  Glulx.
+
+* @{hexnum}: The number is the character’s Unicode value, so @{41} is
+  "A" and @{EF} is "ï" in both VMs. However, @{A5} is "¥" in Glulx, but
+  causes a Z-machine compilation error because "¥" isn’t a ZSCII character.
+
+* -Cn: The compiler switches -C1 through -C9 specify that the source 
+  file uses the character set defined by ISO 8859-1 through 8859-9 
+  respectively. In the Z-machine, the switch also initialises the higher 
+  ZSCII character set to appropriate values; this later feature is 
+  irrelevant when compiling for Glulx. 
+
+* Dictionaries in Glulx Inform 6 games have to consist of only ISO
+  8859-1 characters at present. This is being worked on, and the
+  necessary compiler changes have been made, but further library work
+  is still needed.
+
+
+Compiler switches
+-----------------
+
+We've already mentioned the -G command line switch, which causes the
+compiler to output code for Glulx rather than for the Z-machine. There
+are a few other changes in this area (see the Inform Designer’s Manual
+Table 3 on p. 521).
+
+  |------------------------------------------------------------------------
+  | Switch	To	Meaning
+  |------------------------------------------------------------------------
+  | -k		off/on	incompatible with -G (output debugging information)
+  | -v*		3 to 8	incompatible with -G (set Z-machine Version)
+  | -G		off/on	compile for Glulx VM
+  | -H		off/on	use Huffman compression on Glulx strings (on by default)
+  | -X		off/on	incompatible with -G (include Infix debugger)
+  |------------------------------------------------------------------------
+
+
+Glulx additions
+===============
+
+Glulx offers some additional capabilities above those of the Z-machine: 
+
+Features available only in Glulx
+--------------------------------
+
+* For Glulx, print_to_array function requires two arguments, the first
+  being the array to print to, and the second the length of that array:
+
+    len = mystr.print_to_array(mybuf, 80);
+
+  This example writes no more than 76 characters into the array. If
+  mybuf is an 80-byte array, you can be sure it will not be overrun.
+  (Do not try this with the second argument less than 4.)
+
+  The value written into mybuf-->0, and the value returned, are not
+  limited to the number of characters written; they represent the
+  number of characters in the complete string. This means that:
+
+    len = mystr.print_to_array(mybuf, 4);
+
+  is an ugly but perfectly legal way to find the length of a string.
+  (And in this case, mybuf need only be four bytes long.)
+
+* Z-code Inform supports 32 printing variables, @00 to @31, which you
+  can include in strings and then set with the statement:
+
+    string num "value";
+
+  In Glulx, this limit is raised to 64. Furthermore, in Glulx you can
+  set these variables to a stand-alone routine as well as a string:
+
+    [ routine; print "value"; ];
+
+    string num routine;
+
+  In this case, the routine is called with no arguments and the result
+  discarded; you should print your desired output inside the routine.
+
+  In Glulx, unlike Z-code, a printing variable string can itself contain
+  @.. codes, allowing recursion. You can nest this as deeply as you
+  want. However, it is obviously a bad idea to cause an infinite
+  recursion. For example, this will certainly crash the interpreter:
+
+    string 3 "This is a @03!";
+    print "What is @03?";
+
+* Many of the things that used to be Z-code assembly are now handled by
+  Glk function calls. Making a Glk function call from Inform is slightly
+   awkward, but not difficult.
+
+  All of Glk is handled by the built-in Inform function glk(), which
+  takes one or more arguments. The first argument is an integer; this
+  tells which Glk call in being invoked. The remaining arguments are
+  just the arguments to the Glk call, in order.
+
+  Say, for example, that you want to set the text style to
+  "preformatted". The Inform code to accomplish this is:
+
+    glk($0086, 2);
+
+  The hex value $0086 means glk_set_style; the value "2" means Preformatted.
+
+  The table of Glk calls, and the integers that refer to them, is given
+  in Section 12.1.6 of the Glk specification (remember that the values
+  given there are hexadecimal).
+
+  Since calls based on numeric codes are not very easy to read, we
+  recommend that you use John Cater’s infglk.h library header, which
+  defines wrapper functions and constants. For example, you could
+  achieve the same effect with this call:
+
+    glk_set_style(style_Preformatted);
+
+  When you read the Glk specification, bear in mind that the NULL value
+  it talks about is the C language NULL (0), not the Inform Library NULL
+  (-1). infglk.h defines a constant GLK_NULL (equal to 0) which you can
+  use where appropriate.
+
+* By default, arguments to routines work the same in Glulx as they do in
+  Z-code. When you call a routine, the arguments that you pass are
+  written into the routine's local variables, in order. If you pass too
+  many arguments, the extras are discarded; too few, and the unused
+  local variables are filled with zeroes.
+
+  However, the Glulx VM supports a second style of routine. You can
+  define a routine of this type by naming the first argument
+  _vararg_count. For example:
+
+    [ StackFunc _vararg_count ix pos len;
+        !   Glulx code here
+    ];
+
+  If you do this, the routine arguments are not written into the local
+  variables. Instead, they are pushed onto the stack, and you must use
+  Glulx assembly to pull them off. All the local variables are
+  initialized to zero, except for _vararg_count, which (as you might
+  expect) contains the number of arguments that were passed in.
+
+  Note that _vararg_count is a normal local variable, aside from its
+  useful initial value. You can assign to it, increment or decrement it,
+  use it in expressions, and so on.
+
+  Stack-argument routines are most useful if you want a routine with 
+  variable arguments, or if you want to write a wrapper that passes its 
+  arguments on to another routine.
+
+
+Library routines available only in Glulx
+----------------------------------------
+
+KeyCharPrimitive(win, nostat);
+
+  If win is nonzero, the character input request goes to that Glk
+  window (instead of gg_mainwin, the default.) If nostat is nonzero, any
+  window rearrangement event is returned immediately as value
+  80000000 (instead of the default behavior, which is to call
+  DrawStatusLine() and keep waiting.)
+
+
+PrintAnything(thingie, ...);
+
+  In the Z-machine, strings and routines are "packed" addresses,
+  dictionary words are normal addresses, and game objects are
+  represented as sequential numbers from 1 to #top_object. These ranges
+  overlap; a string, a dictionary word, and an object could conceivably
+  all be represented by the same numeric value.
+
+  In Glulx, all those things are represented by normal addresses, so
+  different items will always have different values. Furthermore, the
+  first byte found at the address is an identifier value, which
+  specifies what kind of item the address contains.
+
+  PrintAnything() prints any thingie -- string, routine (with optional 
+  arguments), object, object property (with optional arguments), or 
+  dictionary word -- known to the library. 
+
+	|--------------------------------------------------------------------
+	| Calling			    Is equivalent to
+	|--------------------------------------------------------------------
+	| PrintAnything()		    (nothing printed)
+	| PrintAnything(0)		    (nothing printed)
+	| PrintAnything(string)		    print (string) "string";
+	| PrintAnything(dictionaryword)	    print (address) 'dictionaryword';
+	| PrintAnything(obj)		    print (name) obj;
+	| PrintAnything(obj, prop)	    obj.prop();
+	| PrintAnything(obj, prop, args...) obj.prop(args...);
+	| PrintAnything(routine)	    routine();
+	| PrintAnything(routine, args...)   routine(args...);
+	|--------------------------------------------------------------------
+
+  Extra arguments after a string or dictionary word are safely ignored.
+  The (first) argument you pass in is always interpreted as a thingie
+  reference, not as an integer. This is why none of the forms shown
+  above print out an integer. However, you can get the same effect by
+  calling
+
+    PrintAnything(DecimalNumber, num);
+
+  ...which is where the DecimalNumber() routine comes in handy. You can
+  also, of course, use other library routines, and do tricks like
+
+    PrintAnything(EnglishNumber, num);
+    PrintAnything(DefArt, obj);
+
+  None of this may seem very useful; after all, there are already ways
+  to print all those things. But PrintAnything() is vital in
+  implementing the following routine:
+
+
+PrintAnyToArray(array, arraylen, thingie, ...);
+
+  This works the same way, except that instead of printing to the
+  screen, the output is diverted to the given array.
+
+  The first two arguments must be the array address and its maximum
+  length. Up to that many characters will be written into the array; any
+  extras will be silently discarded. This means that you do not have to
+  worry about array overruns.
+
+  The PrintAnyToArray() routine returns the number of characters
+  generated. (This may be greater than the length of the array. It
+  represents the entire text that was output, not the limited number
+  written into the array.)
+
+  It is safe to nest PrintAnyToArray() calls. That is, you can call
+  PrintAnyToArray(routine), where routine() itself calls
+  PrintAnyToArray(). (However, if they try to write to the same array,
+  chaos will ensue.)
+
+  It is legal for arraylen to be zero (in which case array is ignored,
+  and may be zero as well.) This discards all of the output, and simply
+  returns the number of characters generated. You can use this to find
+  the length of anything -- even a function call.
+
+
+Entry points available only in Glulx
+------------------------------------
+
+An entry point is a routine which you can provide in your code, or leave
+out; the library will call it if it's present, ignore it if not -- see
+Section 21 of the Inform Designer's Manual.
+
+The library has some entry points which aid in writing more complicated
+interfaces -- games with sound, graphics, extra windows, and other fancy
+Glk tricks. If you're just writing a standard Infocom-style game, you
+can ignore this section.
+
+HandleGlkEvent(ev, context, abortres)
+
+  This entry point is called every time a Glk event occurs. The event
+  could indicate nearly anything: a line of input from the player, a
+  window resize or redraw event, a clock tick, a mouse click, or so on.
+
+  The library handles all the events necessary for a normal
+  Infocom-style game. You need to supply a HandleGlkEvent() routine only
+  if you want to add extra functionality. The ev argument is a four-word
+  array which describes the event. ev-->0 is the type of the event;
+  ev-->1 is the window involved (if relevant); and ev-->2 and ev-->3
+  are extra information. The context argument is 0 if the event
+  occurred during line input (normal commands, YesOrNo(), or some other
+  use of the KeyboardPrimitive() library routine); 1 indicates that the
+  event occurred during character input (any use of the
+  KeyCharPrimitive() library routine). The abortres argument is used
+  only if you want to cancel player input and force a particular
+  result; see below.
+
+  If you return 2 from HandleGlkEvent(), player input will immediately
+  be aborted. Some additional code is also required:
+
+  * If this was character input (context==1), you must call the Glk
+    cancel_char_event function, and then set abortres-->0 to the
+    character you want returned. Then return 2; KeyCharPrimitive() will
+    end and return the character, as if the player had hit it.
+
+  * If this was line input (context==0), you must call the Glk 
+    cancel_line_event function. (You can pass an array argument to see 
+    what the player had typed so far.) Then, fill in the length of the 
+    input to be returned in abortres-->0. If this is nonzero, write the 
+    input characters sequentially into the array starting at 
+    abortres-->WORDSIZE, up to (but not including)
+    abortres-->(WORDSIZE+len). Do not exceed 256 characters. Then 
+    return 2; KeyboardPrimitive() will end and return the line. 
+
+  If you return -1 from HandleGlkEvent(), player input will continue
+  even after a keystroke (for character input) or after the enter key
+  (for line input). You must re-request input by calling
+  request_char_input or request_line_input. Any other return value from
+  HandleGlkEvent() (a normal return, rfalse, or rtrue) will not affect
+  the course of player input.
+
+
+InitGlkWindow(winrock)
+
+  This entry point is called by the library when it sets up the standard
+  windows: the story window, the status window, and (if you use quote
+  boxes) the quote box window. The story and status windows are created
+  when the game starts (before Initialise()). The quote window is
+  created and destroyed as necessary.
+
+  InitGlkWindow() is called in five phases:
+
+  1. The library calls InitGlkWindow(0). This occurs at the very
+     beginning of execution, even before Initialise(). You can set up
+     any situation you want. (However, remember that the story and
+     status windows might already exist — for example, if the player
+     has just typed RESTART.) This is a good time to set
+     gg_statuswin_size to a value other than 1. Return 0 to proceed
+     with the standard library window setup, or 1 if you’ve created
+     all the windows yourself.
+
+  2. The library calls InitGlkWindow(GG_MAINWIN_ROCK), before creating
+     the story window. This is a good time to set up style hints for
+     the story window. Return 0 to let the library create the window;
+     return 1 if you have yourself created a window and stored it in
+     gg_mainwin.
+
+  3. The library calls InitGlkWindow(GG_STATUSWIN_ROCK), before creating
+     the status window. Again, return 0 to let the library do it;
+     return 1 if you have created a window and stored it in
+     gg_statuswin.
+
+  4. The library calls InitGlkWindow(1). This is the end of window
+     setup; you can take this opportunity to open other windows. (Or you
+     can do that in your Initialise() routine. It doesn’t matter much.)
+
+  5. The library calls InitGlkWindow(GG_QUOTEWIN_ROCK), before creating 
+     the quote box window. This does not occur during game 
+     initialization; the quote box window is created during the game, 
+     whenever you print a quote, and destroyed one turn later. As
+     usual, return 1 to indicate that you’ve created a window in 
+     gg_quotewin. (The desired number of lines for the window can be 
+     found in gg_arguments-->0.) 
+
+  However you handle window initialization, remember that the library
+  requires a gg_mainwin. If you don't create one, and don't allow the
+  library to do so, the game will shut down. Contrariwise, the status
+  window and quote windows are optional; the library can get along
+  without them.
+
+
+IdentifyGlkObject(phase, type, ref, rock)
+
+  This entry point is called by the library to let you know what Glk 
+  objects exist. You must supply this routine if you create any windows, 
+  filerefs, file streams, or sound channels beyond the standard library 
+  ones. (This is necessary because after a RESTORE, RESTART, or UNDO 
+  command, your global variables containing Glk objects will be wrong.)
+
+  IdentifyGlkObject() is called in three phases: 
+
+  1. The library calls IdentifyGlkObject() with phase==0. You should set 
+     all your Glk object references to zero.
+
+  2. The library calls IdentifyGlkObject() with phase==1. This occurs
+     once for each window, stream, and fileref that the library doesn't
+     recognize. (The library handles the two standard windows, and the
+     files and streams that have to do with saving, transcripts, and
+     command records. You only have to deal with objects that you
+     create.) You should set whatever reference is appropriate to the
+     object. For each object: type will be 0, 1, 2 for windows,
+     streams, filerefs respectively; ref will be the object reference;
+     and rock will be the object’s rock, by which you can recognize it.
+
+  3. The library calls IdentifyGlkObject() with phase==2. This occurs
+     once, after all the other calls, and gives you a chance to
+     recognize objects that aren't windows, streams, or filerefs. If
+     you don't create any such objects, you can ignore that bit. But
+     you should also take the opportunity to update all your Glk
+     objects to the game state that was just started or restored. (For
+     example, redraw graphics, or set the right background sounds
+     playing.)

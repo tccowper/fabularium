@@ -1,0 +1,16 @@
+*.zip
+*.a3c
+*.a3r
+*.ifid
+TEST-*.xml
+*.output
+*.log
+*.tmp
+*.vg
+*.leaks
+alan*linux.x86.tgz
+BUILD_NUMBER
+gargoyle-alan3_tmp.iss
+*.o
+*.dll
+*.dat

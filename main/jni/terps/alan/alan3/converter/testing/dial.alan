@@ -1,0 +1,37 @@
+object attributes
+  value 0.
+  not turnable.
+
+syntax turn_to = 'turn' (o) 'to' (n)
+  where n isa integer else "You can't turn the $1 to $2!"
+
+verb turn_to
+  check o is turnable
+      else "You can't turn that to anything."
+  does
+    if n > 999 then
+      "The dial is only marked up to and including 999."
+    else
+      set value of o to n.
+      "The $1 is now set to $2."
+    end if.
+end verb.
+
+object dial at l
+  has value 0.
+  is turnable.
+
+  verb examine
+  does
+    "The dial is marked with values between 0 and 999. It is currently set to"
+    say value of dial.
+    "$$."
+  end verb.
+
+end object dial.
+
+location l
+end location l.
+
+start at l.
+  "Try 'turn dial to <n>'."

@@ -1,0 +1,95 @@
+The l Isa location
+End The l.
+
+The outer Isa object -- #2
+  Container
+End The outer.
+
+The o Isa object In outer -- #3
+End The o.
+
+The inner1 Isa object In outer -- #4
+  Container
+End The inner1.
+
+The o1 Isa object In inner1 -- #5
+End The o1.
+
+The inner2 Isa object In outer -- #6
+  Container
+End The inner2.
+
+The o2 Isa object In inner2 -- #7
+End The o2.
+
+The innermost Isa object In inner1 -- #8
+  Container
+End The innermost.
+
+The om Isa object In innermost -- #9
+End The om.
+
+Start At l.
+  "$n"
+  "o In outer:"
+  If o In outer Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o In inner1:"
+  If o In inner1 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o In inner2:"
+  If o In inner2 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o In innermost:"
+  If o In innermost Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o1 In outer:"
+  If o1 In outer Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o1 In inner1:"
+  If o1 In inner1 Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o1 In inner2:"
+  If o1 In inner2 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o1 In innermost:"
+  If o1 In innermost Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o2 In outer:"
+  If o2 In outer Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o2 In inner1:"
+  If o2 In inner1 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "o2 In inner2:"
+  If o2 In inner2 Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "o2 In innermost:"
+  If o2 In innermost Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "om In outer:"
+  If om In outer Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "om In inner1:"
+  If om In inner1 Then "yes, ok" Else "no, *** error ***" End If.
+
+  "$n"
+  "om In inner2:"
+  If om In inner2 Then "yes, *** error ***" Else "no, ok" End If.
+
+  "$n"
+  "om In innermost"
+  If om In innermost Then "yes, ok" Else "no, *** error ***" End If.

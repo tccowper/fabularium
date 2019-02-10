@@ -1,0 +1,15 @@
+Syntax 'stop' = 'stop' (a)
+  Where a Isa location Else "You can only stop actors."
+
+The l Isa location
+  Has act l.
+  Verb 'stop'
+    Does
+      Stop a.
+  End Verb.
+End The l.
+
+Start At l.
+  Stop l.
+  Stop act Of l.
+

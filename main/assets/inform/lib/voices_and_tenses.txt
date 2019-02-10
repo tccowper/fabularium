@@ -1,0 +1,218 @@
+The Inform Library version 6.12 introduces two fun new ways of
+storytelling.  First, you can use first-person and third person
+narrative voices.  Second, you can use past tense.  The typical way to
+write interactive fiction has been for the game to talk about the player
+in the second-person narrative voice in the present tense.  For example:
+
+  > PUT COOKIE ON TABLE
+  You put the cookie on the table.
+
+That's how Infocom usually did things and is Inform's default.  Now
+suppose you, the author, want the story to read more like an
+autobiography.  Consider this:
+
+  > PUT COOKIE ON TABLE
+  I put the cookie on the table.
+
+This is the first-person narrative voice.  Third-person narrative voice
+looks like this:
+
+  > PUT COOKIE ON TABLE
+  George puts the cookie on the table.
+
+To cause these alternative narrative voices, the player object needs to
+have a narrative_voice property with a value of 1 or 3.  Setting it to 2
+results in the old regular behavior.  It's most convenient to do this in
+the Initialise() routine like this:
+
+  [ Initialise;
+      location = TheRoom;
+      player.narrative_voice = 1;
+  ];
+
+For third-person mode, some additional properties are necessary:
+
+  [ Initialise;
+      location = TheRoom;
+      player.narrative_voice = 3;
+      player.short_name = "George Jones";
+      (player.&name)-->0 = 'George';
+      (player.&name)-->1 = 'Jones';
+  ];
+
+The name property must be specified like this.  There are five slots to
+which you may add dictionary words.
+
+Using these modes may require a bit more discipline when it comes to
+writing your prose and dealing with the default responses from new verbs
+you introduce.  If the player always controls the same character and/or
+the narrative voice never changes, you can write your verb subroutines
+to always talk about George.  If the player changes characters or the
+narrative voice changes, things get a bit more complicated.  Problems
+like that can be solved by careful use of the CSubject functions which
+are detailed at the end of this document.
+
+Previously if you changed the player-character to something other than
+selfobj, the former player-character would be described as "Your former
+self" when typing "LOOK".  If you want to change bodies like this, you
+must set player.short_name even if you use the old regular second-person
+voice.  Make sure the narrative_voice, short_name, and name properties
+are all sensibly set for all possible bodies the player might control.
+
+Changing bodies can be a handy technique for implement flashbacks.
+Create self2, self3, and so on for each time period you visit.  Just
+change the player global to the self you want to be in control.  The
+SelfClass class is provided with all the various properties a
+player-character needs.  Use this class whenever you create a new self.
+
+An interesting way of using the third-person voice is to give the PC a
+generic name like "detective" (put that in the short_name and name
+properties).  Then take away the PC's proper attribute.  This will cause
+the library to address the PC as "the detective" and correctly
+capitalize the word "the".  For instance:
+
+  [ Initialise;
+      location = theroom;
+      player.narrative_voice = 3;
+      player.short_name = "detective";
+      (player.&name)-->0 = 'detective';
+      give player ~proper;
+  ];
+
+This results in a room description like this:
+
+  >PUT FOLDER ON TABLE
+  The detective puts the folder on the table.
+
+  >LOOK
+
+  Squad Room
+  This is the 13th Precinct's squad room.
+
+  The detective can see a table (upon which is a folder).
+
+  >INVENTORY
+  The detective is carrying:
+    a badge
+    a revolver
+
+The default article used to describe a non-proper PC is "the".  If you
+want to talk about "a detective", just set player.article to "a".
+
+There is another property for the player object: nameless.  This has
+meaning only in the first-person or second-person narrative voices.
+Normally if you're using either of these voices and the PC switches
+bodies, the PC's former body is referred to as "My former self" or "Your
+former self".  If you want the former body to be referred to some other
+way, set player.nameless to false and set the name and short_name
+properties to something appropriate.  If third-person narrative voice is
+used, the nameless property is ignored.  "The detective" isn't
+namelessness.  It's just not a proper name.
+
+The Library uses the CSubject subroutines to figure out when to say "I",
+"You", or "George".  You can use them too.  The most important of these
+is CSubjectVerb().  It handles the conjugation of verbs used by the
+actor.  These are its parameters:
+	obj		The actor who is doing something.
+	reportage	Boolean: causes the actor to "observe"[1]
+	nocaps		Boolean: Don't capitalise if "you" is used[2].
+	v1		1st person "I" present verb.
+	v2		2nd person "You" present verb[3].
+	v3		3rd person "He", "she", or "it" present verb.
+	past		The past tense form of the verb[4].
+
+[1] In the Library itself, "reportage" is used in SubjectNotPlayer()
+which determines the correct conjugation for certain actions performed
+by NPCs.  If this is "false", then this will happen:
+    >SALLY, RUB LAMP
+    Sally achieves nothing by this.
+If this is "true" then this happens:
+    >SALLY, RUB LAMP
+    Sally observes that she achieves nothing by this.
+This sort of thing can be important if you want to imply that the NPC is
+aware of the result of an action.
+
+[2] When the second-person voice is used, responses very often begin
+with "You".  Suppose you want to put a conjunction like "but" in front
+of "you".  For instance:
+    >EAT PUDDING
+    But you can't have any pudding if you don't eat your meat!
+See that "you" is not capitalised.  If you omit this parameter, it will
+be false and therefore the game will capitalise "you".  If you want to
+use a conjunction as in the above example, pass "true".
+
+[3] The v2 parameter is usually not necessary because the first and
+second person present forms of verbs are usually the same.  Unless you
+have something special planned, pass 0 for v2.
+
+[4] Past tense can be useful for implementing a flashback.  For
+instance:
+    >EXAMINE VASE
+    The vase was very expensive-looking.
+
+
+Here's an example of using CSubjectVerb():
+   CSubjectVerb(actor,false,false,"close",0,"closes","closed"); " ",
+     (the) x1, ".";
+
+The default is to use the present tense.  If you want to change to the
+past tense, set player.narrative_tense to PAST_TENSE.  To change back,
+change it to PRESENT_TENSE.  If you're doing something more complicated,
+like going back and forth between the present and the past, it can be
+handy to create a "past PC" with its own posessions and properties.
+That one always has its narrative_tense set to PAST_TENSE.  Then when
+you want to flash back, simply call ChangePlayer() appropriately.
+
+There is a helper function called Tense() that doesn't quite fit in with
+the CSubject functions.  This one takes two parameters: present and
+past.  Its purpose is to keep the tense of various verbs straight.  It's
+not meant for sorting out narrative voices, but instead is applied after
+that has been sorted out.  In fact, Tense() is used extensively in the
+CSubject helper functions to do just that.  Here's how to use it:
+    print "After the storm, there still ";
+    Tense("isn't", "wasn't");
+    " enough rainfall.";
+
+Most of the rest of the CSubject functions are wrappers for commonly
+used verbs: "is", "isn't", "has", "will", "can", "can't", and "don't".
+These have only three parameters: obj, reportage, and nocaps.  You can
+call these with two or one parameters if you like. The functions will
+receive 0 (also false) for missing trailing parameters. CSubjectVoice()
+is similar to CSubjectVerb() except that the name of the subject is not
+printed.
+
+Here they are along with sample calls:
+
+CSubjectIs()
+    CSubjectIs(x1,true); " already closed.";
+
+CSubjectIsnt()
+    print "But ";
+    CSubjectIsnt(actor,true,false);
+    " in anything at the moment.";
+
+CSubjectHas()
+    CSubjectHas(actor,false); " better things to do.";
+
+CSubjectWill()
+    CSubjectWill(actor,true); " first have to close ", (the) x1, ".";
+
+CSubjectCan()
+    CSubjectCan(actor,true);
+    " only get into something free-standing.";
+
+CSubjectCant()
+    CSubjectCant(actor,true);
+    " usefully blow ", (thatorthose) x1, ".";
+
+CSubjectDont()
+    CSubjectDont(x1,true); " seem to fit the lock.";
+
+CSubjectVoice()
+     print "What ";
+     CSubjectVoice(player, "do", "do", "does", "did");
+     print " ";
+     CSubjectVerb(player, false, true, "want", "want", "want", "want");
+     " to do?";
+
+

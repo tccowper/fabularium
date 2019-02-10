@@ -1,0 +1,262 @@
+#
+# ADRIFT Module
+# Exported 08-Nov-2006
+#
+
+# Author: A.N. Onymous
+
+Version 4.00 Release 45
+
+DEFINE Room "Room1"
+   SHORTDESC = "Examination Room"
+   LONGDESC = "Completely empty."
+END Room
+
+DEFINE Task "Task1"
+   COMMAND "set x %number%"
+   WHERE = All Rooms
+   MESSAGE = "x = %x%"
+   ACTION Change Variable "Var1" to Referenced Number
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task2"
+   COMMAND "set x y"
+   WHERE = All Rooms
+   MESSAGE = "x = %x%"
+   ACTION Change Variable "Var1" to Expression "%y%"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task3"
+   COMMAND "set y %number%"
+   WHERE = All Rooms
+   MESSAGE = "y = %y%"
+   ACTION Change Variable "Var5" to Referenced Number
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task4"
+   COMMAND "set y x"
+   WHERE = All Rooms
+   MESSAGE = "y = %y%"
+   ACTION Change Variable "Var5" to Expression "%x%"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task5"
+   COMMAND "set s str"
+   WHERE = All Rooms
+   MESSAGE = "s = \"%s%\""
+   ACTION Change Variable "Var2" to Expression "%str%"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task6"
+   COMMAND "set s %text%"
+   WHERE = All Rooms
+   MESSAGE = "s = \"%s%\""
+   ACTION Change Variable "Var2" to Referenced Text
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task7"
+   COMMAND "set t str"
+   WHERE = All Rooms
+   MESSAGE = "t = \"%t%\""
+   ACTION Change Variable "Var3" to Expression "%str%"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task8"
+   COMMAND "set t %text%"
+   WHERE = All Rooms
+   MESSAGE = "t = \"%t%\""
+   ACTION Change Variable "Var3" to Referenced Text
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task9"
+   COMMAND "set str %text%"
+   WHERE = All Rooms
+   MESSAGE = "str = \"%str%\""
+   ACTION Change Variable "Var4" to Referenced Text
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task10"
+   COMMAND "clear str"
+   WHERE = All Rooms
+   MESSAGE = "str = \"%str%\""
+   ACTION Change Variable "Var4" to ""
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task11"
+   COMMAND "concat s t"
+   WHERE = All Rooms
+   MESSAGE = "str = \"%str%\""
+   ACTION Change Variable "Var4" to Expression "%s%+%t%"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task12"
+   COMMAND "concat_alternate s t"
+   WHERE = All Rooms
+   MESSAGE = "str = \"%str%\""
+   ACTION Change Variable "Var4" to Expression "%s%&%t%"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task13"
+   COMMAND "left s x"
+   WHERE = All Rooms
+   MESSAGE = "str = \"%str%\""
+   ACTION Change Variable "Var4" to Expression "left(%s%,%x%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task14"
+   COMMAND "right s x"
+   WHERE = All Rooms
+   MESSAGE = "str = \"%str%\""
+   ACTION Change Variable "Var4" to Expression "right(%s%,%x%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task15"
+   COMMAND "mid s x y"
+   WHERE = All Rooms
+   MESSAGE = "str = \"%str%\""
+   ACTION Change Variable "Var4" to Expression "mid(%s%,%x%,%y%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task16"
+   COMMAND "ucase s"
+   WHERE = All Rooms
+   MESSAGE = "str = \"%str%\""
+   ACTION Change Variable "Var4" to Expression "ucase(%s%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task17"
+   COMMAND "upper s"
+   WHERE = All Rooms
+   MESSAGE = "str = \"%str%\""
+   ACTION Change Variable "Var4" to Expression "upper(%s%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task18"
+   COMMAND "lcase s"
+   WHERE = All Rooms
+   MESSAGE = "str = \"%str%\""
+   ACTION Change Variable "Var4" to Expression "lcase(%s%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task19"
+   COMMAND "lower s"
+   WHERE = All Rooms
+   MESSAGE = "str = \"%str%\""
+   ACTION Change Variable "Var4" to Expression "lower(%s%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task20"
+   COMMAND "pcase s"
+   WHERE = All Rooms
+   MESSAGE = "str = \"%str%\""
+   ACTION Change Variable "Var4" to Expression "pcase(%s%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task21"
+   COMMAND "proper s"
+   WHERE = All Rooms
+   MESSAGE = "str = \"%str%\""
+   ACTION Change Variable "Var4" to Expression "proper(%s%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task22"
+   COMMAND "str x"
+   WHERE = All Rooms
+   MESSAGE = "str = \"%str%\""
+   ACTION Change Variable "Var4" to Expression "str(%x%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task23"
+   COMMAND "instr s t"
+   WHERE = All Rooms
+   MESSAGE = "y = %y%"
+   ACTION Change Variable "Var5" to Expression "instr(%s%,%t%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task24"
+   COMMAND "len s"
+   WHERE = All Rooms
+   MESSAGE = "y = %y%"
+   ACTION Change Variable "Var5" to Expression "len(%s%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Task "Task25"
+   COMMAND "val s"
+   WHERE = All Rooms
+   MESSAGE = "y = %y%"
+   ACTION Change Variable "Var5" to Expression "val(%s%)"
+   REPEATABLE = True
+END Task
+
+DEFINE Variable "Var1"
+   NAME = "x"
+   TYPE = Integer
+   VALUE = 0
+END Variable
+
+DEFINE Variable "Var2"
+   NAME = "s"
+   TYPE = Text
+   VALUE = "none"
+END Variable
+
+DEFINE Variable "Var3"
+   NAME = "t"
+   TYPE = Text
+   VALUE = "none"
+END Variable
+
+DEFINE Variable "Var4"
+   NAME = "str"
+   TYPE = Text
+   VALUE = "none"
+END Variable
+
+DEFINE Variable "Var5"
+   NAME = "y"
+   TYPE = Integer
+   VALUE = 0
+END Variable
+
+DEFINE Introduction
+   MESSAGE = ""
+   STARTROOM = "Room1"
+   SHOWFIRST = True
+END Introduction
+
+DEFINE Winning
+   MESSAGE = ""
+END Winning
+
+DEFINE Player
+   NAME = ""
+   GENDER = Male
+   DESCRIPTION = ""
+   INITIALPOSITION = Standing
+   MAXBULK = 10 Normal Objects
+   MAXWEIGHT = 10 Normal Objects
+END Player

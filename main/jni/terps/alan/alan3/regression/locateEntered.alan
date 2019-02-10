@@ -1,0 +1,11 @@
+The study Isa location
+  Entered
+    Locate butler At study.
+  Exit n,e,w,s To study.
+End The study.
+
+The butler Isa actor
+  At study.
+End The butler.
+
+Start At study.
