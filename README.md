@@ -1,6 +1,6 @@
 # Fabularium
 
-This is the source code for the app at https://play.google.com/store/apps/details?id=com.luxlunae.fabularium.
+This is the source code for the Fabularium app at https://play.google.com/store/apps/details?id=com.luxlunae.fabularium.
 
 ## About
 
@@ -19,6 +19,16 @@ Fabularium is and always will be completely free, with no ads, and open source. 
 Inspired by the great Gargoyle interpreter by Tor Andersson, Fabularium implements Andrew Plotkin's Glk 0.7.5 spec in Android and can therefore support any glk-enabled interpreter. More interpreters may be added in the future.
 
 For further information see the in-app help.
+
+## Compiling
+
+*Using Android Studio:*
+
+1. Clone the repository to your local machine (git clone https://github.com/tccowper/fabularium.git).
+2. Open a recent version of Android Studio (e.g. 3.3.1). 
+3. Choose "Import project (Gradle, Eclipse ADT, etc.)" and, when prompted, select the root folder of the cloned repository. 
+4. The project should open in Android Studio - if prompted, choose to recreate any missing gradle wrapper files, etc. 
+5. Build it within Android Studio as you would any other app (Build=>Make project, Ctrl+F9, etc.).
 
 ## Contact details
 
