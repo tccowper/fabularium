@@ -26,6 +26,9 @@ import android.support.annotation.Nullable;
 
 import com.luxlunae.bebek.model.MAdventure;
 import com.luxlunae.bebek.model.MCharacter;
+import com.luxlunae.bebek.model.MGroup;
+import com.luxlunae.bebek.model.MLocation;
+import com.luxlunae.bebek.model.MObject;
 import com.luxlunae.bebek.model.MProperty;
 import com.luxlunae.bebek.model.io.MFileOlder;
 
@@ -45,115 +48,25 @@ public class MCharacterHashMap extends MItemHashMap<MCharacter> {
         mAdv = adv;
     }
 
-    public static MCharacterHashMap getCharactersToMove(@NonNull MAdventure adv,
-                                                        @NonNull MoveCharacterWhoEnum who,
-                                                        @NonNull String itemKey,
-                                                        @NonNull String propValue) {
-        MCharacterHashMap ret = new MCharacterHashMap(adv);
-        switch (who) {
-            case Character: {
-                MCharacter ch = adv.mCharacters.get(itemKey);
-                if (ch != null) {
-                    ret.put(itemKey, ch);
-                }
-                break;
-            }
-            case EveryoneAtLocation:
-                ret = adv.mLocations.get(itemKey).getCharactersDirectlyInLocation(true);
-                break;
-            case EveryoneInGroup:
-                for (String chKey : adv.mGroups.get(itemKey).getArlMembers()) {
-                    MCharacter ch = adv.mCharacters.get(chKey);
-                    if (ch != null) {
-                        ret.put(chKey, ch);
-                    }
-                }
-                break;
-            case EveryoneInside:
-                ret = adv.mObjects.get(itemKey).getChildChars(InsideObject);
-                break;
-            case EveryoneOn:
-                ret = adv.mObjects.get(itemKey).getChildChars(OnObject);
-                break;
-            case EveryoneWithProperty:
-                MProperty prop = adv.mCharacterProperties.get(itemKey);
-                for (MCharacter ch : adv.mCharacters.values()) {
-                    if (ch.hasProperty(prop.getKey())) {
-                        if (prop.getType() == SelectionOnly) {
-                            ret.put(ch.getKey(), ch);
-                        } else {
-                            if (ch.getPropertyValue(prop.getKey()).equals(propValue)) {
-                                ret.put(ch.getKey(), ch);
-                            }
-                        }
-                    }
-                }
-                break;
-        }
-        return ret;
-    }
-
-    public void load(@NonNull MFileOlder.V4Reader reader,
-                     double v) throws EOFException {
+    public void load(@NonNull MFileOlder.V4Reader reader, double version) throws EOFException {
         int nChars = cint(reader.readLine());
         for (int i = 1; i <= nChars; i++) {
-            MCharacter ch = new MCharacter(mAdv, reader, i, v);
+            MCharacter ch = new MCharacter(mAdv, reader, i, version);
             put(ch.getKey(), ch);
         }
-    }
-
-    @Nullable
-    public MCharacter put(@NonNull String key, @NonNull MCharacter value) {
-        if (this == mAdv.mCharacters) {
-            mAdv.mAllItems.put(value);
-        }
-        return super.put(key, value);
-    }
-
-    @Override
-    @Nullable
-    public MCharacter remove(Object key) {
-        if (this == mAdv.mCharacters) {
-            mAdv.mAllItems.remove(key);
-        }
-        return super.remove(key);
     }
 
     @Override
     @Nullable
     public MCharacter get(@NonNull Object key) {
         if (key.equals("%Player%")) {
-            if (mAdv.getPlayer() == null) {
+            MCharacter player = mAdv.getPlayer();
+            if (player == null) {
                 return null;
             }
-            key = mAdv.getPlayer().getKey();
+            key = player.getKey();
         }
         return super.get(key);
-    }
-
-    @NonNull
-    public String toList() {
-        return toList("and");
-    }
-
-    @NonNull
-    public String toList(@NonNull String separator) {
-        StringBuilder ret = new StringBuilder();
-        int n = size();
-        for (MCharacter ch : values()) {
-            ret.append("%CharacterName[").append(ch.getKey()).append("]%");
-            n--;
-            if (n > 1) {
-                ret.append(", ");
-            }
-            if (n == 1) {
-                ret.append(" ").append(separator).append(" ");
-            }
-        }
-        if (ret.length() == 0) {
-            ret.append("noone");
-        }
-        return ret.toString();
     }
 
     @NonNull
@@ -182,6 +95,114 @@ public class MCharacterHashMap extends MItemHashMap<MCharacter> {
             }
         }
         return ret;
+    }
+
+    @NonNull
+    public MCharacterHashMap get(@NonNull MoveCharacterWhoEnum who,
+                                 @NonNull String key, @NonNull String propValue) {
+        MCharacterHashMap ret = new MCharacterHashMap(mAdv);
+        switch (who) {
+            case Character: {
+                MCharacter ch = mAdv.mCharacters.get(key);
+                if (ch != null) {
+                    ret.put(key, ch);
+                }
+                break;
+            }
+            case EveryoneAtLocation: {
+                MLocation loc = mAdv.mLocations.get(key);
+                if (loc != null) {
+                    ret = loc.getCharactersDirectlyInLocation(true);
+                }
+                break;
+            }
+            case EveryoneInGroup: {
+                MGroup grp = mAdv.mGroups.get(key);
+                if (grp != null) {
+                    for (String chKey : grp.getArlMembers()) {
+                        MCharacter ch = mAdv.mCharacters.get(chKey);
+                        if (ch != null) {
+                            ret.put(chKey, ch);
+                        }
+                    }
+                }
+                break;
+            }
+            case EveryoneInside: {
+                MObject ob = mAdv.mObjects.get(key);
+                if (ob != null) {
+                    ret = ob.getChildChars(InsideObject);
+                }
+                break;
+            }
+            case EveryoneOn: {
+                MObject ob = mAdv.mObjects.get(key);
+                if (ob != null) {
+                    ret = ob.getChildChars(OnObject);
+                }
+                break;
+            }
+            case EveryoneWithProperty: {
+                MProperty prop = mAdv.mCharacterProperties.get(key);
+                if (prop != null) {
+                    for (MCharacter ch : mAdv.mCharacters.values()) {
+                        if (ch.hasProperty(key)) {
+                            if (prop.getType() == SelectionOnly) {
+                                ret.put(ch.getKey(), ch);
+                            } else {
+                                if (ch.getPropertyValue(key).equals(propValue)) {
+                                    ret.put(ch.getKey(), ch);
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+            }
+        }
+        return ret;
+    }
+
+    @Nullable
+    public MCharacter put(@NonNull String key, @NonNull MCharacter value) {
+        if (this == mAdv.mCharacters) {
+            mAdv.mAllItems.put(value);
+        }
+        return super.put(key, value);
+    }
+
+    @Override
+    @Nullable
+    public MCharacter remove(Object key) {
+        if (this == mAdv.mCharacters) {
+            mAdv.mAllItems.remove(key);
+        }
+        return super.remove(key);
+    }
+
+    @NonNull
+    public String toList() {
+        return toList("and");
+    }
+
+    @NonNull
+    public String toList(@NonNull String separator) {
+        StringBuilder ret = new StringBuilder();
+        int n = size();
+        for (MCharacter ch : values()) {
+            ret.append("%CharacterName[").append(ch.getKey()).append("]%");
+            n--;
+            if (n > 1) {
+                ret.append(", ");
+            }
+            if (n == 1) {
+                ret.append(" ").append(separator).append(" ");
+            }
+        }
+        if (ret.length() == 0) {
+            ret.append("noone");
+        }
+        return ret.toString();
     }
 
     public enum MoveCharacterWhoEnum {

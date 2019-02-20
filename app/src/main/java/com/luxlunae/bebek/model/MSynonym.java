@@ -158,8 +158,15 @@ public class MSynonym extends MItem {
     public int getKeyRefCount(@NonNull String key) {
         int iCount = 0;
         for (MDescription d : getAllDescriptions()) {
-            iCount += d.referencesKey(key);
+            iCount += d.getNumberOfKeyRefs(key);
         }
         return iCount;
+    }
+
+    @NonNull
+    @Override
+    public String getSymbol() {
+        // twisted rightwards arrows
+        return new String(Character.toChars(0x1F500));
     }
 }

@@ -25,8 +25,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.luxlunae.bebek.VB;
-import com.luxlunae.bebek.controller.MParser;
-import com.luxlunae.bebek.view.MView;
 import com.luxlunae.glk.GLKLogger;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -35,40 +33,44 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.luxlunae.bebek.model.MSubEvent.MeasureEnum.Turns;
+import static com.luxlunae.bebek.model.MSubEvent.WhatEnum.DisplayMessage;
+import static com.luxlunae.bebek.model.MSubEvent.WhenEnum.FromLastSubEvent;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
 public class MSubEvent implements Cloneable {
     @NonNull
-    private final MSubEvent oMe;
-    public WhenEnum eWhen = WhenEnum.FromLastSubEvent;
-    public WhatEnum eWhat = WhatEnum.DisplayMessage;
-    public MeasureEnum eMeasure = MeasureEnum.Turns;
+    private final MSubEvent mMe;
+    public WhenEnum mWhen = FromLastSubEvent;
+    public WhatEnum mWhat = DisplayMessage;
+    public MeasureEnum mMeasure = Turns;
     @NonNull
-    public MFromTo ftTurns;
+    public MFromTo mTurns;
     @NonNull
-    public MDescription oDescription;
+    public MDescription mDescription;
     @NonNull
-    public String sKey = "";
+    public String mKey = "";
     @Nullable
-    Timer tmrTrigger;
+    Timer mTrigger;
     @Nullable
-    Date dtStart;
-    int iMilliseconds;
+    Date mStart;
+    int mMilliseconds;
     @NonNull
-    String sParentKey;
+    String mParentKey;
     @NonNull
     private final MAdventure mAdv;
 
-    MSubEvent(@NonNull MAdventure adv, @NonNull String sEventKey) {
-        sParentKey = sEventKey;
-        oMe = this;
-        ftTurns = new MFromTo(adv);
+    MSubEvent(@NonNull MAdventure adv, @NonNull String eventKey) {
+        mParentKey = eventKey;
+        mMe = this;
+        mTurns = new MFromTo(adv);
         mAdv = adv;
-        oDescription = new MDescription(adv);
+        mDescription = new MDescription(adv);
     }
 
-    MSubEvent(@NonNull MAdventure adv, @NonNull XmlPullParser xpp, double dFileVersion) throws Exception {
+    MSubEvent(@NonNull MAdventure adv, @NonNull XmlPullParser xpp,
+              double version) throws Exception {
         this(adv, "");
 
         xpp.require(START_TAG, null, "SubEvent");
@@ -86,13 +88,13 @@ public class MSubEvent implements Cloneable {
                                 s = xpp.nextText();
                                 if (!s.equals("")) {
                                     sData = s.split(" ");
-                                    ftTurns.iFrom = VB.cint(sData[0]);
+                                    mTurns.iFrom = VB.cint(sData[0]);
                                     if (sData.length == 4) {
-                                        ftTurns.iTo = VB.cint(sData[2]);
-                                        eWhen = MSubEvent.WhenEnum.valueOf(sData[3]);
+                                        mTurns.iTo = VB.cint(sData[2]);
+                                        mWhen = MSubEvent.WhenEnum.valueOf(sData[3]);
                                     } else {
-                                        ftTurns.iTo = VB.cint(sData[0]);
-                                        eWhen = MSubEvent.WhenEnum.valueOf(sData[1]);
+                                        mTurns.iTo = VB.cint(sData[0]);
+                                        mWhen = MSubEvent.WhenEnum.valueOf(sData[1]);
                                     }
                                 }
                             } catch (Exception e) {
@@ -105,10 +107,10 @@ public class MSubEvent implements Cloneable {
                             try {
                                 s = xpp.nextText();
                                 sData = s.split(" ");
-                                eWhat = MSubEvent.WhatEnum.valueOf(sData[0]);
-                                sKey = sData[1];
+                                mWhat = MSubEvent.WhatEnum.valueOf(sData[0]);
+                                mKey = sData[1];
                             } catch (Exception e) {
-                                oDescription = new MDescription(adv, xpp, dFileVersion, "Action");
+                                mDescription = new MDescription(adv, xpp, version, "Action");
                             }
                             break;
 
@@ -116,7 +118,7 @@ public class MSubEvent implements Cloneable {
                             try {
                                 s = xpp.nextText();
                                 if (!s.equals("")) {
-                                    eMeasure = MSubEvent.MeasureEnum.valueOf(s);
+                                    mMeasure = MSubEvent.MeasureEnum.valueOf(s);
                                 }
                             } catch (Exception e) {
                                 // do nothing
@@ -128,7 +130,7 @@ public class MSubEvent implements Cloneable {
                             try {
                                 s = xpp.nextText();
                                 if (!s.equals("")) {
-                                    eWhat = MSubEvent.WhatEnum.valueOf(s);
+                                    mWhat = MSubEvent.WhatEnum.valueOf(s);
                                 }
                             } catch (Exception e) {
                                 // do nothing
@@ -140,7 +142,7 @@ public class MSubEvent implements Cloneable {
                             try {
                                 s = xpp.nextText();
                                 if (!s.equals("")) {
-                                    sKey = s;
+                                    mKey = s;
                                 }
                             } catch (Exception e) {
                                 // do nothing
@@ -161,8 +163,8 @@ public class MSubEvent implements Cloneable {
     public MSubEvent clone() {
         try {
             MSubEvent se = (MSubEvent) super.clone();
-            se.ftTurns = ftTurns.clone();
-            se.oDescription = oDescription.copy();
+            se.mTurns = mTurns.clone();
+            se.mDescription = mDescription.copy();
             return se;
         } catch (CloneNotSupportedException e) {
             GLKLogger.error("MSubEvent: clone failed: " + e.getMessage());
@@ -192,14 +194,14 @@ public class MSubEvent implements Cloneable {
     public class SubEventTimerTask extends TimerTask {
         @Override
         public void run() {
-            if (tmrTrigger != null) {
-                tmrTrigger.cancel();
+            if (mTrigger != null) {
+                mTrigger.cancel();
             }
 
             try {
-                mAdv.mEvents.get(sParentKey).runSubEvent(oMe);
-                MView.displayText(mAdv, "<br><br>", true);
-                MParser.checkEndOfGame(mAdv);
+                mAdv.mEvents.get(mParentKey).runSubEvent(mMe);
+                mAdv.mView.displayText(mAdv, "<br><br>", true);
+                mAdv.checkEndOfGame();
             } catch (InterruptedException e) {
                 GLKLogger.error("TimerTask: caught interrupted exception!");
             }

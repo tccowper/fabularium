@@ -25,8 +25,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.luxlunae.bebek.MGlobals;
-import com.luxlunae.bebek.VB;
-import com.luxlunae.bebek.controller.MParser;
 import com.luxlunae.bebek.model.collection.MStringArrayList;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -37,12 +35,12 @@ import java.util.LinkedHashMap;
 import static com.luxlunae.bebek.MGlobals.SELECTED;
 import static com.luxlunae.bebek.MGlobals.UNSELECTED;
 import static com.luxlunae.bebek.MGlobals.getBool;
-import static com.luxlunae.bebek.MGlobals.safeInt;
+import static com.luxlunae.bebek.VB.isNumeric;
 import static com.luxlunae.bebek.model.MProperty.PropertyOfEnum.Locations;
 import static com.luxlunae.bebek.model.MProperty.PropertyTypeEnum.SelectionOnly;
 import static com.luxlunae.bebek.model.MProperty.PropertyTypeEnum.StateList;
-import static com.luxlunae.bebek.model.MVariable.VariableType.NUMERIC;
-import static com.luxlunae.bebek.model.MVariable.VariableType.TEXT;
+import static com.luxlunae.bebek.model.MVariable.VariableType.Numeric;
+import static com.luxlunae.bebek.model.MVariable.VariableType.Text;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
@@ -608,11 +606,11 @@ public class MProperty extends MItem {
                 break;
 
             case Integer:
-                MGlobals.TODO("Integer values");
+                mAdv.mView.TODO("Integer values");
                 break;
 
             case LocationGroupKey:
-                MGlobals.TODO("Location Group values");
+                mAdv.mView.TODO("Location Group values");
                 break;
 
             case LocationKey:
@@ -655,7 +653,7 @@ public class MProperty extends MItem {
                 break;
 
             case Text:
-                MGlobals.TODO("Text values");
+                mAdv.mView.TODO("Text values");
                 break;
         }
 
@@ -677,8 +675,8 @@ public class MProperty extends MItem {
                     } else if (validValues.size() > 0) {
                         // Perhaps it's an expression that resolves to a valid state...
                         MVariable v = new MVariable(mAdv);
-                        v.setType(TEXT);
-                        v.setToExpr(value, MParser.mReferences);
+                        v.setType(Text);
+                        v.setToExpr(value, mAdv.mReferences);
                         String evalVal = v.getStr();
                         if (validValues.contains(evalVal)) {
                             mStringData = new MDescription(mAdv, evalVal);
@@ -705,14 +703,14 @@ public class MProperty extends MItem {
                 case ValueList:
                     if (MGlobals.iLoading > 0 || value.equals("") ||
                             mValueList.containsKey(value) ||
-                            mValueList.containsValue(safeInt(value))) {
+                            mValueList.containsValue(mAdv.safeInt(value))) {
                         mIntData = mValueList.containsKey(value) ?
-                                mValueList.get(value) : safeInt(value);
+                                mValueList.get(value) : mAdv.safeInt(value);
                     } else if (mValueList.size() > 0) {
                         // Perhaps it's an expression that resolves to a valid state...
                         MVariable v = new MVariable(mAdv);
-                        v.setType(TEXT);
-                        v.setToExpr(value, MParser.mReferences);
+                        v.setType(Text);
+                        v.setToExpr(value, mAdv.mReferences);
                         String evalVal = v.getStr();
                         if (mValueList.containsKey(evalVal)) {
                             mIntData = mValueList.get(evalVal);
@@ -743,19 +741,19 @@ public class MProperty extends MItem {
                     break;
 
                 case Integer:
-                    if (VB.isNumeric(value)) {
-                        mIntData = safeInt(value);
+                    if (isNumeric(value)) {
+                        mIntData = mAdv.safeInt(value);
                     } else {
                         // Assume it's an expression that resolves to an integer...
                         MVariable var = new MVariable(mAdv);
-                        var.setType(NUMERIC);
-                        var.setToExpr(value, MParser.mReferences);
+                        var.setType(Numeric);
+                        var.setToExpr(value, mAdv.mReferences);
                         mIntData = var.getInt();
                     }
                     break;
             }
         } catch (Exception ex) {
-            MGlobals.errMsg("Error Setting Property " + getDescription() +
+            mAdv.mView.errMsg("Error Setting Property " + getDescription() +
                     " to \"" + value + "\"", ex);
         }
     }
@@ -909,6 +907,13 @@ public class MProperty extends MItem {
             ret++;
         }
         return ret;
+    }
+
+    @NonNull
+    @Override
+    public String getSymbol() {
+        // clipboard
+        return new String(Character.toChars(0x1F4CB));
     }
 
     @Override

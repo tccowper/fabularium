@@ -24,10 +24,8 @@ package com.luxlunae.bebek.model;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.luxlunae.bebek.Bebek;
 import com.luxlunae.bebek.MGlobals;
-import com.luxlunae.bebek.controller.MParser;
-import com.luxlunae.bebek.controller.MReference;
+import com.luxlunae.bebek.controller.MController;
 import com.luxlunae.bebek.model.collection.MReferenceList;
 import com.luxlunae.bebek.model.io.MFileOlder;
 import com.luxlunae.glk.GLKLogger;
@@ -39,13 +37,11 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import static com.luxlunae.bebek.MGlobals.REFERENCE_NAMES;
-import static com.luxlunae.bebek.MGlobals.errMsg;
 import static com.luxlunae.bebek.MGlobals.getArgs;
 import static com.luxlunae.bebek.MGlobals.instr;
 import static com.luxlunae.bebek.MGlobals.left;
 import static com.luxlunae.bebek.MGlobals.mid;
 import static com.luxlunae.bebek.MGlobals.right;
-import static com.luxlunae.bebek.MGlobals.safeInt;
 import static com.luxlunae.bebek.MGlobals.toProper;
 import static com.luxlunae.bebek.VB.cint;
 import static com.luxlunae.bebek.VB.isNumeric;
@@ -61,8 +57,9 @@ import static com.luxlunae.bebek.model.MVariable.TokenType.OP;
 import static com.luxlunae.bebek.model.MVariable.TokenType.RP;
 import static com.luxlunae.bebek.model.MVariable.TokenType.TEST;
 import static com.luxlunae.bebek.model.MVariable.TokenType.TESTOP;
-import static com.luxlunae.bebek.model.MVariable.VariableType.NUMERIC;
-import static com.luxlunae.bebek.model.MVariable.VariableType.TEXT;
+import static com.luxlunae.bebek.model.MVariable.VariableType.Numeric;
+import static com.luxlunae.bebek.model.MVariable.VariableType.Text;
+import static org.xmlpull.v1.XmlPullParser.END_DOCUMENT;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
@@ -83,7 +80,7 @@ public class MVariable extends MItem {
     @Nullable
     private String[] mStrVals;
     private int mLength = 1;
-    private VariableType mType = NUMERIC;
+    private VariableType mType = Numeric;
 
     public MVariable(@NonNull MAdventure adv) {
         super(adv);
@@ -97,11 +94,11 @@ public class MVariable extends MItem {
         setKey("Variable" + iVar);
         setName(reader.readLine());
         if (v < 4) {
-            setType(NUMERIC);
+            setType(Numeric);
             set(cint(reader.readLine()));
         } else {
             setType(getTypeFromInt(cint(reader.readLine())));
-            if (getType() == NUMERIC) {
+            if (getType() == Numeric) {
                 set(cint(reader.readLine()));
             } else {
                 set(reader.readLine());
@@ -110,7 +107,7 @@ public class MVariable extends MItem {
     }
     
     public MVariable(@NonNull MAdventure adv, @NonNull XmlPullParser xpp,
-                     boolean bLibrary, boolean bAddDuplicateKeys) throws Exception {
+                     boolean isLibrary, boolean addDupKeys) throws Exception {
         // ADRIFT V5 Loader
         this(adv);
 
@@ -119,11 +116,10 @@ public class MVariable extends MItem {
         String initValue = "";
         ItemHeaderDetails header = new ItemHeaderDetails();
         int depth = xpp.getDepth();
-        int eventType;
+        int evType;
 
-        while ((eventType = xpp.nextTag()) != XmlPullParser.END_DOCUMENT &&
-                xpp.getDepth() > depth) {
-            if (eventType == START_TAG) {
+        while ((evType = xpp.nextTag()) != END_DOCUMENT && xpp.getDepth() > depth) {
+            if (evType == START_TAG) {
                 switch (xpp.getName()) {
                     default:
                         header.processTag(xpp);
@@ -134,7 +130,7 @@ public class MVariable extends MItem {
                         break;
 
                     case "Type":
-                        setType(VariableType.valueOf(xpp.nextText().toUpperCase()));
+                        setType(VariableType.valueOf(xpp.nextText()));
                         break;
 
                     case "InitialValue":
@@ -154,14 +150,14 @@ public class MVariable extends MItem {
         xpp.require(END_TAG, null, "Variable");
 
         if (!header.finalise(this,
-                adv.mVariables, bLibrary, bAddDuplicateKeys, null)) {
+                adv.mVariables, isLibrary, addDupKeys, null)) {
             throw new Exception();
         }
 
         // Set the variable's initial value(s).
         VariableType varType = getType();
-        if (varType == TEXT || (getLength() > 1 && initValue.contains(","))) {
-            if (varType == NUMERIC) {
+        if (varType == Text || (getLength() > 1 && initValue.contains(","))) {
+            if (varType == Numeric) {
                 String vals[] = initValue.split(",");
                 for (int i = 1; i <= vals.length; i++) {
                     setAt(i, cint(vals[i - 1]));
@@ -183,9 +179,9 @@ public class MVariable extends MItem {
         switch (value) {
             default:
             case 0:
-                return NUMERIC;
+                return Numeric;
             case 1:
-                return TEXT;
+                return Text;
         }
     }
 
@@ -196,7 +192,7 @@ public class MVariable extends MItem {
         StringBuilder ret = new StringBuilder();
 
         while (!expr.equals("")) {
-            int pos = MGlobals.instr(1, expr, "\"");
+            int pos = instr(1, expr, "\"");
             if (pos > 0) {
                 chunk = left(expr, pos);
                 expr = right(expr, expr.length() - pos);
@@ -249,8 +245,7 @@ public class MVariable extends MItem {
 
     @NonNull
     private Token getToken(@NonNull StringBuilder text,
-                           int index,
-                           @Nullable MReferenceList refs) throws Exception {
+                           int index, @Nullable MReferenceList refs) throws Exception {
         int lenText = text.length();
         String rem = text.toString();
         String remLower = rem.toLowerCase();
@@ -313,8 +308,8 @@ public class MVariable extends MItem {
                 return tok;
 
             case "\"":
-                if (MGlobals.instr(2, rem, "\"") > 0) {
-                    String tmp = mid(rem, 2, MGlobals.instr(2, rem, "\"") - 2);
+                if (instr(2, rem, "\"") > 0) {
+                    String tmp = mid(rem, 2, instr(2, rem, "\"") - 2);
                     tok.mValue = tmp;
                     tok.mType = EXPR;
                     text.delete(0, tmp.length() + 2);
@@ -323,8 +318,8 @@ public class MVariable extends MItem {
                 break;
 
             case "'":
-                if (MGlobals.instr(2, rem, "'") > 0) {
-                    String tmp = mid(rem, 2, MGlobals.instr(2, rem, "'") - 2);
+                if (instr(2, rem, "'") > 0) {
+                    String tmp = mid(rem, 2, instr(2, rem, "'") - 2);
                     tok.mValue = tmp;
                     tok.mType = EXPR;
                     text.delete(0, tmp.length() + 2);
@@ -340,18 +335,19 @@ public class MVariable extends MItem {
                     if (lenVName > 1 && remLower.startsWith("%" + vNameLower + "[")) {
                         String args = getArgs(text,
                                 remLower.indexOf("%" + vNameLower + "[") + lenVName);
-                        int vIndex = safeInt(mAdv.evaluateFunctions(args, refs));
-                        if (var.getType() == TEXT) {
+                        int vIndex = mAdv.safeInt(mAdv.evalFuncs(args, refs));
+                        if (var.getType() == Text) {
                             tok.mValue = var.getStrAt(vIndex);
                         } else {
                             tok.mValue = String.valueOf(var.getIntAt(vIndex));
                         }
                         tok.mType = EXPR;
-                        text.replace(0, lenText, rem.replace("%" + vName + "[" + args + "]%", ""));
+                        text.replace(0, lenText, rem.replace("%" +
+                                vName + "[" + args + "]%", ""));
                         return tok;
                     }
                     if (rem.startsWith("%" + vName + "%")) {
-                        if (var.getType() == TEXT) {
+                        if (var.getType() == Text) {
                             tok.mValue = var.getStrAt(1);
                         } else {
                             tok.mValue = String.valueOf(var.getIntAt(1));
@@ -379,8 +375,8 @@ public class MVariable extends MItem {
                         for (MReference ref : refs) {
                             if (ref.mType == MReference.ReferencesType.Number) {
                                 if (ref.mItems.size() == 1) {
-                                    if (ref.mItems.get(0).mMatchingPossibilities.size() == 1) {
-                                        tok.mValue = ref.mItems.get(0).mMatchingPossibilities.get(0);
+                                    if (ref.mItems.get(0).mMatchingKeys.size() == 1) {
+                                        tok.mValue = ref.mItems.get(0).mMatchingKeys.get(0);
                                     }
                                 }
                             }
@@ -409,10 +405,10 @@ public class MVariable extends MItem {
                     return tok;
                 }
                 if (remLower.startsWith("%version%")) {
-                    String[] version = Bebek.AdriftProductVersion.split("\\.");
+                    String[] version = MController.AdriftProductVersion.split("\\.");
                     tok.mValue = version[0] +
-                            String.format(Locale.UK, "%02d", safeInt(version[1])) +
-                            String.format(Locale.UK, "%04d", safeInt(version[2]));
+                            String.format(Locale.UK, "%02d", mAdv.safeInt(version[1])) +
+                            String.format(Locale.UK, "%04d", mAdv.safeInt(version[2]));
                     tok.mType = EXPR;
                     text.delete(0, 9);
                     return tok;
@@ -423,8 +419,8 @@ public class MVariable extends MItem {
                         for (MReference ref : refs) {
                             if (ref.mType == MReference.ReferencesType.Text) {
                                 if (ref.mItems.size() == 1) {
-                                    if (ref.mItems.get(0).mMatchingPossibilities.size() == 1) {
-                                        tok.mValue = ref.mItems.get(0).mMatchingPossibilities.get(0);
+                                    if (ref.mItems.get(0).mMatchingKeys.size() == 1) {
+                                        tok.mValue = ref.mItems.get(0).mMatchingKeys.get(0);
                                     }
                                 }
                             }
@@ -446,7 +442,7 @@ public class MVariable extends MItem {
                         String args = getArgs(text,
                                 remLower.indexOf("%" + fn + "[") + fn.length() + 1);
                         String tmp = "fun-%" + fn + "[" + args + "]%";
-                        tok.mValue = mAdv.evaluateFunctions(tmp.substring(4), refs);
+                        tok.mValue = mAdv.evalFuncs(tmp.substring(4), refs);
                         tok.mType = EXPR;
                         text.replace(0, lenText, rem.replace(tmp.substring(4), ""));
                         return tok;
@@ -454,7 +450,7 @@ public class MVariable extends MItem {
                 }
                 for (String ref : REFERENCE_NAMES) {
                     if (remLower.startsWith(ref.toLowerCase())) {
-                        tok.mValue = mAdv.evaluateFunctions(ref, refs);
+                        tok.mValue = mAdv.evalFuncs(ref, refs);
                         tok.mType = EXPR;
                         text.delete(0, ref.length());
                         return tok;
@@ -742,8 +738,7 @@ public class MVariable extends MItem {
      */
     @Nullable
     private TokenList tokenise(@NonNull StringBuilder expr,
-                               int index,
-                               @Nullable MReferenceList refs) throws Exception {
+                               int index, @Nullable MReferenceList refs) throws Exception {
         String rem = expr.toString();
         String prev = "972398";
         TokenList tokens = new TokenList();
@@ -798,30 +793,35 @@ public class MVariable extends MItem {
                                 tokL.mType == EXPR && tokRP.mType == RP) {
                             switch (tokFunc.mValue) {
                                 case "abs":
-                                    // abs(x)
+                                    // ------------------
+                                    //      Abs(x)
+                                    // ------------------
                                     tokens.add(EXPR,
-                                            String.valueOf(Math.abs(safeInt(tokL.mValue))),
+                                            String.valueOf(Math.abs(mAdv.safeInt(tokL.mValue))),
                                             tokFunc.getL(), tokRP.getR());
                                     break;
                                 case "upr":
-                                    // ucase(text)
-                                    //
+                                    // ------------------
+                                    //    UCase(text)
+                                    // ------------------
                                     // Converts <text> to all upper case.
                                     tokens.add(EXPR,
                                             tokL.mValue.toUpperCase(),
                                             tokFunc.getL(), tokRP.getR());
                                     break;
                                 case "lwr":
-                                    // lcase(text)
-                                    //
+                                    // ------------------
+                                    //    LCase(text)
+                                    // ------------------
                                     // Converts <text> to all lower case.
                                     tokens.add(EXPR,
                                             tokL.mValue.toLowerCase(),
                                             tokFunc.getL(), tokRP.getR());
                                     break;
                                 case "ppr":
-                                    // pcase(text)
-                                    //
+                                    // ------------------
+                                    //    PCase(text)
+                                    // ------------------
                                     // Converts <text> to proper case.
                                     // (Capitalise the first letter of
                                     //  each sentence, remainder unchanged).
@@ -832,53 +832,58 @@ public class MVariable extends MItem {
                                             tokFunc.getL(), tokRP.getR());
                                     break;
                                 case "len":
-                                    // len(text)
-                                    //
+                                    // ------------------
+                                    //     Len(text)
+                                    // ------------------
                                     // Returns the length of <text>.
                                     tokens.add(EXPR,
                                             String.valueOf(tokL.mValue.length()),
                                             tokFunc.getL(), tokRP.getR());
                                     break;
                                 case "val":
-                                    // val(text)
-                                    //
-                                    // Converts <text> to a number
-                                    // (or zero if it can't match).
+                                    // ------------------
+                                    //     Val(text)
+                                    // ------------------
+                                    // Converts <text> to a number (or zero
+                                    // if it can't match).
                                     tokens.add(EXPR,
                                             tokL.mValue,
                                             tokFunc.getL(), tokRP.getR());
                                     break;
                                 case "str":
-                                    // str(x)
-                                    //
-                                    // Converts an integer value x to
-                                    // text form. Negative numbers are
-                                    // preceded with "-" and positive
-                                    // numbers with a space.
+                                    // ------------------
+                                    //      Str(x)
+                                    // ------------------
+                                    // Converts an integer value x to text
+                                    // form. Negative numbers are preceded
+                                    // with "-" and positive numbers with a
+                                    // space.
                                     tokens.add(EXPR,
                                             tokL.mValue,
                                             tokFunc.getL(), tokRP.getR());
                                     break;
                                 case "rand":
-                                    // rand(x)
-                                    //
+                                    // ------------------
+                                    //     Rand(x)
+                                    // ------------------
                                     // Returns a random value between
                                     // 0 and x.
                                     tokens.add(EXPR,
-                                            String.valueOf(mAdv.getRand(0, safeInt(tokL.mValue))),
+                                            String.valueOf(mAdv.getRand(0,
+                                                    mAdv.safeInt(tokL.mValue))),
                                             tokFunc.getL(), tokRP.getR());
                                     break;
                                 case "urand":
-                                    // urand(x)
-                                    //
-                                    // Returns a unique random value
-                                    // between 0 and x. When called
-                                    // multiple times no value will
-                                    // be repeated until all of the
-                                    // values between 0 and x have
-                                    // been returned.
+                                    // ------------------
+                                    //      URand(x)
+                                    // ------------------
+                                    // Returns a unique random value between 0
+                                    // and x. When called multiple times no
+                                    // value will be repeated until all of the
+                                    // values between 0 and x have been returned.
                                     tokens.add(EXPR,
-                                            String.valueOf(mAdv.getRandNoRepeat(0, safeInt(tokL.mValue))),
+                                            String.valueOf(mAdv.getRandNoRepeat(0,
+                                                    mAdv.safeInt(tokL.mValue))),
                                             tokFunc.getL(), tokRP.getR());
                                     break;
                             }
@@ -924,21 +929,29 @@ public class MVariable extends MItem {
                                                 tokRP.mType == RP) {
                                             switch (tokFunc.mValue) {
                                                 case "if":
-                                                    // if(test,x,y)
-                                                    //
+                                                    // ------------------
+                                                    //   If(test,x,y)
+                                                    // ------------------
                                                     // If "test" evaluates
                                                     // true, returns x, else returns y
                                                     //
-                                                    // Where "test" is a=b, a==b, a<b, a<=b, a>b,
-                                                    // a>=b, a<>b, a!=b. Conditions can be
-                                                    // ANDed using "and", "&" or "&&" or
-                                                    // ORed using "or", "|", "||",
+                                                    // Where "test" is a=b, a==b, a<b,
+                                                    // a<=b, a>b, a>=b, a<>b, a!=b.
+                                                    // Conditions can be ANDed using
+                                                    // "and", "&" or "&&" or ORed using
+                                                    // "or", "|", "||",
                                                     //
-                                                    // eg. IF(%variable1%=1,%variable2%+1,RAND(5,7))
+                                                    // E.g.
                                                     //
-                                                    // Always use parentheses to ensure that
-                                                    // comparison operations occur before AND/OR,
-                                                    // eg. IF((%var1%=3) AND (%Var2=4),10,20)
+                                                    //   IF(%variable1%=1,%variable2%+1,RAND(5,7))
+                                                    //
+                                                    // Always use parentheses to ensure
+                                                    // that comparison operations occur
+                                                    // before AND/OR.
+                                                    //
+                                                    // E.g.
+                                                    //
+                                                    //    IF((%var1%=3) AND (%Var2=4),10,20)
                                                     tokens.add(EXPR,
                                                             val(tokL.mValue).intValue() > 0 ?
                                                                     tokR.mValue : tokR2.mValue,
@@ -955,8 +968,9 @@ public class MVariable extends MItem {
                                                 tokRP.mType == RP) {
                                             switch (tokFunc.mValue) {
                                                 case "mid":
-                                                    // mid(text, start, length)
-                                                    //
+                                                    // ------------------
+                                                    // Mid(text, start, length)
+                                                    // ------------------
                                                     // Returns <length> characters
                                                     // of <text>, starting at <start>
                                                     tokens.add(EXPR,
@@ -965,8 +979,9 @@ public class MVariable extends MItem {
                                                             tokFunc.getL(), tokRP.getR());
                                                     break;
                                                 case "replace":
-                                                    // replace(SourceText, FindText, ReplaceText)
-                                                    //
+                                                    // ------------------
+                                                    // Replace(SourceText, FindText, ReplaceText)
+                                                    // ------------------
                                                     // This takes three parameters - the first is
                                                     // the piece of text to be altered, the
                                                     // second is the text to find, and the third
@@ -1003,8 +1018,9 @@ public class MVariable extends MItem {
                                         tokRP.mType == RP) {
                                     switch (tokFunc.mValue) {
                                         case "max":
-                                            // max(x,y)
-                                            //
+                                            // ------------------
+                                            //     Max(x,y)
+                                            // ------------------
                                             // Returns the maximum of value x and y
                                             tokens.add(EXPR,
                                                     String.valueOf(
@@ -1013,8 +1029,9 @@ public class MVariable extends MItem {
                                                     tokFunc.getL(), tokRP.getR());
                                             break;
                                         case "min":
-                                            // min(x,y)
-                                            //
+                                            // ------------------
+                                            //     Min(x,y)
+                                            // ------------------
                                             // Returns the minimum of value x and y
                                             tokens.add(EXPR,
                                                     String.valueOf(
@@ -1023,8 +1040,9 @@ public class MVariable extends MItem {
                                                     tokFunc.getL(), tokRP.getR());
                                             break;
                                         case "either":
-                                            // either(x,y)
-                                            //
+                                            // ------------------
+                                            //    Either(x,y)
+                                            // ------------------
                                             // Randomly returns either x or y
                                             // either(text1, text2) randomly returns
                                             // either <text1> or <text2>
@@ -1039,47 +1057,54 @@ public class MVariable extends MItem {
                                             }
                                             break;
                                         case "rand":
-                                            // rand(x,y)
-                                            //
+                                            // ------------------
+                                            //     Rand(x,y)
+                                            // ------------------
                                             // Returns a random value between x and y
                                             tokens.add(EXPR,
                                                     String.valueOf(
-                                                            mAdv.getRand(safeInt(tokL.mValue), safeInt(tokR.mValue))),
+                                                            mAdv.getRand(mAdv.safeInt(tokL.mValue),
+                                                                    mAdv.safeInt(tokR.mValue))),
                                                     tokFunc.getL(), tokRP.getR());
                                             break;
                                         case "urand":
-                                            // urand(x,y)
-                                            //
+                                            // ------------------
+                                            //    URand(x,y)
+                                            // ------------------
                                             // Returns a unique random value between x and y.
                                             // When called multiple times no value will be
                                             // repeated until all of the values between x
                                             // and y have been returned.
                                             tokens.add(EXPR,
                                                     String.valueOf(
-                                                            mAdv.getRandNoRepeat(safeInt(tokL.mValue), safeInt(tokR.mValue))),
+                                                            mAdv.getRandNoRepeat(mAdv.safeInt(tokL.mValue),
+                                                                    mAdv.safeInt(tokR.mValue))),
                                                     tokFunc.getL(), tokRP.getR());
                                             break;
                                         case "lft":
-                                            // left(text, length)
-                                            //
+                                            // ------------------
+                                            // Left(text, length)
+                                            // ------------------
                                             // Returns the <length> leftmost
-                                            // characters of <text>
+                                            // characters of <text>.
                                             tokens.add(EXPR,
                                                     left(tokL.mValue, cint(tokR.mValue)),
                                                     tokFunc.getL(), tokRP.getR());
                                             break;
                                         case "rgt":
-                                            // right(text, length)
-                                            //
+                                            // ------------------
+                                            // Right(text, length)
+                                            // ------------------
                                             // Returns the <length> rightmost
-                                            // characters of <text>
+                                            // characters of <text>.
                                             tokens.add(EXPR,
                                                     right(tokL.mValue, cint(tokR.mValue)),
                                                     tokFunc.getL(), tokRP.getR());
                                             break;
                                         case "ist":
-                                            // instr(text, search)
-                                            //
+                                            // ------------------
+                                            // Instr(text, search)
+                                            // ------------------
                                             // Returns the position of the first
                                             // occurence of <search> within <text>
                                             // eg. instr(“hello”,”e”) = 2
@@ -1099,8 +1124,9 @@ public class MVariable extends MItem {
                                 if (tokFunc.mType == FUNCT &&
                                         tokLP.mType == LP && tokL.mType == EXPR &&
                                         tokFunc.mValue.equals("oneof")) {
-                                    // oneof(text1, text2, text3, text4)
-                                    //
+                                    // ------------------------------------
+                                    //  OneOf(text1, text2, text3, text4)
+                                    // ------------------------------------
                                     // This function can take any number of
                                     // parameters, and will return one of the parameters
                                     // randomly. For example, you could embed the
@@ -1163,22 +1189,27 @@ public class MVariable extends MItem {
                             tokR.mType == EXPR) {
                         switch (tokOp.mValue) {
                             case "^":
-                                // x ^ y
+                                // ------------------
+                                //       x ^ y
+                                // ------------------
                                 tokens.add(EXPR,
                                         String.valueOf(Math.pow(val(tokL.mValue).intValue(),
                                                 val(tokR.mValue).intValue())),
                                         tokL.getL(), tokR.getR());
                                 break;
                             case "*":
-                                // x * y
+                                // ------------------
+                                //       x * y
+                                // ------------------
                                 tokens.add(EXPR,
                                         String.valueOf(val(tokL.mValue).intValue() *
                                                 val(tokR.mValue).intValue()),
                                         tokL.getL(), tokR.getR());
                                 break;
                             case "/":
-                                // x / y
-                                //
+                                // ------------------
+                                //       x / y
+                                // ------------------
                                 // Notes:
                                 //
                                 // 1) Adrift divides as follows. We need to do the same:
@@ -1212,7 +1243,7 @@ public class MVariable extends MItem {
                                 //     operation returns the nearest number away from zero or
                                 //     the nearest even number."
                                 //
-                                // 2) Like Scare, we define x / 0 = 0.
+                                // 2) Like Scare, we define x / 0 = 0. Avert your eyes...
                                 float y = val(tokR.mValue).floatValue();
                                 int z = 0;
                                 if (y != 0) {
@@ -1230,7 +1261,9 @@ public class MVariable extends MItem {
                                         tokL.getL(), tokR.getR());
                                 break;
                             case "+":
-                                // x + y
+                                // ------------------
+                                //       x + y
+                                // ------------------
                                 if (isNumeric(tokL.mValue) && isNumeric(tokR.mValue)) {
                                     if (run == 2) {
                                         tokens.add(EXPR,
@@ -1246,7 +1279,9 @@ public class MVariable extends MItem {
                                 }
                                 break;
                             case "-":
-                                // x - y
+                                // ------------------
+                                //       x - y
+                                // ------------------
                                 if (run == 2) {
                                     tokens.add(EXPR,
                                             String.valueOf(val(tokL.mValue).intValue() -
@@ -1255,7 +1290,9 @@ public class MVariable extends MItem {
                                 }
                                 break;
                             case "mod":
-                                // x mod y
+                                // ------------------
+                                //      x mod y
+                                // ------------------
                                 if (run == 2) {
                                     tokens.add(EXPR,
                                             String.valueOf(val(tokL.mValue).intValue() %
@@ -1274,12 +1311,18 @@ public class MVariable extends MItem {
                             tokR.mType == TEST) {
                         switch (tokOp.mValue) {
                             case "AND":
+                                // ------------------
+                                //      x && y
+                                // ------------------
                                 tokens.add(TEST,
                                         (val(tokL.mValue).intValue() > 0 &&
                                                 val(tokR.mValue).intValue() > 0) ? "1" : "0",
                                         tokL.getL(), tokR.getR());
                                 break;
                             case "OR":
+                                // ------------------
+                                //      x || y
+                                // ------------------
                                 tokens.add(TEST,
                                         (val(tokL.mValue).intValue() > 0 ||
                                                 val(tokR.mValue).intValue() > 0) ? "1" : "0",
@@ -1299,6 +1342,9 @@ public class MVariable extends MItem {
                             tokR.mType == EXPR && run == 3) {
                         switch (tokOp.mValue) {
                             case "EQ":
+                                // ------------------
+                                //       x == y
+                                // ------------------
                                 if (isNumeric(tokL.mValue) && isNumeric(tokR.mValue)) {
                                     tokens.add(TEST,
                                             (val(tokL.mValue).intValue() ==
@@ -1311,6 +1357,9 @@ public class MVariable extends MItem {
                                 }
                                 break;
                             case "NE":
+                                // ------------------
+                                //       x != y
+                                // ------------------
                                 if (isNumeric(tokL.mValue) && isNumeric(tokR.mValue)) {
                                     tokens.add(TEST,
                                             (val(tokL.mValue).intValue() !=
@@ -1323,24 +1372,36 @@ public class MVariable extends MItem {
                                 }
                                 break;
                             case "GT":
+                                // ------------------
+                                //       x > y
+                                // ------------------
                                 tokens.add(TEST,
                                         (val(tokL.mValue).intValue() >
                                                 val(tokR.mValue).intValue()) ? "1" : "0",
                                         tokL.getL(), tokR.getR());
                                 break;
                             case "LT":
+                                // ------------------
+                                //       x < y
+                                // ------------------
                                 tokens.add(TEST,
                                         (val(tokL.mValue).intValue() <
                                                 val(tokR.mValue).intValue()) ? "1" : "0",
                                         tokL.getL(), tokR.getR());
                                 break;
                             case "GE":
+                                // ------------------
+                                //      x >= y
+                                // ------------------
                                 tokens.add(TEST,
                                         (val(tokL.mValue).intValue() >=
                                                 val(tokR.mValue).intValue()) ? "1" : "0",
                                         tokL.getL(), tokR.getR());
                                 break;
                             case "LE":
+                                // ------------------
+                                //      x <= y
+                                // ------------------
                                 tokens.add(TEST,
                                         (val(tokL.mValue).intValue() <=
                                                 val(tokR.mValue).intValue()) ? "1" : "0",
@@ -1350,8 +1411,6 @@ public class MVariable extends MItem {
                     }
 
                     // 3 tokens
-                    // concatenation operators
-                    // expr & expr
 
                     // Concatenate text, e.g. "one" & "two"
                     // Need to be careful that it evaluates late so we
@@ -1361,28 +1420,31 @@ public class MVariable extends MItem {
                     if (tokL.mType == EXPR &&
                             tokOp.mValue.equals("AND") &&
                             tokR.mType == EXPR && run == 3) {
+                        // ------------------
+                        //       x & y
+                        // ------------------
                         tokens.add(EXPR, tokL.mValue + tokR.mValue,
                                 tokL.getL(), tokR.getR());
                     }
 
-                    // 3 tokens
-                    // brackets
-                    // ( expr )
                     if (tokL.mType == LP &&
                             tokOp.mType == EXPR &&
                             tokR.mType == RP) {
+                        // ------------------
+                        //       ( x )
+                        // ------------------
                         tokens.add(EXPR,
                                 isNumeric(tokOp.mValue) ?
                                         String.valueOf(val(tokOp.mValue)) : tokOp.mValue,
                                 tokL.getL(), tokR.getR());
                     }
 
-                    // 3 tokens
-                    // brackets
-                    // ( test )
                     if (tokL.mType == LP &&
                             tokOp.mType == TEST &&
                             tokR.mType == RP) {
+                        // ------------------
+                        //      ( test )
+                        // ------------------
                         tokens.add(TEST,
                                 isNumeric(tokOp.mValue) ?
                                         String.valueOf(val(tokOp.mValue)) : tokOp.mValue,
@@ -1402,6 +1464,9 @@ public class MVariable extends MItem {
                 if (tokOp.mType == OP && tokR.mType == EXPR) {
                     switch (tokOp.mValue) {
                         case "-":
+                            // ------------------
+                            //        -x
+                            // ------------------
                             if (run == 2) {
                                 tokens.add(EXPR,
                                         String.valueOf(-val(tokR.mValue).intValue()),
@@ -1409,7 +1474,9 @@ public class MVariable extends MItem {
                             }
                             break;
                         case "+":
-                            // Not really expected, but I guess +X = X
+                            // ------------------
+                            //        +x
+                            // ------------------
                             if (run == 2) {
                                 tokens.add(EXPR,
                                         String.valueOf(val(tokR.mValue).intValue()),
@@ -1427,6 +1494,9 @@ public class MVariable extends MItem {
                 // not have this associated case in the parser - seems
                 // to have been a bug:
                 if (tokOp.mType == NEGATE && tokR.mType == TEST) {
+                    // ------------------
+                    //        !x
+                    // ------------------
                     tokens.add(TEST,
                             (val(tokR.mValue).intValue() > 0) ? "0" : "1",
                             tokOp.getL(), tokR.getR());
@@ -1439,11 +1509,11 @@ public class MVariable extends MItem {
             if (tokens.mChanged) {
                 // Move pointer to far left
                 tokCur = tokens.getLast();
-                int iBombOut = 0;
+                int bombOut = 0;
                 while (tokCur.getL() != null) {
                     tokCur = tokCur.getL();
-                    iBombOut++;
-                    if (iBombOut == 5000) {
+                    bombOut++;
+                    if (bombOut == 5000) {
                         badExpr = false;
                         continue nxt;
                     }
@@ -1463,11 +1533,11 @@ public class MVariable extends MItem {
                         if (run == 1) {
                             run = 2;
                             tokCur = tokens.getLast();
-                            int iBombOut = 0;
+                            int bombOut = 0;
                             while (tokCur.getL() != null) {
                                 tokCur = tokCur.getL();
-                                iBombOut++;
-                                if (iBombOut == 5000) {
+                                bombOut++;
+                                if (bombOut == 5000) {
                                     badExpr = false;
                                     continue nxt;
                                 }
@@ -1477,11 +1547,11 @@ public class MVariable extends MItem {
                         } else if (run == 2) {
                             run = 3;
                             tokCur = tokens.getLast();
-                            int iBombOut = 0;
+                            int bombOut = 0;
                             while (tokCur.getL() != null) {
                                 tokCur = tokCur.getL();
-                                iBombOut++;
-                                if (iBombOut == 5000) {
+                                bombOut++;
+                                if (bombOut == 5000) {
                                     badExpr = false;
                                     continue nxt;
                                 }
@@ -1509,7 +1579,7 @@ public class MVariable extends MItem {
             int i = 1;
             if (getLength() > 1 && arg != null) {
                 if (arg.startsWith("ReferencedNumber")) {
-                    i = safeInt(MParser.mReferences.getReference(arg));
+                    i = mAdv.safeInt(mAdv.mReferences.getMatchingKey(arg));
                 } else if (isNumeric(arg)) {
                     i = (int) val(arg);
                 } else {
@@ -1517,7 +1587,7 @@ public class MVariable extends MItem {
                 }
             }
             if (!getKey().equals("Score") || (task != null && !task.mIsScored)) {
-                setToExpr(expr, i, MParser.mReferences);
+                setToExpr(expr, i, mAdv.mReferences);
                 if (getKey().equals("Score")) {
                     task.mIsScored = true;
                     mAdv.setScore(getInt());
@@ -1525,7 +1595,7 @@ public class MVariable extends MItem {
             }
         } else {
             for (int i = loopStart; i <= cint(arg); i++) {
-                setToExpr(expr, i, MParser.mReferences);
+                setToExpr(expr, i, mAdv.mReferences);
             }
         }
     }
@@ -1551,7 +1621,7 @@ public class MVariable extends MItem {
      * @param length - the new length.
      */
     public void setLength(int length) {
-        if (getType() == NUMERIC) {
+        if (getType() == Numeric) {
             mIntVals = new int[length];
             mStrVals = new String[1];
             mStrVals[0] = "";
@@ -1578,7 +1648,7 @@ public class MVariable extends MItem {
      *
      * @param value - the value.
      */
-    void set(int value) {
+    public void set(int value) {
         setAt(1, value);
     }
 
@@ -1597,11 +1667,11 @@ public class MVariable extends MItem {
             return mIntVals[index - 1];
         } else {
             if (mIntVals != null) {
-                errMsg("Attempting to read index " + index +
+                mAdv.mView.errMsg("Attempting to read index " + index +
                         " outside bounds of array of variable " +
                         getName() + (mIntVals.length > 1 ? "(" + mIntVals.length + ")" : ""));
             } else {
-                errMsg("Attempting to read index " + index +
+                mAdv.mView.errMsg("Attempting to read index " + index +
                         " outside bounds of array of variable (0)");
             }
             return 0;
@@ -1623,11 +1693,11 @@ public class MVariable extends MItem {
             mIntVals[index - 1] = value;
         } else {
             if (mIntVals != null) {
-                errMsg("Attempting to set index " + index +
+                mAdv.mView.errMsg("Attempting to set index " + index +
                         " outside bounds of array of variable " +
                         getName() + (mIntVals.length > 1 ? "(" + mIntVals.length + ")" : ""));
             } else {
-                errMsg("Attempting to set index " + index +
+                mAdv.mView.errMsg("Attempting to set index " + index +
                         " outside bounds of array of variable (0)");
             }
         }
@@ -1649,11 +1719,11 @@ public class MVariable extends MItem {
             return mStrVals[index - 1];
         } else {
             if (mStrVals != null) {
-                errMsg("Attempting to read index " + index +
+                mAdv.mView.errMsg("Attempting to read index " + index +
                         " outside bounds of array of variable " + getName() +
                         (mStrVals.length > 1 ? "(" + mStrVals.length + ")" : ""));
             } else {
-                errMsg("Attempting to read index " + index +
+                mAdv.mView.errMsg("Attempting to read index " + index +
                         " outside bounds of array of variable (0)");
             }
             return "";
@@ -1667,12 +1737,12 @@ public class MVariable extends MItem {
     public void setType(VariableType value) {
         mType = value;
         switch (value) {
-            case NUMERIC:
+            case Numeric:
                 mIntVals = new int[1];
                 mStrVals = new String[1];
                 mStrVals[0] = "";
                 break;
-            case TEXT:
+            case Text:
                 mStrVals = new String[1];
                 mIntVals = null;
                 break;
@@ -1683,15 +1753,15 @@ public class MVariable extends MItem {
         if (index > 0 && mStrVals != null && index < mStrVals.length + 1) {
             mStrVals[index - 1] = value;
         } else if (mStrVals == null) {
-            errMsg("Attempting to set index " + index +
+            mAdv.mView.errMsg("Attempting to set index " + index +
                     " outside bounds of array of variable (0)");
         } else if (index <= 0) {
-            errMsg("Attempting to set index " + index +
+            mAdv.mView.errMsg("Attempting to set index " + index +
                     " outside bounds of array of variable " + getName() +
                     (mStrVals.length > 1 ? "(" + mStrVals.length + ")" : "") +
                     ".  ADRIFT arrays start at 1, not 0.");
         } else {
-            errMsg("Attempting to set index " + index +
+            mAdv.mView.errMsg("Attempting to set index " + index +
                     " outside bounds of array of variable " + getName() +
                     (mStrVals.length > 1 ? "(" + mStrVals.length + ")" : ""));
         }
@@ -1754,14 +1824,13 @@ public class MVariable extends MItem {
      * @param index                    - the index to store the expression in, for array variables (N.B. 1-based arrays)
      */
     private void setToExpr(@NonNull String expr,
-                           int index,
-                           @Nullable MReferenceList refs) {
+                           int index, @Nullable MReferenceList refs) {
         try {
             // ------------------
             //     TOKENISE
             // ------------------
             expr = expr.replace("%Loop%", String.valueOf(index));
-            expr = mAdv.evaluateFunctions(expr, refs, true);
+            expr = mAdv.evalFuncs(expr, refs, true);
             expr = expr.replace("\\\"", "~@+#~");
             StringBuilder exprNoSpaces = stripRedundantSpaces(expr);
             TokenList tokens = tokenise(exprNoSpaces, index, refs);
@@ -1776,15 +1845,15 @@ public class MVariable extends MItem {
             String val = parse(tokens);
             if (val == null) {
                 // Parse error.
-                errMsg("Bad expression: " + expr);
+                mAdv.mView.errMsg("Bad expression: " + expr);
                 return;
             }
 
             // ------------------
             //    STORE RESULT
             // ------------------
-            if (getType() == NUMERIC) {
-                setAt(index, safeInt(val));
+            if (getType() == Numeric) {
+                setAt(index, mAdv.safeInt(val));
             } else {
                 setAt(index, val);
             }
@@ -1822,7 +1891,7 @@ public class MVariable extends MItem {
         MVariable var = mAdv.mVariables.get(key);
         if (var != null &&
                 getStr().contains("%" + var.getName() + "%")) {
-            if (var.getType() == NUMERIC) {
+            if (var.getType() == Numeric) {
                 set(getStr().replace("%" +
                         var.getName() + "%", "0"));
             } else {
@@ -1848,7 +1917,7 @@ public class MVariable extends MItem {
     public int getKeyRefCount(@NonNull String key) {
         int ret = 0;
         for (MDescription d : getAllDescriptions()) {
-            ret += d.referencesKey(key);
+            ret += d.getNumberOfKeyRefs(key);
         }
         MVariable var = mAdv.mVariables.get(key);
         if (var != null) {
@@ -1859,6 +1928,13 @@ public class MVariable extends MItem {
         return ret;
     }
 
+    @NonNull
+    @Override
+    public String getSymbol() {
+        // chart with upwards trend
+        return new String(Character.toChars(0x1F4C8));
+    }
+
     /**
      * Note: these enum values are
      * hard-coded into ADRIFT game
@@ -1866,8 +1942,8 @@ public class MVariable extends MItem {
      * change!
      */
     public enum VariableType {
-        NUMERIC,        // 0
-        TEXT            // 1
+        Numeric,        // 0
+        Text            // 1
     }
 
     enum TokenType {
@@ -1897,21 +1973,21 @@ public class MVariable extends MItem {
             printTokens(null);
         }
 
-        void printTokens(@Nullable Token currentToken) {
+        void printTokens(@Nullable Token tokCur) {
             Token index = getFirst();
             while (index != null) {
-                index = printToken(index, currentToken);
+                index = printToken(index, tokCur);
             }
         }
 
         @Nullable
         Token printToken(@NonNull Token index,
-                         @Nullable Token currentToken) {
-            if (currentToken != null) {
+                         @Nullable Token tokCur) {
+            if (tokCur != null) {
                 boolean isCurrent =
-                        (index.getL() == currentToken.getL() &&
-                                index.getR() == currentToken.getR() &&
-                                index.mType == currentToken.mType);
+                        (index.getL() == tokCur.getL() &&
+                                index.getR() == tokCur.getR() &&
+                                index.mType == tokCur.mType);
                 GLKLogger.debug("[" + (isCurrent ? "#" : "") + index +
                         (isCurrent ? "#" : "") + ": " +
                         index.mType + "/" + index.mValue + "] ");
@@ -1936,8 +2012,7 @@ public class MVariable extends MItem {
             return mTokens.get(mTokens.size() - 1);
         }
 
-        void add(TokenType type,
-                 @NonNull String value,
+        void add(TokenType type, @NonNull String value,
                  @Nullable Token left, @Nullable Token right) {
             Token tok = new Token();
             tok.mType = type;

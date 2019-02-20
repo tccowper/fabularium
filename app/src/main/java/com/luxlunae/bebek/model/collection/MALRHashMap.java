@@ -42,6 +42,7 @@ import static com.luxlunae.bebek.VB.cint;
 public class MALRHashMap extends MItemHashMap<MALR> {
     private static final Pattern RE_CAPITALISE =
             Pattern.compile("^([a-z])|\n([a-z])|[a-z][.!?]\\s+([a-z])");
+
     @NonNull
     private final MAdventure mAdv;
     private int mALRLoop = 0;
@@ -77,8 +78,8 @@ public class MALRHashMap extends MItemHashMap<MALR> {
         //
         // HTML-style codes are interpreted after ALR processing.
         // Feel free to use <b>, <i>, <br>, etc. in an ALR."
-        mAdv.evaluateFunctions(text, refs);
-        mAdv.evaluateStringExpressions(text, refs);
+        mAdv.evalFuncs(text, refs);
+        mAdv.evalStrRegex(text, refs);
 
         boolean hasChanged = false;
 
@@ -158,8 +159,7 @@ public class MALRHashMap extends MItemHashMap<MALR> {
                 if (oldText.length() > 0 && text.indexOf(oldText) >= 0) {
                     // Get the ALR text into a variable
                     // in case we have DisplayOnce.
-                    StringBuilder newText =
-                            new StringBuilder(alr.getNewText().toString());
+                    StringBuilder newText = new StringBuilder(alr.getNewText().toString());
                     if (isSameString(text, newText)) {
                         break;
                     }

@@ -24,7 +24,6 @@ package com.luxlunae.bebek.model.io;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.luxlunae.bebek.Bebek;
 import com.luxlunae.bebek.MGlobals;
 import com.luxlunae.bebek.VB;
 import com.luxlunae.bebek.model.MAdventure;
@@ -59,10 +58,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import static com.luxlunae.bebek.MGlobals.errMsg;
 import static com.luxlunae.bebek.model.MCharacter.MCharacterLocation.ExistsWhere.AtLocation;
 import static com.luxlunae.bebek.model.MCharacter.MCharacterLocation.ExistsWhere.Hidden;
-import static com.luxlunae.bebek.model.MVariable.VariableType.NUMERIC;
+import static com.luxlunae.bebek.model.MVariable.VariableType.Numeric;
 import static com.luxlunae.bebek.model.io.IOUtils.decompressAndDeobfuscate;
 import static com.luxlunae.bebek.model.io.IOUtils.readFileIntoByteArray;
 import static com.luxlunae.bebek.model.io.MFile500.load500;
@@ -200,7 +198,7 @@ public class MFileIO {
                             version = new String(IOUtils.decode(ver, 1, 12), "UTF-8");
                         }
                         if (!version.startsWith("Version ")) {
-                            errMsg("Not an ADRIFT Blorb file");
+                            adv.mView.errMsg("Not an ADRIFT Blorb file");
                             return false;
                         }
                         adv.mVersion = Double.parseDouble(version.replace("Version ", ""));
@@ -264,7 +262,7 @@ public class MFileIO {
                         version = new String(IOUtils.decode(ver, 1, 12), "UTF-8");
                     }
                     if (!version.startsWith("Version ")) {
-                        errMsg("Not an ADRIFT Text Adventure file");
+                        adv.mView.errMsg("Not an ADRIFT Text Adventure file");
                         return false;
                     }
                     adv.mVersion = Double.parseDouble(version.replace("Version ", ""));
@@ -345,7 +343,7 @@ public class MFileIO {
                             break;
 
                         default:
-                            errMsg("ADRIFT " + version + " Adventures are not " +
+                            adv.mView.errMsg("ADRIFT " + version + " Adventures are not " +
                                     "currently supported by this version of Bebek.");
                             return false;
                     }
@@ -412,7 +410,7 @@ public class MFileIO {
             return true;
 
         } catch (Exception ex) {
-            errMsg("Error loading " + filePath, ex);
+            adv.mView.errMsg("Error loading " + filePath, ex);
             return false;
         }
     }
@@ -552,8 +550,7 @@ public class MFileIO {
         }
     }
 
-    private static void loadLibraries(@NonNull MAdventure adv,
-                                      LoadWhatEnum loadWhat) {
+    private static void loadLibraries(@NonNull MAdventure adv, LoadWhatEnum loadWhat) {
         // TODO: Allow the user to load libraries other than
         // StandardLibrary.amf. Original ADRIFT runner had
         // a new line separated library list of format
@@ -562,7 +559,7 @@ public class MFileIO {
         // be loaded or not. Libraries would be loaded in order
         // they appeared in the list.
         String[] libraries = new String[1];
-        libraries[0] = Bebek.getLibAdriftPath() + "StandardLibrary.amf";
+        libraries[0] = adv.getLibAdriftPath() + "StandardLibrary.amf";
 
         for (String lib : libraries) {
             loadFile(adv, lib, XMLModule_AMF, loadWhat, true);
@@ -570,8 +567,7 @@ public class MFileIO {
     }
 
     @Nullable
-    private static MGameState loadState(@NonNull MAdventure adv,
-                                        @NonNull byte[] xmlBytes) {
+    private static MGameState loadState(@NonNull MAdventure adv, @NonNull byte[] xmlBytes) {
         try {
             MGameState state = new MGameState();
             Document xmlDocument;
@@ -730,12 +726,12 @@ public class MFileIO {
                 MGameState.MEventState evs = new MGameState.MEventState();
                 String sKey = getElementText(nodEv, "Key");
                 evs.Status = MEvent.StatusEnum.valueOf(getElementText(nodEv, "Status"));
-                evs.TimerToEndOfEvent = MGlobals.safeInt(getElementText(nodEv, "Timer"));
+                evs.TimerToEndOfEvent = adv.safeInt(getElementText(nodEv, "Timer"));
                 if ((s = getElementText(nodEv, "SubEventTime")) != null) {
-                    evs.iLastSubEventTime = MGlobals.safeInt(s);
+                    evs.iLastSubEventTime = adv.safeInt(s);
                 }
                 if ((s = getElementText(nodEv, "SubEventIndex")) != null) {
-                    evs.iLastSubEventIndex = MGlobals.safeInt(s);
+                    evs.iLastSubEventIndex = adv.safeInt(s);
                 }
 
                 NodeList nl2 = nodEv.getChildNodes();
@@ -790,7 +786,7 @@ public class MFileIO {
                         MGameState.MCharacterState.MWalkState ws =
                                 new MGameState.MCharacterState.MWalkState();
                         ws.Status = MWalk.StatusEnum.valueOf(getElementText(nodW, "Status"));
-                        ws.TimerToEndOfWalk = MGlobals.safeInt(getElementText(nodW, "Timer"));
+                        ws.TimerToEndOfWalk = adv.safeInt(getElementText(nodW, "Timer"));
                         chs.lWalks.add(ws);
                     }
 
@@ -827,7 +823,7 @@ public class MFileIO {
 
                     state.htblCharacterStates.put(sKey, chs);
                 } else {
-                    MGlobals.displayError("Character key " + sKey + " not found in adventure!");
+                    adv.mView.displayError("Character key " + sKey + " not found in adventure!");
                 }
             }
 
@@ -851,7 +847,7 @@ public class MFileIO {
                         if ((s = getElementText(nodVar, "Value_" + ii)) != null) {
                             vars.Value[ii] = s;
                         } else {
-                            if (v.getType() == NUMERIC) {
+                            if (v.getType() == Numeric) {
                                 vars.Value[ii] = "0";
                             } else {
                                 vars.Value[ii] = "";
@@ -873,7 +869,7 @@ public class MFileIO {
 
                     state.htblVariableStates.put(sKey, vars);
                 } else {
-                    MGlobals.displayError("Variable key " + sKey + " not found in adventure!");
+                    adv.mView.displayError("Variable key " + sKey + " not found in adventure!");
                 }
             }
 
@@ -903,20 +899,19 @@ public class MFileIO {
             }
 
             if ((s = getElementText(r, "Turns")) != null) {
-                adv.mTurns = MGlobals.safeInt(s);
+                adv.mTurns = adv.safeInt(s);
             }
 
             return state;
 
         } catch (Exception ex) {
-            errMsg("Error loading game state", ex);
+            adv.mView.errMsg("Error loading game state", ex);
         }
 
         return null;
     }
 
-    public static boolean saveState(@NonNull MAdventure adv,
-                                    @NonNull MGameState state,
+    public static boolean saveState(@NonNull MAdventure adv, @NonNull MGameState state,
                                     @NonNull String filePath) {
         // Write a state to compressed UTF-8 xml file
         try {
@@ -1134,7 +1129,7 @@ public class MFileIO {
 
                 MVariable v = adv.mVariables.get(sKey);
                 for (int i = 0; i < vars.Value.length; i++) {
-                    if (v.getType() == NUMERIC) {
+                    if (v.getType() == Numeric) {
                         if (!vars.Value[i].equals("0")) {
                             Element e = xmlDoc.createElement("Value_" + i);
                             e.setTextContent(vars.Value[i]);
@@ -1204,15 +1199,15 @@ public class MFileIO {
             return true;
 
         } catch (Exception ex) {
-            errMsg("Error saving game state", ex);
+            adv.mView.errMsg("Error saving game state", ex);
             return false;
         }
     }
 
     @NonNull
-    public static String correctBracketSequence(@NonNull String text) {
+    public static String correctBracketSequence(@NonNull String seq) {
         // Corrects the bracket sequences for ORs after ANDs
-        if (text.contains("#A#O#")) {
+        if (seq.contains("#A#O#")) {
             for (int i = 10; i >= 0; i--) {
                 StringBuilder toFind = new StringBuilder("#A#");
                 for (int j = 0; j <= i; j++) {
@@ -1223,13 +1218,13 @@ public class MFileIO {
                     toReplace.append("O#");
                 }
                 toReplace.append(")");
-                while (text.contains(toFind)) {
-                    text = text.replace(toFind, toReplace);
+                while (seq.contains(toFind)) {
+                    seq = seq.replace(toFind, toReplace);
                     mCorrectedTasksCount++;
                 }
             }
         }
-        return text;
+        return seq;
     }
 
     @NonNull

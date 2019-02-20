@@ -24,186 +24,207 @@ package com.luxlunae.bebek.model.collection;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.luxlunae.bebek.MGlobals;
-import com.luxlunae.bebek.VB;
-import com.luxlunae.bebek.controller.MParser;
 import com.luxlunae.bebek.model.MAdventure;
 import com.luxlunae.bebek.model.MDescription;
 import com.luxlunae.bebek.model.MRestriction;
-import com.luxlunae.bebek.model.io.MFileIO;
 
 import org.xmlpull.v1.XmlPullParser;
 
 import java.util.ArrayList;
 
+import static com.luxlunae.bebek.MGlobals.getCharacterCount;
+import static com.luxlunae.bebek.MGlobals.left;
+import static com.luxlunae.bebek.MGlobals.mid;
+import static com.luxlunae.bebek.MGlobals.right;
+import static com.luxlunae.bebek.VB.cint;
 import static com.luxlunae.bebek.VB.inputBox;
 import static com.luxlunae.bebek.VB.isNumeric;
+import static com.luxlunae.bebek.model.io.MFileIO.correctBracketSequence;
+import static org.xmlpull.v1.XmlPullParser.END_DOCUMENT;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
 public class MRestrictionArrayList extends ArrayList<MRestriction> {
-    public static int iRestNum;
+    public static int mRestNum;
     public static boolean mAskedAboutBrackets = false;
     private static boolean mCorrectBrackets = false;
-    @NonNull
-    public String mBracketSequence = "";
+
     @NonNull
     private final MAdventure mAdv;
+    @NonNull
+    public String mBrackSeq = "";
 
     public MRestrictionArrayList(@NonNull MAdventure adv) {
         super();
         mAdv = adv;
     }
 
-    public MRestrictionArrayList(@NonNull MAdventure adv,
-                                 @NonNull XmlPullParser xpp,
-                                 double dFileVersion) throws Exception {
-        // Load all of the FIRST generation child node restrictions under
-        // nodContainerXML. We do not want to pick up anything other than first generation - e.g. we
-        // don't want to pick up restrictions within description when we're just looking at task restrictions
+    public MRestrictionArrayList(@NonNull MAdventure adv, @NonNull XmlPullParser xpp,
+                                 double version) throws Exception {
         this(adv);
 
         xpp.require(START_TAG, null, "Restrictions");
 
         int depth = xpp.getDepth();
-        int eventType;
-
-        while ((eventType = xpp.nextTag()) != XmlPullParser.END_DOCUMENT &&
-                xpp.getDepth() > depth) {
-            if (eventType == START_TAG) {
+        int evType;
+        while ((evType = xpp.nextTag()) != END_DOCUMENT && xpp.getDepth() > depth) {
+            if (evType == START_TAG) {
                 switch (xpp.getName()) {
                     case "BracketSequence":
-                        mBracketSequence = xpp.nextText();
-                        if (!mAskedAboutBrackets && dFileVersion < 5.000026 && mBracketSequence.contains("#A#O#")) {
-                            String sResult =
-                                    inputBox("<b>There was a logic correction in version 5.0.26 which " +
-                                                    "means OR restrictions after AND restrictions were not evaluated. " +
-                                                    "Would you like to auto-correct these tasks?<br><br>You may not wish " +
-                                                    "to do so if you have already used brackets around any OR restrictions " +
-                                                    "following AND restrictions.</b><br><br>Enter y or n:",
-                                            "Adventure Upgrade", "y");
-                            sResult = sResult.toLowerCase();
-                            mCorrectBrackets = !sResult.equals("n");
+                        mBrackSeq = xpp.nextText();
+                        if (!mAskedAboutBrackets &&
+                                version < 5.000026 && mBrackSeq.contains("#A#O#")) {
+                            String ret = inputBox(adv,
+                                    "<b>There was a logic correction in version 5.0.26 " +
+                                            "which means OR restrictions after AND restrictions " +
+                                            "were not evaluated. Would you like to auto-correct " +
+                                            "these tasks?<br><br>You may not wish to do so if " +
+                                            "you have already used brackets around any OR " +
+                                            "restrictions following AND restrictions.</b><br>" +
+                                            "<br>Enter y or n:",
+                                    "Adventure Upgrade", "y");
+                            assert ret != null;
+                            ret = ret.toLowerCase();
+                            mCorrectBrackets = !ret.equals("n");
                             mAskedAboutBrackets = true;
                         }
                         if (mCorrectBrackets) {
-                            mBracketSequence = MFileIO.correctBracketSequence(mBracketSequence);
+                            mBrackSeq = correctBracketSequence(mBrackSeq);
                         }
-                        mBracketSequence = mBracketSequence.replace("[", "((").replace("]", "))");
+                        mBrackSeq = mBrackSeq.replace("[", "((")
+                                .replace("]", "))");
                         break;
 
                     case "Restriction":
-                        String sType = "";
-                        String sRest = null;
                         MRestriction rest = new MRestriction(adv);
-                        String s;
+                        String restType = "";
+                        String restMsg = null;
                         int depth2 = xpp.getDepth();
-                        int eventType2;
+                        int evType2;
 
-                        while ((eventType2 = xpp.nextTag()) != XmlPullParser.END_DOCUMENT && xpp.getDepth() > depth2) {
-                            if (eventType2 == START_TAG) {
-                                s = xpp.getName();
+                        while ((evType2 = xpp.nextTag()) != END_DOCUMENT &&
+                                xpp.getDepth() > depth2) {
+                            if (evType2 == START_TAG) {
+                                String s = xpp.getName();
                                 switch (s) {
                                     case "Message":
-                                        rest.mMessage = new MDescription(adv, xpp, dFileVersion, "Message");
+                                        rest.mMessage = new MDescription(adv, xpp,
+                                                version, "Message");
                                         break;
 
                                     default:
-                                        sType = s;
-                                        sRest = xpp.nextText();
+                                        restType = s;
+                                        restMsg = xpp.nextText();
                                         break;
                                 }
                             }
                         }
                         xpp.require(END_TAG, null, "Restriction");
 
-                        if (sRest == null) {
+                        if (restMsg == null) {
                             continue;
                         }
 
-                        String[] sElements = sRest.split(" ");
-                        switch (sType) {
-                            case "Location":
+                        String[] restMsgWords = restMsg.split(" ");
+                        switch (restType) {
+                            case "Location": {
                                 rest.mType = MRestriction.RestrictionTypeEnum.Location;
-                                rest.mKey1 = sElements[0];
-                                rest.mMust = MRestriction.MustEnum.valueOf(sElements[1]);
-                                rest.mLocationType = MRestriction.LocationEnum.valueOf(sElements[2]);
-                                rest.mKey2 = sElements.length > 3 ? sElements[3] : "";
+                                rest.mKey1 = restMsgWords[0];
+                                rest.mMust = MRestriction.MustEnum.valueOf(restMsgWords[1]);
+                                rest.mLocationType =
+                                        MRestriction.LocationEnum.valueOf(restMsgWords[2]);
+                                rest.mKey2 = restMsgWords.length > 3 ? restMsgWords[3] : "";
                                 break;
+                            }
 
-                            case "Object":
+                            case "Object": {
                                 rest.mType = MRestriction.RestrictionTypeEnum.Object;
-                                rest.mKey1 = sElements[0];
-                                rest.mMust = MRestriction.MustEnum.valueOf(sElements[1]);
-                                rest.mObjectType = MRestriction.ObjectEnum.valueOf(sElements[2]);
-                                rest.mKey2 = sElements.length > 3 ? sElements[3] : "";
+                                rest.mKey1 = restMsgWords[0];
+                                rest.mMust = MRestriction.MustEnum.valueOf(restMsgWords[1]);
+                                rest.mObjectType =
+                                        MRestriction.ObjectEnum.valueOf(restMsgWords[2]);
+                                rest.mKey2 = restMsgWords.length > 3 ? restMsgWords[3] : "";
                                 break;
+                            }
 
-                            case "Task":
+                            case "Task": {
                                 rest.mType = MRestriction.RestrictionTypeEnum.Task;
-                                rest.mKey1 = sElements[0];
-                                rest.mMust = MRestriction.MustEnum.valueOf(sElements[1]);
+                                rest.mKey1 = restMsgWords[0];
+                                rest.mMust = MRestriction.MustEnum.valueOf(restMsgWords[1]);
                                 rest.mTaskType = MRestriction.TaskEnum.Complete;
                                 break;
+                            }
 
-                            case "Character":
+                            case "Character": {
                                 rest.mType = MRestriction.RestrictionTypeEnum.Character;
-                                rest.mKey1 = sElements[0];
-                                rest.mMust = MRestriction.MustEnum.valueOf(sElements[1]);
-                                rest.mCharacterType = MRestriction.CharacterEnum.valueOf(sElements[2]);
-                                rest.mKey2 = sElements.length > 3 ? sElements[3] : "";
+                                rest.mKey1 = restMsgWords[0];
+                                rest.mMust = MRestriction.MustEnum.valueOf(restMsgWords[1]);
+                                rest.mCharacterType =
+                                        MRestriction.CharacterEnum.valueOf(restMsgWords[2]);
+                                rest.mKey2 = restMsgWords.length > 3 ? restMsgWords[3] : "";
                                 break;
+                            }
 
-                            case "Item":
+                            case "Item": {
                                 rest.mType = MRestriction.RestrictionTypeEnum.Item;
-                                rest.mKey1 = sElements[0];
-                                rest.mMust = MRestriction.MustEnum.valueOf(sElements[1]);
-                                rest.mItemType = MRestriction.ItemEnum.valueOf(sElements[2]);
-                                rest.mKey2 = sElements.length > 3 ? sElements[3] : "";
+                                rest.mKey1 = restMsgWords[0];
+                                rest.mMust = MRestriction.MustEnum.valueOf(restMsgWords[1]);
+                                rest.mItemType = MRestriction.ItemEnum.valueOf(restMsgWords[2]);
+                                rest.mKey2 = restMsgWords.length > 3 ? restMsgWords[3] : "";
                                 break;
+                            }
 
-                            case "Variable":
+                            case "Variable": {
                                 rest.mType = MRestriction.RestrictionTypeEnum.Variable;
-                                rest.mKey1 = sElements[0];
+                                rest.mKey1 = restMsgWords[0];
                                 if (rest.mKey1.contains("[") && rest.mKey1.contains("]")) {
-                                    rest.mKey2 = rest.mKey1.substring(rest.mKey1.indexOf("[") + 1, rest.mKey1.lastIndexOf("]"));
+                                    rest.mKey2 = rest.mKey1.substring(rest.mKey1.indexOf("[") + 1,
+                                            rest.mKey1.lastIndexOf("]"));
                                     rest.mKey1 = rest.mKey1.substring(0, rest.mKey1.indexOf("["));
                                 }
-                                rest.mMust = MRestriction.MustEnum.valueOf(sElements[1]);
-                                rest.mVariableType = MRestriction.VariableEnum.valueOf(sElements[2].substring(2));
-                                StringBuilder sbValue = new StringBuilder();
-                                for (int k = 3; k < sElements.length; k++) {
-                                    sbValue.append(sElements[k]);
-                                    if (k < sElements.length - 1) {
-                                        sbValue.append(" ");
+                                rest.mMust = MRestriction.MustEnum.valueOf(restMsgWords[1]);
+                                rest.mVariableType =
+                                        MRestriction.VariableEnum.valueOf(restMsgWords[2].substring(2));
+                                StringBuilder sb = new StringBuilder();
+                                for (int i = 3; i < restMsgWords.length; i++) {
+                                    sb.append(restMsgWords[i]);
+                                    if (i < restMsgWords.length - 1) {
+                                        sb.append(" ");
                                     }
                                 }
-                                String sValue = sbValue.toString();
-                                if (sElements.length == 4 && isNumeric(sElements[3])) {
-                                    rest.mIntValue = VB.cint(sElements[3]); // Integer value
+                                String val = sb.toString();
+                                if (restMsgWords.length == 4 && isNumeric(restMsgWords[3])) {
+                                    // Integer value
+                                    rest.mIntValue = cint(restMsgWords[3]);
                                     rest.mStringValue = String.valueOf(rest.mIntValue);
                                 } else {
-                                    if (sValue.startsWith("\"") && sValue.endsWith("\"")) {
-                                        rest.mStringValue = sValue.substring(1, sValue.length() - 1); // String constant
-                                    } else if (sValue.startsWith("'") && sValue.endsWith("'")) {
-                                        rest.mStringValue = sValue.substring(1, sValue.length() - 1); // Expression
+                                    if (val.startsWith("\"") && val.endsWith("\"")) {
+                                        // String constant
+                                        rest.mStringValue = val.substring(1, val.length() - 1);
+                                    } else if (val.startsWith("'") && val.endsWith("'")) {
+                                        // Expression
+                                        rest.mStringValue = val.substring(1, val.length() - 1);
                                     } else {
-                                        rest.mStringValue = sElements[3];
-                                        rest.mIntValue = Integer.MIN_VALUE; // A key to a variable
+                                        // A key to a variable
+                                        rest.mStringValue = restMsgWords[3];
+                                        rest.mIntValue = Integer.MIN_VALUE;
                                     }
                                 }
                                 break;
+                            }
 
-                            case "Property":
+                            case "Property": {
                                 rest.mType = MRestriction.RestrictionTypeEnum.Property;
-                                rest.mKey1 = sElements[0];
-                                rest.mKey2 = sElements[1];
-                                rest.mMust = MRestriction.MustEnum.valueOf(sElements[2]);
-                                int iStartExpression = 3;
+                                rest.mKey1 = restMsgWords[0];
+                                rest.mKey2 = restMsgWords[1];
+                                rest.mMust = MRestriction.MustEnum.valueOf(restMsgWords[2]);
                                 rest.mIntValue = -1;
-                                for (MRestriction.VariableEnum eEquals : MRestriction.VariableEnum.values()) {
-                                    if (sElements[3].equals(eEquals.toString())) {
-                                        switch (eEquals) {
+
+                                int startExpr = 3;
+                                for (MRestriction.VariableEnum compare :
+                                        MRestriction.VariableEnum.values()) {
+                                    if (restMsgWords[3].equals(compare.toString())) {
+                                        switch (compare) {
                                             case LessThan:
                                                 rest.mIntValue = 0;
                                                 break;
@@ -226,39 +247,44 @@ public class MRestrictionArrayList extends ArrayList<MRestriction> {
                                     }
                                 }
                                 if (rest.mIntValue > -1) {
-                                    iStartExpression = 4;
+                                    startExpr = 4;
                                 } else {
-                                    rest.mIntValue = 2;   // MRestriction.VariableEnum.EqualTo
+                                    // MRestriction.VariableEnum.EqualTo
+                                    rest.mIntValue = 2;
                                 }
-                                StringBuilder sValue2 = new StringBuilder();
-                                for (int k = iStartExpression; k < sElements.length; k++) {
-                                    sValue2.append(sElements[k]);
-                                    if (k < sElements.length - 1) {
-                                        sValue2.append(" ");
+                                StringBuilder val = new StringBuilder();
+                                for (int i = startExpr; i < restMsgWords.length; i++) {
+                                    val.append(restMsgWords[i]);
+                                    if (i < restMsgWords.length - 1) {
+                                        val.append(" ");
                                     }
                                 }
-                                rest.mStringValue = sValue2.toString();
+                                rest.mStringValue = val.toString();
                                 break;
+                            }
 
-                            case "Direction":
+                            case "Direction": {
                                 rest.mType = MRestriction.RestrictionTypeEnum.Direction;
-                                rest.mMust = MRestriction.MustEnum.valueOf(sElements[0]);
-                                rest.mKey1 = sElements[1];
-                                rest.mKey1 = MGlobals.right(rest.mKey1, rest.mKey1.length() - 2); // Trim off the Be
+                                rest.mMust = MRestriction.MustEnum.valueOf(restMsgWords[0]);
+                                rest.mKey1 = restMsgWords[1];
+                                // Trim off the Be:
+                                rest.mKey1 = right(rest.mKey1, rest.mKey1.length() - 2);
                                 break;
+                            }
 
-                            case "Expression":
+                            case "Expression": {
                                 rest.mType = MRestriction.RestrictionTypeEnum.Expression;
                                 rest.mMust = MRestriction.MustEnum.Must;
-                                StringBuilder sValue3 = new StringBuilder();
-                                for (int l = 0; l < sElements.length; l++) {
-                                    sValue3.append(sElements[l]);
-                                    if (l < sElements.length - 1) {
-                                        sValue3.append(" ");
+                                StringBuilder val = new StringBuilder();
+                                for (int i = 0; i < restMsgWords.length; i++) {
+                                    val.append(restMsgWords[i]);
+                                    if (i < restMsgWords.length - 1) {
+                                        val.append(" ");
                                     }
                                 }
-                                rest.mStringValue = sValue3.toString();
+                                rest.mStringValue = val.toString();
                                 break;
+                            }
                         }
                         add(rest);
                 }
@@ -272,70 +298,75 @@ public class MRestrictionArrayList extends ArrayList<MRestriction> {
         return passes(false, refs);
     }
 
-    public boolean passes(boolean bIgnoreReferences, final @Nullable MReferenceList refs) {
-        // IgnoreReferences is for when we are evaluating whether the task is completable or not, but we don't have any refs yet
+    public boolean passes(boolean ignoreRefs, final @Nullable MReferenceList refs) {
+        // IgnoreReferences is for when we are evaluating whether the
+        // task is completable or not, but we don't have any refs yet
         // if tas is not null its description will be used in any error reporting
-        iRestNum = 0;
-        MParser.mRouteErrorText = "";
-        return size() == 0 || evaluateBracketSequence(mBracketSequence, bIgnoreReferences, refs);
+        mRestNum = 0;
+        mAdv.mRouteErrorText = "";
+        return size() == 0 || evalBrackSeq(mBrackSeq, ignoreRefs, refs);
     }
 
-    private boolean evaluateBracketSequence(@NonNull String sBlock, boolean bIgnoreReferences, final @Nullable MReferenceList refs) {
-        while (sBlock.contains("A#O")) {
+    private boolean evalBrackSeq(@NonNull String seq, boolean ignoreRefs,
+                                 final @Nullable MReferenceList refs) {
+        while (seq.contains("A#O")) {
             // #A#O# => (#A#)O#
             // #A#A#O# => (#A#A#)O#
             //(#O#)A#O# => ((#O#)A#)O#
             //#A(#A#O#) => #A((#A#)O#)
             // Insert a ( at beginning, or after previous (
-            int i = sBlock.indexOf("A#O");
-            int j = sBlock.substring(0, i).lastIndexOf("(") + 1;
-            sBlock = MGlobals.left(sBlock, j) + "(" + sBlock.substring(j, i) + "A#)O" + sBlock.substring(i + 3);
+            int i = seq.indexOf("A#O");
+            int j = seq.substring(0, i).lastIndexOf("(") + 1;
+            seq = left(seq, j) + "(" + seq.substring(j, i) +
+                    "A#)O" + seq.substring(i + 3);
         }
 
-        switch (sBlock.substring(0, 1)) {
+        switch (seq.substring(0, 1)) {
             case "(":
-                // Get block
-                int iBrackDepth = 1;
-                StringBuilder sSubBlock = new StringBuilder("(");
-                int iOffset = 1;
-                while (iBrackDepth > 0) {
-                    String s = sBlock.substring(iOffset, iOffset + 1);
+                // Get seq
+                int brackDepth = 1;
+                StringBuilder subSeq = new StringBuilder("(");
+                int pos = 1;
+                while (brackDepth > 0) {
+                    String s = seq.substring(pos, pos + 1);
                     switch (s) {
                         case "(":
-                            iBrackDepth++;
+                            brackDepth++;
                             break;
                         case ")":
-                            iBrackDepth--;
+                            brackDepth--;
                             break;
                         default:
                             // Do nothing
                             break;
                     }
-                    sSubBlock.append(s);
-                    iOffset++;
+                    subSeq.append(s);
+                    pos++;
                 }
-                sSubBlock = new StringBuilder(sSubBlock.substring(1, sSubBlock.length() - 1));
-                if (sBlock.length() - 2 == sSubBlock.length()) {
-                    return evaluateBracketSequence(sSubBlock.toString(), bIgnoreReferences, refs);
+                subSeq = new StringBuilder(subSeq.substring(1, subSeq.length() - 1));
+                if (seq.length() - 2 == subSeq.length()) {
+                    return evalBrackSeq(subSeq.toString(), ignoreRefs, refs);
                 } else {
-                    switch (sBlock.substring(sSubBlock.length() + 2, sSubBlock.length() + 3)) {
+                    switch (seq.substring(subSeq.length() + 2, subSeq.length() + 3)) {
                         case "A": {
-                            boolean bFirst = evaluateBracketSequence(sSubBlock.toString(), bIgnoreReferences, refs);
-                            if (!bFirst) {
-                                iRestNum += MGlobals.getCharacterCount(sBlock.substring(sSubBlock.length() + 3), '#');
+                            boolean isFirst =
+                                    evalBrackSeq(subSeq.toString(), ignoreRefs, refs);
+                            if (!isFirst) {
+                                mRestNum += getCharacterCount(seq.substring(subSeq.length() + 3), '#');
                                 return false;
                             } else {
-                                return evaluateBracketSequence(sBlock.substring(sSubBlock.length() + 3), bIgnoreReferences, refs);
+                                return evalBrackSeq(seq.substring(subSeq.length() + 3), ignoreRefs, refs);
                             }
                         }
 
                         case "O": {
-                            boolean bFirst = evaluateBracketSequence(sSubBlock.toString(), bIgnoreReferences, refs);
-                            if (bFirst) {
-                                iRestNum += MGlobals.getCharacterCount(sBlock.substring(sSubBlock.length() + 3), '#');
+                            boolean isFirst =
+                                    evalBrackSeq(subSeq.toString(), ignoreRefs, refs);
+                            if (isFirst) {
+                                mRestNum += getCharacterCount(seq.substring(subSeq.length() + 3), '#');
                                 return true;
                             } else {
-                                return evaluateBracketSequence(sBlock.substring(sSubBlock.length() + 3), bIgnoreReferences, refs);
+                                return evalBrackSeq(seq.substring(subSeq.length() + 3), ignoreRefs, refs);
                             }
                         }
 
@@ -347,28 +378,28 @@ public class MRestrictionArrayList extends ArrayList<MRestriction> {
                 break;
 
             case "#":
-                iRestNum++;
-                if (sBlock.length() == 1) {
-                    return get(iRestNum - 1).passes(bIgnoreReferences, refs);
+                mRestNum++;
+                if (seq.length() == 1) {
+                    return get(mRestNum - 1).passes(ignoreRefs, refs);
                 } else {
-                    switch (sBlock.substring(1, 2)) {
+                    switch (seq.substring(1, 2)) {
                         case "A": {
-                            boolean bFirst = get(iRestNum - 1).passes(bIgnoreReferences, refs);
+                            boolean bFirst = get(mRestNum - 1).passes(ignoreRefs, refs);
                             if (!bFirst) {
-                                iRestNum += MGlobals.getCharacterCount(sBlock.substring(2), '#');
+                                mRestNum += getCharacterCount(seq.substring(2), '#');
                                 return false;
                             } else {
-                                return evaluateBracketSequence(sBlock.substring(2), bIgnoreReferences, refs);
+                                return evalBrackSeq(seq.substring(2), ignoreRefs, refs);
                             }
                         }
 
                         case "O": {
-                            boolean bFirst = get(iRestNum - 1).passes(bIgnoreReferences, refs);
+                            boolean bFirst = get(mRestNum - 1).passes(ignoreRefs, refs);
                             if (bFirst) {
-                                iRestNum += MGlobals.getCharacterCount(sBlock.substring(2), '#');
+                                mRestNum += getCharacterCount(seq.substring(2), '#');
                                 return true;
                             } else {
-                                return evaluateBracketSequence(sBlock.substring(2), bIgnoreReferences, refs);
+                                return evalBrackSeq(seq.substring(2), ignoreRefs, refs);
                             }
                         }
 
@@ -380,31 +411,31 @@ public class MRestrictionArrayList extends ArrayList<MRestriction> {
                 break;
 
             default:
-                MGlobals.errMsg("Bad Bracket Sequence");
+                mAdv.mView.errMsg("Bad Bracket Sequence");
                 break;
         }
 
         return false;
     }
 
-    public int referencesKey(@NonNull String sKey) {
-        int num = 0;
-        for (MRestriction current : this) {
-            if (current.referencesKey(sKey)) {
-                num++;
+    public int getNumberOfKeyRefs(@NonNull String key) {
+        int ret = 0;
+        for (MRestriction rest : this) {
+            if (rest.referencesKey(key)) {
+                ret++;
             }
         }
-        return num;
+        return ret;
     }
 
-    public boolean deleteKey(@NonNull String sKey) {
+    public boolean deleteKey(@NonNull String key) {
         for (int i = size() - 1; i >= 0; i--) {
-            if (get(i).referencesKey(sKey)) {
+            if (get(i).referencesKey(key)) {
                 remove(i);
                 if (size() == 0) {
-                    mBracketSequence = "";
+                    mBrackSeq = "";
                 } else if (size() == 1) {
-                    mBracketSequence = "#";
+                    mBrackSeq = "#";
                 } else {
                     stripRestriction(i);
                 }
@@ -413,24 +444,22 @@ public class MRestrictionArrayList extends ArrayList<MRestriction> {
         return true;
     }
 
-    private void stripRestriction(int iRest) {
-        int iFound = 0;
-        for (int i = 0; i < mBracketSequence.length(); i++) {
-            if (MGlobals.mid(mBracketSequence, i, 1).equals("#")) {
-                iFound++;
+    private void stripRestriction(int restIndex) {
+        int nFound = 0;
+        for (int i = 0; i < mBrackSeq.length(); i++) {
+            if (mid(mBrackSeq, i, 1).equals("#")) {
+                nFound++;
             }
-            if (iFound == iRest + 1) {
+            if (nFound == restIndex + 1) {
                 // Delete the marker
-                mBracketSequence = MGlobals.left(mBracketSequence, i) +
-                        MGlobals.right(mBracketSequence, mBracketSequence.length() - i - 1);
+                mBrackSeq = left(mBrackSeq, i) + right(mBrackSeq, mBrackSeq.length() - i - 1);
                 // Remove any trailing And/Or markers
-                if (mBracketSequence.length() >= i &&
-                        (MGlobals.mid(mBracketSequence, i, 1).equals("A") ||
-                                MGlobals.mid(mBracketSequence, i, 1).equals("O"))) {
-                    mBracketSequence = MGlobals.left(mBracketSequence, i) +
-                            MGlobals.right(mBracketSequence, mBracketSequence.length() - i - 1);
+                if (mBrackSeq.length() >= i &&
+                        (mid(mBrackSeq, i, 1).equals("A") ||
+                                mid(mBrackSeq, i, 1).equals("O"))) {
+                    mBrackSeq = left(mBrackSeq, i) + right(mBrackSeq,
+                            mBrackSeq.length() - i - 1);
                 }
-                // Correct any duff brackets
                 break;
             }
         }
@@ -438,13 +467,12 @@ public class MRestrictionArrayList extends ArrayList<MRestriction> {
 
     @NonNull
     public MRestrictionArrayList copy() {
-        MRestrictionArrayList MRestrictionArrayList = new MRestrictionArrayList(mAdv);
-        MRestrictionArrayList.mBracketSequence = mBracketSequence;
+        MRestrictionArrayList ret = new MRestrictionArrayList(mAdv);
+        ret.mBrackSeq = mBrackSeq;
         for (int i = 0; i <= size() - 1; i++) {
-            MRestriction item = get(i).copy();
-            MRestrictionArrayList.add(item);
+            ret.add(get(i).copy());
         }
-        return MRestrictionArrayList;
+        return ret;
     }
 }
 

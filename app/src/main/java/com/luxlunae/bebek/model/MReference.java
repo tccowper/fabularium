@@ -1,6 +1,5 @@
 /*
- * Original ADRIFT code Copyright (C) 1997 - 2018 Campbell Wild
- * This port and modifications Copyright (C) 2018 - 2019 Tim Cadogan-Cowper.
+ * Copyright (C) 2019 Tim Cadogan-Cowper.
  *
  * This file is part of Fabularium.
  *
@@ -19,12 +18,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package com.luxlunae.bebek.controller;
+package com.luxlunae.bebek.model;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.luxlunae.bebek.MGlobals;
 import com.luxlunae.bebek.model.collection.MStringArrayList;
 import com.luxlunae.glk.GLKLogger;
 
@@ -52,37 +50,36 @@ public class MReference implements Cloneable {
     public ReferencesType mType;
 
     /**
-     * The zero-based index of this reference within a particular
-     * command string (e.g. the reference associated with "%object2%"
-     * would be position 1 in the command "put %object1% in{side/to}
-     * %object2%".
-     */
-    public int mCommandIndex;
-
-    /**
      * The command text that this reference matched against,
      * without the % boundary symbols. E.g. "object2", "character3",
      * etc.
      */
     @NonNull
-    public String mReferenceMatch = "";
+    public String mRefMatch = "";
+    /**
+     * The zero-based index of this reference within a particular
+     * command string (e.g. the reference associated with "%object2%"
+     * would be position 1 in the command "put %object1% in{side/to}
+     * %object2%".
+     */
+    int mCmdIndex;
 
     public MReference(@NonNull ReferencesType refType) {
         mItems = new ArrayList<>();
         mType = refType;
-        mCommandIndex = -1;
+        mCmdIndex = -1;
     }
 
     public MReference(@NonNull MReference ref) {
         mItems = new ArrayList<>();
         mType = ref.mType;
-        mCommandIndex = ref.mCommandIndex;
-        mReferenceMatch = ref.mReferenceMatch;
+        mCmdIndex = ref.mCmdIndex;
+        mRefMatch = ref.mRefMatch;
     }
 
     public MReference(@NonNull String refType) {
         mItems = new ArrayList<>();
-        mCommandIndex = -1;
+        mCmdIndex = -1;
 
         switch (refType) {
             case "%object%":
@@ -152,7 +149,7 @@ public class MReference implements Cloneable {
 
             default:
                 mType = ReferencesType.Unknown;
-                MGlobals.errMsg("MReference: Unknown reference type: " + refType);
+                //mAdv.mView.errMsg("MReference: Unknown reference type: " + refType);
                 break;
         }
     }
@@ -165,7 +162,7 @@ public class MReference implements Cloneable {
      * @param refToFind    - the reference to find (e.g. %object1%)
      * @param refsToSearch - the list of references to search
      */
-    public void setIndex(@NonNull String refToFind, @NonNull MStringArrayList refsToSearch) {
+    void setIndex(@NonNull String refToFind, @NonNull MStringArrayList refsToSearch) {
         switch (refToFind) {
             case "%objects%":
             case "%object1%":
@@ -201,7 +198,7 @@ public class MReference implements Cloneable {
             case "%item5%":
                 for (int i = 0, sz = refsToSearch.size(); i < sz; i++) {
                     if (refToFind.equals(refsToSearch.get(i))) {
-                        mCommandIndex = i;
+                        mCmdIndex = i;
                         return;
                     }
                 }
@@ -213,16 +210,16 @@ public class MReference implements Cloneable {
     public MReference copy() {
         // Copy this reference and its items
         MReference nr = new MReference(mType);
-        for (int iItem = 0, sz = mItems.size(); iItem < sz; iItem++) {
-            MReferenceItem refItem = mItems.get(iItem);
+        for (int i = 0, sz = mItems.size(); i < sz; i++) {
+            MReferenceItem refItem = mItems.get(i);
             MReferenceItem itm = new MReferenceItem();
-            itm.mMatchingPossibilities = refItem.mMatchingPossibilities.clone();
+            itm.mMatchingKeys = refItem.mMatchingKeys.clone();
             itm.mIsExplicitlyMentioned = refItem.mIsExplicitlyMentioned;
             itm.mCommandReference = refItem.mCommandReference;
             nr.mItems.add(itm);
         }
-        nr.mCommandIndex = mCommandIndex;
-        nr.mReferenceMatch = mReferenceMatch;
+        nr.mCmdIndex = mCmdIndex;
+        nr.mRefMatch = mRefMatch;
 
         return nr;
     }
@@ -240,13 +237,13 @@ public class MReference implements Cloneable {
             if (k++ > 0) {
                 sb.append("|");
             }
-            sb.append(itm.mMatchingPossibilities.get(0));
+            sb.append(itm.mMatchingKeys.get(0));
         }
     }
 
-    public boolean containsKey(@NonNull String sKey) {
+    public boolean containsKey(@NonNull String key) {
         for (int i = 0, sz = mItems.size(); i < sz; i++) {
-            if (mItems.get(i).mMatchingPossibilities.contains(sKey)) {
+            if (mItems.get(i).mMatchingKeys.contains(key)) {
                 return true;
             }
         }
@@ -266,18 +263,18 @@ public class MReference implements Cloneable {
 
     public static class MReferenceItem {
         @NonNull
-        public MStringArrayList mMatchingPossibilities;
-        public boolean mIsExplicitlyMentioned;
+        public MStringArrayList mMatchingKeys;
+        boolean mIsExplicitlyMentioned;
         @NonNull
-        public String mCommandReference = "";
+        String mCommandReference = "";
 
-        public MReferenceItem() {
-            mMatchingPossibilities = new MStringArrayList();
+        MReferenceItem() {
+            mMatchingKeys = new MStringArrayList();
         }
 
-        public MReferenceItem(@NonNull String sKey) {
+        public MReferenceItem(@NonNull String key) {
             this();
-            mMatchingPossibilities.add(sKey);
+            mMatchingKeys.add(key);
         }
     }
 

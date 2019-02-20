@@ -25,7 +25,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.luxlunae.bebek.MGlobals;
-import com.luxlunae.bebek.controller.MParser;
 import com.luxlunae.bebek.model.collection.MCharacterHashMap;
 import com.luxlunae.bebek.model.collection.MObjectHashMap;
 import com.luxlunae.bebek.model.collection.MRestrictionArrayList;
@@ -51,7 +50,6 @@ import static com.luxlunae.bebek.MGlobals.appendDoubleSpace;
 import static com.luxlunae.bebek.MGlobals.dVersion;
 import static com.luxlunae.bebek.MGlobals.getBool;
 import static com.luxlunae.bebek.MGlobals.replaceAllIgnoreCase;
-import static com.luxlunae.bebek.MGlobals.safeInt;
 import static com.luxlunae.bebek.MGlobals.stripCarats;
 import static com.luxlunae.bebek.VB.cbool;
 import static com.luxlunae.bebek.VB.cint;
@@ -87,7 +85,6 @@ import static com.luxlunae.bebek.model.io.MFileOlder.ComboEnum.WithStateOrOpenab
 import static com.luxlunae.bebek.model.io.MFileOlder.convertV4FuncsToV5;
 import static com.luxlunae.bebek.model.io.MFileOlder.getObjectKey;
 import static com.luxlunae.bebek.model.io.MFileOlder.loadResource;
-import static com.luxlunae.bebek.view.MView.debugPrint;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
@@ -225,7 +222,7 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
 
     public MLocation(@NonNull MAdventure adv,
                      @NonNull MFileOlder.V4Reader reader, int iLoc, final double v,
-                     int[][][] movements, ArrayList<MLocation> newLocs) throws EOFException {
+                     int[][][] movements, @NonNull ArrayList<MLocation> newLocs) throws EOFException {
         // ADRIFT V3.80, 3.90 and V4 Loader
         this(adv);
 
@@ -283,7 +280,7 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
             if (!lastAltDesc.equals("")) {
                 altDesc.mDescription = convertV4FuncsToV5(adv, lastAltDesc);
                 altDesc.mDisplayWhen = StartAfterDefaultDescription;
-                altDesc.mRestrictions.mBracketSequence = "#";
+                altDesc.mRestrictions.mBrackSeq = "#";
                 getLongDescription().add(altDesc);
             }
         }
@@ -344,13 +341,13 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
             // into actual movement restrictions for the
             // location via a call to fixMovementRestrictions().
             int[] tmp = movements[iLoc][i];
-            tmp[0] = safeInt(reader.readLine());               // Rooms
+            tmp[0] = mAdv.safeInt(reader.readLine());               // Rooms
             if (tmp[0] != 0) {
                 // This direction has a valid exit
-                tmp[1] = safeInt(reader.readLine());           // Tasks
-                tmp[2] = safeInt(reader.readLine());           // Completed
+                tmp[1] = mAdv.safeInt(reader.readLine());           // Tasks
+                tmp[2] = mAdv.safeInt(reader.readLine());           // Completed
                 if (v >= 4) {
-                    tmp[3] = safeInt(reader.readLine());       // Mode
+                    tmp[3] = mAdv.safeInt(reader.readLine());       // Mode
                 }
             }
         }
@@ -375,7 +372,7 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
             // description into text box [1]. This description gets
             // appended to the end of the main description.
             String altDesc1 = reader.readLine();                        // Alt Desc 1
-            int iTask1 = safeInt(reader.readLine());                    // Task1 #
+            int iTask1 = mAdv.safeInt(reader.readLine());                    // Task1 #
             if (!altDesc1.equals("") || iTask1 > 0) {
                 MSingleDescription sd = new MSingleDescription(adv);
                 sd.mDescription = convertV4FuncsToV5(adv, altDesc1);
@@ -388,7 +385,7 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
                     rest.mTaskType = Complete;
                     sd.mRestrictions.add(rest);
                 }
-                sd.mRestrictions.mBracketSequence = "#";
+                sd.mRestrictions.mBrackSeq = "#";
                 getLongDescription().add(sd);
             }
 
@@ -404,7 +401,7 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
             // description. Again, as above, if you wanted only the new
             // description to show, keep the main description blank.
             String altDesc2 = reader.readLine();                        // Alt Desc 2
-            int iTask2 = safeInt(reader.readLine());                    // Task2 #
+            int iTask2 = mAdv.safeInt(reader.readLine());                    // Task2 #
             if (!altDesc2.equals("") || iTask2 > 0) {
                 MSingleDescription sd = new MSingleDescription(adv);
                 sd.mDescription = convertV4FuncsToV5(adv, altDesc2);
@@ -417,7 +414,7 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
                     rest.mTaskType = Complete;
                     sd.mRestrictions.add(rest);
                 }
-                sd.mRestrictions.mBracketSequence = "#";
+                sd.mRestrictions.mBrackSeq = "#";
                 getLongDescription().add(sd);
             }
 
@@ -437,9 +434,9 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
             // you would want to select the check box and hide objects.
             // This means that any objects that are in the room will
             // not be displayed when the room is viewed.
-            int iObj = safeInt(reader.readLine());                      // Obj #
+            int iObj = mAdv.safeInt(reader.readLine());                      // Obj #
             String altDesc3 = reader.readLine();                        // Alt Desc 3
-            int typeHideObjs = safeInt(reader.readLine());              // Type Hide Objects
+            int typeHideObjs = mAdv.safeInt(reader.readLine());              // Type Hide Objects
             if (!altDesc3.equals("")) {
                 int restType =
                         typeHideObjs / V390_V380_ALT_TYPEHIDE_MULT;
@@ -488,7 +485,7 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
                 // via a call to fixDescriptionRestrictions():
                 rest.mKey2 = String.valueOf(iObj);
                 sd.mRestrictions.add(rest);
-                sd.mRestrictions.mBracketSequence = "#";
+                sd.mRestrictions.mBrackSeq = "#";
                 getLongDescription().add(sd);
             }
         }
@@ -650,7 +647,7 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
                 if (!(rest.mType == Task && rest.mKey1.equals("Task0"))) {
                     sd.mRestrictions.add(rest);
                 }
-                sd.mRestrictions.mBracketSequence = "#";
+                sd.mRestrictions.mBrackSeq = "#";
 
                 // There are three occasions when you can display
                 // the alternate description. These are:
@@ -711,13 +708,13 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
                             break;
                     }
                 } else {
-                    debugPrint(MGlobals.ItemEnum.Task, getKey(), MView.DebugDetailLevelEnum.Error,
+                    mAdv.mView.debugPrint(MGlobals.ItemEnum.Task, getKey(), MView.DebugDetailLevelEnum.Error,
                             "Can't select property " + propName + " for location " +
                                     getCommonName() +
                                     " as that property doesn't exist in the global location properties.");
                 }
             } else {
-                debugPrint(MGlobals.ItemEnum.Task, getKey(), MView.DebugDetailLevelEnum.Error,
+                mAdv.mView.debugPrint(MGlobals.ItemEnum.Task, getKey(), MView.DebugDetailLevelEnum.Error,
                         "Can't set property '" + propName + "' of location '" +
                                 getCommonName() + "' to '" + propValue +
                                 "' as the location doesn't have that property.");
@@ -735,7 +732,7 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
                     case StateList:
                     case ValueList:
                         // Could be dropdown or expression
-                        String result = mAdv.evaluateStringExpression(propValue, MParser.mReferences);
+                        String result = mAdv.evalStrExpr(propValue, mAdv.mReferences);
                         if (result.equals("") && !propValue.equals("")) {
                             result = propValue;
                         }
@@ -746,7 +743,7 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
                     case LocationKey:
                         String itemKey = propValue;
                         if (itemKey.startsWith("Referenced")) {
-                            itemKey = MParser.mReferences.getReference(itemKey);
+                            itemKey = mAdv.mReferences.getMatchingKey(itemKey);
                         }
                         prop.setValue(itemKey != null ? itemKey : "");
                         break;
@@ -784,7 +781,7 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
                 // -------------------------------
                 // Lists the characters at this location
                 lst = new ArrayList<MItemWithProperties>(getCharactersVisibleAtLocation().values());
-                return mAdv.evaluateItemFunction(remainder, lst,
+                return mAdv.evalItemFunc(remainder, lst,
                         null, null, null, resultIsInteger);
 
             case "Contents":
@@ -809,7 +806,7 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
                         lst.addAll(getObjectsInLocation().values());
                         break;
                 }
-                return mAdv.evaluateItemFunction(remainder, lst,
+                return mAdv.evalItemFunc(remainder, lst,
                         null, null, null, resultIsInteger);
 
             case "Count":
@@ -847,7 +844,7 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
                         lstDirs.add(d);
                     }
                 }
-                return mAdv.evaluateItemFunction(remainder, null,
+                return mAdv.evalItemFunc(remainder, null,
                         lstDirs, null, null, resultIsInteger);
 
             case "LocationTo":
@@ -869,9 +866,9 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
                     }
                 }
                 return (lst.size() == 1) ?
-                        mAdv.evaluateItemFunction(remainder, null,
+                        mAdv.evalItemFunc(remainder, null,
                                 null, null, (MLocation) lst.get(0), resultIsInteger) :
-                        mAdv.evaluateItemFunction(remainder, lst,
+                        mAdv.evalItemFunc(remainder, lst,
                                 null, null, null, resultIsInteger);
 
             case "Name":
@@ -897,7 +894,7 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
                 // Dynamic objects will only be listed if "Specifically
                 // exclude object from location description" is NOT ticked.
                 lst = new ArrayList<MItemWithProperties>(getObjectsInLocation().values());
-                return mAdv.evaluateItemFunction(remainder, lst,
+                return mAdv.evalItemFunc(remainder, lst,
                         null, null, null, resultIsInteger);
 
             case "":
@@ -909,7 +906,7 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
 
             default:
                 // Any other valid property not already covered above.
-                return mAdv.evaluateItemProperty(funcName,
+                return mAdv.evalItemProp(funcName,
                         getProperties(), mAdv.mLocationProperties, remainder, resultIsInteger);
         }
     }
@@ -953,10 +950,10 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
     public String getShortDescriptionSafe() {
         if (mAdv.mVersion < 5) {
             // v4 didn't replace ALRs on statusbar and map
-            return stripCarats(mAdv.evaluateFunctions(getShortDescription().toString(), MParser.mReferences));
+            return stripCarats(mAdv.evalFuncs(getShortDescription().toString(), mAdv.mReferences));
         } else {
             StringBuilder tmp = new StringBuilder(getShortDescription().toString());
-            mAdv.mALRs.evaluate(tmp, MParser.mReferences);
+            mAdv.mALRs.evaluate(tmp, mAdv.mReferences);
             return stripCarats(tmp.toString());
         }
     }
@@ -1101,7 +1098,7 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
             // Default to Char is here unless we have property
             // (which can set value to blank
             String isHereDesc = (ch.hasProperty(PKEY_CHAR_HERE_DESC)) ?
-                    mAdv.evaluateFunctions(ch.getIsHereDesc(), MParser.mReferences) :
+                    mAdv.evalFuncs(ch.getIsHereDesc(), mAdv.mReferences) :
                     name + " is here.";
 
             if (isHereDesc.length() > 0) {
@@ -1320,7 +1317,7 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
                         }
                     }
                     dir.mRestrictions.add(rest);
-                    dir.mRestrictions.mBracketSequence = "#";
+                    dir.mRestrictions.mBrackSeq = "#";
                 }
             }
         }
@@ -1494,16 +1491,23 @@ public class MLocation extends MItemWithProperties implements MItemFunctionEvalu
     public int getKeyRefCount(@NonNull String key) {
         int iCount = 0;
         for (MDescription d : getAllDescriptions()) {
-            iCount += d.referencesKey(key);
+            iCount += d.getNumberOfKeyRefs(key);
         }
         for (MDirection d : mDirections.values()) {
             if (d.mLocationKey.equals(key)) {
                 iCount++;
             }
-            iCount += d.mRestrictions.referencesKey(key);
+            iCount += d.mRestrictions.getNumberOfKeyRefs(key);
         }
         iCount += getLocalProperties().getNumberOfKeyRefs(key);
         return iCount;
+    }
+
+    @NonNull
+    @Override
+    public String getSymbol() {
+        // house
+        return new String(Character.toChars(0x1F3E0));
     }
 
     @Override

@@ -143,7 +143,7 @@ public class GLKActivity extends FragmentActivity
             }
 
             Parcelable p = intent.getParcelableExtra(MainActivity.USER_PREFS);
-            if (p == null || !(p instanceof ParcelableSharedPrefs)) {
+            if (!(p instanceof ParcelableSharedPrefs)) {
                 GLKLogger.error("GLKActivity: intent does not include user's preferences. Cannot run game, sorry.");
                 finish();
                 return;
@@ -626,7 +626,7 @@ public class GLKActivity extends FragmentActivity
             return false;
         }
         GLKWindowV v = mScreen.getFocusedWindow();
-        return !(v == null || !(v instanceof GLKNonPairV)) &&
+        return v instanceof GLKNonPairV &&
                 sendKeyCodes((GLKNonPairV) v, keyCodes, keysSent);
     }
 
@@ -921,7 +921,7 @@ public class GLKActivity extends FragmentActivity
      * @param data        - An Intent, which can return result data to the caller (various data can be attached to Intent "extras").
      */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @NonNull Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == CHECK_TTS_DATA) {
             // As per recommendation on official Android developer's blog at
             // https://android-developers.googleblog.com/2009/09/introduction-to-text-to-speech-in.html

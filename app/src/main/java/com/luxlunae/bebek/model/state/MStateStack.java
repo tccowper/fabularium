@@ -24,7 +24,6 @@ package com.luxlunae.bebek.model.state;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.luxlunae.bebek.MGlobals;
 import com.luxlunae.bebek.model.MAdventure;
 import com.luxlunae.bebek.model.MCharacter;
 import com.luxlunae.bebek.model.MDescription;
@@ -44,6 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.luxlunae.bebek.model.MAction.EndGameEnum.Running;
+import static com.luxlunae.bebek.model.MVariable.VariableType.Numeric;
 import static com.luxlunae.bebek.model.io.MFileIO.FileTypeEnum.GameState_TAS;
 import static com.luxlunae.bebek.model.io.MFileIO.LoadWhatEnum.All;
 import static com.luxlunae.bebek.model.io.MFileIO.loadFile;
@@ -176,7 +176,7 @@ public class MStateStack extends MMyStack {
             MGameState.MVariableState vars = new MGameState.MVariableState();
             vars.Value = new String[var.getLength()];
             for (int i = 0; i < var.getLength(); i++) {
-                if (var.getType() == MVariable.VariableType.NUMERIC) {
+                if (var.getType() == Numeric) {
                     vars.Value[i] = String.valueOf(var.getIntAt(i + 1));
                 } else {
                     vars.Value[i] = var.getStrAt(i + 1);
@@ -383,8 +383,8 @@ public class MStateStack extends MMyStack {
             if (state.htblVariableStates.containsKey(var.getKey())) {
                 MGameState.MVariableState vars = state.htblVariableStates.get(var.getKey());
                 for (int i = 0; i < var.getLength(); i++) {
-                    if (var.getType() == MVariable.VariableType.NUMERIC) {
-                        var.setAt(i + 1, MGlobals.safeInt(vars.Value[i]));
+                    if (var.getType() == Numeric) {
+                        var.setAt(i + 1, adv.safeInt(vars.Value[i]));
                     } else {
                         var.setAt(i + 1, vars.Value[i]);
                     }

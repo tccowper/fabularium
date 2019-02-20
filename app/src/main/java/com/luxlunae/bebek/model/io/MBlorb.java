@@ -24,14 +24,13 @@ package com.luxlunae.bebek.model.io;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.luxlunae.bebek.model.MAdventure;
 import com.luxlunae.glk.GLKLogger;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import static com.luxlunae.bebek.MGlobals.errMsg;
 
 public class MBlorb {
 
@@ -75,7 +74,7 @@ public class MBlorb {
         return mFORMChunk.load();
     }
 
-    public static byte[] getSound(int resNum) {
+    public static byte[] getSound(@NonNull MAdventure adv, int resNum) {
         try {
             mBlorb = new RandomAccessFile(mFilename, "r");
             Long offset = mResourceIndex.get("Snd " + resNum);
@@ -89,12 +88,12 @@ public class MBlorb {
             mBlorb.close();
             mBlorb = null;
         } catch (Exception ex) {
-            errMsg("getSound error", ex);
+            adv.mView.errMsg("getSound error", ex);
         }
         return null;
     }
 
-    public static byte[] getImage(int resNum) {
+    public static byte[] getImage(@NonNull MAdventure adv, int resNum) {
         try {
             mBlorb = new RandomAccessFile(mFilename, "r");
             Long offset = mResourceIndex.get("Pict" + resNum);
@@ -108,7 +107,7 @@ public class MBlorb {
             mBlorb.close();
             mBlorb = null;
         } catch (Exception ex) {
-            errMsg("getImage error", ex);
+            adv.mView.errMsg("getImage error", ex);
         }
         return null;
     }

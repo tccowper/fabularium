@@ -41,12 +41,11 @@ public class MEventHashMap extends MItemHashMap<MEvent> {
         mAdv = adv;
     }
 
-    public void load(@NonNull MFileOlder.V4Reader reader,
-                     final double v, final int nLocations,
-                     final int iStartMaxPriority) throws EOFException {
+    public void load(@NonNull MFileOlder.V4Reader reader, double version,
+                     int nLocations, int startMaxPriority) throws EOFException {
         int nEvents = cint(reader.readLine());
         for (int i = 1; i <= nEvents; i++) {
-            MEvent ev = new MEvent(mAdv, reader, i, iStartMaxPriority, nLocations, v);
+            MEvent ev = new MEvent(mAdv, reader, i, startMaxPriority, nLocations, version);
             put(ev.getKey(), ev);
         }
     }

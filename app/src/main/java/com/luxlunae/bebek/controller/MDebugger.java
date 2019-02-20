@@ -1,6 +1,5 @@
 /*
- * Original ADRIFT code Copyright (C) 1997 - 2018 Campbell Wild
- * This port and modifications Copyright (C) 2018 - 2019 Tim Cadogan-Cowper.
+ * Copyright (C) 2019 Tim Cadogan-Cowper.
  *
  * This file is part of Fabularium.
  *
@@ -19,15 +18,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package com.luxlunae.bebek;
+package com.luxlunae.bebek.controller;
 
-import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import com.luxlunae.bebek.controller.MParser;
 import com.luxlunae.bebek.model.MALR;
 import com.luxlunae.bebek.model.MAction;
 import com.luxlunae.bebek.model.MAdventure;
@@ -48,7 +43,6 @@ import com.luxlunae.bebek.model.MSubWalk;
 import com.luxlunae.bebek.model.MSynonym;
 import com.luxlunae.bebek.model.MTask;
 import com.luxlunae.bebek.model.MTopic;
-import com.luxlunae.bebek.model.MUserFunction;
 import com.luxlunae.bebek.model.MVariable;
 import com.luxlunae.bebek.model.MWalk;
 import com.luxlunae.bebek.model.collection.MActionArrayList;
@@ -57,566 +51,34 @@ import com.luxlunae.bebek.model.collection.MObjectHashMap;
 import com.luxlunae.bebek.model.collection.MPropertyHashMap;
 import com.luxlunae.bebek.model.collection.MRestrictionArrayList;
 import com.luxlunae.bebek.model.collection.MStringArrayList;
-import com.luxlunae.bebek.model.io.MBlorb;
 import com.luxlunae.bebek.model.io.MFileIO;
-import com.luxlunae.glk.GLKConstants;
-import com.luxlunae.glk.GLKLogger;
-import com.luxlunae.glk.controller.GLKController;
-import com.luxlunae.glk.controller.GLKEvent;
-import com.luxlunae.glk.model.GLKModel;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import static com.luxlunae.bebek.MGlobals.stripCarats;
+import static com.luxlunae.bebek.model.MCharacter.MCharacterLocation.ExistsWhere.AtLocation;
+import static com.luxlunae.bebek.model.MEvent.EventTypeEnum.TimeBased;
+import static com.luxlunae.bebek.model.MEvent.StatusEnum.CountingDownToStart;
+import static com.luxlunae.bebek.model.MLocation.WhichObjectsToListEnum.AllObjects;
+import static com.luxlunae.bebek.model.MObject.MObjectLocation.DynamicExistsWhereEnum.InLocation;
+import static com.luxlunae.bebek.model.MObject.MObjectLocation.StaticExistsWhereEnum.SingleLocation;
+import static com.luxlunae.bebek.model.MProperty.PropertyTypeEnum.StateList;
+import static com.luxlunae.bebek.model.MSubEvent.MeasureEnum.Seconds;
+import static com.luxlunae.bebek.model.MSubWalk.WhatEnum.DisplayMessage;
+import static com.luxlunae.bebek.model.MVariable.VariableType.Numeric;
 
-public class Bebek {
-
-    // The internal version number of the Adrift Runner we have ported
-    // This is version code is used by some games (e.g. Humbug) to determine
-    // whether the runner can support them or not.
-    public static final String AdriftProductVersion = "9.0.21022";
+public class MDebugger {
     public static final boolean BEBEK_DEBUG_ENABLED = false;
     private static final boolean ALLOW_BEBEK_DEBUG_TESTING = true;
-    private static StringBuilder sbTestOut;
 
-    private static GLKModel mGLKModel = null;
-    private static MAdventure mAdv = null;
-    private static int mMainWin = GLKConstants.NULL;
-    private static int mStatusWin = GLKConstants.NULL;
-    private static OUTPUT_TYPE outputType = OUTPUT_TYPE.HTML;
-    private static String mLibAdriftPath;
-
-    private static final boolean ENSURE_TEXT_READABLE = true;
-
-    private static boolean inDebugPlaybackMode = false;
-
-    public static String promptForSaveFileName(boolean create) throws InterruptedException {
-        if (mGLKModel == null) {
-            return "";
-        }
-
-        int fref =
-                GLKController.glk_fileref_create_by_prompt(mGLKModel,
-                        GLKConstants.fileusage_SavedGame,
-                        create ? GLKConstants.filemode_Write : GLKConstants.filemode_Read, 0);
-        if (fref == GLKConstants.NULL) {
-            return "";
-        }
-
-        byte[] b = GLKController.glkplus_fileref_get_name(mGLKModel, fref);
-        GLKController.glk_fileref_destroy(mGLKModel, fref);
-
-        try {
-            return new String(b, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            GLKLogger.error("Bebek: unsupported encoding: " + e.getMessage());
-            return "";
-        }
-    }
-
-    @NonNull
-    static String promptForInput(@NonNull String prompt, @NonNull String defaultResp) {
-        if (mGLKModel == null) {
-            return defaultResp;
-        }
-
-        String out = prompt +
-                (!defaultResp.equals("") ? " (default: '" + defaultResp + "') > " : " > ");
-
-        outImmediate(out);
-
-        ByteBuffer inputBuf = ByteBuffer.allocateDirect(1000);
-        GLKEvent e = new GLKEvent();
-
-        GLKController.glk_request_line_event(mGLKModel, mMainWin, inputBuf, 0, true);
-        try {
-            do {
-                GLKController.glk_select(mGLKModel, e);
-            } while (e.type != GLKConstants.evtype_LineInput);
-
-            // e.val1 is number of characters entered:
-            if (e.val1 > 0) {
-                // Some text
-                byte[] b = new byte[e.val1 * 4];
-                inputBuf.rewind();
-                inputBuf.get(b);
-                inputBuf.clear();
-                return new String(b, Charset.forName("UTF-32LE"));
-            }
-        } catch (InterruptedException ex) {
-            // do nothing - just fall through to returning default response
-        }
-
-        return defaultResp;
-    }
-
-    static char msgboxYesNo(@NonNull String prompt) {
-        if (mGLKModel == null) {
-            return 0;
-        }
-        outImmediate(prompt);
-        try {
-            return yesNo();
-        } catch (InterruptedException ex) {
-            return 0;
-        }
-    }
-
-    public static char yesNo() throws InterruptedException {
-        if (mGLKModel == null) {
-            return 0;
-        }
-
-        GLKEvent e = new GLKEvent();
-        char ch = 0;
-
-        while (ch != 'y' && ch != 'Y' && ch != 'n' && ch != 'N') {
-            GLKController.glk_request_char_event(mGLKModel, mMainWin);
-            do {
-                GLKController.glk_select(mGLKModel, e);
-            } while (e.type != GLKConstants.evtype_CharInput);
-            ch = (char) e.val1;
-        }
-
-        return ch;
-    }
-
-    public static void clearTextWindow() {
-        if (mGLKModel == null) {
-            return;
-        }
-        if (ALLOW_BEBEK_DEBUG_TESTING && inDebugPlaybackMode) {
-            return;
-        }
-        GLKController.glk_window_clear(mGLKModel, mMainWin);
-    }
-
-    private static void outImmediate(String s) {
-        if (mGLKModel == null) {
-            return;
-        }
-        GLKController.glk_set_window(mGLKModel, mMainWin);
-        try {
-            GLKController.glk_put_string(mGLKModel, s.getBytes("UTF-32LE"), true);
-            GLKController.glk_request_timer_events(mGLKModel, 1);
-            GLKEvent ev = new GLKEvent();
-            GLKController.glk_select(mGLKModel, ev);  // so the text is flushed
-        } catch (UnsupportedEncodingException e) {
-            GLKLogger.error("Could not put GLK string - unsupported encoding for ISO-8859-1");
-        } catch (InterruptedException e) {
-            // do nothing
-        }
-    }
-
-    public static void out(String s) {
-        if (mGLKModel == null) {
-            return;
-        }
-        String adj;
-        switch (outputType) {
-            default:
-            case RAW:
-                adj = s;
-                break;
-            case HTML:
-                adj = s.replace("\n", "<br>")
-                        .replaceAll("<!--(.*?)-->", "")
-                        .replace("<>", "")
-                        .replace("<centre>", "<center>")
-                        .replace("</centre>", "</center>");
-                if (ENSURE_TEXT_READABLE && mGLKModel.mBackgroundColor == Color.WHITE) {
-                    // Some ADRIFT games assume background color is black
-                    // Replace any such tags so that we use the user's TADS text color setting instead.
-                    adj = adj.replace("<font color=white>", "<font oolor=text>");
-                }
-                break;
-            case PLAIN_TEXT:
-                adj = MGlobals.stripCarats(s);
-                break;
-        }
-
-        if (ALLOW_BEBEK_DEBUG_TESTING && inDebugPlaybackMode) {
-            sbTestOut.append(adj);
-            return;
-        }
-
-        GLKController.glk_set_window(mGLKModel, mMainWin);
-        try {
-            GLKController.glk_put_string(mGLKModel, adj.getBytes("UTF-32LE"), true);
-        } catch (UnsupportedEncodingException e) {
-            GLKLogger.error("Could not put GLK string - unsupported encoding for ISO-8859-1");
-        }
-    }
-
-    private static String getSpaces(int n) {
-        StringBuilder ret = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            ret.append(" ");
-        }
-        return ret.toString();
-    }
-
-    public static void updateStatusBar(@NonNull MAdventure adv,
-                                       String sDescription,
-                                       String sScore,
-                                       StringBuilder sUserStatus) {
-        if (mGLKModel == null) {
-            return;
-        }
-        GLKController.glk_set_window(mGLKModel, mStatusWin);
-        GLKController.glk_window_clear(mGLKModel, mStatusWin);
-
-        Point sz = GLKController.glk_window_get_size(mGLKModel, mStatusWin);
-
-        int nPanels = (sDescription != null && sDescription.length() > 0 ? 1 : 0) +
-                (sScore != null && sScore.length() > 0 ? 1 : 0) +
-                (sUserStatus != null && sUserStatus.length() > 0 ? 1 : 0);
-        if (nPanels == 0) {
-            // nothing to display
-            return;
-        }
-        int panelWidth = sz.x / nPanels;
-
-        String status = "";
-
-        if (sDescription != null && sDescription.length() > 0) {
-            int w = sDescription.length() - panelWidth;
-            status += (w > 0) ? sDescription.substring(0, panelWidth - 3) + "..." : sDescription;
-            if (w < 0) {
-                status += getSpaces(-w);
-            }
-        }
-
-        if (sScore != null && sScore.length() > 0) {
-            int w = sScore.length() - panelWidth;
-            if (nPanels == 2) {
-                status += getSpaces(-w);
-                status += (w > 0) ? sScore.substring(0, panelWidth - 3) + "..." : sScore;
-            } else {
-                status += (w > 0) ? sScore.substring(0, panelWidth - 3) + "..." : sScore;
-                status += getSpaces(-w);
-            }
-        }
-
-        if (sUserStatus != null && sUserStatus.length() > 0) {
-            adv.mALRs.evaluate(sUserStatus, MParser.mReferences);
-            int w = sUserStatus.length() - panelWidth;
-            if (nPanels == 2) {
-                status += getSpaces(-w);
-                status += (w > 0) ? sUserStatus.substring(0, panelWidth - 3) + "..." : sUserStatus;
-            } else {
-                status += (w > 0) ? sUserStatus.substring(0, panelWidth - 3) + "..." : sUserStatus;
-            }
-        }
-
-        try {
-            GLKController.glk_put_string(mGLKModel, status.getBytes("UTF-32LE"), true);
-        } catch (UnsupportedEncodingException e) {
-            GLKLogger.error("Could not put GLK string - unsupported encoding for ISO-8859-1");
-        }
-    }
-
-    public static void submitCommand(@NonNull MAdventure[] adv1, String txtInput) throws InterruptedException {
-        MAdventure adv = adv1[0];
-        if (adv.mCommands.size() > 0) {
-            adv.mCommands.add(txtInput);
-            adv.mTurns++;
-            String sInput = txtInput.trim();
-            sInput = MGlobals.stripCarats(sInput);
-            MParser.processInput(adv1, sInput);
-        }
-    }
-
-    public static void quit() throws InterruptedException {
-        GLKController.glk_request_timer_events(mGLKModel, 0);  // cancel timer events
-        GLKModel m = mGLKModel;
-        mGLKModel = null;
-        mAdv = null;
-        GLKController.glk_exit(m);
-    }
-
-    public static void die() {
-        // similar to quit but no prompt
-        GLKController.glk_request_timer_events(mGLKModel, 0);  // cancel timer events
-        mGLKModel = null;
-        mAdv = null;
-    }
-
-    public static String getLibAdriftPath() {
-        return mLibAdriftPath;
-    }
-
-    public static boolean isStopping() {
-        return (mGLKModel == null);
-    }
-
-    @Nullable
-    private static byte[] getV4Media(@NonNull MAdventure adv, @NonNull String sFilename) {
-        try {
-            MAdventure.v4Media media = adv.mV4Media.get(sFilename);
-            if (media != null) {
-                RandomAccessFile stmFile = new RandomAccessFile(adv.getFullPath(), "r");
-                stmFile.seek(media.mOffset);
-                byte[] bytMedia = new byte[media.mLength];
-                stmFile.read(bytMedia, 0, media.mLength);
-                stmFile.close();
-
-                return bytMedia;
-            }
-        } catch (IOException e) {
-            MGlobals.errMsg("File " + sFilename + " not found in index.");
-        }
-        return null;
-    }
-
-    public static byte[] getImage(@NonNull String path) {
-        if (mAdv == null) {
-            return null;
-        }
-
-        if (mAdv.mVersion >= 4 && mAdv.mVersion < 5) {
-            // Load directly from the TAF
-            return getV4Media(mAdv, path);
-        } else if (mAdv.mVersion >= 5) {
-            // Load from a Blorb
-            Integer iResource = mAdv.mBlorbMappings.get(path);
-            if (iResource != null && iResource > 0) {
-                return MBlorb.getImage(iResource);
-            }
-        }
-
-        GLKLogger.error("TODO: Load ADRIFT image from file system: " + path);
-        return null;
-    }
-
-    public static byte[] getSound(@NonNull String path) {
-        if (mAdv == null) {
-            return null;
-        }
-
-        if (mAdv.mVersion >= 4 && mAdv.mVersion < 5) {
-            // Load directly from the TAF
-            return getV4Media(mAdv, path);
-        } else if (mAdv.mVersion >= 5) {
-            // Load from a Blorb
-            Integer iResource = mAdv.mBlorbMappings.get(path);
-            if (iResource != null && iResource > 0) {
-                return MBlorb.getSound(iResource);
-            }
-        }
-
-        GLKLogger.error("TODO: Load ADRIFT sound from file system: " + path);
-        return null;
-    }
-
-    public static int runTerp(@NonNull String terpLibName, @NonNull GLKModel m,
-                              @NonNull String[] args, @Nullable String outfilePath) {
-        mGLKModel = m;
-
-        if (outputType == OUTPUT_TYPE.HTML) {
-            GLKController.glkplus_set_html_mode(mGLKModel, true);
-        }
-
-        mMainWin = GLKController.glk_window_open(m, GLKConstants.NULL, GLKConstants.NULL,
-                GLKConstants.NULL, GLKConstants.wintype_TextBuffer, GLKConstants.NULL);
-        mStatusWin = GLKController.glk_window_open(m, mMainWin, GLKConstants.winmethod_Above | GLKConstants.winmethod_Fixed,
-                1, GLKConstants.wintype_TextGrid, GLKConstants.NULL);
-
-        Bebek.outImmediate("<center><h2>\uD83E\uDD86 BEBEK \uD83E\uDD86</h2>" +
-                "</center><p>An Android port of Campbell Wild's Adrift 5 Runner<br>Tim Cadogan-Cowper, 2018</p>" +
-                "<p>Type <pre>@bebek help</pre> to see debug commands.</p><p>Loading game... please wait...</p>");
-
-        mAdv = new MAdventure();
-        MAdventure[] adv1 = new MAdventure[1];
-        adv1[0] = mAdv;
-        ByteBuffer inputBuf = ByteBuffer.allocateDirect(1000);
-
-        try {
-            mLibAdriftPath = GLKConstants.getDir(m.getApplicationContext(), GLKConstants.SUBDIR.LIB_ADRIFT);
-            if (!mAdv.open(args[1])) {
-                Bebek.quit();
-            } else {
-                GLKController.glk_request_timer_events(mGLKModel, 1000);
-                GLKEvent e = new GLKEvent();
-
-                while (mGLKModel != null) {
-                    out("&gt; ");
-                    GLKController.glk_request_line_event(mGLKModel, mMainWin, inputBuf, 0, true);
-                    do {
-                        GLKController.glk_select(mGLKModel, e);
-                        if (e.type == GLKConstants.evtype_Timer) {
-                            // process timer event
-                            MParser.incrementTurnOrTime(mAdv, MEvent.EventTypeEnum.TimeBased);
-                        }
-                    } while (e.type != GLKConstants.evtype_LineInput);
-
-                    // e.val1 is number of characters entered:
-                    if (e.val1 > 0) {
-                        // Some text
-                        byte[] b = new byte[e.val1 * 4];
-                        inputBuf.rewind();
-                        inputBuf.get(b);
-                        inputBuf.clear();
-                        String sInput = new String(b, Charset.forName("UTF-32LE"));
-                        if (sInput.startsWith("@bebek")) {
-                            processDebugCommand(adv1[0], sInput.split(" "));
-                        } else {
-                            // Like Scare, we allow the user to enter multiple commands
-                            // on one line, either separated by a comma or a period.
-                            //
-                            // This is an essential feature for some games - e.g.
-                            // "Three Monkeys" requires the user to type commands
-                            // such as "chimp, climb tree" which is then processed as
-                            // two commands - "chimp" (which changes the actor variable
-                            // to the chimp) and "climb tree" (which works only if the
-                            // current actor is the chimp).
-                            String[] cmds = sInput.split("[.,]");
-                            for (String cmd : cmds) {
-                                submitCommand(adv1, cmd.trim());
-                            }
-                        }
-                    } else {
-                        // Just the enter key
-                        // Still submit this, as some games (like PK Girl) depend
-                        // upon single key enter press to move to the next screen
-                        submitCommand(adv1, "");
-                    }
-                }
-            }
-        } catch (InterruptedException e) {
-            return 2;
-        } catch (IOException e) {
-            return 1;
-        }
-
-        return 1;
-    }
-
-    private static void appendProperties(StringBuilder sb, MPropertyHashMap props) {
-        if (props.size() > 0) {
-            sb.append("\n<u>PROPERTIES</u>\n");
-            for (MProperty prop : props.values()) {
-                // ruler symbol for each property
-                if (prop.getAppendToProperty().equals("")) {
-                    sb.append("----------------").append("\n");
-                    sb.append(Character.toChars(0x1F4CF))
-                            .append("&nbsp;&nbsp;<b>").append(prop.getCommonName()).append("</b>\n");
-                    sb.append("<i>").append(prop.getType()).append("</i>\n");
-                    sb.append("----------------").append("\n");
-                    switch (prop.getType()) {
-                        case StateList:
-                        case ObjectKey:
-                        case CharacterKey:
-                        case LocationKey:
-                        case LocationGroupKey:
-                        case Text:
-                            appendDescriptions(sb, prop.getStringData());
-                            break;
-
-                        case Integer:
-                        case ValueList:
-                            sb.append(String.valueOf(prop.getIntData()));
-                            break;
-
-                        case SelectionOnly:
-                            sb.append("true");
-                            break;
-                    }
-                    sb.append("\n");
-                }
-            }
-        }
-    }
-
-    private static void appendDescriptions(StringBuilder sb, MDescription d) {
-        int i = 0;
-        String lbl;
-        for (MSingleDescription s : d) {
-            if (!s.mDescription.equals("")) {
-                if (i == 0) {
-                    sb.append("~~~~ Default Description ~~~~\n");
-                    sb.append("(Only display once: ").append(s.mDisplayOnce).append(")\n");
-                } else {
-                    lbl = s.mTabLabel;
-                    sb.append("~~~~ ").append(lbl.equals("") ? "Alternate Description " + i : lbl).append(" ~~~~\n");
-                    sb.append("(Only display once: ").append(s.mDisplayOnce).append(")\n");
-                    sb.append("(If all restrictions met ").append(s.mDisplayWhen).append(")\n");
-                }
-                sb.append("<pre>").append(s.mDescription).append("</pre>\n");
-                if (s.mCompatHideObjects) {
-                    sb.append("[HIDE OBJECTS]\n");
-                }
-            }
-            appendRestrictions(sb, s.mRestrictions, 2);
-            i++;
-        }
-    }
-
-    private static void appendRestrictions(StringBuilder sb, MRestrictionArrayList rr, int indent) {
-        if (rr.size() == 0) {
-            return;
-        }
-        StringBuilder t = new StringBuilder();
-        for (int i = 0; i < indent; i++) {
-            t.append("&nbsp;");
-        }
-        sb.append(t).append(rr.mBracketSequence).append("\n");
-        for (MRestriction r : rr) {
-            // stop sign
-            sb.append(t).append(Character.toChars(0x1F6D1)).append("&nbsp;<pre>").append(r.getSummary()).append("</pre>\n");
-            appendDescriptions(sb, r.mMessage);
-            sb.append("\n");
-        }
-    }
-
-    private static void appendDebugRefs(@NonNull MAdventure adv, @NonNull String refKey, @NonNull StringBuilder sb) {
-        // print the tasks and events that reference 'refKey', if any
-        boolean found = false;
-        sb.append("\n<u>REFERENCES</u>").append("\n");
-        for (MTask t : adv.mTasks.values()) {
-            int i = t.getKeyRefCount(refKey);
-            if (i > 0) {
-                found = true;
-                appendDebugItemPoint(t, sb, true);
-            }
-        }
-        for (MEvent e : adv.mEvents.values()) {
-            int i = e.getKeyRefCount(refKey);
-            if (i > 0) {
-                found = true;
-                appendDebugItemPoint(e, sb, true);
-            }
-        }
-        if (!found) {
-            sb.append("&nbsp;&nbsp;(no tasks or events)");
-        }
-    }
-
-    private static void appendDebugItemPoint(@NonNull MItem itm, @NonNull StringBuilder sb, boolean indent) {
-        if (indent) {
-            sb.append("&nbsp;&nbsp;");
-        }
-        sb.append(getSymbol(itm))
-                .append(" <b>[")
-                .append(itm.getKey())
-                .append("]</b>&nbsp;&nbsp;<pre>")
-                .append(itm.getCommonName())
-                .append("</pre>")
-                .append("\n");
-    }
-
-    private static void processDebugCommand(@NonNull MAdventure adv, String[] args) {
-        out("<i>(\uD83E\uDD86 Quack! \uD83E\uDD86)</i>\n");
+    static void processDebugCommand(@NonNull MAdventure adv, String[] args) {
+        adv.mView.out("<i>(\uD83E\uDD86 Quack! \uD83E\uDD86)</i>\n");
         if (args.length > 1) {
             StringBuilder sb = new StringBuilder();
             if (args.length > 2) {
@@ -635,18 +97,23 @@ public class Bebek {
                             appendDescriptions(sb, loc.getLongDescription());
                             sb.append("~~~~~~~~~~~~~~~~~~~~\n");
                             sb.append("\n<u>DIRECTIONS</u>\n");
-                            for (Map.Entry<MAdventure.DirectionsEnum, MLocation.MDirection> e : loc.mDirections.entrySet()) {
+                            for (Map.Entry<MAdventure.DirectionsEnum, MLocation.MDirection> e :
+                                    loc.mDirections.entrySet()) {
                                 MAdventure.DirectionsEnum dir = e.getKey();
                                 MLocation.MDirection d = e.getValue();
                                 if (d.mLocationKey.equals("")) {
                                     continue;
                                 }
-                                sb.append("&nbsp;&nbsp;&#9632; Move ").append(dir).append(" to ").append(d.mLocationKey).append("\n");
+                                sb.append("&nbsp;&nbsp;&#9632; Move ")
+                                        .append(dir).append(" to ")
+                                        .append(d.mLocationKey).append("\n");
                                 appendRestrictions(sb, d.mRestrictions, 4);
                             }
                             appendProperties(sb, loc.getProperties());
-                            MObjectHashMap obs = loc.getObjectsInLocation(MLocation.WhichObjectsToListEnum.AllObjects, false);
-                            MCharacterHashMap chs = loc.getCharactersDirectlyInLocation(true);
+                            MObjectHashMap obs =
+                                    loc.getObjectsInLocation(AllObjects, false);
+                            MCharacterHashMap chs =
+                                    loc.getCharactersDirectlyInLocation(true);
                             if (obs.size() > 0 || chs.size() > 0) {
                                 sb.append("\n<u>CONTENTS</u>\n");
                                 for (MObject ob : obs.values()) {
@@ -659,7 +126,7 @@ public class Bebek {
                             appendDebugRefs(adv, args[2], sb);
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "obj": {
@@ -680,7 +147,7 @@ public class Bebek {
                             appendDebugRefs(adv, args[2], sb);
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "char": {
@@ -708,25 +175,31 @@ public class Bebek {
                                     // footprint symbol for each walk
                                     sb.append("----------------").append("\n");
                                     sb.append(Character.toChars(0x1F463))
-                                            .append("&nbsp;&nbsp;<b>").append(w.getDescription()).append("</b>\n");
+                                            .append("&nbsp;&nbsp;<b>")
+                                            .append(w.getDescription()).append("</b>\n");
                                     sb.append("----------------").append("\n");
-                                    sb.append("This walk should start active: ").append(w.getStartActive()).append("\n");
+                                    sb.append("This walk should start active: ")
+                                            .append(w.getStartActive()).append("\n");
                                     if (w.mWalkControls.size() > 0) {
                                         sb.append("Walk Control(s):\n");
                                         for (MEventOrWalkControl c : w.mWalkControls) {
                                             sb.append("&nbsp;&nbsp;&#9632; ")
                                                     .append(c.eControl)
-                                                    .append(" this walk on ").append(c.eCompleteOrNot.toString().toLowerCase())
-                                                    .append(" of task ").append(c.sTaskKey).append("\n");
+                                                    .append(" this walk on ")
+                                                    .append(c.eCompleteOrNot.toString().toLowerCase())
+                                                    .append(" of task ")
+                                                    .append(c.mTaskKey).append("\n");
                                         }
                                     }
-                                    sb.append("Repeat walk on completion: ").append(w.getLoops()).append("\n");
+                                    sb.append("Repeat walk on completion: ")
+                                            .append(w.getLoops()).append("\n");
                                     if (w.mSteps.size() > 0) {
                                         sb.append("Steps:\n");
                                         for (MWalk.MStep st : w.mSteps) {
                                             sb.append("&nbsp;&nbsp;&#9632; ")
                                                     .append("Move to ").append(st.mLocation)
-                                                    .append(" and wait ").append(st.mTurns).append(" turn(s).\n");
+                                                    .append(" and wait ").append(st.mTurns)
+                                                    .append(" turn(s).\n");
                                         }
                                     }
                                     if (w.mSubWalks.size() > 0) {
@@ -744,12 +217,13 @@ public class Bebek {
                                                 sb.append(sw.sKey2);
                                             }
                                             sb.append("\n");
-                                            if (sw.eWhat == MSubWalk.WhatEnum.DisplayMessage) {
+                                            if (sw.eWhat == DisplayMessage) {
                                                 sb.append("Message:\n");
                                                 appendDescriptions(sb, sw.oDescription);
                                             }
                                             if (!sw.sKey3.equals("")) {
-                                                sb.append("Only apply at: ").append(sw.sKey3).append("\n");
+                                                sb.append("Only apply at: ")
+                                                        .append(sw.sKey3).append("\n");
                                             }
                                         }
                                     }
@@ -761,7 +235,8 @@ public class Bebek {
                                     // light bulb symbol for each topic
                                     sb.append("----------------").append("\n");
                                     sb.append(Character.toChars(0x1F4A1))
-                                            .append("&nbsp;&nbsp;<b>").append(top.mSummary).append("</b>\n");
+                                            .append("&nbsp;&nbsp;<b>")
+                                            .append(top.mSummary).append("</b>\n");
                                     sb.append("----------------").append("\n");
                                     sb.append("Type: ");
                                     if (top.mIsIntro) {
@@ -792,7 +267,8 @@ public class Bebek {
                                         sb.append("~~~~~\n");
                                         sb.append("Actions:\n");
                                         for (MAction a1 : top.mActions) {
-                                            sb.append("&nbsp;&nbsp;&#9633; ").append(a1.getSummary()).append("\n");
+                                            sb.append("&nbsp;&nbsp;&#9633; ")
+                                                    .append(a1.getSummary()).append("\n");
                                         }
                                     }
                                 }
@@ -801,7 +277,7 @@ public class Bebek {
 
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "charseen": {
@@ -811,7 +287,8 @@ public class Bebek {
                         } else {
                             appendDebugItemPoint(ch, sb, false);
                             sb.append("\n<u>SEEN LOCATIONS</u>").append("\n");
-                            for (Map.Entry<String, Boolean> entry : ch.mSeenLocations.entrySet()) {
+                            for (Map.Entry<String, Boolean> entry :
+                                    ch.mSeenLocations.entrySet()) {
                                 if (entry.getValue()) {
                                     String key = entry.getKey();
                                     MLocation l = adv.mLocations.get(key);
@@ -821,7 +298,8 @@ public class Bebek {
                                 }
                             }
                             sb.append("\n<u>SEEN OBJECTS</u>").append("\n");
-                            for (Map.Entry<String, Boolean> entry : ch.mSeenObjects.entrySet()) {
+                            for (Map.Entry<String, Boolean> entry :
+                                    ch.mSeenObjects.entrySet()) {
                                 if (entry.getValue()) {
                                     String key = entry.getKey();
                                     MObject o = adv.mObjects.get(key);
@@ -831,7 +309,8 @@ public class Bebek {
                                 }
                             }
                             sb.append("\n<u>SEEN CHARACTERS</u>").append("\n");
-                            for (Map.Entry<String, Boolean> entry : ch.mSeenChars.entrySet()) {
+                            for (Map.Entry<String, Boolean> entry :
+                                    ch.mSeenChars.entrySet()) {
                                 if (entry.getValue()) {
                                     String key = entry.getKey();
                                     MCharacter ch2 = adv.mCharacters.get(key);
@@ -842,7 +321,7 @@ public class Bebek {
                             }
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "task": {
@@ -861,13 +340,17 @@ public class Bebek {
                                     }
                                     break;
                                 case Specific:
-                                    // Every Specific task is the child of either a General task, or another Specific task.
-                                    sb.append("Task should ").append(t.mSpecificOverrideType).append(" ").append(t.mGeneralKey).append("\n");
+                                    // Every Specific task is the child of
+                                    // either a General task, or another Specific task.
+                                    sb.append("Task should ")
+                                            .append(t.mSpecificOverrideType).append(" ")
+                                            .append(t.mGeneralKey).append("\n");
                                     break;
                                 case System:
                                     sb.append("Run this task ");
                                     if (!t.getLocationTrigger().equals("")) {
-                                        sb.append(" when player enters location ").append(t.getLocationTrigger()).append(".\n");
+                                        sb.append(" when player enters location ")
+                                                .append(t.getLocationTrigger()).append(".\n");
                                     } else if (t.getRunImmediately()) {
                                         sb.append(" immediately.\n");
                                     } else {
@@ -887,14 +370,19 @@ public class Bebek {
                             if (aa1.size() > 0) {
                                 sb.append("\n<u>ACTIONS</u>\n");
                                 for (MAction a1 : aa1) {
-                                    sb.append("&nbsp;&nbsp;&#9633; <pre>").append(a1.getSummary()).append("</pre>\n");
+                                    sb.append("&nbsp;&nbsp;&#9633; <pre>")
+                                            .append(a1.getSummary()).append("</pre>\n");
                                 }
                             }
                             sb.append("\n<u>ADVANCED</u>\n");
-                            sb.append("Task priority: ").append(t.getPriority()).append("\n");
-                            sb.append("Auto-fill priority: ").append(t.getAutoFillPriority()).append("\n");
-                            sb.append("Prevent this task from being inherited: ").append(t.mPreventOverriding).append("\n");
-                            sb.append("Replace any existing task with same key: ").append(t.mReplaceDuplicateKey).append("\n");
+                            sb.append("Task priority: ")
+                                    .append(t.getPriority()).append("\n");
+                            sb.append("Auto-fill priority: ")
+                                    .append(t.getAutoFillPriority()).append("\n");
+                            sb.append("Prevent this task from being inherited: ")
+                                    .append(t.mPreventOverriding).append("\n");
+                            sb.append("Replace any existing task with same key: ")
+                                    .append(t.mReplaceDuplicateKey).append("\n");
                             sb.append("Continue executing matching lower priority tasks: ")
                                     .append(t.getContinueToExecuteLowerPriority()).append("\n");
                             sb.append("Aggregate output: ")
@@ -904,12 +392,14 @@ public class Bebek {
                             sb.append("Fail override:\n");
                             appendDescriptions(sb, t.getFailOverride());
                             sb.append("~~~~~~~~~~~~~~~~~~~~\n");
-                            sb.append("Task is repeatable: ").append(t.getRepeatable()).append("\n");
-                            sb.append("Task has completed: ").append(t.getCompleted()).append("\n");
+                            sb.append("Task is repeatable: ")
+                                    .append(t.getRepeatable()).append("\n");
+                            sb.append("Task has completed: ")
+                                    .append(t.getCompleted()).append("\n");
                             appendDebugRefs(adv, args[2], sb);
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "eventstart": {
@@ -925,7 +415,7 @@ public class Bebek {
                             }
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "event": {
@@ -934,46 +424,56 @@ public class Bebek {
                             sb.append("Event not found.\n");
                         } else {
                             appendDebugItemPoint(ev, sb, false);
-                            String unit = (ev.mEventType == MEvent.EventTypeEnum.TimeBased) ? "second(s)" : "turn(s)";
+                            String unit = (ev.mEventType == TimeBased) ? "second(s)" : "turn(s)";
                             sb.append("\n<u>EVENT CONTROL</u>\n");
-                            sb.append("This event should start off: ").append(ev.mStatus).append("\n");
-                            if (ev.mStatus == MEvent.StatusEnum.CountingDownToStart) {
-                                sb.append("&nbsp;&nbsp;").append(ev.mStartDelay).append(" ").append(unit).append("\n");
+                            sb.append("This event should start off: ")
+                                    .append(ev.mStatus).append("\n");
+                            if (ev.mStatus == CountingDownToStart) {
+                                sb.append("&nbsp;&nbsp;")
+                                        .append(ev.mStartDelay).append(" ")
+                                        .append(unit).append("\n");
                             }
-                            sb.append("This event will last ").append(ev.mLength).append(" turns\n");
+                            sb.append("This event will last ")
+                                    .append(ev.mLength).append(" turns\n");
                             if (ev.mEventControls.size() > 0) {
                                 sb.append("Task control(s)\n");
                                 for (MEventOrWalkControl ctl : ev.mEventControls) {
                                     sb.append("&nbsp;&nbsp;&#9632; ").append(ctl.eControl)
-                                            .append(" this event on ").append(ctl.eCompleteOrNot.toString().toLowerCase())
-                                            .append(" of task ").append(ctl.sTaskKey).append("\n");
+                                            .append(" this event on ")
+                                            .append(ctl.eCompleteOrNot.toString().toLowerCase())
+                                            .append(" of task ").append(ctl.mTaskKey).append("\n");
                                 }
                             }
-                            sb.append("Repeat event on completion: ").append(ev.getRepeating()).append("\n");
+                            sb.append("Repeat event on completion: ")
+                                    .append(ev.getRepeating()).append("\n");
                             sb.append("Repeat countdown: ").append(ev.RepeatCountdown).append("\n");
                             if (ev.mSubEvents.size() > 0) {
                                 sb.append("\n<u>SUB-EVENTS</u>\n");
                                 for (MSubEvent sev : ev.mSubEvents) {
-                                    String unit2 = (sev.eMeasure == MSubEvent.MeasureEnum.Seconds) ? "second(s)" : "turn(s)";
+                                    String unit2 =
+                                            (sev.mMeasure == Seconds) ? "second(s)" : "turn(s)";
                                     sb.append("----------------").append("\n");
-                                    sb.append("<b>").append(sev.ftTurns).append(" ").append(unit2).append(" ")
-                                            .append(sev.eWhen).append(" ").append(sev.eWhat).append(":</b>\n");
+                                    sb.append("<b>").append(sev.mTurns)
+                                            .append(" ").append(unit2).append(" ")
+                                            .append(sev.mWhen).append(" ")
+                                            .append(sev.mWhat).append(":</b>\n");
                                     sb.append("----------------").append("\n");
-                                    switch (sev.eWhat) {
+                                    switch (sev.mWhat) {
                                         case DisplayMessage:
                                         case SetLook:
-                                            appendDescriptions(sb, sev.oDescription);
+                                            appendDescriptions(sb, sev.mDescription);
                                             sb.append("~~~~~~~~~~\n");
-                                            sb.append("(Only applies when player at location: ").append(sev.sKey).append(")\n");
+                                            sb.append("(Only applies when player at location: ")
+                                                    .append(sev.mKey).append(")\n");
                                             break;
                                         case ExecuteTask:
-                                            appendDebugItemPoint(adv.mTasks.get(sev.sKey), sb, true);
+                                            appendDebugItemPoint(adv.mTasks.get(sev.mKey), sb, true);
                                             break;
                                         case UnsetTask:
-                                            appendDebugItemPoint(adv.mTasks.get(sev.sKey), sb, true);
+                                            appendDebugItemPoint(adv.mTasks.get(sev.mKey), sb, true);
                                             break;
                                         case ExecuteCommand:
-                                            sb.append(sev.sKey).append("\n");
+                                            sb.append(sev.mKey).append("\n");
                                             break;
                                     }
                                 }
@@ -981,7 +481,7 @@ public class Bebek {
                             appendDebugRefs(adv, args[2], sb);
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "var": {
@@ -993,19 +493,21 @@ public class Bebek {
                             sb.append("\nType: ").append(v.getType()).append("\n");
                             sb.append("Length: ").append(v.getLength()).append("\n");
                             sb.append("Current Value(s):\n");
-                            if (v.getType() == MVariable.VariableType.TEXT) {
+                            if (v.getType() == MVariable.VariableType.Text) {
                                 for (int i = 1; i <= v.getLength(); i++) {
-                                    sb.append("&nbsp;&nbsp;[").append(i).append("] ").append(v.getStrAt(i)).append("\n");
+                                    sb.append("&nbsp;&nbsp;[").append(i).append("] ")
+                                            .append(v.getStrAt(i)).append("\n");
                                 }
                             } else {
                                 for (int i = 1; i <= v.getLength(); i++) {
-                                    sb.append("&nbsp;&nbsp;[").append(i).append("] ").append(v.getIntAt(i)).append("\n");
+                                    sb.append("&nbsp;&nbsp;[").append(i).append("] ")
+                                            .append(v.getIntAt(i)).append("\n");
                                 }
                             }
                             appendDebugRefs(adv, args[2], sb);
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "varset": {
@@ -1020,15 +522,16 @@ public class Bebek {
                                     sb2.append(" ");
                                 }
                             }
-                            v.setToExpr(sb2.toString(), MParser.mReferences);
+                            v.setToExpr(sb2.toString(), adv.mReferences);
                             sb.append("Ok. Value of variable '")
                                     .append(v.getName())
                                     .append("' is now ")
-                                    .append((v.getType() == MVariable.VariableType.NUMERIC) ? v.getInt() : v.getStr())
+                                    .append((v.getType() == Numeric) ?
+                                            v.getInt() : v.getStr())
                                     .append("\n");
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "group": {
@@ -1049,7 +552,7 @@ public class Bebek {
                             appendDebugRefs(adv, args[2], sb);
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "prop": {
@@ -1066,7 +569,8 @@ public class Bebek {
                             String rProp = prop.getRestrictProperty();
                             if (!rProp.equals("")) {
                                 sb.append("Restrict by property: ").append(rProp).append("\n");
-                                sb.append("Restrict by value: ").append(prop.getRestrictValue()).append("\n");
+                                sb.append("Restrict by value: ")
+                                        .append(prop.getRestrictValue()).append("\n");
                             }
                             String k = prop.getDependentKey();
                             String v = prop.getDependentValue();
@@ -1076,10 +580,11 @@ public class Bebek {
                                             .append(prop.getDependentKey()).append(" is set to ")
                                             .append(prop.getDependentValue()).append("\n");
                                 } else {
-                                    sb.append("Property will only appear if:\n&nbsp;&nbsp;").append(k).append(" is selected.\n");
+                                    sb.append("Property will only appear if:\n&nbsp;&nbsp;")
+                                            .append(k).append(" is selected.\n");
                                 }
                             }
-                            if (typ == MProperty.PropertyTypeEnum.StateList) {
+                            if (typ == StateList) {
                                 sb.append("State List:\n");
                                 for (String s : prop.mStates) {
                                     sb.append("&nbsp;&nbsp;&#9632; ").append(s).append("\n");
@@ -1087,17 +592,21 @@ public class Bebek {
                             } else if (typ == MProperty.PropertyTypeEnum.ValueList) {
                                 sb.append("Value List:\n");
                                 for (String s : prop.mValueList.keySet()) {
-                                    sb.append("&nbsp;&nbsp;&#9632; ").append(s).append(" => ").append(prop.mValueList.get(s)).append("\n");
+                                    sb.append("&nbsp;&nbsp;&#9632; ").append(s)
+                                            .append(" => ").append(prop.mValueList.get(s))
+                                            .append("\n");
                                 }
                             }
-                            if (typ == MProperty.PropertyTypeEnum.StateList ||
+                            if (typ == StateList ||
                                     typ == MProperty.PropertyTypeEnum.ValueList) {
                                 String ap = prop.getAppendToProperty();
-                                sb.append("Append to: ").append(ap.equals("") ? "&lt;Do not append&gt;" : ap).append("\n");
+                                sb.append("Append to: ")
+                                        .append(ap.equals("") ? "&lt;Do not append&gt;" : ap)
+                                        .append("\n");
                             }
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "alr": {
@@ -1107,13 +616,15 @@ public class Bebek {
                         } else {
                             appendDebugItemPoint(alr, sb, false);
                             sb.append("Original text:\n");
-                            sb.append("<pre>").append(alr.getOldText()).append("</pre>").append("\n");
+                            sb.append("<pre>").append(alr.getOldText())
+                                    .append("</pre>").append("\n");
                             sb.append("Replacement text:\n");
-                            sb.append("<pre>").append(alr.getNewText().toString()).append("</pre>").append("\n");
+                            sb.append("<pre>").append(alr.getNewText().toString())
+                                    .append("</pre>").append("\n");
                             appendDebugRefs(adv, args[2], sb);
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "hint": {
@@ -1124,7 +635,8 @@ public class Bebek {
                             appendDebugItemPoint(hint, sb, false);
                             sb.append("\n<u>DESCRIPTIONS</u>\n");
                             sb.append("Question:\n");
-                            sb.append("<pre>").append(hint.getQuestion()).append("</pre>").append("\n");
+                            sb.append("<pre>").append(hint.getQuestion())
+                                    .append("</pre>").append("\n");
                             sb.append("Subtle hint:\n");
                             appendDescriptions(sb, hint.getSubtleHint());
                             sb.append("~~~~~~~~~~~~~~~~~~~~~\n");
@@ -1139,7 +651,7 @@ public class Bebek {
                             appendDebugRefs(adv, args[2], sb);
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "syn": {
@@ -1157,7 +669,7 @@ public class Bebek {
                             appendDebugRefs(adv, args[2], sb);
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "img": {
@@ -1168,26 +680,35 @@ public class Bebek {
                                 // assume this is offset, length
                                 int len = Integer.valueOf(args[3]);
                                 if (adv.mVersion >= 4 && adv.mVersion < 5) {
-                                    MAdventure.v4Media media = new MAdventure.v4Media(resId, len, true);
+                                    MAdventure.v4Media media =
+                                            new MAdventure.v4Media(resId, len, true);
                                     String fName = "test" + resId + len;
                                     adv.mV4Media.put(fName, media);
                                     sb.append("Attempting to display ").append(len)
-                                            .append(" bytes of TAF starting at offset ").append(resId).append(": \n");
+                                            .append(" bytes of TAF starting at offset ")
+                                            .append(resId).append(": \n");
                                     sb.append("<img src=\"").append(fName).append("\">\n");
                                 }
                             } else {
-                                if (adv.mVersion >= 4 && adv.mVersion < 5 && adv.mV4Media.size() > 0) {
-                                    for (Map.Entry<String, MAdventure.v4Media> file : adv.mV4Media.entrySet()) {
+                                if (adv.mVersion >= 4 && adv.mVersion < 5 &&
+                                        adv.mV4Media.size() > 0) {
+                                    for (Map.Entry<String, MAdventure.v4Media> file :
+                                            adv.mV4Media.entrySet()) {
                                         if (file.getValue().mOffset == resId) {
-                                            sb.append("Displaying v4 image at offset ").append(resId).append(": \n");
-                                            sb.append("<img src=\"").append(file.getKey()).append("\">\n");
+                                            sb.append("Displaying v4 image at offset ")
+                                                    .append(resId).append(": \n");
+                                            sb.append("<img src=\"")
+                                                    .append(file.getKey()).append("\">\n");
                                         }
                                     }
                                 } else if (adv.mBlorbMappings.size() > 0) {
-                                    for (Map.Entry<String, Integer> file : adv.mBlorbMappings.entrySet()) {
+                                    for (Map.Entry<String, Integer> file :
+                                            adv.mBlorbMappings.entrySet()) {
                                         if (file.getValue() == resId) {
-                                            sb.append("Displaying v5 image ").append(resId).append(": \n");
-                                            sb.append("<img src=\"").append(file.getKey()).append("\">\n");
+                                            sb.append("Displaying v5 image ")
+                                                    .append(resId).append(": \n");
+                                            sb.append("<img src=\"")
+                                                    .append(file.getKey()).append("\">\n");
                                         }
                                     }
                                 } else {
@@ -1198,26 +719,31 @@ public class Bebek {
                             sb.append("Couldn't display image.\n");
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "dump": {
                         // dumps the current game's source code into the given filename
-                        String outFile = Environment.getExternalStorageDirectory().getPath() + "/Fabularium/" + args[2];
+                        String outFile = Environment.getExternalStorageDirectory().getPath() +
+                                "/Fabularium/" + args[2];
                         File f = new File(outFile);
                         String sInPath = adv.getFullPath();
                         if (sInPath != null && !f.exists()) {
                             try {
                                 MFileIO.dumpRawTAF(sInPath, outFile);
-                                sb.append("Dumped source code of current game to '").append(outFile).append("'\n");
+                                sb.append("Dumped source code of current game to '")
+                                        .append(outFile).append("'\n");
                             } catch (Exception e) {
-                                sb.append("Couldn't dump file: ").append(e.getMessage()).append("\n");
+                                sb.append("Couldn't dump file: ")
+                                        .append(e.getMessage()).append("\n");
                             }
                         } else {
-                            sb.append("Can't dump source. Does the specified output file already exist (if so you'll need to delete it manually)?\n");
+                            sb.append("Can't dump source. Does the specified output " +
+                                    "file already exist (if so you'll need to " +
+                                    "delete it manually)?\n");
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "taskf":
@@ -1232,17 +758,20 @@ public class Bebek {
                         int opt = args[1].equals("taskf") ? 0 : args[1].equals("taskfa") ? 1 : 2;
                         for (MTask t : adv.mTasks.values()) {
                             if (opt == 0 && t.containsText(toFind)) {
-                                sb.append("[").append(t.getKey()).append("] ").append(t.getCommonName()).append("\n");
+                                sb.append("[").append(t.getKey()).append("] ")
+                                        .append(t.getCommonName()).append("\n");
                                 found = true;
                             } else {
                                 boolean f1 = false;
                                 java.util.regex.Pattern regex = java.util.regex.Pattern
-                                        .compile(java.util.regex.Pattern.quote(toFind), java.util.regex.Pattern.CASE_INSENSITIVE);
+                                        .compile(java.util.regex.Pattern.quote(toFind),
+                                                java.util.regex.Pattern.CASE_INSENSITIVE);
                                 if (opt == 0 || opt == 1) {
                                     for (MAction act : t.mActions) {
                                         // case insensitive contains
                                         if (regex.matcher(act.getSummary()).find()) {
-                                            sb.append("[").append(t.getKey()).append("] ").append(t.getCommonName()).append("\n");
+                                            sb.append("[").append(t.getKey()).append("] ")
+                                                    .append(t.getCommonName()).append("\n");
                                             f1 = true;
                                             found = true;
                                             break;
@@ -1253,7 +782,8 @@ public class Bebek {
                                     if (opt == 0 || opt == 2) {
                                         for (MRestriction r : t.mRestrictions) {
                                             if (regex.matcher(r.getSummary()).find()) {
-                                                sb.append("[").append(t.getKey()).append("] ").append(t.getCommonName()).append("\n");
+                                                sb.append("[").append(t.getKey()).append("] ")
+                                                        .append(t.getCommonName()).append("\n");
                                                 found = true;
                                                 break;
                                             }
@@ -1266,72 +796,72 @@ public class Bebek {
                             sb.append("No tasks found.\n");
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "test": {
                         if (ALLOW_BEBEK_DEBUG_TESTING) {
                             // run a test file
-                            inDebugPlaybackMode = true;
-                            sbTestOut = new StringBuilder();
+                            StringBuilder dbgOut = new StringBuilder();
+                            adv.mView.startDebugPlaybackMode(dbgOut);
                             try {
-                                MAdventure[] adv1 = new MAdventure[1];
-                                adv1[0] = mAdv;
-                                File testFile = new File(mLibAdriftPath + "/test", args[2]);
-                                outImmediate("<b>*** Begin playback of '" + testFile.getAbsolutePath() + "' ***</b><br>");
-                                BufferedReader bufferedReader = new BufferedReader(new FileReader(testFile));
-                                GLKEvent e = new GLKEvent();
+                                File testFile = new File(adv.getLibAdriftPath() +
+                                        "/test", args[2]);
+                                adv.mView.outImmediate("<b>*** Begin playback of '" +
+                                        testFile.getAbsolutePath() + "' ***</b><br>");
+                                BufferedReader bufferedReader =
+                                        new BufferedReader(new FileReader(testFile));
                                 String line;
                                 StringBuilder expected = new StringBuilder();
                                 boolean input = false;
-                                while ((line = bufferedReader.readLine()) != null && mGLKModel != null) {
+                                while ((line = bufferedReader.readLine()) != null &&
+                                        !adv.mView.isStopping()) {
                                     if (line.startsWith(">")) {
-                                        if (expected.length() > 0 && sbTestOut.length() > 0) {
+                                        if (expected.length() > 0 && dbgOut.length() > 0) {
                                             // check sbTestOut matches expected (we get rid of all
                                             // whitespace before doing the comparison as this can cause
                                             // issues for trivial differences we don't care about)
-                                            String ee = stripCarats(expected.toString()).replaceAll("\\s", "");
-                                            String ff = stripCarats(sbTestOut.toString()).replaceAll("\\s", "");
+                                            String ee = stripCarats(expected.toString())
+                                                    .replaceAll("\\s", "");
+                                            String ff = stripCarats(dbgOut.toString())
+                                                    .replaceAll("\\s", "");
                                             if (!ee.equals(ff)) {
-                                                outImmediate("<font color=red>Failed.</font><br><i>Expected:</i><br>" +
-                                                        expected + "<br><i>Got:</i><br>" + sbTestOut.toString());
+                                                adv.mView.outImmediate("<font color=red>Failed.</font><br><i>Expected:</i><br>" +
+                                                        expected + "<br><i>Got:</i><br>" + dbgOut.toString());
                                             } else {
-                                                outImmediate("<font color=green>Passed.</font><br>");
+                                                adv.mView.outImmediate("<font color=green>Passed.</font><br>");
                                             }
-                                        } else if (sbTestOut.length() > 0) {
+                                        } else if (dbgOut.length() > 0) {
                                             // if the debug file doesn't include expected text, then
                                             // just output what the game has generated.
-                                            outImmediate(sbTestOut.toString());
+                                            adv.mView.outImmediate(dbgOut.toString());
                                         }
-                                        sbTestOut.setLength(0);
+                                        dbgOut.setLength(0);
                                         expected.setLength(0);
                                         line = line.substring(1).trim();
                                         String[] lines = line.split("[,.]");
                                         for (String l : lines) {
-                                            outImmediate("&gt;&nbsp;<font color=blue>" + l + "<br></font>");
-                                            submitCommand(adv1, l);
+                                            adv.mView.outImmediate("&gt;&nbsp;<font color=blue>" + l + "<br></font>");
+                                            adv.processCommand(l);
                                         }
                                         input = true;
-                                    } else if (input && line.trim().length() > 0 && !line.startsWith("#") && !line.startsWith("\n")) {
+                                    } else if (input && line.trim().length() > 0 &&
+                                            !line.startsWith("#") && !line.startsWith("\n")) {
                                         if (expected.length() > 0) {
                                             expected.append(" ");
                                         }
                                         expected.append(line);
                                     }
-                                    GLKController.glk_select_poll(mGLKModel, e);
-                                    if (e.type == GLKConstants.evtype_Timer) {
-                                        // process timer event
-                                        MParser.incrementTurnOrTime(mAdv, MEvent.EventTypeEnum.TimeBased);
-                                    }
+                                    adv.mView.tick(adv);
                                 }
                                 bufferedReader.close();
                             } catch (IOException e) {
-                                out("Can't find the test file.\n");
+                                adv.mView.out("Can't find the test file.\n");
                             } catch (InterruptedException e) {
-                                out("Playback interrupted.\n");
+                                adv.mView.out("Playback interrupted.\n");
                             }
-                            inDebugPlaybackMode = false;
-                            outImmediate("<b>*** Playback finished ***</b><br>");
+                            adv.mView.stopDebugPlaybackMode();
+                            adv.mView.outImmediate("<b>*** Playback finished ***</b><br>");
                         }
                         return;
                     }
@@ -1342,14 +872,15 @@ public class Bebek {
                         for (MObject t : adv.mObjects.values()) {
                             if (t.containsText(toFind)) {
                                 found = true;
-                                sb.append("[").append(t.getKey()).append("] ").append(t.getCommonName()).append("\n");
+                                sb.append("[").append(t.getKey()).append("] ")
+                                        .append(t.getCommonName()).append("\n");
                             }
                         }
                         if (!found) {
                             sb.append("No objects found.\n");
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "varf": {
@@ -1359,14 +890,15 @@ public class Bebek {
                         for (MVariable t : adv.mVariables.values()) {
                             if (t.containsText(toFind)) {
                                 found = true;
-                                sb.append("[").append(t.getKey()).append("] ").append(t.getCommonName()).append("\n");
+                                sb.append("[").append(t.getKey()).append("] ")
+                                        .append(t.getCommonName()).append("\n");
                             }
                         }
                         if (!found) {
                             sb.append("No variables found.\n");
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "locf": {
@@ -1376,14 +908,15 @@ public class Bebek {
                         for (MLocation t : adv.mLocations.values()) {
                             if (t.containsText(toFind)) {
                                 found = true;
-                                sb.append("[").append(t.getKey()).append("] ").append(t.getCommonName()).append("\n");
+                                sb.append("[").append(t.getKey()).append("] ")
+                                        .append(t.getCommonName()).append("\n");
                             }
                         }
                         if (!found) {
                             sb.append("No locations found.\n");
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "groupf": {
@@ -1393,14 +926,15 @@ public class Bebek {
                         for (MGroup t : adv.mGroups.values()) {
                             if (t.containsText(toFind)) {
                                 found = true;
-                                sb.append("[").append(t.getKey()).append("] ").append(t.getCommonName()).append("\n");
+                                sb.append("[").append(t.getKey()).append("] ")
+                                        .append(t.getCommonName()).append("\n");
                             }
                         }
                         if (!found) {
                             sb.append("No groups found.\n");
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "alrf": {
@@ -1410,22 +944,24 @@ public class Bebek {
                         for (MALR t : adv.mALRs.values()) {
                             if (t.containsText(toFind)) {
                                 found = true;
-                                sb.append("[").append(t.getKey()).append("] ").append(t.getCommonName()).append("\n");
+                                sb.append("[").append(t.getKey()).append("] ")
+                                        .append(t.getCommonName()).append("\n");
                             }
                         }
                         if (!found) {
                             sb.append("No overrides found.\n");
                         }
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "alrdel": {
                         String toDel = args[2];
                         MALR ret = adv.mALRs.remove(toDel);
-                        sb.append((ret != null ? "Deleted override.\n" : "Override not found.\n"));
+                        sb.append((ret != null ? "Deleted override.\n" :
+                                "Override not found.\n"));
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     }
                     case "taskexe": {
@@ -1434,11 +970,11 @@ public class Bebek {
                         if (t == null) {
                             sb.append("Task not found.\n");
                             sb.append("\n");
-                            out(sb.toString());
+                            adv.mView.out(sb.toString());
                         } else {
                             try {
                                 t.attemptToExecute();
-                                MParser.checkEndOfGame(adv);
+                                adv.checkEndOfGame();
                                 if (adv.mGameState != MAction.EndGameEnum.Running) {
                                     return;
                                 }
@@ -1447,7 +983,7 @@ public class Bebek {
                             } catch (InterruptedException e) {
                                 sb.append("Task execution interrupted!");
                                 sb.append("\n");
-                                out(sb.toString());
+                                adv.mView.out(sb.toString());
                             }
                         }
                         return;
@@ -1462,7 +998,7 @@ public class Bebek {
                                 sb.append("Added name '").append(args[3]).append("' to object.\n");
                             }
                             sb.append("\n");
-                            out(sb.toString());
+                            adv.mView.out(sb.toString());
                             return;
                         }
                     }
@@ -1476,14 +1012,17 @@ public class Bebek {
                             } else {
                                 int restIndex = Integer.valueOf(args[3]);
                                 if (restIndex > task.mRestrictions.size()) {
-                                    sb.append("Index not valid - task has ").append(task.mRestrictions.size()).append("\n");
+                                    sb.append("Index not valid - task has ")
+                                            .append(task.mRestrictions.size()).append("\n");
                                 } else {
                                     task.mRestrictions.remove(restIndex);
-                                    sb.append("Removed restriction ").append(restIndex).append(" of task ").append(task.getKey()).append("\n");
+                                    sb.append("Removed restriction ")
+                                            .append(restIndex).append(" of task ")
+                                            .append(task.getKey()).append("\n");
                                 }
                             }
                             sb.append("\n");
-                            out(sb.toString());
+                            adv.mView.out(sb.toString());
                             return;
                         }
                     }
@@ -1495,12 +1034,13 @@ public class Bebek {
                             if (task == null) {
                                 sb.append("Task not found\n");
                             } else {
-                                task.mRestrictions.mBracketSequence = args[3];
+                                task.mRestrictions.mBrackSeq = args[3];
                                 sb.append("Changed bracket sequence of task ").append(" of task ")
-                                        .append(task.getKey()).append(" to ").append(task.mRestrictions.mBracketSequence).append("\n");
+                                        .append(task.getKey()).append(" to ")
+                                        .append(task.mRestrictions.mBrackSeq).append("\n");
                             }
                             sb.append("\n");
-                            out(sb.toString());
+                            adv.mView.out(sb.toString());
                             return;
                         }
                     }
@@ -1513,17 +1053,20 @@ public class Bebek {
                                 MCharacter ch = adv.mCharacters.get(args[2]);
                                 if (ch != null) {
                                     // teleport character
-                                    MCharacter.MCharacterLocation dest = new MCharacter.MCharacterLocation(adv, ch);
+                                    MCharacter.MCharacterLocation dest =
+                                            new MCharacter.MCharacterLocation(adv, ch);
                                     dest.setExistsWhere(ch.getLocation().getExistsWhere());
                                     dest.setPosition(ch.getLocation().getPosition());
-                                    dest.setExistsWhere(MCharacter.MCharacterLocation.ExistsWhere.AtLocation);
+                                    dest.setExistsWhere(AtLocation);
                                     dest.setKey(loc2.getKey());
                                     ch.moveTo(dest);
                                     if (ch == adv.getPlayer()) {
                                         sb.append("You feel groggy. Better eat some peanuts.\n");
                                     } else {
-                                        if (loc2.getKey().equals(adv.getPlayer().getLocation().getLocationKey())) {
-                                            sb.append(ch.getProperName()).append(" materialises in front of you!\n");
+                                        if (loc2.getKey().equals(adv.getPlayer()
+                                                .getLocation().getLocationKey())) {
+                                            sb.append(ch.getProperName())
+                                                    .append(" materialises in front of you!\n");
                                         } else {
                                             sb.append("You sense a disturbance in the Force.\n");
                                         }
@@ -1532,17 +1075,20 @@ public class Bebek {
                                     MObject ob = adv.mObjects.get(args[2]);
                                     if (ob != null) {
                                         // teleport object
-                                        MObject.MObjectLocation dest = new MObject.MObjectLocation(adv);
+                                        MObject.MObjectLocation dest =
+                                                new MObject.MObjectLocation(adv);
                                         if (ob.isStatic()) {
-                                            dest.mStaticExistWhere = MObject.MObjectLocation.StaticExistsWhereEnum.SingleLocation;
+                                            dest.mStaticExistWhere = SingleLocation;
                                             dest.setKey(loc2.getKey());
                                         } else {
-                                            dest.mDynamicExistWhere = MObject.MObjectLocation.DynamicExistsWhereEnum.InLocation;
+                                            dest.mDynamicExistWhere = InLocation;
                                             dest.setKey(loc2.getKey());
                                         }
                                         ob.moveTo(dest);
-                                        if (loc2.getKey().equals(adv.getPlayer().getLocation().getLocationKey())) {
-                                            sb.append(ob.getCommonName()).append(" materialises in front of you!\n");
+                                        if (loc2.getKey().equals(adv.getPlayer()
+                                                .getLocation().getLocationKey())) {
+                                            sb.append(ob.getCommonName())
+                                                    .append(" materialises in front of you!\n");
                                         } else {
                                             sb.append("You sense a disturbance in the Force.\n");
                                         }
@@ -1552,7 +1098,7 @@ public class Bebek {
                                 }
                             }
                             sb.append("\n");
-                            out(sb.toString());
+                            adv.mView.out(sb.toString());
                             return;
                         }
                     }
@@ -1592,12 +1138,12 @@ public class Bebek {
                                 .append("to see detailed info about that specific item. E.g. <pre>@bebek char Character1</pre> ")
                                 .append(" would print detailed info about the current status of Character1, assuming that key exists.\n");
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     case "password":
                         sb.append("Password is '").append(adv.mPassword).append("'");
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     case "summary":
                         sb.append("<pre>").append(adv.getTitle()).append("</pre> by <pre>").append(adv.getAuthor()).append("</pre>\n");
@@ -1620,182 +1166,230 @@ public class Bebek {
                                 adv.mV4Media.size() : adv.mBlorbMappings.size();
                         sb.append("Additional files: ").append(nFiles).append("\n");
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     case "taskorder":
                         adv.mTaskExecutionMode = (adv.mTaskExecutionMode == MAdventure.TaskExecutionEnum.HighestPriorityTask) ?
                                 MAdventure.TaskExecutionEnum.HighestPriorityPassingTask :
                                 MAdventure.TaskExecutionEnum.HighestPriorityTask;
                         sb.append("Changed task execution order to ").append(adv.mTaskExecutionMode).append(".\n\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     case "locs":
                         appendItemList(sb, new ArrayList<MItem>(adv.mLocations.values()));
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     case "objs":
                         appendItemList(sb, new ArrayList<MItem>(adv.mObjects.values()));
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     case "chars":
                         appendItemList(sb, new ArrayList<MItem>(adv.mCharacters.values()));
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     case "tasks":
                         appendItemList(sb, new ArrayList<MItem>(adv.mTasks.values()));
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     case "tasks2":
                         sb.append("(completable tasks - will be searched for command matches)\n");
                         appendItemList(sb, new ArrayList<MItem>(adv.mCompletableTasks.values()));
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     case "vars":
                         appendItemList(sb, new ArrayList<MItem>(adv.mVariables.values()));
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     case "events":
                         appendItemList(sb, new ArrayList<MItem>(adv.mEvents.values()));
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     case "groups":
                         appendItemList(sb, new ArrayList<MItem>(adv.mGroups.values()));
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     case "props":
                         appendItemList(sb, new ArrayList<MItem>(adv.mAllProperties.values()));
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     case "alrs":
                         appendItemList(sb, new ArrayList<MItem>(adv.mALRs.values()));
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     case "hints":
                         appendItemList(sb, new ArrayList<MItem>(adv.mHints.values()));
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     case "syns":
                         appendItemList(sb, new ArrayList<MItem>(adv.mSynonyms.values()));
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     case "udfs":
                         appendItemList(sb, new ArrayList<MItem>(adv.mUDFs.values()));
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                     case "files":
                         if (adv.mVersion >= 4 && adv.mVersion < 5 && adv.mV4Media.size() > 0) {
                             for (Map.Entry<String, MAdventure.v4Media> map : adv.mV4Media.entrySet()) {
                                 sb.append(map.getKey()).append(" => off: ")
-                                        .append(map.getValue().mOffset).append(", len: ").append(map.getValue().mLength)
+                                        .append(map.getValue().mOffset).append(", len: ")
+                                        .append(map.getValue().mLength)
                                         .append("\n");
                             }
                         } else if (adv.mBlorbMappings.size() > 0) {
                             for (Map.Entry<String, Integer> map : adv.mBlorbMappings.entrySet()) {
-                                sb.append(map.getKey()).append(" => ").append(map.getValue()).append("\n");
+                                sb.append(map.getKey()).append(" => ")
+                                        .append(map.getValue()).append("\n");
                             }
                         } else {
                             sb.append("No files found.\n");
                         }
 
                         sb.append("\n");
-                        out(sb.toString());
+                        adv.mView.out(sb.toString());
                         return;
                 }
             }
         }
 
-        out("Sorry, I don't recognise that debug command. Type <pre>@bebek help</pre> for valid options.\n\n");
+        adv.mView.out("Sorry, I don't recognise that debug command. " +
+                "Type <pre>@bebek help</pre> for valid options.\n\n");
+    }
+
+    private static void appendDebugItemPoint(@NonNull MItem itm,
+                                             @NonNull StringBuilder sb, boolean indent) {
+        if (indent) {
+            sb.append("&nbsp;&nbsp;");
+        }
+        sb.append(itm.getSymbol())
+                .append(" <b>[")
+                .append(itm.getKey())
+                .append("]</b>&nbsp;&nbsp;<pre>")
+                .append(itm.getCommonName())
+                .append("</pre>")
+                .append("\n");
+    }
+
+    private static void appendProperties(StringBuilder sb, MPropertyHashMap props) {
+        if (props.size() > 0) {
+            sb.append("\n<u>PROPERTIES</u>\n");
+            for (MProperty prop : props.values()) {
+                // ruler symbol for each property
+                if (prop.getAppendToProperty().equals("")) {
+                    sb.append("----------------").append("\n");
+                    sb.append(Character.toChars(0x1F4CF))
+                            .append("&nbsp;&nbsp;<b>")
+                            .append(prop.getCommonName()).append("</b>\n");
+                    sb.append("<i>").append(prop.getType()).append("</i>\n");
+                    sb.append("----------------").append("\n");
+                    switch (prop.getType()) {
+                        case StateList:
+                        case ObjectKey:
+                        case CharacterKey:
+                        case LocationKey:
+                        case LocationGroupKey:
+                        case Text:
+                            appendDescriptions(sb, prop.getStringData());
+                            break;
+
+                        case Integer:
+                        case ValueList:
+                            sb.append(String.valueOf(prop.getIntData()));
+                            break;
+
+                        case SelectionOnly:
+                            sb.append("true");
+                            break;
+                    }
+                    sb.append("\n");
+                }
+            }
+        }
+    }
+
+    private static void appendDescriptions(StringBuilder sb, MDescription d) {
+        int i = 0;
+        String lbl;
+        for (MSingleDescription s : d) {
+            if (!s.mDescription.equals("")) {
+                if (i == 0) {
+                    sb.append("~~~~ Default Description ~~~~\n");
+                    sb.append("(Only display once: ").append(s.mDisplayOnce).append(")\n");
+                } else {
+                    lbl = s.mTabLabel;
+                    sb.append("~~~~ ").append(lbl.equals("") ?
+                            "Alternate Description " + i : lbl).append(" ~~~~\n");
+                    sb.append("(Only display once: ").append(s.mDisplayOnce).append(")\n");
+                    sb.append("(If all restrictions met ").append(s.mDisplayWhen).append(")\n");
+                }
+                sb.append("<pre>").append(s.mDescription).append("</pre>\n");
+                if (s.mCompatHideObjects) {
+                    sb.append("[HIDE OBJECTS]\n");
+                }
+            }
+            appendRestrictions(sb, s.mRestrictions, 2);
+            i++;
+        }
+    }
+
+    private static void appendRestrictions(StringBuilder sb, MRestrictionArrayList rr, int indent) {
+        if (rr.size() == 0) {
+            return;
+        }
+        StringBuilder t = new StringBuilder();
+        for (int i = 0; i < indent; i++) {
+            t.append("&nbsp;");
+        }
+        sb.append(t).append(rr.mBrackSeq).append("\n");
+        for (MRestriction r : rr) {
+            // stop sign
+            sb.append(t).append(Character.toChars(0x1F6D1))
+                    .append("&nbsp;<pre>").append(r.getSummary()).append("</pre>\n");
+            appendDescriptions(sb, r.mMessage);
+            sb.append("\n");
+        }
+    }
+
+    private static void appendDebugRefs(@NonNull MAdventure adv,
+                                        @NonNull String refKey, @NonNull StringBuilder sb) {
+        // print the tasks and events that reference 'refKey', if any
+        boolean found = false;
+        sb.append("\n<u>REFERENCES</u>").append("\n");
+        for (MTask t : adv.mTasks.values()) {
+            int i = t.getKeyRefCount(refKey);
+            if (i > 0) {
+                found = true;
+                appendDebugItemPoint(t, sb, true);
+            }
+        }
+        for (MEvent e : adv.mEvents.values()) {
+            int i = e.getKeyRefCount(refKey);
+            if (i > 0) {
+                found = true;
+                appendDebugItemPoint(e, sb, true);
+            }
+        }
+        if (!found) {
+            sb.append("&nbsp;&nbsp;(no tasks or events)");
+        }
     }
 
     private static void appendItemList(StringBuilder sb, List<MItem> items) {
         for (MItem item : items) {
             appendDebugItemPoint(item, sb, true);
         }
-    }
-
-    @NonNull
-    private static String getSymbol(@NonNull MItem itm) {
-        // Returns a Unicode symbol representing the given item
-        // We try to maintain consistency with the symbols
-        // used by the Adrift 5 Generator, as much as possible
-        // TODO: make this returned by each item rather than static here
-        if (itm instanceof MALR) {
-            // abc blocks
-            return new String(Character.toChars(0x1F524));
-        }
-        if (itm instanceof MCharacter) {
-            // male, female or indeterminate profile
-            switch (((MCharacter) itm).getGender()) {
-                case Male:
-                    return new String(Character.toChars(0x1F468));
-                case Female:
-                    return new String(Character.toChars(0x1F469));
-                default:
-                    return new String(Character.toChars(0x1F464));
-            }
-        }
-        if (itm instanceof MEvent) {
-            // hour glass
-            return "\u231b";
-        }
-        if (itm instanceof MGroup) {
-            // white circle with two black dots
-            return "\u2687";
-        }
-        if (itm instanceof MHint) {
-            // telephone
-            return "\u260e\ufe0f";
-        }
-        if (itm instanceof MLocation) {
-            // house
-            return new String(Character.toChars(0x1F3E0));
-        }
-        if (itm instanceof MObject) {
-            // palm tree for static, money bag for dynamic
-            return ((MObject) itm).isStatic() ?
-                    new String(Character.toChars(0x1F334)) :
-                    new String(Character.toChars(0x1F4B0));
-        }
-        if (itm instanceof MProperty) {
-            // clipboard
-            return new String(Character.toChars(0x1F4CB));
-        }
-        if (itm instanceof MSynonym) {
-            // twisted rightwards arrows
-            return new String(Character.toChars(0x1F500));
-        }
-        if (itm instanceof MTask) {
-            // ballot box with check (emoji version)
-            return "\u2611\ufe0f";
-        }
-        if (itm instanceof MUserFunction) {
-            // summation symbol
-            return "\u8721";
-        }
-        if (itm instanceof MVariable) {
-            // chart with upwards trend
-            return new String(Character.toChars(0x1F4C8));
-        }
-        // unknown - question mark
-        return "\u2753";
-    }
-
-    private enum OUTPUT_TYPE {
-        RAW,
-        HTML,
-        PLAIN_TEXT
     }
 }

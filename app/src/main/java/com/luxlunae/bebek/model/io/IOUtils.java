@@ -23,7 +23,6 @@ package com.luxlunae.bebek.model.io;
 
 import android.support.annotation.NonNull;
 
-import com.luxlunae.bebek.MGlobals;
 import com.luxlunae.bebek.VB;
 import com.luxlunae.glk.GLKLogger;
 
@@ -88,25 +87,26 @@ public class IOUtils {
             155, 227, 47, 140, 142, 45, 84, 188, 20
     };
 
-    private static void deobfuscate(@NonNull byte[] bytData, int iOffset, int iLength) {
-        for (int i = 0, sz = bytData.length; i < sz; i++) {
-            if (i >= iOffset && (iLength == 0 || i < iLength + iOffset)) {
-                bytData[i] = (byte) ((int) bytData[i] ^ OBFUSCATION_KEY[(i - iOffset) % 1024]);
+    private static void deobfuscate(@NonNull byte[] data, int off, int len) {
+        for (int i = 0, sz = data.length; i < sz; i++) {
+            if (i >= off && (len == 0 || i < len + off)) {
+                data[i] = (byte) ((int) data[i] ^ OBFUSCATION_KEY[(i - off) % 1024]);
             }
         }
     }
 
     @NonNull
-    public static byte[] decode(@NonNull byte[] bData, long lOffset, int bDataLen) {
+    public static byte[] decode(@NonNull byte[] data, long off, int len) {
         VB m = new VB();
         m.rnd(-1);
         m.randomize(1976);
-        for (long n = 1; n < lOffset; n++) {
+        for (long n = 1; n < off; n++) {
             m.rnd();
         }
-        byte[] result = new byte[bDataLen];
-        for (int i = 1; i <= bDataLen; i++) {
-            result[i - 1] = (byte) (((int) bData[i - 1] ^ ((int) Math.round((double) (m.rnd() * 255) - 0.5))) % 256);
+        byte[] result = new byte[len];
+        for (int i = 1; i <= len; i++) {
+            result[i - 1] = (byte) (((int) data[i - 1] ^
+                    ((int) Math.round((double) (m.rnd() * 255) - 0.5))) % 256);
         }
         return result;
     }
@@ -134,7 +134,6 @@ public class IOUtils {
             decompresser.end();
             return true;
         } catch (Exception ex) {
-            MGlobals.errMsg("Error decompressing byte array", ex);
             return false;
         }
     }
@@ -142,8 +141,6 @@ public class IOUtils {
     public static boolean compress(@NonNull byte[] in,
                                    @NonNull ByteArrayOutputStream output) {
         Deflater compresser = new Deflater();
-       // compresser.setStrategy(Deflater.BEST_COMPRESSION);
-
         byte[] out = new byte[Z_CHUNK];
         compresser.setInput(in);
         compresser.finish();
@@ -155,34 +152,34 @@ public class IOUtils {
         return true;
     }
 
-    static boolean decompressAndDeobfuscate(@NonNull byte[] bZLib,
-                                            @NonNull ByteArrayOutputStream outputStream,
-                                            boolean bObfuscate, int iOffset, int iLength) {
-        if (bObfuscate) {
-            deobfuscate(bZLib, iOffset, iLength);
+    static boolean decompressAndDeobfuscate(@NonNull byte[] data,
+                                            @NonNull ByteArrayOutputStream output,
+                                            boolean deobfuscate, int off, int len) {
+        if (deobfuscate) {
+            deobfuscate(data, off, len);
         }
-        if (iLength == 0) {
-            iLength = bZLib.length - iOffset;
+        if (len == 0) {
+            len = data.length - off;
         }
-        ByteBuffer memoryStream = ByteBuffer.allocateDirect(iLength);
-        memoryStream.put(bZLib, iOffset, iLength);
-        if (!decompress(memoryStream, outputStream)) {
-            GLKLogger.error("Could not uncompress data.");
+        ByteBuffer dataStream = ByteBuffer.allocateDirect(len);
+        dataStream.put(data, off, len);
+        if (!decompress(dataStream, output)) {
+            GLKLogger.error("Could not decompress data.");
             return false;
         }
         return true;
     }
 
-    static boolean readFileIntoByteArray(@NonNull RandomAccessFile fileStream,
-                                         @NonNull ByteArrayOutputStream memoryStream,
-                                         boolean bCompressed, int iLength,
-                                         boolean bObfuscate) throws IOException {
-        byte[] bytes = new byte[iLength];
-        fileStream.read(bytes);
-        if (bCompressed) {
-            return decompressAndDeobfuscate(bytes, memoryStream, bObfuscate, 0, 0);
+    static boolean readFileIntoByteArray(@NonNull RandomAccessFile input,
+                                         @NonNull ByteArrayOutputStream output,
+                                         boolean decompress, int len,
+                                         boolean deobfuscate) throws IOException {
+        byte[] bytes = new byte[len];
+        input.read(bytes);
+        if (decompress) {
+            return decompressAndDeobfuscate(bytes, output, deobfuscate, 0, 0);
         }
-        memoryStream.write(bytes);
+        output.write(bytes);
         return true;
     }
 }

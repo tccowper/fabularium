@@ -29,8 +29,7 @@ import com.google.code.regexp.Pattern;
 import com.luxlunae.bebek.model.MAdventure;
 import com.luxlunae.bebek.model.MVariable;
 import com.luxlunae.bebek.model.collection.MReferenceList;
-import com.luxlunae.bebek.view.MView;
-import com.luxlunae.glk.GLKLogger;
+import com.luxlunae.bebek.model.collection.MStringArrayList;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,7 +39,6 @@ import static com.luxlunae.bebek.MGlobals.MPerspectiveEnum.FirstPerson;
 import static com.luxlunae.bebek.MGlobals.MPerspectiveEnum.None;
 import static com.luxlunae.bebek.MGlobals.MPerspectiveEnum.SecondPerson;
 import static com.luxlunae.bebek.MGlobals.MPerspectiveEnum.ThirdPerson;
-import static com.luxlunae.bebek.VB.cbool;
 import static com.luxlunae.bebek.model.MAdventure.DirectionsEnum.Down;
 import static com.luxlunae.bebek.model.MAdventure.DirectionsEnum.East;
 import static com.luxlunae.bebek.model.MAdventure.DirectionsEnum.In;
@@ -53,7 +51,6 @@ import static com.luxlunae.bebek.model.MAdventure.DirectionsEnum.SouthEast;
 import static com.luxlunae.bebek.model.MAdventure.DirectionsEnum.SouthWest;
 import static com.luxlunae.bebek.model.MAdventure.DirectionsEnum.Up;
 import static com.luxlunae.bebek.model.MAdventure.DirectionsEnum.West;
-import static com.luxlunae.bebek.view.MView.debugPrint;
 
 public class MGlobals {
 
@@ -145,49 +142,6 @@ public class MGlobals {
     private static boolean bFindExactWord = false;
     @Nullable
     public static String sDirectionsRE;
-
-    public static int safeInt(@Nullable Object expr) {
-        if (expr == null) {
-            return 0;
-        }
-        String s = expr.toString().trim();
-        if (s.equals("")) {
-            return 0;
-        }
-        try {
-            return Integer.parseInt(s);
-        } catch (NumberFormatException e) {
-            try {
-                return (int) Double.parseDouble(s);
-            } catch (NumberFormatException ex) {
-                errMsg("safeInt error with expr <" + expr.toString() + ">", ex);
-                return 0;
-            }
-        }
-    }
-
-    public static boolean safeBool(@Nullable Object expr) {
-        if (expr == null) {
-            return false;
-        }
-        String s = expr.toString().trim();
-        if (s.equals("")) {
-            return false;
-        }
-        try {
-            switch (s.toUpperCase()) {
-                case "TRUE":
-                    return true;
-                case "FALSE":
-                    return false;
-                default:
-                    return cbool(s);
-            }
-        } catch (Exception ex) {
-            errMsg("safeBool error with expr <" + expr.toString() + ">", ex);
-            return false;
-        }
-    }
 
     public static boolean getBool(@Nullable String sBool) {
         if (sBool == null) {
@@ -630,41 +584,13 @@ public class MGlobals {
             result = result.trim();
 
         } catch (Exception ex) {
-            errMsg("numberToString error parsing \"" + sIn + "\"", ex);
+            adv.mView.errMsg("numberToString error parsing \"" + sIn + "\"", ex);
         }
 
         if (result.equals("")) {
             result = "zero";
         }
         return result;
-    }
-
-    public static void displayError(@NonNull String sText) {
-        debugPrint(ItemEnum.Nothing, "",
-                MView.DebugDetailLevelEnum.Error, "<i><c>*** Game error: " + sText + " ***</c></i>");
-    }
-
-    public static void errMsg(@NonNull String sMessage) {
-        errMsg(sMessage, null);
-    }
-
-    public static void errMsg(@NonNull String sMessage, @Nullable Exception ex) {
-        String sErrorMsg = sMessage;
-        if (ex != null) {
-            sErrorMsg += ": " + ex.getMessage();
-        }
-        Bebek.out("*** ADRIFT Error: " + sErrorMsg + " ***\n");
-        GLKLogger.error("*** ADRIFT Error: " + sErrorMsg + " ***");
-    }
-
-    public static void TODO(@NonNull String sFunction) {
-        if (sFunction.equals("")) {
-            sFunction = "This section";
-        } else {
-            sFunction = "Function \"" + sFunction + "\"";
-        }
-        Bebek.out("TODO - " + sFunction + " still has to be completed.\n");
-        GLKLogger.error("TODO - " + sFunction + " still has to be completed.\n");
     }
 
     /**
@@ -809,7 +735,7 @@ public class MGlobals {
                 return ret;
             }
         } catch (Exception ex) {
-            errMsg("Error in command \"" + cmd + "\"", ex);
+            adv.mView.errMsg("Error in command \"" + cmd + "\"", ex);
             return ret;
         }
     }
@@ -1070,6 +996,31 @@ public class MGlobals {
         }
 
         return noun.endsWith("s") ? noun : (noun + "s");
+    }
+
+    /**
+     * Looks for references (keywords enclosed between two % signs) in
+     * a given string. The references are returned as a list, in
+     * the order they were found in the string (left to right).
+     *
+     * @param text - the string to check
+     * @return a list of the valid references present in the string (if no
+     * references are found, the list will be empty).
+     */
+    @NonNull
+    public static MStringArrayList getRefs(@NonNull String text) {
+        MStringArrayList refs = new MStringArrayList();
+        String[] sections = text.split("%");
+        for (String section : sections) {
+            String textRef = "%" + section + "%";
+            for (String validRef : REFERENCE_NAMES) {
+                if (textRef.equals(validRef)) {
+                    refs.add(validRef);
+                    break;
+                }
+            }
+        }
+        return refs;
     }
 
     public enum ItemEnum {

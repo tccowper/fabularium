@@ -26,7 +26,6 @@ import android.support.annotation.NonNull;
 import com.luxlunae.bebek.model.MAction;
 import com.luxlunae.bebek.model.MAdventure;
 import com.luxlunae.bebek.model.MTask;
-import com.luxlunae.bebek.view.MView;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -40,24 +39,25 @@ import static org.xmlpull.v1.XmlPullParser.START_TAG;
 public class MActionArrayList extends ArrayList<MAction> {
     private static final String XTAG_ACTIONS = "Actions";
 
-    public MActionArrayList() {
+    @NonNull
+    private final MAdventure mAdv;
+
+    public MActionArrayList(@NonNull MAdventure adv) {
         super();
+        mAdv = adv;
     }
 
-    public MActionArrayList(@NonNull MAdventure adv,
-                            @NonNull XmlPullParser xpp,
+    public MActionArrayList(@NonNull MAdventure adv, @NonNull XmlPullParser xpp,
                             double version) throws Exception {
-        this();
+        this(adv);
 
         xpp.require(START_TAG, null, XTAG_ACTIONS);
 
         int depth = xpp.getDepth();
-        int eventType;
-
-        while ((eventType = xpp.nextTag()) != END_DOCUMENT &&
-                xpp.getDepth() > depth) {
-            if (eventType == START_TAG) {
-                final String actionType = xpp.getName();
+        int evType;
+        while ((evType = xpp.nextTag()) != END_DOCUMENT && xpp.getDepth() > depth) {
+            if (evType == START_TAG) {
+                String actionType = xpp.getName();
                 String action = xpp.nextText();
                 add(new MAction(adv, actionType, action, version));
             }
@@ -67,11 +67,11 @@ public class MActionArrayList extends ArrayList<MAction> {
     }
 
     public void executeAll(@NonNull EnumSet<MTask.ExecutionStatus> curStatus) {
-        MView.mDebugIndent++;
+        mAdv.mView.mDebugIndent++;
         for (MAction act : this) {
-            act.execute("", null, false, curStatus);
+            act.executeCopy("", null, false, curStatus);
         }
-        MView.mDebugIndent--;
+        mAdv.mView.mDebugIndent--;
     }
 
     public int getNumberOfKeyRefs(@NonNull String key) {
@@ -95,7 +95,7 @@ public class MActionArrayList extends ArrayList<MAction> {
 
     @NonNull
     public MActionArrayList copy() {
-        MActionArrayList ret = new MActionArrayList();
+        MActionArrayList ret = new MActionArrayList(mAdv);
         for (int i = 0; i < size(); i++) {
             MAction act = get(i).copy();
             ret.add(act);

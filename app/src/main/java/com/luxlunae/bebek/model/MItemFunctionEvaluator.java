@@ -23,7 +23,7 @@ package com.luxlunae.bebek.model;
 
 import android.support.annotation.NonNull;
 
-interface MItemFunctionEvaluator {
+public interface MItemFunctionEvaluator {
     @NonNull
     String evaluate(@NonNull String funcName,
                     @NonNull String args,

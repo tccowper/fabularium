@@ -26,9 +26,8 @@ import android.support.annotation.Nullable;
 
 import com.google.code.regexp.Matcher;
 import com.google.code.regexp.Pattern;
-import com.luxlunae.bebek.Bebek;
 import com.luxlunae.bebek.MGlobals;
-import com.luxlunae.bebek.controller.MParser;
+import com.luxlunae.bebek.controller.MDebugger;
 import com.luxlunae.bebek.model.collection.MCharacterHashMap;
 import com.luxlunae.bebek.model.collection.MLocationHashMap;
 import com.luxlunae.bebek.model.collection.MObjectHashMap;
@@ -59,12 +58,9 @@ import static com.luxlunae.bebek.MGlobals.NOOBJECT;
 import static com.luxlunae.bebek.MGlobals.SELECTED;
 import static com.luxlunae.bebek.MGlobals.THEFLOOR;
 import static com.luxlunae.bebek.MGlobals.THEPLAYER;
-import static com.luxlunae.bebek.MGlobals.TODO;
 import static com.luxlunae.bebek.MGlobals.UNSELECTED;
 import static com.luxlunae.bebek.MGlobals.containsWord;
-import static com.luxlunae.bebek.MGlobals.displayError;
 import static com.luxlunae.bebek.MGlobals.getPatterns;
-import static com.luxlunae.bebek.MGlobals.safeInt;
 import static com.luxlunae.bebek.VB.cbool;
 import static com.luxlunae.bebek.VB.cint;
 import static com.luxlunae.bebek.model.MAdventure.MPronounEnum.None;
@@ -114,8 +110,6 @@ import static com.luxlunae.bebek.model.io.MFileOlder.convertV4FuncsToV5;
 import static com.luxlunae.bebek.model.io.MFileOlder.getObjectKey;
 import static com.luxlunae.bebek.model.io.MFileOlder.loadResource;
 import static com.luxlunae.bebek.view.MView.DebugDetailLevelEnum.Medium;
-import static com.luxlunae.bebek.view.MView.debugPrint;
-import static com.luxlunae.bebek.view.MView.displayText;
 import static java.util.regex.Pattern.quote;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
@@ -554,7 +548,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
             rest.mTaskType = Complete;
             rest.mKey1 = tKey;
             sd.mRestrictions.add(rest);
-            sd.mRestrictions.mBracketSequence = "#";
+            sd.mRestrictions.mBrackSeq = "#";
             sd.mDisplayWhen = StartDescriptionWithThis;
             getDescription().add(sd);
         }
@@ -610,7 +604,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                 rest.mTaskType = Complete;
                 sd.mRestrictions.add(rest);
                 sd.mDisplayWhen = StartDescriptionWithThis;
-                sd.mRestrictions.mBracketSequence = "#";
+                sd.mRestrictions.mBrackSeq = "#";
                 topic.mDescription.add(sd);
             }
             topic.mDescription.get(topic.mDescription.size() - 1).mDescription += reader.readLine();
@@ -669,7 +663,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                 startTaskKey = "Task" + startTask;
                 MEventOrWalkControl wc = new MEventOrWalkControl();
                 wc.eControl = Start;
-                wc.sTaskKey = startTaskKey;
+                wc.mTaskKey = startTaskKey;
                 walk.mWalkControls.add(wc);
             }
 
@@ -753,7 +747,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                     MEventOrWalkControl wc =
                             new MEventOrWalkControl();
                     wc.eControl = Stop;
-                    wc.sTaskKey = endTaskKey;
+                    wc.mTaskKey = endTaskKey;
                     walk.mWalkControls.add(wc);
                 }
 
@@ -763,7 +757,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                     // across Player" AND "character comes
                     // across other character" tasks.
                     // If this is 0, it means the Player.
-                    findChID = safeInt(reader.readLine());              // Char #
+                    findChID = mAdv.safeInt(reader.readLine());              // Char #
                 }
                 if (findTaskID > 0) {
                     // Execute task findTaskID when this
@@ -917,7 +911,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
             rest.mMust = Must;
             rest.mTaskType = Complete;
             sd.mRestrictions.add(rest);
-            sd.mRestrictions.mBracketSequence = "#";
+            sd.mRestrictions.mBrackSeq = "#";
             sd.mDescription = altCharIsHereDescs.get(i + 1);
             sd.mDisplayWhen = StartDescriptionWithThis;
             getProperty(PKEY_CHAR_HERE_DESC).getStringData().add(sd);
@@ -1154,7 +1148,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                 prop = new MProperty(mAdv);
                 prop.setKey(propName);
                 prop.setType(Text);
-                String result = mAdv.evaluateStringExpression(propValue, MParser.mReferences);
+                String result = mAdv.evalStrExpr(propValue, mAdv.mReferences);
                 if (result.equals("") && !propValue.equals("")) {
                     result = propValue;
                 }
@@ -1177,13 +1171,13 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                                     break;
                             }
                         } else {
-                            debugPrint(MGlobals.ItemEnum.Task, getKey(),
+                            mAdv.mView.debugPrint(MGlobals.ItemEnum.Task, getKey(),
                                     MView.DebugDetailLevelEnum.Error,
                                     "Can't select property " + propName + " for character " +
                                             getCommonName() + " as that property doesn't exist in the global character properties.");
                         }
                     } else {
-                        debugPrint(MGlobals.ItemEnum.Task, getKey(),
+                        mAdv.mView.debugPrint(MGlobals.ItemEnum.Task, getKey(),
                                 MView.DebugDetailLevelEnum.Error,
                                 "Can't set property '" + propName + "' of character '" +
                                         getCommonName() + "' to '" + propValue +
@@ -1202,7 +1196,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                             case StateList:
                             case ValueList:
                                 // Could be dropdown or expression
-                                result = mAdv.evaluateStringExpression(propValue, MParser.mReferences);
+                                result = mAdv.evalStrExpr(propValue, mAdv.mReferences);
                                 if (result.equals("") && !propValue.equals("")) {
                                     result = propValue;
                                 }
@@ -1213,7 +1207,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                             case LocationKey:
                                 String itemKey = propValue;
                                 if (itemKey.startsWith("Referenced")) {
-                                    itemKey = MParser.mReferences.getReference(itemKey);
+                                    itemKey = mAdv.mReferences.getMatchingKey(itemKey);
                                 }
                                 prop.setValue(itemKey != null ? itemKey : "");
                                 break;
@@ -1236,7 +1230,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
     void executeConversation(@NonNull ConversationEnum convType,
                              @NonNull String cmdOrSubject,
                              @NonNull EnumSet<MTask.ExecutionStatus> curStatus) {
-        debugPrint(MGlobals.ItemEnum.Character, getKey(), Medium,
+        mAdv.mView.debugPrint(MGlobals.ItemEnum.Character, getKey(), Medium,
                 "Execute Conversation " + convType.toString() + ": " + cmdOrSubject);
 
         // Process any enter or leave conversation first
@@ -1261,9 +1255,8 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                 MTopic farewell = ch.findConversationNode(EnumSet.of(Farewell), "");
                 if (farewell != null) {
                     boolean[] b = new boolean[1];
-                    b[0] = false;
-                    if (MParser.mPassResponses.addResponse(mAdv, b,
-                            farewell.mDescription.toString(), new String[]{}, MParser.mReferences)) {
+                    if (mAdv.mPassResponses.addResponse(mAdv, b,
+                            farewell.mDescription.toString(), new String[]{}, mAdv.mReferences)) {
                         curStatus.add(HasOutput);
                     }
                 }
@@ -1283,9 +1276,8 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
             }
             if (intro != null) {
                 boolean[] b = new boolean[1];
-                b[0] = false;
-                if (MParser.mPassResponses.addResponse(mAdv, b,
-                        intro.mDescription.toString(), new String[]{}, MParser.mReferences)) {
+                if (mAdv.mPassResponses.addResponse(mAdv, b,
+                        intro.mDescription.toString(), new String[]{}, mAdv.mReferences)) {
                     curStatus.add(HasOutput);
                 }
                 mAdv.mConversationNode = intro.mKey;
@@ -1307,8 +1299,8 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
 
         // Find conversation node (try to match on Farewell commands first)
         MTopic topic = null;
-        String sRestrictionTextTemp = MParser.mRestrictionText;
-        MParser.mRestrictionText = "";
+        String sRestrictionTextTemp = mAdv.mRestrictionText;
+        mAdv.mRestrictionText = "";
         if (convType == Command) {
             topic = findConversationNode(EnumSet.of(convType, Farewell), cmdOrSubject);
         }
@@ -1320,9 +1312,8 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
         }
         if (topic != null) {
             boolean[] b = new boolean[1];
-            b[0] = false;
-            if (MParser.mPassResponses.addResponse(mAdv, b, topic.mDescription.toString(),
-                    new String[]{}, MParser.mReferences)) {
+            if (mAdv.mPassResponses.addResponse(mAdv, b, topic.mDescription.toString(),
+                    new String[]{}, mAdv.mReferences)) {
                 curStatus.add(HasOutput);
             }
 
@@ -1341,8 +1332,8 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
             // Hmm, no conversation found.  Need to give a default response back...
             mAdv.mConversationNode = "";
             String msg = "";
-            if (!MParser.mRestrictionText.equals("")) {
-                msg = MParser.mRestrictionText;
+            if (!mAdv.mRestrictionText.equals("")) {
+                msg = mAdv.mRestrictionText;
             } else {
                 switch (convType) {
                     case Ask:
@@ -1366,14 +1357,13 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
             }
 
             boolean[] b = new boolean[1];
-            b[0] = false;
-            if (MParser.mPassResponses.addResponse(mAdv, b, msg,
-                    new String[]{}, MParser.mReferences)) {
+            if (mAdv.mPassResponses.addResponse(mAdv, b, msg,
+                    new String[]{}, mAdv.mReferences)) {
                 curStatus.add(HasOutput);
             }
         }
         // Dunno if we really need to do this, but may as well to be safe:
-        MParser.mRestrictionText = sRestrictionTextTemp;
+        mAdv.mRestrictionText = sRestrictionTextTemp;
     }
 
     void moveCharacter(@NonNull MAction.MoveCharacterToEnum op, @NonNull String toKey) {
@@ -1420,10 +1410,9 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                 MLocation loc = mAdv.mLocations.get(chLocKey);
                 MLocation.MDirection dDetails = (loc != null) ?
                         loc.mDirections.get(d) : null;
-                String sRouteErrorTask = MParser.mRouteErrorText; // because mRouteErrorText gets overwritten by checking route restrictions
-                String sRestrictionTextTemp = MParser.mRestrictionText;
-                MParser.mRestrictionText = "";
-
+                String sRouteErrorTask = mAdv.mRouteErrorText; // because mRouteErrorText gets overwritten by checking route restrictions
+                String sRestrictionTextTemp = mAdv.mRestrictionText;
+                mAdv.mRestrictionText = "";
                 if (dDetails != null && hasRouteInDirection(d, false)) {
                     if (mAdv.mLocations.containsKey(dDetails.mLocationKey)) {
                         dest.setKey(dDetails.mLocationKey);
@@ -1432,18 +1421,18 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                     }
                     dest.setExistsWhere(AtLocation);
                 } else {
-                    if (!MParser.mRestrictionText.equals("")) {
-                        displayText(mAdv, MParser.mRestrictionText);
+                    if (!mAdv.mRestrictionText.equals("")) {
+                        mAdv.mView.displayText(mAdv, mAdv.mRestrictionText);
                     } else {
                         // Need to grab out the restriction text from the movement task
                         if (!sRouteErrorTask.equals("")) {
-                            displayText(mAdv, sRouteErrorTask);
+                            mAdv.mView.displayText(mAdv, sRouteErrorTask);
                         }
                     }
                     dest = null;
                 }
                 // TCC: original code sets this to mRestrictionText, which seems to be a bug:
-                MParser.mRestrictionText = sRestrictionTextTemp;
+                mAdv.mRestrictionText = sRestrictionTextTemp;
                 break;
             case ToLocation:
                 if (toKey.equals("Hidden")) {
@@ -1488,10 +1477,10 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                                     dest.setExistsWhere(Hidden);
                                     break;
                                 case PartOfCharacter:
-                                    TODO("Move Char to same location as object that is part of a character");
+                                    mAdv.mView.TODO("Move Char to same location as object that is part of a character");
                                     break;
                                 case PartOfObject:
-                                    TODO("Move Char to same location as object that is part of an object");
+                                    mAdv.mView.TODO("Move Char to same location as object that is part of an object");
                                     break;
                                 case SingleLocation:
                                     dest.setExistsWhere(AtLocation);
@@ -1552,14 +1541,14 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                 break;
             case ToSwitchWith:
                 MCharacter oldPlayer = mAdv.getPlayer();
-                String sOldPlayerKey = oldPlayer.getKey();
+                String oldPlayerKey = oldPlayer.getKey();
                 String chKey = getKey();
 
-                if (chKey.equals(sOldPlayerKey) || toKey.equals(sOldPlayerKey)) {
+                if (chKey.equals(oldPlayerKey) || toKey.equals(oldPlayerKey)) {
                     // Don't move the characters, but change which one is the player
                     MGlobals.MPerspectiveEnum eCurrentPerspective = oldPlayer.getPerspective();
                     oldPlayer.setCharacterType(NonPlayer);
-                    if (chKey.equals(sOldPlayerKey)) {
+                    if (chKey.equals(oldPlayerKey)) {
                         mAdv.setPlayer(mAdv.mCharacters.get(toKey));
                     } else {
                         mAdv.setPlayer(mAdv.mCharacters.get(chKey));
@@ -1568,13 +1557,13 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                     newPlayer.setCharacterType(Player);
                     newPlayer.setPerspective(eCurrentPerspective);
 
-                    String[] sPronouns = new String[0];
+                    String[] pronouns = new String[0];
                     switch (eCurrentPerspective) {
                         case FirstPerson:
-                            sPronouns = new String[]{"i", "me", "myself"};
+                            pronouns = new String[]{"i", "me", "myself"};
                             break;
                         case SecondPerson:
-                            sPronouns = new String[]{"i", "me", "myself", "you", "yourself"}; // include 1st in 2nd
+                            pronouns = new String[]{"i", "me", "myself", "you", "yourself"}; // include 1st in 2nd
                             break;
                         case ThirdPerson:
                             break;
@@ -1582,14 +1571,13 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
 
                     // If the old Player character has any descriptors that match any
                     // pronouns for the player perspective, move them to the new Player
-                    // TODO - Change this to configurable pronouns
-                    for (int iDescriptor = oldPlayer.mDescriptors.size() - 1; iDescriptor >= 0; iDescriptor--) {
-                        String sDescriptor = oldPlayer.mDescriptors.get(iDescriptor).toLowerCase();
-                        for (String sPronoun : sPronouns) {
-                            if (sPronoun.equals(sDescriptor)) {
-                                oldPlayer.mDescriptors.remove(iDescriptor);
-                                if (!newPlayer.mDescriptors.contains(sPronoun)) {
-                                    newPlayer.mDescriptors.add(sPronoun);
+                    for (int i = oldPlayer.mDescriptors.size() - 1; i >= 0; i--) {
+                        String desc = oldPlayer.mDescriptors.get(i).toLowerCase();
+                        for (String pronoun : pronouns) {
+                            if (pronoun.equals(desc)) {
+                                oldPlayer.mDescriptors.remove(i);
+                                if (!newPlayer.mDescriptors.contains(pronoun)) {
+                                    newPlayer.mDescriptors.add(pronoun);
                                 }
                             }
                         }
@@ -1611,7 +1599,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                 if (mAdv.mCharacters.containsKey(toKey)) {
                     if (getKey().equals(toKey) ||
                             getChildChars(true).containsKey(toKey)) {
-                        displayError("Recursive character relationship");
+                        mAdv.mView.displayError("Recursive character relationship");
                     } else {
                         dest.setExistsWhere(OnCharacter);
                         dest.setKey(toKey);
@@ -1635,7 +1623,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                 }
                 break;
             default:
-                TODO("TODO: Move Character to " + op.toString());
+                mAdv.mView.TODO("TODO: Move Character to " + op.toString());
                 break;
         }
         if (dest != null) {
@@ -1699,7 +1687,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                         lstDirs.add(d);
                     }
                 }
-                return mAdv.evaluateItemFunction(remainder, null,
+                return mAdv.evalItemFunc(remainder, null,
                         lstDirs, null, null, resultIsInteger);
 
             case PKEY_HELD: {
@@ -1722,7 +1710,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                         lst.addAll(getHeldObjects(false).values());
                         break;
                 }
-                return mAdv.evaluateItemFunction(remainder, lst,
+                return mAdv.evalItemFunc(remainder, lst,
                         null, null, this, resultIsInteger);
             }
 
@@ -1737,7 +1725,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                 // return the location that contains them.
                 String locKey = getLocation().getLocationKey();
                 MLocation loc = mAdv.mLocations.get(locKey);
-                return mAdv.evaluateItemFunction(remainder, null,
+                return mAdv.evalItemFunc(remainder, null,
                         null, null, loc, resultIsInteger);
 
             case PKEY_NAME:
@@ -1807,7 +1795,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                 if (item == null) {
                     item = mAdv.mLocations.get(parent);
                 }
-                return mAdv.evaluateItemFunction(remainder, null,
+                return mAdv.evalItemFunc(remainder, null,
                         null, null, item, resultIsInteger);
 
             case PKEY_PROPER_NAME:
@@ -1839,7 +1827,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                         lst.addAll(getWornObjects(false).values());
                         break;
                 }
-                return mAdv.evaluateItemFunction(remainder, lst,
+                return mAdv.evalItemFunc(remainder, lst,
                         null, null, null, resultIsInteger);
             }
 
@@ -1865,14 +1853,14 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                         lst.addAll(getHeldObjects(false).values());
                         break;
                 }
-                return mAdv.evaluateItemFunction(remainder, lst,
+                return mAdv.evalItemFunc(remainder, lst,
                         null, null, null, resultIsInteger);
             }
 
             default:
                 // Any other valid property not already
                 // covered above.
-                return mAdv.evaluateItemProperty(funcName, getProperties(),
+                return mAdv.evalItemProp(funcName, getProperties(),
                         mAdv.mCharacterProperties, remainder, resultIsInteger);
         }
     }
@@ -1920,7 +1908,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                     for (String keyword : keywords) {
                         if (containsWord(cmdOrSubject, keyword.toLowerCase().trim()) ||
                                 keyword.equals("*")) {
-                            if (topic.mRestrictions.passes(MParser.mReferences)) {
+                            if (topic.mRestrictions.passes(mAdv.mReferences)) {
                                 // Return topic
                                 nMatchedKeywords++;
                             }
@@ -1953,7 +1941,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                     for (Pattern pat : pats) {
                         Matcher m = (pat != null) ? pat.matcher(cmdOrSubject) : null;
                         if (m != null && m.find()) {
-                            if (topic.mRestrictions.passes(MParser.mReferences)) {
+                            if (topic.mRestrictions.passes(mAdv.mReferences)) {
                                 for (int i = 0; i <= 5; i++) {
                                     String refText = "%text" +
                                             (i > 0 ? String.valueOf(i) : "") + "%";
@@ -1971,7 +1959,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
 
                 if (!findAsk && !findTell && !findCommand) {
                     // No matching whatsoever
-                    if (topic.mRestrictions.passes(MParser.mReferences)) {
+                    if (topic.mRestrictions.passes(mAdv.mReferences)) {
                         return topic;
                     }
                 }
@@ -2001,7 +1989,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
         return mWalkTo;
     }
 
-    public void setWalkTo(@NonNull String value) {
+    void setWalkTo(@NonNull String value) {
         mWalkTo = value;
     }
 
@@ -2023,7 +2011,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                             if (node.mKey.equals(getWalkTo())) {
                                 setWalkTo("");
                             }
-                            Bebek.out("> " + d.toString() + "\n");
+                            mAdv.mView.out("> " + d.toString() + "\n");
                             mLastPosition = getLocation().getLocationKey();
                             MAdventure[] adv1 = new MAdventure[1];
                             adv1[0] = mAdv;
@@ -2031,7 +2019,8 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                             // adventure object stored in adv1 changes after
                             // submitCommand as we are assuming that d.toString
                             // doesn't evaluate to "restart"...
-                            Bebek.submitCommand(adv1, d.toString());
+                            mAdv.mView.TODO("MCharacter: doWalk: dijkstra submit command");
+                            //mAdv.mView.submitCommand(adv1, d.toString());
                             mLastPosition = "";
                             return;
                         }
@@ -2262,7 +2251,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
         final Gender gender = getGender();
         final MGlobals.MPerspectiveEnum persp = getPerspective();
 
-        if (MView.mDisplaying) {
+        if (mAdv.mView.mDisplaying) {
             if (!bExplicitArticle && getIntroduced() &&
                     article == Indefinite) {
                 article = Definite;
@@ -2502,13 +2491,13 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
             String destKey = dest.getKey();
             if (isHoldingObject(destKey)) {
                 MObject ob = mAdv.mObjects.get(destKey);
-                displayError("Trying to move character " + getName() +
+                mAdv.mView.displayError("Trying to move character " + getName() +
                         " onto or into an object they are holding, " +
                         ob.getFullName());
 
                 // Ok, try to fix the situation by dropping the object (moving it
                 // into the same location as the character).
-                displayText(mAdv, "(Dropping " + ob.getFullName() + ")<br>");
+                mAdv.mView.displayText(mAdv, "(Dropping " + ob.getFullName() + ")<br>");
                 MObject.MObjectLocation newLoc = new MObject.MObjectLocation(mAdv);
                 newLoc.mDynamicExistWhere = InLocation;
                 newLoc.setKey(getLocation().getKey());
@@ -2540,7 +2529,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                     MCharacter ch = mAdv.mCharacters.get(mAdv.mConversationCharKey);
                     MTopic farewell = ch.findConversationNode(EnumSet.of(Farewell), "");
                     if (farewell != null) {
-                        displayText(mAdv, farewell.mDescription.toString());
+                        mAdv.mView.displayText(mAdv, farewell.mDescription.toString());
                     }
                 }
                 mAdv.mConversationCharKey = "";
@@ -2551,7 +2540,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
         if (this == mAdv.getPlayer()) {
            /* mAdv.MMap.RefreshNode(mAdv.getPlayer().getLocation().LocationKey());
             MUserSession.MMap.SelectNode(mAdv.getPlayer().getLocation().LocationKey()); */
-            if (Bebek.BEBEK_DEBUG_ENABLED) {
+            if (MDebugger.BEBEK_DEBUG_ENABLED) {
                 GLKLogger.error("TODO: MCharacter: Move - refresh and select map nodes");
             }
         }
@@ -2605,14 +2594,6 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
     @NonNull
     String getIsHereDesc() {
         return getPropertyValue(PKEY_CHAR_HERE_DESC);
-    }
-
-    public void setIsHereDesc(@NonNull String value) {
-        if (!value.equals("")) {
-            setPropertyValue(PKEY_CHAR_HERE_DESC, value);
-        } else {
-            removeProperty(PKEY_CHAR_HERE_DESC);
-        }
     }
 
     @Nullable
@@ -2683,10 +2664,10 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                     return bResult;
                 }
                 // evaluate direction restrictions
-                bResult = d.mRestrictions.passes(MParser.mReferences);
+                bResult = d.mRestrictions.passes(mAdv.mReferences);
                 if (!bResult) {
                     errMsg.setLength(0);
-                    errMsg.append(MParser.mRestrictionText);
+                    errMsg.append(mAdv.mRestrictionText);
                 }
                 mValidRouteCache.put(route, bResult);
                 mRouteErrors.put(route, errMsg.toString());
@@ -2852,7 +2833,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
         if (obKey.equals("")) {
             // TCC - added to handle any buggy games that test if character is wearing
             // an object with an empty key.
-            displayError("Bad argument to isWearingObject - no object key specified!");
+            mAdv.mView.displayError("Bad argument to isWearingObject - no object key specified!");
             return true;
         }
 
@@ -2926,23 +2907,6 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
         }
     }
 
-    public boolean isInside(@NonNull String parentKey) {
-        // Returns True if character is directly inside parent,
-        // or if on/in something that is inside it
-        MCharacterLocation.ExistsWhere where = getLocation().getExistsWhere();
-        if ((where == OnObject || where == InObject) &&
-                !getParent().equals("")) {
-            if (where == InObject && getParent().equals(parentKey)) {
-                return true;
-            } else {
-                MObject obParent = mAdv.mObjects.get(getParent());
-                return obParent.isInside(parentKey);
-            }
-        } else {
-            return false;
-        }
-    }
-
     /**
      * Is this character directly on the specified object
      * or character, or on/in something that is inside it?
@@ -2989,7 +2953,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
             // TCC - some buggy games test whether the character is holding
             // an object referred to by an empty key. To avoid any crashes
             // we'll always return true to allow such restrictions to pass.
-            displayError("Bad argument to " +
+            mAdv.mView.displayError("Bad argument to " +
                     "isHoldingObject - no object key specified!");
             return true;
         }
@@ -3018,11 +2982,6 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
             }
         }
         return true;
-    }
-
-    @NonNull
-    public MCharacterHashMap getChildChars() {
-        return getChildChars(false);
     }
 
     @NonNull
@@ -3190,7 +3149,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
     public int getKeyRefCount(@NonNull String key) {
         int ret = 0;
         for (MDescription d : getAllDescriptions()) {
-            ret += d.referencesKey(key);
+            ret += d.getNumberOfKeyRefs(key);
         }
         for (MWalk w : mWalks) {
             for (MWalk.MStep s : w.mSteps) {
@@ -3205,13 +3164,13 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                 }
             }
             for (int i = 0; i < w.mWalkControls.size(); i++) {
-                if (w.mWalkControls.get(i).sTaskKey.equals(key)) {
+                if (w.mWalkControls.get(i).mTaskKey.equals(key)) {
                     ret++;
                 }
             }
         }
         for (MTopic t : mTopics.values()) {
-            ret += t.mRestrictions.referencesKey(key);
+            ret += t.mRestrictions.getNumberOfKeyRefs(key);
             ret += t.mActions.getNumberOfKeyRefs(key);
         }
         if (getLocation().getKey().equals(key)) {
@@ -3219,6 +3178,20 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
         }
         ret += getLocalProperties().getNumberOfKeyRefs(key);
         return ret;
+    }
+
+    @NonNull
+    @Override
+    public String getSymbol() {
+        // male, female or indeterminate profile
+        switch (getGender()) {
+            case Male:
+                return new String(Character.toChars(0x1F468));
+            case Female:
+                return new String(Character.toChars(0x1F469));
+            default:
+                return new String(Character.toChars(0x1F464));
+        }
     }
 
     @Override
@@ -3245,7 +3218,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                 }
             }
             for (int i = 0; i < w.mWalkControls.size(); i++) {
-                if (w.mWalkControls.get(i).sTaskKey.equals(key)) {
+                if (w.mWalkControls.get(i).mTaskKey.equals(key)) {
                     for (int j = w.mWalkControls.size() - 2; j >= i; j--) {
                         w.mWalkControls.set(j, w.mWalkControls.get(j + 1));
                     }
@@ -3542,7 +3515,7 @@ public class MCharacter extends MItemWithProperties implements MItemFunctionEval
                         break;
                 }
             } catch (Exception ex) {
-                MGlobals.errMsg("LocationKey error", ex);
+                mAdv.mView.errMsg("LocationKey error", ex);
             } finally {
                 if (!ret.equals("") && !ret.equals(mLastLocKey)) {
                     mLastLocKey = ret;

@@ -26,6 +26,7 @@ import android.support.annotation.Nullable;
 
 import com.luxlunae.bebek.model.MAdventure;
 import com.luxlunae.bebek.model.MCharacter;
+import com.luxlunae.bebek.model.MGroup;
 import com.luxlunae.bebek.model.MLocation;
 import com.luxlunae.bebek.model.MObject;
 import com.luxlunae.bebek.model.MProperty;
@@ -45,59 +46,75 @@ public class MLocationHashMap extends MItemHashMap<MLocation> {
         mAdv = adv;
     }
 
-    public static MLocationHashMap getLocationsToMove(@NonNull MAdventure adv,
-                                                      @NonNull MoveLocationWhatEnum what,
-                                                      @NonNull String key,
-                                                      @NonNull String propValue) {
-        MLocationHashMap ret = new MLocationHashMap(adv);
+    public void load(@NonNull MFileOlder.V4Reader reader, double version, int[][][] locLinks,
+                     @NonNull ArrayList<MLocation> newLocs, int nLocs) throws EOFException {
+        for (int i = 1; i <= nLocs; i++) {
+            MLocation loc = new MLocation(mAdv, reader, i, version, locLinks, newLocs);
+            put(loc.getKey(), loc);
+        }
+    }
+
+    @NonNull
+    public MLocationHashMap get(@NonNull MoveLocationWhatEnum what,
+                                @NonNull String key, @NonNull String propValue) {
+        MLocationHashMap ret = new MLocationHashMap(mAdv);
         switch (what) {
-            case Location:
-                ret.put(key, adv.mLocations.get(key));
+            case Location: {
+                MLocation loc = mAdv.mLocations.get(key);
+                if (loc != null) {
+                    ret.put(key, loc);
+                }
                 break;
-            case LocationOf:
-                MCharacter ch = adv.mCharacters.get(key);
+            }
+            case LocationOf: {
+                MCharacter ch = mAdv.mCharacters.get(key);
                 if (ch != null) {
                     String locKey = ch.getLocation().getLocationKey();
                     if (!locKey.equals(HIDDEN)) {
-                        ret.put(key, adv.mLocations.get(locKey));
+                        MLocation loc = mAdv.mLocations.get(locKey);
+                        if (loc != null) {
+                            ret.put(key, loc);
+                        }
                     }
                 } else {
-                    MObject ob = adv.mObjects.get(key);
+                    MObject ob = mAdv.mObjects.get(key);
                     if (ob != null) {
                         ret = ob.getRootLocations();
                     }
                 }
                 break;
-            case EverywhereInGroup:
-                for (String locKey : adv.mGroups.get(key).getArlMembers()) {
-                    ret.put(locKey, adv.mLocations.get(locKey));
+            }
+            case EverywhereInGroup: {
+                MGroup grp = mAdv.mGroups.get(key);
+                if (grp != null) {
+                    for (String locKey : grp.getArlMembers()) {
+                        MLocation loc = mAdv.mLocations.get(locKey);
+                        if (loc != null) {
+                            ret.put(locKey, loc);
+                        }
+                    }
                 }
                 break;
-            case EverywhereWithProperty:
-                MProperty prop = adv.mLocationProperties.get(key);
-                for (MLocation loc : adv.mLocations.values()) {
-                    if (loc.hasProperty(prop.getKey())) {
-                        if (prop.getType() == SelectionOnly) {
-                            ret.put(loc.getKey(), loc);
-                        } else {
-                            if (loc.getPropertyValue(prop.getKey()).equals(propValue)) {
+            }
+            case EverywhereWithProperty: {
+                MProperty prop = mAdv.mLocationProperties.get(key);
+                if (prop != null) {
+                    for (MLocation loc : mAdv.mLocations.values()) {
+                        if (loc.hasProperty(key)) {
+                            if (prop.getType() == SelectionOnly) {
                                 ret.put(loc.getKey(), loc);
+                            } else {
+                                if (loc.getPropertyValue(key).equals(propValue)) {
+                                    ret.put(loc.getKey(), loc);
+                                }
                             }
                         }
                     }
                 }
                 break;
+            }
         }
         return ret;
-    }
-
-    public void load(@NonNull MFileOlder.V4Reader reader, final double v,
-                     int[][][] iLocations, ArrayList<MLocation> newLocs,
-                     int nLocations) throws EOFException {
-        for (int i = 1; i <= nLocations; i++) {
-            MLocation loc = new MLocation(mAdv, reader, i, v, iLocations, newLocs);
-            put(loc.getKey(), loc);
-        }
     }
 
     @Override

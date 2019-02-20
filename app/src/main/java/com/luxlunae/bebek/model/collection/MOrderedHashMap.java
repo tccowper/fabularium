@@ -24,11 +24,12 @@ package com.luxlunae.bebek.model.collection;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.luxlunae.bebek.MGlobals;
-import com.luxlunae.bebek.controller.MReference;
 import com.luxlunae.bebek.model.MAdventure;
+import com.luxlunae.bebek.model.MReference;
 
 import java.util.LinkedHashMap;
+
+import static com.luxlunae.bebek.MGlobals.stripCarats;
 
 public class MOrderedHashMap<K extends String, V extends MReferenceList> extends LinkedHashMap<K, V> {
     private static final String[] VALID_TAGS = {
@@ -36,6 +37,7 @@ public class MOrderedHashMap<K extends String, V extends MReferenceList> extends
             "<u>", "</u>", "<c>", "</c>", "<font", "</font>", "<right>", "</right>",
             "<left>", "</left>", "<del>", "<wait", "<cls>", "<img ", "<audio "
     };
+
     @NonNull
     public MStringArrayList mOrderedKeys = new MStringArrayList();
 
@@ -44,10 +46,10 @@ public class MOrderedHashMap<K extends String, V extends MReferenceList> extends
         if (text.equals("")) {
             return false;
         } else {
-            if (MGlobals.stripCarats(text).equals("")) {
+            if (stripCarats(text).equals("")) {
                 String textLower = text.toLowerCase();
-                for (String sValid : VALID_TAGS) {
-                    if (textLower.contains(sValid)) {
+                for (String validTag : VALID_TAGS) {
+                    if (textLower.contains(validTag)) {
                         return true;
                     }
                 }
@@ -60,16 +62,18 @@ public class MOrderedHashMap<K extends String, V extends MReferenceList> extends
         }
     }
 
-    public boolean addResponse(@NonNull MAdventure adv, @NonNull boolean[] shouldOutputResponses,
+    public boolean addResponse(@NonNull MAdventure adv,
+                               @NonNull boolean[] shouldOutputResponses,
                                @NonNull K response, @NonNull String[] newRefItems,
                                final @Nullable V refs) {
         return addResponse(adv, shouldOutputResponses, response, newRefItems, -1, refs);
     }
 
-    public boolean addResponse(@NonNull MAdventure adv, @NonNull boolean[] shouldOutputResponses,
+    public boolean addResponse(@NonNull MAdventure adv,
+                               @NonNull boolean[] shouldOutputResponses,
                                @NonNull K response, @NonNull String[] newRefItems,
                                int pos, final @Nullable V refs) {
-        // Returns True if a response was added, or False otherwise
+        // Returns true if a response was added, or false otherwise
         if (shouldOutputResponses[0] || !containsOutput(adv, response)) {
             return false;
         }
@@ -77,11 +81,13 @@ public class MOrderedHashMap<K extends String, V extends MReferenceList> extends
         if (containsKey(response)) {
             // Add our new references to the ones already there
             MReferenceList curRefs = get(response);
-            for (int i = 0; i < newRefItems.length; i++) {
-                if (i < curRefs.size()) {
-                    MReference curRef = curRefs.get(i);
-                    if (curRef != null && !curRef.containsKey(newRefItems[i])) {
-                        curRef.mItems.add(new MReference.MReferenceItem(newRefItems[i]));
+            if (curRefs != null) {
+                for (int i = 0; i < newRefItems.length; i++) {
+                    if (i < curRefs.size()) {
+                        MReference curRef = curRefs.get(i);
+                        if (curRef != null && !curRef.containsKey(newRefItems[i])) {
+                            curRef.mItems.add(new MReference.MReferenceItem(newRefItems[i]));
+                        }
                     }
                 }
             }
@@ -125,12 +131,13 @@ public class MOrderedHashMap<K extends String, V extends MReferenceList> extends
         super.clear();
     }
 
+    @Override
     @NonNull
-    public MOrderedHashMap<String, V> Clone() {
-        MOrderedHashMap<String, V> htbl = new MOrderedHashMap<>();
-        for (String sKey : mOrderedKeys) {
-            htbl.put(sKey, get(sKey));
+    public MOrderedHashMap<String, V> clone() {
+        MOrderedHashMap<String, V> ret = new MOrderedHashMap<>();
+        for (String key : mOrderedKeys) {
+            ret.put(key, get(key));
         }
-        return htbl;
+        return ret;
     }
 }

@@ -505,4 +505,12 @@ public abstract class MItem implements Cloneable {
             return true;
         }
     }
+
+    /**
+     * Returns a Unicode symbol representing this item.
+     *
+     * @return the Unicode symbol.
+     */
+    @NonNull
+    public abstract String getSymbol();
 }

@@ -40,8 +40,7 @@ public class MGroupHashMap extends MItemHashMap<MGroup> {
         mAdv = adv;
     }
 
-    public void load(@NonNull MFileOlder.V4Reader reader,
-                     final int nLocations,
+    public void load(@NonNull MFileOlder.V4Reader reader, int nLocations,
                      @NonNull final String[] locNames) throws EOFException {
         int nGroups = cint(reader.readLine());
         for (int i = 1; i <= nGroups; i++) {

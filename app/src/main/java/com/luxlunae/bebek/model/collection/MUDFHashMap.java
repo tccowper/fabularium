@@ -38,9 +38,9 @@ public class MUDFHashMap extends MItemHashMap<MUserFunction> {
 
     @Override
     @Nullable
-    public MUserFunction put(@NonNull String key, @NonNull MUserFunction UDF) {
-        mAdv.mAllItems.put(UDF);
-        return super.put(key, UDF);
+    public MUserFunction put(@NonNull String key, @NonNull MUserFunction udf) {
+        mAdv.mAllItems.put(udf);
+        return super.put(key, udf);
     }
 
     @Override

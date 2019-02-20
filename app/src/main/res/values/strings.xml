@@ -109,8 +109,14 @@
         truncate the text. If this is the source code for a TADS 3 game, you
         could also try splitting it into multiple, smaller files.</string>
 
-    <string name="game_icon">Story icon</string>
+    <string name="BEBEK_LOADING_MSG">
+        &lt;center>&lt;h2>&#x1F986; BEBEK &#x1F986;&lt;/h2>&lt;/center>&lt;p>
+        An Android port of Campbell Wild\'s Adrift 5 Runner&lt;br>Tim Cadogan-Cowper, 2018&lt;/p>&lt;p>
+        Type &lt;pre>@bebek help&lt;/pre> to see debug commands.&lt;/p>&lt;p>
+        Loading game… please wait…&lt;/p>
+    </string>
 
+    <string name="game_icon">Story icon</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_sortBy">Sort by</string>
     <string name="menu_resetConfig">Reset config files</string>

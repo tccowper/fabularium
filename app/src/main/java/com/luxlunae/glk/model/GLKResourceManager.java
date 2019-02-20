@@ -27,7 +27,7 @@ import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.util.LruCache;
 
-import com.luxlunae.bebek.Bebek;
+import com.luxlunae.bebek.MBebek;
 import com.luxlunae.glk.GLKCharsetManager;
 import com.luxlunae.glk.GLKConstants;
 import com.luxlunae.glk.GLKLogger;
@@ -101,7 +101,7 @@ public class GLKResourceManager {
                 return true;
             case BEBEK:
                 // Try to load the sound from a blorb file (using Java interface)
-                data = Bebek.getSound(sndId);
+                data = MBebek.getSound(sndId);
                 if (data == null) {
                     GLKLogger.error("GLKResourceManager: getSound: could not load Java blorb sound resource: " + sndId);
                     return false;
@@ -227,7 +227,7 @@ public class GLKResourceManager {
                     break;
                 case BEBEK:
                     // Load the picture from the blorb file (using Java interface)
-                    data = Bebek.getImage(imgID);
+                    data = MBebek.getImage(imgID);
                     if (data == null) {
                         GLKLogger.error("GLKResourceManager: getImage: could not load Java blorb picture resource: " + imgID);
                         return null;

@@ -31,10 +31,9 @@ import com.luxlunae.bebek.model.io.MFileOlder;
 import java.io.EOFException;
 
 import static com.luxlunae.bebek.MGlobals.replaceAllIgnoreCase;
-import static com.luxlunae.bebek.MGlobals.safeInt;
 import static com.luxlunae.bebek.VB.cint;
 import static com.luxlunae.bebek.VB.isNumeric;
-import static com.luxlunae.bebek.model.MVariable.VariableType.NUMERIC;
+import static com.luxlunae.bebek.model.MVariable.VariableType.Numeric;
 
 public class MVariableHashMap extends MItemHashMap<MVariable> {
     @NonNull
@@ -45,18 +44,16 @@ public class MVariableHashMap extends MItemHashMap<MVariable> {
         mAdv = adv;
     }
 
-    public void load(@NonNull MFileOlder.V4Reader reader,
-                     double v) throws EOFException {
+    public void load(@NonNull MFileOlder.V4Reader reader, double version) throws EOFException {
         int nVariables = cint(reader.readLine());
         for (int i = 1; i <= nVariables; i++) {
-            MVariable var = new MVariable(mAdv, reader, i, v);
+            MVariable var = new MVariable(mAdv, reader, i, version);
             put(var.getKey(), var);
         }
     }
 
     public void evaluate(@NonNull StringBuilder text,
-                         boolean isExpression,
-                         @Nullable MReferenceList refs) {
+                         boolean isExpr, @Nullable MReferenceList refs) {
         final String tmp = text.toString().toLowerCase();
 
         for (MVariable var : values()) {
@@ -65,26 +62,22 @@ public class MVariableHashMap extends MItemHashMap<MVariable> {
                 // -------------------------------------------
                 //   SEARCHING FOR SCALAR VARIABLE REFERENCE
                 // -------------------------------------------
-                final String tgt =
-                        ("%" + var.getName() + "%").toLowerCase();
+                final String tgt = ("%" + var.getName() + "%").toLowerCase();
                 if (tmp.contains(tgt)) {
                     // There is a least one occurrence of this
                     // variable in the given string, so proceed
                     // to evaluate the variable, then do the
                     // replacement(s).
-                    final String repl = (var.getType() == NUMERIC) ?
+                    final String repl = (var.getType() == Numeric) ?
                             String.valueOf(var.getInt()) :
-                            isExpression ?
-                                    "\"" + var.getStr() + "\"" :
-                                    var.getStr();
+                            isExpr ? "\"" + var.getStr() + "\"" : var.getStr();
                     replaceAllIgnoreCase(text, tgt, repl);
                 }
             } else if (lenVar > 1) {
                 // -------------------------------------------
                 //   SEARCHING FOR ARRAY VARIABLE REFERENCE
                 // -------------------------------------------
-                final String tgt =
-                        ("%" + var.getName() + "[").toLowerCase();
+                final String tgt = ("%" + var.getName() + "[").toLowerCase();
                 final int lenTgt1 = tgt.length();
 
                 int pos1 = tmp.indexOf(tgt);
@@ -102,10 +95,10 @@ public class MVariableHashMap extends MItemHashMap<MVariable> {
                             text.indexOf("]", pos2));
                     int i;
                     if (isNumeric(index)) {
-                        i = safeInt(index);
+                        i = mAdv.safeInt(index);
                     } else {
                         MVariable varIndex = new MVariable(mAdv);
-                        varIndex.setType(NUMERIC);
+                        varIndex.setType(Numeric);
                         varIndex.setToExpr(index, refs);
                         i = varIndex.getInt();
                     }
@@ -113,13 +106,10 @@ public class MVariableHashMap extends MItemHashMap<MVariable> {
                     // Evaluate the value of the variable at the
                     // given index and replace any references to
                     // it in the given string.
-                    final String repl = (var.getType() == NUMERIC) ?
+                    final String repl = (var.getType() == Numeric) ?
                             String.valueOf(var.getIntAt(i)) :
-                            isExpression ?
-                                    "\"" + var.getStrAt(i) + "\"" :
-                                    var.getStrAt(i);
-                    final int lenTgt =
-                            lenTgt1 + index.length() + 2; // add 2 for ']%'
+                            isExpr ? "\"" + var.getStrAt(i) + "\"" : var.getStrAt(i);
+                    final int lenTgt = lenTgt1 + index.length() + 2; // add 2 for ']%'
                     final int lenRep = repl.length();
                     final int lenDiff = lenRep - lenTgt;
 

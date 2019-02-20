@@ -57,8 +57,6 @@ import static com.luxlunae.bebek.model.MWalk.StatusEnum.Running;
 import static com.luxlunae.bebek.view.MView.DebugDetailLevelEnum.High;
 import static com.luxlunae.bebek.view.MView.DebugDetailLevelEnum.Low;
 import static com.luxlunae.bebek.view.MView.DebugDetailLevelEnum.Medium;
-import static com.luxlunae.bebek.view.MView.debugPrint;
-import static com.luxlunae.bebek.view.MView.displayText;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
@@ -76,7 +74,7 @@ public class MWalk {
     String mCharKey = "";            // This is the key of the character
     @NonNull
     String mTriggeringTask = "";
-    boolean mJustStarted = false;
+    public boolean mJustStarted = false;
     @NonNull
     private String mDescription = "";
     private boolean mIsLooping;
@@ -257,7 +255,7 @@ public class MWalk {
         if (mStatus == NotYetStarted || mStatus == Finished ||
                 (mStatus == Running && bRestart)) {
             if (!bRestart) {
-                debugPrint(MGlobals.ItemEnum.Character, mCharKey,
+                mAdv.mView.debugPrint(MGlobals.ItemEnum.Character, mCharKey,
                         Low, "Starting walk " + getDescription());
             }
 
@@ -281,7 +279,7 @@ public class MWalk {
                         MCharacter.MCharacterLocation chLocMove = chMove.getLocation();
                         MCharacter.MCharacterLocation chLocTo = chTo.getLocation();
                         if (chLocMove.getExistsWhere() == Hidden) {
-                            debugPrint(MGlobals.ItemEnum.Character, mCharKey,
+                            mAdv.mView.debugPrint(MGlobals.ItemEnum.Character, mCharKey,
                                     Low, "Follow char walk starting from " +
                                             "hidden, so moving to dest char's " +
                                             "location first...");
@@ -302,7 +300,7 @@ public class MWalk {
 
             mJustStarted = true;
         } else {
-            debugPrint(MGlobals.ItemEnum.Character, mCharKey,
+            mAdv.mView.debugPrint(MGlobals.ItemEnum.Character, mCharKey,
                     MView.DebugDetailLevelEnum.Error,
                     "Can't Start a Walk that isn't waiting!");
         }
@@ -314,12 +312,11 @@ public class MWalk {
 
     private void lPause() {
         if (mStatus == Running) {
-            debugPrint(MGlobals.ItemEnum.Character, mCharKey,
+            mAdv.mView.debugPrint(MGlobals.ItemEnum.Character, mCharKey,
                     Low, "Pausing walk " + getDescription());
             mStatus = Paused;
         } else {
-
-            debugPrint(MGlobals.ItemEnum.Character, mCharKey,
+            mAdv.mView.debugPrint(MGlobals.ItemEnum.Character, mCharKey,
                     MView.DebugDetailLevelEnum.Error,
                     "Can't Pause a Walk that isn't running!");
         }
@@ -331,12 +328,12 @@ public class MWalk {
 
     private void lResume() {
         if (mStatus == Paused) {
-            debugPrint(MGlobals.ItemEnum.Character, mCharKey,
+            mAdv.mView.debugPrint(MGlobals.ItemEnum.Character, mCharKey,
                     Low, "Resuming walk " + getDescription());
             mStatus = Running;
         } else {
             //Throw New Exception("Can' t Resume a Walk that isn 't paused!")
-            debugPrint(MGlobals.ItemEnum.Character, mCharKey,
+            mAdv.mView.debugPrint(MGlobals.ItemEnum.Character, mCharKey,
                     MView.DebugDetailLevelEnum.Error,
                     "Can't Resume a Walk that isn't paused!");
         }
@@ -359,17 +356,17 @@ public class MWalk {
             if (getLength() > 0) {
                 // Only restart if walk comes to and end and it
                 // is set to loop - not if it is terminated by task change
-                debugPrint(MGlobals.ItemEnum.Character, mCharKey,
+                mAdv.mView.debugPrint(MGlobals.ItemEnum.Character, mCharKey,
                         Low, "Restarting walk " + getDescription());
                 lStart(true);
             } else {
-                debugPrint(MGlobals.ItemEnum.Event, mCharKey, Low,
+                mAdv.mView.debugPrint(MGlobals.ItemEnum.Event, mCharKey, Low,
                         "Not restarting walk " +
                                 getDescription() +
                                 " otherwise we'd get in an infinite loop as zero length.");
             }
         } else {
-            debugPrint(MGlobals.ItemEnum.Character, mCharKey,
+            mAdv.mView.debugPrint(MGlobals.ItemEnum.Character, mCharKey,
                     Low, "Finishing walk " + getDescription());
         }
     }
@@ -398,7 +395,7 @@ public class MWalk {
         }
 
         if (mStatus == Running) {
-            debugPrint(MGlobals.ItemEnum.Character, mCharKey,
+            mAdv.mView.debugPrint(MGlobals.ItemEnum.Character, mCharKey,
                     High,
                     "Walk " + getDescription() +
                             " [" + (getTimerFromStartOfWalk() + 1) +
@@ -469,7 +466,7 @@ public class MWalk {
                             // No adjacent room, so just move to a random room in the group
                             destKey = locKeys.get(mAdv.getRand(locKeys.size() - 1));
                         }
-                        debugPrint(MGlobals.ItemEnum.Character, mCharKey,
+                        mAdv.mView.debugPrint(MGlobals.ItemEnum.Character, mCharKey,
                                 Medium, "Character " +
                                         mAdv.mCharacters.get(mCharKey).getProperName() +
                                         " walks to " +
@@ -517,14 +514,14 @@ public class MWalk {
                             if (locCurrent != null &&
                                     (locCurrent.isAdjacent(chLocTo.getKey()) || waiveAdjacencyRule)) {
                                 destKey = chLocTo.getKey();
-                                debugPrint(MGlobals.ItemEnum.Character, mCharKey,
+                                mAdv.mView.debugPrint(MGlobals.ItemEnum.Character, mCharKey,
                                         Medium, "Character " +
                                                 mAdv.mCharacters.get(mCharKey).getProperName() +
                                                 " walks to " + chTo.getProperName() + " (" +
                                                 mAdv.mLocations.get(destKey).getShortDescription().toString() + ")");
                             } else {
                                 // Character is not adjacent, so don't move
-                                debugPrint(MGlobals.ItemEnum.Character, mCharKey,
+                                mAdv.mView.debugPrint(MGlobals.ItemEnum.Character, mCharKey,
                                         MView.DebugDetailLevelEnum.Error,
                                         "Character " + chMove.getProperName() +
                                                 " can't walk to " + chTo.getProperName() +
@@ -538,7 +535,7 @@ public class MWalk {
                         }
                     } else {
                         destKey = stepKey;
-                        debugPrint(MGlobals.ItemEnum.Character, mCharKey,
+                        mAdv.mView.debugPrint(MGlobals.ItemEnum.Character, mCharKey,
                                 Medium, "Character " +
                                         mAdv.mCharacters.get(mCharKey).getProperName() +
                                         " walks to " + mAdv.getNameFromKey(destKey));
@@ -575,7 +572,7 @@ public class MWalk {
                                     }
                                 }
                                 sLeaves.append(".");
-                                displayText(mAdv, sLeaves.toString());
+                                mAdv.mView.displayText(mAdv, sLeaves.toString());
                             } else if (destKey.equals(playerLoc.getLocationKey()) &&
                                     !chLoc.getKey().equals(playerLoc.getLocationKey())) {
                                 String sEnters = "enters";
@@ -592,7 +589,7 @@ public class MWalk {
                                     }
                                 }
                                 sArrives.append(".");
-                                displayText(mAdv, sArrives.toString());
+                                mAdv.mView.displayText(mAdv, sArrives.toString());
                             }
                         }
                         ch.moveTo(destKey);
@@ -667,12 +664,12 @@ public class MWalk {
                         switch (sw.eWhat) {
                             case DisplayMessage:
                                 if (mAdv.getPlayer().isInGroupOrLocation(sw.sKey3)) {
-                                    displayText(mAdv, sw.oDescription.toString());
+                                    mAdv.mView.displayText(mAdv, sw.oDescription.toString());
                                 }
                                 break;
                             case ExecuteTask:
                                 if (mAdv.mTasks.containsKey(sw.sKey2)) {
-                                    debugPrint(MGlobals.ItemEnum.Character, mCharKey,
+                                    mAdv.mView.debugPrint(MGlobals.ItemEnum.Character, mCharKey,
                                             Medium, "Walk '" + getDescription() +
                                                     "' attempting to execute task '" +
                                                     mAdv.mTasks.get(sw.sKey2).getDescription() + "'");
@@ -683,7 +680,7 @@ public class MWalk {
                             case ExecuteCommand:
                                 // This is deprecated and only included to provide
                                 // compatibility for v3.8 games.
-                                debugPrint(MGlobals.ItemEnum.Character, mCharKey,
+                                mAdv.mView.debugPrint(MGlobals.ItemEnum.Character, mCharKey,
                                         Medium, "Walk '" + getDescription() +
                                                 "' executing command '" + sw.sKey2 + "'");
                                 MTaskHashMap.MTaskMatchResult match =
@@ -694,7 +691,7 @@ public class MWalk {
                                 }
                                 break;
                             case UnsetTask:
-                                debugPrint(MGlobals.ItemEnum.Character, mCharKey,
+                                mAdv.mView.debugPrint(MGlobals.ItemEnum.Character, mCharKey,
                                         Medium, "Walk '" + getDescription() +
                                                 "' unsetting task '" + mAdv.mTasks.get(sw.sKey2).getDescription() + "'");
                                 mAdv.mTasks.get(sw.sKey2).setCompleted(false);

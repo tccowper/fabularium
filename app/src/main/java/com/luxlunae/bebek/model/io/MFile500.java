@@ -23,8 +23,8 @@ package com.luxlunae.bebek.model.io;
 
 import android.support.annotation.NonNull;
 
-import com.luxlunae.bebek.Bebek;
 import com.luxlunae.bebek.MGlobals;
+import com.luxlunae.bebek.controller.MDebugger;
 import com.luxlunae.bebek.model.MALR;
 import com.luxlunae.bebek.model.MAction;
 import com.luxlunae.bebek.model.MAdventure;
@@ -54,7 +54,6 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Hashtable;
 
 import static com.luxlunae.bebek.MGlobals.CHARACTERPROPERNAME;
 import static com.luxlunae.bebek.MGlobals.LONGLOCATIONDESCRIPTION;
@@ -63,9 +62,7 @@ import static com.luxlunae.bebek.MGlobals.OBJECTNOUN;
 import static com.luxlunae.bebek.MGlobals.OBJECTPREFIX;
 import static com.luxlunae.bebek.MGlobals.SHORTLOCATIONDESCRIPTION;
 import static com.luxlunae.bebek.MGlobals.dateFormatter;
-import static com.luxlunae.bebek.MGlobals.errMsg;
 import static com.luxlunae.bebek.MGlobals.getBool;
-import static com.luxlunae.bebek.MGlobals.safeInt;
 import static com.luxlunae.bebek.model.MCharacter.CharacterType.NonPlayer;
 import static com.luxlunae.bebek.model.MProperty.PropertyOfEnum.Characters;
 import static com.luxlunae.bebek.model.MProperty.PropertyOfEnum.Locations;
@@ -125,9 +122,9 @@ class MFile500 {
 
         } catch (Exception ex) {
             if (ex.getMessage().contains("Root element is missing")) {
-                errMsg("The file you are trying to load is not a valid ADRIFT v5.0 file.");
+                adv.mView.errMsg("The file you are trying to load is not a valid ADRIFT v5.0 file.");
             } else {
-                errMsg("Error loading Adventure", ex);
+                adv.mView.errMsg("Error loading Adventure", ex);
             }
             return false;
         }
@@ -141,10 +138,10 @@ class MFile500 {
         MStringArrayList newTasks = new MStringArrayList();
 
         // Try to find the root node
-        int eventType;
+        int evType;
         boolean foundRoot = false;
-        while ((eventType = xpp.nextTag()) != XmlPullParser.END_DOCUMENT) {
-            if (eventType == START_TAG) {
+        while ((evType = xpp.nextTag()) != END_DOCUMENT) {
+            if (evType == START_TAG) {
                 if (xpp.getName().equals("Adventure")) {
                     foundRoot = true;
                     break;
@@ -162,8 +159,8 @@ class MFile500 {
         double version = 0;
 
         // Load the adventure
-        while ((eventType = xpp.nextTag()) != XmlPullParser.END_DOCUMENT && xpp.getDepth() > depth) {
-            if (eventType == START_TAG) {
+        while ((evType = xpp.nextTag()) != END_DOCUMENT && xpp.getDepth() > depth) {
+            if (evType == START_TAG) {
                 String nodName = xpp.getName();
 
                 if (nodName.equals("Version")) {
@@ -366,7 +363,7 @@ class MFile500 {
                                 break;
 
                             case "FileMappings":
-                                loadBlorbMappings(xpp, adv.mBlorbMappings);
+                                loadBlorbMappings(adv, xpp);
                                 continue;
                         }
                     }
@@ -379,7 +376,7 @@ class MFile500 {
 
             // tag not recognised - skip until we get to the next tag at the appropriate
             // depth (or end of document)
-            if (Bebek.BEBEK_DEBUG_ENABLED) {
+            if (MDebugger.BEBEK_DEBUG_ENABLED) {
                 GLKLogger.warn("Skipping node '" + xpp.getName() + "'");
             }
             while (xpp.getEventType() != END_DOCUMENT && xpp.getDepth() > depth) {
@@ -541,7 +538,7 @@ class MFile500 {
                         return true;
 
                     case "Elapsed":
-                        adv.iElapsed = safeInt(xpp.nextText());
+                        adv.iElapsed = adv.safeInt(xpp.nextText());
                         return true;
 
                     case "TaskExecution":
@@ -549,7 +546,7 @@ class MFile500 {
                         return true;
 
                     case "WaitTurns":
-                        adv.setWaitTurns(safeInt(xpp.nextText()));
+                        adv.setWaitTurns(adv.safeInt(xpp.nextText()));
                         return true;
 
                     case "KeyPrefix":
@@ -618,46 +615,45 @@ class MFile500 {
         createMandatoryProperties(adv);
     }
 
-    private static void loadBlorbMappings(@NonNull XmlPullParser xpp,
-                                          @NonNull Hashtable<String, Integer> mappings) throws Exception {
+    private static void loadBlorbMappings(@NonNull MAdventure adv,
+                                          @NonNull XmlPullParser xpp) throws Exception {
         xpp.require(START_TAG, null, "FileMappings");
 
-        int eventType = xpp.nextTag();
+        int evType = xpp.nextTag();
         int depth = xpp.getDepth();
-        while (eventType != XmlPullParser.END_DOCUMENT && xpp.getDepth() >= depth) {
-            switch (eventType) {
+        while (evType != END_DOCUMENT && xpp.getDepth() >= depth) {
+            switch (evType) {
                 case START_TAG:
                     switch (xpp.getName()) {
                         case "Mapping":
                             String filePath = null;
                             int resNum = 0;
-                            int eventType2 = xpp.nextTag();
+                            int evType2 = xpp.nextTag();
                             int depth2 = xpp.getDepth();
 
-                            while (eventType2 != XmlPullParser.END_DOCUMENT &&
-                                    xpp.getDepth() >= depth2) {
-                                switch (eventType2) {
+                            while (evType2 != END_DOCUMENT && xpp.getDepth() >= depth2) {
+                                switch (evType2) {
                                     case START_TAG:
                                         switch (xpp.getName()) {
                                             case "File":
                                                 filePath = xpp.nextText();
                                                 break;
                                             case "Resource":
-                                                resNum = safeInt(xpp.nextText());
+                                                resNum = adv.safeInt(xpp.nextText());
                                                 break;
                                         }
                                         break;
                                 }
-                                eventType2 = xpp.nextTag();
+                                evType2 = xpp.nextTag();
                             }
                             if (filePath != null) {
-                                mappings.put(filePath, resNum);
+                                adv.mBlorbMappings.put(filePath, resNum);
                             }
                             break;
                     }
                     break;
             }
-            eventType = xpp.nextTag();
+            evType = xpp.nextTag();
         }
 
         xpp.require(END_TAG, null, "FileMappings");
@@ -774,13 +770,12 @@ class MFile500 {
         }
         prop.setGroupOnly(true);
 
-        for (String sProp : new String[]{"AtLocation", "AtLocationGroup", "PartOfWhat",
+        for (String propKey : new String[]{"AtLocation", "AtLocationGroup", "PartOfWhat",
                 "PartOfWho", "HeldByWho", "WornByWho", "InLocation", "InsideWhat", "OnWhat"}) {
-            prop = adv.mObjectProperties.get(sProp);
+            prop = adv.mObjectProperties.get(propKey);
             if (prop != null) {
                 prop.setGroupOnly(true);
             }
         }
     }
-
 }

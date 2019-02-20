@@ -44,11 +44,11 @@ public class MSynonymHashMap extends MItemHashMap<MSynonym> {
     public void load(@NonNull MFileOlder.V4Reader reader) throws EOFException {
         int nSyn = cint(reader.readLine());
         for (int i = 1; i <= nSyn; i++) {
-            String sTo = reader.readLine();     // System Command
-            String sFrom = reader.readLine();   // Alternative Command
+            String to = reader.readLine();     // System Command
+            String from = reader.readLine();   // Alternative Command
             MSynonym synNew = null;
             for (MSynonym syn : values()) {
-                if (syn.getChangeTo().equals(sTo)) {
+                if (syn.getChangeTo().equals(to)) {
                     synNew = syn;
                     break;
                 }
@@ -57,8 +57,8 @@ public class MSynonymHashMap extends MItemHashMap<MSynonym> {
                 synNew = new MSynonym(mAdv);
                 synNew.setKey("Synonym" + i);
             }
-            synNew.setChangeTo(sTo);
-            synNew.getChangeFrom().add(sFrom);
+            synNew.setChangeTo(to);
+            synNew.getChangeFrom().add(from);
             if (!containsKey(synNew.getKey())) {
                 put(synNew);
             }

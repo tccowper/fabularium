@@ -24,7 +24,6 @@ package com.luxlunae.bebek.model.collection;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.luxlunae.bebek.controller.MParser;
 import com.luxlunae.bebek.model.MAdventure;
 import com.luxlunae.bebek.model.MObject;
 import com.luxlunae.bebek.model.MProperty;
@@ -39,14 +38,12 @@ import java.util.HashMap;
 
 import static com.luxlunae.bebek.MGlobals.ItemEnum.Task;
 import static com.luxlunae.bebek.MGlobals.containsWord;
-import static com.luxlunae.bebek.MGlobals.errMsg;
 import static com.luxlunae.bebek.VB.cint;
 import static com.luxlunae.bebek.model.MAdventure.TaskExecutionEnum.HighestPriorityPassingTask;
 import static com.luxlunae.bebek.model.MAdventure.TaskExecutionEnum.HighestPriorityTask;
 import static com.luxlunae.bebek.model.MTask.LIBRARY_START_TASK_PRIORITY;
 import static com.luxlunae.bebek.view.MView.DebugDetailLevelEnum.High;
 import static com.luxlunae.bebek.view.MView.DebugDetailLevelEnum.Medium;
-import static com.luxlunae.bebek.view.MView.debugPrint;
 
 public class MTaskHashMap extends MItemHashMap<MTask> {
     @NonNull
@@ -69,18 +66,16 @@ public class MTaskHashMap extends MItemHashMap<MTask> {
         mAdv = adv;
     }
 
-    public void load(@NonNull MFileOlder.V4Reader reader, double v,
-                     final int nLocations, final int iStartLocations,
-                     final int iStartTask, final int iStartChar,
-                     final int iStartMaxPriority,
-                     final HashMap<String, String> dictDodgyStates,
+    public void load(@NonNull MFileOlder.V4Reader reader, double version,
+                     int nLocs, int startLocs, int startTasks, int startChars,
+                     int startMaxPriority, final HashMap<String, String> dictDodgyStates,
                      final HashMap<MObject, MProperty> dodgyArlStates,
                      @NonNull final String[] locNames) throws EOFException {
         int nTasks = cint(reader.readLine());
         for (int i = 1; i <= nTasks; i++) {
-            MTask task = new MTask(mAdv, reader, i, v, nLocations,
-                    iStartLocations, iStartTask, iStartChar,
-                    iStartMaxPriority, dictDodgyStates, dodgyArlStates, locNames);
+            MTask task = new MTask(mAdv, reader, i, version, nLocs,
+                    startLocs, startTasks, startChars,
+                    startMaxPriority, dictDodgyStates, dodgyArlStates, locNames);
             put(task.getKey(), task);
             if (task.mReversedTask != null) {
                 put(task.mReversedTask.getKey(), task.mReversedTask);
@@ -91,7 +86,7 @@ public class MTaskHashMap extends MItemHashMap<MTask> {
 
     public void createTaskReferenceLists() {
         for (MTask task : values()) {
-            task.mReferences = new MReferenceList(task.getReferences().size());
+            task.mRefs = new MReferenceList(mAdv, task.getReferences().size());
         }
     }
 
@@ -110,15 +105,14 @@ public class MTaskHashMap extends MItemHashMap<MTask> {
      * @param input             - the input string to match.
      * @param minPriority       - only tasks with a priority the greater than or equal to
      *                          this number will be considered.
-     * @param secondChanceTasks - may be NULL. If not NULL, when this function returns
+     * @param secondChance - may be NULL. If not NULL, when this function returns
      *                          this hash map will contain tasks that should be considered
      *                          on a second pass.
      * @return the key of the matching task, if there is one, otherwise NULL.
      */
     @NonNull
-    public MTaskMatchResult find(@NonNull final String input,
-                                 final int minPriority,
-                                 @Nullable MTaskHashMap secondChanceTasks) {
+    public MTaskMatchResult find(@NonNull final String input, final int minPriority,
+                                 @Nullable MTaskHashMap secondChance) {
         MTaskMatchResult ret = new MTaskMatchResult();
 
         // Tasks that are marked as "LowPriority" and have a priority greater than
@@ -142,10 +136,10 @@ public class MTaskHashMap extends MItemHashMap<MTask> {
             priorityFail = minPriority;
         }
 
-        if (secondChanceTasks != null) {
+        if (secondChance != null) {
             // If the caller has passed in another hash table
             // they want us to fill it - ensure its empty first.
-            secondChanceTasks.clear();
+            secondChance.clear();
         }
 
         try {
@@ -187,9 +181,9 @@ public class MTaskHashMap extends MItemHashMap<MTask> {
                     //-----------------------------------------------------------------
                     //             Do any of this task's commands match?
                     //-----------------------------------------------------------------
-                    int iCmd = tas.getMatchingCommand(input, secondChanceTasks);
+                    int iCmd = tas.getMatchingCommand(input, secondChance);
                     if (iCmd > -1) {
-                        debugPrint(Task, tas.getKey(), Medium,
+                        mAdv.mView.debugPrint(Task, tas.getKey(), Medium,
                                 "Task '" + tas.getDescription() + "' matches input.");
                         //-------------------------------------------------------------
                         //                YES... do the references match?
@@ -209,35 +203,35 @@ public class MTaskHashMap extends MItemHashMap<MTask> {
                             // Check whether the task passes its restrictions, given
                             // the matched references, if any.
                             boolean passes =
-                                    tas.mRestrictions.passes(false, tas.mReferences);
+                                    tas.mRestrictions.passes(false, tas.mRefs);
                             String failOverride = tas.getFailOverride().toString();
 
                             if (!passes && !failOverride.equals("") &&
-                                    MParser.mRestrictionText.equals("") &&
+                                    mAdv.mRestrictionText.equals("") &&
                                     containsWord(input, "all")) {
                                 // If the task doesn't pass but it had some failed
                                 // output text and: (1) we haven't already encountered
                                 // a failing task with output on this call to find();
                                 // and (2) the user input had the word "all", then set
                                 // our global failed text to this output.
-                                MParser.mRestrictionText = failOverride;
+                                mAdv.mRestrictionText = failOverride;
                             }
 
-                            if (passes || !MParser.mRestrictionText.equals("")) {
+                            if (passes || !mAdv.mRestrictionText.equals("")) {
                                 //----------------------------------------------------
                                 // The matched task either passes or fails with output.
                                 //-----------------------------------------------------
                                 if (passes) {
                                     if (tas.getPriority() > priorityFail) {
-                                        debugPrint(Task, tas.getKey(), Medium,
+                                        mAdv.mView.debugPrint(Task, tas.getKey(), Medium,
                                                 "Task passes restrictions and " +
                                                         "overrides previous failing task output");
                                     } else {
-                                        debugPrint(Task, tas.getKey(), Medium,
+                                        mAdv.mView.debugPrint(Task, tas.getKey(), Medium,
                                                 "Task passes restrictions.");
                                     }
-                                } else if (!MParser.mRestrictionText.equals("")) {
-                                    debugPrint(Task, tas.getKey(), Medium,
+                                } else if (!mAdv.mRestrictionText.equals("")) {
+                                    mAdv.mView.debugPrint(Task, tas.getKey(), Medium,
                                             "Task doesn't pass restrictions, but is " +
                                                     "current highest priority failing task " +
                                                     "with restriction output.");
@@ -247,7 +241,7 @@ public class MTaskHashMap extends MItemHashMap<MTask> {
                                             // This is the highest priority non-library failing
                                             // task with output Cache the details so we can revert
                                             // back later if need be.
-                                            debugPrint(Task, tas.getKey(), Medium,
+                                            mAdv.mView.debugPrint(Task, tas.getKey(), Medium,
                                                     "Task is also current highest " +
                                                             "priority non-library failing " +
                                                             "task with restriction output.");
@@ -264,7 +258,7 @@ public class MTaskHashMap extends MItemHashMap<MTask> {
                                     priorityFail = tas.getPriority();
                                 }
 
-                                debugPrint(Task, tas.getKey(), High,
+                                mAdv.mView.debugPrint(Task, tas.getKey(), High,
                                         "Task priority: " + tas.getPriority());
                                 ret.mTask = tas;
 
@@ -310,7 +304,7 @@ public class MTaskHashMap extends MItemHashMap<MTask> {
                                     break;
                                 }
                             } else {
-                                debugPrint(Task, tas.getKey(), Medium,
+                                mAdv.mView.debugPrint(Task, tas.getKey(), Medium,
                                         "Task does not pass restrictions.");
                             }
                         }
@@ -331,7 +325,7 @@ public class MTaskHashMap extends MItemHashMap<MTask> {
                 ret.mTask = ret.mNoRefTask;
             }
         } catch (Exception ex) {
-            errMsg("MTaskHashTable: get error", ex);
+            mAdv.mView.errMsg("MTaskHashTable: get error", ex);
             //ex.printStackTrace();
         }
 

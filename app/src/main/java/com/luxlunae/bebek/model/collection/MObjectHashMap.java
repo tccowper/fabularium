@@ -28,6 +28,7 @@ import com.luxlunae.bebek.MGlobals;
 import com.luxlunae.bebek.model.MAction;
 import com.luxlunae.bebek.model.MAdventure;
 import com.luxlunae.bebek.model.MCharacter;
+import com.luxlunae.bebek.model.MGroup;
 import com.luxlunae.bebek.model.MObject;
 import com.luxlunae.bebek.model.MProperty;
 import com.luxlunae.bebek.model.io.MFileOlder;
@@ -53,173 +54,17 @@ public class MObjectHashMap extends MItemHashMap<MObject> {
         mAdv = adv;
     }
 
-    public static MObjectHashMap getObjectsToMove(@NonNull MAdventure adv,
-                                                  @NonNull MAction.MoveObjectWhatEnum what,
-                                                  @NonNull String key,
-                                                  @NonNull String propValue) {
-        MObjectHashMap ret = new MObjectHashMap(adv);
-        switch (what) {
-            case Object:
-                ret.put(key, adv.mObjects.get(key));
-                break;
-            case EverythingAtLocation:
-                for (MObject ob : adv.mObjects.values()) {
-                    MObject.MObjectLocation obLoc = ob.getLocation();
-                    if (!ob.isStatic() &&
-                            obLoc.mDynamicExistWhere == InLocation &&
-                            obLoc.getKey().equals(key)) {
-                        ret.put(ob.getKey(), ob);
-                    }
-                }
-                break;
-            case EverythingHeldBy: {
-                MCharacter ch = adv.mCharacters.get(key);
-                if (ch != null) {
-                    ret = ch.getHeldObjects();
-                }
-                break;
-            }
-            case EverythingInGroup:
-                for (String obKey : adv.mGroups.get(key).getArlMembers()) {
-                    ret.put(obKey, adv.mObjects.get(obKey));
-                }
-                break;
-            case EverythingInside:
-                ret = adv.mObjects.get(key).getChildObjects(InsideObject);
-                break;
-            case EverythingOn:
-                ret = adv.mObjects.get(key).getChildObjects(OnObject);
-                break;
-            case EverythingWithProperty:
-                MProperty prop = adv.mObjectProperties.get(key);
-                String pKey = prop.getKey();
-                MProperty.PropertyTypeEnum pType = prop.getType();
-                for (MObject ob : adv.mObjects.values()) {
-                    String obKey = ob.getKey();
-                    if (ob.hasProperty(pKey)) {
-                        if (pType == SelectionOnly) {
-                            ret.put(obKey, ob);
-                        } else {
-                            if (ob.getPropertyValue(pKey).equals(propValue)) {
-                                ret.put(obKey, ob);
-                            }
-                        }
-                    }
-                }
-                break;
-            case EverythingWornBy: {
-                MCharacter ch = adv.mCharacters.get(key);
-                if (ch != null) {
-                    ret = ch.getWornObjects();
-                }
-                break;
-            }
-        }
-        return ret;
-    }
-
     public void load(@NonNull MFileOlder.V4Reader reader,
                      final double v, ArrayList<MObject> newObs,
-                     final int iNumLocations, final int iStartLocations,
-                     MStringArrayList salWithStates,
-                     HashMap<String, String> dictDodgyStates, HashMap<MObject, MProperty> dodgyArlStates) throws EOFException {
+                     final int nLocs, final int startLocs,
+                     MStringArrayList withStates, HashMap<String, String> dictDodgyStates,
+                     HashMap<MObject, MProperty> dodgyArlStates) throws EOFException {
         int nObs = cint(reader.readLine());
         for (int i = 1; i <= nObs; i++) {
-            MObject obj = new MObject(mAdv, reader, i, v, iNumLocations, iStartLocations,
-                    salWithStates, dictDodgyStates, dodgyArlStates, newObs);
+            MObject obj = new MObject(mAdv, reader, i, v, nLocs, startLocs,
+                    withStates, dictDodgyStates, dodgyArlStates, newObs);
             put(obj.getKey(), obj);
         }
-    }
-
-    @Override
-    @Nullable
-    public MObject put(@NonNull String key, @NonNull MObject ob) {
-        if (this == mAdv.mObjects) {
-            mAdv.mAllItems.put(ob);
-        }
-        return super.put(key, ob);
-    }
-
-    @Override
-    @Nullable
-    public MObject remove(Object key) {
-        if (this == mAdv.mObjects) {
-            mAdv.mAllItems.remove(key);
-        }
-        return super.remove(key);
-    }
-
-    @NonNull
-    public String toList() {
-        return toList("and", false, Definite);
-    }
-
-    @NonNull
-    public String toList(@NonNull String separator) {
-        return toList(separator, false, Definite);
-    }
-
-    @NonNull
-    public String toList(@NonNull String separator, boolean bIncludeSubObjects) {
-        return toList(separator, bIncludeSubObjects, Definite);
-    }
-
-    @NonNull
-    public String toList(@NonNull String separator, boolean bIncludeSubObjects, MGlobals.ArticleTypeEnum Article) {
-        StringBuilder ret = new StringBuilder();
-        int n = size();
-        for (MObject ob : values()) {
-            ret.append(ob.getFullName(Article));
-            n--;
-            if (n > 1) {
-                ret.append(", ");
-            }
-            if (n == 1) {
-                ret.append(" ").append(separator).append(" ");
-            }
-        }
-        if (ret.length() == 0) {
-            ret.append("nothing");
-        }
-
-        if (bIncludeSubObjects) {
-            for (MObject ob : values()) {
-                if (ob.getChildObjects(OnObject).size() > 0) {
-                    if (ret.length() > 0) {
-                        ret.append(".  ");
-                    }
-                    StringBuilder msg = new StringBuilder(ob.getChildObjects(OnObject)
-                            .toList("and", false, Article));
-                    toProper(msg);
-                    ret.append(msg);
-                    if (ob.getChildObjects(OnObject).size() == 1) {
-                        ret.append(" is on ");
-                    } else {
-                        ret.append(" are on ");
-                    }
-                    ret.append(ob.getFullName(Definite));
-                }
-                if (!ob.isOpenable() || ob.isOpen()) {
-                    if (ob.getChildObjects(InsideObject).size() > 0) {
-                        if (ob.getChildObjects(OnObject).size() > 0) {
-                            ret.append(", and inside");
-                        } else {
-                            if (ret.length() > 0) {
-                                ret.append(".  ");
-                            }
-                            ret.append("Inside ").append(ob.getFullName(Definite));
-                        }
-                        if (ob.getChildObjects(InsideObject).size() == 1) {
-                            ret.append(" is ");
-                        } else {
-                            ret.append(" are ");
-                        }
-                        ret.append(ob.getChildObjects(InsideObject).toList("and", false, Article));
-                    }
-                }
-            }
-        }
-        return ret.toString();
     }
 
     @NonNull
@@ -253,5 +98,176 @@ public class MObjectHashMap extends MItemHashMap<MObject> {
             }
         }
         return ret;
+    }
+
+    @NonNull
+    public MObjectHashMap get(@NonNull MAction.MoveObjectWhatEnum what,
+                              @NonNull String key, @NonNull String propValue) {
+        MObjectHashMap ret = new MObjectHashMap(mAdv);
+        switch (what) {
+            case Object: {
+                MObject ob = mAdv.mObjects.get(key);
+                if (ob != null) {
+                    ret.put(key, ob);
+                }
+                break;
+            }
+            case EverythingAtLocation: {
+                for (MObject ob : mAdv.mObjects.values()) {
+                    MObject.MObjectLocation obLoc = ob.getLocation();
+                    if (!ob.isStatic() &&
+                            obLoc.mDynamicExistWhere == InLocation &&
+                            obLoc.getKey().equals(key)) {
+                        ret.put(ob.getKey(), ob);
+                    }
+                }
+                break;
+            }
+            case EverythingHeldBy: {
+                MCharacter ch = mAdv.mCharacters.get(key);
+                if (ch != null) {
+                    ret = ch.getHeldObjects();
+                }
+                break;
+            }
+            case EverythingInGroup: {
+                MGroup grp = mAdv.mGroups.get(key);
+                if (grp != null) {
+                    for (String obKey : grp.getArlMembers()) {
+                        MObject ob = mAdv.mObjects.get(obKey);
+                        if (ob != null) {
+                            ret.put(obKey, ob);
+                        }
+                    }
+                }
+                break;
+            }
+            case EverythingInside: {
+                MObject ob = mAdv.mObjects.get(key);
+                if (ob != null) {
+                    ret = ob.getChildObjects(InsideObject);
+                }
+                break;
+            }
+            case EverythingOn: {
+                MObject ob = mAdv.mObjects.get(key);
+                if (ob != null) {
+                    ret = ob.getChildObjects(OnObject);
+                }
+                break;
+            }
+            case EverythingWithProperty: {
+                MProperty prop = mAdv.mObjectProperties.get(key);
+                if (prop != null) {
+                    MProperty.PropertyTypeEnum type = prop.getType();
+                    for (MObject ob : mAdv.mObjects.values()) {
+                        if (ob.hasProperty(key)) {
+                            if (type == SelectionOnly) {
+                                ret.put(ob.getKey(), ob);
+                            } else {
+                                if (ob.getPropertyValue(key).equals(propValue)) {
+                                    ret.put(ob.getKey(), ob);
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+            }
+            case EverythingWornBy: {
+                MCharacter ch = mAdv.mCharacters.get(key);
+                if (ch != null) {
+                    ret = ch.getWornObjects();
+                }
+                break;
+            }
+        }
+        return ret;
+    }
+
+    @Override
+    @Nullable
+    public MObject put(@NonNull String key, @NonNull MObject ob) {
+        if (this == mAdv.mObjects) {
+            mAdv.mAllItems.put(ob);
+        }
+        return super.put(key, ob);
+    }
+
+    @Override
+    @Nullable
+    public MObject remove(Object key) {
+        if (this == mAdv.mObjects) {
+            mAdv.mAllItems.remove(key);
+        }
+        return super.remove(key);
+    }
+
+    @NonNull
+    public String toList() {
+        return toList("and", false, Definite);
+    }
+
+    @NonNull
+    public String toList(@NonNull String separator) {
+        return toList(separator, false, Definite);
+    }
+
+    @NonNull
+    public String toList(@NonNull String separator, boolean includeSubObjects) {
+        return toList(separator, includeSubObjects, Definite);
+    }
+
+    @NonNull
+    public String toList(@NonNull String separator, boolean includeSubObjects,
+                         MGlobals.ArticleTypeEnum article) {
+        StringBuilder ret = new StringBuilder();
+        int n = size();
+        for (MObject ob : values()) {
+            ret.append(ob.getFullName(article));
+            n--;
+            if (n > 1) {
+                ret.append(", ");
+            }
+            if (n == 1) {
+                ret.append(" ").append(separator).append(" ");
+            }
+        }
+        if (ret.length() == 0) {
+            ret.append("nothing");
+        }
+
+        if (includeSubObjects) {
+            for (MObject ob : values()) {
+                MObjectHashMap obsOn = ob.getChildObjects(OnObject);
+                if (obsOn.size() > 0) {
+                    if (ret.length() > 0) {
+                        ret.append(".  ");
+                    }
+                    StringBuilder msg = new StringBuilder(obsOn.toList("and",
+                            false, article));
+                    toProper(msg);
+                    ret.append(msg);
+                    ret.append(obsOn.size() == 1 ? " is on " : " are on ");
+                    ret.append(ob.getFullName(Definite));
+                }
+                if (!ob.isOpenable() || ob.isOpen()) {
+                    MObjectHashMap obsIn = ob.getChildObjects(InsideObject);
+                    if (obsIn.size() > 0) {
+                        if (obsOn.size() > 0) {
+                            ret.append(", and inside");
+                        } else {
+                            if (ret.length() > 0) {
+                                ret.append(".  ");
+                            }
+                            ret.append("Inside ").append(ob.getFullName(Definite));
+                        }
+                        ret.append(obsIn.size() == 1 ? " is " : " are ");
+                        ret.append(obsIn.toList("and", false, article));
+                    }
+                }
+            }
+        }
+        return ret.toString();
     }
 }

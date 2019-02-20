@@ -48,7 +48,7 @@ public class MTopic implements Cloneable {
     @NonNull
     public MRestrictionArrayList mRestrictions;
     @NonNull
-    public MActionArrayList mActions = new MActionArrayList();
+    public MActionArrayList mActions;
     public boolean mIsIntro;
     public boolean mIsAsk;
     public boolean mIsTell;
@@ -59,6 +59,7 @@ public class MTopic implements Cloneable {
     MTopic(@NonNull MAdventure adv) {
         mDescription = new MDescription(adv);
         mRestrictions = new MRestrictionArrayList(adv);
+        mActions = new MActionArrayList(adv);
     }
 
     MTopic(@NonNull MAdventure adv, @NonNull XmlPullParser xpp, double dFileVersion) throws Exception {

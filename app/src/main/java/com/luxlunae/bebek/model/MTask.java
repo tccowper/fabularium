@@ -27,8 +27,6 @@ import android.support.annotation.Nullable;
 import com.google.code.regexp.Matcher;
 import com.google.code.regexp.Pattern;
 import com.luxlunae.bebek.MGlobals;
-import com.luxlunae.bebek.controller.MParser;
-import com.luxlunae.bebek.controller.MReference;
 import com.luxlunae.bebek.model.collection.MActionArrayList;
 import com.luxlunae.bebek.model.collection.MCharacterHashMap;
 import com.luxlunae.bebek.model.collection.MItemHashMap;
@@ -41,7 +39,6 @@ import com.luxlunae.bebek.model.collection.MStringArrayList;
 import com.luxlunae.bebek.model.collection.MStringHashMap;
 import com.luxlunae.bebek.model.collection.MTaskHashMap;
 import com.luxlunae.bebek.model.io.MFileOlder;
-import com.luxlunae.bebek.view.MView;
 import com.luxlunae.glk.GLKLogger;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -56,17 +53,14 @@ import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
-import static com.luxlunae.bebek.MGlobals.ArticleTypeEnum.Definite;
 import static com.luxlunae.bebek.MGlobals.ItemEnum.Task;
-import static com.luxlunae.bebek.MGlobals.REFERENCE_NAMES;
-import static com.luxlunae.bebek.MGlobals.TODO;
 import static com.luxlunae.bebek.MGlobals.appendDoubleSpace;
 import static com.luxlunae.bebek.MGlobals.containsWord;
 import static com.luxlunae.bebek.MGlobals.getBool;
 import static com.luxlunae.bebek.MGlobals.guessPluralNoun;
 import static com.luxlunae.bebek.MGlobals.left;
-import static com.luxlunae.bebek.MGlobals.safeInt;
 import static com.luxlunae.bebek.MGlobals.toProper;
 import static com.luxlunae.bebek.VB.cbool;
 import static com.luxlunae.bebek.VB.cint;
@@ -75,6 +69,7 @@ import static com.luxlunae.bebek.model.MAction.ItemEnum.DecreaseVariable;
 import static com.luxlunae.bebek.model.MAction.ItemEnum.IncreaseVariable;
 import static com.luxlunae.bebek.model.MAction.ItemEnum.SetTasks;
 import static com.luxlunae.bebek.model.MAction.ItemEnum.SetVariable;
+import static com.luxlunae.bebek.model.MAdventure.MTasksListEnum.SpecificTasks;
 import static com.luxlunae.bebek.model.MAdventure.TaskExecutionEnum.HighestPriorityPassingTask;
 import static com.luxlunae.bebek.model.MEventOrWalkControl.CompleteOrNotEnum.Completion;
 import static com.luxlunae.bebek.model.MEventOrWalkControl.CompleteOrNotEnum.UnCompletion;
@@ -101,8 +96,6 @@ import static com.luxlunae.bebek.model.io.MFileOlder.loadResource;
 import static com.luxlunae.bebek.view.MView.DebugDetailLevelEnum.High;
 import static com.luxlunae.bebek.view.MView.DebugDetailLevelEnum.Low;
 import static com.luxlunae.bebek.view.MView.DebugDetailLevelEnum.Medium;
-import static com.luxlunae.bebek.view.MView.debugPrint;
-import static com.luxlunae.bebek.view.MView.displayText;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
@@ -196,7 +189,7 @@ public class MTask extends MItem {
      * is executed and its restrictions all pass.
      */
     @NonNull
-    public MActionArrayList mActions = new MActionArrayList();
+    public MActionArrayList mActions;
     /**
      * This controls the order in which the task executes:
      * <p>
@@ -330,13 +323,13 @@ public class MTask extends MItem {
      * within the task command that can match on any object, character etc.
      */
     @NonNull
-    public MReferenceList mReferences = new MReferenceList();
+    public MReferenceList mRefs;
     /**
      * A set of references created when matchesReferences is first called, which
      * may or may not contain unique, unambiguous elements.
      */
     @Nullable
-    public MReferenceList mReferencesWorking;
+    MReferenceList mRefsWorking;
     /**
      * For Adrift 3.9 / 4 compatibility.
      * <p>
@@ -453,6 +446,8 @@ public class MTask extends MItem {
         mCompletionMessage = new MDescription(adv);
         mFailOverride = new MDescription(adv);
         mRestrictions = new MRestrictionArrayList(adv);
+        mActions = new MActionArrayList(adv);
+        mRefs = new MReferenceList(adv);
     }
 
     public MTask(@NonNull MAdventure adv, @NonNull MFileOlder.V4Reader reader,
@@ -547,7 +542,7 @@ public class MTask extends MItem {
         }
         String sRepeatText = reader.readLine();                             // $RepeatText
         String sAddtlMsg = reader.readLine();                               // $AdditionalMessage
-        int iShowRoom = safeInt(reader.readLine());                         // #ShowRoomDesc
+        int iShowRoom = mAdv.safeInt(reader.readLine());                    // #ShowRoomDesc
         if (iShowRoom > 0) {
             if (sbComplMsg.length() > 0) {
                 sbComplMsg.append("  ");
@@ -795,14 +790,14 @@ public class MTask extends MItem {
         //                  task is executable everywhere.
         // -------------------------------------------------------------
         MRestrictionArrayList locRests = new MRestrictionArrayList(adv);
-        int iDoWhere = safeInt(reader.readLine());                          // #Type
+        int iDoWhere = mAdv.safeInt(reader.readLine());                          // #Type
         if (iDoWhere == 1) {
             // SINGLE ROOM
             // Add as a separate restriction.
             locRests.add(createLocRestriction(adv,
                     "Location" + (cint(reader.readLine()) +
                             1 + iStartLocations), true));             // Room #
-            locRests.mBracketSequence = "#";
+            locRests.mBrackSeq = "#";
         } else if (iDoWhere == 2) {
             // MULTIPLE ROOMS
             HashSet<Integer> allowHere = new HashSet<>();
@@ -825,7 +820,7 @@ public class MTask extends MItem {
                         locRests.add(createLocRestriction(adv,
                                 locNames[i], true));
                     }
-                    locRests.mBracketSequence =
+                    locRests.mBrackSeq =
                             (nAllowed == 2) ? "(#O#)" : "(#O#O#)";
                     break;
                 default:
@@ -838,7 +833,7 @@ public class MTask extends MItem {
                             locRests.add(createLocRestriction(adv,
                                     locNames[i], false));
                         }
-                        locRests.mBracketSequence =
+                        locRests.mBrackSeq =
                                 (nAllowed == nLocs - 1) ? "#" : "(#O#)";
                     } else {
                         // Create a room group and add it as a separate
@@ -852,7 +847,7 @@ public class MTask extends MItem {
                                         "task '" +
                                                 getDescription() + "'").getKey(),
                                 true));
-                        locRests.mBracketSequence = "#";
+                        locRests.mBrackSeq = "#";
                     }
                     break;
             }
@@ -943,7 +938,7 @@ public class MTask extends MItem {
             // sequence (note: that there might already be location
             // restrictions that have been connected in the
             // bracket sequence using ORs)
-            sbBrackSeq.append(mRestrictions.mBracketSequence);
+            sbBrackSeq.append(mRestrictions.mBrackSeq);
             int i = 0;
             int nRest = 0;
 
@@ -965,22 +960,22 @@ public class MTask extends MItem {
             for (i = nRest; i < mRestrictions.size(); i++) {
                 sbBrackSeq.append("A#");
             }
-            mRestrictions.mBracketSequence = sbBrackSeq.toString();
+            mRestrictions.mBrackSeq = sbBrackSeq.toString();
         } else {
             sbBrackSeq.append(reader.readLine());                           // $RestrMask
             if (sbBrackSeq.length() > 0 &&
-                    !mRestrictions.mBracketSequence.equals("")) {
-                mRestrictions.mBracketSequence += "A";
+                    !mRestrictions.mBrackSeq.equals("")) {
+                mRestrictions.mBrackSeq += "A";
             }
-            mRestrictions.mBracketSequence += sbBrackSeq;
+            mRestrictions.mBrackSeq += sbBrackSeq;
 
             // This next line added by TCC - otherwise older v4 games
             // like Escape to New York don't work properly:
-            mRestrictions.mBracketSequence =
-                    correctBracketSequence(mRestrictions.mBracketSequence);
+            mRestrictions.mBrackSeq =
+                    correctBracketSequence(mRestrictions.mBrackSeq);
         }
-        mRestrictions.mBracketSequence =
-                mRestrictions.mBracketSequence
+        mRestrictions.mBrackSeq =
+                mRestrictions.mBrackSeq
                         .replace("[", "((")
                         .replace("]", "))");
         // =============================================================
@@ -1016,7 +1011,7 @@ public class MTask extends MItem {
             act.mType = SetTasks;
             act.mSetTask = Unset;
             act.mKey1 = getKey();
-            mReversedTask.mActions = new MActionArrayList();
+            mReversedTask.mActions = new MActionArrayList(adv);
             mReversedTask.mActions.add(act);
 
             MRestriction rest = new MRestriction(adv);
@@ -1031,10 +1026,10 @@ public class MTask extends MItem {
                 rest.mMessage = new MDescription(adv, sRepeatText);
             }
             mReversedTask.mRestrictions.add(rest);
-            if (mReversedTask.mRestrictions.mBracketSequence.length() == 0) {
-                mReversedTask.mRestrictions.mBracketSequence = "#";
+            if (mReversedTask.mRestrictions.mBrackSeq.length() == 0) {
+                mReversedTask.mRestrictions.mBrackSeq = "#";
             } else {
-                mReversedTask.mRestrictions.mBracketSequence += "A#";
+                mReversedTask.mRestrictions.mBrackSeq += "A#";
             }
         }
     }
@@ -1300,166 +1295,6 @@ public class MTask extends MItem {
         }
     }
 
-    /**
-     * Helper function for resolveAmbiguity.
-     * <p>
-     * Take a list of ambiguous keys of type keyType, then
-     * try to reduce that list to one (hopefully). We reduce the
-     * keys by removing any that refer to an item that doesn't
-     * contain all of the input words in its name or descriptors.
-     *
-     * @param adv     - the Adventure object.
-     * @param keys    - the keys to reduce.
-     * @param keyType - the type of the keys (object, character or location).
-     * @param input   - the input to test against.
-     * @return a list of keys that is either the same as, or
-     * reduced from, keys.
-     */
-    @NonNull
-    private static MStringArrayList resolveAmbiguousKeys(@NonNull MAdventure adv,
-                                                         @NonNull MStringArrayList keys,
-                                                         MReference.ReferencesType keyType,
-                                                         @NonNull String input) {
-        // Check each word in the refined text to ensure they all match
-        MStringArrayList ret = new MStringArrayList();
-        String[] inputWords = input.split(" ");
-
-        switch (keyType) {
-            case Object:
-                for (String key : keys) {
-                    // Get the object associated with this key.
-                    MObject ob = adv.mObjects.get(key);
-                    if (ob == null) {
-                        // Key refers to a non-existent object.
-                        // Ignore it.
-                        continue;
-                    }
-                    String obArticle = ob.getArticle();
-                    String obPrefix = ob.getPrefix();
-                    MStringArrayList obNames = ob.getNames();
-
-                    // Try to match each of the input words to
-                    // either "the", the object's article, or
-                    // a word in the object's prefix or name.
-                    boolean matchesAll = true;
-                    for (String word : inputWords) {
-                        boolean wordInObject = false;
-                        if (word.equals("the") || word.equals(obArticle) ||
-                                containsWord(obPrefix, word)) {
-                            wordInObject = true;
-                        } else {
-                            for (String obName : obNames) {
-                                if (containsWord(obName, word)) {
-                                    wordInObject = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if (!wordInObject) {
-                            matchesAll = false;
-                            break;
-                        }
-                    }
-                    if (matchesAll) {
-                        ret.add(key);
-                    }
-                }
-                break;
-
-            case Character:
-                for (String key : keys) {
-                    MCharacter ch = adv.mCharacters.get(key);
-                    if (ch == null) {
-                        // Key refers to a non-existent character.
-                        // Ignore it.
-                        continue;
-                    }
-                    String chPrefix = ch.getPrefix();
-                    String chName = ch.getProperName();
-                    MStringArrayList chDescs = ch.mDescriptors;
-
-                    // Try to match each of the input words to
-                    // a word in the character's prefix, name or
-                    // descriptors.
-                    boolean matchesAll = true;
-                    for (String word : inputWords) {
-                        boolean wordInChar = false;
-                        if (containsWord(chPrefix, word) ||
-                                containsWord(chName, word)) {
-                            wordInChar = true;
-                        } else {
-                            for (String chDesc : chDescs) {
-                                if (containsWord(chDesc, word)) {
-                                    wordInChar = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if (!wordInChar) {
-                            matchesAll = false;
-                            break;
-                        }
-                    }
-                    if (matchesAll) {
-                        ret.add(key);
-                    }
-                }
-                break;
-
-            case Location:
-                for (String key : keys) {
-                    MLocation loc = adv.mLocations.get(key);
-                    if (loc == null) {
-                        // Key refers to a non-existent location.
-                        // Ignore it.
-                        continue;
-                    }
-                    String desc = loc.getShortDescription().toString(true);
-
-                    // Try to match each of the input words to
-                    // a word in the location's short description.
-                    boolean matchesAll = true;
-                    for (String word : inputWords) {
-                        if (!containsWord(desc, word)) {
-                            matchesAll = false;
-                            break;
-                        }
-                    }
-                    if (matchesAll) {
-                        ret.add(key);
-                    }
-                }
-                break;
-        }
-
-        return ret;
-    }
-
-    /**
-     * Looks for references (keywords enclosed between two % signs) in
-     * a given command string. The references are returned as a list, in
-     * the order they were found in the string (left to right).
-     *
-     * @param cmd - the string to check
-     * @return a list of the valid references present in the string (if no
-     * references are found, the list will be empty).
-     */
-    @NonNull
-    private static MStringArrayList getRefsInCommand(@NonNull String cmd) {
-        MStringArrayList refs = new MStringArrayList();
-        String[] sections = cmd.split("%");
-        for (String section : sections) {
-            String cmdRef = "%" + section + "%";
-            for (String validRef : REFERENCE_NAMES) {
-                if (cmdRef.equals(validRef)) {
-                    refs.add(validRef);
-                    break;
-                }
-            }
-        }
-        return refs;
-    }
-
     void set(@NonNull SetTasksEnum setType, @NonNull String params,
              @NonNull String to, int from, boolean calledFromEvent,
              EnumSet<ExecutionStatus> curStatus) throws InterruptedException {
@@ -1472,24 +1307,24 @@ public class MTask extends MItem {
         // checking its restrictions are valid, displaying its own text box and
         // running its own actions before returning to complete the remaining
         // actions in the first task.
-        int iFrom = 1;
-        int iTo = 1;
+        int first = 1;
+        int last = 1;
 
         if (!to.equals("")) {
-            iFrom = from;
-            iTo = safeInt(to);
+            first = from;
+            last = mAdv.safeInt(to);
         }
 
-        for (int i = iFrom; i <= iTo; i++) {
+        for (int i = first; i <= last; i++) {
             if (setType == Execute) {
                 // -------------------
                 // EXECUTE THE TASK
                 // -------------------
-                debugPrint(Task, getKey(), High,
+                mAdv.mView.debugPrint(Task, getKey(), High,
                         "Executing task '" + getDescription() + "'.");
 
                 // Store the existing refs
-                MReferenceList oExistingRefs = MParser.mReferences;
+                MReferenceList refsExisting = mAdv.mReferences;
 
                 if (!params.equals("")) {
                     // If the general task to be executed uses references
@@ -1535,7 +1370,7 @@ public class MTask extends MItem {
                     // Rewrite the references based on our parameters
                     String[] splitParams = params.split("\\|");
                     int iNewRef = -1;
-                    MReferenceList newRefs = new MReferenceList(splitParams.length);
+                    MReferenceList newRefs = new MReferenceList(mAdv, splitParams.length);
                     for (String param : splitParams) {
                         iNewRef++;
 
@@ -1548,9 +1383,9 @@ public class MTask extends MItem {
                             // Again, we may be looking outside NewRefs
                             // if we're looking at subtask with different refs... :-/
                             if (param.equals(ref) &&
-                                    iOldRef < MParser.mReferences.size()) {
+                                    iOldRef < mAdv.mReferences.size()) {
                                 // Ok, found same ref, so we just pass the ref thru
-                                newRefs.set(iNewRef, MParser.mReferences.get(iOldRef));
+                                newRefs.set(iNewRef, mAdv.mReferences.get(iOldRef));
                                 foundMatchingRef = true;
                             }
                         }
@@ -1561,9 +1396,11 @@ public class MTask extends MItem {
                             MReference.ReferencesType refType = null;
                             if (param.contains(".")) {
                                 // Hmm, let's see if this is an OO function
-                                for (String propKey : mAdv.mAllProperties.keySet()) {
+                                for (Map.Entry<String, MProperty> propEntry :
+                                        mAdv.mAllProperties.entrySet()) {
+                                    String propKey = propEntry.getKey();
                                     if (param.endsWith("." + propKey)) {
-                                        MProperty prop = mAdv.mAllProperties.get(propKey);
+                                        MProperty prop = propEntry.getValue();
                                         switch (prop.getType()) {
                                             case CharacterKey:
                                                 refType = MReference.ReferencesType.Character;
@@ -1613,7 +1450,7 @@ public class MTask extends MItem {
                                     if (param.endsWith(".Worn")) {
                                         refType = MReference.ReferencesType.Object;
                                     } else if (param.endsWith(".List")) {
-                                        TODO("ExecuteSingleAction: SetTasks: List");
+                                        mAdv.mView.TODO("ExecuteSingleAction: SetTasks: List");
                                     } else if (param.endsWith(".Count")) {
                                         refType = MReference.ReferencesType.Number;
                                     } else if (param.endsWith(".Exits")) {
@@ -1649,7 +1486,7 @@ public class MTask extends MItem {
 
                             // Now work out, e.g. %ParentOf[%objects%]% ...
                             MReference userDefinedRef = new MReference(refType);
-                            String funcRef = mAdv.evaluateFunctions(param, MParser.mReferences);
+                            String funcRef = mAdv.evalFuncs(param, mAdv.mReferences);
                             if (funcRef.toLowerCase().equals("%loop%")) {
                                 funcRef = String.valueOf(i);
                             }
@@ -1668,24 +1505,24 @@ public class MTask extends MItem {
                                         // List function
                                         ref = null;
                                     }
-                                    itm.mMatchingPossibilities.add(ref);
+                                    itm.mMatchingKeys.add(ref);
                                     userDefinedRef.mItems.add(itm);
                                 }
                                 if (param.startsWith("%ParentOf")) {
                                     userDefinedRef.mType = MReference.ReferencesType.Object;
                                 }
                             } else {
-                                debugPrint(Task, "", High,
+                                mAdv.mView.debugPrint(Task, "", High,
                                         "Error calculating parameter " + param);
                             }
                             newRefs.set(iNewRef, userDefinedRef);
                         }
                     }
-                    MParser.mReferences = newRefs;
-                    MParser.mReferences.printReferences(mAdv);
+                    mAdv.mReferences = newRefs;
+                    mAdv.mReferences.printToDebug();
                 } else {
                     // Explicitly clear the refs for this task being called
-                    MParser.mReferences = null;
+                    mAdv.mReferences = null;
                 }
 
                 // was True in ChildTask.  But it's not a child, it's a separate task call...
@@ -1701,11 +1538,11 @@ public class MTask extends MItem {
                 if (childStatus.contains(HasOutput)) {
                     curStatus.add(HasOutput);
                 }
-                MParser.mReferences = oExistingRefs;
+                mAdv.mReferences = refsExisting;
             } else {
                 // UNSET THE TASK
                 if (getCompleted()) {
-                    debugPrint(Task, getKey(), High,
+                    mAdv.mView.debugPrint(Task, getKey(), High,
                             "Task '" + getDescription() + "' being uncompleted.");
 
                     // Check any walks/events to see if anything triggers on this task uncompleting
@@ -1716,12 +1553,12 @@ public class MTask extends MItem {
                     // didn't do that which seems to be a bug. N.B. if the task uncompleting
                     // triggers more than one walk to start, we only start the last one and
                     // ignore the rest.
-                    for (MCharacter c : mAdv.mCharacters.values()) {
+                    for (MCharacter ch : mAdv.mCharacters.values()) {
                         MWalk started = null;
-                        for (MWalk w : c.mWalks) {
+                        for (MWalk w : ch.mWalks) {
                             for (MEventOrWalkControl ctrl : w.mWalkControls) {
                                 if (ctrl.eCompleteOrNot == UnCompletion &&
-                                        ctrl.sTaskKey.equals(getKey())) {
+                                        ctrl.mTaskKey.equals(getKey())) {
                                     switch (ctrl.eControl) {
                                         case Resume:
                                             if (w.mStatus == Paused) {
@@ -1753,7 +1590,7 @@ public class MTask extends MItem {
                         if (started != null) {
                             // OK, we just started / resumed a walk for this
                             // character, so make sure no other walks are active
-                            for (MWalk w : c.mWalks) {
+                            for (MWalk w : ch.mWalks) {
                                 if (w != started) {
                                     if (w.mStatus == Running) {
                                         w.pause();
@@ -1762,29 +1599,29 @@ public class MTask extends MItem {
                             }
                         }
                     }
-                    for (MEvent e : mAdv.mEvents.values()) {
-                        for (MEventOrWalkControl ctrl : e.mEventControls) {
+                    for (MEvent ev : mAdv.mEvents.values()) {
+                        for (MEventOrWalkControl ctrl : ev.mEventControls) {
                             if (ctrl.eCompleteOrNot == UnCompletion &&
-                                    ctrl.sTaskKey.equals(getKey())) {
+                                    ctrl.mTaskKey.equals(getKey())) {
                                 switch (ctrl.eControl) {
                                     case Resume:
-                                        if (e.mStatus == MEvent.StatusEnum.Paused) {
-                                            e.resume();
+                                        if (ev.mStatus == MEvent.StatusEnum.Paused) {
+                                            ev.resume();
                                         }
                                         break;
                                     case Start:
-                                        if (e.mStatus != MEvent.StatusEnum.Running) {
-                                            e.start();
+                                        if (ev.mStatus != MEvent.StatusEnum.Running) {
+                                            ev.start();
                                         }
                                         break;
                                     case Stop:
-                                        if (e.mStatus == MEvent.StatusEnum.Running) {
-                                            e.stop();
+                                        if (ev.mStatus == MEvent.StatusEnum.Running) {
+                                            ev.stop();
                                         }
                                         break;
                                     case Suspend:
-                                        if (e.mStatus == MEvent.StatusEnum.Running) {
-                                            e.pause();
+                                        if (ev.mStatus == MEvent.StatusEnum.Running) {
+                                            ev.pause();
                                         }
                                         break;
                                 }
@@ -1990,64 +1827,6 @@ public class MTask extends MItem {
         }
     }
 
-    public boolean resolveAmbiguity(@NonNull MAdventure adv, @NonNull String input) {
-        boolean resolved = false;
-        if (mReferencesWorking == null) {
-            // We can't resolve the ambiguity as we don't have any references
-            return false;
-        }
-
-        for (MReference ref : mReferencesWorking) {
-            //GLKLogger.debug("Reference " + iRef);
-            if (ref != null) {
-                //GLKLogger.debug("Number of Refs in this Reference: " + NewReferences[iRef].Items.size());
-                for (int i = 0, sz = ref.mItems.size(); i < sz; i++) {
-                    MReference.MReferenceItem itm = ref.mItems.get(i);
-                    MStringArrayList possibleKeys = itm.mMatchingPossibilities;
-                    //GLKLogger.debug("Number of matching references: " + possibleKeys.size());
-                    if (possibleKeys.size() != 1) {
-                        if (!resolved) {
-                            possibleKeys = resolveAmbiguousKeys(adv, possibleKeys, ref.mType, input);
-                            itm.mMatchingPossibilities = possibleKeys;
-                        }
-                        if (possibleKeys.size() != 1) {
-                            return false;
-                        }
-                        String key = possibleKeys.get(0);
-                        switch (ref.mType) {
-                            case Object:
-                                MObject ob = adv.mObjects.get(key);
-                                if (!ob.isPlural()) {
-                                    adv.mIt = ob.getFullName(Definite);
-                                } else {
-                                    adv.mThem = ob.getFullName(Definite);
-                                }
-                                break;
-                            case Character:
-                                MCharacter ch = adv.mCharacters.get(key);
-                                if (ch != null) {
-                                    switch (ch.getGender()) {
-                                        case Male:
-                                            adv.mHim = ch.getName();
-                                            break;
-                                        case Female:
-                                            adv.mHer = ch.getName();
-                                            break;
-                                        case Unknown:
-                                            adv.mIt = ch.getName();
-                                            break;
-                                    }
-                                }
-                                break;
-                        }
-                        resolved = true;
-                    }
-                }
-            }
-        }
-        return true;
-    }
-
     @NonNull
     private String getAmbWord(@NonNull String input,
                               @NonNull MStringArrayList keys,
@@ -2103,21 +1882,21 @@ public class MTask extends MItem {
         return "";
     }
 
-    public boolean displayAmbiguityQuestion(@NonNull String input) {
+    boolean displayAmbiguityQuestion(@NonNull String input) {
         // returns true if we are waiting for a response, false otherwise
-        if (mReferencesWorking == null) {
+        if (mRefsWorking == null) {
             // We don't have any references with which
             // to construct the ambiguity question, so
             // don't do anything.
             return true;
         }
 
-        for (MReference ref : mReferencesWorking) {
+        for (MReference ref : mRefsWorking) {
             //GLKLogger.debug("Reference " + iRef);
             //GLKLogger.debug("Number of Items in this Reference: " + NewReferences[iRef].Items.size());
             MReference.ReferencesType refType = ref.mType;
             for (MReference.MReferenceItem itm : ref.mItems) {
-                int nPossible = itm.mMatchingPossibilities.size();
+                int nPossible = itm.mMatchingKeys.size();
                 if (nPossible > 1) {
                     // This item is ambiguous - it has more than
                     // one possible value. Try to resolve the
@@ -2125,101 +1904,92 @@ public class MTask extends MItem {
                     switch (refType) {
                         case Object: {
                             // Collect all the referenced object keys
-                            MObjectHashMap htblObs = new MObjectHashMap(mAdv);
-                            for (String sKey : itm.mMatchingPossibilities) {
-                                if (!htblObs.containsKey(sKey)) {
-                                    htblObs.put(sKey, mAdv.mObjects.get(sKey));
-                                }
-                            }
-
                             // Can the player see any of them?
-                            boolean bCanSeeAny = false;
-                            for (String sKey : htblObs.keySet()) {
-                                if (!bCanSeeAny && mAdv.getPlayer().canSeeObject(sKey)) {
-                                    bCanSeeAny = true;
+                            MObjectHashMap obs = new MObjectHashMap(mAdv);
+                            boolean canSeeAny = false;
+                            for (String obKey : itm.mMatchingKeys) {
+                                obs.put(obKey, mAdv.mObjects.get(obKey));
+                                if (!canSeeAny && mAdv.getPlayer().canSeeObject(obKey)) {
+                                    canSeeAny = true;
                                 }
                             }
 
-                            if (!bCanSeeAny) {
+                            if (!canSeeAny) {
                                 // Player can't see any of the referenced objects
-
-                                // Want to try to move this into the library at some point,
+                                // (Want to try to move this into the library at some point,
                                 // as we _may_ want to resolve ambiguous items that aren't
-                                // visible to the player
-                                boolean bAnyPlural = false;
-                                for (MObject ob : htblObs.values()) {
+                                // visible to the player)
+                                boolean isAnyPlural = false;
+                                for (MObject ob : obs.values()) {
                                     if (ob.isPlural()) {
-                                        bAnyPlural = true;
+                                        isAnyPlural = true;
                                         break;
                                     }
                                 }
-
-                                String amb = getAmbWord(input, itm.mMatchingPossibilities, refType);
-                                if (bAnyPlural) {
+                                String amb = getAmbWord(input, itm.mMatchingKeys, refType);
+                                if (isAnyPlural) {
                                     amb = guessPluralNoun(amb);
                                 }
-                                displayText(mAdv, "You can't see any " + amb + "!" + "\n");
+                                mAdv.mView.displayText(mAdv, "You can't see any " +
+                                        amb + "!" + "\n");
                                 return false;
                             } else {
                                 // Player can see at least one of the referenced objects,
                                 // so ask which one they mean
-                                displayText(mAdv, "Which " +
-                                        getAmbWord(input, itm.mMatchingPossibilities, refType) + "?");
-                                StringBuilder sb = new StringBuilder(htblObs.toList("or"));
+                                mAdv.mView.displayText(mAdv, "Which " +
+                                        getAmbWord(input, itm.mMatchingKeys, refType) + "?");
+                                StringBuilder sb = new StringBuilder(obs.toList("or"));
                                 sb.append(".\n");
                                 toProper(sb);
-                                displayText(mAdv, sb.toString());
+                                mAdv.mView.displayText(mAdv, sb.toString());
                                 return true;
                             }
                         }
 
                         case Character: {
                             // Collect all the referenced character keys
-                            MCharacterHashMap htblChars = new MCharacterHashMap(mAdv);
-                            for (String sKey : itm.mMatchingPossibilities) {
-                                htblChars.put(sKey, mAdv.mCharacters.get(sKey));
-                            }
-
                             // Can the player see any of them?
-                            boolean bCanSeeAny = false;
-                            for (String sKey : htblChars.keySet()) {
-                                if (!bCanSeeAny && mAdv.getPlayer().canSeeCharacter(sKey)) {
-                                    bCanSeeAny = true;
+                            MCharacterHashMap chars = new MCharacterHashMap(mAdv);
+                            boolean canSeeAny = false;
+                            for (String chKey : itm.mMatchingKeys) {
+                                chars.put(chKey, mAdv.mCharacters.get(chKey));
+                                if (!canSeeAny && mAdv.getPlayer().canSeeCharacter(chKey)) {
+                                    canSeeAny = true;
                                 }
                             }
 
-                            if (!bCanSeeAny) {
+                            if (!canSeeAny) {
                                 // Player can't see any of the referenced characters
-                                displayText(mAdv, "You can't see any " +
-                                        getAmbWord(input, itm.mMatchingPossibilities, refType) + "!" + "\n");
+                                mAdv.mView.displayText(mAdv, "You can't see any " +
+                                        getAmbWord(input, itm.mMatchingKeys, refType) + "!" + "\n");
                                 return false;
                             } else {
                                 // Player can see at least one of the referenced characters,
                                 // so ask which one they mean
-                                displayText(mAdv, "Which " +
-                                        getAmbWord(input, itm.mMatchingPossibilities, refType) + "?");
-                                StringBuilder sb = new StringBuilder(htblChars.toList("or"));
+                                mAdv.mView.displayText(mAdv, "Which " +
+                                        getAmbWord(input, itm.mMatchingKeys, refType) + "?");
+                                StringBuilder sb = new StringBuilder(chars.toList("or"));
                                 toProper(sb);
                                 sb.append(".\n");
-                                displayText(mAdv, sb.toString());
+                                mAdv.mView.displayText(mAdv, sb.toString());
                                 return true;
                             }
                         }
 
                         case Location:
                             // Collect the referenced location keys
-                            MLocationHashMap htblLocs = new MLocationHashMap(mAdv);
-                            for (String sKey : itm.mMatchingPossibilities) {
-                                htblLocs.put(sKey, mAdv.mLocations.get(sKey));
+                            MLocationHashMap locs = new MLocationHashMap(mAdv);
+                            for (String locKey : itm.mMatchingKeys) {
+                                locs.put(locKey, mAdv.mLocations.get(locKey));
                             }
 
                             // Ask which location the player means
-                            displayText(mAdv, "Which " +
-                                    getAmbWord(input, itm.mMatchingPossibilities, refType) + "?");
-                            StringBuilder sb = new StringBuilder(htblLocs.toList("or"));
+                            mAdv.mView.displayText(mAdv, "Which " +
+                                    getAmbWord(input, itm.mMatchingKeys, refType) + "?");
+                            StringBuilder sb = new StringBuilder(locs.toList("or"));
                             toProper(sb);
                             sb.append(".\n");
-                            displayText(mAdv, sb.toString());
+                            mAdv.mView.displayText(mAdv, sb.toString());
                             return true;
 
                         default:
@@ -2228,7 +1998,7 @@ public class MTask extends MItem {
                     }
                 } else if (nPossible == 0) {
                     // This item has no possible values, so we can't proceed.
-                    displayText(mAdv, "Sorry, that does not clarify the ambiguity." + "\n");
+                    mAdv.mView.displayText(mAdv, "Sorry, that does not clarify the ambiguity." + "\n");
                     return false;
                 }
             }
@@ -2241,7 +2011,7 @@ public class MTask extends MItem {
      * task, for a given list of references.
      *
      * @param refs - the references to reduce (up to 2, anything more is ignored).
-     * @return a new list of references, with the same or less possibilities as 'mReferencesWorking'.
+     * @return a new list of references, with the same or less possibilities as 'mRefsWorking'.
      */
     @NonNull
     private MReferenceList refineRefsUsingScopes(@NonNull final MReferenceList refs) {
@@ -2284,7 +2054,7 @@ public class MTask extends MItem {
         // task, if only one of them passes then it is
         // assumed to be the one the player meant."
         // ---------------------------------------------------
-        MView.debugPrint(Task, getKey(),
+        mAdv.mView.debugPrint(Task, getKey(),
                 High, "Checking scope: Applicable");
 
         // Use a backup of the task's working references for this operation
@@ -2298,66 +2068,66 @@ public class MTask extends MItem {
         // the others to see if it is a successful combination
         if (refs.get(0) != null) {
             for (MReference.MReferenceItem itm0 : refs.get(0).mItems) {
-                boolean bAddedItem0 = false;
-                MReferenceList testRefs = new MReferenceList();
+                boolean addedItm0 = false;
+                MReferenceList testRefs = new MReferenceList(mAdv);
                 testRefs.add(new MReference(refs.get(0)));
                 MReference.MReferenceItem itmOut0 = new MReference.MReferenceItem();
                 itmOut0.mCommandReference = itm0.mCommandReference;
 
-                for (String sKey0 : itm0.mMatchingPossibilities) {
+                for (String itmKey0 : itm0.mMatchingKeys) {
                     testRefs.get(0).mItems.clear();
                     MReference.MReferenceItem itmSingle0 = new MReference.MReferenceItem();
-                    itmSingle0.mMatchingPossibilities.add(sKey0);
+                    itmSingle0.mMatchingKeys.add(itmKey0);
                     testRefs.get(0).mItems.add(itmSingle0);
 
                     if (lenRefsWorking > 1 && refs.get(1) != null) {
                         for (MReference.MReferenceItem itm1 : refs.get(1).mItems) {
-                            boolean bAddedItem1 = false;
+                            boolean addedItm1 = false;
                             testRefs.add(new MReference(refs.get(1)));
                             MReference.MReferenceItem itmOut1 = new MReference.MReferenceItem();
                             itmOut1.mCommandReference = itm1.mCommandReference;
 
-                            for (String sKey1 : itm1.mMatchingPossibilities) {
+                            for (String itmKey1 : itm1.mMatchingKeys) {
                                 testRefs.get(1).mItems.clear();
                                 MReference.MReferenceItem itmSingle1 = new MReference.MReferenceItem();
-                                itmSingle1.mMatchingPossibilities.add(sKey1);
+                                itmSingle1.mMatchingKeys.add(itmKey1);
                                 testRefs.get(1).mItems.add(itmSingle1);
 
                                 if (mRestrictions.passes(testRefs)) {
-                                    if (!bAddedItem0) {
+                                    if (!addedItm0) {
                                         tmpRefs.get(0).mItems.add(itmOut0);
-                                        bAddedItem0 = true;
+                                        addedItm0 = true;
                                     }
-                                    if (!bAddedItem1) {
+                                    if (!addedItm1) {
                                         tmpRefs.get(1).mItems.add(itmOut1);
-                                        bAddedItem1 = true;
+                                        addedItm1 = true;
                                     }
-                                    if (!lAdded[0].contains(sKey0)) {
-                                        itmOut0.mMatchingPossibilities.add(sKey0);
-                                        lAdded[0].add(sKey0);
+                                    if (!lAdded[0].contains(itmKey0)) {
+                                        itmOut0.mMatchingKeys.add(itmKey0);
+                                        lAdded[0].add(itmKey0);
                                     }
-                                    if (!lAdded[1].contains(sKey1)) {
-                                        itmOut1.mMatchingPossibilities.add(sKey1);
-                                        lAdded[1].add(sKey1);
+                                    if (!lAdded[1].contains(itmKey1)) {
+                                        itmOut1.mMatchingKeys.add(itmKey1);
+                                        lAdded[1].add(itmKey1);
                                     }
                                 }
                             }
                         }
                     } else {
                         if (mRestrictions.passes(testRefs)) {
-                            if (!bAddedItem0 && !lAdded[0].contains(sKey0)) {
+                            if (!addedItm0 && !lAdded[0].contains(itmKey0)) {
                                 tmpRefs.get(0).mItems.add(itmOut0);
-                                bAddedItem0 = true;
-                                lAdded[0].add(sKey0);
+                                addedItm0 = true;
+                                lAdded[0].add(itmKey0);
                             }
-                            itmOut0.mMatchingPossibilities.add(sKey0);
+                            itmOut0.mMatchingKeys.add(itmKey0);
                         }
                     }
                 }
             }
         }
 
-        if (tmpRefs.pruneImpossibleItems(mReferences)) {
+        if (tmpRefs.pruneImpossibleItems(mRefs)) {
             // ---------------------------------------------------
             //                SCOPE: VISIBLE
             //
@@ -2368,7 +2138,7 @@ public class MTask extends MItem {
             // checks to see if one of those is currently visible
             // to the player and chooses it."
             // ---------------------------------------------------
-            MView.debugPrint(Task, getKey(),
+            mAdv.mView.debugPrint(Task, getKey(),
                     High, "Checking scope: Visible");
 
             MObject ob;
@@ -2377,20 +2147,20 @@ public class MTask extends MItem {
             for (MReference nr : tmpRefs) {
                 if (nr != null) {
                     for (MReference.MReferenceItem itm : nr.mItems) {
-                        for (int i = itm.mMatchingPossibilities.size() - 1; i >= 0; i--) {
-                            String sItemKey = itm.mMatchingPossibilities.get(i);
+                        for (int i = itm.mMatchingKeys.size() - 1; i >= 0; i--) {
+                            String itmKey = itm.mMatchingKeys.get(i);
                             switch (nr.mType) {
                                 case Object:
-                                    if ((ob = mAdv.mObjects.get(sItemKey)) != null) {
+                                    if ((ob = mAdv.mObjects.get(itmKey)) != null) {
                                         if (!ob.isVisibleTo(playerKey)) {
-                                            itm.mMatchingPossibilities.remove(i);
+                                            itm.mMatchingKeys.remove(i);
                                         }
                                     }
                                     break;
                                 case Character:
-                                    if ((ch = mAdv.mCharacters.get(sItemKey)) != null) {
+                                    if ((ch = mAdv.mCharacters.get(itmKey)) != null) {
                                         if (!ch.canSeeCharacter(playerKey)) {
-                                            itm.mMatchingPossibilities.remove(i);
+                                            itm.mMatchingKeys.remove(i);
                                         }
                                     }
                                     break;
@@ -2403,18 +2173,18 @@ public class MTask extends MItem {
                                     // Doesn't make sense to restrict by visible for Location
                                     break;
                                 case Item:
-                                    if ((ob = mAdv.mObjects.get(sItemKey)) != null) {
+                                    if ((ob = mAdv.mObjects.get(itmKey)) != null) {
                                         if (!ob.isVisibleTo(playerKey)) {
-                                            itm.mMatchingPossibilities.remove(i);
+                                            itm.mMatchingKeys.remove(i);
                                         }
-                                    } else if ((ch = mAdv.mCharacters.get(sItemKey)) != null) {
+                                    } else if ((ch = mAdv.mCharacters.get(itmKey)) != null) {
                                         if (!ch.canSeeCharacter(playerKey)) {
-                                            itm.mMatchingPossibilities.remove(i);
+                                            itm.mMatchingKeys.remove(i);
                                         }
                                     }
                                     break;
                                 default:
-                                    TODO("Refine visible possibilities for " + nr.mType + " references");
+                                    mAdv.mView.TODO("Refine visible possibilities for " + nr.mType + " references");
                                     break;
                             }
                         }
@@ -2423,7 +2193,7 @@ public class MTask extends MItem {
             }
         }
 
-        if (tmpRefs.pruneImpossibleItems(mReferences)) {
+        if (tmpRefs.pruneImpossibleItems(mRefs)) {
             // ---------------------------------------------------
             //                  SCOPE: SEEN
             //
@@ -2435,7 +2205,7 @@ public class MTask extends MItem {
             // checks to see if one of the items has ever been
             // seen by the player."
             // ---------------------------------------------------
-            MView.debugPrint(Task, getKey(),
+            mAdv.mView.debugPrint(Task, getKey(),
                     High, "Checking scope: Seen");
 
             MObject ob;
@@ -2444,27 +2214,27 @@ public class MTask extends MItem {
             for (MReference nr : tmpRefs) {
                 if (nr != null) {
                     for (MReference.MReferenceItem itm : nr.mItems) {
-                        for (int i = itm.mMatchingPossibilities.size() - 1; i >= 0; i--) {
-                            String sItemKey = itm.mMatchingPossibilities.get(i);
+                        for (int i = itm.mMatchingKeys.size() - 1; i >= 0; i--) {
+                            String itmKey = itm.mMatchingKeys.get(i);
                             switch (nr.mType) {
                                 case Object:
-                                    if ((ob = mAdv.mObjects.get(sItemKey)) != null) {
+                                    if ((ob = mAdv.mObjects.get(itmKey)) != null) {
                                         if (!ob.hasBeenSeenBy(playerKey)) {
-                                            itm.mMatchingPossibilities.remove(i);
+                                            itm.mMatchingKeys.remove(i);
                                         }
                                     }
                                     break;
                                 case Character:
-                                    if ((ch = mAdv.mCharacters.get(sItemKey)) != null) {
+                                    if ((ch = mAdv.mCharacters.get(itmKey)) != null) {
                                         if (!ch.hasBeenSeenBy(playerKey)) {
-                                            itm.mMatchingPossibilities.remove(i);
+                                            itm.mMatchingKeys.remove(i);
                                         }
                                     }
                                     break;
                                 case Location:
-                                    if ((ob = mAdv.mObjects.get(sItemKey)) != null) {
+                                    if ((ob = mAdv.mObjects.get(itmKey)) != null) {
                                         if (!ob.hasBeenSeenBy(playerKey)) {
-                                            itm.mMatchingPossibilities.remove(i);
+                                            itm.mMatchingKeys.remove(i);
                                         }
                                     }
                                     break;
@@ -2475,7 +2245,7 @@ public class MTask extends MItem {
             }
         }
 
-        tmpRefs.pruneImpossibleItems(mReferences);
+        tmpRefs.pruneImpossibleItems(mRefs);
 
         // If more than one item passes these scope checks, then the player is asked
         // a disambiguation question such as "Do you mean the red pen, the blue pen
@@ -2485,21 +2255,22 @@ public class MTask extends MItem {
 
     public boolean attemptToExecute() throws InterruptedException {
         EnumSet<ExecutionStatus> curStatus = EnumSet.noneOf(ExecutionStatus.class);
-        return attemptToExecute(false,
-                false, curStatus, false, false, false);
+        return attemptToExecute(false, false, curStatus,
+                false, false, false);
     }
 
-    public boolean attemptToExecute(boolean bCalledFromEvent) throws InterruptedException {
+    public boolean attemptToExecute(boolean calledFromEvent) throws InterruptedException {
         EnumSet<ExecutionStatus> curStatus = EnumSet.noneOf(ExecutionStatus.class);
-        return attemptToExecute(bCalledFromEvent,
-                false, curStatus, false, false, false);
+        return attemptToExecute(calledFromEvent, false, curStatus,
+                false, false, false);
     }
 
-    public boolean attemptToExecute(boolean bCalledFromEvent,
-                                    boolean bChildTask, EnumSet<ExecutionStatus> curStatus,
-                                    boolean bEvaluateResponses, boolean bPassingOnly) throws InterruptedException {
-        return attemptToExecute(bCalledFromEvent, bChildTask, curStatus,
-                bEvaluateResponses, bPassingOnly, false);
+    public boolean attemptToExecute(boolean calledFromEvent,
+                                    boolean isChildTask, EnumSet<ExecutionStatus> curStatus,
+                                    boolean evalResponses, boolean execPassingOnly)
+            throws InterruptedException {
+        return attemptToExecute(calledFromEvent, isChildTask, curStatus,
+                evalResponses, execPassingOnly, false);
     }
 
     /**
@@ -2532,7 +2303,7 @@ public class MTask extends MItem {
             return false;
         }
 
-        MView.debugPrint(Task, getKey(), Low,
+        mAdv.mView.debugPrint(Task, getKey(), Low,
                 "Attempting to execute task " + getDescription() + "...");
 
         // =============================================================
@@ -2544,16 +2315,16 @@ public class MTask extends MItem {
         MOrderedHashMap<String, MReferenceList> oldPassResponses = null;
         MOrderedHashMap<String, MReferenceList> oldFailResponses = null;
         if (!isChildTask) {
-            if (MParser.mPassResponses.size() > 0) {
-                oldPassResponses = MParser.mPassResponses.Clone();
+            if (mAdv.mPassResponses.size() > 0) {
+                oldPassResponses = mAdv.mPassResponses.clone();
             }
-            if (MParser.mFailResponses.size() > 0) {
-                oldFailResponses = MParser.mFailResponses.Clone();
+            if (mAdv.mFailResponses.size() > 0) {
+                oldFailResponses = mAdv.mFailResponses.clone();
             }
             // Will this cause a problem, or do we just need to call
             // it before events run tasks for example?
-            MParser.mPassResponses.clear();
-            MParser.mFailResponses.clear();
+            mAdv.mPassResponses.clear();
+            mAdv.mFailResponses.clear();
         }
 
         // =============================================================
@@ -2568,11 +2339,11 @@ public class MTask extends MItem {
         // know what the references should be.
         // -------------------------------------------------------------
         if (mType == Specific && assignSpecificRefs) {
-            MParser.mReferences = new MReferenceList(mSpecifics.size());
-            for (int i = 0; i < MParser.mReferences.size(); i++) {
+            mAdv.mReferences = new MReferenceList(mAdv, mSpecifics.size());
+            for (int i = 0; i < mAdv.mReferences.size(); i++) {
                 MSpecific spec = mSpecifics.get(i);
                 MReference ref = new MReference((spec.mType));
-                MParser.mReferences.set(i, ref);
+                mAdv.mReferences.set(i, ref);
                 for (String sKey : spec.mKeys) {
                     ref.mItems.add(new MReference.MReferenceItem(sKey));
                 }
@@ -2580,8 +2351,8 @@ public class MTask extends MItem {
         }
 
         // Create a local copy of the global references
-        MReferenceList refs = (MParser.mReferences != null) ?
-                MParser.mReferences.copyDeep() : new MReferenceList();
+        MReferenceList refs = (mAdv.mReferences != null) ?
+                mAdv.mReferences.copyDeep() : new MReferenceList(mAdv);
 
         // If we mention any characters on the command line, add them to
         // the mentioned characters list (so we get "the" char rather than "a" char)
@@ -2589,8 +2360,8 @@ public class MTask extends MItem {
             if (ref != null) {
                 if (ref.mType == MReference.ReferencesType.Character) {
                     for (MReference.MReferenceItem itm : ref.mItems) {
-                        if (itm.mMatchingPossibilities.size() == 1) {
-                            String itmKey = itm.mMatchingPossibilities.get(0);
+                        if (itm.mMatchingKeys.size() == 1) {
+                            String itmKey = itm.mMatchingKeys.get(0);
                             MCharacter ch = mAdv.mCharacters.get(itmKey);
                             if (ch != null) {
                                 mAdv.mCharsMentionedThisTurn.get(ch.getGender()).add(ch.getKey());
@@ -2630,20 +2401,20 @@ public class MTask extends MItem {
         // -------------------------------------------------------------
         if (!isChildTask || evalResponses) {
             MOrderedHashMap<String, MReferenceList> responses = new MOrderedHashMap<>();
-            for (String key : MParser.mPassResponses.mOrderedKeys) {
-                responses.put(key, MParser.mPassResponses.get(key));
+            for (String key : mAdv.mPassResponses.mOrderedKeys) {
+                responses.put(key, mAdv.mPassResponses.get(key));
             }
 
-            if (MParser.mPassResponses.size() == 0 &&
-                    MParser.mFailResponses.size() >= 0 &&
+            if (mAdv.mPassResponses.size() == 0 &&
+                    mAdv.mFailResponses.size() >= 0 &&
                     !getFailOverride().toString().equals("") &&
-                    containsWord(MParser.mInput, "all")) {
+                    containsWord(mAdv.mInput, "all")) {
                 // -------------------------------------------------------------
                 // We only got fail responses, the fail override message
                 // has been set and the user referred to "all". So just
                 // display the fail override.
                 // -------------------------------------------------------------
-                displayText(mAdv, getFailOverride().toString());
+                mAdv.mView.displayText(mAdv, getFailOverride().toString());
             } else {
                 // -------------------------------------------------------------
                 //   Get A, B, C from D.
@@ -2664,12 +2435,12 @@ public class MTask extends MItem {
                 // So look at every reference combination in each failure message.
                 // If we don't have that combination in our pass set then add it.
                 // -------------------------------------------------------------
-                for (String failMsg : MParser.mFailResponses.mOrderedKeys) {
-                    MReferenceList refsFail = MParser.mFailResponses.get(failMsg);
+                for (String failMsg : mAdv.mFailResponses.mOrderedKeys) {
+                    MReferenceList refsFail = mAdv.mFailResponses.get(failMsg);
                     boolean allMatch = false;
 
-                    for (String passMsg : MParser.mPassResponses.mOrderedKeys) {
-                        MReferenceList refsPass = MParser.mPassResponses.get(passMsg);
+                    for (String passMsg : mAdv.mPassResponses.mOrderedKeys) {
+                        MReferenceList refsPass = mAdv.mPassResponses.get(passMsg);
 
                         // Added by Tim 2018: handle the case where the fail message
                         // doesn't have any references. In this case, we just
@@ -2705,8 +2476,8 @@ public class MTask extends MItem {
                                     // should become the parent
                                     if (refsPass.size() <= i || refsPass.get(i) == null ||
                                             refsPass.get(i).mItems.size() <= j ||
-                                            !refsPass.get(i).mItems.get(j).mMatchingPossibilities.get(0)
-                                                    .equals(itmFail.mMatchingPossibilities.get(0))) {
+                                            !refsPass.get(i).mItems.get(j).mMatchingKeys.get(0)
+                                                    .equals(itmFail.mMatchingKeys.get(0))) {
                                         // This fail is different from this pass
                                         allMatch = false;
                                         break checkFails;
@@ -2730,7 +2501,7 @@ public class MTask extends MItem {
                             // Need to add this message.
                             // Put fail messages before pass messages (TODO: implement
                             // a method that detects the correct order).
-                            responses.put(failMsg, MParser.mFailResponses.get(failMsg), 0);
+                            responses.put(failMsg, mAdv.mFailResponses.get(failMsg), 0);
                         }
                     }
                 }
@@ -2739,14 +2510,14 @@ public class MTask extends MItem {
                 // Display the responses.
                 // -------------------------------------------------------------
                 for (String msg : responses.mOrderedKeys) {
-                    MParser.mReferences = responses.get(msg);
-                    displayText(mAdv, msg);
+                    mAdv.mReferences = responses.get(msg);
+                    mAdv.mView.displayText(mAdv, msg);
                 }
             }
 
             if (evalResponses) {
-                MParser.mPassResponses.clear();
-                MParser.mFailResponses.clear();
+                mAdv.mPassResponses.clear();
+                mAdv.mFailResponses.clear();
             }
         }
 
@@ -2770,7 +2541,7 @@ public class MTask extends MItem {
                 for (MWalk w : c.mWalks) {
                     for (MEventOrWalkControl ctrl : w.mWalkControls) {
                         if (ctrl.eCompleteOrNot == Completion &&
-                                ctrl.sTaskKey.equals(getKey())) {
+                                ctrl.mTaskKey.equals(getKey())) {
                             // If a child task of the current task has affected
                             // the walk control, ignore this as a trigger
                             if (w.mTriggeringTask.equals("") ||
@@ -2814,7 +2585,7 @@ public class MTask extends MItem {
             for (MEvent e : mAdv.mEvents.values()) {
                 for (MEventOrWalkControl ctrl : e.mEventControls) {
                     if (ctrl.eCompleteOrNot == Completion &&
-                            ctrl.sTaskKey.equals(getKey())) {
+                            ctrl.mTaskKey.equals(getKey())) {
                         // If a child task of the current task has affected
                         // the walk control, ignore this as a trigger
                         if (e.mTriggeringTask.equals("") ||
@@ -2854,17 +2625,17 @@ public class MTask extends MItem {
         if (!calledFromEvent) {
             if (getContinueToExecuteLowerPriority()) {
                 curStatus.add(ContinueExecuting);
-                MView.debugPrint(Task, getKey(), High,
+                mAdv.mView.debugPrint(Task, getKey(), High,
                         "Continuing trying to execute lower " +
                                 "priority tasks (multiple matches)");
             } else {
                 if (passes) {
                     if (curStatus.contains(HasOutput)) {
-                        MView.debugPrint(Task, getKey(), High,
+                        mAdv.mView.debugPrint(Task, getKey(), High,
                                 "Task passes and has output.  " +
                                         "Will not execute lower priority tasks");
                     } else {
-                        MView.debugPrint(Task, getKey(), High,
+                        mAdv.mView.debugPrint(Task, getKey(), High,
                                 "Task passes but has no output, " +
                                         "therefore will continue to execute " +
                                         "lower priority tasks");
@@ -2873,7 +2644,7 @@ public class MTask extends MItem {
                 } else {
                     if (mAdv.mTaskExecutionMode == HighestPriorityPassingTask) {
                         if (curStatus.contains(HasOutput)) {
-                            MView.debugPrint(Task, getKey(), High,
+                            mAdv.mView.debugPrint(Task, getKey(), High,
                                     "Task fails but has output.  " +
                                             "Will continue trying to execute " +
                                             "lower priority tasks");
@@ -2881,7 +2652,7 @@ public class MTask extends MItem {
                             // priority tasks EXCEPT library ones...
                             curStatus.add(ContinueExecuting);
                         } else {
-                            MView.debugPrint(Task, getKey(), High,
+                            mAdv.mView.debugPrint(Task, getKey(), High,
                                     "Task does not pass and also has " +
                                             "no output, therefore will continue " +
                                             "to execute lower priority tasks");
@@ -2889,7 +2660,7 @@ public class MTask extends MItem {
                         }
                     } else {
                         if (!curStatus.contains(HasOutput)) {
-                            MView.debugPrint(Task, getKey(), High,
+                            mAdv.mView.debugPrint(Task, getKey(), High,
                                     "Task does not pass and also has no " +
                                             "output, therefore will continue to " +
                                             "execute lower priority tasks");
@@ -2906,16 +2677,16 @@ public class MTask extends MItem {
                 // executing. So update the status bar and carry on
                 // evaluating input at the next lowest priority level.
                 // ----------------------------------------------------
-                MView.updateStatusBar(mAdv);
-                MView.debugPrint(Task, getKey(), Medium,
+                mAdv.mView.updateStatusBar(mAdv);
+                mAdv.mView.debugPrint(Task, getKey(), Medium,
                         "Continuing trying to execute lower priority tasks");
                 MAdventure[] adv1 = new MAdventure[1];
                 adv1[0] = mAdv;
-                MParser.evaluateInput(adv1, getPriority() + 1,
+                mAdv.evalInput(getPriority() + 1,
                         !passes && curStatus.contains(HasOutput));
 
                 // N.B. we don't check whether the adventure object stored in
-                // adv1 changes after evaluateInput as we are assuming that
+                // adv1 changes after evalInput as we are assuming that
                 // any "restart" command would have been processed by this stage...
             }
         }
@@ -2925,10 +2696,10 @@ public class MTask extends MItem {
         // IF ANY.
         // -------------------------------------------------------------
         if (oldPassResponses != null) {
-            MParser.mPassResponses = oldPassResponses.Clone();
+            mAdv.mPassResponses = oldPassResponses.clone();
         }
         if (oldFailResponses != null) {
-            MParser.mFailResponses = oldFailResponses.Clone();
+            mAdv.mFailResponses = oldFailResponses.clone();
         }
 
         return passes;
@@ -2961,12 +2732,12 @@ public class MTask extends MItem {
             } else {
                 for (int i = 0; i < ref.mItems.size(); i++) {
                     MReference.MReferenceItem itm = ref.mItems.get(i);
-                    if (itm.mMatchingPossibilities.size() > 0) {
-                        refKeys[refIndex] = itm.mMatchingPossibilities.get(0);
+                    if (itm.mMatchingKeys.size() > 0) {
+                        refKeys[refIndex] = itm.mMatchingKeys.get(0);
                     } else {
                         // Assume it's ok to leave this reference key
                         // as null as there was no match.
-                        TODO("Check that this is intended...");
+                        mAdv.mView.TODO("Check that this is intended...");
                     }
                     refCmds[refIndex] = itm.mCommandReference;
                     if (executeSubTasks(calledFromEvent, refs, refIndex + 1,
@@ -3005,9 +2776,9 @@ public class MTask extends MItem {
             // Set the global matched refs to reflect the references of this
             // particular sub-task, if any.
             // -------------------------------------------------------------
-            MParser.mReferences = new MReferenceList(refKeys.length);
+            mAdv.mReferences = new MReferenceList(mAdv, refKeys.length);
             if (refKeys.length == 0) {
-                MView.debugPrint(Task, getKey(), Medium,
+                mAdv.mView.debugPrint(Task, getKey(), Medium,
                         "Checking reference free task " + getDescription());
             } else {
                 String sSubTask = getParentTaskCommand(mLastMatchingCommandIndex);
@@ -3020,18 +2791,18 @@ public class MTask extends MItem {
                     MReference r = new MReference(taskRef);
                     if (!refKeys[iRef].equals("")) {
                         MReference.MReferenceItem itm = new MReference.MReferenceItem();
-                        itm.mMatchingPossibilities.add(refKeys[iRef]);
+                        itm.mMatchingKeys.add(refKeys[iRef]);
                         itm.mCommandReference = refCmds[iRef];
                         r.mItems.add(itm);
-                        r.mReferenceMatch = taskRef.replace("%", "");
+                        r.mRefMatch = taskRef.replace("%", "");
                     }
                     if (mCommands.size() > 0) {
-                        r.setIndex(taskRef, getRefsInCommand(mCommands.get(0)));
+                        r.setIndex(taskRef, MGlobals.getRefs(mCommands.get(0)));
                     }
-                    MParser.mReferences.set(iRef, r);
+                    mAdv.mReferences.set(iRef, r);
                 }
 
-                MView.debugPrint(Task, getKey(), Medium,
+                mAdv.mView.debugPrint(Task, getKey(), Medium,
                         "Checking " + (refKeys.length == 1 ? "single" :
                                 (refKeys.length == 2 ? "double" : "triple or more")) +
                                 " reference task " + sSubTask);
@@ -3042,7 +2813,7 @@ public class MTask extends MItem {
             // the global matched refs.
             // ------------------------------------------------------
             String sMessage = "";
-            boolean bPass = mRestrictions.passes(false, MParser.mReferences);
+            boolean bPass = mRestrictions.passes(false, mAdv.mReferences);
             boolean[] bOutputMessages = new boolean[1];
             bOutputMessages[0] = false;
 
@@ -3050,13 +2821,13 @@ public class MTask extends MItem {
                 // ---------------------------------------
                 //   THIS TASK PASSED ITS RESTRICTIONS
                 // ---------------------------------------
-                MView.debugPrint(Task, getKey(),
+                mAdv.mView.debugPrint(Task, getKey(),
                         Medium, "Passed Restrictions");
 
                 // Remove any failing references
                 NextMessage:
-                for (String failMsg : MParser.mFailResponses.mOrderedKeys) {
-                    MReferenceList refsFail = MParser.mFailResponses.get(failMsg);
+                for (String failMsg : mAdv.mFailResponses.mOrderedKeys) {
+                    MReferenceList refsFail = mAdv.mFailResponses.get(failMsg);
 
                     // Added by Tim 2018:
                     // We assume that any fail message with no
@@ -3067,13 +2838,13 @@ public class MTask extends MItem {
 
                     for (int iRef = 0; iRef < refsFail.size(); iRef++) {
                         MReference refFail = refsFail.get(iRef);
-                        MReference refPass = MParser.mReferences.get(iRef);
+                        MReference refPass = mAdv.mReferences.get(iRef);
                         if (refFail != null) {
                             for (int iItm = 0; iItm < refFail.mItems.size(); iItm++) {
                                 MReference.MReferenceItem itmFail = refFail.mItems.get(iItm);
                                 // There should only be one matching possibility here, so no need to iterate them
                                 if (refPass == null ||
-                                        !refPass.mItems.get(iItm).mMatchingPossibilities.get(0).equals(itmFail.mMatchingPossibilities.get(0))) {
+                                        !refPass.mItems.get(iItm).mMatchingKeys.get(0).equals(itmFail.mMatchingKeys.get(0))) {
                                     // This fail is different from this pass
                                     continue NextMessage;
                                 }
@@ -3082,7 +2853,7 @@ public class MTask extends MItem {
                     }
 
                     // Ok, lets remove the failed one
-                    MParser.mFailResponses.remove(failMsg);
+                    mAdv.mFailResponses.remove(failMsg);
                     break; // There should only be one matching the refs, so bomb out so we don't cause problem iterating loop
                 }
 
@@ -3100,7 +2871,7 @@ public class MTask extends MItem {
                 //   for the specific tasks.
                 MStringArrayList childTasks = getChildTasks();  // this list is sorted in priority order
                 if (childTasks.size() > 0) {
-                    MView.debugPrint(Task, getKey(), High,
+                    mAdv.mView.debugPrint(Task, getKey(), High,
                             "Checking whether any of our child tasks should override...");
                 }
 
@@ -3132,10 +2903,10 @@ public class MTask extends MItem {
                         }
                     }
 
-                    if (tasChild.refsMatchSpecifics(MParser.mReferences, mLastMatchingCommandIndex)) {
+                    if (tasChild.refsMatchSpecifics(mAdv.mReferences, mLastMatchingCommandIndex)) {
                         // This should remove the ref so it doesn't get processed when we
                         // execute the main task
-                        MView.debugPrint(Task, getKey(),
+                        mAdv.mView.debugPrint(Task, getKey(),
                                 Medium,
                                 "Overriding child task found: " + tasChild.getDescription());
 
@@ -3145,22 +2916,22 @@ public class MTask extends MItem {
                             case BeforeTextOnly:
                             case Override:
 
-                                MView.mDebugIndent++;
+                                mAdv.mView.mDebugIndent++;
 
                                 if (tasChild.mSpecificOverrideType == SpecificOverrideTypeEnum.Override) {
-                                    MView.debugPrint(Task, tasChild.getKey(),
+                                    mAdv.mView.debugPrint(Task, tasChild.getKey(),
                                             High, "Override Parent");
                                 } else {
-                                    MView.debugPrint(Task, tasChild.getKey(),
+                                    mAdv.mView.debugPrint(Task, tasChild.getKey(),
                                             High, "Run Before Parent");
                                 }
 
                                 // Make a note of how many failing responses we have, so we know if this task has failing output
                                 int iFailRefsBefore = 0;
                                 if (getReferences().size() == 0) {
-                                    iFailRefsBefore += MParser.mFailResponses.size();
+                                    iFailRefsBefore += mAdv.mFailResponses.size();
                                 } else {
-                                    for (MReferenceList responses : MParser.mFailResponses.values()) {
+                                    for (MReferenceList responses : mAdv.mFailResponses.values()) {
                                         for (MReference response : responses) {
                                             iFailRefsBefore += response.mItems.size();
                                         }
@@ -3180,22 +2951,22 @@ public class MTask extends MItem {
                                     //   task, as well as whether the parent task should
                                     //   even be executed.
                                     // --------------------------------------------------
-                                    MView.debugPrint(Task, tasChild.getKey(),
+                                    mAdv.mView.debugPrint(Task, tasChild.getKey(),
                                             High, "Child task passes");
                                     switch (tasChild.mSpecificOverrideType) {
                                         case BeforeTextAndActions:
-                                            MView.debugPrint(Task, tasChild.getKey(),
+                                            mAdv.mView.debugPrint(Task, tasChild.getKey(),
                                                     Medium, "Execute Parent actions...");
-                                            MView.debugPrint(Task, tasChild.getKey(),
+                                            mAdv.mView.debugPrint(Task, tasChild.getKey(),
                                                     Medium, "Output Parent text...");
                                             break;
                                         case BeforeActionsOnly:
-                                            MView.debugPrint(Task, tasChild.getKey(),
+                                            mAdv.mView.debugPrint(Task, tasChild.getKey(),
                                                     Medium, "Execute Parent actions...");
                                             bShouldParentOutputText = false;
                                             break;
                                         case BeforeTextOnly:
-                                            MView.debugPrint(Task, tasChild.getKey(),
+                                            mAdv.mView.debugPrint(Task, tasChild.getKey(),
                                                     Medium, "Output Parent text...");
                                             bShouldParentExecuteTasks = false;
                                             break;
@@ -3211,15 +2982,15 @@ public class MTask extends MItem {
                                     //   task, as well as whether the parent task should
                                     //   even be executed.
                                     // --------------------------------------------------
-                                    MView.debugPrint(Task, tasChild.getKey(),
+                                    mAdv.mView.debugPrint(Task, tasChild.getKey(),
                                             High, "Child task fails");
                                     // Ok, compare failing output vs what it was before - if we have
                                     // failing output, this takes precedence over parent if set
                                     int iFailRefsAfter = 0;
                                     if (getReferences().size() == 0) {
-                                        iFailRefsAfter += MParser.mFailResponses.size();
+                                        iFailRefsAfter += mAdv.mFailResponses.size();
                                     } else {
-                                        for (MReferenceList responses : MParser.mFailResponses.values()) {
+                                        for (MReferenceList responses : mAdv.mFailResponses.values()) {
                                             for (MReference response : responses) {
                                                 iFailRefsAfter += response.mItems.size();
                                             }
@@ -3248,18 +3019,18 @@ public class MTask extends MItem {
                                 if (childStatus.contains(HasOutput)) {
                                     curStatus.add(HasOutput);
                                 }
-                                MView.mDebugIndent--;
+                                mAdv.mView.mDebugIndent--;
 
                                 // If the specific task that executes has the "Continue executing matching
                                 // lower priority tasks (multiple matching)" checkbox selected on its
                                 // "Advanced" page, then ADRIFT continues to check any remaining specific
                                 // tasks in priority order.
                                 if (!childStatus.contains(ContinueExecuting)) {
-                                    MView.debugPrint(Task, tasChild.getKey(), Medium,
+                                    mAdv.mView.debugPrint(Task, tasChild.getKey(), Medium,
                                             "Do not continue executing other child tasks.");
                                     break executeChildTasks;
                                 } else {
-                                    MView.debugPrint(Task, tasChild.getKey(), Medium,
+                                    mAdv.mView.debugPrint(Task, tasChild.getKey(), Medium,
                                             "Continue executing other child tasks.");
                                 }
                                 break;
@@ -3290,44 +3061,46 @@ public class MTask extends MItem {
                 String sBeforeActionsMessage = "";
                 int iResponsePosition = -1;
                 if (mDisplayCompletion == Before && bShouldParentOutputText) {
-                    // We may have already printed these refs out in a child task, so only print them here if we haven't done that
-                    if (MParser.mReferences != null) {
-                        MParser.mReferences.printReferences(mAdv);
+                    // We may have already printed these refs out in a child task,
+                    // so only print them here if we haven't done that
+                    if (mAdv.mReferences != null) {
+                        mAdv.mReferences.printToDebug();
                     }
                     sMessage = getCompletionMessage().toString();
                     if (sMessage == null) {
                         sMessage = "";
                     }
-                    MView.debugPrint(Task, getKey(), High, sMessage);
+                    mAdv.mView.debugPrint(Task, getKey(), High, sMessage);
 
-                    // If we do this then drop all gives us: Ok, I drop X.  Ok, I drop Y.  Ok, I drop Z.
-                    MView.mDisplaying = true;
+                    // If we do this then drop all gives us:
+                    // Ok, I drop X.  Ok, I drop Y.  Ok, I drop Z.
+                    mAdv.mView.mDisplaying = true;
                     mTestingOutput = true; // Ensure any DisplayOnce descriptions aren't marked as displayed, as we'll mark them in final output (Display)
-                    sBeforeActionsMessage = mAdv.evaluateStringExpressions(
-                            mAdv.evaluateFunctions(sMessage, MParser.mReferences),
-                            MParser.mReferences);
+                    sBeforeActionsMessage = mAdv.evalStrRegex(
+                            mAdv.evalFuncs(sMessage, mAdv.mReferences),
+                            mAdv.mReferences);
                     mTestingOutput = false;
                     if (sBeforeActionsMessage.equals(sMessage)) {
                         sBeforeActionsMessage = "";
                     }
-                    MView.mDisplaying = false;
+                    mAdv.mView.mDisplaying = false;
                     if (sBeforeActionsMessage.equals("")) {
                         // It is safe to add the response now
                         if (!mAggregateOutput) {
-                            sMessage = mAdv.evaluateStringExpressions(
-                                    mAdv.evaluateFunctions(sMessage, MParser.mReferences),
-                                    MParser.mReferences);
+                            sMessage = mAdv.evalStrRegex(
+                                    mAdv.evalFuncs(sMessage, mAdv.mReferences),
+                                    mAdv.mReferences);
                         }
-                        if (MParser.mPassResponses.addResponse(mAdv, bOutputMessages,
-                                sMessage, refKeys, MParser.mReferences)) {
+                        if (mAdv.mPassResponses.addResponse(mAdv, bOutputMessages,
+                                sMessage, refKeys, mAdv.mReferences)) {
                             curStatus.add(HasOutput);
                         }
                     } else {
                         // The response changes with functions, so we can't add
                         // yet until we know whether the actions affect the output
                         iResponsePosition = bPass ?
-                                MParser.mPassResponses.size() :
-                                MParser.mFailResponses.size();
+                                mAdv.mPassResponses.size() :
+                                mAdv.mFailResponses.size();
                     }
                 }
 
@@ -3342,21 +3115,21 @@ public class MTask extends MItem {
                 if (!sBeforeActionsMessage.equals("")) {
                     // Check to see if the actions had any effect on the message.
                     // If so, add the replaced message. If not, add the unreplaced message
-                    MView.mDisplaying = true;
+                    mAdv.mView.mDisplaying = true;
                     mTestingOutput = true;
                     if (!sBeforeActionsMessage.equals(mAdv.
-                            evaluateStringExpressions(mAdv.evaluateFunctions(
-                                    sMessage, MParser.mReferences), MParser.mReferences))) {
+                            evalStrRegex(mAdv.evalFuncs(
+                                    sMessage, mAdv.mReferences), mAdv.mReferences))) {
                         sMessage = sBeforeActionsMessage;
                     }
                     mTestingOutput = false;
-                    MView.mDisplaying = false;
+                    mAdv.mView.mDisplaying = false;
                     if (!mAggregateOutput) {
-                        sMessage = mAdv.evaluateStringExpressions(mAdv.evaluateFunctions(
-                                sMessage, MParser.mReferences), MParser.mReferences);
+                        sMessage = mAdv.evalStrRegex(mAdv.evalFuncs(
+                                sMessage, mAdv.mReferences), mAdv.mReferences);
                     }
-                    if (MParser.mPassResponses.addResponse(mAdv, bOutputMessages, sMessage,
-                            refKeys, iResponsePosition, MParser.mReferences)) {
+                    if (mAdv.mPassResponses.addResponse(mAdv, bOutputMessages, sMessage,
+                            refKeys, iResponsePosition, mAdv.mReferences)) {
                         curStatus.add(HasOutput);
                     }
                 }
@@ -3370,13 +3143,13 @@ public class MTask extends MItem {
                         sMessage = "";
                     }
                     if (!mAggregateOutput) {
-                        sMessage = mAdv.evaluateStringExpressions(
-                                mAdv.evaluateFunctions(sMessage, MParser.mReferences),
-                                MParser.mReferences);
+                        sMessage = mAdv.evalStrRegex(
+                                mAdv.evalFuncs(sMessage, mAdv.mReferences),
+                                mAdv.mReferences);
                     }
-                    MView.debugPrint(Task, getKey(), High, sMessage);
-                    if (MParser.mPassResponses.addResponse(mAdv, bOutputMessages,
-                            sMessage, refKeys, MParser.mReferences)) {
+                    mAdv.mView.debugPrint(Task, getKey(), High, sMessage);
+                    if (mAdv.mPassResponses.addResponse(mAdv, bOutputMessages,
+                            sMessage, refKeys, mAdv.mReferences)) {
                         curStatus.add(HasOutput);
                     }
                 }
@@ -3389,19 +3162,19 @@ public class MTask extends MItem {
                 // so, and they match the references and pass restrictions,
                 // then they are executed.
                 for (String sChildTask : lAfterChildren) {
-                    MView.mDebugIndent++;
+                    mAdv.mView.mDebugIndent++;
                     MTask tasChild = mAdv.mTasks.get(sChildTask);
-                    MView.debugPrint(Task, tasChild.getKey(),
+                    mAdv.mView.debugPrint(Task, tasChild.getKey(),
                             High, "Run After Parent");
 
                     EnumSet<ExecutionStatus> childStatus = EnumSet.noneOf(ExecutionStatus.class);
 
                     if (tasChild.attemptToExecute(calledFromEvent, true,
                             childStatus, false, false)) {
-                        MView.debugPrint(Task, tasChild.getKey(),
+                        mAdv.mView.debugPrint(Task, tasChild.getKey(),
                                 High, "Child task passes");
                     } else {
-                        MView.debugPrint(Task, tasChild.getKey(),
+                        mAdv.mView.debugPrint(Task, tasChild.getKey(),
                                 High, "Child task fails");
                     }
 
@@ -3409,13 +3182,13 @@ public class MTask extends MItem {
                     if (childStatus.contains(HasOutput)) {
                         curStatus.add(HasOutput);
                     }
-                    MView.mDebugIndent--;
+                    mAdv.mView.mDebugIndent--;
                     if (!childStatus.contains(ContinueExecuting)) {
-                        MView.debugPrint(Task, tasChild.getKey(),
+                        mAdv.mView.debugPrint(Task, tasChild.getKey(),
                                 Medium, "Do not continue executing other child tasks.");
                         break;
                     } else {
-                        MView.debugPrint(Task, tasChild.getKey(),
+                        mAdv.mView.debugPrint(Task, tasChild.getKey(),
                                 Medium, "Continue executing other child tasks.");
                     }
                 }
@@ -3428,16 +3201,16 @@ public class MTask extends MItem {
                 //   THIS TASK FAILED ITS RESTRICTIONS
                 // ---------------------------------------
                 if (!execPassingOnly) {
-                    MView.debugPrint(Task, getKey(),
+                    mAdv.mView.debugPrint(Task, getKey(),
                             Medium, "Failed Restrictions");
-                    sMessage = MParser.mRestrictionText;
+                    sMessage = mAdv.mRestrictionText;
 
                     if (sMessage == null) {
                         sMessage = "";
                     }
 
-                    if (MParser.mReferences != null) {
-                        MParser.mReferences.printReferences(mAdv);
+                    if (mAdv.mReferences != null) {
+                        mAdv.mReferences.printToDebug();
                     }
 
                     if (mSpecificOverrideType == SpecificOverrideTypeEnum.AfterTextAndActions ||
@@ -3452,10 +3225,10 @@ public class MTask extends MItem {
             }
 
             boolean r = bPass ?
-                    MParser.mPassResponses.addResponse(mAdv, bOutputMessages,
-                            sMessage, refKeys, MParser.mReferences) :
-                    MParser.mFailResponses.addResponse(mAdv, bOutputMessages,
-                            sMessage, refKeys, MParser.mReferences);
+                    mAdv.mPassResponses.addResponse(mAdv, bOutputMessages,
+                            sMessage, refKeys, mAdv.mReferences) :
+                    mAdv.mFailResponses.addResponse(mAdv, bOutputMessages,
+                            sMessage, refKeys, mAdv.mReferences);
             if (r) {
                 curStatus.add(HasOutput);
             }
@@ -3463,58 +3236,59 @@ public class MTask extends MItem {
             return ret;
 
         } catch (Exception ex) {
-            MGlobals.errMsg("Error executing subtask " + getKey(), ex);
+            mAdv.mView.errMsg("Error executing subtask " + getKey(), ex);
             return false;
         }
     }
 
-    private boolean refsMatchSpecifics(@Nullable MReferenceList refs, int iCmdIndex) {
+    private boolean refsMatchSpecifics(@Nullable MReferenceList refs, int cmdIndex) {
         // Specifics are always defined in the order of the first command in the task
         // We may be matching on a different command, in which case Specifics will be
         // in a different order from the References
-        ArrayList<MTask.MSpecific> aSpecifics = mSpecifics;
 
         // See if we have all the Specifics we need in the References
-        if (refs != null && aSpecifics.size() == refs.size()) {
-            for (int iSpec = 0; iSpec < aSpecifics.size(); iSpec++) {
+        if (refs != null && mSpecifics.size() == refs.size()) {
+            for (int i = 0; i < mSpecifics.size(); i++) {
                 // Make sure References contains all Specifics
-                for (String sKey : aSpecifics.get(iSpec).mKeys) {
+                for (String key : mSpecifics.get(i).mKeys) {
                     // We must find all of these in order for the task to match
-                    boolean bKeyFoundInRefs = false;
-                    if (sKey.equals("")) {
+                    boolean keyFoundInRefs = false;
+                    if (key.equals("")) {
                         // i.e. match any object/character etc...
-                        bKeyFoundInRefs = true;
+                        keyFoundInRefs = true;
                     } else {
-                        if (sKey.contains("%")) {
-                            sKey = mAdv.evaluateFunctions(sKey, MParser.mReferences);
+                        if (key.contains("%")) {
+                            key = mAdv.evalFuncs(key, mAdv.mReferences);
                         }
 
-                        int iReference = iSpec;
+                        int refIndex = i;
 
                         // If this is matching on a second command in the task
-                        // where the refs are the other way around, it fails to match the specifics
-                        // This is because Specific tasks always match on the first General task command
-                        if (iCmdIndex > 0) {
-                            iReference = getAlternateRef(iReference);
+                        // where the refs are the other way around, it fails to
+                        // match the specifics. This is because Specific tasks
+                        // always match on the first General task command
+                        if (cmdIndex > 0) {
+                            refIndex = getAlternateRef(refIndex);
                         }
 
                         // Grab the correct Reference
-                        MReference NewRef = refs.get(iReference);
-                        for (MReference Ref : refs) {
-                            if (Ref.mCommandIndex == iSpec) {
-                                NewRef = Ref;
+                        MReference newRef = refs.get(refIndex);
+                        for (MReference ref : refs) {
+                            if (ref.mCmdIndex == i) {
+                                newRef = ref;
                                 break;
                             }
                         }
 
-                        for (int iRef = NewRef.mItems.size() - 1; iRef >= 0; iRef--) {
-                            if (NewRef.mItems.get(iRef).mMatchingPossibilities.get(0).toLowerCase().equals(sKey.toLowerCase())) {
-                                bKeyFoundInRefs = true;
+                        for (int j = newRef.mItems.size() - 1; j >= 0; j--) {
+                            if (newRef.mItems.get(j).mMatchingKeys.get(0).
+                                    toLowerCase().equals(key.toLowerCase())) {
+                                keyFoundInRefs = true;
                                 break;
                             }
                         }
                     }
-                    if (!bKeyFoundInRefs) {
+                    if (!keyFoundInRefs) {
                         return false;
                     }
                 }
@@ -3527,7 +3301,7 @@ public class MTask extends MItem {
         return true;
     }
 
-    private int getAlternateRef(int iRef) {
+    private int getAlternateRef(int refIndex) {
         // If we have multiple commands, and we are matching on a different
         // command, make sure we get the right ref
         // E.g. give %object% to %character%
@@ -3537,17 +3311,17 @@ public class MTask extends MItem {
             task = mAdv.mTasks.get(task.getParentTask());
         }
 
-        String sMatchingRef = task.getReferences().get(iRef);
-        int iMatch = 0;
-
-        for (String sOrigRef : getRefsInCommand(task.getCommand(false, 0))) {
-            if (sOrigRef.equals(sMatchingRef)) {
-                return iMatch;
+        String matchedRef = task.getReferences().get(refIndex);
+        int i = 0;
+        for (String origRef :
+                MGlobals.getRefs(task.getCommand(false, 0))) {
+            if (origRef.equals(matchedRef)) {
+                return i;
             }
-            iMatch++;
+            i++;
         }
 
-        return iRef;
+        return refIndex;
     }
 
     /**
@@ -3572,21 +3346,22 @@ public class MTask extends MItem {
         return mPatterns;
     }
 
-    private void executeAllActions(boolean bCalledFromEvent, @NonNull EnumSet<ExecutionStatus> curStatus) {
-        MView.mDebugIndent++;
+    private void executeAllActions(boolean calledFromEvent,
+                                   @NonNull EnumSet<ExecutionStatus> curStatus) {
+        mAdv.mView.mDebugIndent++;
         for (MAction act : mActions) {
-            act.execute(getParentTaskCommand(mLastMatchingCommandIndex),
-                    this, bCalledFromEvent, curStatus);
+            act.executeCopy(getParentTaskCommand(mLastMatchingCommandIndex),
+                    this, calledFromEvent, curStatus);
         }
-        MView.mDebugIndent--;
+        mAdv.mView.mDebugIndent--;
     }
 
     /**
      * Attempt to match the given input to the given command of this task.
      *
      * @param input               - input to match.
-     * @param iCmd                - the index of the command to attempt a match against.
-     * @param secondChanceMatches - if NULL, this does nothing. Otherwise, if
+     * @param cmdIndex                - the index of the command to attempt a match against.
+     * @param secondChance - if NULL, this does nothing. Otherwise, if
      *                            upon entry to this function, this hashmap
      *                            contains this task's key, this task will
      *                            automatically match. If the hashmap does
@@ -3594,46 +3369,46 @@ public class MTask extends MItem {
      *                            matches on the pattern but not the referred
      *                            object / character / location, and the task
      *                            has a Must Exist restriction, then it will
-     *                            be added to the secondChanceMatches hashmap
+     *                            be added to the secondChance hashmap
      *                            as a possible candidate should the first
      *                            search fail to find an appropriate task.
      * @return TRUE if we have successfully matched input against a command pattern
-     * (and in this case "mReferences" will now contain the evaluated references
+     * (and in this case "mRefs" will now contain the evaluated references
      * in the same order they appear in the pattern), FALSE otherwise.
      */
-    private boolean inputMatchesCommand(@NonNull String input, int iCmd,
-                                        @Nullable MTaskHashMap secondChanceMatches) {
+    private boolean inputMatchesCommand(@NonNull String input, int cmdIndex,
+                                        @Nullable MTaskHashMap secondChance) {
         // Iterate over the patterns associated with given command index and
         // see if any of them completely matches the supplied input.
-        for (Pattern re : getPatterns().get(iCmd)) {
+        for (Pattern re : getPatterns().get(cmdIndex)) {
             // Clear the references.
-            int iNewRefs = 0;
-            mReferences.setToNull();
+            int nNewRefs = 0;
+            mRefs.setToNull();
 
             // Try to match all the references.
             Matcher m = re.matcher(input);
-            boolean matches = m.matches();
-            if (matches) {
+            boolean matched = m.matches();
+            if (matched) {
                 checkMatches:
-                for (String sGroupName : re.groupNames()) {
-                    String sGroupValue = m.group(sGroupName);
-                    if (sGroupValue == null) {
+                for (String grpName : re.groupNames()) {
+                    String grpVal = m.group(grpName);
+                    if (grpVal == null) {
                         // Input didn't match this group name, so just
                         // continue onto the next one.
                         continue;
                     }
-                    sGroupValue = sGroupValue.trim();
+                    grpVal = grpVal.trim();
                     MReference newRef;
-                    switch (sGroupName) {
+                    switch (grpName) {
                         case "objects":
-                            iNewRefs++;
+                            nNewRefs++;
                             newRef = new MReference(MReference.ReferencesType.Object);
-                            mReferences.set(iNewRefs - 1, newRef);
-                            newRef.mReferenceMatch = sGroupName;
-                            if (!inputMatchesObjects(sGroupValue,
-                                    iNewRefs - 1, false,
-                                    false, secondChanceMatches)) {
-                                matches = false;
+                            mRefs.set(nNewRefs - 1, newRef);
+                            newRef.mRefMatch = grpName;
+                            if (!inputMatchesObjects(grpVal,
+                                    nNewRefs - 1, false,
+                                    false, secondChance)) {
+                                matched = false;
                                 break checkMatches;
                             }
                             break;
@@ -3643,26 +3418,26 @@ public class MTask extends MItem {
                         case "object3":
                         case "object4":
                         case "object5":
-                            iNewRefs++;
+                            nNewRefs++;
                             newRef = new MReference(MReference.ReferencesType.Object);
-                            mReferences.set(iNewRefs - 1, newRef);
-                            newRef.mReferenceMatch = sGroupName;
+                            mRefs.set(nNewRefs - 1, newRef);
+                            newRef.mRefMatch = grpName;
                             if (!checkInputMatch(mAdv.mObjects, MReference.ReferencesType.Object,
-                                    sGroupValue, iNewRefs - 1, 0,
-                                    false, false, secondChanceMatches)) {
-                                matches = false;
+                                    grpVal, nNewRefs - 1, 0,
+                                    false, false, secondChance)) {
+                                matched = false;
                                 break checkMatches;
                             }
                             break;
 
                         case "characters":
-                            iNewRefs++;
+                            nNewRefs++;
                             newRef = new MReference(MReference.ReferencesType.Character);
-                            mReferences.set(iNewRefs - 1, newRef);
-                            newRef.mReferenceMatch = sGroupName;
-                            if (!inputMatchesCharacters(sGroupValue,
-                                    iNewRefs - 1, secondChanceMatches)) {
-                                matches = false;
+                            mRefs.set(nNewRefs - 1, newRef);
+                            newRef.mRefMatch = grpName;
+                            if (!inputMatchesCharacters(grpVal,
+                                    nNewRefs - 1, secondChance)) {
+                                matched = false;
                                 break checkMatches;
                             }
                             break;
@@ -3672,14 +3447,15 @@ public class MTask extends MItem {
                         case "character3":
                         case "character4":
                         case "character5":
-                            iNewRefs++;
+                            nNewRefs++;
                             newRef = new MReference(MReference.ReferencesType.Character);
-                            mReferences.set(iNewRefs - 1, newRef);
-                            newRef.mReferenceMatch = sGroupName;
-                            if (!checkInputMatch(mAdv.mCharacters, MReference.ReferencesType.Character,
-                                    sGroupValue, iNewRefs - 1, 0,
-                                    false, false, secondChanceMatches)) {
-                                matches = false;
+                            mRefs.set(nNewRefs - 1, newRef);
+                            newRef.mRefMatch = grpName;
+                            if (!checkInputMatch(mAdv.mCharacters,
+                                    MReference.ReferencesType.Character,
+                                    grpVal, nNewRefs - 1, 0,
+                                    false, false, secondChance)) {
+                                matched = false;
                                 break checkMatches;
                             }
                             break;
@@ -3689,14 +3465,15 @@ public class MTask extends MItem {
                         case "location3":
                         case "location4":
                         case "location5":
-                            iNewRefs++;
+                            nNewRefs++;
                             newRef = new MReference(MReference.ReferencesType.Location);
-                            mReferences.set(iNewRefs - 1, newRef);
-                            newRef.mReferenceMatch = sGroupName;
-                            if (!checkInputMatch(mAdv.mLocations, MReference.ReferencesType.Location,
-                                    sGroupValue, iNewRefs - 1, 0,
-                                    false, false, secondChanceMatches)) {
-                                matches = false;
+                            mRefs.set(nNewRefs - 1, newRef);
+                            newRef.mRefMatch = grpName;
+                            if (!checkInputMatch(mAdv.mLocations,
+                                    MReference.ReferencesType.Location,
+                                    grpVal, nNewRefs - 1, 0,
+                                    false, false, secondChance)) {
+                                matched = false;
                                 break checkMatches;
                             }
                             break;
@@ -3706,19 +3483,21 @@ public class MTask extends MItem {
                         case "item3":
                         case "item4":
                         case "item5":
-                            iNewRefs++;
+                            nNewRefs++;
                             newRef = new MReference(MReference.ReferencesType.Item);
-                            mReferences.set(iNewRefs - 1, newRef);
-                            newRef.mReferenceMatch = sGroupName;
-                            if (!inputMatchesObjects(sGroupValue,
-                                    iNewRefs - 1, false, false, secondChanceMatches) &&
-                                    !checkInputMatch(mAdv.mCharacters, MReference.ReferencesType.Character,
-                                            sGroupValue, iNewRefs - 1, 0,
-                                            false, false, secondChanceMatches) &&
-                                    !checkInputMatch(mAdv.mLocations, MReference.ReferencesType.Location,
-                                            sGroupValue, iNewRefs - 1, 0,
-                                            false, false, secondChanceMatches)) {
-                                matches = false;
+                            mRefs.set(nNewRefs - 1, newRef);
+                            newRef.mRefMatch = grpName;
+                            if (!inputMatchesObjects(grpVal,
+                                    nNewRefs - 1, false, false, secondChance) &&
+                                    !checkInputMatch(mAdv.mCharacters,
+                                            MReference.ReferencesType.Character,
+                                            grpVal, nNewRefs - 1, 0,
+                                            false, false, secondChance) &&
+                                    !checkInputMatch(mAdv.mLocations,
+                                            MReference.ReferencesType.Location,
+                                            grpVal, nNewRefs - 1, 0,
+                                            false, false, secondChance)) {
+                                matched = false;
                                 break checkMatches;
                             }
                             break;
@@ -3728,16 +3507,16 @@ public class MTask extends MItem {
                         case "direction3":
                         case "direction4":
                         case "direction5":
-                            iNewRefs++;
+                            nNewRefs++;
                             newRef = new MReference(MReference.ReferencesType.Direction);
-                            mReferences.set(iNewRefs - 1, newRef);
-                            newRef.mReferenceMatch = sGroupName;
+                            mRefs.set(nNewRefs - 1, newRef);
+                            newRef.mRefMatch = grpName;
                             for (MAdventure.DirectionsEnum dr : MAdventure.DirectionsEnum.values()) {
                                 String sDirTest = mAdv.getDirectionRE(dr, true, true);
-                                if (sGroupValue.matches("^" + sDirTest + "$")) {
+                                if (grpVal.matches("^" + sDirTest + "$")) {
                                     MReference.MReferenceItem itm = new MReference.MReferenceItem();
-                                    itm.mMatchingPossibilities.add(dr.toString());
-                                    itm.mCommandReference = sGroupValue;
+                                    itm.mMatchingKeys.add(dr.toString());
+                                    itm.mCommandReference = grpVal;
                                     newRef.mItems.add(itm);
                                     break;
                                 }
@@ -3749,14 +3528,14 @@ public class MTask extends MItem {
                         case "number3":
                         case "number4":
                         case "number5":
-                            iNewRefs++;
+                            nNewRefs++;
                             newRef = new MReference(MReference.ReferencesType.Number);
-                            mReferences.set(iNewRefs - 1, newRef);
-                            newRef.mReferenceMatch = sGroupName;
-                            if (sGroupValue.matches(PATTERN_NUMBER)) {
+                            mRefs.set(nNewRefs - 1, newRef);
+                            newRef.mRefMatch = grpName;
+                            if (grpVal.matches(PATTERN_NUMBER)) {
                                 MReference.MReferenceItem itm = new MReference.MReferenceItem();
-                                itm.mMatchingPossibilities.add(sGroupValue);
-                                itm.mCommandReference = sGroupValue;
+                                itm.mMatchingKeys.add(grpVal);
+                                itm.mCommandReference = grpVal;
                                 newRef.mItems.add(itm);
                             }
                             break;
@@ -3766,36 +3545,36 @@ public class MTask extends MItem {
                         case "text3":
                         case "text4":
                         case "text5":
-                            iNewRefs++;
+                            nNewRefs++;
                             newRef = new MReference(MReference.ReferencesType.Text);
-                            mReferences.set(iNewRefs - 1, newRef);
-                            newRef.mReferenceMatch = sGroupName;
-                            if (sGroupValue.matches(PATTERN_TEXT)) {
-                                int iRef = Math.max(safeInt(sGroupName.replace("text", "")) - 1, 0);
+                            mRefs.set(nNewRefs - 1, newRef);
+                            newRef.mRefMatch = grpName;
+                            if (grpVal.matches(PATTERN_TEXT)) {
+                                int iRef = Math.max(mAdv.safeInt(grpName.replace("text", "")) - 1, 0);
                                 MReference.MReferenceItem itm = new MReference.MReferenceItem();
-                                itm.mMatchingPossibilities.add(sGroupValue);
-                                itm.mCommandReference = sGroupValue;
+                                itm.mMatchingKeys.add(grpVal);
+                                itm.mCommandReference = grpVal;
                                 newRef.mItems.add(itm);
-                                mAdv.mReferencedText[iRef] = sGroupValue;
+                                mAdv.mReferencedText[iRef] = grpVal;
                             }
                             break;
                     }
                 }
             }
 
-            if (matches) {
+            if (matched) {
                 return true;
             } else {
                 // We didn't match, but...
                 // if this task has a Must Exist restriction, add it to the second chance pool for
                 // potential execution on a second pass.
-                if (secondChanceMatches != null && !secondChanceMatches.containsKey(getKey()) &&
-                        iNewRefs > 0 && iNewRefs <= mReferences.size()) {
-                    MReference.ReferencesType refType = mReferences.get(iNewRefs - 1).mType;
+                if (secondChance != null && !secondChance.containsKey(getKey()) &&
+                        nNewRefs > 0 && nNewRefs <= mRefs.size()) {
+                    MReference.ReferencesType refType = mRefs.get(nNewRefs - 1).mType;
                     if ((refType == MReference.ReferencesType.Object && hasObjectExistRestriction()) ||
                             (refType == MReference.ReferencesType.Character && hasCharacterExistRestriction()) ||
                             (refType == MReference.ReferencesType.Location && hasLocationExistRestriction())) {
-                        secondChanceMatches.put(getKey(), this);
+                        secondChance.put(getKey(), this);
                     }
                 }
             }
@@ -3804,42 +3583,43 @@ public class MTask extends MItem {
         return false;
     }
 
-    private boolean inputMatchesObjects(@NonNull String sInput, int iNewRef) {
-        return inputMatchesObjects(sInput, iNewRef, true, false, null);
+    private boolean inputMatchesObjects(@NonNull String input, int refNum) {
+        return inputMatchesObjects(input, refNum, true, false, null);
     }
 
-    private boolean inputMatchesObjects(@NonNull String sInput, int iNewRef, boolean bExcepts) {
-        return inputMatchesObjects(sInput, iNewRef, bExcepts, true, null);
+    private boolean inputMatchesObjects(@NonNull String input, int refNum, boolean removeMatches) {
+        return inputMatchesObjects(input, refNum, removeMatches, true, null);
     }
 
-    private boolean inputMatchesObjects(@NonNull String sInput, final int iNewRef,
-                                        boolean bExcepts, boolean bPlural, @Nullable MTaskHashMap bSecondChance) {
-        // if bPlural is true, we only try to match a single object
-        // if bPlural is false, we try to match a list of objects
-        if (!bPlural) {
+    private boolean inputMatchesObjects(@NonNull String input, final int refNum,
+                                        boolean removeMatches, boolean matchMultiple,
+                                        @Nullable MTaskHashMap secondChance) {
+        // if matchMultiple is true, we only try to match one object
+        // if matchMultiple is false, we try to match a list of objects
+        if (!matchMultiple) {
             // First try to match the form
             //    "(all | objects1) (except|but|apart from) (objects2)"
-            Matcher m = PATTERN_OBJECTS.matcher(sInput);
+            Matcher m = PATTERN_OBJECTS.matcher(input);
             grpCheck:
             if (m.matches()) {
-                ArrayList<MReference.MReferenceItem> items = mReferences.get(iNewRef).mItems;
+                ArrayList<MReference.MReferenceItem> items = mRefs.get(refNum).mItems;
                 MReference.MReferenceItem itm;
 
-                for (String sGroupName : PATTERN_OBJECTS.groupNames()) {
-                    String sGroupValue = m.group(sGroupName);
-                    if (sGroupValue == null) {
+                for (String grpName : PATTERN_OBJECTS.groupNames()) {
+                    String grpVal = m.group(grpName);
+                    if (grpVal == null) {
                         // input didn't match this group name, so just
                         // continue onto the next one
                         continue;
                     }
-                    sGroupValue = sGroupValue.trim();
-                    switch (sGroupName) {
+                    grpVal = grpVal.trim();
+                    switch (grpName) {
                         case "all":
-                            if (sGroupValue.equals("all")) {
+                            if (grpVal.equals("all")) {
                                 // User isn't refining 'all', so we need to populate list with all objects
                                 for (MObject ob : mAdv.mObjects.getSeenBy().values()) {
                                     itm = new MReference.MReferenceItem();
-                                    itm.mMatchingPossibilities.add(ob.getKey());
+                                    itm.mMatchingKeys.add(ob.getKey());
                                     itm.mIsExplicitlyMentioned = false;
                                     itm.mCommandReference = "all";
                                     items.add(itm);
@@ -3848,19 +3628,19 @@ public class MTask extends MItem {
                                 // i.e. all balls
                                 // object1 should be plural here, in which case we want to
                                 // match any object with that as the plural, i.e. balls, cactii, sheep
-                                if (!inputMatchesObjects(sGroupValue.substring(4),
-                                        iNewRef, false)) {
+                                if (!inputMatchesObjects(grpVal.substring(4),
+                                        refNum, false)) {
                                     break grpCheck;
                                 }
                             }
                             break;
 
                         case "objects1":
-                            if (!sGroupValue.startsWith("all ")) {
+                            if (!grpVal.startsWith("all ")) {
                                 // i.e. balls
                                 // object1 should be plural here, in which case we want to
                                 // match any object with that as the plural, i.e. balls, cactii, sheep
-                                if (!inputMatchesObjects(sGroupValue, iNewRef, bExcepts)) {
+                                if (!inputMatchesObjects(grpVal, refNum, removeMatches)) {
                                     break grpCheck;
                                 }
                             }
@@ -3868,7 +3648,7 @@ public class MTask extends MItem {
 
                         case "objects2":
                             // Need to go through and remove any matching ref
-                            inputMatchesObjects(sGroupValue, iNewRef);
+                            inputMatchesObjects(grpVal, refNum);
                             break;
                     }
                 }
@@ -3877,109 +3657,119 @@ public class MTask extends MItem {
 
             // No matches so far. See if we can match
             //    "(obj1, ... ) obj2 (and obj3)"
-            m = PATTERN_OBJECTS2.matcher(sInput);
+            m = PATTERN_OBJECTS2.matcher(input);
             if (m.matches()) {
-                int iItemNum = 0;
-                String sCommaSepObjects = m.group("commaseparatedobjects");
-                if (sCommaSepObjects != null && !sCommaSepObjects.equals("")) {
+                int itmNum = 0;
+                String obs = m.group("commaseparatedobjects");
+                if (obs != null && !obs.equals("")) {
                     // mimic VB's TrimEnd(New Char() { ","c, " "c }
-                    for (String sObject : sCommaSepObjects.replaceAll("[\\s,]+$", "").split(",")) {
-                        sObject = sObject.trim();
+                    for (String ob : obs.replaceAll("[\\s,]+$", "").split(",")) {
+                        ob = ob.trim();
                         if (!checkInputMatch(mAdv.mObjects, MReference.ReferencesType.Object,
-                                sObject, iNewRef, iItemNum, bExcepts, false, null)) {
+                                ob, refNum, itmNum,
+                                removeMatches, false, null)) {
                             return false;
                         }
-                        iItemNum++;
+                        itmNum++;
                     }
                 }
                 if (!checkInputMatch(mAdv.mObjects, MReference.ReferencesType.Object,
-                        m.group("object2"), iNewRef, iItemNum, bExcepts, false, null)) {
+                        m.group("object2"), refNum, itmNum,
+                        removeMatches, false, null)) {
                     return false;
                 }
-                iItemNum++;
+                itmNum++;
                 return checkInputMatch(mAdv.mObjects, MReference.ReferencesType.Object,
-                        m.group("object3"), iNewRef, iItemNum, bExcepts, false, null);
+                        m.group("object3"), refNum, itmNum,
+                        removeMatches, false, null);
             }
         }
 
         // Try to match on unique names before looking at plurals
         // So if we have bar and bars, get bars tries to take the bars before taking the bar
         return checkInputMatch(mAdv.mObjects, MReference.ReferencesType.Object,
-                sInput, iNewRef, 0, bExcepts, bPlural, bSecondChance);
+                input, refNum, 0, removeMatches, matchMultiple, secondChance);
     }
 
-    private boolean inputMatchesCharacters(@NonNull String sInput, int iNewRef, @Nullable MTaskHashMap bSecondChance) {
-        Matcher m = PATTERN_CHARACTERS.matcher(sInput);
+    private boolean inputMatchesCharacters(@NonNull String input, int refNum,
+                                           @Nullable MTaskHashMap secondChance) {
+        Matcher m = PATTERN_CHARACTERS.matcher(input);
         if (m.matches()) {
-            int iItemNum = 0;
-            String sCommaSepChars = m.group("commaseparatedcharacters");
-            if (sCommaSepChars != null && !sCommaSepChars.equals("")) {
+            int itmNum = 0;
+            String chars = m.group("commaseparatedcharacters");
+            if (chars != null && !chars.equals("")) {
                 // mimic VB's TrimEnd(New Char() { ","c, " "c }
-                for (String sCharacter : sCommaSepChars.replaceAll("[\\s,]+$", "").split(",")) {
-                    sCharacter = sCharacter.trim();
+                for (String ch : chars.replaceAll("[\\s,]+$", "").split(",")) {
+                    ch = ch.trim();
                     if (!checkInputMatch(mAdv.mCharacters, MReference.ReferencesType.Character,
-                            sCharacter, iNewRef, iItemNum, false, false, null)) {
+                            ch, refNum, itmNum,
+                            false, false, null)) {
                         return false;
                     }
-                    iItemNum++;
+                    itmNum++;
                 }
             }
             if (!checkInputMatch(mAdv.mCharacters, MReference.ReferencesType.Character,
-                    m.group("character2"), iNewRef, iItemNum, false, false, null)) {
+                    m.group("character2"), refNum, itmNum,
+                    false, false, null)) {
                 return false;
             }
-            iItemNum++;
+            itmNum++;
             return checkInputMatch(mAdv.mCharacters, MReference.ReferencesType.Character,
-                    m.group("character3"), iNewRef, iItemNum, false, false, null);
+                    m.group("character3"), refNum, itmNum,
+                    false, false, null);
         }
 
         return checkInputMatch(mAdv.mCharacters, MReference.ReferencesType.Character,
-                sInput, iNewRef, 0, false, false, bSecondChance);
+                input, refNum, 0, false, false, secondChance);
     }
 
-    private boolean checkInputMatch(@NonNull MItemHashMap<? extends MItem> htblItems,
+    private boolean checkInputMatch(@NonNull MItemHashMap<? extends MItem> items,
                                     MReference.ReferencesType refType,
-                                    @NonNull String sInput,
-                                    int iReferenceNum, int iItemNum, boolean bExcepts, boolean bPlural,
-                                    @Nullable MTaskHashMap bSecondChance) {
-        boolean bResult = false;
-        boolean bAdded = false;
-        ArrayList<MReference.MReferenceItem> refItems = mReferences.get(iReferenceNum).mItems;
+                                    @NonNull String input, int refNum, int itemNum,
+                                    boolean removeMatches, boolean matchMultiple,
+                                    @Nullable MTaskHashMap secondChance) {
+        boolean matched = false;
+        boolean refItemAdded = false;
+        ArrayList<MReference.MReferenceItem> refItems = mRefs.get(refNum).mItems;
 
-        if (iItemNum == 0 && bPlural) {
-            iItemNum = -1;
+        if (itemNum == 0 && matchMultiple) {
+            itemNum = -1;
         }
 
-        for (MItem itm : htblItems.values()) {
-            Pattern p = Pattern.compile("^" + itm.getRegEx(false, bPlural) + "$", Pattern.CASE_INSENSITIVE);
-            Matcher m = p.matcher(sInput);
+        for (MItem itm : items.values()) {
+            Pattern p = Pattern.compile("^" +
+                    itm.getRegEx(false, matchMultiple) +
+                    "$", Pattern.CASE_INSENSITIVE);
+            Matcher m = p.matcher(input);
             if (m.matches()) {
-                bResult = true;
-                if (!bExcepts) {
-                    if (bPlural) {
-                        iItemNum++;
+                matched = true;
+                if (!removeMatches) {
+                    if (matchMultiple) {
+                        itemNum++;
                     }
-                    if (bPlural || !bAdded) {
+                    if (matchMultiple || !refItemAdded) {
                         refItems.add(new MReference.MReferenceItem());
                     }
-                    bAdded = true;
-                    MReference.MReferenceItem refItem = refItems.get(iItemNum);
-                    refItem.mMatchingPossibilities.add(itm.getKey());
+                    refItemAdded = true;
+                    MReference.MReferenceItem refItem = refItems.get(itemNum);
+                    refItem.mMatchingKeys.add(itm.getKey());
                     refItem.mIsExplicitlyMentioned = true;
-                    refItem.mCommandReference = sInput;
+                    refItem.mCommandReference = input;
                 } else {
-                    for (int iItem = refItems.size() - 1; iItem >= 0; iItem--) {
-                        MReference.MReferenceItem refItem = refItems.get(iItem);
-                        refItem.mMatchingPossibilities.remove(itm.getKey());
-                        if (refItem.mMatchingPossibilities.size() == 0) {
-                            refItems.remove(iItem);
+                    for (int i = refItems.size() - 1; i >= 0; i--) {
+                        MReference.MReferenceItem refItem = refItems.get(i);
+                        refItem.mMatchingKeys.remove(itm.getKey());
+                        if (refItem.mMatchingKeys.size() == 0) {
+                            refItems.remove(i);
                         }
                     }
                 }
             }
         }
 
-        if (!bResult && bSecondChance != null && bSecondChance.containsKey(getKey())) {
+        if (!matched && secondChance != null &&
+                secondChance.containsKey(getKey())) {
             // If our task has a check that objects should exist and this
             // is the second pass, then return true as a match so the task can
             // deal with that in its restrictions.
@@ -4004,7 +3794,7 @@ public class MTask extends MItem {
             }
         }
 
-        return bResult;
+        return matched;
     }
 
     public boolean getContinueToExecuteLowerPriority() {
@@ -4066,12 +3856,12 @@ public class MTask extends MItem {
     public boolean matchesReferences(@NonNull MTaskHashMap.MTaskMatchResult matchResult) {
         // Does this task already have a unique set of references (or no
         // references at all)?
-        boolean bMatchesPreRefine = true;
-        for (MReference nr : mReferences) {
+        boolean matchesPreRefine = true;
+        for (MReference nr : mRefs) {
             if (nr != null) {
                 for (MReference.MReferenceItem itm : nr.mItems) {
-                    if (itm.mMatchingPossibilities.size() != 1) {
-                        bMatchesPreRefine = false;
+                    if (itm.mMatchingKeys.size() != 1) {
+                        matchesPreRefine = false;
                         break;
                     }
                 }
@@ -4082,29 +3872,28 @@ public class MTask extends MItem {
         // (or other scopes) and this becomes our working set. We don't
         // want to overwrite this task's references at this stage, so
         // operate on a copy of them instead.
-        mReferencesWorking = refineRefsUsingScopes(mReferences.copyDeep());
+        mRefsWorking = refineRefsUsingScopes(mRefs.copyDeep());
 
         // If we still have at least one matching possibility in each
         // reference item, then run this task, else we don't pass
-        boolean bOkToRun = true;
-        for (MReference nr : mReferencesWorking) {
+        boolean okToRun = true;
+        for (MReference nr : mRefsWorking) {
             if (nr != null) {
                 for (MReference.MReferenceItem itm : nr.mItems) {
-                    int nPossible = itm.mMatchingPossibilities.size();
+                    int nPossible = itm.mMatchingKeys.size();
                     if (nPossible == 0) {
                         // This item does not have any possible values, so
                         // we can't run this task as it stands. However, if
                         // we had a unique set of references prior to refining,
                         // let's fall back to that and execute the task, rather
                         // than falling through to not understood.
-                        if (bMatchesPreRefine) {
-                            // Yes we can fall back, so reset mReferencesWorking.
-                            mReferencesWorking = mReferences.copyDeep();
+                        if (matchesPreRefine) {
+                            // Yes we can fall back, so reset mRefsWorking.
+                            mRefsWorking = mRefs.copyDeep();
                         } else {
                             // No we can't fall back, so give up.
-                            MView.debugPrint(Task, getKey(),
-                                    High,
-                                    "No matches found.");
+                            mAdv.mView.debugPrint(Task, getKey(),
+                                    High, "No matches found.");
 
                             if (matchResult.mNoRefTask == null) {
                                 // Record that this is the first task with at
@@ -4112,7 +3901,7 @@ public class MTask extends MItem {
                                 // any possible values.
                                 matchResult.mNoRefTask = this;
                             }
-                            bOkToRun = false;
+                            okToRun = false;
                         }
                         break;
                     } else if (nPossible > 1) {
@@ -4122,52 +3911,48 @@ public class MTask extends MItem {
                             // Record that this is the first task with at
                             // least one reference that contains more than
                             // one possible value.
-                            MView.debugPrint(Task, getKey(),
-                                    High,
+                            mAdv.mView.debugPrint(Task, getKey(), High,
                                     "Multiple matches.  Prompt for ambiguity.");
                             matchResult.mAmbiguousTask = this;
                         } else {
                             // We've already found an ambiguous task,
-                            MView.debugPrint(Task, getKey(),
-                                    High,
+                            mAdv.mView.debugPrint(Task, getKey(), High,
                                     "Multiple matches, but we already have an ambiguity.");
                         }
-                        bOkToRun = false;
+                        okToRun = false;
                     }
                 }
             }
         }
 
-        if (bOkToRun) {
+        if (okToRun) {
             if (getReferences().size() > 0) {
                 // The task has references, but every associated item
                 // has only one possible value, so there is no
                 // ambiguity.
-                MView.debugPrint(Task, getKey(),
-                        High,
-                        "Command matches without ambiguity.");
+                mAdv.mView.debugPrint(Task, getKey(),
+                        High, "Command matches without ambiguity.");
             } else {
                 // The task has no references.
-                MView.debugPrint(Task, getKey(),
-                        High,
-                        "Command matches.");
+                mAdv.mView.debugPrint(Task, getKey(),
+                        High, "Command matches.");
             }
 
             // We successfully refined the working references, so
             // set the result back to this task's references.
-            mReferences = mReferencesWorking;
+            mRefs = mRefsWorking;
         }
 
-        return bOkToRun;
+        return okToRun;
     }
 
     @NonNull
     public MStringArrayList getReferences() {
-        return getRefsInCommand(getCommand(false));
+        return MGlobals.getRefs(getCommand(false));
     }
 
     @NonNull
-    private String getParentTaskCommand(int iCmdIndex) {
+    private String getParentTaskCommand(int cmdIndex) {
         // Returns the command from the parent task if we're a specific task.
         // Does this recursively in case we're specific of a specific etc.
         MTask task = this;
@@ -4175,19 +3960,18 @@ public class MTask extends MItem {
             task = mAdv.mTasks.get(task.mGeneralKey);
         }
 
-        int nCommand = task.mCommands.size();
-
-        if (nCommand > 0) {
-            return (nCommand > iCmdIndex) ?
-                    task.mCommands.get(iCmdIndex) : task.mCommands.get(0);
+        int nCmd = task.mCommands.size();
+        if (nCmd > 0) {
+            return (nCmd > cmdIndex) ?
+                    task.mCommands.get(cmdIndex) : task.mCommands.get(0);
         } else {
             return "";
         }
     }
 
     @NonNull
-    private String getCommand(boolean bReplaceSpecifics) {
-        return getCommand(bReplaceSpecifics, -1);
+    private String getCommand(boolean replaceSpecifics) {
+        return getCommand(replaceSpecifics, -1);
     }
 
     /**
@@ -4220,12 +4004,12 @@ public class MTask extends MItem {
     }
 
     @NonNull
-    private String getCommand(boolean bReplaceSpecifics, int iCmdIndex) {
+    private String getCommand(boolean replaceSpecifics, int cmdIndex) {
         // if cmdIndex is -1, we use the index of the last matched command
-        String sTaskCommand = "";
-        int iMatchedTaskCommand = 0;
-        if (iCmdIndex == -1) {
-            iMatchedTaskCommand = mLastMatchingCommandIndex;
+        String taskCmd = "";
+        int matchedCmdIndex = 0;
+        if (cmdIndex == -1) {
+            matchedCmdIndex = mLastMatchingCommandIndex;
         }
 
         switch (mType) {
@@ -4233,40 +4017,42 @@ public class MTask extends MItem {
                 // Find the command with the most refs.  E.g.
                 // # Get Object
                 // get %object%
-                int iRefsCount = 0;
+                int nRefs = 0;
                 if (mCommands.size() == 0) {
                     GLKLogger.error("Error, general task \"" + mDescription + "\" has no commands!");
                     return "";
                 }
-                sTaskCommand = (mCommands.size() > iMatchedTaskCommand) ?
-                        mCommands.get(iMatchedTaskCommand) : mCommands.get(0);
-                MStringArrayList refs = getRefsInCommand(sTaskCommand);
-                if (refs.size() > iRefsCount) {
-                    // Need to make sure we're checking against the command we matched on
-                    iRefsCount = refs.size();
+                taskCmd = (mCommands.size() > matchedCmdIndex) ?
+                        mCommands.get(matchedCmdIndex) : mCommands.get(0);
+                MStringArrayList refs = MGlobals.getRefs(taskCmd);
+                if (refs.size() > nRefs) {
+                    // Need to make sure we're checking against
+                    // the command we matched on
+                    nRefs = refs.size();
                 }
-                // Some v4 games may not have same no. of refs on each line, so if any other lines have more, use that instead
-                for (String sCommand : mCommands) {
-                    int nRefs = getRefsInCommand(sCommand).size();
-                    if (nRefs > iRefsCount) {
-                        iRefsCount = nRefs;
-                        sTaskCommand = sCommand;
+                // Some v4 games may not have same no. of refs on each line,
+                // so if any other lines have more, use that instead
+                for (String cmd : mCommands) {
+                    int nCmdRefs = MGlobals.getRefs(cmd).size();
+                    if (nCmdRefs > nRefs) {
+                        nRefs = nCmdRefs;
+                        taskCmd = cmd;
                     }
                 }
                 break;
 
             case Specific:
-                sTaskCommand = mAdv.mTasks.get(mGeneralKey).getCommand(bReplaceSpecifics);
-                if (bReplaceSpecifics) {
+                taskCmd = mAdv.mTasks.get(mGeneralKey).getCommand(replaceSpecifics);
+                if (replaceSpecifics) {
                     // Replace any Specifics from this key
-                    for (int iSpec = 0; iSpec < mSpecifics.size(); iSpec++) {
-                        MSpecific spec = mSpecifics.get(iSpec);
+                    for (int i = 0; i < mSpecifics.size(); i++) {
+                        MSpecific spec = mSpecifics.get(i);
                         if (spec.mKeys.size() == 0 ||
                                 (spec.mKeys.size() == 1 && spec.mKeys.get(0).equals(""))) {
                             // Allow, as it's passing thru the parent as a reference
                         } else {
                             // Replace the parent task %object% with our specific key
-                            sTaskCommand = sTaskCommand.replace(getReferences().get(iSpec), spec.toString(mAdv));
+                            taskCmd = taskCmd.replace(getReferences().get(i), spec.toString(mAdv));
                         }
                     }
                 }
@@ -4277,7 +4063,7 @@ public class MTask extends MItem {
 
         }
 
-        return sTaskCommand;
+        return taskCmd;
     }
 
     @NonNull
@@ -4331,16 +4117,17 @@ public class MTask extends MItem {
     /**
      * Get the specific child tasks of this task.
      *
-     * @param bIncludeCompleted - should we include
+     * @param includeCompleted - should we include
      *                          child tasks that have already been completed?
      * @return a list of the child tasks.
      */
     @NonNull
-    private MStringArrayList getChildTasks(boolean bIncludeCompleted) {
+    private MStringArrayList getChildTasks(boolean includeCompleted) {
         MStringArrayList sal = new MStringArrayList();
 
-        for (MTask tas : mAdv.getTaskList(MAdventure.MTasksListEnum.SpecificTasks).values()) {
-            if (tas.mGeneralKey.equals(this.getKey()) && (bIncludeCompleted || !tas.getCompleted() || tas.getRepeatable())) {
+        for (MTask tas : mAdv.getTaskList(SpecificTasks).values()) {
+            if (tas.mGeneralKey.equals(getKey()) &&
+                    (includeCompleted || !tas.getCompleted() || tas.getRepeatable())) {
                 sal.add(tas.getKey());
             }
         }
@@ -4356,7 +4143,8 @@ public class MTask extends MItem {
     private boolean hasObjectExistRestriction() {
         if (!mRestrictionCheckCache[0][0]) {
             for (MRestriction rest : mRestrictions) {
-                if (rest.mType == MRestriction.RestrictionTypeEnum.Object && rest.mObjectType == MRestriction.ObjectEnum.Exist) {
+                if (rest.mType == MRestriction.RestrictionTypeEnum.Object &&
+                        rest.mObjectType == MRestriction.ObjectEnum.Exist) {
                     mRestrictionCheckCache[0][1] = true;
                     break;
                 }
@@ -4371,7 +4159,8 @@ public class MTask extends MItem {
     private boolean hasCharacterExistRestriction() {
         if (!mRestrictionCheckCache[1][0]) {
             for (MRestriction rest : mRestrictions) {
-                if (rest.mType == MRestriction.RestrictionTypeEnum.Character && rest.mCharacterType == MRestriction.CharacterEnum.Exist) {
+                if (rest.mType == MRestriction.RestrictionTypeEnum.Character &&
+                        rest.mCharacterType == MRestriction.CharacterEnum.Exist) {
                     mRestrictionCheckCache[1][1] = true;
                     break;
                 }
@@ -4386,7 +4175,8 @@ public class MTask extends MItem {
     private boolean hasLocationExistRestriction() {
         if (!mRestrictionCheckCache[2][0]) {
             for (MRestriction rest : mRestrictions) {
-                if (rest.mType == MRestriction.RestrictionTypeEnum.Location && rest.mLocationType == MRestriction.LocationEnum.Exist) {
+                if (rest.mType == MRestriction.RestrictionTypeEnum.Location &&
+                        rest.mLocationType == MRestriction.LocationEnum.Exist) {
                     mRestrictionCheckCache[2][1] = true;
                 }
             }
@@ -4483,8 +4273,9 @@ public class MTask extends MItem {
             tas.mRestrictions = tas.mRestrictions.copy();
             tas.mActions = tas.mActions.copy();
             if (mSpecifics != null) {
-                tas.mSpecifics = new ArrayList<>(mSpecifics.size());
-                for (int i = 0; i < tas.mSpecifics.size(); i++) {
+                int sz = mSpecifics.size();
+                tas.mSpecifics = new ArrayList<>(sz);
+                for (int i = 0; i < sz; i++) {
                     tas.mSpecifics.add(mSpecifics.get(i).clone());
                 }
             }
@@ -4530,16 +4321,23 @@ public class MTask extends MItem {
 
     @Override
     public int getKeyRefCount(@NonNull String key) {
-        int iCount = 0;
-        iCount += mRestrictions.referencesKey(key);
-        iCount += mActions.getNumberOfKeyRefs(key);
+        int ret = 0;
+        ret += mRestrictions.getNumberOfKeyRefs(key);
+        ret += mActions.getNumberOfKeyRefs(key);
         for (MDescription d : getAllDescriptions()) {
-            iCount += d.referencesKey(key);
+            ret += d.getNumberOfKeyRefs(key);
         }
         if (mGeneralKey.equals(key)) {
-            iCount++;
+            ret++;
         }
-        return iCount;
+        return ret;
+    }
+
+    @NonNull
+    @Override
+    public String getSymbol() {
+        // ballot box with check (emoji version)
+        return "\u2611\ufe0f";
     }
 
     public enum ExecutionStatus {
@@ -4634,31 +4432,29 @@ public class MTask extends MItem {
 
         @NonNull
         public String toString(MAdventure adv) {
-            StringBuilder sList = new StringBuilder();
-
+            StringBuilder ret = new StringBuilder();
             int sz = mKeys.size();
             if (sz > 0) {
                 for (int i = 0; i < sz; i++) {
                     switch (mType) {
                         case Direction:
                             if (!mKeys.get(i).equals("")) {
-                                sList.append(adv.getDirectionName(MAdventure.DirectionsEnum.valueOf(mKeys.get(i))));
+                                ret.append(adv.getDirectionName(MAdventure.DirectionsEnum.valueOf(mKeys.get(i))));
                             }
                             break;
                         default:
-                            sList.append(adv.getNameFromKey(mKeys.get(i), false, false));
+                            ret.append(adv.getNameFromKey(mKeys.get(i), false, false));
                             break;
                     }
                     if (i + 2 < sz) {
-                        sList.append(", ");
+                        ret.append(", ");
                     }
                     if (i + 2 == sz) {
-                        sList.append(" and ");
+                        ret.append(" and ");
                     }
                 }
             }
-
-            return sList.toString();
+            return ret.toString();
         }
 
         @Override

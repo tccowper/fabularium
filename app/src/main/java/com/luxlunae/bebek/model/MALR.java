@@ -193,9 +193,16 @@ public class MALR extends MItem {
     public int getKeyRefCount(@NonNull String key) {
         int iCount = 0;
         for (MDescription d : getAllDescriptions()) {
-            iCount += d.referencesKey(key);
+            iCount += d.getNumberOfKeyRefs(key);
         }
         return iCount;
+    }
+
+    @NonNull
+    @Override
+    public String getSymbol() {
+        // abc blocks
+        return new String(Character.toChars(0x1F524));
     }
 
     @Override

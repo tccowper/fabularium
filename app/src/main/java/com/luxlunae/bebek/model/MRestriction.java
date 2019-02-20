@@ -25,7 +25,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.luxlunae.bebek.MGlobals;
-import com.luxlunae.bebek.controller.MParser;
 import com.luxlunae.bebek.model.collection.MReferenceList;
 import com.luxlunae.bebek.model.collection.MStringArrayList;
 import com.luxlunae.bebek.model.io.MFileOlder;
@@ -43,8 +42,6 @@ import static com.luxlunae.bebek.MGlobals.NOOBJECT;
 import static com.luxlunae.bebek.MGlobals.PLAYERLOCATION;
 import static com.luxlunae.bebek.MGlobals.REFERENCE_NAMES;
 import static com.luxlunae.bebek.MGlobals.THEFLOOR;
-import static com.luxlunae.bebek.MGlobals.safeBool;
-import static com.luxlunae.bebek.MGlobals.safeInt;
 import static com.luxlunae.bebek.VB.cint;
 import static com.luxlunae.bebek.VB.isNumeric;
 import static com.luxlunae.bebek.model.MCharacter.Gender.Female;
@@ -90,8 +87,8 @@ import static com.luxlunae.bebek.model.MRestriction.VariableEnum.GreaterThan;
 import static com.luxlunae.bebek.model.MRestriction.VariableEnum.GreaterThanOrEqualTo;
 import static com.luxlunae.bebek.model.MRestriction.VariableEnum.LessThan;
 import static com.luxlunae.bebek.model.MRestriction.VariableEnum.LessThanOrEqualTo;
-import static com.luxlunae.bebek.model.MVariable.VariableType.NUMERIC;
-import static com.luxlunae.bebek.model.MVariable.VariableType.TEXT;
+import static com.luxlunae.bebek.model.MVariable.VariableType.Numeric;
+import static com.luxlunae.bebek.model.MVariable.VariableType.Text;
 import static com.luxlunae.bebek.model.io.MFileOlder.ComboEnum.Container;
 import static com.luxlunae.bebek.model.io.MFileOlder.ComboEnum.Dynamic;
 import static com.luxlunae.bebek.model.io.MFileOlder.ComboEnum.Lieable;
@@ -667,7 +664,7 @@ public class MRestriction {
         if (mType == MRestriction.RestrictionTypeEnum.Variable && mKey1 != null) {
             boolean refText = mKey1.equals("ReferencedText");
             MVariable var = (refText) ? null : mAdv.mVariables.get(mKey1);
-            if (refText || (var != null && var.getType() == TEXT)) {
+            if (refText || (var != null && var.getType() == Text)) {
                 switch (mVariableType) {
                     case LessThan:
                         mVariableType = EqualTo;
@@ -778,7 +775,7 @@ public class MRestriction {
                     case NOOBJECT:
                         switch (mKey2) {
                             case ANYCHARACTER:
-                                MGlobals.TODO("No object held by any character test");
+                                mAdv.mView.TODO("No object held by any character test");
                                 return false;
                             default:
                                 return mAdv.mCharacters.get(mKey2).getHeldObjects().size() == 0;
@@ -786,7 +783,7 @@ public class MRestriction {
                     case ANYOBJECT:
                         switch (mKey2) {
                             case ANYCHARACTER:
-                                MGlobals.TODO("Any object held by any character test");
+                                mAdv.mView.TODO("Any object held by any character test");
                                 return false;
                             default:
                                 return mAdv.mCharacters.get(mKey2).getHeldObjects().size() > 0;
@@ -814,7 +811,7 @@ public class MRestriction {
                     case NOOBJECT:
                         switch (mKey2) {
                             case ANYCHARACTER:
-                                MGlobals.TODO("No object directly held by any character test");
+                                mAdv.mView.TODO("No object directly held by any character test");
                                 return false;
                             default:
                                 return mAdv.mCharacters.get(mKey2).getHeldObjects(false).size() == 0;
@@ -822,7 +819,7 @@ public class MRestriction {
                     case ANYOBJECT:
                         switch (mKey2) {
                             case ANYCHARACTER:
-                                MGlobals.TODO("Any object directly held by any character test");
+                                mAdv.mView.TODO("Any object directly held by any character test");
                                 return false;
                             default:
                                 return mAdv.mCharacters.get(mKey2).getHeldObjects(false).size() > 0;
@@ -840,10 +837,10 @@ public class MRestriction {
                 // Is object mKey1 hidden?
                 switch (mKey1) {
                     case NOOBJECT:
-                        MGlobals.TODO("No object hidden");
+                        mAdv.mView.TODO("No object hidden");
                         return false;
                     case ANYOBJECT:
-                        MGlobals.TODO("Any object hidden");
+                        mAdv.mView.TODO("Any object hidden");
                         return false;
                     default:
                         if (mAdv.mObjects.get(mKey1).isStatic()) {
@@ -878,10 +875,10 @@ public class MRestriction {
                     case NOOBJECT:
                         switch (mKey2) {
                             case NOOBJECT:
-                                MGlobals.TODO("No object in no object test");
+                                mAdv.mView.TODO("No object in no object test");
                                 return false;
                             case ANYOBJECT:
-                                MGlobals.TODO("No object in any object test");
+                                mAdv.mView.TODO("No object in any object test");
                                 return false;
                             default:
                                 return mAdv.mObjects.get(mKey2)
@@ -890,10 +887,10 @@ public class MRestriction {
                     case ANYOBJECT:
                         switch (mKey2) {
                             case NOOBJECT:
-                                MGlobals.TODO("Any object in no object test");
+                                mAdv.mView.TODO("Any object in no object test");
                                 return false;
                             case ANYOBJECT:
-                                MGlobals.TODO("Any object in any object test");
+                                mAdv.mView.TODO("Any object in any object test");
                                 return false;
                             default:
                                 return mAdv.mObjects.get(mKey2)
@@ -902,7 +899,7 @@ public class MRestriction {
                     default:
                         switch (mKey2) {
                             case NOOBJECT:
-                                MGlobals.TODO("Object inside no object test");
+                                mAdv.mView.TODO("Object inside no object test");
                                 return false;
                             case ANYOBJECT:
                                 return mAdv.mObjects.get(mKey1).getLocation()
@@ -978,10 +975,10 @@ public class MRestriction {
                     case NOOBJECT:
                         switch (mKey2) {
                             case NOOBJECT:
-                                MGlobals.TODO("No Object must be on No Object test");
+                                mAdv.mView.TODO("No Object must be on No Object test");
                                 return false;
                             case ANYOBJECT:
-                                MGlobals.TODO("No Object must be on Any Object test");
+                                mAdv.mView.TODO("No Object must be on Any Object test");
                                 return false;
                             default:
                                 return mAdv.mObjects.get(mKey2)
@@ -990,10 +987,10 @@ public class MRestriction {
                     case ANYOBJECT:
                         switch (mKey2) {
                             case NOOBJECT:
-                                MGlobals.TODO("Any Object must be on No Object test");
+                                mAdv.mView.TODO("Any Object must be on No Object test");
                                 return false;
                             case ANYOBJECT:
-                                MGlobals.TODO("Any Object must be on Any Object test");
+                                mAdv.mView.TODO("Any Object must be on Any Object test");
                                 return false;
                             default:
                                 return mAdv.mObjects.get(mKey2)
@@ -1002,7 +999,7 @@ public class MRestriction {
                     default:
                         switch (mKey2) {
                             case NOOBJECT:
-                                MGlobals.TODO("Object must be on No Object test");
+                                mAdv.mView.TODO("Object must be on No Object test");
                                 return false;
                             case ANYOBJECT:
                                 return mAdv.mObjects.get(mKey1).getLocation()
@@ -1019,15 +1016,15 @@ public class MRestriction {
                 }
                 switch (mKey1) {
                     case NOOBJECT:
-                        MGlobals.TODO("No Object is part of character test");
+                        mAdv.mView.TODO("No Object is part of character test");
                         return false;
                     case ANYOBJECT:
-                        MGlobals.TODO("Any Object is part of character test");
+                        mAdv.mView.TODO("Any Object is part of character test");
                         return false;
                     default:
                         switch (mKey2) {
                             case ANYCHARACTER:
-                                MGlobals.TODO("Object is part of any character test");
+                                mAdv.mView.TODO("Object is part of any character test");
                                 return false;
                             default:
                                 return mAdv.mObjects.get(mKey1).getLocation()
@@ -1043,15 +1040,15 @@ public class MRestriction {
                 }
                 switch (mKey1) {
                     case NOOBJECT:
-                        MGlobals.TODO("No Object is part of object test");
+                        mAdv.mView.TODO("No Object is part of object test");
                         return false;
                     case ANYOBJECT:
-                        MGlobals.TODO("Any Object is part of object test");
+                        mAdv.mView.TODO("Any Object is part of object test");
                         return false;
                     default:
                         switch (mKey2) {
                             case NOOBJECT:
-                                MGlobals.TODO("Object is part of No object test");
+                                mAdv.mView.TODO("Object is part of No object test");
                                 return false;
                             case ANYOBJECT:
                                 return mAdv.mObjects.get(mKey1).getLocation()
@@ -1070,15 +1067,15 @@ public class MRestriction {
                 }
                 switch (mKey1) {
                     case NOOBJECT:
-                        MGlobals.TODO("No Object has been seen by character test");
+                        mAdv.mView.TODO("No Object has been seen by character test");
                         return false;
                     case ANYOBJECT:
-                        MGlobals.TODO("Any Object has been seen by character test");
+                        mAdv.mView.TODO("Any Object has been seen by character test");
                         return false;
                     default:
                         switch (mKey2) {
                             case ANYCHARACTER:
-                                MGlobals.TODO("Object has been seen by any character test");
+                                mAdv.mView.TODO("Object has been seen by any character test");
                                 return false;
                             default:
                                 return mAdv.mCharacters.get(mKey2).hasSeenObject(mKey1);
@@ -1098,7 +1095,7 @@ public class MRestriction {
                     case NOOBJECT:
                         switch (mKey2) {
                             case ANYCHARACTER:
-                                MGlobals.TODO("No Object visible to any character test");
+                                mAdv.mView.TODO("No Object visible to any character test");
                                 return false;
                             default:
                                 for (MObject ob : mAdv.mObjects.values()) {
@@ -1111,7 +1108,7 @@ public class MRestriction {
                     case ANYOBJECT:
                         switch (mKey2) {
                             case ANYCHARACTER:
-                                MGlobals.TODO("Any Object visible to any character test");
+                                mAdv.mView.TODO("Any Object visible to any character test");
                                 return false;
                             default:
                                 for (MObject ob : mAdv.mObjects.values()) {
@@ -1124,7 +1121,7 @@ public class MRestriction {
                     default:
                         switch (mKey2) {
                             case ANYCHARACTER:
-                                MGlobals.TODO("Object visible to any character test");
+                                mAdv.mView.TODO("Object visible to any character test");
                                 return false;
                             default:
                                 return ch.canSeeObject(mKey1);
@@ -1140,7 +1137,7 @@ public class MRestriction {
                     case NOOBJECT:
                         switch (mKey2) {
                             case ANYCHARACTER:
-                                MGlobals.TODO("No Object worn by any character test");
+                                mAdv.mView.TODO("No Object worn by any character test");
                                 return false;
                             default:
                                 return mAdv.mCharacters.get(mKey2).getWornObjects().size() == 0;
@@ -1148,7 +1145,7 @@ public class MRestriction {
                     case ANYOBJECT:
                         switch (mKey2) {
                             case ANYCHARACTER:
-                                MGlobals.TODO("Any Object worn by any character test");
+                                mAdv.mView.TODO("Any Object worn by any character test");
                                 return false;
                             default:
                                 return mAdv.mCharacters.get(mKey2).getWornObjects().size() > 0;
@@ -1207,10 +1204,10 @@ public class MRestriction {
                 // was the text the user typed "all"?
                 switch (mKey1) {
                     case NOOBJECT:
-                        MGlobals.TODO("No Object be exact text test");
+                        mAdv.mView.TODO("No Object be exact text test");
                         return false;
                     case ANYOBJECT:
-                        MGlobals.TODO("Any Object be exact text test");
+                        mAdv.mView.TODO("Any Object be exact text test");
                         return false;
                     default:
                         // Should probably verify that %objects% was actually reference 0
@@ -1230,10 +1227,10 @@ public class MRestriction {
                 }
                 switch (mKey1) {
                     case NOOBJECT:
-                        MGlobals.TODO("No Object be specific object test");
+                        mAdv.mView.TODO("No Object be specific object test");
                         return false;
                     case ANYOBJECT:
-                        MGlobals.TODO("Any Object be specific object test");
+                        mAdv.mView.TODO("Any Object be specific object test");
                         return false;
                     default:
                         return mKey1.equals(mKey2);
@@ -1262,12 +1259,12 @@ public class MRestriction {
         int iIndex = 1;
         if (mKey1.startsWith("ReferencedNumber")) {
             var = new MVariable(mAdv);
-            var.setType(NUMERIC);
-            var.set(safeInt(refs != null ? refs.getReference(mKey1) : null));
+            var.setType(Numeric);
+            var.set(mAdv.safeInt(refs != null ? refs.getMatchingKey(mKey1) : null));
         } else if (mKey1.startsWith("ReferencedText")) {
-            int iRef = Math.max(safeInt(mKey1.replace("ReferencedText", "")) - 1, 0);
+            int iRef = Math.max(mAdv.safeInt(mKey1.replace("ReferencedText", "")) - 1, 0);
             var = new MVariable(mAdv);
-            var.setType(TEXT);
+            var.setType(Text);
             var.set(mAdv.mReferencedText[iRef]);
         } else {
             var = mAdv.mVariables.get(mKey1);
@@ -1275,18 +1272,18 @@ public class MRestriction {
                 if (mAdv.mVariables.containsKey(mKey2)) {
                     iIndex = mAdv.mVariables.get(mKey2).getInt();
                 } else {
-                    iIndex = safeInt(mAdv.evaluateStringExpression(mKey2, refs));
+                    iIndex = mAdv.safeInt(mAdv.evalStrExpr(mKey2, refs));
                 }
             }
         }
         int iIntVal = 0;
         String sStringVal = "";
-        if (var.getType() == NUMERIC) {
+        if (var.getType() == Numeric) {
             if (mIntValue == Integer.MIN_VALUE && !mStringValue.equals("")) {
                 iIntVal = mAdv.mVariables.get(mStringValue).getInt(); // Variable value
             } else {
                 if (!mStringValue.equals("") && !mStringValue.equals(String.valueOf(mIntValue))) {
-                    iIntVal = safeInt(mAdv.evaluateStringExpression(mStringValue, refs)); // Expression
+                    iIntVal = mAdv.safeInt(mAdv.evalStrExpr(mStringValue, refs)); // Expression
                 } else {
                     iIntVal = mIntValue; // Integer value
                 }
@@ -1295,42 +1292,42 @@ public class MRestriction {
             if (mIntValue == Integer.MIN_VALUE && !mStringValue.equals("")) {
                 sStringVal = mAdv.mVariables.get(mStringValue).getStr();
             } else {
-                sStringVal = mAdv.evaluateStringExpression(mStringValue, refs);
+                sStringVal = mAdv.evalStrExpr(mStringValue, refs);
             }
         }
         switch (mVariableType) {
             case EqualTo:
-                if (var.getType() == NUMERIC) {
+                if (var.getType() == Numeric) {
                     return (var.getIntAt(iIndex) == iIntVal);
                 } else {
                     return (var.getStrAt(iIndex).equals(sStringVal));
                 }
             case GreaterThan:
-                if (var.getType() == NUMERIC) {
+                if (var.getType() == Numeric) {
                     return (var.getIntAt(iIndex) > iIntVal);
                 } else {
                     return (var.getStrAt(iIndex).compareTo(sStringVal) > 0);
                 }
             case GreaterThanOrEqualTo:
-                if (var.getType() == NUMERIC) {
+                if (var.getType() == Numeric) {
                     return (var.getIntAt(iIndex) >= iIntVal);
                 } else {
                     return (var.getStrAt(iIndex).compareTo(sStringVal) >= 0);
                 }
             case LessThan:
-                if (var.getType() == NUMERIC) {
+                if (var.getType() == Numeric) {
                     return (var.getIntAt(iIndex) < iIntVal);
                 } else {
                     return (var.getStrAt(iIndex).compareTo(sStringVal) < 0);
                 }
             case LessThanOrEqualTo:
-                if (var.getType() == NUMERIC) {
+                if (var.getType() == Numeric) {
                     return (var.getIntAt(iIndex) <= iIntVal);
                 } else {
                     return (var.getStrAt(iIndex).compareTo(sStringVal) <= 0);
                 }
             case Contain:
-                if (var.getType() == TEXT) {
+                if (var.getType() == Text) {
                     return var.getStrAt(iIndex).contains(sStringVal);
                 }
                 break;
@@ -1352,7 +1349,7 @@ public class MRestriction {
         if (!mKey1.equals(ANYCHARACTER)) {
             ch1 = mAdv.mCharacters.get(mKey1);
             if (ch1 == null) {
-                MGlobals.errMsg("Bad restriction - refers to non-existent character: " +
+                mAdv.mView.errMsg("Bad restriction - refers to non-existent character: " +
                         getSummary());
                 return true;
             }
@@ -1383,7 +1380,7 @@ public class MRestriction {
                 // ------------------------------------------------
                 switch (mKey1) {
                     case ANYCHARACTER:
-                        MGlobals.TODO("Any Character be alone");
+                        mAdv.mView.TODO("Any Character be alone");
                         return false;
                     default:
                         if (mKey2 == null) {
@@ -1436,7 +1433,7 @@ public class MRestriction {
                 // ------------------------------------------------
                 switch (mKey1) {
                     case ANYCHARACTER:
-                        MGlobals.TODO("Any Character be in conversation with");
+                        mAdv.mView.TODO("Any Character be in conversation with");
                         return false;
                     default:
                         if (mKey2 == null) {
@@ -1466,7 +1463,7 @@ public class MRestriction {
                 if (mKey2 == null) {
                     return false;
                 }
-                MParser.mRouteErrorText = mMessage.toString();
+                mAdv.mRouteErrorText = mMessage.toString();
                 StringBuilder sSpecificError = new StringBuilder();
                 switch (mKey1) {
                     case ANYCHARACTER:
@@ -1508,7 +1505,7 @@ public class MRestriction {
                         }
                 }
                 if (sSpecificError.length() > 0) {
-                    MParser.mRouteErrorText = sSpecificError.toString();
+                    mAdv.mRouteErrorText = sSpecificError.toString();
                 }
                 return false;
 
@@ -1518,7 +1515,7 @@ public class MRestriction {
                 // ------------------------------------------------
                 switch (mKey1) {
                     case ANYCHARACTER:
-                        MGlobals.TODO("Any Character seen character");
+                        mAdv.mView.TODO("Any Character seen character");
                         return false;
                     default:
                         assert ch1 != null;
@@ -1531,7 +1528,7 @@ public class MRestriction {
                 // ------------------------------------------------
                 switch (mKey1) {
                     case ANYCHARACTER:
-                        MGlobals.TODO("Any Character seen location");
+                        mAdv.mView.TODO("Any Character seen location");
                         return false;
                     default:
                         assert ch1 != null;
@@ -1544,7 +1541,7 @@ public class MRestriction {
                 // ------------------------------------------------
                 switch (mKey1) {
                     case ANYCHARACTER:
-                        MGlobals.TODO("Any Character seen object");
+                        mAdv.mView.TODO("Any Character seen object");
                         return false;
                     default:
                         assert ch1 != null;
@@ -1580,7 +1577,7 @@ public class MRestriction {
                 if (!mKey2.equals(ANYCHARACTER)) {
                     ch2 = mAdv.mCharacters.get(mKey2);
                     if (ch2 == null) {
-                        MGlobals.errMsg("Bad restriction - refers to non-existent character: " +
+                        mAdv.mView.errMsg("Bad restriction - refers to non-existent character: " +
                                 getSummary());
                         return true;
                     }
@@ -1743,7 +1740,7 @@ public class MRestriction {
                 // ------------------------------------------------
                 switch (mKey1) {
                     case ANYCHARACTER:
-                        MGlobals.TODO("Any Character be of gender");
+                        mAdv.mView.TODO("Any Character be of gender");
                         return false;
                     default:
                         assert ch1 != null;
@@ -1944,7 +1941,7 @@ public class MRestriction {
                     case ANYCHARACTER:
                         switch (mKey2) {
                             case MGlobals.ANYOBJECT:
-                                MGlobals.TODO("Any Character be inside any object");
+                                mAdv.mView.TODO("Any Character be inside any object");
                                 return false;
                             default:
                                 return mAdv.mObjects.get(mKey2)
@@ -1979,7 +1976,7 @@ public class MRestriction {
                 switch (mKey1) {
                     case ANYCHARACTER:
                         if (mKey2.equals(MGlobals.ANYOBJECT)) {
-                            MGlobals.TODO("Any Character on Any Object");
+                            mAdv.mView.TODO("Any Character on Any Object");
                             return false;
                         } else {
                             return mAdv.mObjects.get(mKey2)
@@ -2007,7 +2004,7 @@ public class MRestriction {
                 }
                 switch (mKey1) {
                     case ANYCHARACTER:
-                        MGlobals.TODO("Any Character be on character");
+                        mAdv.mView.TODO("Any Character be on character");
                         return false;
                     default:
                         assert ch1 != null;
@@ -2178,7 +2175,7 @@ public class MRestriction {
                 case LocationKey:
                 case ObjectKey:
                     String sKey = (refs != null) ?
-                            refs.getReference(mStringValue) : null;
+                            refs.getMatchingKey(mStringValue) : null;
                     if (sKey == null) {
                         sKey = mStringValue;
                     }
@@ -2197,25 +2194,25 @@ public class MRestriction {
                             }
                         }
                         iCompareValue =
-                                mAdv.evaluateIntExpression(mStringValue, refs);
+                                mAdv.evalIntExpr(mStringValue, refs);
                     }
                     switch (mIntValue) {
                         case 0:
                             // MRestriction.VariableEnum.LessThan
-                            return (safeInt(prop.getValue()) < iCompareValue);
+                            return (mAdv.safeInt(prop.getValue()) < iCompareValue);
                         case 1:
                             // MRestriction.VariableEnum.LessThanOrEqualTo
-                            return (safeInt(prop.getValue()) <= iCompareValue);
+                            return (mAdv.safeInt(prop.getValue()) <= iCompareValue);
                         case 2:
                         case -1:
                             //  MRestriction.VariableEnum.EqualTo
-                            return (safeInt(prop.getValue()) == iCompareValue);
+                            return (mAdv.safeInt(prop.getValue()) == iCompareValue);
                         case 3:
                             // MRestriction.VariableEnum.GreaterThanOrEqualTo
-                            return (safeInt(prop.getValue()) >= iCompareValue);
+                            return (mAdv.safeInt(prop.getValue()) >= iCompareValue);
                         case 4:
                             // MRestriction.VariableEnum.GreaterThan
-                            return (safeInt(prop.getValue()) > iCompareValue);
+                            return (mAdv.safeInt(prop.getValue()) > iCompareValue);
                     }
                     return false;
 
@@ -2228,14 +2225,14 @@ public class MRestriction {
                 case Text:
                     String sStringVal2 =
                             mStringValue.contains("\"") ?
-                                    mAdv.evaluateStringExpression(mStringValue, refs) :
-                                    mAdv.evaluateFunctions(mStringValue, refs);
+                                    mAdv.evalStrExpr(mStringValue, refs) :
+                                    mAdv.evalFuncs(mStringValue, refs);
                     return prop.getValue().equals(sStringVal2);
 
                 case ValueList:
                     int iCompareValue2;
                     if (isNumeric(mStringValue)) {
-                        iCompareValue2 = safeInt(mStringValue);
+                        iCompareValue2 = mAdv.safeInt(mStringValue);
                     } else {
                         if (bIgnoreReferences) {
                             for (String sRef : REFERENCE_NAMES) {
@@ -2245,25 +2242,25 @@ public class MRestriction {
                             }
                         }
                         iCompareValue2 =
-                                mAdv.evaluateIntExpression(mStringValue, refs);
+                                mAdv.evalIntExpr(mStringValue, refs);
                     }
                     switch (mIntValue) {
                         case 0:
                             // MRestriction.VariableEnum.LessThan
-                            return (safeInt(prop.getValue()) < iCompareValue2);
+                            return (mAdv.safeInt(prop.getValue()) < iCompareValue2);
                         case 1:
                             // MRestriction.VariableEnum.LessThanOrEqualTo
-                            return (safeInt(prop.getValue()) <= iCompareValue2);
+                            return (mAdv.safeInt(prop.getValue()) <= iCompareValue2);
                         case 2:
                         case -1:
                             // MRestriction.VariableEnum.EqualTo
-                            return (safeInt(prop.getValue()) == iCompareValue2);
+                            return (mAdv.safeInt(prop.getValue()) == iCompareValue2);
                         case 3:
                             // MRestriction.VariableEnum.GreaterThanOrEqualTo
-                            return (safeInt(prop.getValue()) >= iCompareValue2);
+                            return (mAdv.safeInt(prop.getValue()) >= iCompareValue2);
                         case 4:
                             // MRestriction.VariableEnum.GreaterThan
-                            return (safeInt(prop.getValue()) > iCompareValue2);
+                            return (mAdv.safeInt(prop.getValue()) > iCompareValue2);
                     }
                     return false;
             }
@@ -2276,7 +2273,7 @@ public class MRestriction {
             return false;
         }
         String sRefDirection =
-                refs != null ? refs.getReference("ReferencedDirection") : null;
+                refs != null ? refs.getMatchingKey("ReferencedDirection") : null;
         return mKey1.equals(sRefDirection);
     }
 
@@ -2307,14 +2304,14 @@ public class MRestriction {
             // ---------------------------------------------------
             if (rest.mObjectType != BeExactText && isReference(rest.mKey1)) {
                 rest.mKey1 = (refs != null) ?
-                        refs.getReference(rest.mKey1) : null;
+                        refs.getMatchingKey(rest.mKey1) : null;
                 if (bIgnoreReferences && rest.mKey1 == null) {
                     return true;
                 }
             }
             if (isReference(rest.mKey2)) {
                 rest.mKey2 = (refs != null) ?
-                        refs.getReference(rest.mKey2) : null;
+                        refs.getMatchingKey(rest.mKey2) : null;
                 if (bIgnoreReferences && rest.mKey2 == null) {
                     return true;
                 }
@@ -2358,32 +2355,32 @@ public class MRestriction {
                     r = rest.passesDirectionRestriction(refs);
                     break;
                 case Expression:
-                    r = safeBool(mAdv.evaluateStringExpression(rest.mStringValue, refs));
+                    r = mAdv.safeBool(mAdv.evalStrExpr(rest.mStringValue, refs));
                     break;
             }
 
             if (r == (rest.mMust == Must)) {
-                MParser.mRestrictionText = "";
-                MView.debugPrint(MGlobals.ItemEnum.Task, "",
+                mAdv.mRestrictionText = "";
+                mAdv.mView.debugPrint(MGlobals.ItemEnum.Task, "",
                         MView.DebugDetailLevelEnum.Medium, getSummary() + ": Passed");
                 return true;
             } else {
                 // Use original, so we mark any Display Once as seen
-                MParser.mRestrictionText = mMessage.toString();
+                mAdv.mRestrictionText = mMessage.toString();
                 if (rest.mType == RestrictionTypeEnum.Character &&
                         rest.mCharacterType == CharacterEnum.HaveRouteInDirection) {
-                    if (!MParser.mRouteErrorText.equals(MParser.mRestrictionText) &&
-                            !MParser.mRouteErrorText.equals("")) {
-                        MParser.mRestrictionText = MParser.mRouteErrorText;
+                    if (!mAdv.mRouteErrorText.equals(mAdv.mRestrictionText) &&
+                            !mAdv.mRouteErrorText.equals("")) {
+                        mAdv.mRestrictionText = mAdv.mRouteErrorText;
                     }
                 }
-                MView.debugPrint(MGlobals.ItemEnum.Task, "",
+                mAdv.mView.debugPrint(MGlobals.ItemEnum.Task, "",
                         MView.DebugDetailLevelEnum.Medium, getSummary() + ": Failed");
                 return false;
             }
 
         } catch (Exception ex) {
-            MGlobals.errMsg("Error evaluating passes for restriction \"" + toString() + "\"", ex);
+            mAdv.mView.errMsg("Error evaluating passes for restriction \"" + toString() + "\"", ex);
             //ex.printStackTrace();
             return false;
         }
@@ -2465,7 +2462,7 @@ public class MRestriction {
                                 sSummary += ("be inside " + mAdv.getNameFromKey(mKey2));
                                 break;
                             case BeInState:
-                                sSummary += "be in state '" + mKey2 + "'"; //mStringValue;
+                                sSummary += "be in state '" + mKey2 + "'"; //mStrValue;
                                 break;
                             case BeOnObject:
                                 sSummary += ("be on " + mAdv.getNameFromKey(mKey2));
@@ -2692,11 +2689,11 @@ public class MRestriction {
                         switch (mKey1) {
                             case "ReferencedNumber":
                                 sSummary = mAdv.getNameFromKey(mKey1) + " ";
-                                eVarType = NUMERIC;
+                                eVarType = Numeric;
                                 break;
                             case "ReferencedText":
                                 sSummary = mAdv.getNameFromKey(mKey1) + " ";
-                                eVarType = TEXT;
+                                eVarType = Text;
                                 break;
                             default:
                                 MVariable var = mAdv.mVariables.get(mKey1);
@@ -2721,7 +2718,7 @@ public class MRestriction {
                                 sSummary += "must not ";
                                 break;
                         }
-                        if (eVarType == NUMERIC) {
+                        if (eVarType == Numeric) {
                             sSummary += "be ";
                             switch (mVariableType) {
                                 case EqualTo:
@@ -2754,7 +2751,7 @@ public class MRestriction {
                         if (mIntValue == Integer.MIN_VALUE) {
                             sSummary += mAdv.getNameFromKey(mStringValue);
                         } else {
-                            if (eVarType == NUMERIC) {
+                            if (eVarType == Numeric) {
                                 if (!mStringValue.equals("") && !mStringValue.equals(String.valueOf(mIntValue))) {
                                     sSummary += mStringValue; // Must be an expression resulting in an integer
                                 } else {

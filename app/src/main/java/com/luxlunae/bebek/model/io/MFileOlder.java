@@ -24,7 +24,6 @@ package com.luxlunae.bebek.model.io;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.luxlunae.bebek.MGlobals;
 import com.luxlunae.bebek.model.MAction;
 import com.luxlunae.bebek.model.MAdventure;
 import com.luxlunae.bebek.model.MCharacter;
@@ -52,7 +51,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import static com.luxlunae.bebek.MGlobals.MPerspectiveEnumFromInt;
-import static com.luxlunae.bebek.MGlobals.safeInt;
 import static com.luxlunae.bebek.VB.cbool;
 import static com.luxlunae.bebek.VB.cint;
 import static com.luxlunae.bebek.model.MAction.ItemEnum.MoveObject;
@@ -260,7 +258,7 @@ public class MFileOlder {
 
     public static void loadResource(@NonNull MAdventure adv,
                                     @NonNull V4Reader reader,
-                                    double v,
+                                    double version,
                                     @Nullable MSingleDescription sd) throws EOFException {
         if (adv.mCompatSound) {
             String fname = reader.readLine();                   // ?GSound:$SoundFile
@@ -276,8 +274,8 @@ public class MFileOlder {
                             "\"" + loop + ">" + sd.mDescription;
                 }
             }
-            if (v >= 4) {
-                fsize = safeInt(reader.readLine());    // #SoundLen
+            if (version >= 4) {
+                fsize = adv.safeInt(reader.readLine());    // #SoundLen
             }
             if (!fname.equals("") && fsize > 0) {
                 adv.mV4Media.put(fname, new MAdventure.v4Media(0, fsize, false));
@@ -290,8 +288,8 @@ public class MFileOlder {
             if (!fname.equals("") && sd != null) {
                 sd.mDescription = "<img src=\"" + fname + "\">" + sd.mDescription;
             }
-            if (v >= 4) {
-                fsize = safeInt(reader.readLine());    // #GraphicLen
+            if (version >= 4) {
+                fsize = adv.safeInt(reader.readLine());    // #GraphicLen
             }
             if (!fname.equals("") && fsize > 0) {
                 adv.mV4Media.put(fname, new MAdventure.v4Media(0, fsize, true));
@@ -301,14 +299,14 @@ public class MFileOlder {
 
     private static void loadGlobals(@NonNull MAdventure adv,
                                     @NonNull V4Reader reader,
-                                    final double v,
+                                    final double version,
                                     final int iStartMaxPriority) throws EOFException {
-        // Load v3.8, v3.9 or v4 header, depending upon value of argument v
+        // Load v3.8, v3.9 or v4 header, depending upon value of argument version
 
         // ===========================================================
         //        START TEXT, START ROOM AND WINNING TEXT
         // -----------------------------------------------------------
-        String terminator = (v < 4) ? "**" : "½Ð";
+        String terminator = (version < 4) ? "**" : "½Ð";
         StringBuilder sb = new StringBuilder();
 
         // The text in the box Text to show on start-up will be displayed
@@ -368,7 +366,7 @@ public class MFileOlder {
         int weightFactor = V380_OBJ_CAPACITY_MULT;
         int sizeExp = V380_OBJ_DEFAULT_SIZE;
         int weightExp = V380_OBJ_DEFAULT_SIZE;
-        if (v < 3.9) {
+        if (version < 3.9) {
             sizeFactor = cint(reader.readLine());                           // Max Carried
             weightFactor = sizeFactor;
         }
@@ -393,12 +391,12 @@ public class MFileOlder {
         // player types “wait”. If this is set at 3 (the default),
         // it means a character could walk three spaces, or an
         // event could run three times.
-        adv.setWaitTurns(safeInt(reader.readLine()));                       // # Wait Turns
+        adv.setWaitTurns(adv.safeInt(reader.readLine()));                       // # Wait Turns
 
         GLKLogger.debug("Title: " + adv.getTitle());
         GLKLogger.debug("Author: " + adv.getAuthor());
 
-        if (v >= 3.9) {
+        if (version >= 3.9) {
             // You may well want the first room description to
             // appear at the end of the introduction. To do this,
             // select the Display first room option.
@@ -432,7 +430,7 @@ public class MFileOlder {
         p = adv.mCharacterProperties.get(PKEY_CHAR_POSITION).copy();
         player.addProperty(p);
 
-        if (v >= 3.9) {
+        if (version >= 3.9) {
             // -------------------------------------------------------
             //               ADDITIONAL PLAYER PROPERTIES
             //               (versions 3.9 and 4.0 only)
@@ -468,7 +466,7 @@ public class MFileOlder {
                 rest.mTaskType = Complete;
                 rest.mKey1 = tKey;
                 sd.mRestrictions.add(rest);
-                sd.mRestrictions.mBracketSequence = "#";
+                sd.mRestrictions.mBrackSeq = "#";
                 sd.mDisplayWhen = StartDescriptionWithThis;
                 player.getDescription().add(sd);
             }
@@ -495,7 +493,7 @@ public class MFileOlder {
             // restrictions depending on whether the Player is
             // male or female.
             boolean bPromptGender = false;
-            switch (safeInt(reader.readLine())) {                           // #PlayerGender
+            switch (adv.safeInt(reader.readLine())) {                           // #PlayerGender
                 // Sex
                 case 0:
                     // Male
@@ -573,17 +571,17 @@ public class MFileOlder {
             // -------------------------------------------------------
             if (adv.mCompatBattleSystem) {
                 reader.skipLine();                                      // iStaminaLo
-                if (v >= 4) {
+                if (version >= 4) {
                     reader.skipLine();                                  // iStaminaHi
                 }
                 reader.skipLine();                                      // iStrengthLo
-                if (v >= 4) {
+                if (version >= 4) {
                     reader.skipLine();                                  // iStrengthHi
                     reader.skipLine();                                  // iAccuracyLo
                     reader.skipLine();                                  // iAccuracyHi
                 }
                 reader.skipLine();                                      // iDefenseLo
-                if (v >= 4) {
+                if (version >= 4) {
                     reader.skipLine();                                  // iDefenseHi
                     reader.skipLine();                                  // iAgilityLo
                     reader.skipLine();                                  // iAgilityHi
@@ -607,7 +605,7 @@ public class MFileOlder {
         }
         adv.mCharacters.put(player.getKey(), player);
 
-        if (v >= 3.9) {
+        if (version >= 3.9) {
             // -------------------------------------------------------
             //                OTHER ADVANCED OPTIONS
             //              (versions 3.9 and 4.0 only)
@@ -651,11 +649,11 @@ public class MFileOlder {
             for (int i = 0; i < 2; i++) {
                 MDescription d = (i == 0) ?
                         adv.getIntroduction() : adv.getEndGameText();
-                loadResource(adv, reader, v,
+                loadResource(adv, reader, version,
                         (d != null) ? d.get(0) : null);
             }
 
-            if (v >= 4) {
+            if (version >= 4) {
                 // This enables a user status box. This appears at
                 // the bottom of the Runner screen and can contain
                 // any text. In order to change this in the middle
@@ -669,7 +667,7 @@ public class MFileOlder {
             adv.mCompatSizeRatio = cint(reader.readLine());             // Size ratio
             adv.mCompatWeightRatio = cint(reader.readLine());           // Weight ratio
 
-            if (v >= 4) {
+            if (version >= 4) {
                 reader.skipLine();                                      // Embedded?
             }
         }
@@ -727,8 +725,8 @@ public class MFileOlder {
         }
     }
 
-    static boolean loadOlder(@NonNull MAdventure adv,
-                             @NonNull RandomAccessFile fileStream, double v) {
+    static boolean loadOlder(@NonNull MAdventure adv, @NonNull RandomAccessFile fileStream,
+                             double version) {
         long msStart = System.currentTimeMillis();
 
         try {
@@ -737,7 +735,7 @@ public class MFileOlder {
             if (adv.mAllProperties.size() == 0) {
                 GLKLogger.error("You must select at least one library within " +
                         "Generator > File > Settings > Libraries before loading " +
-                        "ADRIFT v" + String.valueOf(v) + " adventures.");
+                        "ADRIFT version" + String.valueOf(version) + " adventures.");
                 return false;
             }
             StringBuilder sPropCheck = new StringBuilder();
@@ -748,12 +746,12 @@ public class MFileOlder {
             }
             if (!sPropCheck.toString().equals("")) {
                 GLKLogger.error("Library must contain the following " +
-                        "properties before loading ADRIFT v" +
-                        String.valueOf(v) + " files:" + "\n" + sPropCheck);
+                        "properties before loading ADRIFT version" +
+                        String.valueOf(version) + " files:" + "\n" + sPropCheck);
                 return false;
             }
 
-            V4Reader reader = new V4Reader(fileStream, v);
+            V4Reader reader = new V4Reader(fileStream, version);
 
             int iStartMaxPriority = getMaxPriority(adv);
             int iStartLocations = adv.mLocations.size();
@@ -789,7 +787,7 @@ public class MFileOlder {
             // ===========================================================
             //                    HEADERS AND GLOBALS
             // -----------------------------------------------------------
-            loadGlobals(adv, reader, v, iStartMaxPriority);
+            loadGlobals(adv, reader, version, iStartMaxPriority);
             long t1 = System.currentTimeMillis();
             GLKLogger.debug("Loaded header and globals in " + (t1 - t2) + " ms.");
 
@@ -797,10 +795,10 @@ public class MFileOlder {
             //                        LOCATIONS
             // -----------------------------------------------------------
             int nLocs = cint(reader.readLine());             // # locations
-            int iX = (v < 4) ? 2 : 3;
+            int iX = (version < 4) ? 2 : 3;
             int[][][] iLocations = new int[nLocs + 1][12][iX + 1]; // Temp Store
             ArrayList<MLocation> newLocs = new ArrayList<>();
-            adv.mLocations.load(reader, v, iLocations, newLocs, nLocs);
+            adv.mLocations.load(reader, version, iLocations, newLocs, nLocs);
             t2 = System.currentTimeMillis();
             GLKLogger.debug("Loaded " + adv.mLocations.size() +
                     " location(s) in " + (t2 - t1) + " ms.");
@@ -811,7 +809,7 @@ public class MFileOlder {
             HashMap<String, String> dictDodgyStates = new HashMap<>();
             HashMap<MObject, MProperty> dodgyStates = new HashMap<>();
             ArrayList<MObject> newObs = new ArrayList<>();
-            adv.mObjects.load(reader, v, newObs, nLocs,
+            adv.mObjects.load(reader, version, newObs, nLocs,
                     iStartLocations, mWithStates, dictDodgyStates, dodgyStates);
             t1 = System.currentTimeMillis();
             GLKLogger.debug("Loaded " + adv.mObjects.size() +
@@ -823,14 +821,14 @@ public class MFileOlder {
                 loc.fixDesciptionRestrictions(dodgyStates);
             }
             for (MObject ob : newObs) {
-                ob.fixPropertyValues(iStartObs, v);
+                ob.fixPropertyValues(iStartObs, version);
             }
             int iLoc = 0;
             int numLoc = adv.mLocations.size();
             for (MLocation loc : newLocs) {
                 iLoc++;
                 loc.fixMovementRestrictions(iLocations, iLoc,
-                        numLoc, iStartTask, dictDodgyStates, v);
+                        numLoc, iStartTask, dictDodgyStates, version);
             }
 
             // ===========================================================
@@ -840,7 +838,7 @@ public class MFileOlder {
             for (int i = 0; i < nLocs; i++) {
                 locNames[i] = "Location" + ((i + 1) + iStartLocations);
             }
-            adv.mTasks.load(reader, v, nLocs, iStartLocations, iStartTask,
+            adv.mTasks.load(reader, version, nLocs, iStartLocations, iStartTask,
                     iStartChar, iStartMaxPriority, dictDodgyStates, dodgyStates, locNames);
             t2 = System.currentTimeMillis();
             GLKLogger.debug("Loaded " + adv.mTasks.size() +
@@ -849,7 +847,7 @@ public class MFileOlder {
             // ===========================================================
             //                          EVENTS
             // -----------------------------------------------------------
-            adv.mEvents.load(reader, v, nLocs, iStartMaxPriority);
+            adv.mEvents.load(reader, version, nLocs, iStartMaxPriority);
             t1 = System.currentTimeMillis();
             GLKLogger.debug("Loaded " + adv.mEvents.size() +
                     " event(s) in " + (t1 - t2) + " ms.");
@@ -857,7 +855,7 @@ public class MFileOlder {
             // ===========================================================
             //                        CHARACTERS
             // -----------------------------------------------------------
-            adv.mCharacters.load(reader, v);
+            adv.mCharacters.load(reader, version);
             t2 = System.currentTimeMillis();
             GLKLogger.debug("Loaded " + adv.mCharacters.size() +
                     " character(s) in " + (t2 - t1) + " ms.");
@@ -879,19 +877,19 @@ public class MFileOlder {
             GLKLogger.debug("Loaded " + adv.mSynonyms.size() +
                     " synonym(s) in " + (t2 - t1) + " ms.");
 
-            if (v >= 3.9) {
+            if (version >= 3.9) {
                 // =======================================================
                 //                      VARIABLES
                 //                     (3.9+ only)
                 // -------------------------------------------------------
-                adv.mVariables.load(reader, v);
+                adv.mVariables.load(reader, version);
                 t1 = System.currentTimeMillis();
                 GLKLogger.debug("Loaded " + adv.mVariables.size() +
                         " variable(s) in " + (t1 - t2) + " ms.");
             }
             adv.mTasks.fixOlderVars();
 
-            if (v >= 3.9) {
+            if (version >= 3.9) {
                 // =======================================================
                 //                         ALRS
                 //                     (3.9+ only)
@@ -906,18 +904,18 @@ public class MFileOlder {
                     String sFont = reader.readLine();               // ?BCustomFont:$FontNameSize
                     if (sFont.contains(",")) {
                         adv.setDefaultFontName(sFont.split(",")[0]);
-                        adv.setDefaultFontSize(safeInt(sFont.split(",")[1]));
+                        adv.setDefaultFontSize(adv.safeInt(sFont.split(",")[1]));
                     }
                 }
 
-                if (v >= 4) {
+                if (version >= 4) {
                     reader.setMediaOffsets(adv.mV4Media);
                 }
             }
 
             adv.mCompatCompileDate = reader.readLine();         // Compile Date
 
-            adv.mPassword = (v < 4) ?
+            adv.mPassword = (version < 4) ?
                     reader.readLine() :                          // Password
                     reader.getPassword();
 
@@ -934,7 +932,7 @@ public class MFileOlder {
             return true;
 
         } catch (Exception ex) {
-            MGlobals.errMsg("Error loading Adventure", ex);
+            adv.mView.errMsg("Error loading Adventure", ex);
             return false;
         }
     }
@@ -1009,7 +1007,7 @@ public class MFileOlder {
             return (ob != null) ? ob.getKey() : "";
 
         } catch (Exception ex) {
-            MGlobals.errMsg("getObjectKey error", ex);
+            adv.mView.errMsg("getObjectKey error", ex);
         }
 
         return "";
@@ -1367,7 +1365,7 @@ public class MFileOlder {
                         MAction act = new MAction(adv);
                         act.mType = SetTasks;
                         act.mKey1 = parent.getKey();
-                        act.mStringValue = foundKey;
+                        act.mStrValue = foundKey;
                         tas.mActions.add(act);
                     } else {
                         // If a task has output text then it completely overrides

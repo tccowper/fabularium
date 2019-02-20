@@ -247,13 +247,20 @@ public class MGroup extends MItem {
     public int getKeyRefCount(@NonNull String key) {
         int iCount = 0;
         for (MDescription d : getAllDescriptions()) {
-            iCount += d.referencesKey(key);
+            iCount += d.getNumberOfKeyRefs(key);
         }
         if (!getKey().equals(ALLROOMS) && getArlMembers().contains(key)) {
             iCount++;
         }
         iCount += mProperties.getNumberOfKeyRefs(key);
         return iCount;
+    }
+
+    @NonNull
+    @Override
+    public String getSymbol() {
+        // white circle with two black dots
+        return "\u2687";
     }
 
     @Override

@@ -30,7 +30,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 
-import com.luxlunae.bebek.Bebek;
+import com.luxlunae.bebek.MBebek;
 import com.luxlunae.fabularium.R;
 import com.luxlunae.glk.GLKActivity;
 import com.luxlunae.glk.GLKConstants;
@@ -4463,7 +4463,7 @@ public final class GLKController {
                 // run in Java
                 switch (mModel.mTerpLibName) {
                     case "bebek":
-                        ret = Bebek.runTerp(terpLibPath, mModel, mModel.mTerpArgs, mModel.mTerpLog);
+                        ret = MBebek.runTerp(mModel, mModel.mTerpArgs);
                         break;
                     default:
                         fatalError("Don't recognise java terp: " + mModel.mTerpLibName);

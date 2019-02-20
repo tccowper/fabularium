@@ -25,7 +25,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.luxlunae.bebek.MGlobals;
-import com.luxlunae.bebek.controller.MParser;
 import com.luxlunae.bebek.model.collection.MCharacterHashMap;
 import com.luxlunae.bebek.model.collection.MLocationHashMap;
 import com.luxlunae.bebek.model.collection.MObjectHashMap;
@@ -52,11 +51,8 @@ import static com.luxlunae.bebek.MGlobals.OBJECTARTICLE;
 import static com.luxlunae.bebek.MGlobals.OBJECTNOUN;
 import static com.luxlunae.bebek.MGlobals.OBJECTPREFIX;
 import static com.luxlunae.bebek.MGlobals.THEPLAYER;
-import static com.luxlunae.bebek.MGlobals.TODO;
 import static com.luxlunae.bebek.MGlobals.UNSELECTED;
-import static com.luxlunae.bebek.MGlobals.errMsg;
 import static com.luxlunae.bebek.MGlobals.guessPluralNoun;
-import static com.luxlunae.bebek.MGlobals.safeBool;
 import static com.luxlunae.bebek.MGlobals.toProper;
 import static com.luxlunae.bebek.VB.cbool;
 import static com.luxlunae.bebek.VB.cint;
@@ -91,7 +87,6 @@ import static com.luxlunae.bebek.model.io.MFileOlder.ComboEnum.SurfaceContainer;
 import static com.luxlunae.bebek.model.io.MFileOlder.convertV4FuncsToV5;
 import static com.luxlunae.bebek.model.io.MFileOlder.getRoomGroupFromList;
 import static com.luxlunae.bebek.model.io.MFileOlder.loadResource;
-import static com.luxlunae.bebek.view.MView.debugPrint;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
@@ -503,7 +498,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
         MProperty sod =
                 adv.mAllProperties.get(PKEY_STATIC_OR_DYN).copy();
         addProperty(sod);
-        setStatic(safeBool(reader.readLine()));                             // Type
+        setStatic(mAdv.safeBool(reader.readLine()));                             // Type
 
         // Objects can be given a description. This will be
         // displayed if the player types "examine <object>" in
@@ -597,7 +592,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
             rest.mTaskType = Complete;
             rest.mKey1 = tKey;
             sd.mRestrictions.add(rest);
-            sd.mRestrictions.mBracketSequence = "#";
+            sd.mRestrictions.mBrackSeq = "#";
             sd.mDisplayWhen = StartDescriptionWithThis;
             getDescription().add(sd);
         }
@@ -1071,7 +1066,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                 // for ReplaceOO.
                 String newPKey = states.replace(" ", "_")
                         .replaceAll("[^A-Za-z0-9|_]", "");
-                String existingPKey = adv.findProperty(stateList);
+                String existingPKey = adv.findProp(stateList);
                 MProperty s;
                 boolean isLibraryOverride = false;
                 if (existingPKey == null) {
@@ -1295,12 +1290,10 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
         setLocation(getLocation());
     }
 
-    static void moveObject(@NonNull MAdventure adv,
-                           @NonNull MObject obj,
-                           @NonNull MAction.MoveObjectToEnum op,
-                           @NonNull String toKey) {
+    void moveObject(@NonNull MAction.MoveObjectToEnum op,
+                    @NonNull String toKey) {
         // Work out where to move this object to, then move it
-        MObjectLocation dest = new MObjectLocation(adv);
+        MObjectLocation dest = new MObjectLocation(mAdv);
         switch (op) {
             case InsideObject:
                 dest.mDynamicExistWhere = InObject;
@@ -1315,7 +1308,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                 dest.setKey(toKey);
                 break;
             case ToLocation:
-                if (obj.isStatic()) {
+                if (isStatic()) {
                     if (toKey.equals(HIDDEN)) {
                         dest.mStaticExistWhere = NoRooms;
                     } else {
@@ -1340,19 +1333,19 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                 dest.setKey(toKey);
                 break;
             case ToLocationGroup:
-                if (obj.isStatic()) {
+                if (isStatic()) {
                     dest.mStaticExistWhere = LocationGroup;
                     dest.setKey(toKey);
                 } else {
                     // Need to select one room at random
-                    MGroup group = adv.mGroups.get(toKey);
+                    MGroup group = mAdv.mGroups.get(toKey);
                     dest.mDynamicExistWhere = InLocation;
                     dest.setKey(group.getRandomKey());
                 }
                 break;
             case ToSameLocationAs:
-                if (obj.isStatic()) {
-                    MCharacter chDest = adv.mCharacters.get(toKey);
+                if (isStatic()) {
+                    MCharacter chDest = mAdv.mCharacters.get(toKey);
                     if (chDest != null) {
                         // Move static object to same location as a character
                         MCharacter.MCharacterLocation chDestLoc = chDest.getLocation();
@@ -1366,7 +1359,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                                 break;
                         }
                     } else {
-                        MObject obDest = adv.mObjects.get(toKey);
+                        MObject obDest = mAdv.mObjects.get(toKey);
                         if (obDest != null) {
                             // Move static object to same location as an object
                             MObjectLocation obDestLoc = obDest.getLocation();
@@ -1388,12 +1381,12 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                                 }
                             }
                         } else {
-                            errMsg("Cannot move object to same location as " +
+                            mAdv.mView.errMsg("Cannot move object to same location as " +
                                     toKey + " - key not found!");
                         }
                     }
                 } else {
-                    MCharacter chDest = adv.mCharacters.get(toKey);
+                    MCharacter chDest = mAdv.mCharacters.get(toKey);
                     if (chDest != null) {
                         // Move dynamic object to same location as a character
                         MCharacter.MCharacterLocation chDestLoc = chDest.getLocation();
@@ -1411,7 +1404,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                                 // Move the object inside the same object
                                 // the character in - if it is a container.
                                 // Otherwise move it to the character's location.
-                                MObject obDest = adv.mObjects.get(chDestLoc.getKey());
+                                MObject obDest = mAdv.mObjects.get(chDestLoc.getKey());
                                 if (obDest.isContainer()) {
                                     dest.mDynamicExistWhere = InObject;
                                     dest.setKey(chDestLoc.getKey());
@@ -1430,7 +1423,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                                 // Move the object onto the object we're on -
                                 // if it is a surface. Otherwise move it to
                                 // the character's location.
-                                MObject obDest2 = adv.mObjects.get(chDestLoc.getKey());
+                                MObject obDest2 = mAdv.mObjects.get(chDestLoc.getKey());
                                 if (obDest2.hasSurface()) {
                                     dest.mDynamicExistWhere = OnObject;
                                     dest.setKey(chDestLoc.getKey());
@@ -1441,7 +1434,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                                 break;
                         }
                     } else {
-                        MObject obDest = adv.mObjects.get(toKey);
+                        MObject obDest = mAdv.mObjects.get(toKey);
                         if (obDest != null) {
                             // Move dynamic object to same location as an object
                             MObjectLocation obDestLoc = obDest.getLocation();
@@ -1450,19 +1443,19 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                                 // than one place, pick a random location
                                 switch (obDestLoc.mStaticExistWhere) {
                                     case AllRooms:
-                                        TODO("Move dynamic object to one of all rooms");
+                                        mAdv.mView.TODO("Move dynamic object to one of all rooms");
                                         break;
                                     case LocationGroup:
-                                        TODO("Move dynamic object to one of a location group");
+                                        mAdv.mView.TODO("Move dynamic object to one of a location group");
                                         break;
                                     case NoRooms:
                                         obDestLoc.mDynamicExistWhere = Hidden;
                                         break;
                                     case PartOfCharacter:
-                                        TODO("Move dynamic object to same room as character");
+                                        mAdv.mView.TODO("Move dynamic object to same room as character");
                                         break;
                                     case PartOfObject:
-                                        TODO("Move dynamic object to same room as part of object");
+                                        mAdv.mView.TODO("Move dynamic object to same room as part of object");
                                         break;
                                     case SingleLocation:
                                         dest.mDynamicExistWhere = InLocation;
@@ -1477,7 +1470,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                                 }
                             }
                         } else {
-                            errMsg("Cannot move object to same location as " +
+                            mAdv.mView.errMsg("Cannot move object to same location as " +
                                     toKey + " - key not found!");
                         }
                     }
@@ -1488,7 +1481,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                 dest.setKey(toKey);
                 break;
         }
-        obj.moveTo(dest);
+        moveTo(dest);
     }
 
     @Override
@@ -1624,7 +1617,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                         lst.addAll(getChildObjects(InsideOrOnObject, true).values());
                         break;
                 }
-                return mAdv.evaluateItemFunction(remainder, lst,
+                return mAdv.evalItemFunc(remainder, lst,
                         null, null, null, resultIsInteger);
             }
 
@@ -1668,7 +1661,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                         lst.addAll(getChildObjects(InsideObject, true).values());
                         break;
                 }
-                return mAdv.evaluateItemFunction(remainder, lst,
+                return mAdv.evalItemFunc(remainder, lst,
                         null, null, null, resultIsInteger);
             }
 
@@ -1699,7 +1692,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                 for (String locKey : getRootLocations().keySet()) {
                     lst.add(mAdv.mLocations.get(locKey));
                 }
-                return mAdv.evaluateItemFunction(remainder, lst,
+                return mAdv.evalItemFunc(remainder, lst,
                         null, null, null, resultIsInteger);
             }
 
@@ -1769,13 +1762,13 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                 if (item == null) {
                     item = mAdv.mLocations.get(parentKey);
                 }
-                return mAdv.evaluateItemFunction(remainder, null,
+                return mAdv.evalItemFunc(remainder, null,
                         null, null, item, resultIsInteger);
 
             default:
                 // Any other valid property not already
                 // covered above.
-                return mAdv.evaluateItemProperty(funcName, getProperties(),
+                return mAdv.evalItemProp(funcName, getProperties(),
                         mAdv.mObjectProperties, remainder, resultIsInteger);
         }
     }
@@ -1831,7 +1824,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
     void setProperty(@NonNull String propName, @NonNull String propValue) {
         switch (propName) {
             case OBJECTARTICLE: {
-                String result = mAdv.evaluateStringExpression(propValue, MParser.mReferences);
+                String result = mAdv.evalStrExpr(propValue, mAdv.mReferences);
                 if (result.equals("") && !propValue.equals("")) {
                     result = propValue;
                 }
@@ -1839,7 +1832,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                 break;
             }
             case OBJECTPREFIX: {
-                String result = mAdv.evaluateStringExpression(propValue, MParser.mReferences);
+                String result = mAdv.evalStrExpr(propValue, mAdv.mReferences);
                 if (result.equals("") && !propValue.equals("")) {
                     result = propValue;
                 }
@@ -1847,7 +1840,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                 break;
             }
             case OBJECTNOUN: {
-                String result = mAdv.evaluateStringExpression(propValue, MParser.mReferences);
+                String result = mAdv.evalStrExpr(propValue, mAdv.mReferences);
                 if (result.equals("") && !propValue.equals("")) {
                     result = propValue;
                 }
@@ -1873,13 +1866,13 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                             case ObjectKey:
                                 String obKey = propValue;
                                 if (obKey.startsWith("Referenced")) {
-                                    obKey = MParser.mReferences.getReference(obKey);
+                                    obKey = mAdv.mReferences.getMatchingKey(obKey);
                                 }
                                 setPropertyValue(prop.getKey(), obKey != null ? obKey : "");
                                 break;
                         }
                     } else {
-                        debugPrint(MGlobals.ItemEnum.Task, getKey(),
+                        mAdv.mView.debugPrint(MGlobals.ItemEnum.Task, getKey(),
                                 MView.DebugDetailLevelEnum.Error,
                                 "Can't select property " + propName + " for object " +
                                         getCommonName() + " as that property doesn't exist in the global object properties.");
@@ -1897,7 +1890,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                             case StateList:
                             case ValueList:
                                 // Could be dropdown or expression
-                                String result = mAdv.evaluateStringExpression(propValue, MParser.mReferences);
+                                String result = mAdv.evalStrExpr(propValue, mAdv.mReferences);
                                 if (result.equals("") && !propValue.equals("")) {
                                     result = propValue;
                                 }
@@ -1908,7 +1901,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                             case LocationKey:
                                 String itemKey = propValue;
                                 if (itemKey.startsWith("Referenced")) {
-                                    itemKey = MParser.mReferences.getReference(itemKey);
+                                    itemKey = mAdv.mReferences.getMatchingKey(itemKey);
                                 }
                                 prop.setValue(itemKey != null ? itemKey : "");
                                 break;
@@ -2460,7 +2453,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
         return mLastParent;
     }
 
-    void setLastParent(@NonNull String value) {
+    public void setLastParent(@NonNull String value) {
         mLastParent = value;
     }
 
@@ -2577,7 +2570,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
         return (ch != null) && ch.hasSeenObject(getKey());
     }
 
-    void setHasBeenSeenBy(@NonNull String chKey) {
+    public void setHasBeenSeenBy(@NonNull String chKey) {
         MCharacter ch = mAdv.mCharacters.get(chKey);
         if (ch != null) {
             ch.setHasSeenObject(getKey(), true);
@@ -2844,7 +2837,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
             String destKey = dest.getKey();
             if (destKey.equals(myKey) ||
                     mAdv.mObjects.get(myKey).getChildObjects(Everything).containsKey(destKey)) {
-                MGlobals.displayError("Can't move object " + getFullName() + " " +
+                mAdv.mView.displayError("Can't move object " + getFullName() + " " +
                         (dest.mDynamicExistWhere == InObject ? "inside" : "onto") +
                         " " + mAdv.mObjects.get(destKey).getFullName() +
                         " as that would create a recursive location.");
@@ -3244,10 +3237,19 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
     public int getKeyRefCount(@NonNull String key) {
         int iCount = 0;
         for (MDescription d : getAllDescriptions()) {
-            iCount += d.referencesKey(key);
+            iCount += d.getNumberOfKeyRefs(key);
         }
         iCount += getLocalProperties().getNumberOfKeyRefs(key);
         return iCount;
+    }
+
+    @NonNull
+    @Override
+    public String getSymbol() {
+        // palm tree for static, money bag for dynamic
+        return isStatic() ?
+                new String(Character.toChars(0x1F334)) :
+                new String(Character.toChars(0x1F4B0));
     }
 
     @Override

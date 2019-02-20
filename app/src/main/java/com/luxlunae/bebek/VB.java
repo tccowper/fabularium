@@ -24,6 +24,7 @@ package com.luxlunae.bebek;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.luxlunae.bebek.model.MAdventure;
 import com.luxlunae.glk.GLKLogger;
 
 import java.nio.ByteBuffer;
@@ -118,13 +119,18 @@ public class VB {
         }
     }
 
-    @NonNull
-    public static String inputBox(String prompt, String title, String defaultResponse) {
-        return Bebek.promptForInput(prompt, defaultResponse);
+    @Nullable
+    public static String inputBox(@NonNull MAdventure adv, String prompt,
+                                  String title, String defaultResp) {
+        try {
+            return adv.mView.getUserInput(adv, prompt, defaultResp);
+        } catch (InterruptedException e) {
+            return defaultResp;
+        }
     }
 
-    public static char msgBoxYesNo(String prompt) {
-        return Bebek.msgboxYesNo(prompt);
+    public static char msgBoxYesNo(@NonNull MAdventure adv, String prompt) {
+        return adv.mView.msgboxYesNo(prompt);
     }
 
     public float rnd(float Number) {

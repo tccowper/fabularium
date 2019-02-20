@@ -27,7 +27,6 @@ import android.support.annotation.Nullable;
 import com.google.code.regexp.Matcher;
 import com.google.code.regexp.Pattern;
 import com.luxlunae.bebek.MGlobals;
-import com.luxlunae.bebek.controller.MReference;
 import com.luxlunae.bebek.model.collection.MReferenceList;
 import com.luxlunae.glk.GLKLogger;
 
@@ -55,6 +54,7 @@ public class MUserFunction extends MItem {
     private static final Pattern RE_ARG = Pattern.compile("\\d( )*[+-/*^]( )*\\d");
 
     @NonNull
+    public
     String mName = "";
     @NonNull
     private MDescription mOutput;
@@ -162,13 +162,13 @@ public class MUserFunction extends MItem {
                 // Replace each parameter with it's resolved value
                 String match = m.group(1); // group(0) is the entire string
                 MDescription dOut = mOutput.copy();
-                MReferenceList refsUDF = new MReferenceList();
+                MReferenceList refsUDF = new MReferenceList(mAdv);
                 if (match.contains("[") && match.contains("]")) {
                     String sArgs = match.substring(match.indexOf("[") + 1, match.lastIndexOf("]"));
                     ArrayList<String> sArg = splitArgs(sArgs);
                     int i = 0;
                     for (MArgument arg : mArgs) {
-                        String evaluatedArg = mAdv.evaluateFunctions(sArg.get(i), refs);
+                        String evaluatedArg = mAdv.evalFuncs(sArg.get(i), refs);
                         if (evaluatedArg.contains("|")) {
                             // Means it evaluated to multiple items
                             // Depending on arg type, create an objects parameter, and set the refs
@@ -177,7 +177,7 @@ public class MUserFunction extends MItem {
                                     MReference refOb = new MReference(MReference.ReferencesType.Object);
                                     for (String sOb : evaluatedArg.split("\\|")) {
                                         MReference.MReferenceItem itmOb = new MReference.MReferenceItem();
-                                        itmOb.mMatchingPossibilities.add(sOb);
+                                        itmOb.mMatchingKeys.add(sOb);
                                         itmOb.mIsExplicitlyMentioned = true;
                                         refOb.mItems.add(itmOb);
                                     }
@@ -189,7 +189,7 @@ public class MUserFunction extends MItem {
                         // Our function argument could be an expression
                         Matcher m2 = RE_ARG.matcher(evaluatedArg);
                         if (m2.find()) {
-                            evaluatedArg = mAdv.evaluateStringExpression(evaluatedArg, refs);
+                            evaluatedArg = mAdv.evalStrExpr(evaluatedArg, refs);
                         }
 
                         for (MSingleDescription d : dOut) {
@@ -210,7 +210,7 @@ public class MUserFunction extends MItem {
                 String funcResult = dOut.toString(refsUDF);
                 m.reset();
                 text.setLength(0);
-                text.append(mAdv.evaluateFunctions(m.replaceFirst(funcResult), refs));
+                text.append(mAdv.evalFuncs(m.replaceFirst(funcResult), refs));
             }
         }
     }
@@ -259,6 +259,13 @@ public class MUserFunction extends MItem {
     public int getKeyRefCount(@NonNull String key) {
         // do nothing
         return 0;
+    }
+
+    @NonNull
+    @Override
+    public String getSymbol() {
+        // summation symbol
+        return "\u8721";
     }
 
     public enum ArgumentType {

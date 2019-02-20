@@ -39,7 +39,7 @@ public class MEventOrWalkControl implements Cloneable {
     public MControlEnum eControl = MControlEnum.Start;
     public CompleteOrNotEnum eCompleteOrNot = CompleteOrNotEnum.Completion;
     @NonNull
-    public String sTaskKey = "";
+    public String mTaskKey = "";
 
     public MEventOrWalkControl() {
         super();
@@ -53,7 +53,7 @@ public class MEventOrWalkControl implements Cloneable {
         String[] sData = xpp.nextText().split(" ");
         eControl = MEventOrWalkControl.MControlEnum.valueOf(sData[0]);
         eCompleteOrNot = MEventOrWalkControl.CompleteOrNotEnum.valueOf(sData[1]);
-        sTaskKey = sData[2];
+        mTaskKey = sData[2];
 
         xpp.require(END_TAG, null, "Control");
     }

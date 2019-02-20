@@ -184,4 +184,11 @@ public class MHint extends MItem {
         // do nothing
         return 0;
     }
+
+    @NonNull
+    @Override
+    public String getSymbol() {
+        // telephone
+        return "\u260e\ufe0f";
+    }
 }

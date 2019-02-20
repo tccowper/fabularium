@@ -27,7 +27,10 @@ import android.support.annotation.Nullable;
 import com.luxlunae.bebek.model.MAdventure;
 import com.luxlunae.bebek.model.MProperty;
 
-import static com.luxlunae.bebek.model.MProperty.PropertyTypeEnum;
+import static com.luxlunae.bebek.model.MProperty.PropertyTypeEnum.CharacterKey;
+import static com.luxlunae.bebek.model.MProperty.PropertyTypeEnum.LocationGroupKey;
+import static com.luxlunae.bebek.model.MProperty.PropertyTypeEnum.LocationKey;
+import static com.luxlunae.bebek.model.MProperty.PropertyTypeEnum.ObjectKey;
 
 public class MPropertyHashMap extends MItemHashMap<MProperty> implements Cloneable {
     @NonNull
@@ -66,8 +69,8 @@ public class MPropertyHashMap extends MItemHashMap<MProperty> implements Cloneab
     /**
      * Removes the mapping for a key from this map if it is present.
      *
-     * @param key - property key whose mapping is to be
-     *            removed from the map.
+     * @param key - property key whose mapping is to be removed from the map.
+     *
      * @return the previous value associated with key,
      * or null if there was no mapping for key.
      */
@@ -78,21 +81,25 @@ public class MPropertyHashMap extends MItemHashMap<MProperty> implements Cloneab
             // Also remove the property from
             // specific cached property hash maps
             // associated with the adventure object.
-            switch (mAdv.mAllProperties.get(key).getPropertyOf()) {
-                case Locations:
-                    mAdv.mLocationProperties.remove(key);
-                    break;
-                case Objects:
-                    mAdv.mObjectProperties.remove(key);
-                    break;
-                case Characters:
-                    mAdv.mCharacterProperties.remove(key);
-                    break;
-                case AnyItem:
-                    mAdv.mObjectProperties.remove(key);
-                    mAdv.mCharacterProperties.remove(key);
-                    mAdv.mLocationProperties.remove(key);
-                    break;
+            @SuppressWarnings("SuspiciousMethodCalls")
+            MProperty prop = mAdv.mAllProperties.get(key);
+            if (prop != null) {
+                switch (prop.getPropertyOf()) {
+                    case Locations:
+                        mAdv.mLocationProperties.remove(key);
+                        break;
+                    case Objects:
+                        mAdv.mObjectProperties.remove(key);
+                        break;
+                    case Characters:
+                        mAdv.mCharacterProperties.remove(key);
+                        break;
+                    case AnyItem:
+                        mAdv.mObjectProperties.remove(key);
+                        mAdv.mCharacterProperties.remove(key);
+                        mAdv.mLocationProperties.remove(key);
+                        break;
+                }
             }
             mAdv.mAllItems.remove(key);
         }
@@ -104,123 +111,56 @@ public class MPropertyHashMap extends MItemHashMap<MProperty> implements Cloneab
     public MPropertyHashMap clone() {
         // This probably isn't ideal, but you can't cast an ArrayList to a StringArrayList,
         // so we need to do the shallow copy ourselves.
-        MPropertyHashMap htblReturn = new MPropertyHashMap(mAdv);
+        MPropertyHashMap ret = new MPropertyHashMap(mAdv);
         for (Entry<String, MProperty> entry : entrySet()) {
             MProperty prop = entry.getValue().clone();
             if (prop == null) {
                 return null;
             }
-            htblReturn.put(prop);
+            ret.put(prop);
         }
-        return htblReturn;
+        return ret;
     }
 
-    public int getNumberOfKeyRefs(@NonNull String sKey) {
-        int iCount = 0;
-        for (MProperty p : values()) {
-            if (p.getAppendToProperty().equals(sKey)) {
-                iCount++;
+    public int getNumberOfKeyRefs(@NonNull String key) {
+        int ret = 0;
+        for (MProperty prop : values()) {
+            if (prop.getAppendToProperty().equals(key)) {
+                ret++;
             }
-            if (p.getDependentKey().equals(sKey)) {
-                iCount++;
+            if (prop.getDependentKey().equals(key)) {
+                ret++;
             }
-            if (p.getRestrictProperty().equals(sKey)) {
-                iCount++;
+            if (prop.getRestrictProperty().equals(key)) {
+                ret++;
             }
-            if ((p.getType() == PropertyTypeEnum.CharacterKey ||
-                    p.getType() == PropertyTypeEnum.LocationGroupKey ||
-                    p.getType() == PropertyTypeEnum.LocationKey ||
-                    p.getType() == PropertyTypeEnum.ObjectKey)) {
-                if (p.getValue().equals(sKey)) {
-                    iCount++;
+            if ((prop.getType() == CharacterKey || prop.getType() == LocationGroupKey ||
+                    prop.getType() == LocationKey || prop.getType() == ObjectKey)) {
+                if (prop.getValue().equals(key)) {
+                    ret++;
                 }
             }
         }
-        return iCount;
+        return ret;
     }
 
-    private boolean resetOrRemoveProperty(@NonNull MProperty p) {
-        // If we're not mandatory we can just remove the property
-        if (!p.getMandatory()) {
-            // Ok, just remove it
-            remove(p.getKey());
-            return true;
-        }
-
-        // If we are mandatory, we may be able to reset the value, depending on the property type
-        boolean bDelete = false;
-        switch (p.getType()) {
-            case Integer:
-                break;
-            case Text:
-                break;
-            case ObjectKey:
-            case CharacterKey:
-            case LocationKey:
-            case LocationGroupKey:
-                // Key types can't be reset, must be deleted, as they can't be Null on a mandatory property
-                bDelete = true;
-                break;
-            case StateList: {
-                // Ok, we just need to make sure we change the value to something that doesn't produce child property
-                boolean bAssignedValue = false;
-                for (String sValue : p.mStates) {
-                    boolean bSafeValue = true;
-                    // If we're unable to do this, we need to remove, and reset/remove parent
-                    for (MProperty pOther : values()) {
-                        if (pOther.getDependentKey().equals(p.getKey()) &&
-                                pOther.getDependentValue().equals(sValue)) {
-                            bSafeValue = false;
-                            break;
-                        }
-                    }
-                    if (bSafeValue) {
-                        // Ok to set the value to this
-                        p.setValue(sValue);
-                        bAssignedValue = true;
-                        break;
-                    }
-                }
-                if (!bAssignedValue) {
-                    bDelete = true;
-                }
-                break;
-            }
-        }
-
-        // If we can't reset the property, we need to reset or remove our parent
-        if (bDelete) {
-            if (containsKey(p.getDependentKey())) {
-                MProperty p2 = get(p.getDependentKey());
-                resetOrRemoveProperty(p2);
-            }
-            remove(p.getKey());
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean deleteKey(@NonNull String sKey) {
+    public boolean deleteKey(@NonNull String key) {
         boolean restart = false;
-
         do {
-            for (MProperty p : values()) {
-                if (p.getAppendToProperty().equals(sKey)) {
-                    p.setAppendToProperty("");
+            for (MProperty prop : values()) {
+                if (prop.getAppendToProperty().equals(key)) {
+                    prop.setAppendToProperty("");
                 }
-                if (p.getDependentKey().equals(sKey)) {
-                    p.setDependentKey("");
+                if (prop.getDependentKey().equals(key)) {
+                    prop.setDependentKey("");
                 }
-                if (p.getRestrictProperty().equals(sKey)) {
-                    p.setRestrictProperty("");
+                if (prop.getRestrictProperty().equals(key)) {
+                    prop.setRestrictProperty("");
                 }
-                if ((p.getType() == PropertyTypeEnum.CharacterKey ||
-                        p.getType() == PropertyTypeEnum.LocationGroupKey ||
-                        p.getType() == PropertyTypeEnum.LocationKey ||
-                        p.getType() == PropertyTypeEnum.ObjectKey)) {
-                    if (p.getValue().equals(sKey)) {
-                        if (resetOrRemoveProperty(p)) {
+                if ((prop.getType() == CharacterKey || prop.getType() == LocationGroupKey ||
+                        prop.getType() == LocationKey || prop.getType() == ObjectKey)) {
+                    if (prop.getValue().equals(key)) {
+                        if (resetOrRemoveProperty(prop)) {
                             restart = true;
                             break;
                         }
@@ -228,7 +168,6 @@ public class MPropertyHashMap extends MItemHashMap<MProperty> implements Cloneab
                 }
             }
         } while (restart);
-
         return true;
     }
 
@@ -238,11 +177,80 @@ public class MPropertyHashMap extends MItemHashMap<MProperty> implements Cloneab
         }
     }
 
+    private boolean resetOrRemoveProperty(@NonNull MProperty prop) {
+        // If we're not mandatory we can just remove the property
+        if (!prop.getMandatory()) {
+            // Ok, just remove it
+            remove(prop.getKey());
+            return true;
+        }
+
+        // If we are mandatory, we may be able to reset the value, depending
+        // on the property type
+        boolean deleteProp = false;
+        switch (prop.getType()) {
+            case Integer:
+            case Text: {
+                break;
+            }
+            case ObjectKey:
+            case CharacterKey:
+            case LocationKey:
+            case LocationGroupKey: {
+                // Key types can't be reset. They must be deleted, as they can't be
+                // null on a mandatory property
+                deleteProp = true;
+                break;
+            }
+            case StateList: {
+                // Ok, we just need to make sure we change the value to something
+                // that doesn't produce child property
+                boolean valueSet = false;
+                for (String val : prop.mStates) {
+                    boolean isSafeValue = true;
+                    // If we're unable to do this, we need to remove, and
+                    // reset/remove parent
+                    for (MProperty prop2 : values()) {
+                        if (prop2.getDependentKey().equals(prop.getKey()) &&
+                                prop2.getDependentValue().equals(val)) {
+                            isSafeValue = false;
+                            break;
+                        }
+                    }
+                    if (isSafeValue) {
+                        // Ok to set the value to this
+                        prop.setValue(val);
+                        valueSet = true;
+                        break;
+                    }
+                }
+                if (!valueSet) {
+                    deleteProp = true;
+                }
+                break;
+            }
+        }
+
+        // If we can't reset the property, we need to reset or remove our parent
+        if (deleteProp) {
+            MProperty depProp = get(prop.getDependentKey());
+            if (depProp != null) {
+                resetOrRemoveProperty(depProp);
+            }
+            remove(prop.getKey());
+            return true;
+        }
+
+        return false;
+    }
+
     private boolean isPropertySelected(@NonNull MProperty prop) {
-        if (!prop.getDependentKey().equals("")) {
-            if (prop.getDependentValue().equals("") || (containsKey(prop.getDependentKey()) &&
-                    get(prop.getDependentKey()).getValue().equals(prop.getDependentValue()))) {
-                return isPropertySelected(get(prop.getDependentKey()));
+        String depKey = prop.getDependentKey();
+        if (!depKey.equals("")) {
+            MProperty depProp = get(depKey);
+            String depVal = prop.getDependentValue();
+            if (depProp != null && (depVal.equals("") || depProp.getValue().equals(depVal))) {
+                return isPropertySelected(depProp);
             }
         } else {
             return prop.getSelected();
