@@ -27,17 +27,16 @@ import android.support.annotation.Nullable;
 import com.luxlunae.glk.GLKLogger;
 
 import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.IOException;
-
+import static com.luxlunae.bebek.model.MEventOrWalkControl.CompleteOrNotEnum.Completion;
+import static com.luxlunae.bebek.model.MEventOrWalkControl.MControlEnum.Start;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
 public class MEventOrWalkControl implements Cloneable {
 
-    public MControlEnum eControl = MControlEnum.Start;
-    public CompleteOrNotEnum eCompleteOrNot = CompleteOrNotEnum.Completion;
+    public MControlEnum mControl = Start;
+    public CompleteOrNotEnum mCompleteOrNot = Completion;
     @NonNull
     public String mTaskKey = "";
 
@@ -45,15 +44,15 @@ public class MEventOrWalkControl implements Cloneable {
         super();
     }
 
-    public MEventOrWalkControl(@NonNull XmlPullParser xpp) throws IOException, XmlPullParserException {
+    public MEventOrWalkControl(@NonNull XmlPullParser xpp) throws Exception {
         this();
 
         xpp.require(START_TAG, null, "Control");
 
-        String[] sData = xpp.nextText().split(" ");
-        eControl = MEventOrWalkControl.MControlEnum.valueOf(sData[0]);
-        eCompleteOrNot = MEventOrWalkControl.CompleteOrNotEnum.valueOf(sData[1]);
-        mTaskKey = sData[2];
+        String[] data = xpp.nextText().split(" ");
+        mControl = MControlEnum.valueOf(data[0]);
+        mCompleteOrNot = CompleteOrNotEnum.valueOf(data[1]);
+        mTaskKey = data[2];
 
         xpp.require(END_TAG, null, "Control");
     }

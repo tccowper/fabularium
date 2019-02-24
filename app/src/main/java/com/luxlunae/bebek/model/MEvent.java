@@ -32,18 +32,24 @@ import com.luxlunae.bebek.view.MView;
 import com.luxlunae.glk.GLKLogger;
 
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlSerializer;
 
 import java.io.EOFException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.Stack;
 import java.util.Timer;
 
 import static com.luxlunae.bebek.MGlobals.ALLROOMS;
+import static com.luxlunae.bebek.MGlobals.ItemEnum.Event;
 import static com.luxlunae.bebek.MGlobals.getBool;
 import static com.luxlunae.bebek.VB.cbool;
 import static com.luxlunae.bebek.VB.cint;
+import static com.luxlunae.bebek.model.MAdventure.MGameState.restoreDisplayOnce;
+import static com.luxlunae.bebek.model.MAdventure.MGameState.saveDisplayOnce;
 import static com.luxlunae.bebek.model.MEvent.EventTypeEnum.TimeBased;
 import static com.luxlunae.bebek.model.MEvent.EventTypeEnum.TurnBased;
 import static com.luxlunae.bebek.model.MEvent.StatusEnum.CountingDownToStart;
@@ -75,6 +81,7 @@ import static com.luxlunae.bebek.model.io.MFileOlder.loadResource;
 import static com.luxlunae.bebek.view.MView.DebugDetailLevelEnum.High;
 import static com.luxlunae.bebek.view.MView.DebugDetailLevelEnum.Low;
 import static com.luxlunae.bebek.view.MView.DebugDetailLevelEnum.Medium;
+import static org.xmlpull.v1.XmlPullParser.END_DOCUMENT;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
@@ -88,14 +95,14 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
     @NonNull
     private final Stack<MLookText> mStackLookText = new Stack<>();
     public EventTypeEnum mEventType = TurnBased;
-    public int mLastSubEventTime = 0;
+    private int mLastSubEventTime = 0;
     public StatusEnum mStatus = NotYetStarted;
     @NonNull
     public MFromTo mStartDelay;
     @NonNull
     public MFromTo mLength;
     @Nullable
-    public MSubEvent mLastSubEvent;
+    private MSubEvent mLastSubEvent;
     boolean mJustStarted = false;
     WhenStartEnum mWhenStart = NotSet;
     @NonNull
@@ -112,35 +119,34 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
         mLength = new MFromTo(adv);
     }
 
-    public MEvent(@NonNull MAdventure adv,
-                  @NonNull MFileOlder.V4Reader reader,
-                  int iEvent, int startMaxPriority,
-                  int nLocs, double v) throws EOFException {
+    public MEvent(@NonNull MAdventure adv, @NonNull MFileOlder.V4Reader reader,
+                  int evID, int startMaxPriority,
+                  int nLocs, double version) throws EOFException {
         // ADRIFT V3.80, 3.90 and V4 Loader
         this(adv);
 
         String locKey = "";
-        setKey("Event" + iEvent);
+        setKey("Event" + evID);
         setDescription(reader.readLine());                                  // $Short
         mWhenStart = MEvent.parseWhenStartEnum(reader.readLine());          // #StarterType
         if (mWhenStart == BetweenXandYTurns) {         // ?#StarterType=2:
-            mStartDelay.iFrom = cint(reader.readLine()) - 1;                //   #StartTime
-            mStartDelay.iTo = cint(reader.readLine()) - 1;                  //   #EndTime
+            mStartDelay.mFrom = cint(reader.readLine()) - 1;                //   #StartTime
+            mStartDelay.mTo = cint(reader.readLine()) - 1;                  //   #EndTime
         }
         if (mWhenStart == MEvent.WhenStartEnum.AfterATask) {                // ?#StarterType=3:
             String sStartTask = "Task" + reader.readLine();                 //  #TaskNum
             MEventOrWalkControl ec = new MEventOrWalkControl();
-            ec.eControl = Start;
+            ec.mControl = Start;
             ec.mTaskKey = sStartTask;
             mEventControls.add(ec);
         }
         setRepeating(cbool(reader.readLine()));                             // #RestartType
         int taskMode = cint(reader.readLine());                            // BTaskFinished
-        mLength.iFrom = cint(reader.readLine());                            // #Time1
-        mLength.iTo = cint(reader.readLine());                              // #Time2
+        mLength.mFrom = cint(reader.readLine());                            // #Time1
+        mLength.mTo = cint(reader.readLine());                              // #Time2
         if (mWhenStart == BetweenXandYTurns) {
-            mLength.iFrom--;
-            mLength.iTo--;
+            mLength.mFrom--;
+            mLength.mTo--;
         }
 
         // =============================================================
@@ -156,8 +162,8 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
             MSubEvent se = new MSubEvent(adv, getKey());
             se.mWhat = DisplayMessage;
             se.mWhen = FromStartOfEvent;
-            se.mTurns.iFrom = 0;
-            se.mTurns.iTo = 0;
+            se.mTurns.mFrom = 0;
+            se.mTurns.mTo = 0;
             se.mDescription = new MDescription(adv,
                     convertV4FuncsToV5(adv, buf));
             mSubEvents.add(se);
@@ -176,8 +182,8 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
             MSubEvent se = new MSubEvent(adv, getKey());
             se.mWhat = SetLook;
             se.mWhen = FromStartOfEvent;
-            se.mTurns.iFrom = 0;
-            se.mTurns.iTo = 0;
+            se.mTurns.mFrom = 0;
+            se.mTurns.mTo = 0;
             se.mDescription = new MDescription(adv,
                     convertV4FuncsToV5(adv, buf));
             mSubEvents.add(se);
@@ -196,8 +202,8 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
             MSubEvent se = new MSubEvent(adv, getKey());
             se.mWhat = DisplayMessage;
             se.mWhen = BeforeEndOfEvent;
-            se.mTurns.iFrom = 0;
-            se.mTurns.iTo = 0;
+            se.mTurns.mFrom = 0;
+            se.mTurns.mTo = 0;
             se.mDescription = new MDescription(adv,
                     convertV4FuncsToV5(adv, endMsg));
             mSubEvents.add(se);
@@ -260,10 +266,10 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
             int unComplete = cint(reader.readLine());                    // BPauserCompleted / BResumerCompleted
             if (taskNum > 0) {
                 MEventOrWalkControl ec = new MEventOrWalkControl();
-                ec.eControl = (i == 0) ?
+                ec.mControl = (i == 0) ?
                         Suspend : Resume;
                 ec.mTaskKey = "Task" + (taskNum - 1);
-                ec.eCompleteOrNot = (unComplete == 0) ?
+                ec.mCompleteOrNot = (unComplete == 0) ?
                         Completion : UnCompletion;
                 mEventControls.add(ec);
             }
@@ -284,8 +290,8 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
                 MSubEvent se = new MSubEvent(adv, getKey());
                 se.mWhat = DisplayMessage;
                 se.mWhen = BeforeEndOfEvent;
-                se.mTurns.iFrom = from;
-                se.mTurns.iTo = from;
+                se.mTurns.mFrom = from;
+                se.mTurns.mTo = from;
                 se.mDescription = new MDescription(adv,
                         convertV4FuncsToV5(adv, buf));
                 mSubEvents.add(se);
@@ -316,10 +322,10 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
             int moveTo = moveObs[i][1];
             if (obKey > 0) {
                 boolean isNewTask = true;
-                if (i == 1 && mLength.iTo == 0 && doneTask[0]) {
+                if (i == 1 && mLength.mTo == 0 && doneTask[0]) {
                     isNewTask = false;
                 }
-                if (i == 2 && (mLength.iTo == 0 || doneTask[1])) {
+                if (i == 2 && (mLength.mTo == 0 || doneTask[1])) {
                     isNewTask = false;
                 }
                 if (isNewTask) {
@@ -339,6 +345,7 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
                 if (i < 2) {
                     doneTask[i] = true;
                 }
+                assert tas != null;
                 tas.mType = MTask.TaskTypeEnum.System;
                 tas.setRepeatable(true);
                 MAction act = new MAction(adv, obKey, moveTo);
@@ -349,8 +356,8 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
                     se.mWhat = ExecuteTask;
                     se.mWhen = (i == 0) ?
                             FromStartOfEvent : BeforeEndOfEvent;
-                    se.mTurns.iFrom = 0;
-                    se.mTurns.iTo = 0;
+                    se.mTurns.mFrom = 0;
+                    se.mTurns.mTo = 0;
                     se.mKey = tas.getKey();
                     mSubEvents.add(se);
                 }
@@ -386,48 +393,55 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
         // -------------------------------------------------------------
         String execTask = "Task" + reader.readLine();               // #TaskAffected
         if (!execTask.equals("Task0")) {
-            if (v >= 3.9) {
+            if (version >= 3.9) {
                 MSubEvent se = new MSubEvent(adv, getKey());
                 se.mWhen = BeforeEndOfEvent;
-                se.mTurns.iFrom = 0;
-                se.mTurns.iTo = 0;
+                se.mTurns.mFrom = 0;
+                se.mTurns.mTo = 0;
                 se.mWhat = (taskMode == 0) ?
                         ExecuteTask : UnsetTask;
                 se.mKey = execTask;
                 mSubEvents.add(se);
             } else {
-                final String exeCmd = adv.mTasks.get(execTask).mCommands.get(0);
-                if (taskMode == 0) {
-                    // For tasks triggered when an event finishes,
-                    // version 3.8 simply runs the specified command,
-                    // as though the player had typed it. Task execution
-                    // behaves in the same way as the
-                    // HighestPriorityPassingTask setting - i.e.
-                    // tasks that pass restrictions override higher
-                    // priority tasks that do not, even when the failing
-                    // higher priority task has output.
-                    MSubEvent se = new MSubEvent(adv, getKey());
-                    se.mWhen = BeforeEndOfEvent;
-                    se.mTurns.iFrom = 0;
-                    se.mTurns.iTo = 0;
-                    se.mWhat = ExecuteCommand;
-                    se.mKey = exeCmd;
-                    mSubEvents.add(se);
-                } else {
-                    for (MTask t : adv.mTasks.values()) {
-                        if (t.getIsLibrary()) {
-                            break;
-                        }
-                        for (String cmd : t.mCommands) {
-                            if (cmd.equals(exeCmd)) {
-                                MSubEvent se = new MSubEvent(adv, getKey());
-                                se.mWhen = BeforeEndOfEvent;
-                                se.mTurns.iFrom = 0;
-                                se.mTurns.iTo = 0;
-                                se.mWhat = UnsetTask;
-                                se.mKey = t.getKey();
-                                mSubEvents.add(se);
+                MTask exeTas = adv.mTasks.get(execTask);
+                if (exeTas != null) {
+                    // N.B. if the specified task doesn't exist
+                    // we simply ignore the error and don't execute
+                    // any task when the event finishes (same as if
+                    // the read line was 0).
+                    final String exeCmd = exeTas.mCommands.get(0);
+                    if (taskMode == 0) {
+                        // For tasks triggered when an event finishes,
+                        // version 3.8 simply runs the specified command,
+                        // as though the player had typed it. Task execution
+                        // behaves in the same way as the
+                        // HighestPriorityPassingTask setting - i.e.
+                        // tasks that pass restrictions override higher
+                        // priority tasks that do not, even when the failing
+                        // higher priority task has output.
+                        MSubEvent se = new MSubEvent(adv, getKey());
+                        se.mWhen = BeforeEndOfEvent;
+                        se.mTurns.mFrom = 0;
+                        se.mTurns.mTo = 0;
+                        se.mWhat = ExecuteCommand;
+                        se.mKey = exeCmd;
+                        mSubEvents.add(se);
+                    } else {
+                        for (MTask t : adv.mTasks.values()) {
+                            if (t.getIsLibrary()) {
                                 break;
+                            }
+                            for (String cmd : t.mCommands) {
+                                if (cmd.equals(exeCmd)) {
+                                    MSubEvent se = new MSubEvent(adv, getKey());
+                                    se.mWhen = BeforeEndOfEvent;
+                                    se.mTurns.mFrom = 0;
+                                    se.mTurns.mTo = 0;
+                                    se.mWhat = UnsetTask;
+                                    se.mKey = t.getKey();
+                                    mSubEvents.add(se);
+                                    break;
+                                }
                             }
                         }
                     }
@@ -435,18 +449,18 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
             }
         }
 
-        if (v >= 3.9) {
+        if (version >= 3.9) {
             // ---------------------------------------------------------------
             //                RESOURCES ([5]<RESOURCE>Res)
             // ---------------------------------------------------------------
             for (int i = 0; i < 5; i++) {
-                loadResource(adv, reader, v, null);
+                loadResource(adv, reader, version, null);
             }
         }
     }
 
     public MEvent(@NonNull MAdventure adv, @NonNull XmlPullParser xpp,
-                  boolean isLibrary, boolean addDupKeys, double version) throws Exception {
+                  boolean isLib, boolean addDupKeys, double version) throws Exception {
         // ADRIFT V5 Loader
         this(adv);
 
@@ -458,8 +472,7 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
         int depth = xpp.getDepth();
         int eventType;
 
-        while ((eventType = xpp.nextTag()) != XmlPullParser.END_DOCUMENT &&
-                xpp.getDepth() > depth) {
+        while ((eventType = xpp.nextTag()) != END_DOCUMENT && xpp.getDepth() > depth) {
             if (eventType == START_TAG) {
                 switch (xpp.getName()) {
                     default:
@@ -515,8 +528,8 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
                             s = xpp.nextText();
                             if (!s.equals("")) {
                                 sData = s.split(" ");
-                                mStartDelay.iFrom = cint(sData[0]);
-                                mStartDelay.iTo = (sData.length == 1) ?
+                                mStartDelay.mFrom = cint(sData[0]);
+                                mStartDelay.mTo = (sData.length == 1) ?
                                         cint(sData[0]) : cint(sData[2]);
                             }
                         } catch (Exception e) {
@@ -530,8 +543,8 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
                             s = xpp.nextText();
                             if (!s.equals("")) {
                                 sData = s.split(" ");
-                                mLength.iFrom = cint(sData[0]);
-                                mLength.iTo = (sData.length == 1) ?
+                                mLength.mFrom = cint(sData[0]);
+                                mLength.mTo = (sData.length == 1) ?
                                         cint(sData[0]) : cint(sData[2]);
                             }
                         } catch (Exception e) {
@@ -553,7 +566,7 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
         xpp.require(END_TAG, null, "Event");
 
         if (!header.finalise(this, adv.mEvents,
-                isLibrary, addDupKeys, null)) {
+                isLib, addDupKeys, null)) {
             throw new Exception();
         }
 
@@ -584,8 +597,7 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
 
     @Override
     @NonNull
-    public String evaluate(@NonNull String funcName,
-                           @NonNull String args,
+    public String evaluate(@NonNull String funcName, @NonNull String args,
                            @NonNull String remainder,
                            @NonNull boolean[] resultIsInteger) {
         // There are only two functions for events, both of
@@ -626,31 +638,29 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
 
     @NonNull
     String getLookText() {
+        String ret = "";
         if (mStatus == Running) {
             // Pop the first matching LookText off the stack
-            boolean bOkToDisplay = false;
-            String sLookText = "";
-
-            for (MLookText lt : mStackLookText) {
-                if (mAdv.getPlayer().isInGroupOrLocation(lt.sLocationKey)) {
-                    sLookText = lt.sDescription;
-                    bOkToDisplay = true;
+            boolean okToDisplay = false;
+            for (MLookText text : mStackLookText) {
+                if (mAdv.getPlayer().isInGroupOrLocation(text.mLocationKey)) {
+                    ret = text.mDescription;
+                    okToDisplay = true;
                     break;
                 }
             }
-
-            if (bOkToDisplay) {
-                return sLookText;
+            if (okToDisplay) {
+                return ret;
             }
         }
         return "";
     }
 
-    public int getTimerToEndOfEvent() {
+    private int getTimerToEndOfEvent() {
         return mTimerToEventOfEvent;
     }
 
-    public void setTimerToEndOfEvent(int value) throws InterruptedException {
+    void setTimerToEndOfEvent(int value) throws InterruptedException {
         mTimerToEventOfEvent = value;
 
         // if the timer has ticked down and we're ready to start
@@ -690,11 +700,10 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
     }
 
     private void lStart(boolean restart) throws InterruptedException {
-        if (mStatus == NotYetStarted ||
-                mStatus == CountingDownToStart ||
+        if (mStatus == NotYetStarted || mStatus == CountingDownToStart ||
                 mStatus == Finished || (mStatus == Running && restart)) {
             if (!restart) {
-                mAdv.mView.debugPrint(MGlobals.ItemEnum.Event,
+                mAdv.mView.debugPrint(Event,
                         getKey(), Low, "Starting event " + getDescription());
             }
 
@@ -732,7 +741,7 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
             mJustStarted = true;
         } else {
             //Throw New Exception("Can't Start an Event that isn't waiting!")
-            mAdv.mView.debugPrint(MGlobals.ItemEnum.Event, getKey(),
+            mAdv.mView.debugPrint(Event, getKey(),
                     MView.DebugDetailLevelEnum.Error,
                     "Can't Start an Event that isn't waiting!");
         }
@@ -748,7 +757,7 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
 
     private void lPause() {
         if (mStatus == Running) {
-            mAdv.mView.debugPrint(MGlobals.ItemEnum.Event, getKey(),
+            mAdv.mView.debugPrint(Event, getKey(),
                     Low, "Pausing event " + getDescription());
             mStatus = Paused;
             for (MSubEvent se : mSubEvents) {
@@ -759,7 +768,7 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
                 }
             }
         } else {
-            mAdv.mView.debugPrint(MGlobals.ItemEnum.Event, getKey(),
+            mAdv.mView.debugPrint(Event, getKey(),
                     MView.DebugDetailLevelEnum.Error,
                     "Can't Pause an Event that isn't running!");
         }
@@ -775,7 +784,7 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
 
     private void lResume() {
         if (mStatus == Paused) {
-            mAdv.mView.debugPrint(MGlobals.ItemEnum.Event, getKey(),
+            mAdv.mView.debugPrint(Event, getKey(),
                     Low, "Resuming event " + getDescription());
             mStatus = Running;
             for (MSubEvent se : mSubEvents) {
@@ -788,7 +797,7 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
                 }
             }
         } else {
-            mAdv.mView.debugPrint(MGlobals.ItemEnum.Event, getKey(),
+            mAdv.mView.debugPrint(Event, getKey(),
                     MView.DebugDetailLevelEnum.Error,
                     "Can't Resume an Event that isn't paused!");
         }
@@ -822,7 +831,7 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
         }
         if (getRepeating() && getTimerToEndOfEvent() == 0) {
             if (mLength.getValue() > 0) {
-                mAdv.mView.debugPrint(MGlobals.ItemEnum.Event, getKey(),
+                mAdv.mView.debugPrint(Event, getKey(),
                         Low, "Restarting event " + getDescription());
                 if (RepeatCountdown) {
                     mStatus = CountingDownToStart;
@@ -834,13 +843,12 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
                     lStart(true);
                 }
             } else {
-                mAdv.mView.debugPrint(MGlobals.ItemEnum.Event, getKey(),
-                        Low,
-                        "Not restarting event " + getDescription() +
+                mAdv.mView.debugPrint(Event, getKey(),
+                        Low, "Not restarting event " + getDescription() +
                                 " otherwise we'd get in an infinite loop as zero length.");
             }
         } else {
-            mAdv.mView.debugPrint(MGlobals.ItemEnum.Event, this.getKey(),
+            mAdv.mView.debugPrint(Event, this.getKey(),
                     Low, "Finishing event " + getDescription());
         }
     }
@@ -866,7 +874,7 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
         }
 
         if (mStatus == Running || mStatus == CountingDownToStart) {
-            mAdv.mView.debugPrint(MGlobals.ItemEnum.Event, getKey(),
+            mAdv.mView.debugPrint(Event, getKey(),
                     High, "Event " + getDescription() + " [" +
                             (getTimerFromStartOfEvent() + 1) +
                             "/" + mLength.getValue() + "]");
@@ -939,29 +947,30 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
 
     void runSubEvent(@NonNull MSubEvent se) throws InterruptedException {
         switch (se.mWhat) {
-            case DisplayMessage:
+            case DisplayMessage: {
                 if (mAdv.getPlayer().isInGroupOrLocation(se.mKey)) {
                     mAdv.mView.displayText(mAdv, se.mDescription.toString());
                 }
                 break;
-            case ExecuteTask:
-                if (mAdv.mTasks.containsKey(se.mKey)) {
-                    mAdv.mView.debugPrint(MGlobals.ItemEnum.Event, getKey(),
-                            Medium, "Event '" + getDescription() +
-                                    "' attempting to execute task '" +
-                                    mAdv.mTasks.get(se.mKey).getDescription() + "'");
-                    EnumSet<MTask.ExecutionStatus> curStatus = EnumSet.noneOf(MTask.ExecutionStatus.class);
-                    MTask tas = mAdv.mTasks.get(se.mKey);
+            }
+            case ExecuteTask: {
+                MTask tas = mAdv.mTasks.get(se.mKey);
+                if (tas != null) {
+                    mAdv.mView.debugPrint(Event, getKey(), Medium,
+                            "Event '" + getDescription() + "' attempting to execute task '" +
+                                    tas.getDescription() + "'");
+                    EnumSet<MTask.ExecutionStatus> curStatus =
+                            EnumSet.noneOf(MTask.ExecutionStatus.class);
                     tas.attemptToExecute(true, false,
                             curStatus, false, false, true);
                 }
                 break;
-            case ExecuteCommand:
+            }
+            case ExecuteCommand: {
                 // This is deprecated and only included to provide
                 // compatibility for v3.8 games.
-                mAdv.mView.debugPrint(MGlobals.ItemEnum.Event, getKey(),
-                        Medium, "Event '" + getDescription() +
-                                "' executing command '" + se.mKey + "'");
+                mAdv.mView.debugPrint(Event, getKey(), Medium, "Event '" + getDescription() +
+                        "' executing command '" + se.mKey + "'");
                 MTaskHashMap.MTaskMatchResult match =
                         mAdv.mTasks.find(se.mKey, 0, null);
                 if (match.mTask != null) {
@@ -969,16 +978,22 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
                     match.mTask.attemptToExecute(true);
                 }
                 break;
-            case SetLook:
+            }
+            case SetLook: {
                 // Push a LookText onto the stack
                 mStackLookText.push(new MLookText(se.mKey, se.mDescription.toString()));
                 break;
-            case UnsetTask:
-                mAdv.mView.debugPrint(MGlobals.ItemEnum.Event, getKey(),
-                        Medium,
-                        "Event '" + getDescription() + "' unsetting task '" + mAdv.mTasks.get(se.mKey).getDescription() + "'");
-                mAdv.mTasks.get(se.mKey).setCompleted(false);
+            }
+            case UnsetTask: {
+                MTask tas = mAdv.mTasks.get(se.mKey);
+                if (tas != null) {
+                    mAdv.mView.debugPrint(Event, getKey(), Medium,
+                            "Event '" + getDescription() + "' unsetting task '" +
+                                    tas.getDescription() + "'");
+                    tas.setCompleted(false);
+                }
                 break;
+            }
         }
         mLastSubEventTime = getTimerFromStartOfEvent();
         mLastSubEvent = se;
@@ -993,7 +1008,8 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
                         if (sei.mWhen == FromLastSubEvent) {
                             sei.mTrigger = new Timer(true);
                             if (sei.mTurns.getValue() > 0) {
-                                sei.mTrigger.schedule(se.new SubEventTimerTask(), sei.mTurns.getValue() * 1000);
+                                sei.mTrigger.schedule(se.new SubEventTimerTask(),
+                                        sei.mTurns.getValue() * 1000);
                                 sei.mStart = new Date();
                             } else {
                                 runSubEvent(sei);
@@ -1115,12 +1131,123 @@ public class MEvent extends MItem implements MItemFunctionEvaluator {
     }
 
     private static class MLookText {
-        String sDescription;
-        String sLocationKey;
+        String mDescription;
+        String mLocationKey;
 
-        MLookText(@NonNull String sKey, @NonNull String sDescription) {
-            this.sLocationKey = sKey;
-            this.sDescription = sDescription;
+        MLookText(@NonNull String key, @NonNull String description) {
+            mLocationKey = key;
+            mDescription = description;
+        }
+    }
+
+    public static class MEventState {
+        public StatusEnum mStatus;
+        int mTimerToEndOfEvent;
+        int mLastSubEventTime;
+        int mLastSubEventIndex;
+        @NonNull
+        public final HashMap<String, Boolean> mDisplayedDescriptions = new HashMap<>();
+        public String mKey;
+
+        MEventState(@NonNull MEvent ev) {
+            mKey = ev.getKey();
+            mStatus = ev.mStatus;
+            mTimerToEndOfEvent = ev.getTimerToEndOfEvent();
+            mLastSubEventTime = ev.mLastSubEventTime;
+            for (int i = 0; i < ev.mSubEvents.size(); i++) {
+                if (ev.mLastSubEvent == ev.mSubEvents.get(i)) {
+                    mLastSubEventIndex = i;
+                    break;
+                }
+            }
+            saveDisplayOnce(ev.getAllDescriptions(), mDisplayedDescriptions);
+        }
+
+        MEventState(@NonNull MAdventure adv, @NonNull XmlPullParser xpp) throws Exception {
+            xpp.require(START_TAG, null, "Event");
+
+            int depth = xpp.getDepth();
+            int evType;
+
+            while ((evType = xpp.nextTag()) != END_DOCUMENT && xpp.getDepth() > depth) {
+                if (evType == START_TAG) {
+                    switch (xpp.getName()) {
+                        case "Key": {
+                            mKey = xpp.nextText();
+                            break;
+                        }
+                        case "Status": {
+                            mStatus = StatusEnum.valueOf(xpp.nextText());
+                            break;
+                        }
+                        case "Timer": {
+                            mTimerToEndOfEvent = adv.safeInt(xpp.nextText());
+                            break;
+                        }
+                        case "SubEventTime": {
+                            mLastSubEventTime = adv.safeInt(xpp.nextText());
+                            break;
+                        }
+                        case "SubEventIndex": {
+                            mLastSubEventIndex = adv.safeInt(xpp.nextText());
+                            break;
+                        }
+                        case "Displayed": {
+                            mDisplayedDescriptions.put(xpp.nextText(), true);
+                            break;
+                        }
+
+                    }
+                }
+            }
+
+            xpp.require(END_TAG, null, "Event");
+        }
+
+        public void serialize(@NonNull XmlSerializer xs) throws IOException {
+            xs.startTag(null, "Event");
+
+            xs.startTag(null, "Key");
+            xs.text(mKey);
+            xs.endTag(null, "Key");
+
+            xs.startTag(null, "Status");
+            xs.text(mStatus.toString());
+            xs.endTag(null, "Status");
+
+            xs.startTag(null, "Timer");
+            xs.text(String.valueOf(mTimerToEndOfEvent));
+            xs.endTag(null, "Timer");
+
+            xs.startTag(null, "SubEventTime");
+            xs.text(String.valueOf(mLastSubEventTime));
+            xs.endTag(null, "SubEventTime");
+
+            xs.startTag(null, "SubEventIndex");
+            xs.text(String.valueOf(mLastSubEventIndex));
+            xs.endTag(null, "SubEventIndex");
+
+            for (String descKey : mDisplayedDescriptions.keySet()) {
+                xs.startTag(null, "Displayed");
+                xs.text(descKey);
+                xs.endTag(null, "Displayed");
+            }
+
+            xs.endTag(null, "Event");
+        }
+
+        public void restore(@NonNull MEvent ev) {
+            ev.mStatus = mStatus;
+            try {
+                ev.setTimerToEndOfEvent(mTimerToEndOfEvent);
+            } catch (InterruptedException e) {
+                GLKLogger.error("MStackState: restore(): caught interrupted exception!");
+            }
+            ev.mLastSubEventTime = mLastSubEventTime;
+            if (ev.mSubEvents.size() > mLastSubEventIndex) {
+                ev.mLastSubEvent = ev.mSubEvents.get(mLastSubEventIndex);
+            }
+            restoreDisplayOnce(ev.getAllDescriptions(), mDisplayedDescriptions);
         }
     }
 }

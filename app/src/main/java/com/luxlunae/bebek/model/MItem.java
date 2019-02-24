@@ -204,8 +204,7 @@ public abstract class MItem implements Cloneable {
         return getRegEx(false, false);
     }
 
-    protected String getRegEx(boolean getADRIFTExpr,
-                              boolean usePluralForm) {
+    protected String getRegEx(boolean getADRIFTExpr, boolean usePluralForm) {
         // by default we do nothing
         // children may override
         return "";
@@ -234,10 +233,8 @@ public abstract class MItem implements Cloneable {
     }
 
     @NonNull
-    private Object find(@NonNull String toFind,
-                        @Nullable String toReplace,
-                        boolean findAll,
-                        @NonNull int[] nReplaced) {
+    private Object find(@NonNull String toFind, @Nullable String toReplace,
+                        boolean findAll, @NonNull int[] nReplaced) {
         for (MDescription desc : getAllDescriptions()) {
             Object obj = find(desc, toFind, toReplace, findAll, nReplaced);
             if (obj != null && !findAll) {
@@ -251,8 +248,7 @@ public abstract class MItem implements Cloneable {
         return findLocal(toFind, null, true, new int[1]);
     }
 
-    public int find(@NonNull String toFind,
-                    @NonNull String toReplace) {
+    public int find(@NonNull String toFind, @NonNull String toReplace) {
         int[] result = new int[1];
         find(toFind, toReplace, true, result);
         return result[0];
@@ -271,10 +267,8 @@ public abstract class MItem implements Cloneable {
      *
      * @return the number of replacements made in this object's text.
      */
-    protected abstract int findLocal(@NonNull String toFind,
-                                     @Nullable String toReplace,
-                                     boolean findAll,
-                                     @NonNull int[] nReplaced);
+    protected abstract int findLocal(@NonNull String toFind, @Nullable String toReplace,
+                                     boolean findAll, @NonNull int[] nReplaced);
 
     /**
      * Return the number of times the given key is referenced by
@@ -356,7 +350,7 @@ public abstract class MItem implements Cloneable {
          * @param item       - the item to which the header information relates.
          * @param items      - a hashmap containing all items already loaded of the
          *                   same type as 'item'.
-         * @param isLibrary  - set to TRUE if this item is being loaded
+         * @param isLib  - set to TRUE if this item is being loaded
          *                   from a library file, or FALSE otherwise.
          * @param addDupKeys - Controls how we treat items with duplicate
          *                   keys. If the current item's key duplicates that
@@ -373,7 +367,7 @@ public abstract class MItem implements Cloneable {
          */
         boolean finalise(@NonNull MItem item,
                          @NonNull LinkedHashMap<String, ? extends MItem> items,
-                         boolean isLibrary, boolean addDupKeys,
+                         boolean isLib, boolean addDupKeys,
                          @Nullable MStringHashMap dupKeys) {
 
             ArrayList<String> itemsToExclude = item.mAdv.mExcludedItems;
@@ -411,7 +405,7 @@ public abstract class MItem implements Cloneable {
                 //         HANDLE DUPLICATE KEYS
                 // --------------------------------------------
                 // First handle any attempts to load a library item.
-                if (item.getIsLibrary() || isLibrary) {
+                if (item.getIsLibrary() || isLib) {
                     if (lastUpdated != null &&
                             !lastUpdated.after(loadedItem.getLastUpdated())) {
                         // Don't add this library item unless it was updated
@@ -475,7 +469,7 @@ public abstract class MItem implements Cloneable {
                             " as there is an existing duplicate key and setting is not to replace it.");
                     return false;
                 }
-            } else if (isLibrary && shouldWeLoad(itemsToExclude, mKey) == No) {
+            } else if (isLib && shouldWeLoad(itemsToExclude, mKey) == No) {
                 // --------------------------------------------
                 //   NOT A DUPLICATE KEY, BUT SHOULDN'T LOAD
                 // --------------------------------------------
@@ -491,11 +485,11 @@ public abstract class MItem implements Cloneable {
             item.setKey(mKey);
             if (isTask && mPriority != null) {
                 tas.setPriority(mPriority);
-                if (isLibrary && !tas.getIsLibrary()) {
+                if (isLib && !tas.getIsLibrary()) {
                     tas.setPriority(MTask.LIBRARY_START_TASK_PRIORITY + tas.getPriority());
                 }
             }
-            if (isLibrary) {
+            if (isLib) {
                 item.setIsLibrary(true);
             }
             if (lastUpdated != null) {

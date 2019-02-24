@@ -31,6 +31,7 @@ import com.luxlunae.bebek.view.MView;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlSerializer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ import static com.luxlunae.bebek.model.MWalk.StatusEnum.Running;
 import static com.luxlunae.bebek.view.MView.DebugDetailLevelEnum.High;
 import static com.luxlunae.bebek.view.MView.DebugDetailLevelEnum.Low;
 import static com.luxlunae.bebek.view.MView.DebugDetailLevelEnum.Medium;
+import static org.xmlpull.v1.XmlPullParser.END_DOCUMENT;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
@@ -177,10 +179,10 @@ public class MWalk {
                         sb.append("<").append(stp.mLocation).append(">");
                     }
             }
-            if (stp.mTurns.iFrom == stp.mTurns.iTo) {
-                sb.append(" [").append(stp.mTurns.iFrom).append("]");
+            if (stp.mTurns.mFrom == stp.mTurns.mTo) {
+                sb.append(" [").append(stp.mTurns.mFrom).append("]");
             } else {
-                sb.append(" [").append(stp.mTurns.iFrom).append(" - ").append(stp.mTurns.iTo).append("]");
+                sb.append(" [").append(stp.mTurns.mFrom).append(" - ").append(stp.mTurns.mTo).append("]");
             }
 
             if (stp != mSteps.get(mSteps.size() - 1)) {
@@ -439,7 +441,7 @@ public class MWalk {
                     if (mAdv.mGroups.containsKey(stepKey)) {
                         // Get an adjacent location in the group
                         MGroup grp = mAdv.mGroups.get(stepKey);
-                        MStringArrayList locKeys = grp.getArlMembers();
+                        MStringArrayList locKeys = grp.getMembers();
                         MCharacter ch = mAdv.mCharacters.get(mCharKey);
                         MLocation locCurrent = null;
                         if (ch.getLocation().getExistsWhere() != Hidden) {
@@ -738,15 +740,15 @@ public class MWalk {
 
             String sData[] = xpp.nextText().split(" ");
             mLocation = sData[0];
-            mTurns.iFrom = cint(sData[1]);
-            mTurns.iTo = (sData.length == 2) ? cint(sData[1]) : cint(sData[3]);
+            mTurns.mFrom = cint(sData[1]);
+            mTurns.mTo = (sData.length == 2) ? cint(sData[1]) : cint(sData[3]);
             if (dFileVersion < 5.000029) {
                 if (mLocation.equals(THEPLAYER)) {
-                    if (mTurns.iFrom < 1) {
-                        mTurns.iFrom = 1;
+                    if (mTurns.mFrom < 1) {
+                        mTurns.mFrom = 1;
                     }
-                    if (mTurns.iTo < 1) {
-                        mTurns.iTo = 1;
+                    if (mTurns.mTo < 1) {
+                        mTurns.mTo = 1;
                     }
                 }
             }
@@ -754,4 +756,57 @@ public class MWalk {
         }
     }
 
+    public static class MWalkState {
+        public StatusEnum mStatus;
+        int mTimerToEndOfWalk;
+
+        MWalkState(@NonNull MWalk w) {
+            mStatus = w.mStatus;
+            mTimerToEndOfWalk = w.mTimerToEndWalk;
+        }
+
+        MWalkState(@NonNull MAdventure adv, @NonNull XmlPullParser xpp) throws Exception {
+            xpp.require(START_TAG, null, "Walk");
+
+            int depth = xpp.getDepth();
+            int evType;
+
+            while ((evType = xpp.nextTag()) != END_DOCUMENT &&
+                    xpp.getDepth() > depth) {
+                if (evType == START_TAG) {
+                    switch (xpp.getName()) {
+                        case "Status": {
+                            mStatus = StatusEnum.valueOf(xpp.nextText());
+                            break;
+                        }
+                        case "Timer": {
+                            mTimerToEndOfWalk = adv.safeInt(xpp.nextText());
+                            break;
+                        }
+                    }
+                }
+            }
+
+            xpp.require(END_TAG, null, "Walk");
+        }
+
+        public void serialize(@NonNull XmlSerializer xs) throws IOException {
+            xs.startTag(null, "Walk");
+
+            xs.startTag(null, "Status");
+            xs.text(mStatus.toString());
+            xs.endTag(null, "Status");
+
+            xs.startTag(null, "Timer");
+            xs.text(String.valueOf(mTimerToEndOfWalk));
+            xs.endTag(null, "Timer");
+
+            xs.endTag(null, "Walk");
+        }
+
+        public void restore(@NonNull MWalk w) {
+            w.mStatus = mStatus;
+            w.mTimerToEndWalk = mTimerToEndOfWalk;
+        }
+    }
 }

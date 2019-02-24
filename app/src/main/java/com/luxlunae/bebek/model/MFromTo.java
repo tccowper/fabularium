@@ -29,23 +29,23 @@ import com.luxlunae.glk.GLKLogger;
 public class MFromTo implements Cloneable {
     @NonNull
     private final MAdventure mAdv;
-    int iFrom;
-    int iTo;
-    private int iValue = Integer.MIN_VALUE;
+    int mFrom;
+    int mTo;
+    private int mValue = Integer.MIN_VALUE;
 
     MFromTo(@NonNull MAdventure adv) {
         mAdv = adv;
     }
 
     public int getValue() {
-        if (iValue == Integer.MIN_VALUE) {
-            iValue = mAdv.getRand(iFrom, iTo);
+        if (mValue == Integer.MIN_VALUE) {
+            mValue = mAdv.getRand(mFrom, mTo);
         }
-        return iValue;
+        return mValue;
     }
 
     public void reset() {
-        iValue = Integer.MIN_VALUE;
+        mValue = Integer.MIN_VALUE;
     }
 
     @Override
@@ -62,7 +62,6 @@ public class MFromTo implements Cloneable {
     @Override
     @NonNull
     public String toString() {
-        return (iFrom == iTo) ?
-                String.valueOf(iFrom) : (iFrom + " to " + iTo);
+        return (mFrom == mTo) ? String.valueOf(mFrom) : mFrom + " to " + mTo;
     }
 }

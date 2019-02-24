@@ -1,6 +1,5 @@
 /*
- * Original ADRIFT code Copyright (C) 1997 - 2018 Campbell Wild
- * This port and modifications Copyright (C) 2018 - 2019 Tim Cadogan-Cowper.
+ * Copyright (C) 2019 Tim Cadogan-Cowper.
  *
  * This file is part of Fabularium.
  *
@@ -19,20 +18,22 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package com.luxlunae.bebek.model.state;
+package com.luxlunae.bebek.model.collection;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import com.luxlunae.bebek.model.MAdventure;
 
 public class MMyStack {
     // Gives us the same functionality as a stack, but restricts it to 100
     private static final int MAXLENGTH = 100;
     @NonNull
-    private MGameState[] mStates = new MGameState[MAXLENGTH + 1];
+    private MAdventure.MGameState[] mStates = new MAdventure.MGameState[MAXLENGTH + 1];
     private int mStart = -1;
     private int mEnd = -1;
 
-    public void push(@Nullable MGameState state) {
+    public void push(@Nullable MAdventure.MGameState state) {
         if (mStart > mEnd) {
             mStart++;
         }
@@ -65,7 +66,7 @@ public class MMyStack {
     }
 
     @Nullable
-    public MGameState peek() {
+    public MAdventure.MGameState peek() {
         if (count() == 0) {
             return null;
         }
@@ -73,8 +74,8 @@ public class MMyStack {
     }
 
     @Nullable
-    MGameState pop() {
-        MGameState state = peek();
+    public MAdventure.MGameState pop() {
+        MAdventure.MGameState state = peek();
         if (state != null) {
             mEnd--;
             if (mEnd < 0) {

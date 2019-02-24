@@ -39,7 +39,6 @@
     <string name="html_licences_path_EN">file:///android_asset/open_source_licences.html</string>
     <string name="html_help_path_EN">file:///android_asset/help.html</string>
 
-    <string name="title_menu_game_sel_context">Game options</string>
     <string name="menu_show_metadata">About</string>
     <string name="menu_get_metadata">Get metadata</string>
     <string name="menu_remove_from_game_library">Remove</string>
@@ -50,7 +49,6 @@
     <string name="dialog_got_it">GOT IT</string>
     <string name="dialog_close">Close</string>
     <string name="dialog_cancel">Cancel</string>
-    <string name="dialog_get_metadata">Get metadata</string>
     <string name="dialog_reset_config">Reset config file</string>
     <string name="dialog_reset_adrift">Reset Adrift 5 library</string>
     <string name="dialog_sort_asc">Asc</string>
@@ -84,7 +82,6 @@
     <string name="progress_spinner_deleting_files">Deleting items</string>
     <string name="progress_spinner_unzipping_files">Unzipping items</string>
     <string name="progress_spinner_renaming_files">Renaming items</string>
-    <string name="progress_spinner_default_files">Processing items</string>
     <string name="progress_spinner_downloading_metadata">Downloading metadata</string>
     <string name="progress_spinner_reading_files">Reading file(s)</string>
 
@@ -116,7 +113,11 @@
         Loading game… please wait…&lt;/p>
     </string>
 
-    <string name="game_icon">Story icon</string>
+    <string name="BEBEK_BATTLE_NOT_SUPPORTED">
+        &lt;b>WARNING: This game has the ADRIFT battle system enabled. Bebek doesn\'t support that yet. The game may not work as intended.&lt;br>
+        &lt;br>Press any key to continue…&lt;/b>&lt;waitkey>
+    </string>
+
     <string name="menu_settings">Settings</string>
     <string name="menu_sortBy">Sort by</string>
     <string name="menu_resetConfig">Reset config files</string>
@@ -141,7 +142,6 @@
     <string name="menu_new_file">New file</string>
     <string name="menu_go_to_parent_folder">Go to parent</string>
     <string name="menu_save_text_file">Save</string>
-    <string name="menu_search_text_file">Search</string>
     <string name="menu_compile">Compile</string>
     <string name="menu_go_to_line">Go to line</string>
     <string name="menu_show_line_numbers">Show line numbers</string>
@@ -184,7 +184,6 @@
 
     <!-- Spans within this text are applied to style composing regions
    within an EditText widget. The text content is ignored and not used. -->
-    <string name="candidates_style" translatable="false"><u>candidates</u></string>
 
     <!-- KeyboardView - accessibility support -->
     <!-- Description of the Alt button in a KeyboardView. [CHAR LIMIT=NONE] -->

@@ -43,6 +43,7 @@ import static com.luxlunae.bebek.VB.cint;
 import static com.luxlunae.bebek.VB.isNumeric;
 import static com.luxlunae.bebek.model.MAction.EndGameEnum.Lose;
 import static com.luxlunae.bebek.model.MAction.EndGameEnum.Neutral;
+import static com.luxlunae.bebek.model.MAction.EndGameEnum.Win;
 import static com.luxlunae.bebek.model.MAction.ItemEnum.AddCharacterToGroup;
 import static com.luxlunae.bebek.model.MAction.ItemEnum.AddLocationToGroup;
 import static com.luxlunae.bebek.model.MAction.ItemEnum.AddObjectToGroup;
@@ -59,6 +60,7 @@ import static com.luxlunae.bebek.model.MAction.ItemEnum.SetProperties;
 import static com.luxlunae.bebek.model.MAction.ItemEnum.SetTasks;
 import static com.luxlunae.bebek.model.MAction.ItemEnum.SetVariable;
 import static com.luxlunae.bebek.model.MAction.ItemEnum.Time;
+import static com.luxlunae.bebek.model.MAction.MoveCharacterToEnum.InDirection;
 import static com.luxlunae.bebek.model.MAction.MoveObjectToEnum.FromGroup;
 import static com.luxlunae.bebek.model.MAction.MoveObjectToEnum.InsideObject;
 import static com.luxlunae.bebek.model.MAction.MoveObjectToEnum.OntoObject;
@@ -118,13 +120,13 @@ public class MAction {
     private MoveObjectToEnum mMoveObjectTo = ToLocation;
     private MCharacterHashMap.MoveCharacterWhoEnum mMoveCharacterWho =
             MCharacterHashMap.MoveCharacterWhoEnum.Character;
-    private MoveCharacterToEnum mMoveCharacterTo = MoveCharacterToEnum.InDirection;
+    private MoveCharacterToEnum mMoveCharacterTo = InDirection;
     private MLocationHashMap.MoveLocationWhatEnum mMoveLocationWhat =
             MLocationHashMap.MoveLocationWhatEnum.Location;
     private MoveLocationToEnum mMoveLocationTo = MoveLocationToEnum.ToGroup;
     private ObjectStatusEnum mObjectStatus = ObjectStatusEnum.DunnoYet;
     private MVariable.OpType mVariableType = ASSIGNMENT;
-    private EndGameEnum mEndGame = EndGameEnum.Win;
+    private EndGameEnum mEndGame = Win;
     private MCharacter.ConversationEnum mConversation = MCharacter.ConversationEnum.NotSet;
 
     public MAction(@NonNull MAdventure adv) {
@@ -182,19 +184,19 @@ public class MAction {
 
     public MAction(@NonNull MAdventure adv,
                    int startLoc, int startChar, int startTask,
-                   final HashMap<MObject, MProperty> dodgyArlStates,
+                   final HashMap<MObject, MProperty> dodgyStates,
                    int type, int var1, int var2, int var3, int var5,
                    String expr) {
         // ADRIFT V3.80 loader
         this(adv);
 
-        initOlder(adv, startLoc, startChar, startTask, dodgyArlStates,
+        initOlder(adv, startLoc, startChar, startTask, dodgyStates,
                 type, var1, var2, var3, var5, expr);
     }
 
     public MAction(@NonNull MAdventure adv, @NonNull MFileOlder.V4Reader reader,
                    int startLoc, int startChar, int startTask,
-                   final HashMap<MObject, MProperty> dodgyArlStates,
+                   final HashMap<MObject, MProperty> dodgyStates,
                    double version) throws EOFException {
         // ADRIFT V3.90 and V4 Loader
         this(adv);
@@ -233,7 +235,6 @@ public class MAction {
             }
         }
         if (type == 3) {
-            // ?#Type=3:#Var1,#Var2,#Var3,$Expr,#Var5
             if (version < 4) {
                 if (var2 == 5) {
                     expr = reader.readLine();                     // sExpr
@@ -246,7 +247,7 @@ public class MAction {
             }
         }
 
-        initOlder(adv, startLoc, startChar, startTask, dodgyArlStates,
+        initOlder(adv, startLoc, startChar, startTask, dodgyStates,
                 type, var1, var2, var3, var5, expr);
     }
 
@@ -349,8 +350,7 @@ public class MAction {
                     mKey1 = actWords[0];
                     mMoveCharacterTo = MAction.MoveCharacterToEnum.valueOf(actWords[1]);
                     mKey2 = actWords[2];
-                    if (mMoveCharacterTo == MAction.MoveCharacterToEnum.InDirection &&
-                            isNumeric(mKey2)) {
+                    if (mMoveCharacterTo == InDirection && isNumeric(mKey2)) {
                         mKey2 = MAdventure.DirectionsEnum.valueOf(mKey2).toString();
                     }
                 } else {
@@ -490,9 +490,9 @@ public class MAction {
                 } else {
                     mVariableType = ASSIGNMENT;
                     if (actWords[0].contains("[")) {
-                        String[] sKeys = actWords[0].split("\\[");
-                        mKey1 = sKeys[0];
-                        mKey2 = sKeys[1].replace("]", "");
+                        String[] keys = actWords[0].split("\\[");
+                        mKey1 = keys[0];
+                        mKey2 = keys[1].replace("]", "");
                     } else {
                         mKey1 = actWords[0];
                     }
@@ -845,17 +845,17 @@ public class MAction {
                     for (MObject ob : obs.values()) {
                         switch (mType) {
                             case MoveObject: {
-                                ob.moveObject(mMoveObjectTo, mKey2);
+                                ob.move(mMoveObjectTo, mKey2);
                                 break;
                             }
                             case AddObjectToGroup: {
                                 assert grp != null;
-                                grp.addItemWithProps(ob);
+                                grp.add(ob);
                                 break;
                             }
                             case RemoveObjectFromGroup: {
                                 assert grp != null;
-                                grp.removeItemWithProps(ob);
+                                grp.remove(ob);
                                 break;
                             }
                         }
@@ -881,17 +881,17 @@ public class MAction {
                     for (MCharacter ch : chars.values()) {
                         switch (mType) {
                             case MoveCharacter: {
-                                ch.moveCharacter(mMoveCharacterTo, mKey2);
+                                ch.move(mMoveCharacterTo, mKey2);
                                 break;
                             }
                             case AddCharacterToGroup: {
                                 assert grp != null;
-                                grp.addItemWithProps(ch);
+                                grp.add(ch);
                                 break;
                             }
                             case RemoveCharacterFromGroup: {
                                 assert grp != null;
-                                grp.removeItemWithProps(ch);
+                                grp.remove(ch);
                                 break;
                             }
                         }
@@ -913,11 +913,11 @@ public class MAction {
                     for (MLocation loc : locs.values()) {
                         switch (mType) {
                             case AddLocationToGroup: {
-                                grp.addItemWithProps(loc);
+                                grp.add(loc);
                                 break;
                             }
                             case RemoveLocationFromGroup: {
-                                grp.removeItemWithProps(loc);
+                                grp.remove(loc);
                                 break;
                             }
                         }
@@ -1017,7 +1017,7 @@ public class MAction {
             }
         } catch (Exception ex) {
             if (ex.getMessage().equals("badkey")) {
-                mAdv.mView.debugPrint(Task, "", High, "Bad key(s) for action ");
+                mAdv.mView.debugPrint(Task, "", High, "Bad action key(s)");
             } else {
                 mAdv.mView.errMsg("Error executing action " + getSummary(), ex);
             }
@@ -1368,7 +1368,7 @@ public class MAction {
                 switch (var1) {
                     case 0:
                         // Wins the game.
-                        mEndGame = MAction.EndGameEnum.Win;
+                        mEndGame = Win;
                         break;
                     case 1:
                         // Doesn't win.
@@ -1513,8 +1513,8 @@ public class MAction {
                             if (mKey1 != null && !mKey1.startsWith("ReferencedObject")) {
                                 MObject ob = mAdv.mObjects.get(mKey1);
                                 if (ob == null) {
-                                    throw new Exception("MoveObjectWhat: reference to " +
-                                            "non-existent object key: " + mKey1);
+                                    throw new Exception("MoveObjectWhat: non-existent " +
+                                            "object key: " + mKey1);
                                 }
                                 isDynamic = !ob.isStatic();
                             }
@@ -1540,8 +1540,8 @@ public class MAction {
                             if (!mPropValue.equals("")) {
                                 MProperty prop = mAdv.mObjectProperties.get(mKey1);
                                 if (prop == null) {
-                                    throw new Exception("MoveObjectWhat: reference to " +
-                                            "non-existent object property : " + mKey1);
+                                    throw new Exception("MoveObjectWhat: non-existent " +
+                                            "object property : " + mKey1);
                                 }
                                 ret.append(" where value is ");
                                 switch (prop.getType()) {
@@ -1653,8 +1653,8 @@ public class MAction {
                             if (!mPropValue.equals("")) {
                                 MProperty prop = mAdv.mCharacterProperties.get(mKey1);
                                 if (prop == null) {
-                                    throw new Exception("MoveCharacterWho: reference to " +
-                                            "non-existent character property: " + mKey1);
+                                    throw new Exception("MoveCharacterWho: non-existent " +
+                                            "character property: " + mKey1);
                                 }
                                 ret.append(" where value is ");
                                 switch (prop.getType()) {
@@ -1757,8 +1757,8 @@ public class MAction {
                             if (!mPropValue.equals("")) {
                                 MProperty prop = mAdv.mLocationProperties.get(mKey1);
                                 if (prop == null) {
-                                    throw new Exception("MoveLocationWhat: reference to " +
-                                            "non-existent location property: " + mKey1);
+                                    throw new Exception("MoveLocationWhat: non-existent " +
+                                            "location property: " + mKey1);
                                 }
                                 ret.append(" where value is ");
                                 switch (prop.getType()) {
@@ -1796,27 +1796,26 @@ public class MAction {
                 case SetProperties: {
                     MProperty prop = mAdv.mAllProperties.get(mKey2);
                     if (prop == null) {
-                        throw new Exception("SetProperties: reference to " +
-                                "non-existent property: " + mKey2);
+                        throw new Exception("SetProperties: non-existent property: " + mKey2);
                     }
                     ret = new StringBuilder("Set property '" + prop.getDescription() +
                             "' of " + mAdv.getNameFromKey(mKey1) + " to ");
                     boolean setVar = false;
                     if (mPropValue.length() > 2 &&
                             mPropValue.startsWith("%") && mPropValue.endsWith("%")) {
-                        for (MVariable v : mAdv.mVariables.values()) {
-                            if (mPropValue.equals("%" + v.getName() + "%")) {
-                                ret.append(mAdv.getNameFromKey(v.getKey()));
+                        for (MVariable var : mAdv.mVariables.values()) {
+                            if (mPropValue.equals("%" + var.getName() + "%")) {
+                                ret.append(mAdv.getNameFromKey(var.getKey()));
                                 setVar = true;
                                 break;
                             }
                         }
                     }
                     if (!setVar && prop.getType() == ValueList && isNumeric(mPropValue)) {
-                        for (String val : prop.mValueList.keySet()) {
-                            Integer vl = prop.mValueList.get(val);
-                            if (vl != null && cint(mPropValue) == vl) {
-                                ret.append("'").append(val).append("'");
+                        for (String key : prop.mValueList.keySet()) {
+                            Integer val = prop.mValueList.get(key);
+                            if (val != null && cint(mPropValue) == val) {
+                                ret.append("'").append(key).append("'");
                                 setVar = true;
                                 break;
                             }
@@ -1836,8 +1835,7 @@ public class MAction {
                 case DecreaseVariable: {
                     MVariable var = mAdv.mVariables.get(mKey1);
                     if (var == null) {
-                        throw new Exception("SetVariable: reference to " +
-                                "non-existent variable: " + mKey1);
+                        throw new Exception("SetVariable: non-existent variable: " + mKey1);
                     }
                     switch (mVariableType) {
                         case ASSIGNMENT:
@@ -1863,8 +1861,8 @@ public class MAction {
                                 } else {
                                     MVariable var2 = mAdv.mVariables.get(mKey2);
                                     if (var2 == null) {
-                                        throw new Exception("SetVariable: reference to " +
-                                                "non-existent variable: " + mKey2);
+                                        throw new Exception("SetVariable: non-existent " +
+                                                "variable: " + mKey2);
                                     }
                                     ret.append("[%").append(var2.getName()).append("%]");
                                 }
@@ -1878,13 +1876,7 @@ public class MAction {
                                     ret.append(" by ");
                                     break;
                             }
-                            if (var.getType() == Numeric) {
-                                ret.append("'").append(mStrValue).append("'");
-                            } else {
-                                // already has quotes around it -
-                                // oh really, not if it's an expression
-                                ret.append("'").append(mStrValue).append("'");
-                            }
+                            ret.append("'").append(mStrValue).append("'");
                             break;
                         case LOOP:
                             ret = new StringBuilder("FOR %Loop% = " + mIntValue + " TO " +
@@ -1906,7 +1898,8 @@ public class MAction {
                         case Execute:
                             ret.append("Execute ").append(tasName);
                             if (!mStrValue.equals("")) {
-                                ret.append(" (").append(mStrValue.replace("|", ", ")).append(")");
+                                ret.append(" (").append(mStrValue
+                                        .replace("|", ", ")).append(")");
                             }
                             break;
                         case Unset:
@@ -2049,10 +2042,10 @@ public class MAction {
         // Static or Dynamic Moves
         ToLocation,                 // 0
         ToSameLocationAs,           // 1, Object or Character
-        ToLocationGroup,            // 2, If static, moves to all locations.  If dynamic, moves to random location
+        ToLocationGroup,            // 2, If static, moves to all locations.
+        //    If dynamic, moves to random location
 
         // Dynamic Moves
-
         InsideObject,               // 3
         OntoObject,                 // 4
         ToCarriedBy,                // 5

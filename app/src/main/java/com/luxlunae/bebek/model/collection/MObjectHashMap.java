@@ -126,14 +126,14 @@ public class MObjectHashMap extends MItemHashMap<MObject> {
             case EverythingHeldBy: {
                 MCharacter ch = mAdv.mCharacters.get(key);
                 if (ch != null) {
-                    ret = ch.getHeldObjects();
+                    ret = ch.getHeldObs();
                 }
                 break;
             }
             case EverythingInGroup: {
                 MGroup grp = mAdv.mGroups.get(key);
                 if (grp != null) {
-                    for (String obKey : grp.getArlMembers()) {
+                    for (String obKey : grp.getMembers()) {
                         MObject ob = mAdv.mObjects.get(obKey);
                         if (ob != null) {
                             ret.put(obKey, ob);
@@ -145,14 +145,14 @@ public class MObjectHashMap extends MItemHashMap<MObject> {
             case EverythingInside: {
                 MObject ob = mAdv.mObjects.get(key);
                 if (ob != null) {
-                    ret = ob.getChildObjects(InsideObject);
+                    ret = ob.getChildObs(InsideObject);
                 }
                 break;
             }
             case EverythingOn: {
                 MObject ob = mAdv.mObjects.get(key);
                 if (ob != null) {
-                    ret = ob.getChildObjects(OnObject);
+                    ret = ob.getChildObs(OnObject);
                 }
                 break;
             }
@@ -177,7 +177,7 @@ public class MObjectHashMap extends MItemHashMap<MObject> {
             case EverythingWornBy: {
                 MCharacter ch = mAdv.mCharacters.get(key);
                 if (ch != null) {
-                    ret = ch.getWornObjects();
+                    ret = ch.getWornObs();
                 }
                 break;
             }
@@ -239,7 +239,7 @@ public class MObjectHashMap extends MItemHashMap<MObject> {
 
         if (includeSubObjects) {
             for (MObject ob : values()) {
-                MObjectHashMap obsOn = ob.getChildObjects(OnObject);
+                MObjectHashMap obsOn = ob.getChildObs(OnObject);
                 if (obsOn.size() > 0) {
                     if (ret.length() > 0) {
                         ret.append(".  ");
@@ -252,7 +252,7 @@ public class MObjectHashMap extends MItemHashMap<MObject> {
                     ret.append(ob.getFullName(Definite));
                 }
                 if (!ob.isOpenable() || ob.isOpen()) {
-                    MObjectHashMap obsIn = ob.getChildObjects(InsideObject);
+                    MObjectHashMap obsIn = ob.getChildObs(InsideObject);
                     if (obsIn.size() > 0) {
                         if (obsOn.size() > 0) {
                             ret.append(", and inside");

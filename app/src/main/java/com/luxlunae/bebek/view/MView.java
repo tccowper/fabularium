@@ -21,6 +21,7 @@
 
 package com.luxlunae.bebek.view;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.support.annotation.NonNull;
@@ -106,6 +107,14 @@ public class MView {
                 winmethod_Above | winmethod_Fixed, 1,
                 wintype_TextGrid, GLKConstants.NULL);
         inputBuf = ByteBuffer.allocateDirect(1000);
+    }
+
+    @Nullable
+    public Context getContext() {
+        if (mGLKModel != null) {
+            return mGLKModel.getApplicationContext();
+        }
+        return null;
     }
 
     private static String getSpaces(int n) {

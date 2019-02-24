@@ -88,12 +88,12 @@ public class MSubEvent implements Cloneable {
                                 s = xpp.nextText();
                                 if (!s.equals("")) {
                                     sData = s.split(" ");
-                                    mTurns.iFrom = VB.cint(sData[0]);
+                                    mTurns.mFrom = VB.cint(sData[0]);
                                     if (sData.length == 4) {
-                                        mTurns.iTo = VB.cint(sData[2]);
+                                        mTurns.mTo = VB.cint(sData[2]);
                                         mWhen = MSubEvent.WhenEnum.valueOf(sData[3]);
                                     } else {
-                                        mTurns.iTo = VB.cint(sData[0]);
+                                        mTurns.mTo = VB.cint(sData[0]);
                                         mWhen = MSubEvent.WhenEnum.valueOf(sData[1]);
                                     }
                                 }

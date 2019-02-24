@@ -31,9 +31,12 @@ import com.luxlunae.bebek.model.io.MFileOlder;
 import com.luxlunae.glk.GLKLogger;
 
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlSerializer;
 
 import java.io.EOFException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 
 import static com.luxlunae.bebek.MGlobals.REFERENCE_NAMES;
@@ -46,6 +49,8 @@ import static com.luxlunae.bebek.MGlobals.toProper;
 import static com.luxlunae.bebek.VB.cint;
 import static com.luxlunae.bebek.VB.isNumeric;
 import static com.luxlunae.bebek.VB.val;
+import static com.luxlunae.bebek.model.MAdventure.MGameState.restoreDisplayOnce;
+import static com.luxlunae.bebek.model.MAdventure.MGameState.saveDisplayOnce;
 import static com.luxlunae.bebek.model.MVariable.OpType.ASSIGNMENT;
 import static com.luxlunae.bebek.model.MVariable.TokenType.COMMA;
 import static com.luxlunae.bebek.model.MVariable.TokenType.EXPR;
@@ -2055,6 +2060,128 @@ public class MVariable extends MItem {
 
         void setR(@Nullable Token tok) {
             mRight = tok;
+        }
+    }
+
+    public static class MVariableState {
+        public String mKey;
+        @Nullable
+        public String[] mValue;
+        @NonNull
+        public final HashMap<String, Boolean> mDisplayedDescriptions = new HashMap<>();
+
+        MVariableState(@NonNull MVariable var) {
+            mKey = var.getKey();
+            mValue = new String[var.getLength()];
+            for (int i = 0; i < var.getLength(); i++) {
+                if (var.getType() == Numeric) {
+                    mValue[i] = String.valueOf(var.getIntAt(i + 1));
+                } else {
+                    mValue[i] = var.getStrAt(i + 1);
+                }
+            }
+            saveDisplayOnce(var.getAllDescriptions(), mDisplayedDescriptions);
+        }
+
+        MVariableState(@NonNull MAdventure adv, @NonNull XmlPullParser xpp) throws Exception {
+            xpp.require(START_TAG, null, "Variable");
+
+            int depth = xpp.getDepth();
+            int evType;
+            int nValues = 0;
+
+            while ((evType = xpp.nextTag()) != END_DOCUMENT && xpp.getDepth() > depth) {
+                if (evType == START_TAG) {
+                    String s = xpp.getName();
+                    if (s.startsWith("Value_") && s.length() > 6) {
+                        String indS = s.substring(6);
+                        try {
+                            int indI = Integer.valueOf(indS);
+                            if (indI < nValues) {
+                                mValue[indI] = xpp.nextText();
+                            }
+                        } catch (IllegalArgumentException e) {
+                            // ignore and continue
+                        }
+                    } else {
+                        switch (s) {
+                            case "Key": {
+                                mKey = xpp.nextText();
+                                MVariable var = adv.mVariables.get(mKey);
+                                if (var == null) {
+                                    throw new Exception("Variable " + mKey + " doesn't exist!");
+                                }
+                                nValues = var.getLength();
+                                mValue = new String[nValues];
+                                for (int i = 0; i < nValues; i++) {
+                                    if (var.getType() == Numeric) {
+                                        mValue[i] = "0";
+                                    } else {
+                                        mValue[i] = "";
+                                    }
+                                }
+                                break;
+                            }
+                            case "Value": {
+                                // Old style
+                                mValue[0] = xpp.nextText();
+                                break;
+                            }
+                            case "Displayed": {
+                                mDisplayedDescriptions.put(xpp.nextText(), true);
+                                break;
+                            }
+
+                        }
+                    }
+                }
+            }
+
+            xpp.require(END_TAG, null, "Variable");
+        }
+
+        public void serialize(@NonNull MAdventure adv, @NonNull XmlSerializer xs) throws IOException {
+            xs.startTag(null, "Variable");
+
+            xs.startTag(null, "Key");
+            xs.text(mKey);
+            xs.endTag(null, "Key");
+
+            MVariable var = adv.mVariables.get(mKey);
+            for (int i = 0; i < mValue.length; i++) {
+                if (var.getType() == Numeric) {
+                    if (!mValue[i].equals("0")) {
+                        xs.startTag(null, "Value_" + i);
+                        xs.text(mValue[i]);
+                        xs.endTag(null, "Value_" + i);
+                    }
+                } else {
+                    if (!mValue[i].equals("")) {
+                        xs.startTag(null, "Value_" + i);
+                        xs.text(mValue[i]);
+                        xs.endTag(null, "Value_" + i);
+                    }
+                }
+            }
+
+            for (String descKey : mDisplayedDescriptions.keySet()) {
+                xs.startTag(null, "Displayed");
+                xs.text(descKey);
+                xs.endTag(null, "Displayed");
+            }
+
+            xs.endTag(null, "Variable");
+        }
+
+        public void restore(@NonNull MVariable var) {
+            for (int i = 0; i < var.getLength(); i++) {
+                if (var.getType() == Numeric) {
+                    var.setAt(i + 1, var.mAdv.safeInt(mValue[i]));
+                } else {
+                    var.setAt(i + 1, mValue[i]);
+                }
+            }
+            restoreDisplayOnce(var.getAllDescriptions(), mDisplayedDescriptions);
         }
     }
 }

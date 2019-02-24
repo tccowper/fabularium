@@ -30,12 +30,10 @@
 
     <!-- Settings, should always be in the overflow -->
     <item
-        android:id="@+id/projaction_sortOrder"
         android:title="@string/menu_sortBy"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/projaction_settings"
         android:title="@string/menu_settings"
         app:showAsAction="never" />
 

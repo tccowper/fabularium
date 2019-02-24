@@ -153,18 +153,6 @@ public class MSingleDescription implements Cloneable {
         xppDesc.require(END_TAG, null, "Description");
     }
 
-    static DisplayWhenEnum MDisplayWhenEnumFromInt(int value) {
-        switch (value) {
-            default:
-            case 0:
-                return DisplayWhenEnum.StartDescriptionWithThis;
-            case 1:
-                return DisplayWhenEnum.StartAfterDefaultDescription;
-            case 2:
-                return DisplayWhenEnum.AppendToPreviousDescription;
-        }
-    }
-
     @Override
     @Nullable
     public MSingleDescription clone() {
@@ -179,6 +167,18 @@ public class MSingleDescription implements Cloneable {
     public enum DisplayWhenEnum {
         StartDescriptionWithThis,       // 0
         StartAfterDefaultDescription,   // 1
-        AppendToPreviousDescription     // 2
+        AppendToPreviousDescription;    // 2
+
+        static DisplayWhenEnum toDisplayWhen(int value) {
+            switch (value) {
+                default:
+                case 0:
+                    return StartDescriptionWithThis;
+                case 1:
+                    return StartAfterDefaultDescription;
+                case 2:
+                    return AppendToPreviousDescription;
+            }
+        }
     }
 }

@@ -68,7 +68,7 @@ import static com.luxlunae.bebek.model.MCharacter.Gender.Male;
 import static com.luxlunae.bebek.model.MCharacter.Gender.Unknown;
 import static com.luxlunae.bebek.model.MCharacter.MCharacterLocation.ExistsWhere.AtLocation;
 import static com.luxlunae.bebek.model.MCharacter.MCharacterLocation.ExistsWhere.OnObject;
-import static com.luxlunae.bebek.model.MCharacter.MCharacterLocation.MPositionEnumFromInt;
+import static com.luxlunae.bebek.model.MCharacter.MCharacterLocation.Position;
 import static com.luxlunae.bebek.model.MCharacter.PKEY_CHAR_POSITION;
 import static com.luxlunae.bebek.model.MCharacter.PKEY_KNOWN;
 import static com.luxlunae.bebek.model.MCharacter.PKEY_MAX_BULK;
@@ -118,7 +118,7 @@ public class MFileOlder {
         // the given set is contained in this set."
         for (MGroup agrp : adv.mGroups.values()) {
             if (agrp.getGroupType() == Locations) {
-                if (agrp.getArlMembers().equals(locs)) {
+                if (agrp.getMembers().equals(locs)) {
                     grp = agrp;
                     break;
                 }
@@ -129,7 +129,7 @@ public class MFileOlder {
             // No group found
             grp = new MGroup(adv);
             grp.setName("Generated group for " + description);
-            grp.getArlMembers().addAll(locs);
+            grp.getMembers().addAll(locs);
             grp.setKey("GeneratedLocationGroup" + (adv.mGroups.size() + 1));
             grp.setGroupType(Locations);
             adv.mGroups.put(grp.getKey(), grp);
@@ -442,8 +442,7 @@ public class MFileOlder {
             // within the game. You can also reference this text within
             // the game using the %player% keyword.
             String name = reader.readLine();                                // Player Name
-            player.setProperName(name.equals("") ?
-                    "Player" : name);
+            player.setProperName(name.equals("") ? "Player" : name);
 
             // You can allow the player to choose a name by selecting the
             // "Prompt for name" checkbox. This will default to whatever
@@ -475,9 +474,8 @@ public class MFileOlder {
             // sitting and lying. This can either be on the floor, or
             // on an object that has been defined as allowing sitting etc.
             MCharacter.MCharacterLocation playerLoc = player.getLocation();
-            playerLoc.setPosition(MPositionEnumFromInt(
-                    cint(reader.readLine()) + 1));                    // Position
-            int onWhat = cint(reader.readLine());                           // Parent Object
+            playerLoc.setPosition(Position.toPosition(cint(reader.readLine()) + 1)); // Position
+            int onWhat = cint(reader.readLine());                               // Parent Object
             if (onWhat == 0) {
                 playerLoc.setExistsWhere(AtLocation);
                 playerLoc.setKey("Location" + (iStartLocation + 1));

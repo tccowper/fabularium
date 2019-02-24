@@ -72,12 +72,12 @@ public class MSubWalk implements Cloneable {
                             eWhen = WhenEnum.ComesAcross;
                             sKey = sData[1];
                         } else {
-                            ftTurns.iFrom = VB.cint(sData[0]);
+                            ftTurns.mFrom = VB.cint(sData[0]);
                             if (sData.length == 4) {
-                                ftTurns.iTo = VB.cint(sData[2]);
+                                ftTurns.mTo = VB.cint(sData[2]);
                                 eWhen = WhenEnum.valueOf(sData[3]);
                             } else {
-                                ftTurns.iTo = VB.cint(sData[0]);
+                                ftTurns.mTo = VB.cint(sData[0]);
                                 eWhen = WhenEnum.valueOf(sData[1]);
                             }
                         }

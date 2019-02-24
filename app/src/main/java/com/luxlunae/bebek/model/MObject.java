@@ -34,8 +34,10 @@ import com.luxlunae.bebek.view.MView;
 import com.luxlunae.glk.GLKLogger;
 
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlSerializer;
 
 import java.io.EOFException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Pattern;
@@ -56,6 +58,8 @@ import static com.luxlunae.bebek.MGlobals.guessPluralNoun;
 import static com.luxlunae.bebek.MGlobals.toProper;
 import static com.luxlunae.bebek.VB.cbool;
 import static com.luxlunae.bebek.VB.cint;
+import static com.luxlunae.bebek.model.MAdventure.MGameState.restoreDisplayOnce;
+import static com.luxlunae.bebek.model.MAdventure.MGameState.saveDisplayOnce;
 import static com.luxlunae.bebek.model.MCharacter.MCharacterLocation.ExistsWhere.AtLocation;
 import static com.luxlunae.bebek.model.MObject.MObjectLocation.DynamicExistsWhereEnum.HeldByCharacter;
 import static com.luxlunae.bebek.model.MObject.MObjectLocation.DynamicExistsWhereEnum.Hidden;
@@ -74,6 +78,7 @@ import static com.luxlunae.bebek.model.MObject.WhereChildrenEnum.Everything;
 import static com.luxlunae.bebek.model.MObject.WhereChildrenEnum.InsideObject;
 import static com.luxlunae.bebek.model.MObject.WhereChildrenEnum.InsideOrOnObject;
 import static com.luxlunae.bebek.model.MProperty.PropertyOfEnum.Objects;
+import static com.luxlunae.bebek.model.MProperty.PropertyTypeEnum.SelectionOnly;
 import static com.luxlunae.bebek.model.MProperty.PropertyTypeEnum.StateList;
 import static com.luxlunae.bebek.model.MRestriction.MustEnum.Must;
 import static com.luxlunae.bebek.model.MRestriction.MustEnum.MustNot;
@@ -87,6 +92,7 @@ import static com.luxlunae.bebek.model.io.MFileOlder.ComboEnum.SurfaceContainer;
 import static com.luxlunae.bebek.model.io.MFileOlder.convertV4FuncsToV5;
 import static com.luxlunae.bebek.model.io.MFileOlder.getRoomGroupFromList;
 import static com.luxlunae.bebek.model.io.MFileOlder.loadResource;
+import static org.xmlpull.v1.XmlPullParser.END_DOCUMENT;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
@@ -1290,8 +1296,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
         setLocation(getLocation());
     }
 
-    void moveObject(@NonNull MAction.MoveObjectToEnum op,
-                    @NonNull String toKey) {
+    void move(@NonNull MAction.MoveObjectToEnum op, @NonNull String toKey) {
         // Work out where to move this object to, then move it
         MObjectLocation dest = new MObjectLocation(mAdv);
         switch (op) {
@@ -1486,10 +1491,8 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
 
     @Override
     @NonNull
-    public String evaluate(@NonNull String funcName,
-                           @NonNull String args,
-                           @NonNull String remainder,
-                           @NonNull boolean[] resultIsInteger) {
+    public String evaluate(@NonNull String funcName, @NonNull String args,
+                           @NonNull String remainder, @NonNull boolean[] resultIsInteger) {
         switch (funcName) {
             case "":
                 // ----------------------------------------
@@ -1582,7 +1585,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                     case "onandin":
                     case "all,onandin":
                         // Objects and characters that are INSIDE or ON this object.
-                        lst.addAll(getChildObjects(InsideOrOnObject, true).values());
+                        lst.addAll(getChildObs(InsideOrOnObject, true).values());
                         lst.addAll(getChildChars(InsideOrOnObject).values());
                         break;
                     case "characters,in":
@@ -1600,21 +1603,21 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                         break;
                     case "in":
                         // Objects and characters that are INSIDE this object.
-                        lst.addAll(getChildObjects(InsideObject, true).values());
+                        lst.addAll(getChildObs(InsideObject, true).values());
                         lst.addAll(getChildChars(InsideObject).values());
                         break;
                     case "objects,in":
                         // Objects that are INSIDE this object.
-                        lst.addAll(getChildObjects(InsideObject, true).values());
+                        lst.addAll(getChildObs(InsideObject, true).values());
                         break;
                     case "objects,on":
                         // Objects that are ON this object.
-                        lst.addAll(getChildObjects(WhereChildrenEnum.OnObject, true).values());
+                        lst.addAll(getChildObs(WhereChildrenEnum.OnObject, true).values());
                         break;
                     case "objects,onandin":
                     case "objects":
                         // Objects that are INSIDE or ON this object.
-                        lst.addAll(getChildObjects(InsideOrOnObject, true).values());
+                        lst.addAll(getChildObs(InsideOrOnObject, true).values());
                         break;
                 }
                 return mAdv.evalItemFunc(remainder, lst,
@@ -1651,14 +1654,14 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                 switch (args.toLowerCase()) {
                     case "":
                     case "all":
-                        lst.addAll(getChildObjects(InsideObject, true).values());
+                        lst.addAll(getChildObs(InsideObject, true).values());
                         lst.addAll(getChildChars(InsideObject).values());
                         break;
                     case "characters":
                         lst.addAll(getChildChars(InsideObject).values());
                         break;
                     case "objects":
-                        lst.addAll(getChildObjects(InsideObject, true).values());
+                        lst.addAll(getChildObs(InsideObject, true).values());
                         break;
                 }
                 return mAdv.evalItemFunc(remainder, lst,
@@ -2061,7 +2064,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                 case NoRooms:
                     return locKey.equals(HIDDEN);
                 case LocationGroup:
-                    return mAdv.mGroups.get(myLocKey).getArlMembers().contains(locKey);
+                    return mAdv.mGroups.get(myLocKey).getMembers().contains(locKey);
                 case SingleLocation:
                     return locKey.equals(myLocKey);
                 case PartOfCharacter:
@@ -2234,7 +2237,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                     // Part of a location group.
                     // Add all of the locations in that
                     // group to the hash map.
-                    for (String key : mAdv.mGroups.get(myLocKey).getArlMembers()) {
+                    for (String key : mAdv.mGroups.get(myLocKey).getMembers()) {
                         ret.put(key, mAdv.mLocations.get(key));
                     }
                     break;
@@ -2567,7 +2570,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
             chKey = mAdv.getPlayer().getKey();
         }
         MCharacter ch = mAdv.mCharacters.get(chKey);
-        return (ch != null) && ch.hasSeenObject(getKey());
+        return (ch != null) && ch.hasSeenOb(getKey());
     }
 
     public void setHasBeenSeenBy(@NonNull String chKey) {
@@ -2604,7 +2607,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                 default:
                     MGroup grp = mAdv.mGroups.get(myBoundVisible);
                     return (grp != null) ?
-                            grp.getArlMembers().contains(charBoundVisible) :
+                            grp.getMembers().contains(charBoundVisible) :
                             myBoundVisible.equals(charBoundVisible);
             }
         } catch (Exception e) {
@@ -2636,7 +2639,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                 default:
                     MGroup grp = mAdv.mGroups.get(myBoundVisible);
                     return (grp != null) ?
-                            grp.getArlMembers().contains(locKey) :
+                            grp.getMembers().contains(locKey) :
                             myBoundVisible.equals(locKey);
             }
         } catch (Exception e) {
@@ -2836,7 +2839,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                 dest.mDynamicExistWhere == OnObject) {
             String destKey = dest.getKey();
             if (destKey.equals(myKey) ||
-                    mAdv.mObjects.get(myKey).getChildObjects(Everything).containsKey(destKey)) {
+                    mAdv.mObjects.get(myKey).getChildObs(Everything).containsKey(destKey)) {
                 mAdv.mView.displayError("Can't move object " + getFullName() + " " +
                         (dest.mDynamicExistWhere == InObject ? "inside" : "onto") +
                         " " + mAdv.mObjects.get(destKey).getFullName() +
@@ -2854,13 +2857,13 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
             // code commented out below. But is it equivalent?
             // Test carefully...!
             for (MCharacter ch : mAdv.mCharacters.values()) {
-                if (!ch.hasSeenObject(myKey) && ch.canSeeObject(myKey)) {
+                if (!ch.hasSeenOb(myKey) && ch.canSeeOb(myKey)) {
                     ch.setHasSeenObject(myKey, true);
                 }
             }
          /* for (MLocation loc : getRootLocations().values()) {
                 if (loc != null && isVisibleAt(loc.getKey())) {
-                    for (MCharacter ch : mAdv.mLocations.get(loc.getKey()).getCharactersVisibleAtLocation().values()) {
+                    for (MCharacter ch : mAdv.mLocations.get(loc.getKey()).getCharsVisibleAtLoc().values()) {
                         ch.setHasSeenObject(getKey(), true);
                     }
                 }
@@ -2919,8 +2922,8 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
     }
 
     @NonNull
-    public MObjectHashMap getChildObjects(WhereChildrenEnum where) {
-        return getChildObjects(where, false);
+    public MObjectHashMap getChildObs(WhereChildrenEnum where) {
+        return getChildObs(where, false);
     }
 
     /**
@@ -2940,7 +2943,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
      * @return the group of child or descendant objects.
      */
     @NonNull
-    public MObjectHashMap getChildObjects(WhereChildrenEnum where, boolean bRecursive) {
+    public MObjectHashMap getChildObs(WhereChildrenEnum where, boolean bRecursive) {
         MObjectHashMap ret = new MObjectHashMap(mAdv);
 
         for (MObject ob : mAdv.mObjects.values()) {
@@ -2993,7 +2996,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                         // We also need to add all of the child objects
                         // of this child object.
                         for (MObject obChild :
-                                ob.getChildObjects(Everything, true).values()) {
+                                ob.getChildObs(Everything, true).values()) {
                             ret.put(obChild.getKey(), obChild);
                         }
                     }
@@ -3020,7 +3023,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
                     if (chLoc.getKey().equals(getKey())) {
                         // Yes, so add its child objects to the
                         // return hash map.
-                        for (MObject childOb : ch.getChildObjects(true).values()) {
+                        for (MObject childOb : ch.getChildObs(true).values()) {
                             ret.put(childOb.getKey(), childOb);
                         }
                     }
@@ -3046,12 +3049,12 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
      * @return the string.
      */
     @NonNull
-    public String displayChildObjects() {
+    String displayChildObjects() {
         StringBuilder ret = new StringBuilder();
         String myName = getFullName(Definite);
 
         // Are there any objects on this object?
-        MObjectHashMap obsOn = getChildObjects(WhereChildrenEnum.OnObject);
+        MObjectHashMap obsOn = getChildObs(WhereChildrenEnum.OnObject);
         int nObOn = obsOn.size();
         boolean isObOn = (nObOn > 0);
         if (isObOn) {
@@ -3068,7 +3071,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
         boolean isObIn = false;
         boolean isUnopenableOrOpen = !isOpenable() || isOpen();
         if (isUnopenableOrOpen) {
-            MObjectHashMap obsIn = getChildObjects(InsideObject);
+            MObjectHashMap obsIn = getChildObs(InsideObject);
             int nObIn = obsIn.size();
             if (nObIn > 0) {
                 // Yes - add descriptions of all objects inside this object
@@ -3142,7 +3145,7 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
      * @return the string.
      */
     @NonNull
-    public String displayChildChars() {
+    String displayChildChars() {
         StringBuilder ret = new StringBuilder();
 
         // Are there any characters standing on this object?
@@ -3235,12 +3238,12 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
 
     @Override
     public int getKeyRefCount(@NonNull String key) {
-        int iCount = 0;
+        int ret = 0;
         for (MDescription d : getAllDescriptions()) {
-            iCount += d.getNumberOfKeyRefs(key);
+            ret += d.getNumberOfKeyRefs(key);
         }
-        iCount += getLocalProperties().getNumberOfKeyRefs(key);
-        return iCount;
+        ret += getLocalProperties().getNumberOfKeyRefs(key);
+        return ret;
     }
 
     @NonNull
@@ -3342,6 +3345,140 @@ public class MObject extends MItemWithProperties implements MItemFunctionEvaluat
             AllRooms,           // 3
             PartOfCharacter,    // 4
             PartOfObject        // 5
+        }
+    }
+
+    public static class MObjectState {
+        @Nullable
+        final MObjectLocation mLocation;
+        @NonNull
+        final HashMap<String, MProperty.MPropertyState> mProperties = new HashMap<>();
+        @NonNull
+        public final HashMap<String, Boolean> mDisplayedDescriptions = new HashMap<>();
+        @Nullable
+        public String mKey;
+
+        MObjectState(@NonNull MObject ob) {
+            mKey = ob.getKey();
+            mLocation = ob.getLocation().copy();
+            for (MProperty prop : ob.getLocalProperties().values()) {
+                mProperties.put(prop.getKey(), new MProperty.MPropertyState(prop));
+            }
+            saveDisplayOnce(ob.getAllDescriptions(), mDisplayedDescriptions);
+        }
+
+        MObjectState(@NonNull MAdventure adv, @NonNull XmlPullParser xpp) throws Exception {
+            xpp.require(START_TAG, null, "Object");
+
+            int depth = xpp.getDepth();
+            int eventType;
+
+            mLocation = new MObject.MObjectLocation(adv);
+            mLocation.mDynamicExistWhere = Hidden;
+            mLocation.mStaticExistWhere = NoRooms;
+
+            while ((eventType = xpp.nextTag()) != END_DOCUMENT &&
+                    xpp.getDepth() > depth) {
+                if (eventType == START_TAG) {
+                    switch (xpp.getName()) {
+                        case "Key": {
+                            mKey = xpp.nextText();
+                            break;
+                        }
+                        case "DynamicExistWhere": {
+                            mLocation.mDynamicExistWhere =
+                                    MObject.MObjectLocation.DynamicExistsWhereEnum.valueOf(xpp.nextText());
+                            break;
+                        }
+                        case "StaticExistWhere": {
+                            mLocation.mStaticExistWhere =
+                                    MObject.MObjectLocation.StaticExistsWhereEnum.valueOf(xpp.nextText());
+                            break;
+                        }
+                        case "LocationKey": {
+                            mLocation.setKey(xpp.nextText());
+                            break;
+                        }
+                        case "Property": {
+                            MProperty.MPropertyState prop = new MProperty.MPropertyState(xpp);
+                            mProperties.put(prop.mKey, prop);
+                            break;
+                        }
+                        case "Displayed": {
+                            mDisplayedDescriptions.put(xpp.nextText(), true);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            xpp.require(END_TAG, null, "Object");
+        }
+
+        public void serialize(@NonNull XmlSerializer xs) throws IOException {
+            xs.startTag(null, "Object");
+
+            xs.startTag(null, "Key");
+            xs.text(mKey);
+            xs.endTag(null, "Key");
+
+            if (mLocation != null) {
+                if (mLocation.mDynamicExistWhere != Hidden) {
+                    xs.startTag(null, "DynamicExistWhere");
+                    xs.text(mLocation.mDynamicExistWhere.toString());
+                    xs.endTag(null, "DynamicExistWhere");
+                }
+
+                if (mLocation.mStaticExistWhere != NoRooms) {
+                    xs.startTag(null, "StaticExistWhere");
+                    xs.text(mLocation.mStaticExistWhere.toString());
+                    xs.endTag(null, "StaticExistWhere");
+                }
+
+                xs.startTag(null, "LocationKey");
+                xs.text(mLocation.getKey());
+                xs.endTag(null, "LocationKey");
+            }
+
+            for (MProperty.MPropertyState sprop : mProperties.values()) {
+                sprop.serialize(xs);
+            }
+
+            for (String descKey : mDisplayedDescriptions.keySet()) {
+                xs.startTag(null, "Displayed");
+                xs.text(descKey);
+                xs.endTag(null, "Displayed");
+            }
+
+            xs.endTag(null, "Object");
+        }
+
+        public void restore(@NonNull MObject ob) {
+            ob.setLocation(mLocation.copy());
+            ArrayList<String> toDelete = new ArrayList<>();
+            for (MProperty prop : ob.getProperties().values()) {
+                MProperty.MPropertyState sprop = mProperties.get(prop.getKey());
+                if (sprop != null) {
+                    prop.setValue(sprop.mValue);
+                } else {
+                    toDelete.add(prop.getKey());
+                }
+            }
+            for (String key : toDelete) {
+                ob.removeProperty(key);
+            }
+            for (String key : mProperties.keySet()) {
+                if (!ob.getLocalProperties().containsKey(key)) {
+                    MProperty prop = ob.mAdv.mObjectProperties.get(key);
+                    if (prop != null && prop.getType() == SelectionOnly) {
+                        prop = prop.clone();
+                        prop.setSelected(true);
+                        ob.addProperty(prop);
+                    }
+                }
+            }
+            ob.resetInherited();
+            restoreDisplayOnce(ob.getAllDescriptions(), mDisplayedDescriptions);
         }
     }
 }

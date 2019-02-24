@@ -90,7 +90,7 @@ public class MCharacterHashMap extends MItemHashMap<MCharacter> {
             chKey = mAdv.getPlayer().getKey();
         }
         for (MCharacter ch : values()) {
-            if (ch.canSeeCharacter(chKey)) {
+            if (ch.canSeeChar(chKey)) {
                 ret.put(ch.getKey(), ch);
             }
         }
@@ -112,14 +112,14 @@ public class MCharacterHashMap extends MItemHashMap<MCharacter> {
             case EveryoneAtLocation: {
                 MLocation loc = mAdv.mLocations.get(key);
                 if (loc != null) {
-                    ret = loc.getCharactersDirectlyInLocation(true);
+                    ret = loc.getCharsDirectlyInLoc(true);
                 }
                 break;
             }
             case EveryoneInGroup: {
                 MGroup grp = mAdv.mGroups.get(key);
                 if (grp != null) {
-                    for (String chKey : grp.getArlMembers()) {
+                    for (String chKey : grp.getMembers()) {
                         MCharacter ch = mAdv.mCharacters.get(chKey);
                         if (ch != null) {
                             ret.put(chKey, ch);

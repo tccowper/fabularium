@@ -28,7 +28,9 @@ import com.luxlunae.bebek.MGlobals;
 import com.luxlunae.bebek.model.collection.MStringArrayList;
 
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlSerializer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -41,6 +43,7 @@ import static com.luxlunae.bebek.model.MProperty.PropertyTypeEnum.SelectionOnly;
 import static com.luxlunae.bebek.model.MProperty.PropertyTypeEnum.StateList;
 import static com.luxlunae.bebek.model.MVariable.VariableType.Numeric;
 import static com.luxlunae.bebek.model.MVariable.VariableType.Text;
+import static org.xmlpull.v1.XmlPullParser.END_DOCUMENT;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
@@ -944,5 +947,60 @@ public class MProperty extends MItem {
         LocationKey,            // 6
         LocationGroupKey,       // 7
         ValueList               // 8
+    }
+
+    public static class MPropertyState {
+        @Nullable
+        public String mKey;
+        @Nullable
+        public String mValue;
+
+        MPropertyState(@NonNull MProperty prop) {
+            mKey = prop.getKey();
+            mValue = prop.getValue(true);
+        }
+
+        MPropertyState(@NonNull String key, @NonNull String value) {
+            mKey = key;
+            mValue = value;
+        }
+
+        MPropertyState(@NonNull XmlPullParser xpp) throws Exception {
+            xpp.require(START_TAG, null, "Property");
+
+            int depth = xpp.getDepth();
+            int evType;
+
+            while ((evType = xpp.nextTag()) != END_DOCUMENT && xpp.getDepth() > depth) {
+                if (evType == START_TAG) {
+                    switch (xpp.getName()) {
+                        case "Key": {
+                            mKey = xpp.nextText();
+                            break;
+                        }
+                        case "Value": {
+                            mValue = xpp.nextText();
+                            break;
+                        }
+                    }
+                }
+            }
+
+            xpp.require(END_TAG, null, "Property");
+        }
+
+        public void serialize(@NonNull XmlSerializer xs) throws IOException {
+            xs.startTag(null, "Property");
+
+            xs.startTag(null, "Key");
+            xs.text(mKey);
+            xs.endTag(null, "Key");
+
+            xs.startTag(null, "Value");
+            xs.text(mValue);
+            xs.endTag(null, "Value");
+
+            xs.endTag(null, "Property");
+        }
     }
 }

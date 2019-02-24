@@ -32,6 +32,8 @@ import org.xmlpull.v1.XmlPullParser;
 import java.io.EOFException;
 import java.util.ArrayList;
 
+import static com.luxlunae.bebek.model.io.MFileOlder.convertV4FuncsToV5;
+import static org.xmlpull.v1.XmlPullParser.END_DOCUMENT;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
@@ -70,17 +72,17 @@ public class MALR extends MItem {
      * @param reader - the file reader. When this constructor is called, the
      *               reader should be positioned at the start of the ALR
      *               object in the file.
-     * @param iALR   - the number of this ALR.
+     * @param alrID   - the number of this ALR.
      * @throws EOFException - if the reader encounters EOF before we have loaded
      *                      all the expected fields of the ALR object (i.e. file is malformed).
      */
     public MALR(@NonNull MAdventure adv,
-                @NonNull MFileOlder.V4Reader reader, int iALR) throws EOFException {
+                @NonNull MFileOlder.V4Reader reader, int alrID) throws EOFException {
         this(adv);
 
-        setKey("ALR" + iALR);
+        setKey("ALR" + alrID);
         setOldText(reader.readLine());
-        setNewText(new MDescription(adv, MFileOlder.convertV4FuncsToV5(adv, reader.readLine())));
+        setNewText(new MDescription(adv, convertV4FuncsToV5(adv, reader.readLine())));
     }
 
     /**
@@ -90,15 +92,15 @@ public class MALR extends MItem {
      * @param xpp               - the XML parser. When this constructor is called this
      *                          parser should be positioned at the opening tag of the ALR
      *                          object in the file.
-     * @param bLibrary          - whether were are loading from a library file.
-     * @param bAddDuplicateKeys - whether this ALR should be loaded if it has the
+     * @param isLib          - whether were are loading from a library file.
+     * @param addDupKeys - whether this ALR should be loaded if it has the
      *                          same key as another item that has already been loaded.
-     * @param dFileVersion      - the ADRIFT version used to create the XML file attached
+     * @param version      - the ADRIFT version used to create the XML file attached
      *                          to the XML parser.
      * @throws Exception - if XML parser encounters invalid XML tags, EOF, etc.
      */
-    public MALR(@NonNull MAdventure adv, @NonNull XmlPullParser xpp, boolean bLibrary,
-                boolean bAddDuplicateKeys, double dFileVersion) throws Exception {
+    public MALR(@NonNull MAdventure adv, @NonNull XmlPullParser xpp,
+                boolean isLib, boolean addDupKeys, double version) throws Exception {
         this(adv);
 
         xpp.require(START_TAG, null, "TextOverride");
@@ -107,8 +109,7 @@ public class MALR extends MItem {
         int depth = xpp.getDepth();
         int eventType;
 
-        while ((eventType = xpp.nextTag()) != XmlPullParser.END_DOCUMENT &&
-                xpp.getDepth() > depth) {
+        while ((eventType = xpp.nextTag()) != END_DOCUMENT && xpp.getDepth() > depth) {
             if (eventType == START_TAG) {
                 switch (xpp.getName()) {
                     default:
@@ -121,15 +122,14 @@ public class MALR extends MItem {
 
                     case "NewText":
                         setNewText(new MDescription(adv, xpp,
-                                dFileVersion, "NewText"));
+                                version, "NewText"));
                         break;
                 }
             }
         }
         xpp.require(END_TAG, null, "TextOverride");
 
-        if (!header.finalise(this, adv.mALRs,
-                bLibrary, bAddDuplicateKeys, null)) {
+        if (!header.finalise(this, adv.mALRs, isLib, addDupKeys, null)) {
             throw new Exception();
         }
     }
@@ -181,21 +181,21 @@ public class MALR extends MItem {
     @Override
     public int findLocal(@NonNull String toFind, String toReplace,
                          boolean findAll, @NonNull int[] nReplaced) {
-        int iCount = nReplaced[0];
+        int nReplacedIn = nReplaced[0];
         String[] t = new String[1];
         t[0] = mOldText;
         nReplaced[0] += MGlobals.find(t, toFind, toReplace);
         mOldText = t[0];
-        return nReplaced[0] - iCount;
+        return nReplaced[0] - nReplacedIn;
     }
 
     @Override
     public int getKeyRefCount(@NonNull String key) {
-        int iCount = 0;
+        int ret = 0;
         for (MDescription d : getAllDescriptions()) {
-            iCount += d.getNumberOfKeyRefs(key);
+            ret += d.getNumberOfKeyRefs(key);
         }
-        return iCount;
+        return ret;
     }
 
     @NonNull

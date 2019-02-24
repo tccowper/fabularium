@@ -33,9 +33,9 @@ public final class GLKLogger {
     private static final String GLK_LOG = "glk.log";
 
     // Enable or disable passing messages through to Android logger
-    private static final boolean LOG_WARN = false;
-    private static final boolean LOG_DEBUG = false;
-    private static final boolean LOG_ERROR = false;
+    private static final boolean LOG_WARN = true;
+    private static final boolean LOG_DEBUG = true;
+    private static final boolean LOG_ERROR = true;
     private static GLKLogger mInstance;
     @Nullable
     private static FileWriter mFile;

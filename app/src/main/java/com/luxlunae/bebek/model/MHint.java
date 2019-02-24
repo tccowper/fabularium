@@ -33,6 +33,8 @@ import org.xmlpull.v1.XmlPullParser;
 import java.io.EOFException;
 import java.util.ArrayList;
 
+import static com.luxlunae.bebek.model.io.MFileOlder.convertV4FuncsToV5;
+import static org.xmlpull.v1.XmlPullParser.END_DOCUMENT;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
@@ -60,13 +62,12 @@ public class MHint extends MItem {
 
         setKey("Hint" + String.valueOf(adv.mHints.size() + 1));
         setQuestion(question);
-        setSubtleHint(new MDescription(adv, MFileOlder.convertV4FuncsToV5(adv, reader.readLine())));
-        setSledgeHammerHint(new MDescription(adv, MFileOlder.convertV4FuncsToV5(adv, reader.readLine())));
+        setSubtleHint(new MDescription(adv, convertV4FuncsToV5(adv, reader.readLine())));
+        setSledgeHammerHint(new MDescription(adv, convertV4FuncsToV5(adv, reader.readLine())));
     }
 
-    public MHint(@NonNull MAdventure adv,
-                 @NonNull XmlPullParser xpp,
-                 boolean isLibrary, boolean addDuplicateKeys, double version) throws Exception {
+    public MHint(@NonNull MAdventure adv, @NonNull XmlPullParser xpp,
+                 boolean isLib, boolean addDupKeys, double version) throws Exception {
         // ADRIFT V5 Loader
         this(adv);
 
@@ -74,11 +75,10 @@ public class MHint extends MItem {
 
         ItemHeaderDetails header = new ItemHeaderDetails();
         int depth = xpp.getDepth();
-        int eventType;
+        int evType;
 
-        while ((eventType = xpp.nextTag()) != XmlPullParser.END_DOCUMENT &&
-                xpp.getDepth() > depth) {
-            if (eventType == START_TAG) {
+        while ((evType = xpp.nextTag()) != END_DOCUMENT && xpp.getDepth() > depth) {
+            if (evType == START_TAG) {
                 switch (xpp.getName()) {
                     default:
                         header.processTag(xpp);
@@ -104,8 +104,7 @@ public class MHint extends MItem {
         }
         xpp.require(END_TAG, null, "Hint");
 
-        if (!header.finalise(this, adv.mHints,
-                isLibrary, addDuplicateKeys, null)) {
+        if (!header.finalise(this, adv.mHints, isLib, addDupKeys, null)) {
             throw new Exception();
         }
     }
@@ -169,14 +168,13 @@ public class MHint extends MItem {
     }
 
     @Override
-    protected int findLocal(@NonNull String toFind,
-                            @Nullable String toReplace,
+    protected int findLocal(@NonNull String toFind, @Nullable String toReplace,
                             boolean findAll, @NonNull int[] nReplaced) {
-        int iCount = nReplaced[0];
+        int nReplacedIn = nReplaced[0];
         String[] q = new String[1];
         q[0] = mQuestion;
         nReplaced[0] += MGlobals.find(q, toFind, toReplace);
-        return nReplaced[0] - iCount;
+        return nReplaced[0] - nReplacedIn;
     }
 
     @Override

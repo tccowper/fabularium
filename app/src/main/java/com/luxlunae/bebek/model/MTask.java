@@ -43,6 +43,7 @@ import com.luxlunae.glk.GLKLogger;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlSerializer;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -69,6 +70,8 @@ import static com.luxlunae.bebek.model.MAction.ItemEnum.DecreaseVariable;
 import static com.luxlunae.bebek.model.MAction.ItemEnum.IncreaseVariable;
 import static com.luxlunae.bebek.model.MAction.ItemEnum.SetTasks;
 import static com.luxlunae.bebek.model.MAction.ItemEnum.SetVariable;
+import static com.luxlunae.bebek.model.MAdventure.MGameState.restoreDisplayOnce;
+import static com.luxlunae.bebek.model.MAdventure.MGameState.saveDisplayOnce;
 import static com.luxlunae.bebek.model.MAdventure.MTasksListEnum.SpecificTasks;
 import static com.luxlunae.bebek.model.MAdventure.TaskExecutionEnum.HighestPriorityPassingTask;
 import static com.luxlunae.bebek.model.MEventOrWalkControl.CompleteOrNotEnum.Completion;
@@ -96,6 +99,7 @@ import static com.luxlunae.bebek.model.io.MFileOlder.loadResource;
 import static com.luxlunae.bebek.view.MView.DebugDetailLevelEnum.High;
 import static com.luxlunae.bebek.view.MView.DebugDetailLevelEnum.Low;
 import static com.luxlunae.bebek.view.MView.DebugDetailLevelEnum.Medium;
+import static org.xmlpull.v1.XmlPullParser.END_DOCUMENT;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
@@ -1557,9 +1561,9 @@ public class MTask extends MItem {
                         MWalk started = null;
                         for (MWalk w : ch.mWalks) {
                             for (MEventOrWalkControl ctrl : w.mWalkControls) {
-                                if (ctrl.eCompleteOrNot == UnCompletion &&
+                                if (ctrl.mCompleteOrNot == UnCompletion &&
                                         ctrl.mTaskKey.equals(getKey())) {
-                                    switch (ctrl.eControl) {
+                                    switch (ctrl.mControl) {
                                         case Resume:
                                             if (w.mStatus == Paused) {
                                                 w.resume();
@@ -1601,9 +1605,9 @@ public class MTask extends MItem {
                     }
                     for (MEvent ev : mAdv.mEvents.values()) {
                         for (MEventOrWalkControl ctrl : ev.mEventControls) {
-                            if (ctrl.eCompleteOrNot == UnCompletion &&
+                            if (ctrl.mCompleteOrNot == UnCompletion &&
                                     ctrl.mTaskKey.equals(getKey())) {
-                                switch (ctrl.eControl) {
+                                switch (ctrl.mControl) {
                                     case Resume:
                                         if (ev.mStatus == MEvent.StatusEnum.Paused) {
                                             ev.resume();
@@ -1909,7 +1913,7 @@ public class MTask extends MItem {
                             boolean canSeeAny = false;
                             for (String obKey : itm.mMatchingKeys) {
                                 obs.put(obKey, mAdv.mObjects.get(obKey));
-                                if (!canSeeAny && mAdv.getPlayer().canSeeObject(obKey)) {
+                                if (!canSeeAny && mAdv.getPlayer().canSeeOb(obKey)) {
                                     canSeeAny = true;
                                 }
                             }
@@ -1953,7 +1957,7 @@ public class MTask extends MItem {
                             boolean canSeeAny = false;
                             for (String chKey : itm.mMatchingKeys) {
                                 chars.put(chKey, mAdv.mCharacters.get(chKey));
-                                if (!canSeeAny && mAdv.getPlayer().canSeeCharacter(chKey)) {
+                                if (!canSeeAny && mAdv.getPlayer().canSeeChar(chKey)) {
                                     canSeeAny = true;
                                 }
                             }
@@ -2159,7 +2163,7 @@ public class MTask extends MItem {
                                     break;
                                 case Character:
                                     if ((ch = mAdv.mCharacters.get(itmKey)) != null) {
-                                        if (!ch.canSeeCharacter(playerKey)) {
+                                        if (!ch.canSeeChar(playerKey)) {
                                             itm.mMatchingKeys.remove(i);
                                         }
                                     }
@@ -2178,7 +2182,7 @@ public class MTask extends MItem {
                                             itm.mMatchingKeys.remove(i);
                                         }
                                     } else if ((ch = mAdv.mCharacters.get(itmKey)) != null) {
-                                        if (!ch.canSeeCharacter(playerKey)) {
+                                        if (!ch.canSeeChar(playerKey)) {
                                             itm.mMatchingKeys.remove(i);
                                         }
                                     }
@@ -2540,14 +2544,14 @@ public class MTask extends MItem {
                 MWalk started = null;
                 for (MWalk w : c.mWalks) {
                     for (MEventOrWalkControl ctrl : w.mWalkControls) {
-                        if (ctrl.eCompleteOrNot == Completion &&
+                        if (ctrl.mCompleteOrNot == Completion &&
                                 ctrl.mTaskKey.equals(getKey())) {
                             // If a child task of the current task has affected
                             // the walk control, ignore this as a trigger
                             if (w.mTriggeringTask.equals("") ||
                                     !getChildTasks(true)
                                             .contains(w.mTriggeringTask)) {
-                                switch (ctrl.eControl) {
+                                switch (ctrl.mControl) {
                                     case Resume:
                                         w.resume();
                                         started = w;
@@ -2584,14 +2588,14 @@ public class MTask extends MItem {
 
             for (MEvent e : mAdv.mEvents.values()) {
                 for (MEventOrWalkControl ctrl : e.mEventControls) {
-                    if (ctrl.eCompleteOrNot == Completion &&
+                    if (ctrl.mCompleteOrNot == Completion &&
                             ctrl.mTaskKey.equals(getKey())) {
                         // If a child task of the current task has affected
                         // the walk control, ignore this as a trigger
                         if (e.mTriggeringTask.equals("") ||
                                 !getChildTasks(true)
                                         .contains(e.mTriggeringTask)) {
-                            switch (ctrl.eControl) {
+                            switch (ctrl.mControl) {
                                 case Resume:
                                     e.resume();
                                     break;
@@ -3512,7 +3516,7 @@ public class MTask extends MItem {
                             mRefs.set(nNewRefs - 1, newRef);
                             newRef.mRefMatch = grpName;
                             for (MAdventure.DirectionsEnum dr : MAdventure.DirectionsEnum.values()) {
-                                String sDirTest = mAdv.getDirectionRE(dr, true, true);
+                                String sDirTest = mAdv.getDirectionRE(dr);
                                 if (grpVal.matches("^" + sDirTest + "$")) {
                                     MReference.MReferenceItem itm = new MReference.MReferenceItem();
                                     itm.mMatchingKeys.add(dr.toString());
@@ -4465,6 +4469,84 @@ public class MTask extends MItem {
             spec.mMultiple = mMultiple;
             spec.mKeys = mKeys.clone();
             return spec;
+        }
+    }
+
+    public static class MTaskState {
+        public String mKey;
+        boolean mCompleted;
+        boolean mScored;
+        @NonNull
+        public final HashMap<String, Boolean> mDisplayedDescriptions = new HashMap<>();
+
+        MTaskState(@NonNull MTask tas) {
+            mKey = tas.getKey();
+            mCompleted = tas.getCompleted();
+            mScored = tas.mIsScored;
+            saveDisplayOnce(tas.getAllDescriptions(), mDisplayedDescriptions);
+        }
+
+        MTaskState(@NonNull XmlPullParser xpp) throws Exception {
+            xpp.require(START_TAG, null, "Task");
+
+            int depth = xpp.getDepth();
+            int evType;
+
+            while ((evType = xpp.nextTag()) != END_DOCUMENT && xpp.getDepth() > depth) {
+                if (evType == START_TAG) {
+                    switch (xpp.getName()) {
+                        case "Key": {
+                            mKey = xpp.nextText();
+                            break;
+                        }
+                        case "Completed": {
+                            mCompleted = cbool(xpp.nextText());
+                            break;
+                        }
+                        case "Scored": {
+                            mScored = cbool(xpp.nextText());
+                            break;
+                        }
+                        case "Displayed": {
+                            mDisplayedDescriptions.put(xpp.nextText(), true);
+                            break;
+                        }
+
+                    }
+                }
+            }
+
+            xpp.require(END_TAG, null, "Task");
+        }
+
+        public void serialize(@NonNull XmlSerializer xs) throws IOException {
+            xs.startTag(null, "Task");
+
+            xs.startTag(null, "Key");
+            xs.text(mKey);
+            xs.endTag(null, "Key");
+
+            xs.startTag(null, "Completed");
+            xs.text(String.valueOf(mCompleted));
+            xs.endTag(null, "Completed");
+
+            xs.startTag(null, "Scored");
+            xs.text(String.valueOf(mScored));
+            xs.endTag(null, "Scored");
+
+            for (String descKey : mDisplayedDescriptions.keySet()) {
+                xs.startTag(null, "Displayed");
+                xs.text(descKey);
+                xs.endTag(null, "Displayed");
+            }
+
+            xs.endTag(null, "Task");
+        }
+
+        public void restore(@NonNull MTask tas) {
+            tas.setCompleted(mCompleted);
+            tas.mIsScored = mScored;
+            restoreDisplayOnce(tas.getAllDescriptions(), mDisplayedDescriptions);
         }
     }
 

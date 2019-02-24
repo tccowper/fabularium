@@ -61,7 +61,6 @@ import static com.luxlunae.bebek.MGlobals.OBJECTARTICLE;
 import static com.luxlunae.bebek.MGlobals.OBJECTNOUN;
 import static com.luxlunae.bebek.MGlobals.OBJECTPREFIX;
 import static com.luxlunae.bebek.MGlobals.SHORTLOCATIONDESCRIPTION;
-import static com.luxlunae.bebek.MGlobals.dateFormatter;
 import static com.luxlunae.bebek.MGlobals.getBool;
 import static com.luxlunae.bebek.model.MCharacter.CharacterType.NonPlayer;
 import static com.luxlunae.bebek.model.MProperty.PropertyOfEnum.Characters;
@@ -475,7 +474,6 @@ class MFile500 {
 
                     case "LastUpdated":
                         adv.mCompatCompileDate = xpp.nextText();
-                        adv.setLastUpdated(dateFormatter.parse(adv.mCompatCompileDate));
                         return true;
 
                     case "FontName":

@@ -708,10 +708,10 @@ public class MRestriction {
                     switch (mKey1) {
                         case PLAYERLOCATION:
                             return mAdv.mGroups.get(mKey2)
-                                    .getArlMembers().contains(mAdv.getPlayer().getLocation().getLocationKey());
+                                    .getMembers().contains(mAdv.getPlayer().getLocation().getLocationKey());
                         default:
                             return mAdv.mGroups.get(mKey2)
-                                    .getArlMembers().contains(mKey1);
+                                    .getMembers().contains(mKey1);
                     }
 
                 case HaveProperty:
@@ -758,10 +758,10 @@ public class MRestriction {
                 switch (mKey1) {
                     case MGlobals.NOOBJECT:
                         return mAdv.mLocations.get(mKey2)
-                                .getObjectsInLocation(AllObjects, false).size() == 0;
+                                .getObsInLoc(AllObjects, false).size() == 0;
                     case MGlobals.ANYOBJECT:
                         return mAdv.mLocations.get(mKey2)
-                                .getObjectsInLocation(AllObjects, false).size() > 0;
+                                .getObsInLoc(AllObjects, false).size() > 0;
                     default:
                         return mAdv.mObjects.get(mKey1).existsAtLocation(mKey2);
                 }
@@ -778,7 +778,7 @@ public class MRestriction {
                                 mAdv.mView.TODO("No object held by any character test");
                                 return false;
                             default:
-                                return mAdv.mCharacters.get(mKey2).getHeldObjects().size() == 0;
+                                return mAdv.mCharacters.get(mKey2).getHeldObs().size() == 0;
                         }
                     case ANYOBJECT:
                         switch (mKey2) {
@@ -786,14 +786,14 @@ public class MRestriction {
                                 mAdv.mView.TODO("Any object held by any character test");
                                 return false;
                             default:
-                                return mAdv.mCharacters.get(mKey2).getHeldObjects().size() > 0;
+                                return mAdv.mCharacters.get(mKey2).getHeldObs().size() > 0;
                         }
                     default:
                         switch (mKey2) {
                             case ANYCHARACTER:
                                 return mAdv.mObjects.get(mKey1).isHeldByAnyone();
                             default:
-                                return mAdv.mCharacters.get(mKey2).isHoldingObject(mKey1);
+                                return mAdv.mCharacters.get(mKey2).isHoldingOb(mKey1);
                         }
                 }
 
@@ -814,7 +814,7 @@ public class MRestriction {
                                 mAdv.mView.TODO("No object directly held by any character test");
                                 return false;
                             default:
-                                return mAdv.mCharacters.get(mKey2).getHeldObjects(false).size() == 0;
+                                return mAdv.mCharacters.get(mKey2).getHeldObs(false).size() == 0;
                         }
                     case ANYOBJECT:
                         switch (mKey2) {
@@ -822,14 +822,14 @@ public class MRestriction {
                                 mAdv.mView.TODO("Any object directly held by any character test");
                                 return false;
                             default:
-                                return mAdv.mCharacters.get(mKey2).getHeldObjects(false).size() > 0;
+                                return mAdv.mCharacters.get(mKey2).getHeldObs(false).size() > 0;
                         }
                     default:
                         switch (mKey2) {
                             case ANYCHARACTER:
                                 return mAdv.mObjects.get(mKey1).isHeldByAnyone();
                             default:
-                                return mAdv.mCharacters.get(mKey2).isHoldingObject(mKey1, true);
+                                return mAdv.mCharacters.get(mKey2).isHoldingOb(mKey1, true);
                         }
                 }
 
@@ -859,11 +859,11 @@ public class MRestriction {
                 }
                 switch (mKey1) {
                     case NOOBJECT:
-                        return mAdv.mGroups.get(mKey2).getArlMembers().size() == 0;
+                        return mAdv.mGroups.get(mKey2).getMembers().size() == 0;
                     case ANYOBJECT:
-                        return mAdv.mGroups.get(mKey2).getArlMembers().size() > 0;
+                        return mAdv.mGroups.get(mKey2).getMembers().size() > 0;
                     default:
-                        return mAdv.mGroups.get(mKey2).getArlMembers().contains(mKey1);
+                        return mAdv.mGroups.get(mKey2).getMembers().contains(mKey1);
                 }
 
             case BeInsideObject:
@@ -882,7 +882,7 @@ public class MRestriction {
                                 return false;
                             default:
                                 return mAdv.mObjects.get(mKey2)
-                                        .getChildObjects(InsideObject).size() == 0;
+                                        .getChildObs(InsideObject).size() == 0;
                         }
                     case ANYOBJECT:
                         switch (mKey2) {
@@ -894,7 +894,7 @@ public class MRestriction {
                                 return false;
                             default:
                                 return mAdv.mObjects.get(mKey2)
-                                        .getChildObjects(InsideObject).size() > 0;
+                                        .getChildObs(InsideObject).size() > 0;
                         }
                     default:
                         switch (mKey2) {
@@ -982,7 +982,7 @@ public class MRestriction {
                                 return false;
                             default:
                                 return mAdv.mObjects.get(mKey2)
-                                        .getChildObjects(OnObject).size() == 0;
+                                        .getChildObs(OnObject).size() == 0;
                         }
                     case ANYOBJECT:
                         switch (mKey2) {
@@ -994,7 +994,7 @@ public class MRestriction {
                                 return false;
                             default:
                                 return mAdv.mObjects.get(mKey2)
-                                        .getChildObjects(OnObject).size() > 0;
+                                        .getChildObs(OnObject).size() > 0;
                         }
                     default:
                         switch (mKey2) {
@@ -1078,7 +1078,7 @@ public class MRestriction {
                                 mAdv.mView.TODO("Object has been seen by any character test");
                                 return false;
                             default:
-                                return mAdv.mCharacters.get(mKey2).hasSeenObject(mKey1);
+                                return mAdv.mCharacters.get(mKey2).hasSeenOb(mKey1);
                         }
                 }
 
@@ -1099,7 +1099,7 @@ public class MRestriction {
                                 return false;
                             default:
                                 for (MObject ob : mAdv.mObjects.values()) {
-                                    if (ch.canSeeObject(ob.getKey())) {
+                                    if (ch.canSeeOb(ob.getKey())) {
                                         return false;
                                     }
                                 }
@@ -1112,7 +1112,7 @@ public class MRestriction {
                                 return false;
                             default:
                                 for (MObject ob : mAdv.mObjects.values()) {
-                                    if (ch.canSeeObject(ob.getKey())) {
+                                    if (ch.canSeeOb(ob.getKey())) {
                                         return true;
                                     }
                                 }
@@ -1124,7 +1124,7 @@ public class MRestriction {
                                 mAdv.mView.TODO("Object visible to any character test");
                                 return false;
                             default:
-                                return ch.canSeeObject(mKey1);
+                                return ch.canSeeOb(mKey1);
                         }
                 }
 
@@ -1140,7 +1140,7 @@ public class MRestriction {
                                 mAdv.mView.TODO("No Object worn by any character test");
                                 return false;
                             default:
-                                return mAdv.mCharacters.get(mKey2).getWornObjects().size() == 0;
+                                return mAdv.mCharacters.get(mKey2).getWornObs().size() == 0;
                         }
                     case ANYOBJECT:
                         switch (mKey2) {
@@ -1148,7 +1148,7 @@ public class MRestriction {
                                 mAdv.mView.TODO("Any Object worn by any character test");
                                 return false;
                             default:
-                                return mAdv.mCharacters.get(mKey2).getWornObjects().size() > 0;
+                                return mAdv.mCharacters.get(mKey2).getWornObs().size() > 0;
                         }
                     default:
                         if (mAdv.mObjects.containsKey(mKey1)) {
@@ -1157,7 +1157,7 @@ public class MRestriction {
                                     return mAdv.mObjects.get(mKey1).getLocation()
                                             .mDynamicExistWhere == WornByCharacter;
                                 default:
-                                    return mAdv.mCharacters.get(mKey2).isWearingObject(mKey1);
+                                    return mAdv.mCharacters.get(mKey2).isWearingOb(mKey1);
                             }
                         }
                         return false;
@@ -1471,7 +1471,7 @@ public class MRestriction {
                             case ANYDIRECTION:
                                 for (MCharacter c : mAdv.mCharacters.values()) {
                                     for (MAdventure.DirectionsEnum d : MAdventure.DirectionsEnum.values()) {
-                                        if (c.hasRouteInDirection(d, false, "", sSpecificError)) {
+                                        if (c.hasRouteInDir(d, false, "", sSpecificError)) {
                                             return true;
                                         }
                                     }
@@ -1479,7 +1479,7 @@ public class MRestriction {
                                 break;
                             default:
                                 for (MCharacter c : mAdv.mCharacters.values()) {
-                                    if (c.hasRouteInDirection(MAdventure.DirectionsEnum.valueOf(mKey2),
+                                    if (c.hasRouteInDir(MAdventure.DirectionsEnum.valueOf(mKey2),
                                             false, "", sSpecificError)) {
                                         return true;
                                     }
@@ -1491,13 +1491,13 @@ public class MRestriction {
                         switch (mKey2) {
                             case ANYDIRECTION:
                                 for (MAdventure.DirectionsEnum d : MAdventure.DirectionsEnum.values()) {
-                                    if (ch1.hasRouteInDirection(d, false, "", sSpecificError)) {
+                                    if (ch1.hasRouteInDir(d, false, "", sSpecificError)) {
                                         return true;
                                     }
                                 }
                                 break;
                             default:
-                                if (ch1.hasRouteInDirection(MAdventure.DirectionsEnum.valueOf(mKey2),
+                                if (ch1.hasRouteInDir(MAdventure.DirectionsEnum.valueOf(mKey2),
                                         false, "", sSpecificError)) {
                                     return true;
                                 }
@@ -1519,7 +1519,7 @@ public class MRestriction {
                         return false;
                     default:
                         assert ch1 != null;
-                        return (mKey2 != null && ch1.hasSeenCharacter(mKey2));
+                        return (mKey2 != null && ch1.hasSeenChar(mKey2));
                 }
 
             case HaveSeenLocation:
@@ -1545,7 +1545,7 @@ public class MRestriction {
                         return false;
                     default:
                         assert ch1 != null;
-                        return (mKey2 != null && ch1.hasSeenObject(mKey2));
+                        return (mKey2 != null && ch1.hasSeenOb(mKey2));
                 }
 
             case BeHoldingObject:
@@ -1561,7 +1561,7 @@ public class MRestriction {
                         return mAdv.mObjects.get(mKey2).isHeldByAnyone();
                     default:
                         assert ch1 != null;
-                        return ch1.isHoldingObject(mKey2);
+                        return ch1.isHoldingOb(mKey2);
                 }
 
             case BeInSameLocationAsCharacter:
@@ -1630,11 +1630,11 @@ public class MRestriction {
                         for (MCharacter c2 : mAdv.mCharacters.values()) {
                             String c2Key = c2.getKey();
                             if (!c.getKey().equals(c2Key) &&
-                                    c.canSeeCharacter(c2Key)) {
+                                    c.canSeeChar(c2Key)) {
                                 return true;
                             }
                         }
-                    } else if (c.canSeeCharacter(mKey2)) {
+                    } else if (c.canSeeChar(mKey2)) {
                         return true;
                     }
                 }
@@ -1651,14 +1651,14 @@ public class MRestriction {
                 switch (mKey1) {
                     case ANYCHARACTER:
                         for (MCharacter c : mAdv.mCharacters.values()) {
-                            if (c.canSeeObject(mKey2)) {
+                            if (c.canSeeOb(mKey2)) {
                                 return true;
                             }
                         }
                         return false;
                     default:
                         assert ch1 != null;
-                        return ch1.canSeeObject(mKey2);
+                        return ch1.canSeeOb(mKey2);
                 }
 
             case BeLyingOnObject:
@@ -1721,7 +1721,7 @@ public class MRestriction {
                 if (mKey2 == null) {
                     return false;
                 }
-                MStringArrayList grpMembers = mAdv.mGroups.get(mKey2).getArlMembers();
+                MStringArrayList grpMembers = mAdv.mGroups.get(mKey2).getMembers();
                 switch (mKey1) {
                     case ANYCHARACTER:
                         for (MCharacter c : mAdv.mCharacters.values()) {
@@ -1859,7 +1859,7 @@ public class MRestriction {
                         return mAdv.mObjects.get(mKey2).isWornByAnyone();
                     default:
                         assert ch1 != null;
-                        return ch1.isWearingObject(mKey2);
+                        return ch1.isWearingOb(mKey2);
                 }
 
             case BeWithinLocationGroup:
@@ -1870,7 +1870,7 @@ public class MRestriction {
                 if (mKey2 == null) {
                     return false;
                 }
-                MStringArrayList grpKeys = mAdv.mGroups.get(mKey2).getArlMembers();
+                MStringArrayList grpKeys = mAdv.mGroups.get(mKey2).getMembers();
                 switch (mKey1) {
                     case ANYCHARACTER:
                         for (MCharacter c : mAdv.mCharacters.values()) {
@@ -1956,7 +1956,7 @@ public class MRestriction {
                             switch (mKey1) {
                                 case MGlobals.ANYOBJECT:
                                     return mAdv.mObjects.get(mKey2)
-                                            .getChildObjects(InsideObject).size() > 0;
+                                            .getChildObs(InsideObject).size() > 0;
                                 default:
                                     MCharacter.MCharacterLocation chLoc = ch1.getLocation();
                                     return chLoc.getExistsWhere() ==
@@ -2059,14 +2059,14 @@ public class MRestriction {
             case BeInGroup:
                 return mKey2 != null &&
                         (grp2 = mAdv.mGroups.get(mKey2)) != null &&
-                        grp2.getArlMembers().contains(mKey1);
+                        grp2.getMembers().contains(mKey1);
 
             case BeInSameLocationAsCharacter:
                 if (mKey2 != null && (ch2 = mAdv.mCharacters.get(mKey2)) != null) {
                     if (ob1 != null) {
-                        return ch2.canSeeObject(ob1.getKey());
+                        return ch2.canSeeOb(ob1.getKey());
                     } else if (ch1 != null) {
-                        return ch2.canSeeCharacter(ch1.getKey());
+                        return ch2.canSeeChar(ch1.getKey());
                     } else {
                         return ch2.getLocation().getLocationKey().equals(loc1.getKey());
                     }
@@ -2084,7 +2084,7 @@ public class MRestriction {
                             }
                         }
                     } else if (ch1 != null) {
-                        return ch1.canSeeObject(ob2.getKey());
+                        return ch1.canSeeOb(ob2.getKey());
                     } else {
                         return ob2.getRootLocations().containsKey(loc1.getKey());
                     }
@@ -2094,7 +2094,7 @@ public class MRestriction {
             case BeInsideObject:
                 return mKey2 != null &&
                         (ob2 = mAdv.mObjects.get(mKey2)) != null &&
-                        ob2.getChildObjects(InsideObject, true)
+                        ob2.getChildObs(InsideObject, true)
                                 .containsKey(mKey1);
 
             case BeLocation:

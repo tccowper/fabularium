@@ -87,7 +87,7 @@ public class MLocationHashMap extends MItemHashMap<MLocation> {
             case EverywhereInGroup: {
                 MGroup grp = mAdv.mGroups.get(key);
                 if (grp != null) {
-                    for (String locKey : grp.getArlMembers()) {
+                    for (String locKey : grp.getMembers()) {
                         MLocation loc = mAdv.mLocations.get(locKey);
                         if (loc != null) {
                             ret.put(locKey, loc);

@@ -25,21 +25,23 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.luxlunae.bebek.MGlobals;
-import com.luxlunae.bebek.VB;
 import com.luxlunae.bebek.model.collection.MPropertyHashMap;
 import com.luxlunae.bebek.model.collection.MStringArrayList;
 import com.luxlunae.bebek.model.io.MFileOlder;
 
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlSerializer;
 
 import java.io.EOFException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.luxlunae.bebek.MGlobals.ALLROOMS;
-import static com.luxlunae.bebek.MGlobals.dVersion;
+import static com.luxlunae.bebek.VB.cbool;
 import static com.luxlunae.bebek.model.MGroup.GroupTypeEnum.Characters;
 import static com.luxlunae.bebek.model.MGroup.GroupTypeEnum.Locations;
 import static com.luxlunae.bebek.model.MGroup.GroupTypeEnum.Objects;
+import static org.xmlpull.v1.XmlPullParser.END_DOCUMENT;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
@@ -65,28 +67,25 @@ public class MGroup extends MItem {
         mProperties = new MPropertyHashMap(adv);
     }
 
-    public MGroup(@NonNull MAdventure adv,
-                  @NonNull MFileOlder.V4Reader reader,
-                  int iGroup, int nLocations,
-                  @NonNull final String[] locNames) throws EOFException {
+    public MGroup(@NonNull MAdventure adv, @NonNull MFileOlder.V4Reader reader,
+                  int grpID, int nLocs, @NonNull final String[] locNames) throws EOFException {
         // ADRIFT V3.80, V3.90 and V4 Loader
         this(adv);
 
         // V4 and earlier versions of ADRIFT only
         // support room groups.
-        setKey("Group" + iGroup);
+        setKey("Group" + grpID);
         setName(reader.readLine());
-        for (int i = 0; i < nLocations; i++) {
-            boolean isIncluded = VB.cbool(reader.readLine());
+        for (int i = 0; i < nLocs; i++) {
+            boolean isIncluded = cbool(reader.readLine());
             if (isIncluded) {
-                getArlMembers().add(locNames[i]);
+                getMembers().add(locNames[i]);
             }
         }
     }
 
-    public MGroup(@NonNull MAdventure adv,
-                  @NonNull XmlPullParser xpp,
-                  boolean isLibrary, boolean addDuplicateKeys) throws Exception {
+    public MGroup(@NonNull MAdventure adv, @NonNull XmlPullParser xpp,
+                  boolean isLib, boolean addDupKeys) throws Exception {
         // ADRIFT V5 Loader
         this(adv);
 
@@ -97,8 +96,7 @@ public class MGroup extends MItem {
         int depth = xpp.getDepth();
         int eventType;
 
-        while ((eventType = xpp.nextTag()) != XmlPullParser.END_DOCUMENT &&
-                xpp.getDepth() > depth) {
+        while ((eventType = xpp.nextTag()) != END_DOCUMENT && xpp.getDepth() > depth) {
             if (eventType == START_TAG) {
                 switch (xpp.getName()) {
                     default:
@@ -110,16 +108,16 @@ public class MGroup extends MItem {
                         break;
 
                     case "Type":
-                        setGroupType(MGroup.GroupTypeEnum.valueOf(xpp.nextText()));
+                        setGroupType(GroupTypeEnum.valueOf(xpp.nextText()));
                         break;
 
                     case "Member":
-                        getArlMembers().add(xpp.nextText());
+                        getMembers().add(xpp.nextText());
                         break;
 
                     case "Property":
                         try {
-                            props.add(new MProperty(adv, xpp, dVersion));
+                            props.add(new MProperty(adv, xpp, MGlobals.dVersion));
                         } catch (Exception e) {
                             // do nothing
                         }
@@ -129,62 +127,62 @@ public class MGroup extends MItem {
         }
         xpp.require(END_TAG, null, "Group");
 
-        if (!header.finalise(this, adv.mGroups,
-                isLibrary, addDuplicateKeys, null)) {
+        if (!header.finalise(this, adv.mGroups, isLib, addDupKeys, null)) {
             throw new Exception();
         }
 
-        // Only add properties appropriate for the group type
-        MGroup.GroupTypeEnum grpType = getGroupType();
+        // Only add properties appropriate for the group type.
         for (MProperty prop : props) {
-            if (propertyOfEqualsGroupType(prop.getPropertyOf(), grpType)) {
+            if (isPropertyOfThisGroupType(prop)) {
                 mProperties.put(prop);
             }
         }
 
-        for (String els : getArlMembers()) {
-            MItemWithProperties itm = (MItemWithProperties) adv.getItemFromKey(els);
+        for (String itmKey : getMembers()) {
+            MItemWithProperties itm = (MItemWithProperties) adv.getItemFromKey(itmKey);
             if (itm != null) {
-                // In case we've accessed properties, and built inherited before the group existed
+                // In case we've accessed properties, and built
+                // inherited before the group existed:
                 itm.resetInherited();
             }
         }
     }
 
-    private static boolean propertyOfEqualsGroupType(@NonNull MProperty.PropertyOfEnum propOf,
-                                                     @NonNull MGroup.GroupTypeEnum groupType) {
-        switch (propOf) {
+    private boolean isPropertyOfThisGroupType(@NonNull MProperty prop) {
+        GroupTypeEnum grpType = getGroupType();
+
+        switch (prop.getPropertyOf()) {
             case AnyItem:
                 return true;
             case Locations:
-                return groupType == Locations;
+                return grpType == Locations;
             case Objects:
-                return groupType == Objects;
+                return grpType == Objects;
             case Characters:
-                return groupType == Characters;
+                return grpType == Characters;
         }
 
         // shouldn't get here
         return false;
     }
 
-    void addItemWithProps(@NonNull MItemWithProperties itm) {
-        MStringArrayList els = getArlMembers();
+    void add(@NonNull MItemWithProperties itm) {
+        MStringArrayList itmKeys = getMembers();
         String itmKey = itm.getKey();
-        if (!els.contains(itmKey)) {
-            els.add(itmKey);
+        if (!itmKeys.contains(itmKey)) {
+            itmKeys.add(itmKey);
         }
         itm.resetInherited();
     }
 
-    void removeItemWithProps(@NonNull MItemWithProperties itm) {
-        MStringArrayList els = getArlMembers();
-        els.remove(itm.getKey());
+    void remove(@NonNull MItemWithProperties itm) {
+        MStringArrayList itmKeys = getMembers();
+        itmKeys.remove(itm.getKey());
         itm.resetInherited();
     }
 
     @NonNull
-    public MStringArrayList getArlMembers() {
+    public MStringArrayList getMembers() {
         if (getKey().equals(ALLROOMS)) {
             mMembers.clear();
             mMembers.addAll(mAdv.mLocations.keySet());
@@ -211,7 +209,7 @@ public class MGroup extends MItem {
 
     @NonNull
     String getRandomKey() {
-        return getArlMembers().get(mAdv.getRand(this.getArlMembers().size() - 1));
+        return getMembers().get(mAdv.getRand(this.getMembers().size() - 1));
     }
 
     @Nullable
@@ -235,25 +233,25 @@ public class MGroup extends MItem {
     @Override
     public int findLocal(@NonNull String toFind, @Nullable String toReplace,
                          boolean findAll, @NonNull int[] nReplaced) {
-        int iCount = nReplaced[0];
+        int nReplacedIn = nReplaced[0];
         String[] t = new String[1];
         t[0] = mName;
         nReplaced[0] += MGlobals.find(t, toFind, toReplace);
         mName = t[0];
-        return nReplaced[0] - iCount;
+        return nReplaced[0] - nReplacedIn;
     }
 
     @Override
     public int getKeyRefCount(@NonNull String key) {
-        int iCount = 0;
+        int ret = 0;
         for (MDescription d : getAllDescriptions()) {
-            iCount += d.getNumberOfKeyRefs(key);
+            ret += d.getNumberOfKeyRefs(key);
         }
-        if (!getKey().equals(ALLROOMS) && getArlMembers().contains(key)) {
-            iCount++;
+        if (!getKey().equals(ALLROOMS) && getMembers().contains(key)) {
+            ret++;
         }
-        iCount += mProperties.getNumberOfKeyRefs(key);
-        return iCount;
+        ret += mProperties.getNumberOfKeyRefs(key);
+        return ret;
     }
 
     @NonNull
@@ -270,7 +268,7 @@ public class MGroup extends MItem {
                 return false;
             }
         }
-        getArlMembers().remove(key);
+        getMembers().remove(key);
         return mProperties.deleteKey(key);
     }
 
@@ -278,5 +276,75 @@ public class MGroup extends MItem {
         Locations,      // 0
         Objects,        // 1
         Characters      // 2
+    }
+
+    public static class MGroupState {
+        @NonNull
+        final ArrayList<String> mMembers = new ArrayList<>();
+        public String mKey;
+
+        MGroupState(@NonNull MGroup grp) {
+            mKey = grp.getKey();
+            mMembers.addAll(grp.getMembers());
+        }
+
+        MGroupState(@NonNull XmlPullParser xpp) throws Exception {
+            xpp.require(START_TAG, null, "Group");
+
+            int depth = xpp.getDepth();
+            int evType;
+
+            while ((evType = xpp.nextTag()) != END_DOCUMENT && xpp.getDepth() > depth) {
+                if (evType == START_TAG) {
+                    switch (xpp.getName()) {
+                        case "Key": {
+                            mKey = xpp.nextText();
+                            break;
+                        }
+                        case "Member": {
+                            mMembers.add(xpp.nextText());
+                            break;
+                        }
+                    }
+                }
+            }
+
+            xpp.require(END_TAG, null, "Group");
+        }
+
+        public void serialize(@NonNull XmlSerializer xs) throws IOException {
+            xs.startTag(null, "Group");
+
+            xs.startTag(null, "Key");
+            xs.text(mKey);
+            xs.endTag(null, "Key");
+
+            for (String itmKey : mMembers) {
+                xs.startTag(null, "Member");
+                xs.text(itmKey);
+                xs.endTag(null, "Member");
+            }
+
+            xs.endTag(null, "Group");
+        }
+
+        public void restore(@NonNull MGroup grp) {
+            ArrayList<String> memToReset = new ArrayList<>(grp.getMembers());
+            grp.getMembers().clear();
+            for (String mem : mMembers) {
+                grp.getMembers().add(mem);
+                if (memToReset.contains(mem)) {
+                    memToReset.remove(mem);
+                } else {
+                    memToReset.add(mem);
+                }
+            }
+            for (String mem : memToReset) {
+                MItem itm = grp.mAdv.mAllItems.get(mem);
+                if (itm != null) {
+                    ((MItemWithProperties) itm).resetInherited();
+                }
+            }
+        }
     }
 }

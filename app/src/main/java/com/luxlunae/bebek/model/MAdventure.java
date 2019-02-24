@@ -20,14 +20,17 @@
 
 package com.luxlunae.bebek.model;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Xml;
 
 import com.google.code.regexp.Matcher;
 import com.google.code.regexp.Pattern;
 import com.luxlunae.bebek.MGlobals;
 import com.luxlunae.bebek.controller.MController;
+import com.luxlunae.bebek.controller.MDebugger;
 import com.luxlunae.bebek.model.collection.MALRHashMap;
 import com.luxlunae.bebek.model.collection.MCharacterHashMap;
 import com.luxlunae.bebek.model.collection.MEventHashMap;
@@ -35,6 +38,7 @@ import com.luxlunae.bebek.model.collection.MGroupHashMap;
 import com.luxlunae.bebek.model.collection.MHintHashMap;
 import com.luxlunae.bebek.model.collection.MItemHashMap;
 import com.luxlunae.bebek.model.collection.MLocationHashMap;
+import com.luxlunae.bebek.model.collection.MMyStack;
 import com.luxlunae.bebek.model.collection.MObjectHashMap;
 import com.luxlunae.bebek.model.collection.MOrderedHashMap;
 import com.luxlunae.bebek.model.collection.MPropertyHashMap;
@@ -46,12 +50,22 @@ import com.luxlunae.bebek.model.collection.MTopicHashMap;
 import com.luxlunae.bebek.model.collection.MUDFHashMap;
 import com.luxlunae.bebek.model.collection.MVariableHashMap;
 import com.luxlunae.bebek.model.io.MFileIO;
-import com.luxlunae.bebek.model.state.MGameState;
-import com.luxlunae.bebek.model.state.MStateStack;
 import com.luxlunae.bebek.view.MView;
+import com.luxlunae.fabularium.R;
 import com.luxlunae.glk.GLKLogger;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
+import org.xmlpull.v1.XmlSerializer;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,11 +75,13 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
@@ -92,6 +108,7 @@ import static com.luxlunae.bebek.MGlobals.containsWord;
 import static com.luxlunae.bebek.MGlobals.findIgnoreCase;
 import static com.luxlunae.bebek.MGlobals.getArgs;
 import static com.luxlunae.bebek.MGlobals.instr;
+import static com.luxlunae.bebek.MGlobals.isSameString;
 import static com.luxlunae.bebek.MGlobals.left;
 import static com.luxlunae.bebek.MGlobals.mid;
 import static com.luxlunae.bebek.MGlobals.numberToString;
@@ -108,14 +125,17 @@ import static com.luxlunae.bebek.VB.msgBoxYesNo;
 import static com.luxlunae.bebek.model.MAction.EndGameEnum.Neutral;
 import static com.luxlunae.bebek.model.MAction.EndGameEnum.Running;
 import static com.luxlunae.bebek.model.MAdventure.CommmandUpdater.correctCommand;
+import static com.luxlunae.bebek.model.MAdventure.EnabledOptionEnum.Score;
 import static com.luxlunae.bebek.model.MAdventure.MPronounEnum.Objective;
 import static com.luxlunae.bebek.model.MAdventure.MPronounEnum.Possessive;
 import static com.luxlunae.bebek.model.MAdventure.MPronounEnum.Reflective;
 import static com.luxlunae.bebek.model.MAdventure.MPronounEnum.Subjective;
 import static com.luxlunae.bebek.model.MAdventure.MSearchOptions.SearchInWhatEnum.NonLibraryItems;
-import static com.luxlunae.bebek.model.MAdventure.MSystemTask.executeSystemTask;
 import static com.luxlunae.bebek.model.MAdventure.MTasksListEnum.GeneralTasks;
+import static com.luxlunae.bebek.model.MCharacter.CharacterType.Player;
 import static com.luxlunae.bebek.model.MCharacter.Gender.Male;
+import static com.luxlunae.bebek.model.MCharacter.MCharacterLocation.ExistsWhere.AtLocation;
+import static com.luxlunae.bebek.model.MCharacter.MCharacterLocation.ExistsWhere.Hidden;
 import static com.luxlunae.bebek.model.MEvent.EventTypeEnum.TimeBased;
 import static com.luxlunae.bebek.model.MEvent.EventTypeEnum.TurnBased;
 import static com.luxlunae.bebek.model.MEvent.StatusEnum.CountingDownToStart;
@@ -128,14 +148,19 @@ import static com.luxlunae.bebek.model.MTask.TaskTypeEnum.General;
 import static com.luxlunae.bebek.model.MTask.TaskTypeEnum.Specific;
 import static com.luxlunae.bebek.model.MVariable.VariableType.Numeric;
 import static com.luxlunae.bebek.model.MVariable.VariableType.Text;
+import static com.luxlunae.bebek.model.io.IOUtils.compress;
 import static com.luxlunae.bebek.model.io.MFileIO.FileTypeEnum.Blorb;
 import static com.luxlunae.bebek.model.io.MFileIO.FileTypeEnum.Exe;
+import static com.luxlunae.bebek.model.io.MFileIO.FileTypeEnum.GameState_TAS;
 import static com.luxlunae.bebek.model.io.MFileIO.FileTypeEnum.TextAdventure_TAF;
 import static com.luxlunae.bebek.model.io.MFileIO.LoadWhatEnum.All;
 import static com.luxlunae.bebek.model.io.MFileIO.loadFile;
 import static com.luxlunae.bebek.view.MView.DebugDetailLevelEnum.High;
 import static com.luxlunae.bebek.view.MView.DebugDetailLevelEnum.Low;
 import static com.luxlunae.bebek.view.MView.DebugDetailLevelEnum.Medium;
+import static org.xmlpull.v1.XmlPullParser.END_DOCUMENT;
+import static org.xmlpull.v1.XmlPullParser.END_TAG;
+import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
 public class MAdventure {
     private static final Pattern RE_EXP =
@@ -151,7 +176,7 @@ public class MAdventure {
             {"subject", "subjective", "personal", "target", "object", "objective", "possessive"};
 
     @NonNull
-    public final MStateStack mStates = new MStateStack();
+    public final MMyStack mStates = new MMyStack();
     @NonNull
     public final MStringArrayList mCommands = new MStringArrayList();
     @NonNull
@@ -289,13 +314,12 @@ public class MAdventure {
     private MTask mAmbiguousTask;
     @Nullable
     private HashSet<String> mKnownWords;
-    private MMap mMap;
     @Nullable
     private MStringArrayList mFuncNames = null;
     private int mScore;
     private int mMaxScore;
     @Nullable
-    private Random mRandomGenerator;
+    private Random mRandGen;
     private int mLastRndSeed = 0;
     /**
      * The text that you type in the text box will be
@@ -314,7 +338,7 @@ public class MAdventure {
      * an alternative description of their start
      * location as part of the introduction.
      */
-    @Nullable
+    @NonNull
     private MDescription mIntroduction;
     /**
      * The text that you type into this text box will be
@@ -324,7 +348,7 @@ public class MAdventure {
      * the game, by right-clicking the text box and
      * selecting "Add Alternate Description".
      */
-    @Nullable
+    @NonNull
     private MDescription mEndGameText;
     /**
      * This is the title of your adventure.
@@ -355,8 +379,6 @@ public class MAdventure {
     //    public MBabelTreatyInfo BabelTreatyInfo = new MBabelTreatyInfo();
     @Nullable
     private String mCoverFilename;
-    @Nullable
-    private Date mLastUpdated;
     @Nullable
     private MCharacter mPlayer;
     @NonNull
@@ -418,10 +440,8 @@ public class MAdventure {
         mCharacterProperties = new MPropertyHashMap(this);
         mLocationProperties = new MPropertyHashMap(this);
         mSynonyms = new MSynonymHashMap(this);
-        setIntroduction(new MDescription(this));
-        setEndGameText(new MDescription(this));
-
-        mMap = new MMap();
+        mIntroduction = new MDescription(this);
+        mEndGameText = new MDescription(this);
 
         mDirectionNames.put(DirectionsEnum.North, "North/N");
         mDirectionNames.put(DirectionsEnum.NorthEast, "NorthEast/NE/North-East/N-E");
@@ -442,6 +462,197 @@ public class MAdventure {
     }
 
     /**
+     * Attempt to load the contents of the given file into this Adventure object.
+     *
+     * @param path - the file to load.
+     * @return TRUE if successfully loaded, FALSE otherwise.
+     * @throws InterruptedException if loading was interrupted, e.g. user pressed
+     *                              the back key.
+     */
+    public boolean open(@NonNull String path) throws InterruptedException {
+        mStates.clear();
+        mCommands.clear();
+        mCommands.add("");
+
+        // Attempt to load the file at the given path.
+        // We support loading from both TAF and BLORB files.
+        MFileIO.FileTypeEnum fileTypeEnum = TextAdventure_TAF;
+        String lpath = path.toLowerCase();
+        if (lpath.endsWith(".blorb")) {
+            fileTypeEnum = Blorb;
+        }
+        if (lpath.endsWith(".exe")) {
+            fileTypeEnum = Exe;
+        }
+        if (!loadFile(this, path, fileTypeEnum, All, false, null, 0)) {
+            return false;
+        }
+
+        // We don't yet support the ADRIFT battle system. Games that
+        // have that enabled may not work properly (yet). Make sure
+        // the player knows that.
+        if (mCompatBattleSystem) {
+            Context c = mView.getContext();
+            assert c != null;
+            mView.out(c.getString(R.string.BEBEK_BATTLE_NOT_SUPPORTED));
+        }
+
+        // Ensure the tasks are sorted by priority and the ALRs
+        // are sorted by decreasing length of old text. We only
+        // need to do this once for each play session.
+        mTasks.sort();
+        mALRs.sort();
+
+        // Ensure all the direction names are lower case.
+        for (DirectionsEnum dir : DirectionsEnum.values()) {
+            String dirName = mDirectionNames.get(dir);
+            assert dirName != null;
+            mDirectionNames.put(dir, dirName.toLowerCase());
+        }
+
+        // The game is now officially running.
+        mGameState = Running;
+
+        // -------------------------------------------------
+        //            Initialise variables.
+        // -------------------------------------------------
+        for (MVariable var : mVariables.values()) {
+            if (var.getLength() > 1) {
+                String vals[] = var.getStr().split("\n");
+                if (vals.length == var.getLength()) {
+                    int i = 1;
+                    for (String val : vals) {
+                        if (var.getType() == Numeric) {
+                            var.setAt(i, safeInt(val));
+                        } else {
+                            var.setAt(i, val.replace("\r", ""));
+                        }
+                        i++;
+                    }
+                }
+            }
+        }
+
+        // -------------------------------------------------
+        //              Initialise tasks.
+        // -------------------------------------------------
+        // Update task commands to match this version of the
+        // runner, if necessary, and execute any tasks that
+        // are supposed to run immediately.
+        for (MTask tas : mTasks.values()) {
+            for (int i = 0; i < tas.mCommands.size(); i++) {
+                tas.mCommands.set(i, correctCommand(tas.mCommands.get(i), this));
+            }
+            if (tas.mType == MTask.TaskTypeEnum.System && tas.getRunImmediately()) {
+                tas.attemptToExecute(true);
+            }
+        }
+
+        mView.updateStatusBar(this);
+
+        // Mark the player's starting location as seen by the player.
+        String playerLocKey = getPlayer().getLocation().getLocationKey();
+        getPlayer().setHasSeenLocation(playerLocKey, true);
+
+        // Show the game's title and introduction.
+        mView.clearTextWindow();
+        mView.displayText(this, "<c>" + getTitle() + "</c>" + "\n", true);
+        mView.displayText(this, getIntroduction().toString(), true);
+
+        // Show the description of the player's start location, if appropriate.
+        MLocation startLoc = mLocations.get(playerLocKey);
+        if (getShowFirstRoom() && startLoc != null) {
+            StringBuilder text = new StringBuilder();
+            text.append("\n");
+            text.append(startLoc.getViewLocString());
+            appendDoubleSpace(text);
+            mView.displayText(this, text.toString(), true);
+        }
+
+        // -------------------------------------------------
+        //             Initialise events.
+        // -------------------------------------------------
+        // Update event timers and run any events that are
+        // supposed to start immediately.
+        for (MEvent ev : mEvents.values()) {
+            switch (ev.mWhenStart) {
+                case AfterATask:
+                    ev.mStatus = NotYetStarted;
+                    break;
+                case BetweenXandYTurns:
+                    ev.mStatus = CountingDownToStart;
+                    ev.setTimerToEndOfEvent(ev.mStartDelay.getValue() + ev.mLength.getValue());
+                    break;
+                case Immediately:
+                    ev.start(true);
+                    break;
+            }
+        }
+
+        // We can't combine this with the above loop as a later event
+        // might run a task that starts an earlier event.
+        for (MEvent e : mEvents.values()) {
+            e.mJustStarted = false;
+        }
+
+        // -------------------------------------------------
+        //             Initialise characters.
+        // -------------------------------------------------
+        // Start characters walking, as appropriate, and
+        // sort topics by descending length.
+        for (MCharacter ch : mCharacters.values()) {
+            for (MWalk wlk : ch.mWalks) {
+                if (wlk.getStartActive()) {
+                    wlk.start(true);
+                }
+            }
+            for (MWalk wlk : ch.mWalks) {
+                wlk.mJustStarted = false;
+            }
+
+            // Sort our topics by descending length
+            TreeMap<String, ArrayList<String>> allTopicKeys = new TreeMap<>(
+                    new Comparator<String>() {
+                        @Override
+                        public int compare(String x, String y) {
+                            return y.length() - x.length();
+                        }
+                    }
+            );
+            for (MTopic topic : ch.mTopics.values()) {
+                if (topic.mIsCommand) {
+                    topic.mKeywords = correctCommand(topic.mKeywords, this);
+                }
+                ArrayList<String> topicKeys = allTopicKeys.get(topic.mKeywords);
+                if (topicKeys == null) {
+                    topicKeys = new ArrayList<>();
+                    allTopicKeys.put(topic.mKeywords, topicKeys);
+                }
+                topicKeys.add(topic.mKey);
+            }
+            MTopicHashMap allTopicKeysNew = new MTopicHashMap();
+            for (ArrayList<String> topicKeys : allTopicKeys.values()) {
+                for (String topicKey : topicKeys) {
+                    MTopic topic = ch.mTopics.get(topicKey);
+                    if (topic != null) {
+                        allTopicKeysNew.put(topic);
+                    }
+                }
+            }
+            ch.mTopics = allTopicKeysNew;
+        }
+
+        mView.displayText(this, "\n\n", true);
+        mTasks.createTaskReferenceLists();
+        if (mLocations.size() == 0) {
+            mView.errMsg("This adventure has no locations.  Cannot continue.");
+            return false;
+        }
+        prepareForNextTurn();
+        return true;
+    }
+
+    /**
      * Take a list of ambiguous keys of type keyType, then
      * try to reduce that list to one (hopefully). We reduce the
      * keys by removing any that refer to an item that doesn't
@@ -450,6 +661,7 @@ public class MAdventure {
      * @param keys    - the keys to reduce.
      * @param keyType - the type of the keys (object, character or location).
      * @param input   - the input to test against.
+     *
      * @return a list of keys that is either the same as, or
      * reduced from, keys.
      */
@@ -457,12 +669,14 @@ public class MAdventure {
     public MStringArrayList resolveKeys(final @NonNull MStringArrayList keys,
                                         MReference.ReferencesType keyType,
                                         @NonNull String input) {
-        // Check each word in the refined text to ensure they all match
+        // Go through the provided keys and remove any that relate to
+        // objects, characters or locations that cannot be matched against
+        // all of the input words.
         MStringArrayList ret = new MStringArrayList();
         String[] inputWords = input.split(" ");
 
         switch (keyType) {
-            case Object:
+            case Object: {
                 for (String obKey : keys) {
                     // Get the object associated with this obKey.
                     MObject ob = mObjects.get(obKey);
@@ -480,19 +694,19 @@ public class MAdventure {
                     // a word in the object's prefix or name.
                     boolean matchesAll = true;
                     for (String word : inputWords) {
-                        boolean wordInObject = false;
+                        boolean wordInOb = false;
                         if (word.equals("the") || word.equals(obArticle) ||
                                 containsWord(obPrefix, word)) {
-                            wordInObject = true;
+                            wordInOb = true;
                         } else {
                             for (String obName : obNames) {
                                 if (containsWord(obName, word)) {
-                                    wordInObject = true;
+                                    wordInOb = true;
                                     break;
                                 }
                             }
                         }
-                        if (!wordInObject) {
+                        if (!wordInOb) {
                             matchesAll = false;
                             break;
                         }
@@ -502,8 +716,8 @@ public class MAdventure {
                     }
                 }
                 break;
-
-            case Character:
+            }
+            case Character: {
                 for (String chKey : keys) {
                     MCharacter ch = mCharacters.get(chKey);
                     if (ch == null) {
@@ -520,19 +734,19 @@ public class MAdventure {
                     // descriptors.
                     boolean matchesAll = true;
                     for (String word : inputWords) {
-                        boolean wordInChar = false;
+                        boolean wordInCh = false;
                         if (containsWord(chPrefix, word) ||
                                 containsWord(chName, word)) {
-                            wordInChar = true;
+                            wordInCh = true;
                         } else {
                             for (String chDesc : chDescs) {
                                 if (containsWord(chDesc, word)) {
-                                    wordInChar = true;
+                                    wordInCh = true;
                                     break;
                                 }
                             }
                         }
-                        if (!wordInChar) {
+                        if (!wordInCh) {
                             matchesAll = false;
                             break;
                         }
@@ -542,8 +756,8 @@ public class MAdventure {
                     }
                 }
                 break;
-
-            case Location:
+            }
+            case Location: {
                 for (String locKey : keys) {
                     MLocation loc = mLocations.get(locKey);
                     if (loc == null) {
@@ -567,6 +781,7 @@ public class MAdventure {
                     }
                 }
                 break;
+            }
         }
 
         return ret;
@@ -615,167 +830,6 @@ public class MAdventure {
         }
     }
 
-    /**
-     * Attempt to load the contents of the given file into this Adventure object.
-     *
-     * @param path - the file to load.
-     * @return TRUE if successfully loaded, FALSE otherwise.
-     * @throws InterruptedException
-     */
-    public boolean open(@NonNull String path) throws InterruptedException {
-        mStates.clear();
-        mCommands.clear();
-        mCommands.add("");
-        MFileIO.FileTypeEnum fileTypeEnum = TextAdventure_TAF;
-        String pathLower = path.toLowerCase();
-        if (pathLower.endsWith(".blorb")) {
-            fileTypeEnum = Blorb;
-        }
-        if (pathLower.endsWith(".exe")) {
-            fileTypeEnum = Exe;
-        }
-
-        if (!loadFile(this, path, fileTypeEnum, All, false, null, 0)) {
-            return false;
-        }
-
-        if (mCompatBattleSystem) {
-            mView.out("<b>WARNING: This game has the ADRIFT battle system enabled. " +
-                    "Bebek doesn't support that yet. The game may not work as intended.<br><br>" +
-                    "Press any key to continue...</b><waitkey>");
-        }
-
-        // Ensure the tasks are sorted by priority and
-        // the ALRs are sorted by decreasing length of old text.
-        // We only need to do this once for each play session
-        mTasks.sort();
-        mALRs.sort();
-
-        for (DirectionsEnum dir : DirectionsEnum.values()) {
-            mDirectionNames.put(dir, mDirectionNames.get(dir).toLowerCase());
-        }
-
-        mGameState = Running;
-
-        // Initialise any variable array values
-        for (MVariable v : mVariables.values()) {
-            if (v.getLength() > 1) {
-                String initVals[] = v.getStr().split("\n");
-                if (initVals.length == v.getLength()) {
-                    int i = 1;
-                    for (String val : initVals) {
-                        if (v.getType() == Numeric) {
-                            v.setAt(i, safeInt(val));
-                        } else {
-                            v.setAt(i, val.replace("\r", ""));
-                        }
-                        i++;
-                    }
-                }
-            }
-        }
-
-        for (MTask t : mTasks.values()) {
-            for (int i = 0; i < t.mCommands.size(); i++) {
-                t.mCommands.set(i, correctCommand(t.mCommands.get(i), this));
-            }
-            if (t.mType == MTask.TaskTypeEnum.System && t.getRunImmediately()) {
-                t.attemptToExecute(true);
-            }
-        }
-
-        mView.updateStatusBar(this);
-
-        String playerLocKey = getPlayer().getLocation().getLocationKey();
-        getPlayer().setHasSeenLocation(playerLocKey, true);
-      /*  UserSession.Map.RecalculateNode(Adventure.Map.FindNode(Adventure.Player.Location.LocationKey));
-        UserSession.Map.SelectNode(Adventure.Player.Location.LocationKey); */
-        mView.clearTextWindow();
-        mView.displayText(this, "<c>" + getTitle() + "</c>" + "\n", true);
-        mView.displayText(this, getIntroduction().toString(), true);
-
-        // ----------------------------------------------------
-        // If specified, show the description of the first room
-        // ----------------------------------------------------
-        if (getShowFirstRoom() && mLocations.containsKey(playerLocKey)) {
-            StringBuilder txt = new StringBuilder();
-            txt.append("\n");
-            txt.append(mLocations.get(playerLocKey).getViewLocation());
-            appendDoubleSpace(txt);
-            mView.displayText(this, txt.toString(), true);
-        }
-
-        for (MEvent e : mEvents.values()) {
-            switch (e.mWhenStart) {
-                case AfterATask:
-                    e.mStatus = NotYetStarted;
-                    break;
-                case BetweenXandYTurns:
-                    e.mStatus = CountingDownToStart;
-                    e.setTimerToEndOfEvent(e.mStartDelay.getValue() + e.mLength.getValue());
-                    break;
-                case Immediately:
-                    e.start(true);
-                    break;
-            }
-        }
-
-        // Needs to be a separate loop in case a later event
-        // runs a task that starts an earlier event
-        for (MEvent e : mEvents.values()) {
-            e.mJustStarted = false;
-        }
-
-        for (MCharacter c : mCharacters.values()) {
-            for (MWalk w : c.mWalks) {
-                if (w.getStartActive()) {
-                    w.start(true);
-                }
-            }
-            for (MWalk w : c.mWalks) {
-                w.mJustStarted = false;
-            }
-
-            // Sort our topics by descending length
-            TreeMap<String, ArrayList<String>> topickeys = new TreeMap<>(
-                    new Comparator<String>() {
-                        @Override
-                        public int compare(String x, String y) {
-                            return y.length() - x.length();
-                        }
-                    }
-            );
-            for (MTopic t : c.mTopics.values()) {
-                if (t.mIsCommand) {
-                    t.mKeywords = correctCommand(t.mKeywords, this);
-                }
-                if (!topickeys.containsKey(t.mKeywords)) {
-                    topickeys.put(t.mKeywords, new ArrayList<String>());
-                }
-                topickeys.get(t.mKeywords).add(t.mKey);
-            }
-            MTopicHashMap topicsNew = new MTopicHashMap();
-            for (String topicKey : topickeys.keySet()) {
-                for (String key : topickeys.get(topicKey)) {
-                    topicsNew.put(c.mTopics.get(key));
-                }
-            }
-            c.mTopics = topicsNew;
-        }
-
-        mView.displayText(this, "\n\n", true);
-
-        mTasks.createTaskReferenceLists();
-
-        if (mLocations.size() == 0) {
-            mView.errMsg("This adventure has no locations.  Cannot continue.");
-            return false;
-        }
-
-        prepareForNextTurn();
-        return true;
-    }
-
     public String getLibAdriftPath() {
         return mLibAdriftPath;
     }
@@ -802,11 +856,11 @@ public class MAdventure {
             String newThem = "";
             String newHim = "";
             String newHer = "";
-            String words[] = input.split(" ");
-            HashSet<String> possibleItKeys = new HashSet<>();
-            HashSet<String> possibleThemKeys = new HashSet<>();
-            HashSet<String> possibleHimKeys = new HashSet<>();
-            HashSet<String> possibleHerKeys = new HashSet<>();
+            String inputWords[] = input.split(" ");
+            HashSet<String> itKeys = new HashSet<>();
+            HashSet<String> themKeys = new HashSet<>();
+            HashSet<String> himKeys = new HashSet<>();
+            HashSet<String> herKeys = new HashSet<>();
             String playerKey = getPlayer().getKey();
 
             // First, look at anything visible, then seen
@@ -815,39 +869,39 @@ public class MAdventure {
                 // Find all the possible values for "him", "her", "it" and "them"
                 // based on what is valid in this scope
                 // --------------------------------------------------------------
-                for (String word : words) {
-                    MObjectHashMap objs;
-                    MCharacterHashMap chars;
+                for (String word : inputWords) {
+                    MObjectHashMap obs;
+                    MCharacterHashMap chs;
                     if (scope == ItScope.Visible) {
-                        objs = mObjects.getVisibleTo(playerKey);
-                        chars = mCharacters.getVisibleTo(playerKey);
+                        obs = mObjects.getVisibleTo(playerKey);
+                        chs = mCharacters.getVisibleTo(playerKey);
                     } else {
-                        objs = mObjects.getSeenBy(playerKey);
-                        chars = mCharacters.getSeenBy(playerKey);
+                        obs = mObjects.getSeenBy(playerKey);
+                        chs = mCharacters.getSeenBy(playerKey);
                     }
                     if (newIt.equals("")) {
-                        for (MObject ob : objs.values()) {
+                        for (MObject ob : obs.values()) {
                             String obKey = ob.getKey();
                             for (String obName : ob.getNames()) {
                                 if (word.equals(obName)) {
-                                    possibleItKeys.add(obKey);
+                                    itKeys.add(obKey);
                                 }
                             }
                         }
                     }
                     if (newThem.equals("")) {
-                        for (MObject ob : objs.values()) {
+                        for (MObject ob : obs.values()) {
                             if (ob.isPlural()) {
                                 String obKey = ob.getKey();
                                 for (String obName : ob.getNames()) {
                                     if (word.equals(obName)) {
-                                        possibleThemKeys.add(obKey);
+                                        themKeys.add(obKey);
                                     }
                                 }
                             }
                         }
                     }
-                    for (MCharacter ch : chars.values()) {
+                    for (MCharacter ch : chs.values()) {
                         boolean match = false;
 
                         if (word.equals(ch.getProperName().toLowerCase())) {
@@ -865,17 +919,13 @@ public class MAdventure {
                             String chKey = ch.getKey();
                             switch (ch.getGender()) {
                                 case Male:
-                                    if (!possibleItKeys.contains(chKey)) {
-                                        possibleHimKeys.add(chKey);
-                                    }
+                                    himKeys.add(chKey);
                                     break;
                                 case Female:
-                                    if (!possibleItKeys.contains(chKey)) {
-                                        possibleHerKeys.add(chKey);
-                                    }
+                                    herKeys.add(chKey);
                                     break;
                                 case Unknown:
-                                    possibleItKeys.add(chKey);
+                                    itKeys.add(chKey);
                                     break;
                             }
                         }
@@ -887,20 +937,16 @@ public class MAdventure {
                 // values, try to reduce the possibilities to one.
                 // --------------------------------------------------------------
                 if (newIt.equals("")) {
-                    newIt = reduceItPossibilities(possibleItKeys,
-                            words, false, false);
+                    newIt = reduceItKeys(itKeys, inputWords, false, false);
                 }
                 if (newThem.equals("")) {
-                    newThem = reduceItPossibilities(possibleThemKeys,
-                            words, true, false);
+                    newThem = reduceItKeys(themKeys, inputWords, true, false);
                 }
                 if (newHim.equals("")) {
-                    newHim = reduceItPossibilities(possibleHimKeys,
-                            words, false, true);
+                    newHim = reduceItKeys(himKeys, inputWords, false, true);
                 }
                 if (newHer.equals("")) {
-                    newHer = reduceItPossibilities(possibleHerKeys,
-                            words, false, true);
+                    newHer = reduceItKeys(herKeys, inputWords, false, true);
                 }
             }
 
@@ -949,13 +995,14 @@ public class MAdventure {
      * @param wordsToFind  - a list of input words to find.
      * @param pluralOnly   - whether we should only consider plural objects.
      * @param charsOnly    - whether we should only consider character keys.
+     *
      * @return the unique key, if we were able to determine it. Otherwise an
      * empty string "".
      */
     @NonNull
-    private String reduceItPossibilities(@NonNull HashSet<String> keysToSearch,
-                                         @NonNull String[] wordsToFind,
-                                         boolean pluralOnly, boolean charsOnly) {
+    private String reduceItKeys(@NonNull HashSet<String> keysToSearch,
+                                @NonNull String[] wordsToFind,
+                                boolean pluralOnly, boolean charsOnly) {
         ArrayList<String> keys = new ArrayList<>();
 
         if (keysToSearch.size() == 1) {
@@ -1066,19 +1113,16 @@ public class MAdventure {
                     break;
             }
             if (mGameState != Running) {
-                mStates.recordState(this);
+                mStates.push(new MGameState(this));
             }
         }
 
         if (mGameState != Running) {
             getPlayer().setWalkTo("");
             if (!mDisplayedWinOrLose) {
-                MDescription d = getEndGameText();
-                if (d != null) {
-                    String endGameText = d.toString(true);
-                    if (!endGameText.equals("")) {
-                        mView.displayText(this, endGameText + "<br>");
-                    }
+                String endGameText = getEndGameText().toString(true);
+                if (!endGameText.equals("")) {
+                    mView.displayText(this, endGameText + "<br>");
                 }
                 if (getMaxScore() > 0) {
                     mView.displayText(this,
@@ -1098,7 +1142,6 @@ public class MAdventure {
      * Process the user's next input command in the game.
      *
      * @param input - the input to process.
-     *
      * @throws InterruptedException if, e.g., the player presses the back key.
      */
     public void processCommand(@NonNull String input) throws InterruptedException {
@@ -1125,7 +1168,7 @@ public class MAdventure {
         }
 
         prepareForNextTurn();
-        getPlayer().doWalk();
+        getPlayer().walk();
     }
 
     /**
@@ -1203,8 +1246,6 @@ public class MAdventure {
                 mView.debugPrint(MGlobals.ItemEnum.General, "", Medium,
                         "Synonyms changed input \"" + preSyn + "\" to \"" + mInput + "\"");
             }
-
-            // If cbool(GetSetting("ADRIFT", "Runner", "BlankLine", "0")) Then Display(vbCrLf)
         }
 
         mInput = mInput.toLowerCase();
@@ -1212,12 +1253,13 @@ public class MAdventure {
         // Don't actually respond to system tasks here, in case the user has created a task
         // to override the system one.
         if (mGameState != Running || mVersion < 5) {
-            boolean ret = executeSystemTask(this, mInput, true);
+            boolean ret = executeSystemTask(mInput, true);
             if (ret) {
                 return "";
             } else {
                 if (mGameState != Running) {
-                    mView.displayText(this, "Please give one of the answers above." + "\n");
+                    mView.displayText(this,
+                            "Please give one of the answers above." + "\n");
                     return "";
                 }
             }
@@ -1389,7 +1431,7 @@ public class MAdventure {
                     if (mGameState == Running) {
                         // See if we can interpret the user's input as a
                         // system task...
-                        boolean ret = executeSystemTask(this, mInput, false);
+                        boolean ret = executeSystemTask(mInput, false);
                         if (!ret) {
                             // Nope - display the "not understood" message.
                             displayNotUnderstood();
@@ -1437,7 +1479,7 @@ public class MAdventure {
             return;
         }
 
-        // =============================================================
+        // -------------------------------------------------------------
         //                PROCESS WALKS (TURN INCREMENT)
         // -------------------------------------------------------------
         if (evType == TurnBased) {
@@ -1451,7 +1493,7 @@ public class MAdventure {
             }
         }
 
-        // =============================================================
+        // -------------------------------------------------------------
         //      PROCESS TURN OR TIME EVENTS (TURN OR TIME INCREMENT)
         // -------------------------------------------------------------
         mEventsRunning = true;
@@ -1472,7 +1514,7 @@ public class MAdventure {
         }
         mEventsRunning = false;
 
-        // =============================================================
+        // -------------------------------------------------------------
         //     FLUSH OUTPUT TEXT AND CHECK END GAME (TIME INCREMENT)
         // -------------------------------------------------------------
         if (evType == TimeBased) {
@@ -1541,7 +1583,7 @@ public class MAdventure {
                 mKnownWords.addAll(ch.mDescriptors);
                 mKnownWords.add(ch.getProperName().toLowerCase());
             }
-            Collections.addAll(mKnownWords, MGlobals.sDirectionsRE.split("\\|"));
+            Collections.addAll(mKnownWords, MGlobals.mDirectionsRE.split("\\|"));
             Collections.addAll(mKnownWords, "and");
         }
 
@@ -1567,16 +1609,16 @@ public class MAdventure {
             for (MTask tas : tasks.values()) {
                 String cmd = tas.mCommands.get(0);
                 if (cmd.contains(mInput) && cmd.contains(" ")) {
-                    String question = null;
+                    String q = null;
                     if (cmd.contains("%object")) {
-                        question = " what?";
+                        q = " what?";
                     } else if (cmd.contains("%character")) {
-                        question = " who?";
+                        q = " who?";
                     } else if (cmd.contains("%direction%")) {
-                        question = " where?";
+                        q = " where?";
                     }
 
-                    if (question != null) {
+                    if (q != null) {
                         for (ArrayList<Pattern> pats : tas.getPatterns()) {
                             for (Pattern pat : pats) {
                                 Matcher m = pat.matcher(mInput + " sdkfjdslkj");
@@ -1584,7 +1626,7 @@ public class MAdventure {
                                     mRememberedVerb = mInput;
                                     StringBuilder msg = new StringBuilder(mInput);
                                     toProper(msg);
-                                    msg.append(question);
+                                    msg.append(q);
                                     mView.displayText(this, msg.toString());
                                     return;
                                 }
@@ -1603,8 +1645,8 @@ public class MAdventure {
         MCharacter player = getPlayer();
         for (MObject ob : mObjects.values()) {
             String obKey = ob.getKey();
-            if (player.hasSeenObject(obKey)) {
-                if (player.canSeeObject(obKey)) {
+            if (player.hasSeenOb(obKey)) {
+                if (player.canSeeOb(obKey)) {
                     Pattern regex = Pattern.compile(ob.getRegEx());
                     Matcher m = regex.matcher(mInput);
                     if (m.find()) {
@@ -1618,8 +1660,8 @@ public class MAdventure {
         }
         for (MCharacter ch : mCharacters.values()) {
             String chKey = ch.getKey();
-            if (player.hasSeenCharacter(chKey)) {
-                if (player.canSeeCharacter(chKey)) {
+            if (player.hasSeenChar(chKey)) {
+                if (player.canSeeChar(chKey)) {
                     Pattern regex = Pattern.compile(ch.getRegEx());
                     Matcher m = regex.matcher(mInput);
                     if (m.find()) {
@@ -1646,7 +1688,7 @@ public class MAdventure {
         // to the undo stack.
         // --------------------------------------------
         if (!mJustRunSystemTask && mGameState == Running) {
-            mStates.recordState(this);
+            mStates.push(new MAdventure.MGameState(this));
         }
 
         mTurnOutput = "";
@@ -1658,7 +1700,7 @@ public class MAdventure {
         for (MCharacter ch : mCharacters.values()) {
             // Mark each object that can be seen by this character
             for (MObject ob : mObjects.values()) {
-                if (ch.canSeeObject(ob.getKey())) {
+                if (ch.canSeeOb(ob.getKey())) {
                     ob.setHasBeenSeenBy(ch.getKey());
                 }
             }
@@ -1674,7 +1716,7 @@ public class MAdventure {
 
             // Mark each character that can be seen by this character
             for (MCharacter ch2 : mCharacters.values()) {
-                if (!ch.hasBeenSeenBy(ch2.getKey()) && ch.canSeeCharacter(ch2.getKey())) {
+                if (!ch.hasBeenSeenBy(ch2.getKey()) && ch.canSeeChar(ch2.getKey())) {
                     ch.setSeenBy(ch2.getKey(), true);
                 }
             }
@@ -1682,7 +1724,7 @@ public class MAdventure {
             ch.mValidRouteCache.clear();
             ch.mRouteErrors.clear();
             if (ch.getIntroduced()) {
-                if (ch != getPlayer() && !getPlayer().canSeeCharacter(ch.getKey())) {
+                if (ch != getPlayer() && !getPlayer().canSeeChar(ch.getKey())) {
                     ch.setIntroduced(false);
                 }
             }
@@ -1784,14 +1826,14 @@ public class MAdventure {
         // ---------------------------------------
         // We evaluate these at the very end.
         Hashtable<String, String> uuids = new Hashtable<>();
-        int i1 = text.indexOf("<#");
-        while (i1 >= 0) {
-            int i2 = text.indexOf("#>", i1);
+        int pos1 = text.indexOf("<#");
+        while (pos1 >= 0) {
+            int pos2 = text.indexOf("#>", pos1);
             String uuid = ":" + UUID.randomUUID().toString() + ":";
-            String expr = text.substring(i1, i2 + 2);
+            String expr = text.substring(pos1, pos2 + 2);
             uuids.put(uuid, expr);
-            text.replace(i1, i2 + 2, uuid);
-            i1 = text.indexOf("<#");
+            text.replace(pos1, pos2 + 2, uuid);
+            pos1 = text.indexOf("<#");
         }
 
         // =============================================================================
@@ -1807,9 +1849,9 @@ public class MAdventure {
         if (text.indexOf("%") >= 0) {
             // Keep looping until the text no
             // longer changes.
-            String check;
+            StringBuilder check;
             do {
-                check = text.toString();
+                check = new StringBuilder(text);
 
                 // =====================================================================
                 //                      REPLACE SYSTEM VARIABLES
@@ -1903,11 +1945,11 @@ public class MAdventure {
                                 isExpr, MReference.ReferencesType.Number);
                         String refText = "%text" + String.valueOf(i) + "%";
                         if (contains(text, refText)) {
-                            boolean bQuote = isExpr &&
+                            boolean toQuote = isExpr &&
                                     !contains(text, "%text" + String.valueOf(i) + "%.") &&
                                     !contains(text, "\"%text" + String.valueOf(i) + "%\"");
                             for (MReference ref : refs) {
-                                if (ref.mType == MReference.ReferencesType.Text) {
+                                if (ref != null && ref.mType == MReference.ReferencesType.Text) {
                                     if (ref.mRefMatch.equals("text" + i)) {
                                         if (ref.mItems.size() == 1 &&
                                                 ref.mItems.get(0).mMatchingKeys.size() == 1) {
@@ -1918,9 +1960,8 @@ public class MAdventure {
                                     }
                                 }
                             }
-                            replaceAllIgnoreCase(text, refText, bQuote ?
-                                    "\"" + mReferencedText[i] + "\"" :
-                                    mReferencedText[i]);
+                            replaceAllIgnoreCase(text, refText, toQuote ?
+                                    "\"" + mReferencedText[i] + "\"" : mReferencedText[i]);
                         }
                     }
                     refs.replaceInText("objects", text,
@@ -1951,17 +1992,17 @@ public class MAdventure {
                 // name with 'he' instead of the second.
 
                 // Find the first recognised function name that appears in the text.
-                String funcName = "";
+                String fname = "";
                 int firstPos = Integer.MAX_VALUE;
                 for (String name : getFunctionNames()) {
                     int pos = findIgnoreCase(text, "%" + name + "[");
                     if (pos >= 0 && pos < firstPos) {
-                        funcName = name.toLowerCase();
+                        fname = name.toLowerCase();
                         firstPos = pos;
                     }
                 }
 
-                int lenFName = funcName.length();
+                int lenFName = fname.length();
                 if (lenFName > 0) {
                     // ----------------------------------------------------------------
                     //        THIS FUNCTION APPEARS AT LEAST ONCE IN THE TEXT
@@ -1969,7 +2010,7 @@ public class MAdventure {
                     // We found a first occurrence of the function name - need to
                     // evaluate and replace it. We keep replacing references to this
                     // function until there are no references left.
-                    String func = "%" + funcName + "[";
+                    String func = "%" + fname + "[";
                     int funcPos = findIgnoreCase(text, func);
                     while (funcPos >= 0) {
                         // -----------------------------------------------------------
@@ -1980,7 +2021,7 @@ public class MAdventure {
                         // will be included).
                         String args = getArgs(text, funcPos + 1 + lenFName);
                         int argLen = args.length();
-                        if (argLen > 0 || funcName.equals("sum")) {
+                        if (argLen > 0 || fname.equals("sum")) {
                             // -------------------------------------------------------
                             //          YEP, THE FUNCTION HAS ARGUMENTS
                             // -------------------------------------------------------
@@ -2005,16 +2046,13 @@ public class MAdventure {
                                 // that function call with the evaluated result.
                                 boolean isSentenceStart = false;
                                 if (funcPos > 2) {
-                                    String lastTwoChars =
+                                    String lastChars =
                                             text.substring(funcPos - 2, funcPos);
                                     isSentenceStart =
-                                            (lastTwoChars.endsWith("\n") ||
-                                                    lastTwoChars.equals("  "));
+                                            (lastChars.endsWith("\n") || lastChars.equals("  "));
                                 }
-                                StringBuilder r =
-                                        evalGeneralFunc(funcName,
-                                                args, oldArgs, isSentenceStart,
-                                                refs, isExpr, funcPos);
+                                StringBuilder r = evalGeneralFunc(fname, args,
+                                        oldArgs, isSentenceStart, refs, isExpr, funcPos);
                                 replaceAllIgnoreCase(text, funcFull, r.toString());
                             } else {
                                 // --------------------------------------------------
@@ -2024,43 +2062,43 @@ public class MAdventure {
                                 // call with a HTML marked up version that will be
                                 // displayed to the player.
                                 String badFunc = "";
-                                String textLower = text.toString().toLowerCase();
-                                StringBuilder sbTarg = new StringBuilder("%" + funcName);
-                                if (textLower.contains(sbTarg)) {
+                                String ltext = text.toString().toLowerCase();
+                                StringBuilder sbTarg = new StringBuilder("%" + fname);
+                                if (ltext.contains(sbTarg)) {
                                     badFunc = sbTarg.toString();
                                 }
                                 sbTarg.append("[");
-                                if (textLower.contains(sbTarg)) {
+                                if (ltext.contains(sbTarg)) {
                                     badFunc = sbTarg.toString();
                                 }
                                 sbTarg.append(args.toLowerCase());
-                                if (textLower.contains(sbTarg)) {
-                                    badFunc = "%" + funcName + "[" + args;
+                                if (ltext.contains(sbTarg)) {
+                                    badFunc = "%" + fname + "[" + args;
                                 }
                                 sbTarg.append("]");
-                                if (textLower.contains(sbTarg)) {
-                                    badFunc = "%" + funcName + "[" + args + "]";
+                                if (ltext.contains(sbTarg)) {
+                                    badFunc = "%" + fname + "[" + args + "]";
                                 }
                                 replaceAllIgnoreCase(text, badFunc,
                                         " <c><u>" +
                                                 badFunc.replace("%", "&perc;") +
                                                 "</u></c>");
-                                mView.displayError("Bad function " + funcName);
+                                mView.displayError("Bad function " + fname);
                             }
                         } else {
                             // -------------------------------------------------------
                             //        FUNCTION DOESN'T HAVE ARGUMENTS - ERROR
                             // -------------------------------------------------------
-                            replaceAllIgnoreCase(text, "%" + funcName + "[]%", "");
-                            replaceAllIgnoreCase(text, "%" + funcName + "[", "");
-                            mView.displayError("No arguments given to function " + funcName);
+                            replaceAllIgnoreCase(text, "%" + fname + "[]%", "");
+                            replaceAllIgnoreCase(text, "%" + fname + "[", "");
+                            mView.displayError("No arguments given to function " + fname);
                         }
 
                         // Get the next reference to this function, if one exists.
                         funcPos = findIgnoreCase(text, func);
                     }
                 }
-            } while (!text.toString().equals(check));
+            } while (!isSameString(text, check));
         }
 
         // =============================================================================
@@ -2134,20 +2172,21 @@ public class MAdventure {
         // =============================================================================
         //                      REPLACE <# XXX #> EXPRESSIONS
         // -----------------------------------------------------------------------------
-        for (String uuid : uuids.keySet()) {
+        for (Map.Entry<String, String> entry : uuids.entrySet()) {
+            String uuid = entry.getKey();
             int start = text.indexOf(uuid);
             int end = start + uuid.length();
-            text.replace(start, end, uuids.get(uuid));
+            text.replace(start, end, entry.getValue());
         }
     }
 
     @NonNull
-    private StringBuilder evalGeneralFunc(@NonNull String funcName,
+    private StringBuilder evalGeneralFunc(@NonNull String fname,
                                           @NonNull String args,
                                           @NonNull String oldArgs,
                                           boolean isStartOfSentence,
                                           @Nullable MReferenceList refs,
-                                          boolean isExpr, int iMatchLoc) {
+                                          boolean isExpr, int matchLoc) {
         // GENERAL FUNCTIONS
         //
         // There are quite a few general functions that can be added
@@ -2227,7 +2266,7 @@ public class MAdventure {
         // =============================================================
         //                    EVALUATE THE FUNCTION
         // -------------------------------------------------------------
-        switch (funcName) {
+        switch (fname) {
             case "characterdescriptor": {
                 // -------------------------------------------
                 //        %CharacterDescriptor[key]%
@@ -2263,7 +2302,6 @@ public class MAdventure {
                 }
                 break;
             }
-
             case "charactername": {
                 // -------------------------------------------
                 //             %CharacterName%
@@ -2351,7 +2389,7 @@ public class MAdventure {
                     if (mView.mDisplaying) {
                         mPronounKeys.add(chKey,
                                 pronounType, ch.getGender(),
-                                mView.mOutputText.length() + iMatchLoc);
+                                mView.mOutputText.length() + matchLoc);
                     }
                 } else if (chKey.equals(NOCHARACTER)) {
                     ret.append("Nobody");
@@ -2362,7 +2400,6 @@ public class MAdventure {
                 }
                 break;
             }
-
             case "characterproper":
             case "propername": {
                 // -------------------------------------------
@@ -2390,7 +2427,6 @@ public class MAdventure {
                 }
                 break;
             }
-
             case "displaycharacter": {
                 // -------------------------------------------
                 //          %DisplayCharacter[key]%
@@ -2419,7 +2455,6 @@ public class MAdventure {
                 }
                 break;
             }
-
             case "displaylocation": {
                 // -------------------------------------------
                 //          %DisplayLocation[key]%
@@ -2463,7 +2498,7 @@ public class MAdventure {
                 // laying on another object.
                 MLocation loc = mLocations.get(args);
                 if (loc != null) {
-                    ret.append(loc.getViewLocation());
+                    ret.append(loc.getViewLocString());
                     if (ret.length() == 0) {
                         ret.append("There is nothing of interest here.");
                     }
@@ -2474,7 +2509,6 @@ public class MAdventure {
                 }
                 break;
             }
-
             case "displayobject": {
                 // -------------------------------------------
                 //          %DisplayObject[key]%
@@ -2504,7 +2538,6 @@ public class MAdventure {
                 }
                 break;
             }
-
             case "held": {
                 // -------------------------------------------
                 //               %Held[key]%
@@ -2518,7 +2551,7 @@ public class MAdventure {
                 // held by the given character.
                 MCharacter ch = mCharacters.get(args);
                 if (ch != null) {
-                    for (MObject ob : ch.getHeldObjects().values()) {
+                    for (MObject ob : ch.getHeldObs().values()) {
                         if (ret.length() > 0) {
                             ret.append("|");
                         }
@@ -2532,8 +2565,7 @@ public class MAdventure {
                 allowBlankRet = true;
                 break;
             }
-
-            case "lcase":
+            case "lcase": {
                 // -------------------------------------------
                 //              %LCase[string]%
                 // -------------------------------------------
@@ -2545,7 +2577,7 @@ public class MAdventure {
                 // lower case.
                 ret.append(args.toLowerCase());
                 break;
-
+            }
             case "listcharacterson": {
                 // -------------------------------------------
                 //          %ListCharactersOn[key]%
@@ -2571,7 +2603,6 @@ public class MAdventure {
                 }
                 break;
             }
-
             case "listcharactersin": {
                 // -------------------------------------------
                 //          %ListCharactersIn[key]%
@@ -2596,7 +2627,6 @@ public class MAdventure {
                 }
                 break;
             }
-
             case "listcharactersonandin": {
                 // -------------------------------------------
                 //       %ListCharactersOnAndIn[key]%
@@ -2625,7 +2655,6 @@ public class MAdventure {
                 }
                 break;
             }
-
             case "listheld": {
                 // -------------------------------------------
                 //             %ListHeld[key]%
@@ -2641,8 +2670,7 @@ public class MAdventure {
                 // character.
                 MCharacter ch = mCharacters.get(args);
                 if (ch != null) {
-                    ret.append(ch
-                            .getHeldObjects()
+                    ret.append(ch.getHeldObs()
                             .toList("and", true, Indefinite));
                 } else {
                     mView.displayError("Bad Argument to " +
@@ -2651,7 +2679,6 @@ public class MAdventure {
                 }
                 break;
             }
-
             case "listexits": {
                 // -------------------------------------------
                 //             %ListExits[key]%
@@ -2681,7 +2708,6 @@ public class MAdventure {
                 }
                 break;
             }
-
             case "listobjectsatlocation": {
                 // -------------------------------------------
                 //       %ListObjectsAtLocation[key]%
@@ -2701,8 +2727,7 @@ public class MAdventure {
                 // explicitly list.
                 MLocation loc = mLocations.get(args);
                 if (loc != null) {
-                    ret.append(loc
-                            .getObjectsInLocation(AllObjects, true)
+                    ret.append(loc.getObsInLoc(AllObjects, true)
                             .toList("and", false, Indefinite));
                 } else {
                     mView.displayError("Bad Argument to " +
@@ -2711,7 +2736,6 @@ public class MAdventure {
                 }
                 break;
             }
-
             case "listobjectson": {
                 // -------------------------------------------
                 //           %ListObjectsOn[key]%
@@ -2727,8 +2751,7 @@ public class MAdventure {
                 // particular object.
                 MObject ob = mObjects.get(args);
                 if (ob != null) {
-                    ret.append(ob
-                            .getChildObjects(OnObject)
+                    ret.append(ob.getChildObs(OnObject)
                             .toList("and", false, Indefinite));
                 } else {
                     mView.displayError("Bad Argument to " +
@@ -2737,7 +2760,6 @@ public class MAdventure {
                 }
                 break;
             }
-
             case "listobjectsin": {
                 // -------------------------------------------
                 //          %ListObjectsIn[key]%
@@ -2758,8 +2780,7 @@ public class MAdventure {
                 // container object.
                 MObject ob = mObjects.get(args);
                 if (ob != null) {
-                    ret.append(ob
-                            .getChildObjects(InsideObject)
+                    ret.append(ob.getChildObs(InsideObject)
                             .toList("and", false, Indefinite));
                 } else {
                     mView.displayError("Bad Argument to " +
@@ -2768,7 +2789,6 @@ public class MAdventure {
                 }
                 break;
             }
-
             case "listobjectsonandin": {
                 // -------------------------------------------
                 //         %ListObjectsOnAndIn[key]%
@@ -2798,7 +2818,7 @@ public class MAdventure {
                 if (argObs.size() > 0) {
                     for (MObject ob : argObs.values()) {
                         if (argObs.size() == 1 ||
-                                ob.getChildObjects(InsideOrOnObject).size() > 0) {
+                                ob.getChildObs(InsideOrOnObject).size() > 0) {
                             if (ret.length() > 0) {
                                 appendDoubleSpace(ret);
                             }
@@ -2812,7 +2832,6 @@ public class MAdventure {
                 }
                 break;
             }
-
             case "listworn": {
                 // -------------------------------------------
                 //             %ListWorn[key]%
@@ -2828,8 +2847,7 @@ public class MAdventure {
                 // character.
                 MCharacter ch = mCharacters.get(args);
                 if (ch != null) {
-                    ret.append(ch
-                            .getWornObjects()
+                    ret.append(ch.getWornObs()
                             .toList("and", true, Indefinite));
                 } else {
                     mView.displayError("Bad Argument to " +
@@ -2838,7 +2856,6 @@ public class MAdventure {
                 }
                 break;
             }
-
             case "locationname": {
                 // -------------------------------------------
                 //            %LocationName[key]%
@@ -2854,8 +2871,7 @@ public class MAdventure {
                 // Location.
                 MLocation loc = mLocations.get(args);
                 if (loc != null) {
-                    ret.append(loc
-                            .getShortDescription().toString());
+                    ret.append(loc.getShortDescription().toString());
                 } else {
                     mView.displayError("Bad Argument to " +
                             "&perc;LocationName[]&perc; - " +
@@ -2863,7 +2879,6 @@ public class MAdventure {
                 }
                 break;
             }
-
             case "locationof": {
                 // -------------------------------------------
                 //            %LocationOf[key]%
@@ -2882,15 +2897,11 @@ public class MAdventure {
                 // of an object]
                 MCharacter ch = mCharacters.get(args);
                 if (ch != null) {
-                    ret.append(ch
-                            .getLocation()
-                            .getLocationKey());
+                    ret.append(ch.getLocation().getLocationKey());
                 } else {
                     MObject ob = mObjects.get(args);
                     if (ob != null) {
-                        Set<String> locs = ob
-                                .getRootLocations()
-                                .keySet();
+                        Set<String> locs = ob.getRootLocations().keySet();
                         for (String locKey : locs) {
                             if (ret.length() > 0) {
                                 ret.append("|");
@@ -2905,8 +2916,7 @@ public class MAdventure {
                 }
                 break;
             }
-
-            case "numberastext":
+            case "numberastext": {
                 // -------------------------------------------
                 //          %NumberAsText[number]%
                 // -------------------------------------------
@@ -2916,23 +2926,21 @@ public class MAdventure {
                 // Returns a number written out as text.
                 ret.append(numberToString(this, args, refs));
                 break;
-
-            case "objectname":
+            }
+            case "objectname": {
                 // -------------------------------------------
                 //
                 // -------------------------------------------
-                ret.append(argObs
-                        .toList("and", false, Indefinite));
+                ret.append(argObs.toList("and", false, Indefinite));
                 break;
-
+            }
             case "objectsin": {
                 // -------------------------------------------
                 //
                 // -------------------------------------------
                 MObject ob = mObjects.get(args);
                 if (ob != null) {
-                    Collection<MObject> childObs = ob
-                            .getChildObjects(InsideObject).values();
+                    Collection<MObject> childObs = ob.getChildObs(InsideObject).values();
                     for (MObject childOb : childObs) {
                         if (ret.length() > 0) {
                             ret.append("|");
@@ -2947,8 +2955,7 @@ public class MAdventure {
                 allowBlankRet = true;
                 break;
             }
-
-            case "parentof":
+            case "parentof": {
                 // -------------------------------------------
                 //             %ParentOf[key]%
                 // -------------------------------------------
@@ -2987,7 +2994,7 @@ public class MAdventure {
                     ret.append(ch.getParent());
                 }
                 break;
-
+            }
             case "pcase": {
                 // -------------------------------------------
                 //             %PCase[string]%
@@ -3005,7 +3012,6 @@ public class MAdventure {
                 ret.append(sb);
                 break;
             }
-
             case "popupchoice": {
                 // -------------------------------------------
                 //   %PopUpChoice[prompt, choice1, choice2]%
@@ -3047,8 +3053,8 @@ public class MAdventure {
                     String prompt = evalStrExpr(params[0], refs);
                     String choice1 = evalStrExpr(params[1], refs);
                     String choice2 = evalStrExpr(params[2], refs);
-                    char c = msgBoxYesNo(this, prompt + "\n\nYes for " + choice1 +
-                            ", No for " + choice2 + " > ");
+                    char c = msgBoxYesNo(this, prompt +
+                            "\n\nYes for " + choice1 + ", No for " + choice2 + " > ");
                     switch (c) {
                         case 'y':
                         case 'Y':
@@ -3068,7 +3074,6 @@ public class MAdventure {
                 }
                 break;
             }
-
             case "popupinput": {
                 // -------------------------------------------
                 //        %PopUpInput[prompt, default]%
@@ -3116,18 +3121,17 @@ public class MAdventure {
                 }
                 break;
             }
-
-            case "prevlistobjectson":
+            case "prevlistobjectson": {
                 // -------------------------------------------
                 //           %PrevListObjectsOn%
                 //              [UNDOCUMENTED]
                 // -------------------------------------------
                 // Maintain a 'last turn' state
                 // Call ListObjectsOn on this state
-                ret.append(getLastFunc(funcName, args, refs));
+                ret.append(getLastFunc(fname, args, refs));
                 break;
-
-            case "prevparentof":
+            }
+            case "prevparentof": {
                 // -------------------------------------------
                 //             %PrevParentOf%
                 //             [UNDOCUMENTED]
@@ -3147,7 +3151,7 @@ public class MAdventure {
                     ret.append(ch.getLastParent());
                 }
                 break;
-
+            }
             case "propertyvalue": {
                 // -------------------------------------------
                 //     %PropertyValue[key, propertykey]%
@@ -3173,9 +3177,7 @@ public class MAdventure {
                 // need to remember the keys, and offer extra
                 // functionality.
                 allowBlankRet = true;
-                String[] params = args
-                        .replace(" ", "")
-                        .split(",");
+                String[] params = args.replace(" ", "").split(",");
                 if (params.length == 2) {
                     if (argObs.size() + argChs.size() + argLocs.size() > 0) {
                         MStringArrayList output = new MStringArrayList();
@@ -3210,8 +3212,7 @@ public class MAdventure {
                     } else {
                         // Only warn about the first arg if
                         // it isn't from a function
-                        String orig = oldArgs
-                                .replace(" ", "")
+                        String orig = oldArgs.replace(" ", "")
                                 .split(",")[0];
                         if (orig.equals(params[0])) {
                             mView.displayError("Bad 1st Argument to " +
@@ -3226,7 +3227,6 @@ public class MAdventure {
                 }
                 break;
             }
-
             case "sum": {
                 // -------------------------------------------
                 //               %Sum[string]%
@@ -3273,7 +3273,6 @@ public class MAdventure {
                 ret.append(String.valueOf(total));
                 break;
             }
-
             case "taskcompleted": {
                 // -------------------------------------------
                 //           %TaskCompleted[key]%
@@ -3294,7 +3293,6 @@ public class MAdventure {
                 }
                 break;
             }
-
             case "theobject":
             case "theobjects": {
                 // -------------------------------------------
@@ -3321,7 +3319,6 @@ public class MAdventure {
                 ret.append(argObs.toList());
                 break;
             }
-
             case "ucase": {
                 // -------------------------------------------
                 //             %UCase[string]%
@@ -3335,7 +3332,6 @@ public class MAdventure {
                 ret.append(args.toUpperCase());
                 break;
             }
-
             case "worn": {
                 // -------------------------------------------
                 //               %Worn[key]%
@@ -3349,7 +3345,7 @@ public class MAdventure {
                 // worn by the given character.
                 MCharacter ch = mCharacters.get(args);
                 if (ch != null) {
-                    Collection<MObject> obs = ch.getWornObjects().values();
+                    Collection<MObject> obs = ch.getWornObs().values();
                     for (MObject ob : obs) {
                         if (ret.length() > 0) {
                             ret.append("|");
@@ -3370,21 +3366,27 @@ public class MAdventure {
         if (!allowBlankRet && ret.length() == 0) {
             mView.displayError("Bad Function - Nothing output");
         }
+
         return ret;
     }
 
-    private String getLastFunc(@NonNull String funcName,
-                               @NonNull String args, @Nullable MReferenceList refs) {
-        String newFunc = funcName.replace("prev", "");
+    private String getLastFunc(@NonNull String fname, @NonNull String args,
+                               @Nullable MReferenceList refs) {
+        String newFunc = fname.replace("prev", "");
         // Note the previous state:
         MGameState prevState = mStates.peek();
         // Save where we are now:
-        mStates.recordState(this);
+        mStates.push(new MGameState(this));
         // Load up the previous state:
-        mStates.restoreState(this, prevState);
+        if (prevState != null) {
+            prevState.restore(this);
+        }
         String ret = evalFuncs("%" + newFunc + "[" + args + "]%", refs);
         // Get rid of the 'current' state and load it back as present:
-        mStates.pop(this);
+        MGameState state = mStates.pop();
+        if (state != null) {
+            state.restore(this);
+        }
         return ret;
     }
 
@@ -3415,8 +3417,7 @@ public class MAdventure {
                 // We found an item function
                 String itemFunc = m2.group();
                 boolean retIsInt[] = new boolean[1];
-                String result =
-                        evalItemFunc(itemFunc, null,
+                String result = evalItemFunc(itemFunc, null,
                                 null, null, null, retIsInt);
                 int prevStart = start;
                 start = m2.start() + itemFunc.length();
@@ -3424,8 +3425,7 @@ public class MAdventure {
                     if (result.contains(itemFunc)) {
                         result = result.replace(itemFunc, "*** RECURSIVE REPLACE ***");
                     }
-                    if (isExpr &&
-                            !retIsInt[0] &&
+                    if (isExpr && !retIsInt[0] &&
                             !contains(text, "\"" + itemFunc + "\"", prevStart + 1)) {
                         result = "\"" + result + "\"";
                     }
@@ -3440,29 +3440,24 @@ public class MAdventure {
     }
 
     @NonNull
-    String evalStrRegex(@NonNull String text,
-                        @Nullable MReferenceList refs) {
+    String evalStrRegex(@NonNull String text, @Nullable MReferenceList refs) {
         Matcher m = RE_EXP.matcher(text);
         while (m.find()) {
-            text = text.replace(m.group(),
-                    evalStrExpr(m.group(1), refs));
+            text = text.replace(m.group(), evalStrExpr(m.group(1), refs));
         }
         return text;
     }
 
-    public void evalStrRegex(@NonNull StringBuilder text,
-                             @Nullable MReferenceList refs) {
+    public void evalStrRegex(@NonNull StringBuilder text, @Nullable MReferenceList refs) {
         Matcher m = RE_EXP.matcher(text);
         while (m.find()) {
-            text.replace(m.start(), m.end(),
-                    evalStrExpr(m.group(1), refs));
+            text.replace(m.start(), m.end(), evalStrExpr(m.group(1), refs));
             m.reset(text);
         }
     }
 
     @NonNull
-    public String evalStrExpr(@NonNull String expr,
-                              @Nullable MReferenceList refs) {
+    public String evalStrExpr(@NonNull String expr, @Nullable MReferenceList refs) {
         if (expr.length() == 0) {
             return "";
         }
@@ -3472,8 +3467,7 @@ public class MAdventure {
         return var.getStr();
     }
 
-    int evalIntExpr(@NonNull String expr,
-                    @Nullable MReferenceList refs) {
+    int evalIntExpr(@NonNull String expr, @Nullable MReferenceList refs) {
         MVariable var = new MVariable(this);
         var.setType(Numeric);
         var.setToExpr(expr, refs);
@@ -3486,7 +3480,10 @@ public class MAdventure {
         MGlobals.MPerspectiveEnum pers = MGlobals.MPerspectiveEnum.None;
         for (MPronounInfo p : mPronounKeys) {
             if (offset >= p.mOffset && p.mOffset > highest) {
-                pers = mCharacters.get(p.mKey).getPerspective();
+                MCharacter ch = mCharacters.get(p.mKey);
+                if (ch != null) {
+                    pers = ch.getPerspective();
+                }
                 highest = p.mOffset;
             }
         }
@@ -3498,52 +3495,54 @@ public class MAdventure {
     public String evalItemProp(@NonNull String propKey,
                                @NonNull MPropertyHashMap itemProps,
                                @NonNull MPropertyHashMap globalProps,
-                               @NonNull String rem,
-                               @NonNull boolean[] retIsInt) {
+                               @NonNull String rem, @NonNull boolean[] retIsInt) {
         MItemFunctionEvaluator item = null;
         ArrayList<MItemWithProperties> itemList = null;
-        MProperty p;
+        MProperty prop;
 
-        if ((p = itemProps.get(propKey)) != null) {
+        if ((prop = itemProps.get(propKey)) != null) {
             // Item has the property.
-            switch (p.getType()) {
-                case CharacterKey:
-                    item = mCharacters.get(p.getValue());
+            switch (prop.getType()) {
+                case CharacterKey: {
+                    item = mCharacters.get(prop.getValue());
                     break;
-
-                case LocationGroupKey:
-                    itemList = new ArrayList<>();
-                    for (String itemKey :
-                            mGroups.get(p.getValue()).getArlMembers()) {
-                        itemList.add((MItemWithProperties) mAllItems.get(itemKey));
+                }
+                case LocationGroupKey: {
+                    MGroup grp = mGroups.get(prop.getValue());
+                    if (grp != null) {
+                        itemList = new ArrayList<>();
+                        for (String itemKey : grp.getMembers()) {
+                            itemList.add((MItemWithProperties) mAllItems.get(itemKey));
+                        }
                     }
                     break;
-
-                case LocationKey:
-                    item = mLocations.get(p.getValue());
+                }
+                case LocationKey: {
+                    item = mLocations.get(prop.getValue());
                     break;
-
-                case ObjectKey:
-                    item = mObjects.get(p.getValue());
+                }
+                case ObjectKey: {
+                    item = mObjects.get(prop.getValue());
                     break;
-
+                }
                 case Integer:
-                case ValueList:
+                case ValueList: {
                     retIsInt[0] = true;
-                    return String.valueOf(p.getIntData());
-
-                case SelectionOnly:
+                    return String.valueOf(prop.getIntData());
+                }
+                case SelectionOnly: {
                     retIsInt[0] = true;
                     return "1";
-
+                }
                 case Text:
-                case StateList:
-                    return p.getValue();
+                case StateList: {
+                    return prop.getValue();
+                }
             }
-        } else if ((p = globalProps.get(propKey)) != null) {
+        } else if ((prop = globalProps.get(propKey)) != null) {
             // Item doesn't have the property. Give a default based on the
             // global property's type.
-            switch (p.getType()) {
+            switch (prop.getType()) {
                 case Integer:
                 case ValueList:
                 case SelectionOnly:
@@ -3552,13 +3551,12 @@ public class MAdventure {
         }
 
         if (rem.length() > 0) {
-            return evalItemFunc(rem, itemList,
-                    null, null, item, retIsInt);
+            return evalItemFunc(rem, itemList, null, null, item, retIsInt);
         } else if (item != null) {
             return ((MItem) item).getKey();
         } else if (itemList != null && itemList.size() > 0) {
-            return evalItemFunc(rem, itemList,
-                    null, null, null, retIsInt);
+            return evalItemFunc(rem, itemList, null,
+                    null, null, retIsInt);
         }
 
         return "#*!~#";
@@ -3610,50 +3608,48 @@ public class MAdventure {
         }
     }
 
-    private String evalItemList(@Nullable ArrayList<MItemWithProperties> lst,
-                                @Nullable ArrayList<DirectionsEnum> lstDirs,
-                                @NonNull String funcName,
-                                @NonNull String args,
-                                @NonNull String rem,
-                                @Nullable String propKey,
+    private String evalItemList(@Nullable ArrayList<MItemWithProperties> items,
+                                @Nullable ArrayList<DirectionsEnum> dirs,
+                                @NonNull String fname, @NonNull String args,
+                                @NonNull String rem, @Nullable String propKey,
                                 @NonNull boolean[] retIsInt) {
         StringBuilder ret;
-        ArrayList<MItemWithProperties> lstNew;
-        ArrayList<String> lstKeys;
+        ArrayList<MItemWithProperties> itemsNew;
+        ArrayList<String> keys;
 
-        switch (funcName) {
-            case "":
+        switch (fname) {
+            case "": {
                 ret = new StringBuilder();
-                if (lst != null) {
-                    for (int i = 0; i < lst.size(); i++) {
-                        ret.append(lst.get(i).getKey());
-                        if (i < lst.size() - 1) {
+                if (items != null) {
+                    for (int i = 0; i < items.size(); i++) {
+                        ret.append(items.get(i).getKey());
+                        if (i < items.size() - 1) {
                             ret.append("|");
                         }
                     }
                 } else {
-                    for (int i = 0; i < lstDirs.size(); i++) {
-                        ret.append(lstDirs.get(i).toString());
-                        if (i < lstDirs.size() - 1) {
+                    for (int i = 0; i < dirs.size(); i++) {
+                        ret.append(dirs.get(i).toString());
+                        if (i < dirs.size() - 1) {
                             ret.append("|");
                         }
                     }
                 }
                 return ret.toString();
-
-            case "Count":
-                if (lst != null) {
-                    return String.valueOf(lst.size());
-                } else if (lstDirs != null) {
-                    return String.valueOf(lstDirs.size());
+            }
+            case "Count": {
+                if (items != null) {
+                    return String.valueOf(items.size());
+                } else if (dirs != null) {
+                    return String.valueOf(dirs.size());
                 }
                 retIsInt[0] = true;
                 return "0";
-
+            }
             case "Sum": {
                 int sum = 0;
-                if (lst != null && propKey != null) {
-                    for (MItemWithProperties item : lst) {
+                if (items != null && propKey != null) {
+                    for (MItemWithProperties item : items) {
                         if (item.hasProperty(propKey)) {
                             sum += item.getProperties().get(propKey).getIntData();
                         }
@@ -3662,97 +3658,95 @@ public class MAdventure {
                 retIsInt[0] = true;
                 return String.valueOf(sum);
             }
-
             case "Description": {
                 ret = new StringBuilder();
-                for (MItem item : lst) {
+                for (MItem item : items) {
                     appendDoubleSpace(ret);
                     if (item instanceof MObject) {
                         ret.append(((MObject) item).getDescription().toString());
                     } else if (item instanceof MCharacter) {
                         ret.append(((MCharacter) item).getDescription().toString());
                     } else if (item instanceof MLocation) {
-                        if (((MLocation) item).getViewLocation().equals("")) {
+                        if (((MLocation) item).getViewLocString().equals("")) {
                             ret.append("There is nothing of interest here.");
                         } else {
-                            ret.append(((MLocation) item).getViewLocation());
+                            ret.append(((MLocation) item).getViewLocString());
                         }
                     }
                 }
                 return ret.toString();
             }
-
             case "List":
-            case "Name":
+            case "Name": {
                 // List(and) - And separated list - Default
                 // List(or) - Or separated list
                 String delim = " and ";
-                String argsLower = args.toLowerCase();
-                if (argsLower.contains("or")) {
+                String largs = args.toLowerCase();
+                if (largs.contains("or")) {
                     delim = " or ";
                 }
-                if (argsLower.contains("rows")) {
+                if (largs.contains("rows")) {
                     delim = "\n";
                 }
 
                 // List(definite/the) - List the objects names - Default
-                // List(indefinite) - List a/an object
+                // List(indefinite) -   List a/an object
                 MGlobals.ArticleTypeEnum article = Definite;
-                if (argsLower.contains("indefinite")) {
+                if (largs.contains("indefinite")) {
                     article = Indefinite;
                 }
-                if (argsLower.contains("none")) {
+                if (largs.contains("none")) {
                     article = None;
                 }
 
-                // List(true) - List anything in/on everything in the list (single level) - Default
+                // List(true) - List anything in/on everything in the
+                //              list (single level) - Default
                 // List(false) - Do not list anything in/on
                 boolean listInOn = true; // List any objects in or on anything in this list
-                if (funcName.equals("Name") ||
-                        argsLower.contains("false") || argsLower.contains("0")) {
+                if (fname.equals("Name") || largs.contains("false") || largs.contains("0")) {
                     listInOn = false;
                 }
 
                 boolean forcePronoun = false;
                 MPronounEnum pronoun = Subjective;
-                if (argsLower.contains("none")) {
+                if (largs.contains("none")) {
                     pronoun = MPronounEnum.None;
                 }
-                if (argsLower.contains("force")) {
+                if (largs.contains("force")) {
                     forcePronoun = true;
                 }
-                if (argsLower.contains("objective") ||
-                        argsLower.contains("object") || argsLower.contains("target")) {
+                if (largs.contains("objective") || largs.contains("object") ||
+                        largs.contains("target")) {
                     pronoun = Objective;
                 }
-                if (argsLower.contains("possessive") || argsLower.contains("possess")) {
+                if (largs.contains("possessive") || largs.contains("possess")) {
                     pronoun = Possessive;
                 }
-                if (argsLower.contains("reflective") || argsLower.contains("reflect")) {
+                if (largs.contains("reflective") || largs.contains("reflect")) {
                     pronoun = Reflective;
                 }
 
                 ret = new StringBuilder();
                 int i = 0;
-                if (lst != null) {
-                    for (MItem item : lst) {
+                if (items != null) {
+                    for (MItem item : items) {
                         i++;
                         if (delim.equals("\n")) {
                             if (i > 1) {
                                 ret.append(delim);
                             }
                         } else {
-                            if (i > 1 && i < lst.size()) {
+                            if (i > 1 && i < items.size()) {
                                 ret.append(", ");
                             }
-                            if (lst.size() > 1 && i == lst.size()) {
+                            if (items.size() > 1 && i == items.size()) {
                                 ret.append(delim);
                             }
                         }
                         if (item instanceof MObject) {
                             ret.append(((MObject) item).getFullName(article));
                             if (listInOn &&
-                                    ((MObject) item).getChildObjects(InsideOrOnObject).size() > 0) {
+                                    ((MObject) item).getChildObs(InsideOrOnObject).size() > 0) {
                                 ret.append(".  ").append(((MObject) item).displayChildObjects());
                                 chopLast(ret);
                             }
@@ -3760,7 +3754,7 @@ public class MAdventure {
                             // List(definite/the) - List the objects names - Default
                             // List(indefinite) - List a/an object
                             article = Indefinite; // opposite default from objects
-                            if (argsLower.contains("definite")) {
+                            if (largs.contains("definite")) {
                                 article = Definite;
                             }
                             ret.append(((MCharacter) item).getName(pronoun,
@@ -3769,13 +3763,13 @@ public class MAdventure {
                             ret.append(((MLocation) item).getShortDescription().toString());
                         }
                     }
-                } else if (lstDirs != null) {
-                    for (DirectionsEnum dir : lstDirs) {
+                } else if (dirs != null) {
+                    for (DirectionsEnum dir : dirs) {
                         i++;
-                        if (i > 1 && i < lstDirs.size()) {
+                        if (i > 1 && i < dirs.size()) {
                             ret.append(", ");
                         }
-                        if (lstDirs.size() > 1 && i == lstDirs.size()) {
+                        if (dirs.size() > 1 && i == dirs.size()) {
                             ret.append(delim);
                         }
                         ret.append(getDirectionName(dir).toLowerCase());
@@ -3785,31 +3779,30 @@ public class MAdventure {
                     return "nothing";
                 }
                 return ret.toString();
-
-            case "Parent":
-                lstNew = new ArrayList<>();
-                lstKeys = new ArrayList<>();
-                for (MItemWithProperties item : lst) {
+            }
+            case "Parent": {
+                itemsNew = new ArrayList<>();
+                keys = new ArrayList<>();
+                for (MItemWithProperties item : items) {
                     String parent = item.getParent();
                     if (parent.length() > 0) {
-                        if (!lstKeys.contains(parent)) {
+                        if (!keys.contains(parent)) {
                             MItemWithProperties newItem =
                                     (MItemWithProperties) mAllItems.get(parent);
-                            lstKeys.add(parent);
-                            lstNew.add(newItem);
+                            keys.add(parent);
+                            itemsNew.add(newItem);
                         }
                     }
                 }
-
                 if (rem.length() > 0) {
-                    return evalItemFunc(rem, lstNew, null,
+                    return evalItemFunc(rem, itemsNew, null,
                             null, null, retIsInt);
                 }
                 break;
-
-            case "Children":
-                lstNew = new ArrayList<>();
-                for (MItemWithProperties item : lst) {
+            }
+            case "Children": {
+                itemsNew = new ArrayList<>();
+                for (MItemWithProperties item : items) {
                     if (item instanceof MObject) {
                         MObject ob = (MObject) item;
                         switch (args.toLowerCase().replace(" ", "")) {
@@ -3817,93 +3810,93 @@ public class MAdventure {
                             case "all":
                             case "onandin":
                             case "all,onandin":
-                                lstNew.addAll(ob.getChildObjects(InsideOrOnObject, true).values());
-                                lstNew.addAll(ob.getChildChars(InsideOrOnObject).values());
+                                itemsNew.addAll(ob.getChildObs(InsideOrOnObject, true).values());
+                                itemsNew.addAll(ob.getChildChars(InsideOrOnObject).values());
                                 break;
                             case "characters,in":
-                                lstNew.addAll(ob.getChildChars(InsideObject).values());
+                                itemsNew.addAll(ob.getChildChars(InsideObject).values());
                                 break;
                             case "characters,on":
-                                lstNew.addAll(ob.getChildChars(OnObject).values());
+                                itemsNew.addAll(ob.getChildChars(OnObject).values());
                                 break;
                             case "characters,onandin":
                             case "characters":
-                                lstNew.addAll(ob.getChildChars(InsideOrOnObject).values());
+                                itemsNew.addAll(ob.getChildChars(InsideOrOnObject).values());
                                 break;
                             case "in":
-                                lstNew.addAll(ob.getChildObjects(InsideObject, true).values());
-                                lstNew.addAll(ob.getChildChars(InsideObject).values());
+                                itemsNew.addAll(ob.getChildObs(InsideObject, true).values());
+                                itemsNew.addAll(ob.getChildChars(InsideObject).values());
                                 break;
                             case "objects,in":
-                                lstNew.addAll(ob.getChildObjects(InsideObject, true).values());
+                                itemsNew.addAll(ob.getChildObs(InsideObject, true).values());
                                 break;
                             case "objects,on":
-                                lstNew.addAll(ob.getChildObjects(OnObject, true).values());
+                                itemsNew.addAll(ob.getChildObs(OnObject, true).values());
                                 break;
                             case "objects,onandin":
                             case "objects":
-                                lstNew.addAll(ob.getChildObjects(InsideOrOnObject, true).values());
+                                itemsNew.addAll(ob.getChildObs(InsideOrOnObject, true).values());
                                 break;
                         }
                     }
                 }
 
-                if (rem.length() > 0 || lstNew.size() > 0) {
-                    return evalItemFunc(rem, lstNew,
+                if (rem.length() > 0 || itemsNew.size() > 0) {
+                    return evalItemFunc(rem, itemsNew,
                             null, null, null, retIsInt);
                 }
                 break;
-
-            case "Contents":
-                lstNew = new ArrayList<>();
-                for (MItemWithProperties item : lst) {
+            }
+            case "Contents": {
+                itemsNew = new ArrayList<>();
+                for (MItemWithProperties item : items) {
                     if (item instanceof MObject) {
                         MObject ob = (MObject) item;
                         switch (args.toLowerCase()) {
                             case "":
                             case "all":
-                                lstNew.addAll(ob.getChildObjects(InsideObject, true).values());
-                                lstNew.addAll(ob.getChildChars(InsideObject).values());
+                                itemsNew.addAll(ob.getChildObs(InsideObject, true).values());
+                                itemsNew.addAll(ob.getChildChars(InsideObject).values());
                                 break;
                             case "characters":
-                                lstNew.addAll(ob.getChildChars(InsideObject).values());
+                                itemsNew.addAll(ob.getChildChars(InsideObject).values());
                                 break;
                             case "objects":
-                                lstNew.addAll(ob.getChildObjects(InsideObject, true).values());
+                                itemsNew.addAll(ob.getChildObs(InsideObject, true).values());
                                 break;
                         }
                     }
                 }
-                return evalItemFunc(rem, lstNew, null,
+                return evalItemFunc(rem, itemsNew, null,
                         null, null, retIsInt);
-
-            case "Objects":
-                lstNew = new ArrayList<>();
-                for (MItemWithProperties item : lst) {
+            }
+            case "Objects": {
+                itemsNew = new ArrayList<>();
+                for (MItemWithProperties item : items) {
                     if (item instanceof MLocation) {
                         MLocation loc = (MLocation) item;
-                        lstNew.addAll(loc.getObjectsInLocation().values());
+                        itemsNew.addAll(loc.getObsInLoc().values());
                     } else {
                         GLKLogger.error("TODO: Objects - MGlobals");
                     }
                 }
-                return evalItemFunc(rem, lstNew, null,
+                return evalItemFunc(rem, itemsNew, null,
                         null, null, retIsInt);
-
+            }
             default:
-                if (mAllProperties.containsKey(funcName)) {
-                    lstNew = new ArrayList<>();
-                    lstKeys = new ArrayList<>();
+                if (mAllProperties.containsKey(fname)) {
+                    itemsNew = new ArrayList<>();
+                    keys = new ArrayList<>();
                     ret = new StringBuilder();
                     int sum = 0;
                     boolean isIntResult = false;
                     boolean propFound = false;
                     String newPropKey = null;
 
-                    for (MItemWithProperties item : lst) {
-                        if (item.hasProperty(funcName)) {
+                    for (MItemWithProperties item : items) {
+                        if (item.hasProperty(fname)) {
                             propFound = true;
-                            MProperty p = item.getProperty(funcName);
+                            MProperty prop = item.getProperty(fname);
                             boolean evalsToTrue = true;
 
                             if (args.length() > 0) {
@@ -3917,17 +3910,17 @@ public class MAdventure {
                                         args = argsNew;
                                     }
                                 }
-                                switch (p.getType()) {
+                                switch (prop.getType()) {
                                     case ValueList: {
                                         int checkVal = 0;
                                         if (isNumeric(args)) {
                                             checkVal = safeInt(args);
                                         } else {
-                                            if (p.mValueList.containsKey(args)) {
-                                                checkVal = p.mValueList.get(args);
+                                            if (prop.mValueList.containsKey(args)) {
+                                                checkVal = prop.mValueList.get(args);
                                             }
                                         }
-                                        evalsToTrue = (p.getIntData() == checkVal);
+                                        evalsToTrue = (prop.getIntData() == checkVal);
                                         retIsInt[0] = true;
                                         break;
                                     }
@@ -3936,12 +3929,12 @@ public class MAdventure {
                                         if (isNumeric(args)) {
                                             checkVal = safeInt(args);
                                         }
-                                        evalsToTrue = (p.getIntData() == checkVal);
+                                        evalsToTrue = (prop.getIntData() == checkVal);
                                         retIsInt[0] = true;
                                         break;
                                     }
                                     case StateList:
-                                        evalsToTrue = p.getValue().toLowerCase()
+                                        evalsToTrue = prop.getValue().toLowerCase()
                                                 .equals(args.toLowerCase());
                                         break;
                                     case SelectionOnly:
@@ -3959,75 +3952,75 @@ public class MAdventure {
                                     default:
                                         GLKLogger.error("TODO: Property filter check " +
                                                 "not yet implemented for " +
-                                                p.getType().toString());
+                                                prop.getType().toString());
                                         break;
                                 }
                             }
 
                             if (evalsToTrue) {
-                                switch (p.getType()) {
+                                switch (prop.getType()) {
                                     case CharacterKey:
-                                        MCharacter chP = mCharacters.get(p.getValue());
-                                        if (!lstKeys.contains(chP.getKey())) {
-                                            lstKeys.add(chP.getKey());
-                                            lstNew.add(chP);
+                                        MCharacter chP = mCharacters.get(prop.getValue());
+                                        if (!keys.contains(chP.getKey())) {
+                                            keys.add(chP.getKey());
+                                            itemsNew.add(chP);
                                         }
                                         break;
                                     case LocationGroupKey: {
                                         for (String item2 :
-                                                mGroups.get(p.getValue()).getArlMembers()) {
-                                            if (!lstKeys.contains(item2)) {
+                                                mGroups.get(prop.getValue()).getMembers()) {
+                                            if (!keys.contains(item2)) {
                                                 MItemWithProperties newItem =
                                                         (MItemWithProperties) mAllItems.get(item2);
-                                                lstKeys.add(newItem.getKey());
-                                                lstNew.add(newItem);
+                                                keys.add(newItem.getKey());
+                                                itemsNew.add(newItem);
                                             }
                                         }
                                         break;
                                     }
                                     case LocationKey: {
-                                        MItemWithProperties newLoc = mLocations.get(p.getValue());
-                                        if (!lstKeys.contains(newLoc.getKey())) {
-                                            lstKeys.add(newLoc.getKey());
-                                            lstNew.add(newLoc);
+                                        MItemWithProperties newLoc = mLocations.get(prop.getValue());
+                                        if (!keys.contains(newLoc.getKey())) {
+                                            keys.add(newLoc.getKey());
+                                            itemsNew.add(newLoc);
                                         }
                                         break;
                                     }
                                     case ObjectKey: {
-                                        MItemWithProperties newOb = mObjects.get(p.getValue());
-                                        if (!lstKeys.contains(newOb.getKey())) {
-                                            lstKeys.add(newOb.getKey());
-                                            lstNew.add(newOb);
+                                        MItemWithProperties newOb = mObjects.get(prop.getValue());
+                                        if (!keys.contains(newOb.getKey())) {
+                                            keys.add(newOb.getKey());
+                                            itemsNew.add(newOb);
                                         }
                                         break;
                                     }
                                     case Integer:
                                     case ValueList:
                                     case StateList:
-                                        lstNew.add(item);
-                                        newPropKey = funcName;
+                                        itemsNew.add(item);
+                                        newPropKey = fname;
                                         retIsInt[0] = false;
                                         break;
                                     case SelectionOnly:
                                         // Selection Only property to further reduce list
-                                        lstNew.add(item);
+                                        itemsNew.add(item);
                                         retIsInt[0] = true;
                                         break;
                                     case Text:
                                         if (ret.length() > 0) {
-                                            if (item == lst.get(lst.size() - 1)) {
+                                            if (item == items.get(items.size() - 1)) {
                                                 ret.append(" and ");
                                             } else {
                                                 ret.append(", ");
                                             }
                                         }
-                                        ret.append(p.getValue());
+                                        ret.append(prop.getValue());
                                         break;
                                 }
                             }
                         } else {
-                            MProperty p = mAllProperties.get(funcName);
-                            if (p != null) {
+                            MProperty prop = mAllProperties.get(fname);
+                            if (prop != null) {
                                 boolean isValOK = false; // Because this is equiv of arg = (true)
                                 if (args.length() > 0) {
                                     isValOK = false;
@@ -4040,7 +4033,7 @@ public class MAdventure {
                                             args = argsNew;
                                         }
                                     }
-                                    switch (p.getType()) {
+                                    switch (prop.getType()) {
                                         // Opposite of above, since this
                                         // item _doesn't_ contain this property
                                         case SelectionOnly:
@@ -4059,16 +4052,17 @@ public class MAdventure {
                                             isValOK = false; // Since we don't have the property
                                             break;
                                         default:
-                                            GLKLogger.error("TODO: Property filter check not " +
-                                                    "yet implemented for " + p.getType().toString());
+                                            GLKLogger.error("TODO: Property filter " +
+                                                    "check not yet implemented for " +
+                                                    prop.getType().toString());
                                             break;
                                     }
                                 }
                                 if (isValOK) {
-                                    switch (p.getType()) {
+                                    switch (prop.getType()) {
                                         case SelectionOnly:
                                             // Selection Only property to further reduce list
-                                            lstNew.add(item);
+                                            itemsNew.add(item);
                                             break;
                                     }
                                 }
@@ -4077,7 +4071,7 @@ public class MAdventure {
                     }
 
                     if (!propFound) {
-                        switch (mAllProperties.get(funcName).getType()) {
+                        switch (mAllProperties.get(fname).getType()) {
                             case Integer:
                             case ValueList:
                                 isIntResult = true;
@@ -4086,9 +4080,9 @@ public class MAdventure {
                         }
                     }
 
-                    if (rem.length() > 0 || (lstNew.size() > 0 && !isIntResult)) {
-                        return evalItemFunc(rem, lstNew,
-                                null, newPropKey, null, retIsInt);
+                    if (rem.length() > 0 || (itemsNew.size() > 0 && !isIntResult)) {
+                        return evalItemFunc(rem, itemsNew, null,
+                                newPropKey, null, retIsInt);
                     } else if (isIntResult) {
                         return String.valueOf(sum);
                     } else {
@@ -4126,7 +4120,7 @@ public class MAdventure {
                                 MGroup grp;
                                 if ((grp = mGroups.get(itemKey)) != null) {
                                     itemList = new ArrayList<>();
-                                    for (String itemKey2 : grp.getArlMembers()) {
+                                    for (String itemKey2 : grp.getMembers()) {
                                         MItemWithProperties itm =
                                                 (MItemWithProperties) mAllItems.get(itemKey2);
                                         itemList.add(itm);
@@ -4168,6 +4162,9 @@ public class MAdventure {
     @NonNull
     public String getDirectionName(DirectionsEnum dir) {
         String dirName = mDirectionNames.get(dir);
+        if (dirName == null) {
+            return "";
+        }
         if (dirName.contains("/")) {
             dirName = dirName.substring(0, dirName.indexOf("/"));
         }
@@ -4175,19 +4172,14 @@ public class MAdventure {
     }
 
     @NonNull
-    String getDirectionRE(DirectionsEnum dir,
-                          boolean addBrackets, boolean isRealRE) {
-        String dirRE = mDirectionNames.get(dir).toLowerCase();
-        if (isRealRE) {
-            dirRE = dirRE.replace("/", "|");
+    String getDirectionRE(DirectionsEnum dir) {
+        String dirName = mDirectionNames.get(dir);
+        if (dirName == null) {
+            return "";
         }
-        if (addBrackets) {
-            return (isRealRE) ?
-                    "(" + dirRE + ")" :
-                    "[" + dirRE + "]";
-        } else {
-            return dirRE;
-        }
+        String dirRE = dirName.toLowerCase();
+        dirRE = dirRE.replace("/", "|");
+        return "(" + dirRE + ")";
     }
 
     boolean keyExists(@NonNull String itemKey) {
@@ -4223,8 +4215,7 @@ public class MAdventure {
         return null;
     }
 
-    public void searchAndReplace(@NonNull String find,
-                                 @NonNull String replace,
+    public void searchAndReplace(@NonNull String find, @NonNull String replace,
                                  boolean noDebugMsg) {
         int nReplaced = 0;
 
@@ -4270,29 +4261,30 @@ public class MAdventure {
 
         // Select a random element from the list, remove it
         // and return it.
-        int rndIndex = getRand(rndVals.size() - 1);
-        return rndVals.remove(rndIndex);
+        return rndVals.remove(getRand(rndVals.size() - 1));
     }
 
     int getRand(int max) {
         // returns y : 0 <= y <= max
-        if (mRandomGenerator == null) {
-            mRandomGenerator = new Random(getNextSeed());
+        if (mRandGen == null) {
+            mRandGen = new Random(getNextSeed());
         }
-        return mRandomGenerator.nextInt(max + 1);     // N.B. nextInt(x) returns y : 0 <= y < x
+        // N.B. nextInt(x) returns y : 0 <= y < x
+        return mRandGen.nextInt(max + 1);
     }
 
     int getRand(int min, int max) {
         // returns y: min <= y <= max
-        if (mRandomGenerator == null) {
-            mRandomGenerator = new Random(getNextSeed());
+        if (mRandGen == null) {
+            mRandGen = new Random(getNextSeed());
         }
         if (max < min) {
             int i = max;
             max = min;
             min = i;
         }
-        int tmp = mRandomGenerator.nextInt(max - min + 1);  // N.B. nextInt(x) returns y : 0 <= y < x
+        // N.B. nextInt(x) returns y : 0 <= y < x
+        int tmp = mRandGen.nextInt(max - min + 1);
         return (tmp + min);
     }
 
@@ -4304,8 +4296,6 @@ public class MAdventure {
         mLastRndSeed = ret;
         return ret;
     }
-
-    // Key Stuff
 
     public String getUserStatus() {
         return mUserStatus;
@@ -4342,17 +4332,16 @@ public class MAdventure {
         End Try */
         mCoverFilename = value;
         //End If
-        GLKLogger.error("FIXME: properly implemnt MAdventure: setCoverFilename");
+        GLKLogger.error("FIXME: properly implement MAdventure: setCoverFilename");
     }
 
     public String getVersion() {
         if (mVersion == 0) {
             return "N/A";
         }
-        String sVersion = String.format(Locale.US, "%.6f", mVersion); // E.g. 5.000020
-        return sVersion.charAt(0) + "." +
-                cint(sVersion.substring(2, 4)) + "." +
-                cint(sVersion.substring(4, 8));
+        String version = String.format(Locale.US, "%.6f", mVersion); // E.g. 5.000020
+        return version.charAt(0) + "." + cint(version.substring(2, 4)) +
+                "." + cint(version.substring(4, 8));
     }
 
     public boolean getChanged() {
@@ -4363,22 +4352,10 @@ public class MAdventure {
         mHasChanged = value;
     }
 
-    public Date getLastUpdated() {
-        if (mLastUpdated != null) {
-            return mLastUpdated;
-        } else {
-            return new Date();
-        }
-    }
-
-    public void setLastUpdated(Date value) {
-        mLastUpdated = value;
-    }
-
     public MCharacter getPlayer() {
         if (mPlayer == null) {
             for (MCharacter ch : mCharacters.values()) {
-                if (ch.getCharacterType() == MCharacter.CharacterType.Player) {
+                if (ch.getCharacterType() == Player) {
                     mPlayer = ch;
                     return ch;
                 }
@@ -4393,16 +4370,17 @@ public class MAdventure {
         return null;
     }
 
-    public void setPlayer(MCharacter value) {
-        mPlayer = value;
+    public void setPlayer(MCharacter ch) {
+        mPlayer = ch;
     }
 
     public ArrayList<String> getImages() {
         // Returns a list of all references to images within the adventure
-        ArrayList<String> lImages = new ArrayList<>();
+        ArrayList<String> ret = new ArrayList<>();
 
-        if (!getCoverFilename().equals("")) {
-            lImages.add(getCoverFilename());
+        String coverName = getCoverFilename();
+        if (coverName != null && !coverName.equals("")) {
+            ret.add(coverName);
         }
 
         for (MSingleDescription sd : getAllDescriptions()) {
@@ -4420,16 +4398,334 @@ public class MAdventure {
                     if (tag.endsWith("\"")) {
                         tag = tag.substring(0, tag.length() - 1);
                     }
-                    if (!lImages.contains(tag) &&
+                    if (!ret.contains(tag) &&
                             (new File(tag).exists() || tag.startsWith("http"))) {
-                        lImages.add(tag);
+                        ret.add(tag);
                     }
                 }
                 i = s.indexOf("<img ", i + 1);
             }
         }
 
-        return lImages;
+        return ret;
+    }
+
+    private boolean executeSystemTask(@NonNull String input,
+                                      boolean isEarly) throws InterruptedException {
+        // We take a 1 size array of Adventure objects so that we
+        // can change it if restart is called
+        switch (input) {
+            case "hint":
+            case "hints":
+                if (isEarly) {
+                    return false;
+                } else {
+                    hint();
+                }
+                break;
+            case "pronouns":
+                // Bebek-specific addition
+                if (isEarly) {
+                    return false;
+                } else {
+                    String msg = "At the moment, <q>it</q> means " + mIt +
+                            ", <q>him</q> means " + mHim +
+                            ", <q>her</q> means " + mHer + " and " +
+                            "<q>them</q> means " + mThem + ".";
+                    mView.displayText(this, msg, true);
+                    mView.mOutputText.setLength(0);
+                }
+                break;
+            case "turns":
+                // Bebek-specific addition
+                // (same behaviour as Scare)
+                if (isEarly) {
+                    return false;
+                } else {
+                    String msg = "You have taken " + mTurns +
+                            (mTurns > 1 ? " turns " : " turn ") + "so far.";
+                    mView.displayText(this, msg, true);
+                    mView.mOutputText.setLength(0);
+                }
+                break;
+            case "status":
+            case "statusline":
+                // Bebek-specific addition
+                // (same behaviour as Scare)
+                if (isEarly) {
+                    return false;
+                } else {
+                    String desc = "";
+                    String score = "";
+                    String userStatus = "";
+
+                    if (mGameState == Running) {
+                        MCharacter chPlayer = getPlayer();
+                        if (chPlayer != null) {
+                            MCharacter.MCharacterLocation loc = chPlayer.getLocation();
+                            if (loc.getExistsWhere() == Hidden || loc.getLocationKey().equals("")) {
+                                desc = "(Nowhere)";
+                            } else {
+                                MLocation loc2 = mLocations.get(loc.getLocationKey());
+                                if (loc2 != null) {
+                                    desc = loc2.getShortDescriptionSafe();
+                                    if (loc.getExistsWhere() != AtLocation) {
+                                        desc += " (" + loc.toString() + ")";
+                                    }
+                                }
+                            }
+                        }
+                        userStatus = getUserStatus();
+                        if (userStatus == null) {
+                            userStatus = "";
+                        }
+                    } else {
+                        desc = "Game Over";
+                    }
+
+                    if (getMaxScore() > 0) {
+                        score = "Score: " + getScore();
+                    }
+                    if (!getEnabled(Score)) {
+                        score = "";
+                    }
+
+                    StringBuilder msg = new StringBuilder();
+                    if (!desc.equals("")) {
+                        msg.append(desc);
+                    }
+                    if (!score.equals("")) {
+                        if (msg.length() > 0) {
+                            msg.append(" | ");
+                        }
+                        msg.append(score);
+                    }
+                    if (!userStatus.equals("")) {
+                        if (msg.length() > 0) {
+                            msg.append(" | ");
+                        }
+                        msg.append(userStatus);
+                    }
+
+                    mView.displayText(this, msg.toString(), true);
+                    mView.mOutputText.setLength(0);
+                }
+                break;
+            case "restart":
+                restart();
+                if (!isEarly) {
+                    mView.mOutputText.setLength(0);
+                    mView.mOutputText.append("***SYSTEM***");
+                }
+                break;
+            case "restore":
+                restore();
+                mView.displayText(this, "\n\n", true);
+                if (!isEarly) {
+                    mView.mOutputText.setLength(0);
+                    mView.mOutputText.append("***SYSTEM***");
+                }
+                break;
+            case "save":
+                if (isEarly) {
+                    return false;
+                } else {
+                    save();
+                }
+                break;
+            case "save as":
+            case "saveas":
+                if (isEarly) {
+                    return false;
+                } else {
+                    save();
+                }
+                break;
+            case "quit":
+                quit(!isEarly);
+                break;
+            case "undo":
+                undo();
+                if (isEarly) {
+                    mView.displayText(this, "\n\n", true);
+                }
+                break;
+            case "wait":
+            case "z":
+                if (isEarly) {
+                    return false;
+                } else {
+                    mView.mOutputText.setLength(0);
+                    StringBuilder tmp = new StringBuilder("Time passes...");
+                    mALRs.evaluate(tmp, mReferences);
+                    mView.mOutputText.append(tmp);
+                    for (int i = 0; i < getWaitTurns(); i++) {
+                        incrementTurnOrTime(TurnBased);
+                    }
+                }
+                break;
+            default:
+                return false;
+        }
+
+        return true;
+    }
+
+    private void restart() throws InterruptedException {
+        String path = getFullPath();
+        if (path != null) {
+            reset();
+            open(path);
+        }
+    }
+
+    private void loadState(@NonNull String filePath) {
+        // Load from file
+        // Helper function for restore command
+        MGameState state[] = new MGameState[1];
+        loadFile(this, filePath, GameState_TAS, All, false, state, 0);
+        if (state[0] != null) {
+            state[0].restore(this);
+        }
+    }
+
+    private void restore() throws InterruptedException {
+        // The Bebek implementation always prompts for file names
+        String filePath = mView.promptForSaveFileName(false);
+
+        if (!filePath.equals("")) {
+            if (new File(filePath).exists()) {
+                mStates.clear();
+                for (MTask t : mTasks.values()) {
+                    // Just in case the save file doesn't cover that task
+                    t.setCompleted(false);
+                }
+                loadState(filePath);
+                mView.displayText(this, "Game restored" + "\n", true);
+                mGameState = Running;
+                mDisplayedWinOrLose = false;
+                mView.updateStatusBar(this);
+                String locKey = getPlayer().getLocation().getLocationKey();
+                MLocation loc = mLocations.get(locKey);
+                if (loc != null) {
+                    mView.displayText(this, loc.getViewLocString(), true);
+                } else {
+                    mView.displayText(this, "Error: save file is corrupt, " +
+                            "player's location is not set.");
+                }
+                mJustRunSystemTask = false; // Allow events to run
+                prepareForNextTurn();
+            } else {
+                mView.displayText(this, "Save file not found.", true);
+            }
+        }
+    }
+
+    private void hint() throws InterruptedException {
+        boolean first = true;
+        for (MHint h : mHints.values()) {
+            if (h.mRestrictions.passes(true, null)) {
+                if (!first) {
+                    mView.out("<br>");
+                }
+                first = false;
+                mView.out("<br><b><i>" + h.getQuestion() + "</i></b><br>");
+                mView.out("View the subtle hint for this topic? ");
+                char resp = Character.toLowerCase(mView.yesNo());
+                if (resp == 'n') {
+                    mView.out("<font color=\"input\">No</font>");
+                    return;
+                }
+                mView.out("<font color=\"input\">Yes</font><br><i>" +
+                        h.getSubtleHint().toString(true) + "</i><br>");
+
+                mView.out("<br>View the unsubtle hint for this topic? ");
+                resp = Character.toLowerCase(mView.yesNo());
+                if (resp == 'n') {
+                    mView.out("<font color=\"input\">No</font>");
+                    return;
+                }
+                mView.out("<font color=\"input\">Yes</font><br><i>" +
+                        h.getSledgeHammerHint().toString(true) + "</i>");
+            }
+        }
+        if (first) {
+            mView.out("<i>No hints currently available.</i>");
+        }
+    }
+
+    private void save() throws InterruptedException {
+        // The Bebek implementation always prompts for file names
+        String filePath = mView.promptForSaveFileName(true);
+
+        if (filePath.equals("")) {
+            mView.displayText(this, "Cancelled");
+            return;
+        }
+
+        MGameState state = new MGameState(this);
+        if (state.serialize(this, filePath)) {
+            mView.displayText(this, "Game saved");
+            setChanged(false);
+        } else {
+            mView.displayText(this, "Error saving game");
+        }
+    }
+
+    private void quit(boolean justGame) throws InterruptedException {
+        if (mGameState == Running) {
+            if (getChanged()) {
+              /*  switch (MessageBox.Show("Would you like to save your current position?", "Quit Game",
+                        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)) {
+                    Case DialogResult.Yes:
+                    save(True);
+                    Case DialogResult.No:
+                    // Continue
+                    Case DialogResult.Cancel:
+                    Return False;
+                } */
+                GLKLogger.debug("TODO: Quitting... prompt if user wants to save current position");
+            }
+        }
+
+        if (justGame) {
+            mGameState = Neutral;
+        } else {
+            mView.quit();
+        }
+    }
+
+    private boolean loadLastState() {
+        // Load the last state pushed onto the stack, if any
+        // Helper function for undo command
+        if (mStates.count() > 1) {
+            // Discard current state
+            mStates.pop();
+            MGameState state = mStates.peek();
+            if (state != null) {
+                state.restore(this);
+            }
+            mGameState = Running;
+            GLKLogger.debug("Popped (" + mStates.count() + " on stack)");
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void undo() {
+        if (loadLastState()) {
+            mDisplayedWinOrLose = false;
+            mView.updateStatusBar(this);
+            String text = mTurnOutput;
+            mView.displayText(this, "Undone.", false, false, false);
+            if (!text.equals("")) {
+                mView.displayText(this, text);
+            }
+        } else {
+            mView.displayText(this, "Sorry, <c>undo</c> is not currently available.");
+        }
+        mJustRunSystemTask = true;
     }
 
     public ArrayList<MSingleDescription> getAllDescriptions() {
@@ -4452,14 +4748,14 @@ public class MAdventure {
         return mScore;
     }
 
-    public void setScore(int value) {
-        if (value != mScore) {
+    public void setScore(int val) {
+        if (val != mScore) {
             MVariable var = mVariables.get("Score");
             if (var != null) {
-                var.set(value);
+                var.set(val);
             }
         }
-        mScore = value;
+        mScore = val;
         mView.updateStatusBar(this);
     }
 
@@ -4471,14 +4767,14 @@ public class MAdventure {
         return mMaxScore;
     }
 
-    public void setMaxScore(int value) {
-        if (value != mMaxScore) {
+    public void setMaxScore(int val) {
+        if (val != mMaxScore) {
             MVariable var = mVariables.get("MaxScore");
             if (var != null) {
-                var.set(value);
+                var.set(val);
             }
         }
-        mMaxScore = value;
+        mMaxScore = val;
     }
 
     @Nullable
@@ -4766,15 +5062,15 @@ public class MAdventure {
     }
 
     @NonNull
-    public MTaskHashMap getTaskList(MTasksListEnum taskListType) {
-        switch (taskListType) {
-            case AllTasks:
+    public MTaskHashMap getTaskList(MTasksListEnum type) {
+        switch (type) {
+            case AllTasks: {
                 if (mAllTasks == null) {
                     mAllTasks = mTasks;
                 }
                 return mAllTasks;
-
-            case GeneralTasks:
+            }
+            case GeneralTasks: {
                 if (mGeneralTasks == null) {
                     mGeneralTasks = new MTaskHashMap(this);
                     for (MTask task : mTasks.values()) {
@@ -4784,8 +5080,8 @@ public class MAdventure {
                     }
                 }
                 return mGeneralTasks;
-
-            case GeneralAndOverrideableSpecificTasks:
+            }
+            case GeneralAndOverrideableSpecificTasks: {
                 if (mGeneralAndOverrideableSpecificTasks == null) {
                     mGeneralAndOverrideableSpecificTasks = new MTaskHashMap(this);
                     for (MTask task : mTasks.values()) {
@@ -4808,8 +5104,8 @@ public class MAdventure {
                     }
                 }
                 return mGeneralAndOverrideableSpecificTasks;
-
-            case SpecificTasks:
+            }
+            case SpecificTasks: {
                 if (mSpecificTasks == null) {
                     mSpecificTasks = new MTaskHashMap(this);
                     for (MTask task : mTasks.values()) {
@@ -4819,8 +5115,8 @@ public class MAdventure {
                     }
                 }
                 return mSpecificTasks;
-
-            case SystemTasks:
+            }
+            case SystemTasks: {
                 if (mSystemTasks == null) {
                     mSystemTasks = new MTaskHashMap(this);
                     for (MTask task : mTasks.values()) {
@@ -4830,24 +5126,27 @@ public class MAdventure {
                     }
                 }
                 return mSystemTasks;
+            }
         }
 
         return new MTaskHashMap(this);    // return an empty hash table
     }
 
+    @NonNull
     public MDescription getIntroduction() {
         return mIntroduction;
     }
 
-    public void setIntroduction(MDescription value) {
+    public void setIntroduction(@NonNull MDescription value) {
         mIntroduction = value;
     }
 
+    @NonNull
     public MDescription getEndGameText() {
         return mEndGameText;
     }
 
-    public void setEndGameText(MDescription value) {
+    public void setEndGameText(@NonNull MDescription value) {
         mEndGameText = value;
     }
 
@@ -4958,12 +5257,12 @@ public class MAdventure {
         mEnableDebugger = value;
     }
 
-    public boolean getEnabled(EnabledOptionEnum eOption) {
-        return mEnabledOptions.get(eOption);
+    public boolean getEnabled(EnabledOptionEnum option) {
+        return mEnabledOptions.get(option);
     }
 
-    public void setEnabled(EnabledOptionEnum eOption, boolean value) {
-        mEnabledOptions.put(eOption, value);
+    public void setEnabled(EnabledOptionEnum option, boolean value) {
+        mEnabledOptions.put(option, value);
     }
 
     private ArrayList<String> getAllKeys() {
@@ -4983,13 +5282,14 @@ public class MAdventure {
     }
 
     private void reset() {
+        // Helper function for restart command
         setTitle("Untitled");
         setAuthor("Anonymous");
         setFilename("untitled.taf");
         mDefaultFont = null;
 
-        for (EnabledOptionEnum e : EnabledOptionEnum.values()) {
-            setEnabled(e, true);
+        for (EnabledOptionEnum option : EnabledOptionEnum.values()) {
+            setEnabled(option, true);
         }
         setWaitTurns(0);
         mAllItems.clear();
@@ -5010,8 +5310,6 @@ public class MAdventure {
         mSynonyms.clear();
         setIntroduction(new MDescription(this));
         setEndGameText(new MDescription(this));
-
-        mMap = new MMap();
 
         mDirectionNames.clear();
         mDirectionNames.put(DirectionsEnum.North, "North/N");
@@ -5047,7 +5345,7 @@ public class MAdventure {
 
     public enum TaskExecutionEnum {
         HighestPriorityTask,                    // 0
-        HighestPriorityPassingTask              // 1, v4 logic - tries to execute first matching passing task, if that fails first matching failing task
+        HighestPriorityPassingTask              // 1
     }
 
     public enum MTasksListEnum {
@@ -5112,12 +5410,12 @@ public class MAdventure {
          */
         @NonNull
         static String correctCommand(@NonNull String cmd, @NonNull MAdventure adv) {
-            String newCmd = processBlock(cmd);
-            if (!newCmd.equals(cmd)) {
+            String ret = processBlock(cmd);
+            if (!ret.equals(cmd)) {
                 adv.mView.debugPrint(MGlobals.ItemEnum.General, "", High,
-                        "Converted \"" + cmd + "\" to \"" + newCmd + "\"");
+                        "Converted \"" + cmd + "\" to \"" + ret + "\"");
             }
-            return newCmd;
+            return ret;
         }
 
         @NonNull
@@ -5191,20 +5489,20 @@ public class MAdventure {
                 return false;
             }
 
-            int level = 0;
+            int depth = 0;
             for (int i = 0; i < block.length(); i++) {
                 switch (block.charAt(i)) {
                     case ' ':
                         // Ignore
                         break;
                     case '{':
-                        level++;
+                        depth++;
                         break;
                     case '}':
-                        level--;
+                        depth--;
                         break;
                     default:
-                        if (level == 0) {
+                        if (depth == 0) {
                             return true;
                         }
                         break;
@@ -5231,7 +5529,7 @@ public class MAdventure {
                                     block.length() - newBlock.length() + 1));
                             block.setLength(0);
                             block.append(tmp);
-                            return MGlobals.left(newBlock.toString(), i);
+                            return left(newBlock.toString(), i);
                         }
                         depth++;
                         break;
@@ -5293,13 +5591,13 @@ public class MAdventure {
     }
 
     public static class MPronounInfoList extends ArrayList<MPronounInfo> {
-        public void add(String sKey, MPronounEnum ePronoun,
-                        MCharacter.Gender Gender, int iOffset) {
+        public void add(String key, MPronounEnum pronoun,
+                        MCharacter.Gender gender, int offset) {
             MPronounInfo pi = new MPronounInfo();
-            pi.mKey = sKey;
-            pi.mPronoun = ePronoun;
-            pi.mOffset = iOffset;
-            pi.mGender = Gender;
+            pi.mKey = key;
+            pi.mPronoun = pronoun;
+            pi.mOffset = offset;
+            pi.mGender = gender;
             add(pi);
 
             // Ensure the list is sorted by offset, for checking previous pronouns
@@ -5312,224 +5610,290 @@ public class MAdventure {
         }
     }
 
-    static class MSystemTask {
-        static boolean executeSystemTask(@NonNull MAdventure adv,
-                                         @NonNull String input,
-                                         boolean isEarly) throws InterruptedException {
-            // We take a 1 size array of Adventure objects so that we
-            // can change it if restart is called
-            switch (input) {
-                case "hint":
-                case "hints":
-                    if (isEarly) {
-                        return false;
-                    } else {
-                        hint(adv);
+    public static class MGameState {
+        @NonNull
+        final HashMap<String, MObject.MObjectState> mObjectStates = new HashMap<>();
+        @NonNull
+        final HashMap<String, MCharacter.MCharacterState> mCharacterStates = new HashMap<>();
+        @NonNull
+        final HashMap<String, MTask.MTaskState> mTaskStates = new HashMap<>();
+        @NonNull
+        final HashMap<String, MEvent.MEventState> mEventStates = new HashMap<>();
+        @NonNull
+        final HashMap<String, MVariable.MVariableState> mVariableStates = new HashMap<>();
+        @NonNull
+        final HashMap<String, MLocation.MLocationState> mLocationStates = new HashMap<>();
+        @NonNull
+        final HashMap<String, MGroup.MGroupState> mGroupStates = new HashMap<>();
+        @NonNull
+        String mOutputText = "";
+
+        /**
+         * Create a new game state representing a "snapshot" of the given adventure.
+         *
+         * @param adv - the adventure to take a snapshot of.
+         */
+        public MGameState(@NonNull MAdventure adv) {
+            mOutputText = adv.mTurnOutput;
+            for (MLocation loc : adv.mLocations.values()) {
+                mLocationStates.put(loc.getKey(), new MLocation.MLocationState(loc));
+            }
+            for (MObject ob : adv.mObjects.values()) {
+                mObjectStates.put(ob.getKey(), new MObject.MObjectState(ob));
+            }
+            for (MTask tas : adv.mTasks.values()) {
+                mTaskStates.put(tas.getKey(), new MTask.MTaskState(tas));
+            }
+            for (MEvent ev : adv.mEvents.values()) {
+                mEventStates.put(ev.getKey(), new MEvent.MEventState(ev));
+            }
+            for (MCharacter ch : adv.mCharacters.values()) {
+                mCharacterStates.put(ch.getKey(), new MCharacter.MCharacterState(ch));
+            }
+            for (MVariable var : adv.mVariables.values()) {
+                mVariableStates.put(var.getKey(), new MVariable.MVariableState(var));
+            }
+            for (MGroup grp : adv.mGroups.values()) {
+                mGroupStates.put(grp.getKey(), new MGroup.MGroupState(grp));
+            }
+        }
+
+        /**
+         * Create a new game state from xml data.
+         *
+         * @param adv - the current adventure object.
+         * @param xmlBytes - the xml data representing the new game state.
+         */
+        public MGameState(@NonNull MAdventure adv, @NonNull byte[] xmlBytes) throws Exception {
+            // Parse the XML file in one pass
+            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+            factory.setNamespaceAware(true);
+            XmlPullParser xpp = factory.newPullParser();
+            BufferedReader xml =
+                    new BufferedReader(new InputStreamReader(new ByteArrayInputStream(xmlBytes)));
+            xpp.setInput(xml);
+
+            // Try to find the root node
+            int evType;
+            boolean foundRoot = false;
+            while ((evType = xpp.nextTag()) != END_DOCUMENT) {
+                if (evType == START_TAG) {
+                    if (xpp.getName().equals("Game")) {
+                        foundRoot = true;
+                        break;
                     }
-                    break;
-                case "pronouns":
-                    if (isEarly) {
-                        return false;
-                    } else {
-                        String msg = "At the moment, <q>it</q> means " +
-                                adv.mIt + ", <q>him</q> means " + adv.mHim +
-                                ", <q>her</q> means " + adv.mHer + " and " +
-                                "<q>them</q> means " + adv.mThem + ".";
-                        adv.mView.displayText(adv, msg, true);
-                        adv.mView.mOutputText.setLength(0);
-                    }
-                    break;
-                case "restart":
-                    restart(adv);
-                    if (!isEarly) {
-                        adv.mView.mOutputText.setLength(0);
-                        adv.mView.mOutputText.append("***SYSTEM***");
-                    }
-                    break;
-                case "restore":
-                    restore(adv);
-                    adv.mView.displayText(adv, "\n\n", true);
-                    if (!isEarly) {
-                        adv.mView.mOutputText.setLength(0);
-                        adv.mView.mOutputText.append("***SYSTEM***");
-                    }
-                    break;
-                case "save":
-                    if (isEarly) {
-                        return false;
-                    } else {
-                        save(adv);
-                    }
-                    break;
-                case "save as":
-                case "saveas":
-                    if (isEarly) {
-                        return false;
-                    } else {
-                        save(adv);
-                    }
-                    break;
-                case "quit":
-                    quit(adv, !isEarly);
-                    break;
-                case "undo":
-                    undo(adv);
-                    if (isEarly) {
-                        adv.mView.displayText(adv, "\n\n", true);
-                    }
-                    break;
-                case "wait":
-                case "z":
-                    if (isEarly) {
-                        return false;
-                    } else {
-                        adv.mView.mOutputText.setLength(0);
-                        StringBuilder tmp = new StringBuilder("Time passes...");
-                        adv.mALRs.evaluate(tmp, adv.mReferences);
-                        adv.mView.mOutputText.append(tmp);
-                        for (int i = 0; i < adv.getWaitTurns(); i++) {
-                            adv.incrementTurnOrTime(TurnBased);
+                }
+            }
+            if (!foundRoot) {
+                throw new Exception("Root element is missing");
+            }
+
+            xpp.require(START_TAG, null, "Game");
+
+            int depth = xpp.getDepth();
+
+            // Load the adventure
+            while ((evType = xpp.nextTag()) != END_DOCUMENT && xpp.getDepth() > depth) {
+                if (evType == START_TAG) {
+                    String nodName = xpp.getName();
+                    switch (nodName) {
+                        case "Location": {
+                            MLocation.MLocationState sloc =
+                                    new MLocation.MLocationState(xpp);
+                            mLocationStates.put(sloc.mKey, sloc);
+                            continue;
+                        }
+                        case "Object": {
+                            MObject.MObjectState sob =
+                                    new MObject.MObjectState(adv, xpp);
+                            mObjectStates.put(sob.mKey, sob);
+                            continue;
+                        }
+                        case "Task": {
+                            MTask.MTaskState stas =
+                                    new MTask.MTaskState(xpp);
+                            mTaskStates.put(stas.mKey, stas);
+                            continue;
+                        }
+                        case "Event": {
+                            MEvent.MEventState sev =
+                                    new MEvent.MEventState(adv, xpp);
+                            mEventStates.put(sev.mKey, sev);
+                            continue;
+                        }
+                        case "Character": {
+                            MCharacter.MCharacterState sch =
+                                    new MCharacter.MCharacterState(adv, xpp);
+                            mCharacterStates.put(sch.mKey, sch);
+                            continue;
+                        }
+                        case "Variable": {
+                            MVariable.MVariableState svar =
+                                    new MVariable.MVariableState(adv, xpp);
+                            mVariableStates.put(svar.mKey, svar);
+                            continue;
+                        }
+                        case "Group": {
+                            MGroup.MGroupState sgrp =
+                                    new MGroup.MGroupState(xpp);
+                            mGroupStates.put(sgrp.mKey, sgrp);
+                            continue;
+                        }
+                        case "Turns": {
+                            String s = xpp.nextText();
+                            if (!s.equals("")) {
+                                adv.mTurns = adv.safeInt(s);
+                            }
+                            continue;
                         }
                     }
-                    break;
-                default:
+                }
+
+                // tag not recognised - skip until we get to the next tag at the appropriate
+                // depth (or end of document)
+                if (MDebugger.BEBEK_DEBUG_ENABLED) {
+                    GLKLogger.warn("Skipping node '" + xpp.getName() + "'");
+                }
+                while (xpp.getEventType() != END_DOCUMENT && xpp.getDepth() > depth) {
+                    xpp.next();
+                }
+            }
+
+            xpp.require(END_TAG, null, "Game");
+        }
+
+        boolean serialize(@NonNull final MAdventure adv, @NonNull final String xmlPath) {
+            try {
+                // -----------------------------------------
+                //  SERIALIZE ALL OF THE GAME STATE OBJECTS
+                // -----------------------------------------
+                XmlSerializer xs = Xml.newSerializer();
+                StringWriter xmlWriter = new StringWriter();
+                xs.setOutput(xmlWriter);
+                xs.startDocument("UTF-8", true);
+                xs.startTag(null, "Game");
+                for (MLocation.MLocationState sloc : mLocationStates.values()) {
+                    sloc.serialize(xs);
+                }
+                for (MObject.MObjectState sob : mObjectStates.values()) {
+                    sob.serialize(xs);
+                }
+                for (MTask.MTaskState stas : mTaskStates.values()) {
+                    stas.serialize(xs);
+                }
+                for (MEvent.MEventState sev : mEventStates.values()) {
+                    sev.serialize(xs);
+                }
+                for (MCharacter.MCharacterState sch : mCharacterStates.values()) {
+                    sch.serialize(xs);
+                }
+                for (MVariable.MVariableState svar : mVariableStates.values()) {
+                    svar.serialize(adv, xs);
+                }
+                for (MGroup.MGroupState sgrp : mGroupStates.values()) {
+                    sgrp.serialize(xs);
+                }
+                xs.startTag(null, "Turns");
+                xs.text(String.valueOf(adv.mTurns));
+                xs.endTag(null, "Turns");
+                xs.endTag(null, "Game");
+                xs.endDocument();
+                xs.flush();
+
+                // -----------------------------------------
+                //    WRITE A COMPRESSED UTF-8 XML FILE
+                // -----------------------------------------
+                ByteArrayOutputStream compressedStream = new ByteArrayOutputStream();
+                if (!compress(xmlWriter.toString().getBytes(), compressedStream)) {
+                    GLKLogger.error("Error compressing save game data");
                     return false;
-            }
-
-            return true;
-        }
-
-        private static void restart(@NonNull MAdventure adv) throws InterruptedException {
-            adv.reset();
-            adv.open(adv.getFullPath());
-        }
-
-        private static void restore(@NonNull MAdventure adv) throws InterruptedException {
-            // The Bebek implementation always prompts for file names
-            String sFilename = adv.mView.promptForSaveFileName(false);
-
-            if (!sFilename.equals("")) {
-                if (new File(sFilename).exists()) {
-                    adv.mStates.clear();
-                    for (MTask t : adv.mTasks.values()) {
-                        // Just in case the save file doesn't cover that task
-                        t.setCompleted(false);
-                    }
-                    MStateStack states = new MStateStack();
-                    states.loadState(adv, sFilename);
-                    adv.mView.displayText(adv, "Game restored" + "\n", true);
-                    adv.mGameState = Running;
-                    adv.mDisplayedWinOrLose = false;
-                    adv.mView.updateStatusBar(adv);
-                    adv.mView.displayText(adv, adv.mLocations.get(adv.getPlayer().getLocation().getLocationKey()).getViewLocation(), true);
-                    adv.mJustRunSystemTask = false; // Allow events to run
-                    adv.prepareForNextTurn();
-
-                    GLKLogger.error("TODO: MUserSession: Restore - restore map node");
-                    //UserSession.Map.RecalculateNode(Adventure.Map.FindNode(Adventure.Player.Location.LocationKey))
-                    //UserSession.Map.SelectNode(Adventure.Player.Location.LocationKey)
-                } else {
-                    adv.mView.displayText(adv, "Save file not found.", true);
                 }
-            }
-        }
-
-        private static boolean hint(@NonNull MAdventure adv) throws InterruptedException {
-            boolean first = true;
-            for (MHint h : adv.mHints.values()) {
-                if (h.mRestrictions.passes(true, null)) {
-                    if (!first) {
-                        adv.mView.out("<br>");
-                    }
-                    first = false;
-                    adv.mView.out("<br><b><i>" + h.getQuestion() + "</i></b><br>");
-                    adv.mView.out("View the subtle hint for this topic? ");
-                    char resp = Character.toLowerCase(adv.mView.yesNo());
-                    if (resp == 'n') {
-                        adv.mView.out("<font color=\"input\">No</font>");
-                        return true;
-                    }
-                    adv.mView.out("<font color=\"input\">Yes</font><br><i>" +
-                            h.getSubtleHint().toString(true) + "</i><br>");
-
-                    adv.mView.out("<br>View the unsubtle hint for this topic? ");
-                    resp = Character.toLowerCase(adv.mView.yesNo());
-                    if (resp == 'n') {
-                        adv.mView.out("<font color=\"input\">No</font>");
-                        return true;
-                    }
-                    adv.mView.out("<font color=\"input\">Yes</font><br><i>" +
-                            h.getSledgeHammerHint().toString(true) + "</i>");
-                }
-            }
-            if (first) {
-                adv.mView.out("<i>No hints currently available.</i>");
-            }
-            return true;
-        }
-
-        private static boolean save(@NonNull MAdventure adv) throws InterruptedException {
-            // The Bebek implementation always prompts for file names
-            String sFilename = adv.mView.promptForSaveFileName(true);
-
-            if (sFilename.equals("")) {
-                adv.mView.displayText(adv, "Cancelled");
-                return false;
-            }
-
-            MStateStack states = new MStateStack();
-            if (MFileIO.saveState(adv, states.getState(adv), sFilename)) {
-                adv.mView.displayText(adv, "Game saved");
-                adv.setChanged(false);
+                DataOutputStream out = new DataOutputStream(new FileOutputStream(xmlPath));
+                out.write(compressedStream.toByteArray());
+                out.close();
                 return true;
-            } else {
-                adv.mView.displayText(adv, "Error saving game");
+            } catch (Exception ex) {
+                adv.mView.errMsg("Error saving game state", ex);
                 return false;
             }
         }
 
-        private static boolean quit(@NonNull MAdventure adv,
-                                    boolean bJustGame) throws InterruptedException {
-            if (adv.mGameState == Running) {
-                if (adv.getChanged()) {
-              /*  switch (MessageBox.Show("Would you like to save your current position?", "Quit Game",
-                        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)) {
-                    Case DialogResult.Yes:
-                    save(True);
-                    Case DialogResult.No:
-                    // Continue
-                    Case DialogResult.Cancel:
-                    Return False;
-                } */
-                    GLKLogger.debug("TODO: Quitting... prompt if user wants to save current position");
+        public void restore(@NonNull MAdventure adv) {
+            adv.mTurnOutput = mOutputText;
+            for (MLocation loc : adv.mLocations.values()) {
+                MLocation.MLocationState sloc = mLocationStates.get(loc.getKey());
+                if (sloc != null) {
+                    sloc.restore(loc);
                 }
             }
-
-            if (bJustGame) {
-                adv.mGameState = Neutral;
-            } else {
-                adv.mView.quit();
+            for (MObject ob : adv.mObjects.values()) {
+                MObject.MObjectState sob = mObjectStates.get(ob.getKey());
+                if (sob != null) {
+                    sob.restore(ob);
+                }
             }
-
-            return true;
+            for (MTask tas : adv.mTasks.values()) {
+                MTask.MTaskState stas = mTaskStates.get(tas.getKey());
+                if (stas != null) {
+                    stas.restore(tas);
+                }
+            }
+            for (MEvent ev : adv.mEvents.values()) {
+                MEvent.MEventState sev = mEventStates.get(ev.getKey());
+                if (sev != null) {
+                    sev.restore(ev);
+                }
+            }
+            for (MCharacter ch : adv.mCharacters.values()) {
+                MCharacter.MCharacterState sch = mCharacterStates.get(ch.getKey());
+                if (sch != null) {
+                    sch.restore(ch);
+                }
+            }
+            for (MVariable var : adv.mVariables.values()) {
+                MVariable.MVariableState svar = mVariableStates.get(var.getKey());
+                if (svar != null) {
+                    svar.restore(var);
+                }
+            }
+            for (MGroup grp : adv.mGroups.values()) {
+                MGroup.MGroupState sgrp = mGroupStates.get(grp.getKey());
+                if (sgrp != null) {
+                    sgrp.restore(grp);
+                }
+            }
         }
 
-        private static void undo(@NonNull MAdventure adv) {
-            if (adv.mStates.setLastState(adv)) {
-                adv.mDisplayedWinOrLose = false;
-                GLKLogger.error("TODO: Undo: recalculate map node");
-                //MUserSession.Map.RecalculateNode(Adventure.Map.FindNode(Adventure.Player.Location.LocationKey))
-                //MUserSession.Map.SelectNode(Adventure.Player.Location.LocationKey)
-                adv.mView.updateStatusBar(adv);
-                String sText = adv.mTurnOutput;
-                adv.mView.displayText(adv, "Undone.", false, false, false);
-                if (!sText.equals("")) {
-                    adv.mView.displayText(adv, sText);
+        public static void saveDisplayOnce(@NonNull ArrayList<MDescription> allDesc,
+                                           @NonNull HashMap<String, Boolean> store) {
+            int i = 0;
+            for (MDescription d : allDesc) {
+                i++;
+                int j = 0;
+                for (MSingleDescription sd : d) {
+                    j++;
+                    if (sd.mDisplayOnce && sd.mDisplayed) {
+                        String key = i + "-" + j;
+                        store.put(key, true);
+                    }
                 }
-            } else {
-                adv.mView.displayText(adv, "Sorry, <c>undo</c> is not currently available.");
             }
-            adv.mJustRunSystemTask = true;
+        }
+
+        public static void restoreDisplayOnce(@NonNull ArrayList<MDescription> allDesc,
+                                              @NonNull HashMap<String, Boolean> store) {
+            int i = 0;
+            for (MDescription d : allDesc) {
+                i++;
+                int j = 0;
+                for (MSingleDescription sd : d) {
+                    j++;
+                    if (sd.mDisplayOnce) {
+                        String key = i + "-" + j;
+                        sd.mDisplayed = store.containsKey(key);
+                    }
+                }
+            }
         }
     }
 }

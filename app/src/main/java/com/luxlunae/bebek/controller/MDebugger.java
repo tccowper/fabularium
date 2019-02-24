@@ -111,9 +111,9 @@ public class MDebugger {
                             }
                             appendProperties(sb, loc.getProperties());
                             MObjectHashMap obs =
-                                    loc.getObjectsInLocation(AllObjects, false);
+                                    loc.getObsInLoc(AllObjects, false);
                             MCharacterHashMap chs =
-                                    loc.getCharactersDirectlyInLocation(true);
+                                    loc.getCharsDirectlyInLoc(true);
                             if (obs.size() > 0 || chs.size() > 0) {
                                 sb.append("\n<u>CONTENTS</u>\n");
                                 for (MObject ob : obs.values()) {
@@ -184,9 +184,9 @@ public class MDebugger {
                                         sb.append("Walk Control(s):\n");
                                         for (MEventOrWalkControl c : w.mWalkControls) {
                                             sb.append("&nbsp;&nbsp;&#9632; ")
-                                                    .append(c.eControl)
+                                                    .append(c.mControl)
                                                     .append(" this walk on ")
-                                                    .append(c.eCompleteOrNot.toString().toLowerCase())
+                                                    .append(c.mCompleteOrNot.toString().toLowerCase())
                                                     .append(" of task ")
                                                     .append(c.mTaskKey).append("\n");
                                         }
@@ -438,9 +438,9 @@ public class MDebugger {
                             if (ev.mEventControls.size() > 0) {
                                 sb.append("Task control(s)\n");
                                 for (MEventOrWalkControl ctl : ev.mEventControls) {
-                                    sb.append("&nbsp;&nbsp;&#9632; ").append(ctl.eControl)
+                                    sb.append("&nbsp;&nbsp;&#9632; ").append(ctl.mControl)
                                             .append(" this event on ")
-                                            .append(ctl.eCompleteOrNot.toString().toLowerCase())
+                                            .append(ctl.mCompleteOrNot.toString().toLowerCase())
                                             .append(" of task ").append(ctl.mTaskKey).append("\n");
                                 }
                             }
@@ -543,7 +543,7 @@ public class MDebugger {
                             sb.append("\n<u>SELECTIONS</u>\n");
                             sb.append("Group type: ").append(grp.getGroupType()).append("\n");
                             sb.append("Members:\n");
-                            MStringArrayList sl = grp.getArlMembers();
+                            MStringArrayList sl = grp.getMembers();
                             for (String sKey : sl) {
                                 MItem itm = adv.mAllItems.get(sKey);
                                 appendDebugItemPoint(itm, sb, true);
@@ -979,7 +979,7 @@ public class MDebugger {
                                     return;
                                 }
                                 adv.prepareForNextTurn();
-                                adv.getPlayer().doWalk();
+                                adv.getPlayer().walk();
                             } catch (InterruptedException e) {
                                 sb.append("Task execution interrupted!");
                                 sb.append("\n");

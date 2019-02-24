@@ -108,7 +108,7 @@ public abstract class MItemWithProperties extends MItem {
             String myKey = getKey();
             for (MGroup g : mAdv.mGroups.values()) {
                 if (g.getGroupType() == grpType) {
-                    if (g.getArlMembers().contains(myKey)) {
+                    if (g.getMembers().contains(myKey)) {
                         for (MProperty pGroup : g.mProperties.values()) {
                             MProperty pInherited = mInheritedProperties.get(pGroup.getKey());
                             if (pInherited == null) {

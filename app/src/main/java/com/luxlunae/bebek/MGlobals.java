@@ -140,8 +140,8 @@ public class MGlobals {
     public static double dVersion = 9.0021022;
     private static boolean bSearchMatchCase = false;
     private static boolean bFindExactWord = false;
-    @Nullable
-    public static String sDirectionsRE;
+    @NonNull
+    public static String mDirectionsRE = "";
 
     public static boolean getBool(@Nullable String sBool) {
         if (sBool == null) {
@@ -797,7 +797,7 @@ public class MGlobals {
                 .replace("/", "|");
 
         // Replace references
-        if (sDirectionsRE == null) {
+        if (mDirectionsRE.equals("")) {
             StringBuilder sb = new StringBuilder();
             for (MAdventure.DirectionsEnum eDirection : MAdventure.DirectionsEnum.values()) {
                 sb.append(adv.mDirectionNames.get(eDirection).toLowerCase().replace("/", "|"));
@@ -805,9 +805,9 @@ public class MGlobals {
                     sb.append("|");
                 }
             }
-            sDirectionsRE = sb.toString();
+            mDirectionsRE = sb.toString();
         }
-        ret = ret.replace("%direction%", "(?<direction>" + sDirectionsRE + ")");
+        ret = ret.replace("%direction%", "(?<direction>" + mDirectionsRE + ")");
         // TODO - replace above with custom names if changed
 
         ret = ret.replace("%objects%", "(?<objects>.+?)");
@@ -820,7 +820,7 @@ public class MGlobals {
             ret = ret.replace("%text" + i + "%", "(?<text" + i + ">.+?)");
             ret = ret.replace("%location" + i + "%", "(?<location" + i + ">.+?)");
             ret = ret.replace("%item" + i + "%", "(?<item" + i + ">.+?)");
-            ret = ret.replace("%direction" + i + "%", "(?<direction" + i + ">" + sDirectionsRE + ")");
+            ret = ret.replace("%direction" + i + "%", "(?<direction" + i + ">" + mDirectionsRE + ")");
         }
 
         return "^" + ret.trim() + "$";
