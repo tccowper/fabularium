@@ -1,2 +1,0 @@
-#!/bin/sh
-diff $1.output $1.expected

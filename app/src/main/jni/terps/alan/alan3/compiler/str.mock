@@ -1,9 +1,0 @@
-#include <cgreen/mocks.h>
-
-#include "str.h"
-
-/* Functions: */
-
-/* Create a new Dynamic String */
-char *newString(char string[]) { return (char*)mock(string); }
-void dumpString(char string[]) { printf("%s", string); }

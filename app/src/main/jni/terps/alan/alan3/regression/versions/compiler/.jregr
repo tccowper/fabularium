@@ -1,2 +1,0 @@
-.exe : alan versions
-.exe : ./$1 versions < versions.input

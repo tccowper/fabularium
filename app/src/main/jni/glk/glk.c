@@ -1995,6 +1995,10 @@ strid_t glk_stream_open_resource_uni(glui32 filenum, glui32 rock) {
  * NON-OFFICIAL GLK EXTENSIONS
  * =================================================== */
 
+void glkunix_set_base_file(char *filename)
+{
+}
+
 strid_t glkunix_stream_open_pathname(char *pathname, glui32 textmode, glui32 rock)
 {
   #ifdef JNI_DEBUG

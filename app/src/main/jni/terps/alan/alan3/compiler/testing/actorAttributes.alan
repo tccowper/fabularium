@@ -1,7 +1,0 @@
-The l Isa location
-End The l.
-
-Start At l.
-  If Current Actor Is hungry Then
-    "hungry"
-  End If.

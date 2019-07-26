@@ -455,7 +455,7 @@ extern strid_t glk_stream_open_resource_uni(glui32 filenum, glui32 rock);
 
 /* XXX non-official Glk functions that may or may not exist */
 
-#define GARGLK 1
+//#define GARGLK 1
 
 extern char* garglk_fileref_get_name(frefid_t fref);
 

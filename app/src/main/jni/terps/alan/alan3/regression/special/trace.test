@@ -1,3 +1,0 @@
-../../bin/alan trace -debug
-../../bin/arun -r -n -t trace < trace.input
-

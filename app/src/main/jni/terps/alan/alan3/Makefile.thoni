@@ -1,7 +1,0 @@
-#######################################################################
-# This Makefile is the top level for building the Alan System.
-# It only works on ThoNi's machine.
-#######################################################################
-# It's actually the same as cygwin at this point
-
-include Makefile.cygwin

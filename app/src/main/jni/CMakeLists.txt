@@ -50,7 +50,7 @@ target_link_libraries( glk
 
 target_include_directories ( glk
                              PRIVATE
-                             terps glk )
+                             garglk/terps glk )
 
 #################################################################
 # TERPS
@@ -66,7 +66,7 @@ target_include_directories ( glk
 # - none
 #################################################################
 addprefix( ADVSYS_SRC
-           terps/advsys
+           garglk/terps/advsys
            advmsg.c advtrm.c advprs.c advdbs.c advint.c advjunk.c advexe.c glkstart.c )
 
 add_library( advsys
@@ -83,7 +83,7 @@ target_link_libraries( advsys
 
 target_include_directories( advsys
                             PRIVATE
-                            terps/advsys terps glk )
+                            garglk/terps/advsys garglk/terps glk )
 
 #################################################################
 # AGILITY 1.1.1
@@ -105,7 +105,7 @@ set( INTERFACE
      interface.c os_glk.c )
 
 addprefix( AGIL_SRC
-           terps/agility
+           garglk/terps/agility
            ${BASE} ${AGIL} ${INTERFACE} )
 
 add_library( agility
@@ -123,7 +123,7 @@ target_link_libraries( agility
 
 target_include_directories( agility
                             PRIVATE
-                            terps/agility terps glk utilities )
+                            garglk/terps/agility garglk/terps glk utilities )
 
 #################################################################
 # ALAN 2.8.7
@@ -148,7 +148,7 @@ set( OBJECTS
      stack.c decode.c term.c reverse.c readline.c params.c sysdep.c alan.version.c )
 
 addprefix( ALAN2_SRC
-           terps/alan/alan2
+           garglk/terps/alan2
            ${GLKOBJS} ${OBJECTS} )
 
 add_library( alan2
@@ -166,7 +166,7 @@ target_link_libraries( alan2
 
 target_include_directories( alan2
                             PRIVATE
-                            terps/alan/alan2 terps glk )
+                            garglk/terps/alan2 garglk/terps glk )
 
 #################################################################
 # ALAN V3.0beta5
@@ -181,7 +181,7 @@ set( GLKOBJS
 
 set( OBJECTS
      act.c actor.c alan.version.c AltInfo.c args.c arun.c 
-     attribute.c chartest.c checkentry.c class.c compatibility.c
+     attribute.c checkentry.c class.c compatibility.c
      Container.c current.c debug.c decode.c dictionary.c event.c
      exe.c fnmatch.c glkio.c glkstart.c instance.c
      inter.c lists.c literal.c Location.c main.c memory.c msg.c
@@ -190,7 +190,7 @@ set( OBJECTS
      StateStack.c syntax.c sysdep.c syserr.c term.c types.c utils.c word.c )
 
 addprefix( ALAN3_SRC
-           terps/alan/alan3/interpreter
+           garglk/terps/alan3
            ${GLKOBJS} ${OBJECTS} )
 
 add_library( alan3
@@ -208,7 +208,7 @@ target_link_libraries( alan3
 
 target_include_directories( alan3
                             PRIVATE
-                            terps/alan/alan3/interpreter terps glk )
+                            garglk/terps/alan3 garglk/terps glk )
 
 #################################################################
 # BOCFEL 1.0
@@ -218,7 +218,7 @@ target_include_directories( alan3
 # - none
 #################################################################
 addprefix( BOCFELMAIN
-           terps/bocfel
+           garglk/terps/bocfel
            blorb.c branch.c dict.c glkstart.c iff.c io.c math.c meta.c memory.c
            objects.c osdep.c patches.c process.c random.c screen.c sound.c stack.c
            unicode.c util.c zoom.c zterp.c )
@@ -238,7 +238,7 @@ target_link_libraries( bocfel
 
 target_include_directories( bocfel
                             PRIVATE
-                            terps/bocfel terps glk )
+                            garglk/terps/bocfel garglk/terps glk )
 
 #################################################################
 # GIT 1.3.5
@@ -254,7 +254,7 @@ target_include_directories( bocfel
 #   registration / unregistration as this is done on the Java side.
 #################################################################
 addprefix( GITMAIN
-           terps/git
+           garglk/terps/git
            git.c memory.c compiler.c opcodes.c operands.c
            peephole.c terp.c glkop.c search.c git_unix.c
            savefile.c saveundo.c gestalt.c heap.c accel.c )
@@ -274,7 +274,7 @@ target_link_libraries( git
 
 target_include_directories( git
                             PRIVATE
-                            terps/git terps glk )
+                            garglk/terps/git garglk/terps glk )
 
 #################################################################
 # GLULXE 0.5.4
@@ -284,7 +284,7 @@ target_include_directories( git
 # - glkop.c: same as GIT, see above.
 #################################################################
 addprefix( GLULXEMAIN
-           terps/glulxe
+           garglk/terps/glulxe
            main.c files.c vm.c exec.c funcs.c operand.c string.c glkop.c
            heap.c serial.c search.c accel.c float.c gestalt.c osdepend.c
            profile.c debugger.c unixstrt.c )
@@ -304,7 +304,7 @@ target_link_libraries( glulxe
 
 target_include_directories( glulxe
                             PRIVATE
-                            terps/glulxe terps glk )
+                            garglk/terps/glulxe garglk/terps glk )
 
 #################################################################
 # HUGO 3.1.03
@@ -318,12 +318,12 @@ target_include_directories( glulxe
 # - heglk.c: include the gargoyle port's hemedia.c.
 #################################################################
 addprefix( HUGOMAIN
-           terps/hugo/source
+           garglk/terps/hugo/source
            he.c heexpr.c hemisc.c heobject.c heparse.c heres.c herun.c heset.c
            stringfn.c )
 
 addprefix( HUGOGLK
-           terps/hugo/heglk
+           garglk/terps/hugo/heglk
            heglk.c heglkunix.c )
 
 add_library( hugo
@@ -341,7 +341,7 @@ target_link_libraries( hugo
 
 target_include_directories( hugo
                             PRIVATE
-                            terps/hugo/heglk terps/hugo/source terps glk )
+                            garglk/terps/hugo/heglk garglk/terps/hugo/source garglk/terps glk )
 
 #################################################################
 # LEVEL9 5.1
@@ -353,7 +353,7 @@ target_include_directories( hugo
 #   like unsigned int, etc.
 #################################################################
 addprefix( LEVEL9_SRC
-           terps/level9
+           garglk/terps/level9
            level9.c bitmap.c Glk/glk.c )
 
 add_library( level9
@@ -372,7 +372,7 @@ target_link_libraries( level9
 
 target_include_directories( level9
                             PRIVATE
-                            terps/level9 terps/level9/Glk terps glk )
+                            garglk/terps/level9 garglk/terps/level9/Glk garglk/terps glk )
 
 #################################################################
 # MAGNETIC 2.3
@@ -387,7 +387,7 @@ target_include_directories( level9
 #   like unsigned int, etc.
 #################################################################
 addprefix( MAGNETIC_SRC
-           terps/magnetic
+           garglk/terps/magnetic
            Generic/emu.c Glk/glk.c )
 
 add_library( magnetic
@@ -405,7 +405,7 @@ target_link_libraries( magnetic
 
 target_include_directories( magnetic
                             PRIVATE
-                            terps/magnetic/Generic terps/magnetic/Glk terps glk )
+                            garglk/terps/magnetic/Generic garglk/terps/magnetic/Glk garglk/terps glk )
 
 #################################################################
 # SCARE 1.3.10
@@ -415,7 +415,7 @@ target_include_directories( magnetic
 # - os_glk.c: handle images and sound using same strategy as Hugo port
 #################################################################
 addprefix( SCAREMAIN
-           terps/scare/source
+           garglk/terps/scare
            sctafpar.c sctaffil.c scprops.c scvars.c scexpr.c scprintf.c
            scinterf.c scparser.c sclibrar.c scrunner.c scevents.c scnpcs.c
            scobjcts.c sctasks.c screstrs.c scgamest.c scserial.c
@@ -436,7 +436,7 @@ target_link_libraries( scare
 
 target_include_directories( scare
                             PRIVATE
-                            terps/scare/source terps glk )
+                            garglk/terps/scare garglk/terps glk )
 
 #################################################################
 # SCOTT 1.14
@@ -446,7 +446,7 @@ target_include_directories( scare
 # - none
 #################################################################
 addprefix( SCOTTMAIN
-           terps/scott
+           garglk/terps/scott
            scott.c bsd.c )
 
 add_library( scott
@@ -463,7 +463,7 @@ target_link_libraries( scott
 
 target_include_directories( scott
                             PRIVATE
-                            terps/scott terps glk )
+                            garglk/terps/scott garglk/terps glk )
 
 #################################################################
 # TADS 2 AND 3
@@ -488,11 +488,11 @@ target_include_directories( scott
 ####### SOURCE FILES COMMON TO TERP AND COMPILER  ###############
 
 addprefix( T2COMMON
-           terps/tads/tads2
+           garglk/tads/tads2
            osifc.c osstzprs.c osrestad.c )
 
 addprefix( T3COMMON
-           terps/tads/tads3
+           garglk/tads/tads3
            charmap.cpp md5.cpp resldexe.cpp
            resload.cpp sha2.cpp std_dbg.cpp
            std.cpp tccmdutl.cpp tcerr.cpp
@@ -520,7 +520,7 @@ addprefix( T3COMMON
            vmundo.cpp vmvec.cpp )
 
 addprefix( TCOMMON
-           terps/tads
+           garglk/tads
            osfab.cc
            tads3/derived/vmuni_cs.cpp
            tads3/indlg_tx3.cpp )
@@ -536,13 +536,13 @@ target_compile_options( tadsc
 
 target_include_directories( tadsc
                             PRIVATE
-                            terps terps/tads terps/tads/tads2 terps/tads/tads3 terps/tads/tads3/unix
-                            terps/tads/tads3/test )
+                            garglk/terps garglk/tads garglk/tads/tads2 garglk/tads/tads3 garglk/tads/tads3/unix
+                            garglk/tads/tads3/test )
 
 ##################### TADS TERP #################################
 
 addprefix( T2TERP
-           terps/tads/tads2
+           garglk/tads/tads2
            argize.c askf_os.c bif.c bifgdum.c
            cmap.c cmd.c dat.c dbgtr.c errmsg.c
            execmd.c fio.c fioxor.c getstr.c
@@ -553,13 +553,13 @@ addprefix( T2TERP
            trd.c voc.c vocab.c )
 
 addprefix( T3TERP
-           terps/tads/tads3
+           garglk/tads/tads3
            gameinfl.cpp gameinfo.cpp resfind.cpp tcprs_rt.cpp
            tcprsnf.cpp tcprsnl.cpp tct3_d.cpp tct3nl.cpp
            vmbifl.cpp vmconhtm.cpp vmmain.cpp vmsa.cpp )
 
 addprefix( TERP
-           terps/tads
+           garglk/tads
            oemfab.c osglk.c
            tads3/askf_os3.cpp vmglk23.cpp )
 
@@ -579,19 +579,19 @@ target_link_libraries( tads
 
 target_include_directories( tads
                             PRIVATE
-                            glk terps terps/tads terps/tads/tads2 terps/tads/tads3 terps/tads/tads3/unix )
+                            glk garglk/terps garglk/tads garglk/tads/tads2 garglk/tads/tads3 garglk/tads/tads3/unix )
 
 ##################### TADS COMPILER #################################
 
 addprefix( T3COMP
-           terps/tads/tads3
+           garglk/tads/tads3
            askf_tx3.cpp os_stdio.cpp osnetdum.cpp rcmain.cpp
            tcgenfil.cpp tcmake.cpp tcmakecl.cpp tcprsfil.cpp
            tcprsimg.cpp tcprsprg.cpp tct3img.cpp tct3prg.cpp
            vmbifc.cpp vmconmor.cpp vmimgrb.cpp vmpreini.cpp vmwrtimg.cpp )
 
 addprefix( TCOMP
-           terps/tads
+           garglk/tads
            ost3comp.cc )
 
 add_library( t3make
@@ -609,8 +609,8 @@ target_link_libraries( t3make
 
 target_include_directories( t3make
                             PRIVATE
-                            terps terps/tads terps/tads/tads2 terps/tads/tads3 terps/tads/tads3/unix
-                            terps/tads/tads3/test
+                            garglk/terps garglk/tads garglk/tads/tads2 garglk/tads/tads3 garglk/tads/tads3/unix
+                            garglk/tads/tads3/test
                             utilities )
 
 #################################################################
@@ -647,7 +647,7 @@ set( BASE
      agtread.c gamedata.c util.c agxfile.c auxfile.c filename.c )
 
 addprefix( AGT2AGX_SRC
-           terps/agility
+           garglk/terps/agility
            ${BASE} agt2agx.c agilstub.c )
 
 add_library( agt2agx
@@ -665,7 +665,7 @@ target_link_libraries( agt2agx
 
 target_include_directories( agt2agx
                             PRIVATE
-                            terps/agility
+                            garglk/terps/agility
                             utilities )
 
 #################################################################

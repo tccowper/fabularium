@@ -1,5 +1,0 @@
-#include <cgreen/cgreen.h>
-#include <cgreen/mocks.h>
-
-List *fileNames = NULL;
-

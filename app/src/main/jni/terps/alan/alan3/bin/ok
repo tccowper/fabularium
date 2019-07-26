@@ -1,5 +1,0 @@
-#!/bin/sh
-f=${1%%\.}
-f="${f%.output}"
-f="${f%.}"
-mv $f.output $f.expected

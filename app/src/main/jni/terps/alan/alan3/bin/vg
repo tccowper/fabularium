@@ -1,7 +1,0 @@
-#! /bin/bash
-logfile=$1.vg
-valgrind --leak-check=full --log-file=$logfile arun -r $1 < $1.input
-cp $logfile $1-`date +%F-%H.%M`.vg
-echo -n `date +%F-%H.%M`: >> $1.leaks
-grep "definitely lost:" $logfile >> $1.leaks
-

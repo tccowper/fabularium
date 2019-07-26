@@ -1,6 +1,0 @@
-location l
-  description
-    look.
-end location.
-
-start at l.

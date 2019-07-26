@@ -1,1 +1,0 @@
-The room  Isa location.  Is Not dark.  Description    "This is a room."    If room Is dark Then "It is dark." Else "It is not dark." End If.    Make room dark.  Exit e To room.End The room.Start At room.
