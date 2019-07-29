@@ -58,12 +58,6 @@ target_include_directories ( glk
 
 #################################################################
 # ADVSYS + ANSI + NewParser + parts of glkize
-# http://www.ifarchive.org/indexes/if-archiveXprogrammingXadvsys.html
-# Rather than muck around applying patches, we just use Gargoyle's
-# version of the code.
-#
-# Changes:
-# - none
 #################################################################
 addprefix( ADVSYS_SRC
            garglk/terps/advsys
@@ -87,12 +81,6 @@ target_include_directories( advsys
 
 #################################################################
 # AGILITY 1.1.1
-# http://www.ifarchive.org/if-archive/programming/agt/agility/agil111src_glk.zip
-#
-# Changes (see agility.diff):
-# - os_glk.c: as with Gargoyle version, make gagt_get_user_file
-#   use GLK prompting rather than ask for a text name or do 
-#   "bad voodoo". To enable this, define GARGLK.
 #################################################################
 set( BASE
      agtread.c gamedata.c util.c agxfile.c auxfile.c filename.c )
@@ -127,18 +115,6 @@ target_include_directories( agility
 
 #################################################################
 # ALAN 2.8.7
-# http://www.alanif.se/21-downloads/download-v2
-#
-# Changes (see alan2.diff):
-# - acode.h: use <stdint.h> and portable definitions of Aword, Aaddr,
-#   Abool, Aint, CodeValue and WrdKind.
-#
-# - main.c: fix security vulnerability in logprint,
-#   replace fprintf(logfil, str) with fprintf(logfil, "%s", str)
-#
-# - exe.c: as with the Gargoyle version, change the
-#   save/restore code to use GLK prompting rather than
-#   ask for a text name. To enable this define GARGLK.
 #################################################################
 set( GLKOBJS
      glkstart.c glkio.c )
@@ -170,11 +146,6 @@ target_include_directories( alan2
 
 #################################################################
 # ALAN V3.0beta5
-# https://www.alanif.se/download-alan-v3/source-code
-# https://bitbucket.org/alanif/alan
-#
-# Changes
-# - none
 #################################################################
 set( GLKOBJS
      glkstart.c glkio.c )
@@ -212,10 +183,6 @@ target_include_directories( alan3
 
 #################################################################
 # BOCFEL 1.0
-# https://cspiegel.github.io/bocfel/downloads.html
-#
-# Changes:
-# - none
 #################################################################
 addprefix( BOCFELMAIN
            garglk/terps/bocfel
@@ -242,16 +209,8 @@ target_include_directories( bocfel
 
 #################################################################
 # GIT 1.3.5
-# https://github.com/DavidKinder/Git
 # N.B.: Don't compile with -DDIRECT_THREADING as this seems
 # to cause git to crash on some devices.
-#
-# Changes (see git.diff):
-# - glkop.c: the original source assumes that GLK objects are
-#   referenced by (opaque) C pointers. But our GLK implementation
-#   is in Java. To work around this, pass GLK object IDs
-#   rather than pointers and remove C code relating to class
-#   registration / unregistration as this is done on the Java side.
 #################################################################
 addprefix( GITMAIN
            garglk/terps/git
@@ -278,10 +237,6 @@ target_include_directories( git
 
 #################################################################
 # GLULXE 0.5.4
-# http://eblong.com/zarf/glulx/index.html
-#
-# Changes (see glulxe.diff):
-# - glkop.c: same as GIT, see above.
 #################################################################
 addprefix( GLULXEMAIN
            garglk/terps/glulxe
@@ -308,14 +263,6 @@ target_include_directories( glulxe
 
 #################################################################
 # HUGO 3.1.03
-# http://www.generalcoffee.com/hugo/gethugo.html
-# http://www.ifarchive.org/if-archive/programming/hugo/source/
-#
-# Changes (see hugo.diff):
-# - hemisc.c: fix two security vulnerabilities by
-#   replacing printf(line) with printf("%s", line).
-#
-# - heglk.c: include the gargoyle port's hemedia.c.
 #################################################################
 addprefix( HUGOMAIN
            garglk/terps/hugo/source
@@ -345,12 +292,6 @@ target_include_directories( hugo
 
 #################################################################
 # LEVEL9 5.1
-# http://www.ifarchive.org/indexes/if-archiveXlevel9XinterpretersXlevel9.html
-#
-# Changes (see level9.diff):
-# - level9.h: improve portability by including <stdint.h> and using
-#   the typedefs from there, rather than assuming width of types 
-#   like unsigned int, etc.
 #################################################################
 addprefix( LEVEL9_SRC
            garglk/terps/level9
@@ -376,15 +317,6 @@ target_include_directories( level9
 
 #################################################################
 # MAGNETIC 2.3
-# http://www.ifarchive.org/indexes/if-archiveXmagnetic-scrollsXinterpretersXmagnetic.html
-#
-# Changes (see magnetic.diff):
-# - glk.c: always use GLK save / restore prompts, even if
-#   game has already asked user to enter filename.
-#
-# - defs.h: improve portability by including <stdint.h> and using
-#   the typedefs from there, rather than assuming width of types
-#   like unsigned int, etc.
 #################################################################
 addprefix( MAGNETIC_SRC
            garglk/terps/magnetic
@@ -409,10 +341,6 @@ target_include_directories( magnetic
 
 #################################################################
 # SCARE 1.3.10
-# http://www.ifarchive.org/indexes/if-archiveXprogrammingXadrift.html
-#
-# Changes (see scare.diff):
-# - os_glk.c: handle images and sound using same strategy as Hugo port
 #################################################################
 addprefix( SCAREMAIN
            garglk/terps/scare
@@ -440,10 +368,6 @@ target_include_directories( scare
 
 #################################################################
 # SCOTT 1.14
-# https://github.com/cspiegel/scottfree-glk
-#
-# Changes:
-# - none
 #################################################################
 addprefix( SCOTTMAIN
            garglk/terps/scott
@@ -467,22 +391,6 @@ target_include_directories( scott
 
 #################################################################
 # TADS 2 AND 3
-# http://www.tads.org/t2_patch.htm
-# http://www.tads.org/t3dl/t3_src.zip
-#
-# Changes (see tads.diff):
-# - oemfab.c, osfab.cc, osfab.h, osglk.c, vmglk23.cpp: 
-#   new source files to implement Fabularium port.
-#   These files draw heavily from frobtads and qtads.
-#
-# - os.h: include a reference to our Fabularium port.
-#
-# - resfind.h: we need to do some fiddling with this to ensure
-#   it is included in the "right" way depending on whether linking
-#   to C++ or just C files.
-#
-# - vmtz.cpp: explicitly cast to (void *) for pointer comparison
-#   to fix compiler error.
 #################################################################
 
 ####### SOURCE FILES COMMON TO TERP AND COMPILER  ###############
@@ -639,9 +547,6 @@ target_include_directories ( utils
 # AGT2AGX
 # (tool provided by AGILITY to convert bundle of AGT files into
 # one AGX file)
-#
-# Changes:
-# - none
 #################################################################
 set( BASE
      agtread.c gamedata.c util.c agxfile.c auxfile.c filename.c )
@@ -670,9 +575,6 @@ target_include_directories( agt2agx
 
 #################################################################
 # BABEL
-# 
-# Changes:
-# - none
 #################################################################
 set( TREATY_OBJS
      zcode.c magscrolls.c blorb.c glulx.c hugo.c agt.c level9.c executable.c advsys.c tads.c tads2.c tads3.c adrift.c alan.c )
@@ -706,9 +608,6 @@ target_include_directories( babel
 #################################################################
 # INFORM 6.33
 # http://www.ifarchive.org/indexes/if-archiveXinfocomXcompilersXinform6Xsource.html
-#
-# Changes:
-# - none
 #################################################################
 addprefix( OBJECTS
            utilities/inform/src

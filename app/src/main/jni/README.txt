@@ -23,13 +23,7 @@ FABULARIUM C/C++ TERP PLUGIN SYSTEM
 
 All terps need to be ported to GLK first.
 
-Then:
-
-1) Dump the C or C++ source files for the new terp into a new subfolder (e.g. jni/scott or jni/scare).
-
-2) Update the Android.mk file in the parent folder to ensure that your new terp is compiled.  Include the glkterp.c with the rest of the source files.
-
-3) Update class Terp in the Java code to correctly select your terp.
+Then update CMakeLists.txt to ensure that your new terp is compiled, and class Terp in the Java code to correctly select your terp.
 
 At the moment, Fabularium includes the following terps:
 
