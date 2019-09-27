@@ -157,8 +157,10 @@ public class GLKTextBufferV extends GLKTextWindowV implements HVScrollView.Scrol
         if (key == GLKConstants.keycode_Delete) {
             // BACKSPACE: Delete the character to the left of the cursor
             if (len > 0) {
+				String message = ""+mModel.mInput.toString().charAt(len-1)+" deleted";
                 mModel.mInput.setLength(--len);
-            }
+				announceForAccessibility(message);
+			}
         } else if (super.isTerminator(key)) {
             // Terminate the current input
             // Flush the contents of the string builder back out to the byte buffer
@@ -302,7 +304,7 @@ public class GLKTextBufferV extends GLKTextWindowV implements HVScrollView.Scrol
 
                 // Also ensure we announce this to users that have accessibility enabled
                 // (e.g. Google TalkBack)
-                //setContentDescription("text buffer " + mModel.getStreamId() + ": " + utterance);
+                setContentDescription(mLastFlush);
                 announceForAccessibility(mLastFlush);
             }
         }
