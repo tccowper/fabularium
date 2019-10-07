@@ -1,2 +1,0 @@
-.alan : alan -debug $1
-.a3c : arun -r -debug $1 < $1.input

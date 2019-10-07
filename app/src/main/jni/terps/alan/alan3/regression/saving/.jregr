@@ -1,3 +1,0 @@
-.alan : alan -deb $1
-.input : arun -r $1 < $2
-.sav : rm $2

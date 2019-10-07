@@ -1,9 +1,0 @@
-The x Isa y
-  At l.
-ENd The y.
-
-Event x
-  Schedule s before 10.
-End.
-
-Start At l.

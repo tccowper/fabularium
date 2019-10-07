@@ -1,2 +1,0 @@
-#!/bin/sh
-/cygdrive/c/Program/WinMerge/WinMergeU $1.expected $1.output

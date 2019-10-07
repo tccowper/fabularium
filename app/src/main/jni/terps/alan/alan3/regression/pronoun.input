@@ -1,9 +1,0 @@
-x t1
-x p1
-x p2
-x t2
-x p1
-x p2
-y t1 with t2
-y p1 with t2
-y t1 with p1

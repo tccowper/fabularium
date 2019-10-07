@@ -1,9 +1,0 @@
-########## ide-unix ##########
-"ide-unix.alan", line 1 10-11: 310 E : Identifier 'y' not defined.
-"ide-unix.alan", line 2 14-16: 405 E : Only instances and classes inheriting from Thing can have initial locations.
-"ide-unix.alan", line 2 17-18: 310 E : Identifier 'l' not defined.
-"ide-unix.alan", line 3 28-29: 200 W : Mismatched block identifier, 'x' assumed.
-"ide-unix.alan", line 5 38-39: 304 E : 'x' also declared as an Instance (The).
-"ide-unix.alan", line 6 51-52: 310 E : Identifier 's' not defined.
-"ide-unix.alan", line 6 53-59: 103 E : Syntax error. Replacing "before" with "after".
-"ide-unix.alan", line 7 67-68: 101 E : Syntax error. Inserting "event" before this token.

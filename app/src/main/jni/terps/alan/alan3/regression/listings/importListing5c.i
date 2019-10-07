@@ -1,2 +1,0 @@
--- importListing5c.i from global.i
--- Library version 0.6.1

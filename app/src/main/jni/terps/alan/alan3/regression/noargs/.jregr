@@ -1,2 +1,0 @@
-.test : arun > $1.out
-.out : grep Usage $2

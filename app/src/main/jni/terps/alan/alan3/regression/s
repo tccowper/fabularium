@@ -1,6 +1,0 @@
-#! /bin/sh
-#
-for f in ${*} ; do
-    case=`basename $f .alan`
-    mv $case.output $case.suspended
-done

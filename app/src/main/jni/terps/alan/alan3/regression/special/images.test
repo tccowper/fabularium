@@ -1,4 +1,0 @@
-rm -f images.a3r
-../../bin/alan images
-ls images.a3r >> images.output
-

@@ -1,9 +1,0 @@
-import 'std.i'.
-
-The loc Isa location
-  Description
-    "This is a location."
-  Exit north,south,east,west To loc.
-End The loc.
-
-Start At loc.

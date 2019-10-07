@@ -1,9 +1,0 @@
-Every x Isa thing
-Is y.
-End Every x
-
-The l Isa location
-End The l.
-
-Start At l.
-  If x Is y Then "X is Y" End If.

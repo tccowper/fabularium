@@ -1,9 +1,0 @@
-When 1 => Make l x.
-
-When l => Make l x.
-
-The l Isa location
-  Is x.
-End The l.
-
-Start At l.

@@ -1,2 +1,0 @@
-../../bin/alan alternativeChecks -debug
-../../bin/arun -r -n -t alternativeChecks < alternativeChecks.input

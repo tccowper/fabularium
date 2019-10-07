@@ -1,9 +1,0 @@
-The l Isa location
-  Has visits 0.
-  Description
-    "You have been here" Say visits Of this. "before."
-    Increase visits Of this.
-    Set visits Of this To 12.
-End The l.
-
-Start At l.

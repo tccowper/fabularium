@@ -1,3 +1,0 @@
-touch writeProtected.a3c
-chmod a-w writeProtected.a3c
-../../bin/alan writeProtected | sed -e s/emit.c:.*// > writeProtected.output
